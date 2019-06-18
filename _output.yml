@@ -1,0 +1,11 @@
+bookdown::gitbook:
+  css: [css/style.css, css/toc.css, css/font-awesome.min.css, css/cajas.css]
+  split_by: section
+  config:
+    toc:
+      collapse: subsection
+      before: |
+        <li><a href="./">Estadística Computacional</a></li>
+      after: |
+        <li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
+    edit: https://github.com/tereom/est-computacional-2019/edit/master/%s
