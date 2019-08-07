@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Tareas | Estadística Computacional</title>
+  <title>Sección 1 Visualización | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   <meta name="generator" content="bookdown 0.12.1 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Tareas | Estadística Computacional" />
+  <meta property="og:title" content="Sección 1 Visualización | Estadística Computacional" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="tereom/est-computacional-2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Tareas | Estadística Computacional" />
+  <meta name="twitter:title" content="Sección 1 Visualización | Estadística Computacional" />
   
   <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="temario.html"/>
-<link rel="next" href="visualizacion.html"/>
+<link rel="prev" href="tareas.html"/>
+<link rel="next" href="referencias.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -162,22 +162,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="tareas" class="section level1 unnumbered">
-<h1>Tareas</h1>
+<div id="visualizacion" class="section level1">
+<h1><span class="header-section-number">Sección 1</span> Visualización</h1>
+<ol style="list-style-type: decimal">
+<li><a href="whttps://insights.stackoverflow.com/survey/2019">Stack Overflo dveloper survey results</a>
 <ul>
-<li><p>Las tareas se envían por correo a <a href="mailto:teresa.ortiz.mancera@gmail.com">teresa.ortiz.mancera@gmail.com</a> con título:
-EstComp-TareaXX (donde XX corresponde al número de tarea, 01..).</p></li>
-<li><p>Las tareas deben incluir código y resultados (si conocen <a href="https://rmarkdown.rstudio.com">Rmarkdown</a>
-es muy conveniente para este propósito).</p></li>
-</ul>
+<li><a href="https://github.com/jennybc/code-smells-and-feels/tree/master/stackoverflow-survey">Julia Silge y Jenny Bryan</a>
+usaron los resultados para buscar evidencia de educación en
+computación/programación entre usuarios de R.</li>
+<li>Se pueden explorar diferencias por género en lenguajes que usan, edad en
+la que se inició a programar,…</li>
+<li>¿Qué ocurre con México?, ¿En qué es distinto a otros países?</li>
+</ul></li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># codigo original de Jenny Bryan </span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co"># github.com/jennybc/code-smells-and-feels/blob/master/stackoverflow-survey</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">library</span>(here)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">survey_path &lt;-<span class="st"> </span><span class="kw">here</span>(<span class="st">&quot;data/developer_survey_2018/survey_results_public.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(survey_path)) {</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">  <span class="kw">use_directory</span>(<span class="st">&quot;data/stackoverflow-survey&quot;</span>)</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">  ## consults Content-Description to get filename</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">  dl &lt;-<span class="st"> </span>usethis<span class="op">:::</span><span class="kw">use_zip</span>(</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">    <span class="dt">url =</span> <span class="st">&quot;https://drive.google.com/uc?export=download&amp;id=1_9On2-nsBQIw3JiY43sWbrF8EjrqrR4U&quot;</span>,</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">    <span class="dt">destdir =</span> <span class="kw">here</span>(<span class="st">&quot;data&quot;</span>)</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">  )</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">}</a></code></pre></div>
+<pre><code>+ </code></pre>
+
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="temario.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="visualizacion.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="tareas.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
