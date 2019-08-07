@@ -36,13 +36,14 @@ y [\@mkokotchikova](https://github.com/mkokotchikova).
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />Este trabajo está bajo una <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Licencia Creative Commons Atribución 4.0 Internacional</a>.
 
 
-## Temario {-}
+## Temario
 
 1. **Manipulación y visualización de datos**
 
--   Visualización de datos.
--   Manipulación y limpieza de datos.
--   Temas selectos de programación en R.
+-   Principios de visualización.
+-   Reestructura y manipulación de datos.
+-   Temas selectos de programación en R: programación funcional, evaluación 
+no estándar.
 
 Referencias: @tufte06, @cleveland93, @r4ds, @advr.
 
@@ -104,9 +105,9 @@ Referencias: @kruschke, @gelman-bayesian.
 
 ### Software {-}
 
-- https://www.r-project.org
-- https://www.rstudio.com
-- http://mc-stan.org
+- R: https://www.r-project.org
+- RStudio: https://www.rstudio.com
+- Stan: http://mc-stan.org
 
 ### Otros recursos {-}
 
@@ -116,3 +117,10 @@ Para encuestas y ejercicios en clase.
 
 * [Registro correos](https://docs.google.com/spreadsheets/d/1ZNdpl-_c495FRb1ZEZ-TpxFDBk5Uai-9Ms-IHgsYq-E/edit?usp=sharing): Si quieres recibir noticias del curso.
 
+<!--
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Great news that Brad Efron has won the 2019 International Statistics Prize for the 1977 bootstrap idea - so simple and yet so powerful <a href="https://t.co/XKvsoWWqNX">https://t.co/XKvsoWWqNX</a> <a href="https://t.co/kUjy6jTSAS">pic.twitter.com/kUjy6jTSAS</a></p>&mdash; David Spiegelhalter (@d_spiegel) <a href="https://twitter.com/d_spiegel/status/1061968814043250688?ref_src=twsrc%5Etfw">November 12, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">So honoured and excited to receive the COPSS award for contributions to statistics through computing, visualisation, and data science ☺️ <a href="https://t.co/UiX6IlKGlt">https://t.co/UiX6IlKGlt</a></p>&mdash; Hadley Wickham (@hadleywickham) <a href="https://twitter.com/hadleywickham/status/1156693702372462592?ref_src=twsrc%5Etfw">July 31, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+-->
