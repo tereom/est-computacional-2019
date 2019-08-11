@@ -22,7 +22,9 @@ addons:
     apt:
         packages:
             - libopenblas-base
-        r_github_packages: tereom/estcomp
+        r_github_packages: 
+            - tereom/estcomp
+            - diegovalle/mxmaps
 
 before_install:
   - sudo add-apt-repository ppa:marutter/rrutter -y
