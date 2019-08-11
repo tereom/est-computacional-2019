@@ -562,8 +562,8 @@ ggplot(election_hexbinmap, aes(long, lat, group = group)) +
 de la población casada a total (mayores de 12 años).
 
 ```{r, echo = FALSE, eval=FALSE}
-library("viridis")
-library("scales")
+library(viridis)
+library(scales)
 
 df_marital %>% 
     filter(age_group == "Total", sex == "Total") %>% 
