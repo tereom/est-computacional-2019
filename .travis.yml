@@ -22,6 +22,7 @@ addons:
     apt:
         packages:
             - libopenblas-base
+        r_github_packages: tereom/estcomp
 
 before_install:
   - sudo add-apt-repository ppa:marutter/rrutter -y
