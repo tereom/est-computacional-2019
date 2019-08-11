@@ -143,15 +143,10 @@ simples, de manera deficiente, y a personas poco sofisticadas.
 
 
 ```{r, message=FALSE, echo=FALSE, warning=FALSE}
-barley_1931 <- read_csv("data/barley_1931.csv")
-barley_1932 <- read_csv("data/barley_1932.csv")
-barley_1931$year <- 1931
-barley_1932$year <- 1932
-barley_tot <- bind_rows(barley_1931, barley_1932) %>% 
-    gather(site, yield, -variety, -year) %>% 
-    mutate(variety = reorder(variety, yield))
+library(lattice)
+data("barley")
 
-barley_plot <- ggplot(barley_tot, aes(x = variety, y = yield, 
+barley_plot <- ggplot(barley, aes(x = variety, y = yield, 
   color = factor(year))) +
   facet_wrap(~site) + 
     geom_point(size = 0.6) +
