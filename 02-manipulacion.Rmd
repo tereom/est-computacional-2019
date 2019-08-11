@@ -1,21 +1,10 @@
 # Manipulación y agrupación de datos
 
-```{r setup, include = FALSE}
-library(tidyverse)
-knitr::opts_chunk$set(
-  comment = "#>",
-  collapse = TRUE,
-  fig.align = "center"
-)
-comma <- function(x) format(x, digits = 2, big.mark = ",")
-theme_set(theme_minimal())
-```
-
-**El material de la clase se puede descargar de [aquí](https://www.dropbox.com/s/gtxjn5xb39g2n09/02-manipulacion.zip?dl=0).**
-
 En esta sección continuamos con la introducción a R para análisis de datos, 
 en particular mostraremos herramientas de manipulación y transformación de 
 datos. Trataremos los siguientes puntos:
+
+* Transformación de datos.
 
 * Estrategia separa-aplica-combina.
 
@@ -30,29 +19,6 @@ trabajar.
 
 ## Transformación de datos
 
-### Separa-aplica-combina (_split-apply-combine_) {-}
-
-Muchos problemas de análisis de datos involucran la aplicación de la estrategia
-separa-aplica-combina [@plyr], 
-esta consiste en romper un problema en pedazos (de 
-acuerdo a una variable de interés), operar sobre cada subconjunto de manera
-independiente (ej. calcular la media de cada grupo, ordenar observaciones por 
-grupo, estandarizar por grupo) y después unir los pedazos nuevamente. El 
-siguiente diagrama ejemplifiaca el paradigma de divide-aplica-combina:
-
-* **Separa** la base de datos original.  
-* **Aplica** funciones a cada subconjunto.  
-* **Combina** los resultados en una nueva base de datos.
-
-![](imagenes/split-apply-combine.png) 
-
-Ahora, cuando pensamos como implementar la estrategia divide-aplica-combina es 
-natural pensar en iteraciones, por ejemplo utilizar un ciclo `for` para recorrer 
-cada grupo de interés y aplicar las funciones, sin embargo la aplicación de 
-ciclos `for` desemboca en código difícil de entender por lo que preferimos 
-trabajar con funciones creadas para estas tareas, usaremos el paquete 
-`dplyr` que además de ser más claro suele ser más veloz.
-
 Estudiaremos las siguientes funciones:
 
 * **filter**: obten un subconjunto de las filas de acuerdo a un criterio.
@@ -63,50 +29,37 @@ Estudiaremos las siguientes funciones:
 resúmenes de variables de la base original)
 
 Estas funciones trabajan de manera similar, el primer argumento que reciben 
-es un _data frame_, los argumentos que siguen
-indican que operación se va a efectuar y el resultado es un nuevo _data frame_.
+es un _data frame_, los argumentos que siguen indican que operación se va a efectuar y el resultado es un nuevo _data frame_.
 
 Adicionalmente, se pueden usar con **group_by** que cambia el dominio de cada 
 función, pasando de operar en el conjunto de datos completos a operar en 
 grupos, esto lo veremos más adelante.
 
-### Ejemplos y lectura de datos {-}
 
-En esta sección trabajaremos con bases de datos de vuelos del aeropuerto de 
-Houston. Comenzamos importando los datos a R.
+### Datos {-}
 
-Para leer los datos usamos funciones del paquete `readr` que forma parte del 
-`tidyverse`, notemos que si estamos usando RStudio podemos generar los comandos
-de lectura de datos usando la opción *Import Dataset* en la ventana de 
-*Environment*.
+Usaremos datos de población municipal incluidos en el paquete `mxmaps` y 
+datos de educación, situación conyugal y hogar incluídos en el `estcomp`,
+para tener acceso a ellos cargamos los paquetes correspondientes.
 
-![](imagenes/importar_RStudio.png)
-
-Si usamos la opción de importar datos usando la funcionalidad *point-and-click* 
-de RStudio, es importante copiar los comandos al script de R para no perder
-reproducibilidad.
-
-```{r, warning=FALSE}
-library(tidyverse)
-
-flights <- read_csv("data/flights.csv")
-flights
-
-weather <- read_csv("data/weather.csv")
-weather 
-
-planes <- read_csv("data/planes.csv")
-planes
-
-airports <- read_csv("data/airports.csv")
-airports
+```{r}
+library(tidyverse, warn.conflicts = FALSE, quietly = TRUE)
+library(mxmaps)
+library(estcomp)
 ```
 
+Observemos la estructura de los datos:
+
+```{r}
+df_mxmunicipio <- as_tibble(df_mxmunicipio)
+glimpse(df_mxmunicipio)
+glimpse(df_edu)
+```
 
 
 ### Filtrar {-}
 
-Creamos una base de datos de juguete para mostrar el funcionamiento de cada
+Creamos una tabla de datos de juguete para mostrar el funcionamiento de cada
 instrucción:
 
 ```{r}
@@ -115,8 +68,8 @@ df_ej <- tibble(genero = c("mujer", "hombre", "mujer", "mujer", "hombre"),
 df_ej
 ```
 
-El primer argumento de `filter()` es el nombre del *data frame*, los subsecuentes 
-son las expresiones que indican que filas filtrar.
+El primer argumento de `filter()` es el nombre del `data frame`, los 
+subsecuentes son las expresiones que indican que filas filtrar.
 
 ```{r}
 filter(df_ej, genero == "mujer")
@@ -135,17 +88,40 @@ x == 1
 x %in% c("a", "b")
 ```
 
-Debemos tener cuidado al usar `==`
 
-```{r}
+![](img/manicule2.jpg) Crea un subconjunto de los datos `df_mxmunicipio` que 
+contenga únicamente los municipios de la CDMX (`state_abbr` es `CDMX`)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Los 
+municipios de Nuevo León con más de 200,000 habitantes.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Los 
+municipios donde más de la mitad la población se autoidentifica como
+afromexicana o parte afromexicana.
+
+```{r, echo=FALSE, eval=FALSE}
+filter(df_mxmunicipio, state_abbr == "CDMX")
+
+filter(df_mxmunicipio, state_abbr == "NL", pop > 200000)
+
+filter(df_mxmunicipio, pop / 2 < (afromexican + part_afromexican))
+```
+
+
+#### Observación `==` y operadores booleanos {-}
+
+Debemos tener cuidado al usar `==`, ¿qué devuelven las siguientes expresiones?
+
+```{r, eval = FALSE}
 sqrt(2) ^ 2 == 2
 1/49 * 49 == 1
 ```
+
 Los resultados de arriba se deben a que las computadoras 
 usan aritmética de precisión finita:
 
 ```{r}
-print(1/49 * 49, digits = 20)
+print(1/49 * 49, digits = 22)
 ```
 
 Para estos casos es útil usar la función `near()`
@@ -155,41 +131,47 @@ near(sqrt(2) ^ 2,  2)
 near(1 / 49 * 49, 1)
 ```
 
-Los operadores booleanos también son convenientes para 
-filtrar:
+Los **operadores booleanos** también son convenientes para filtrar:
 
 ```{r, eval = FALSE}
 # Conjuntos
-a | b
-a & b
-a & !b
+a | b # a o b
+a & b # a y b 
+a & !b # a y no-b
 xor(a, b)
 ```
 
-El siguiente esquema nos ayuda a entender que hace cada operación:
+El siguiente esquema nos ayuda a entender que hace cada operación, `x` está 
+representada por el círculo del lado izquierdo y `y` por el círculo del lado
+derecho, la parte sombreada muestra las regiones que selecciona el operador:
 
-```{r, out.width = "400px"}
-knitr::include_graphics("imagenes/transform-logical.png")
+```{r, out.width = "400px",echo = FALSE, fig.cap= "Operaciones booleanas, imagen del libro [r4ds](https://r4ds.had.co.nz/)."}
+knitr::include_graphics("img/transform-logical.png")
 ```
 
-![](imagenes/manicule2.jpg) Encuentra todos los vuelos hacia SFO ó OAK.
+![](img/manicule2.jpg) Asigna distintos valores a `a` y `b` y experimenta con
+las operaciones booleanas (`a <- TRUE; b <- FALSE`).
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Los vuelos 
-con un retraso mayor a una hora.
+#### Observación: faltantes `NA` {-}
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; En los que 
-el retraso de llegada es más del doble que el retraso de salida.
-
-
-Un caso común es cuando se desea eliminar los datos con faltantes en una o más
-columnas de las tablas de datos, en R los datos faltantes se expresan como `NA`, 
-para eliminar los faltantes en la variable `dep_delay` resulta natural escribir:
+Un caso común es cuando se desea eliminar o localizar los registros con
+faltantes en una o más columnas de las tablas de datos, en R los datos faltantes
+se expresan como `NA`, para seleccionar los registros con faltante en la 
+variable `schoolyrs` de los datos `df_edu` resulta natural escribir:
 
 ```{r}
-filter(flights, dep_delay != NA)
+filter(df_edu, schoolyrs == NA)
 ```
-que nos devuelve una tabla vacía, sin embargo, si hay faltantes en esta 
-variable. El problema resulta de usar el operador `!=`, pensemos ¿qué regresan 
+
+Y para eliminarlos
+
+```{r}
+filter(df_edu, schoolyrs != NA)
+```
+
+en ambos casos nos devuelve una tabla vacía! 
+
+El problema resulta de usar los operadores `==` y `!=`, pensemos ¿qué regresan 
 las siguientes expresiones?
 
 ```{r, eval = FALSE}
@@ -203,17 +185,17 @@ NA == NA
 ```
 
 Las expresiones anteriores regresan `NA`, el hecho que la media de un vector 
-que incluye NAs o su suma regrese `NA`s se debe a que el default en R es 
-propagar los valores faltantes, esto es, si deconozco el valor de una de las 
+que incluye `NA`s o su suma regrese `NA`s se debe a que por defecto en R se 
+propagan los valores faltantes, esto es, si deconozco el valor de una de las 
 componentes de un vector, también desconozco la suma del mismo; sin embargo, 
-muchas funciones tienen un argumento _na.rm_ para removerlos,
+muchas funciones tienen un argumento _na.rm_ para eliminarlos,
 
 ```{r}
 sum(c(5, 4, NA), na.rm = TRUE)
 mean(c(5, 4, NA), na.rm = TRUE)
 ```
 
-Aún queda pendiente, como filtrarlos en una tabla, para esto veamos que el 
+Aún queda pendiente como filtrarlos en una tabla, para esto veamos que el 
 manejo de datos faltantes en R utiliza una lógica ternaria (como SQL):
 
 ```{r}
@@ -240,14 +222,17 @@ Por tanto para determinar si un valor es faltante usamos la instrucción
 ```{r}
 is.na(NA)
 ```
-Y finalmente podemos filtrar con 
+
+Y finalmente podemos filtrar,
 
 ```{r, eval=FALSE}
-filter(flights, is.na(dep_delay))
+filter(df_edu, is.na(schoolyrs))
 ```
 
 ### Seleccionar {-}
+
 Elegir columnas de un conjunto de datos.
+
 ```{r}
 df_ej
 select(df_ej, genero)
@@ -259,8 +244,15 @@ select(df_ej, starts_with("g"))
 select(df_ej, contains("g"))
 ```
 
-![](imagenes/manicule2.jpg) Ve la ayuda de select (`?select`) y escribe tres
-maneras de seleccionar las variables de retraso (delay).
+![](img/manicule2.jpg) Ve la ayuda de select (`?select`) y escribe tres
+maneras de seleccionar las variables del estado.
+
+```{r, eval=FALSE, echo=FALSE}
+select(df_mxmunicipio, contains("state"))
+select(df_mxmunicipio, starts_with("state"))
+select(df_mxmunicipio, 1, 4:6)
+```
+
 
 ### Ordenar {-}
 
@@ -271,15 +263,32 @@ arrange(df_ej, genero)
 arrange(df_ej, desc(estatura))
 ```
 
-![](imagenes/manicule2.jpg) Ordena los vuelos por fecha de salida y hora.
+![](img/manicule2.jpg) Ordena los municipios por población, de mayor a
+menor.
+
+```{r, eval = FALSE, echo = FALSE}
+arrange(df_mxmunicipio, desc(pop))
+```
+
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ¿Cuáles
-son los vuelos con mayor retraso?
+son los municipios con mayor disparidad de sexo (a total)?
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ¿Qué vuelos 
-_ganaron_ más tiempo en el aire?
+```{r, eval = FALSE, echo = FALSE}
+arrange(df_mxmunicipio, -abs(pop_male - pop_female))
+```
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ¿Cuáles
+son los municipios con mayor disparidad de sexo (proporcional)?, elimina los 
+municipios con menos de 5000 habitantes y repite.
+
+```{r, eval = FALSE, echo = FALSE}
+arrange(df_mxmunicipio, -abs((pop_male - pop_female) / pop))
+arrange(filter(df_mxmunicipio, pop > 5000), -abs((pop_male - pop_female) / pop))
+```
 
 ### Mutar {-}
+
 Mutar consiste en crear nuevas variables aplicando una función a columnas 
 existentes:
 
@@ -288,21 +297,54 @@ mutate(df_ej, estatura_cm = estatura * 100)
 mutate(df_ej, estatura_cm = estatura * 100, estatura_in = estatura_cm * 0.3937) 
 ```
 
-![](imagenes/manicule2.jpg) Calcula la velocidad en millas por hora a partir de
-la variable tiempo y la distancia (en millas). ¿Quá vuelo fue el más rápido?
+![](img/manicule2.jpg) Calcula el porcentaje de población indígena de cada
+municipio y almacenalo en una nueva variable.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Crea una nueva
-variable que muestre cuánto tiempo se ganó o perdió durante el vuelo.
+```{r, eval = FALSE, echo = FALSE}
+mutate(df_mxmunicipio, indigenous_prop = indigenous / pop)
+```
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Crea una 
+nueva variable que muestre el cociente entre la población femenina y masculina.
+
+```{r, eval = FALSE, echo = FALSE}
+mutate(df_mxmunicipio, female_male_quotient = pop_female / pop_male, 
+    female_male_pct = 100 * female_male_quotient)
+```
 
 Hay muchas funciones que podemos usar para crear nuevas variables con `mutate()`, éstas deben cumplir ser funciones vectorizadas, es decir, reciben un vector de valores y devuelven un vector de la misma dimensión.
 
 ### Summarise y resúmenes por grupo  {-}
-Summarise sirve para crear nuevas bases de datos con resúmenes o agregaciones de 
-los datos originales.
+
+Summarise sirve para crear nuevas bases de datos con resúmenes o agregaciones de los datos originales.
 
 ```{r}
 summarise(df_ej, promedio = mean(estatura))
 ```
+
+La mayor utlidad de `summarise` es cuando la combinamos con una variable de 
+agrupación y esta combinación es la estrategia separa-aplica combina.
+
+#### Separa-aplica-combina (_split-apply-combine_) {-}
+
+Muchos problemas de análisis de datos involucran la aplicación de la estrategia
+separa-aplica-combina [@plyr], esta consiste en romper un problema en pedazos
+(de acuerdo a una variable de interés), operar sobre cada subconjunto de manera
+independiente (ej. calcular la media de cada grupo, ordenar observaciones por 
+grupo, estandarizar por grupo) y después unir los pedazos nuevamente. El 
+siguiente diagrama ejemplifiaca el paradigma de divide-aplica-combina:
+
+* **Separa** la base de datos original.  
+* **Aplica** funciones a cada subconjunto.  
+* **Combina** los resultados en una nueva base de datos.
+
+![](imagenes/split-apply-combine.png) 
+
+Ahora, cuando pensamos como implementar la estrategia divide-aplica-combina es 
+natural pensar en iteraciones, por ejemplo utilizar un ciclo `for` para recorrer cada grupo de interés y aplicar las funciones resumen, sin embargo la aplicación
+de ciclos `for` desemboca en código difícil de entender por lo que preferimos 
+trabajar con funciones creadas para estas tareas, usaremos el paquete 
+`dplyr` que además de ser más claro suele ser más veloz.
 
 Podemos hacer resúmenes por grupo, primero creamos una base de datos agrupada:
 
@@ -318,28 +360,50 @@ los subconjuntos en una base nueva:
 summarise(by_genero, promedio = mean(estatura))
 ```
 
-![](imagenes/manicule2.jpg) Calcula el retraso promedio por fecha.
+![](img/manicule2.jpg) Calcula la población total por estado.
+
+```{r, eval = FALSE, echo = FALSE}
+by_state <- group_by(df_mxmunicipio, state_abbr)
+summarise(by_state, pop = sum(pop), indigenous = sum(indigenous), 
+    afromexican = sum(afromexican))
+```
+
+![](img/manicule2.jpg) Calcula la población total, indígena y afromexicana
+por estado.
+
+```{r, eval = FALSE, echo = FALSE}
+by_state <- group_by(df_mxmunicipio, state_abbr)
+summarise(by_state, pop = sum(pop), indigenous = sum(indigenous), 
+    afromexican = sum(afromexican))
+```
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ¿Qué otros 
-resúmenes puedes hacer para explorar el retraso por fecha?
+resúmenes puedes hacer para explorar?
 
 * Algunas funciones útiles con _summarise_ son min(x), median(x), max(x), 
 quantile(x, p), n(), sum(x), sum(x > 1), mean(x > 1), sd(x).
 
+Por ejemplo, para cada área metropolitana: cuántos municipios engloba (`n()`), 
+la población total (`sum()`) y al estado al que pertenece (`first()`).
+
 ```{r}
-flights$date_only <- as.Date(flights$date)
-by_date <- group_by(flights, date_only)
-no_miss <- filter(by_date, !is.na(dep))
-delays <- summarise(no_miss, mean_delay = mean(dep_delay), n = n())
+by_metro_area <- group_by(df_mxmunicipio, metro_area)
+no_miss <- filter(by_metro_area, !is.na(metro_area))
+pop_metro_area <- summarise(no_miss, state = first(state_abbr), 
+    n_municipios = n(), pop_total = sum(pop))
 ```
 
 
-### Operador pipeline {-}
+#### Operador pipeline {-}
+
 En R cuando uno hace varias operaciones es difícil leer y entender el código: 
 
 ```{r}
-hourly_delay <- filter(summarise(group_by(filter(flights, !is.na(dep_delay)), 
-  date_only, hour), delay = mean(dep_delay), n = n()), n > 10)
+library(estcomp)
+
+summarise(group_by(filter(election_2012, !is.na(section_type)), region,
+    section_type), n = n(), pri_pvem = sum(pri_pvem), 
+    prd_pt_mc = sum(prd_pt_mc), pan = sum(pan))
 ```
 
 La dificultad radica en que usualmente los parámetros se asignan después del 
@@ -353,62 +417,50 @@ y de arriba hacia abajo.
 Veamos como cambia el código anterior:
 
 ```{r}
-hourly_delay <- flights %>%
-  filter(!is.na(dep_delay)) %>%
-  group_by(date_only, hour) %>%
-  summarise(delay = mean(dep_delay), n = n()) %>%
-  filter(n > 10)
+election_2012 %>% 
+    filter(!is.na(section_type)) %>% 
+    group_by(region, section_type) %>% 
+    summarise(
+        n = n(), 
+        pri_pvem = sum(pri_pvem), 
+        prd_pt_mc = sum(prd_pt_mc), 
+        pan = sum(pan)
+        ) 
 ```
 
 podemos leer %>% como "_después_".
 
-![](imagenes/manicule2.jpg) ¿Qué destinos tienen el promedio de retrasos más
-alto?
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ¿Qué vuelos 
-(compañía + vuelo) ocurren diario?
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; En promedio, 
-¿Cómo varían a lo largo del día los retrasos de vuelos no cancelados? (pista: hour +
-minute / 60)
+![](img/manicule2.jpg) ¿Qué estados tienen la mayor participación (del 
+total de votantes en la lista nominal cuantos asistieron? Tip: debes eliminar
+las casillas especiales pues la lista nominal no está definida.
 
 ### Variables por grupo {-}
+
 En ocasiones es conveniente crear variables por grupo, por ejemplo estandarizar
 dentro de cada grupo z = (x - mean(x)) / sd(x).
 
 Veamos un ejemplo:
 
 ```{r}
-planes <- flights %>%
-  filter(!is.na(arr_delay)) %>%
-  group_by(plane) %>%
-  filter(n() > 30)
-
-planes %>%
-  mutate(z_delay =
-    (arr_delay - mean(arr_delay)) / sd(arr_delay)) %>%
-  filter(z_delay > 5)
+z_prd_pt_mc_state <- election_2012 %>%
+    filter(total > 50, !is.na(section_type)) %>% 
+    mutate(prd_pt_mc_pct = prd_pt_mc / total) %>% 
+    group_by(state_abbr) %>% 
+    mutate(
+        n = n(),
+        sd_prd_pt_mc = sd(prd_pt_mc_pct),
+        mean_prd_pt_mc = mean(prd_pt_mc_pct),
+        z_prd_pt_mc = (prd_pt_mc_pct - mean_prd_pt_mc) / sd_prd_pt_mc 
+    )
 ```
 
 ### Verbos de dos tablas {-}
-¿Cómo mostramos los retrasos de los vuelos en un mapa? 
 
-Para responder esta pregunta necesitamos unir la base de datos de vuelos
-con la de aeropuertos.
-
-```{r}
-location <- airports %>%
-  select(dest = iata, name = airport, lat, long)
-
-flights %>%
-    group_by(dest) %>%
-    filter(!is.na(arr_delay)) %>%
-    summarise(
-        arr_delay = mean(arr_delay),
-        n = n() ) %>%
-        arrange(desc(arr_delay)) %>%
-        left_join(location)
-```
+Muchas veces debemos reunir información que está almacenada a lo largo de 
+muchas tablas, por ejemplo, si nos interesa conocer como se relaciona el año de 
+escolaridad promedio (`schoolyrs` en el `tibble` `df_edu`) con el porcentaje de
+población indígena (`indigenous` en `df_mxmunicipios`), debemos poder *pegar*
+las dos tablas.
 
 Hay varias maneras de unir dos bases de datos y debemos pensar en el 
 obejtivo:
@@ -440,29 +492,89 @@ semi |Incluye las filas de x que coincidan con y
 anti |Incluye las filas de x que no coinciden con y
 </div>
 
-Ahora combinamos datos a nivel hora con condiciones climáticas, ¿cuál es el tipo
-de unión adecuado?
 
+![](img/manicule2.jpg) Ahora tu turno, ¿cómo se relacionan los años de
+escolaridad con el porcentaje de población indígena. Utiliza los datos 
+`df_mxmunicipio` y `df_edu` para explorar la relación. ¿cuál es el `join`
+adecuado? ¿de qué tamaño serán los datos finales?
+ 
 ```{r}
-hourly_delay <- flights %>%
-  group_by(date_only, hour) %>%
-  filter(!is.na(dep_delay)) %>%
-  summarise(
-    delay = mean(dep_delay),
-    n = n() ) %>%
-  filter(n > 10)
-
-delay_weather <- hourly_delay %>% left_join(weather)
-
-arrange(delay_weather, -delay)
+glimpse(df_edu)
+glimpse(df_mxmunicipio)
 ```
 
-![](imagenes/manicule2.jpg) ¿Qué condiciones climáticas están asociadas
-con retrasos en las salidas de Houston?
+Si queremos un mapa del ganador de las elecciones por estado debemos unir los 
+datos de elecciones con datos geográficos, estos estan incluídos en `mxmaps`, 
+son `mxstate.map`.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Explora
-si los aviones más viejos están asociados a mayores retrasos, responde
-con una gráfica.
+```{r}
+election_2012_state <- election_2012 %>%
+    group_by(state_code) %>%
+    summarise(
+        pri_pvem = 100 * sum(pri_pvem) / sum(total),
+        pan = 100 * sum(pan) / sum(total),
+        prd_pt_mc = 100 * sum(prd_pt_mc) / sum(total)
+    ) %>%
+    mutate(winner = case_when(
+        pri_pvem > pan & pri_pvem > prd_pt_mc ~ "pri_pvem",
+        pan > pri_pvem & pan > prd_pt_mc ~ "pan",
+        TRUE ~ "prd_pt_mc"), 
+        winner_pct = pmax(pri_pvem, pan, prd_pt_mc))
+
+
+election_map <- mxstate.map %>% 
+    left_join(election_2012_state, by = c("region" = "state_code")) 
+
+ggplot(election_map, aes(long, lat, group=group)) +
+    geom_polygon(aes(fill = winner)) +
+    coord_map()
+```
+
+Podemos especificar el color de cada categoría y la intensidad puede variar de
+acuerdo al porcentaje de votos que se llevó el partido/alianza ganador.
+
+```{r, fig.show="hold", out.width='45%'}
+ggplot(election_map, aes(long, lat, group = group)) +
+    geom_polygon(aes(fill = winner, alpha = winner_pct), color = "#666666", 
+        size = .05, show.legend = FALSE) +
+    coord_map() +
+    scale_fill_manual(values = c("prd_pt_mc" = "#FFCC00", "pan" = "#3399FF", 
+        "pri_pvem" = "#00CD66")) + 
+    theme_void()
+
+election_hexbinmap <- mxhexbin.map %>% 
+    left_join(election_2012_state, by = c("region" = "state_code")) 
+state_labels_map <- mxhexbin.map %>% 
+    group_by(state_abbr) %>% 
+    summarise(long = mean(long), lat = mean(lat), group = first(group))
+
+ggplot(election_hexbinmap, aes(long, lat, group = group)) +
+    geom_polygon(aes(fill = winner, alpha = winner_pct), color = "#666666", 
+        size = .05, show.legend = FALSE) +
+    coord_map() +
+    scale_fill_manual(values = c("prd_pt_mc" = "#FFCC00", "pan" = "#3399FF", 
+        "pri_pvem" = "#00CD66")) +
+    geom_text(data = state_labels_map, aes(long, lat, label = state_abbr)) +
+    theme_void()
+```
+
+![](img/manicule2.jpg) Genera un mapa a nivel municipo que muestre el porcentaje
+de la población casada a total (mayores de 12 años).
+
+```{r, echo = FALSE, eval=FALSE}
+library("viridis")
+library("scales")
+
+df_marital %>% 
+    filter(age_group == "Total", sex == "Total") %>% 
+    right_join(mxmunicipio.map) %>% 
+    ggplot(aes(long, lat, group = group)) +
+    geom_polygon(aes(fill = separated), color = "#666666", size = .02) +
+    coord_map() +
+    scale_fill_viridis("percentage") +
+    theme_void()
+```
+
 
 ## Datos limpios
 
@@ -472,8 +584,7 @@ enfocarnos en responder preguntas de los datos en lugar de estar luchando
 con los datos. Entonces, **datos limpios** son datos que facilitan las tareas 
 del análisis de datos: 
 
-*  **Visualización**: Resúmenes de datos usando gráficas, análisis exploratorio, 
-o presentación de resultados. 
+*  **Visualización**: Resúmenes de datos usando gráficas, análisis exploratorio, o presentación de resultados. 
 
 * **Manipulación**: Manipulación de variables como agregar, filtrar, reordenar,
 transformar. 
@@ -487,11 +598,12 @@ proveen una manera estándar de organizar la información:
 
 1. Cada variable forma una columna.
 2. Cada observación forma un renglón.
-3. Cada tipo de unidad observacional forma una tabla.
+3. *Cada tipo de unidad observacional forma una tabla.*
 
 Vale la pena notar que los principios de los datos limpios se pueden ver como 
 teoría de algebra relacional para estadísticos, estós principios equivalen a 
-la tercera forma normal de Codd con enfoque en una sola tabla de datos en 
+[la tercera forma normal de Codd](https://en.wikipedia.org/wiki/Third_normal_form) 
+con enfoque en una sola tabla de datos en 
 lugar de muchas conectadas en bases de datos relacionales. 
 
 Veamos un ejemplo:
@@ -570,38 +682,39 @@ funciones *gather* y *spread*) con el fin de estructurarla para que cumpla los
 principios de datos limpios.
 
 ### Los encabezados de las columanas son valores {-}
-Usaremos ejemplos para entender los conceptos más facilmente.
-La primer base de datos está basada en una encuesta de [Pew Research](http://www.pewforum.org/2009/01/30/income-distribution-within-us-religious-groups/) que 
-investiga la relación entre ingreso y afiliación religiosa.
+
+Usaremos ejemplos para entender los conceptos más facilmente. Comenzaremos
+con una tabla de datos que contiene las mediciones de partículas suspendidas
+PM2.5 de la red automática de monitoreo atmosférico 
+([RAMA](http://www.aire.cdmx.gob.mx)) para los primeros meses del 2019.
+
+
+```{r}
+data(pm25_2019)
+```
 
 ¿Cuáles son las variables en estos datos?
 
-```{r}
-library(tidyverse)
-pew <- read_delim("http://stat405.had.co.nz/data/pew.txt", "\t", 
-  escape_double = FALSE, trim_ws = TRUE)
-pew
-```
+Esta base de datos tiene 4 variables: fecha, hora, estación y medición 
+(en $\mu g/m^3$, microgramos por metro cúbico). 
 
-
-Esta base de datos tiene 3 variables: religión, ingreso y frecuencia. Para
-_limpiarla_ es necesario apilar las columnas (alargar los datos). Notemos
-que al alargar los datos desapareceran las columnas que se agrupan y dan lugar a
-dos nuevas columnas: la correspondiente a clave y la correspondiente a valor.
-Entonces, para alargar una base de datos usamos la función `gather` que recibe 
-los argumentos:
+Notemos que al alargar los datos desapareceran las columnas que se agrupan y dan 
+lugar a dos nuevas columnas: la correspondiente a estación y la 
+correspondiente a medición. Entonces, para alargar una base de datos usamos la 
+función `gather` que recibe los argumentos:
 
 * data: base de datos que vamos a reestructurar.  
 * key: nombre de la nueva variable que contiene lo que fueron los nombres
 de columnas que apilamos.  
 * value: nombre de la variable que almacenará los valores que corresponden a 
 cada *key*.  
-* ...: lo último que especificamos son las columnas que vamos a apilar, la notación para seleccionarlas es la misma que usamos con `select()`.
-
+* ...: lo último que especificamos son las columnas que vamos a apilar, la 
+notación para seleccionarlas es la misma que usamos con `select()`.
 
 ```{r}
-pew_tidy <- gather(data = pew, income, frequency, -religion)
-pew_tidy
+pm25_2019_tidy <- gather(pm25_2019, key = ESTACION, value = MEDICION, -FECHA, -HORA)
+head(pm25_2019_tidy)
+tail(pm25_2019_tidy)
 ```
 
 Observemos que en la tabla ancha teníamos bajo la columna *<$10k*, en el renglón
@@ -622,114 +735,102 @@ limpios, esto es, una vez que los datos fueron reestructurados es fácil
 construir gráficas y resúmenes.
 
 
-```{r, fig.height = 5.8, fig.width = 6.8, warning = FALSE, out.width="400px"}
-ggplot(pew_tidy, aes(x = income, y = frequency, color = religion, group = religion)) +
-  geom_line() + 
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```{r}
+pm25_2019_tidy %>% 
+    mutate(
+        FALTANTE = is.na(MEDICION), 
+        ESTACION = reorder(ESTACION, FALTANTE, sum)
+        ) %>% 
+    ggplot(aes(x = FECHA, y = HORA, fill = is.na(MEDICION))) +
+    geom_raster(alpha = 0.8) +
+    facet_wrap(~ ESTACION) +
+    scale_fill_manual("faltante", 
+        values = c("TRUE" = "salmon", "FALSE" = "gray"))
 ```
 
-Podemos hacer gráficas más interesantes si creamos nuevas variables:
-
-```{r, fig.height = 3.8, fig.width = 7.7}
-by_religion <- group_by(pew_tidy, religion)
-pew_tidy_2 <- pew_tidy %>%
-  filter(income != "Don't know/refused") %>%
-  group_by(religion) %>%
-  mutate(percent = frequency / sum(frequency)) %>% 
-  filter(sum(frequency) > 1000)
-
-head(pew_tidy_2)
-income_levels <- unique(pew_tidy$income)[1:9]
-ggplot(pew_tidy_2, aes(x = income, y = percent, group = religion)) +
-  facet_wrap(~ religion, nrow = 1) +
-  geom_bar(stat = "identity", fill = "darkgray") + 
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-    scale_x_discrete(limits = income_levels)
-```
-
-En el código de arriba utilizamos las funciones `group_by`, `filter` y `mutate`
-que estudiaremos más adelante. Por ahora concentremonos en `gather` y `spread`.
-
-Otro ejemplo, veamos los datos de *Billboard*, aquí se registra la fecha en la 
-que una canción entra por primera vez al top 100 de Billboard. 
+Otro ejemplo, veamos los datos `df_edu`, ¿cuántas variables tenemos?
 
 ```{r}
-billboard <- read_csv("data/billboard.csv")
-billboard
+df_edu
 ```
 
-
-Notemos que el rank en cada semana (una vez que entró a la lista) está guardado
-en 75 columnas `wk1` a `wk75`, este tipo de almacenamiento no es *limpio* pero 
+Notemos que el nivel de escolaridad esta guardado en 6 columnas (preschool,
+elementary, ..., other), este tipo de almacenamiento no es *limpio* pero 
 puede ser útil al momento de ingresar la información.
 
-Para tener datos *limpios* apilamos las semanas de manera que sea una sola 
-columna (nuevamente alargamos los datos):
+Para tener datos *limpios* apilamos los niveles de escolaridad de manera que 
+sea una sola columna (nuevamente alargamos los datos):
 
 ```{r}
-billboard_long <- gather(billboard, week, rank, wk1:wk76, na.rm = TRUE)
-billboard_long
+df_edu_tidy <- gather(data = df_edu, grade, percent, preschool:other, 
+    na.rm = TRUE)
+glimpse(df_edu_tidy)
 ```
-
 
 Notemos que en esta ocasión especificamos las columnas que vamos a apilar
 indicando el nombre de la primera de ellas seguido de `:` y por último el 
-nombre de la última variable a apilar. Por otra parte, la instrucción 
-`na.rm = TRUE` se utiliza para eliminar los renglones con valores faltantes en 
-la columna de value (rank), esto es, eliminamos aquellas observaciones que 
-tenían NA en la columnas wk*num* de la tabla ancha. Ahora realizamos una
-limpieza adicional creando mejores variables de fecha.
+nombre de la última variable a apilar. 
 
+Por otra parte, el parámetro `na.rm = TRUE` se utiliza para eliminar los
+renglones con valores faltantes en la columna de porcentaje, esto es, eliminamos
+aquellas observaciones que tenían NA en la columnas de nivel de escolaridad de
+la tabla ancha. En este caso optamos por que los faltantes sean implícitos, la
+conveniencia de tenerlos implícitos/explícitos dependerá de la aplicación.
+
+Con los datos limpios es facil hacer manipulaciones y graficar.
 
 ```{r}
-billboard_tidy <- billboard_long %>%
-  mutate(
-    week = parse_number(week),
-    date = date.entered + 7 * (week - 1), 
-    rank = as.numeric(rank)
-    ) %>%
-    select(-date.entered)
-billboard_tidy
+df_edu_cdmx <- df_edu_tidy %>% 
+    filter(state_abbr == "CDMX", sex != "Total", grade != "other") %>% 
+    mutate(municipio_name = reorder(municipio_name, percent, last))
+
+ggplot(df_edu_cdmx, aes(x = grade, 
+    y = percent, group = sex, color = sex)) +
+    geom_path() + 
+    facet_wrap(~municipio_name) +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1)) +
+    scale_x_discrete(limits = c("preschool", "elementary", 
+        "secondary", "highschool", "higher_edu"))
 ```
 
-Nuevamente, podemos hacer gráficas facilmente.
 
-```{r, fig.height = 3.8, fig.width = 7.7}
-tracks <- filter(billboard_tidy, track %in% 
-    c("Higher", "Amazed", "Kryptonite", "Breathe", "With Arms Wide Open"))
 
-ggplot(tracks, aes(x = date, y = rank)) +
-  geom_line() + 
-  facet_wrap(~track, nrow = 1) + 
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
-```
 
 ### Una columna asociada a más de una variable {-}
+
 La siguiente base de datos proviene de la Organización Mundial de la Salud y 
 contiene el número de casos confirmados de tuberculosis por país y año, la
 información esta por grupo demográfico de acuerdo a sexo (m, f), y edad (0-4, 
 5-14, etc). Los datos están disponibles en http://www.who.int/tb/country/data/download/en/. 
 
+Utilizaremos un subconjunto de los datos de la prueba ENLACE a nivel primaria,
+la prueba [ENLACE](http://www.enlace.sep.gob.mx/ba/) evaluaba a todos los 
+alumnos de tercero a sexto de primaria y a los alumnos de secundaria del país en 
+3 áreas: *español*, *matemáticas* y *formación cívica y ética*.
 
 ```{r}
-tb <- read.csv("data/tb.csv") %>% tbl_df()
-tb
+data("enlacep_2013")
+enlacep_sub_2013 <- enlacep_2013 %>% 
+    select(CVE_ENT:PUNT_FCE_6) %>% 
+    sample_n(1000)
+glimpse(enlacep_sub_2013)
 ```
 
-![](imagenes/manicule2.jpg) De manera similar a los ejemplos anteriores, 
+![](img/manicule2.jpg) De manera similar a los ejemplos anteriores, 
 utiliza la función `gather` para apilar las columnas correspondientes a 
-sexo-edad.
+área-grado.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Piensa en 
-como podemos separar la "variable" sexo-edad en dos columnas. 
+como podemos separar la "variable" área-grado en dos columnas. 
 
 ```{r, echo=FALSE, results=FALSE}
-tb_long <- gather(tb, demo, n, -iso2, -year, na.rm = TRUE)
-tb_long
+enlacep_long <- gather(enlacep_sub_2013, AREA_GRADO, PUNTAJE, 
+    contains("PUNT"), na.rm = TRUE)
+enlacep_long
 ```
 
-Ahora separaremos las variables sexo y edad de la columna demo, para ello 
-debemos pasar a la función `separate()`, esta recibe como parámetros:  
+Ahora separaremos las variables materia y grado de la columna  `materia_grado`, 
+para ello debemos pasar a la función `separate()`, esta recibe como parámetros:  
 
 * el nombre de la base de datos,  
 
@@ -740,51 +841,76 @@ como separar, ver `?separate`). El default es separar valores en todos los
 lugares que encuentre un caracter que no es alfanumérico (espacio, guión,...).
 
 ```{r}
-tb_tidy <- separate(tb_long, demo, c("sex", "age"), 8)
-tb_tidy
-table(tb_tidy$sex)
+enlacep_tidy <- separate(data = enlacep_long, col = AREA_GRADO, 
+    into = c("AREA", "GRADO"), sep = 9)
+enlacep_tidy
 
-# creamos un mejor código de genero
-tb_tidy <- mutate(tb_tidy, sex = substr(sex, 8, 8))
-table(tb_tidy$sex)
+# creamos un mejor código de área
+enlacep_tidy <- enlacep_tidy %>% 
+    mutate(
+        AREA = substr(AREA, 6, 8),
+        GRADO = as.numeric(GRADO)
+        ) %>% 
+    janitor::clean_names()
+glimpse(enlacep_tidy)
 ```
 
 ### Variables almacenadas en filas y columnas {-}
+
 El problema más difícil es cuando las variables están tanto en filas como en 
-columnas, veamos una base de datos de clima en Cuernavaca. ¿Cuáles son las 
+columnas, veamos una base de datos de fertilidad. ¿Cuáles son las 
 variables en estos datos?
 
 ```{r}
-clima <- read_delim("data/clima.txt", "\t", escape_double = FALSE, 
-    trim_ws = TRUE)
+data("df_fertility")
+df_fertility
 ```
 
-Estos datos tienen variables en columnas individuales (id, año, mes), en 
-múltiples columnas (día, d1-d31) y en filas (tmin, tmax). Comencemos por apilar 
-las columnas.
+Estos datos tienen variables en columnas individuales (state, size_localidad), 
+en múltiples columnas (grupo de edad, age_15_19,..) y en filas (Valor y 
+Error estándar). 
+
+Comencemos por apilar las columnas.
 
 ```{r}
-clima_long <- gather(clima, day, value, d1:d31, na.rm = TRUE)
-clima_long
+fertility_long <- gather(df_fertility, age_bracket, value, age_15_19:global, 
+    na.rm = TRUE)
+fertility_long
 ```
 
 Podemos crear algunas variables adicionales.
+
 ```{r}
-clima_vars <- clima_long %>% 
-  mutate(day = parse_number(day), 
-    value = as.numeric(value) / 10) %>%
-  select(id, year, month, day, element, value) %>%
-  arrange(id, year, month, day)
-clima_vars
+fertility_vars <- fertility_long %>% 
+    mutate(
+        state_code = str_sub(state, 1, 2), 
+        state_name = str_sub(state, 4)
+        ) %>%
+    select(-state)
+fertility_vars
 ```
 
-Finalmente, la columna *element* no es una variable, sino que almacena el nombre 
-de dos variables, la operación que debemos aplicar (spread) es el inverso de 
+Finalmente, la columna *est* no es una variable, sino que almacena el nombre 
+de 5 variables, la operación que debemos aplicar (`spread`) es el inverso de 
 apilar (`gather`):
 
 ```{r}
-clima_tidy <- spread(clima_vars, element, value)
-clima_tidy
+fertility_tidy <- spread(data = fertility_vars, key = est, value = value)
+```
+
+Y podemos mejorar los nombres de las columnas, una opción *rápida* es usar el
+paquete `janitor`.
+
+```{r}
+fertility_tidy %>% 
+    janitor::clean_names() %>% 
+    glimpse()
+```
+
+o podemos hacerlo manualmente
+
+```{r}
+names(fertility_tidy)[5:6] <- c("est", "std_error")
 ```
 
 Ahora es inmediato no solo hacer gráficas sino también ajustar un modelo.
@@ -792,44 +918,50 @@ Ahora es inmediato no solo hacer gráficas sino también ajustar un modelo.
 ```{r}
 # ajustamos un modelo lineal donde la variable respuesta es temperatura 
 # máxima, y la variable explicativa es el mes
-clima_lm <- lm(TMAX ~ factor(month), data = clima_tidy)
-summary(clima_lm)
+fertility_sub <- filter(fertility_tidy, age_bracket != "global")
+fertility_lm <- lm(est ~ age_bracket, data = fertility_sub)
+summary(fertility_lm)
 ```
 
 ### Mas de un tipo de observación en una misma tabla {-}
+
+Esta es quizá el principio menos importante de datos limpios y su conveniencia
+dependerá de la situación, pero vale la pena conocerlo.
+
 En ocasiones las bases de datos involucran valores en diferentes niveles, en 
 diferentes tipos de unidad observacional. En la limpieza de datos, cada unidad
 observacional debe estar almacenada en su propia tabla (esto esta ligado a 
 normalización de una base de datos), es importante para evitar inconsistencias 
 en los datos.
 
-¿Cuáles son las unidades observacionales de los datos de billboard?
+¿Cuáles son las unidades observacionales de los datos `df_mxmunicipio`?
 
 ```{r}
-billboard_tidy
+df_mxmunicipio
 ```
 
-Separemos esta base de datos en dos: la tabla canción que almacena artista, 
-nombre de la canción y duración; la tabla rank que almacena el ranking de la 
-canción en cada semana.
+Separemos esta base de datos en dos: la tabla a nivel municipio que almacena las
+variables de sexo (sex) a escolaridad media (schoolyrs).
 
 ```{r}
-song <- billboard_tidy %>% 
-  select(artist, track, year, time) %>%
-  unique() %>%
-  arrange(artist) %>%
-  mutate(song_id = row_number(artist))
-song
-
-rank <- billboard_tidy %>%
-  left_join(song, c("artist", "track", "year", "time")) %>%
-  select(song_id, date, week, rank) %>%
-  arrange(song_id, date) %>%
-  tbl_df
-rank
+df_mxmunicipio_normal <- df_mxmunicipio %>% 
+    select(state_code, municipio_code, region, municipio_name:lat)
+glimpse(df_mxmunicipio_normal)
 ```
+
+Y la tabla a nivel estado, que almacena las claves y variables a nivel 
+estado.
+
+```{r}
+df_statecodes <- df_mxmunicipio %>% 
+    select(contains("state")) %>% 
+    distinct()
+glimpse(df_statecodes)
+```
+
 
 ### Una misma unidad observacional está almacenada en múltiples tablas {-}
+
 También es común que los valores sobre una misma unidad observacional estén 
 separados en muchas tablas o archivos, es común que estas tablas esten divididas 
 de acuerdo a una variable, de tal manera que cada archivo representa a una 
@@ -840,22 +972,28 @@ persona, año o ubicación. Para juntar los archivos hacemos lo siguiente:
 original. 
 3. Combinamos las tablas en un solo data frame.  
 
-Veamos un ejemplo, descarga la carpeta
-[specdata](https://www.dropbox.com/sh/c0mgho95gwjc1mv/AACVLPr33O6ENW68xmL7hyUna?dl=0),
-ésta contiene 332 archivos csv que almacenan información de monitoreo de 
-contaminación en 332 ubicaciones de EUA. Cada archivo contiene información de 
-una unidad de monitoreo y el número de identificación del monitor es el nombre 
-del archivo.
+Veamos un ejemplo, descarga la carpeta con los datos de varios contaminantes
+de RAMA,
+
+```{r, eval=FALSE}
+usethis::use_zip("https://github.com/tereom/estcomp/raw/master/data-raw/19RAMA.zip", 
+    "data")
+```
+
+ésta contiene 9 archivos de excel que almacenan información de monitoreo de 
+contaminantes. Cada archivo contiene información de un contaminante y el nombre
+del archivo indica el contaminante. 
 
 Los pasos en R (usando el paquete `purrr`), primero creamos un vector con los
 nombres de los archivos en un directorio, eligiendo aquellos que contengan las
 letras ".csv".
 
 ```{r, message=FALSE}
-paths <- dir("data/specdata", pattern = "\\.csv$", full.names = TRUE) 
+paths <- dir("data/19RAMA", pattern = "\\.xls$", full.names = TRUE) 
+paths
 ```
 
-Después le asignamos el nombre del csv al nombre de cada elemento del vector.
+Después le asignamos el nombre del archivo al nombre de cada elemento del vector.
 Este paso se realiza para preservar los nombres de los archivos ya que estos
 los asignaremos a una variable mas adelante.
 
@@ -863,17 +1001,23 @@ los asignaremos a una variable mas adelante.
 paths <- set_names(paths, basename(paths))
 ```
 
-La función `map_df` itera sobre cada dirección, lee el csv en dicha dirección y 
-los combina en un data frame.
+La función `map_df` itera sobre cada dirección, lee el archivo excel de dicha 
+dirección y los combina en un data frame.
 
 ```{r, error=TRUE}
-specdata_us <- map_df(paths, ~read_csv(., col_types = "Tddi"), .id = "filename")
+library(readxl)
+rama <- map_df(paths, read_excel, .id = "FILENAME")
 
 # eliminamos la basura del id
-specdata <- specdata_us %>%
-  mutate(monitor = parse_number(filename)) %>%
-  select(id = ID, monitor, date = Date, sulfate, nitrate)
-specdata
+rama <- rama %>%
+  mutate(PARAMETRO = str_remove(FILENAME, "2019") %>% str_remove(".xls")) %>%
+  select(PARAMETRO, FECHA:AJU)
+# y apilamos para tener una columna por estación
+rama_tidy <- rama %>%
+    gather(estacion, valor, ACO:AJU) %>% 
+    mutate(valor = ifelse(-99, NA, valor))
+rama_tidy
+    
 ```
 
 ### Otras consideraciones {-}
@@ -895,9 +1039,6 @@ de variables (por ejemplo fechas), datos faltantes, _typos_ y detección de
 valores atípicos.
 
 ### Recursos adicionales {-}
-
-* [Data Import Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf), 
-RStudio.
 
 * [Data Transformation Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf), 
 RStudio.
