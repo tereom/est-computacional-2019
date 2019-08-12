@@ -48,6 +48,14 @@ library(mxmaps)
 library(estcomp)
 ```
 
+Una alternatica a instalar `mxmaps` es leer únicamente los datos, se descargan 
+del repositorio de GitHub y se cargan con la función `load()`.
+
+```{r descargar_df_mun, eval=FALSE}
+download.file("https://github.com/diegovalle/mxmaps/blob/master/data/df_mxmunicipio.RData?raw=true", "df_mxmunicipio.RData")
+load("df_mxmunicipio.RData")
+```
+
 Observemos la estructura de los datos:
 
 ```{r}
@@ -507,7 +515,7 @@ Si queremos un mapa del ganador de las elecciones por estado debemos unir los
 datos de elecciones con datos geográficos, estos estan incluídos en `mxmaps`, 
 son `mxstate.map`.
 
-```{r}
+```{r, out.width='45%'}
 election_2012_state <- election_2012 %>%
     group_by(state_code) %>%
     summarise(
@@ -533,7 +541,7 @@ ggplot(election_map, aes(long, lat, group=group)) +
 Podemos especificar el color de cada categoría y la intensidad puede variar de
 acuerdo al porcentaje de votos que se llevó el partido/alianza ganador.
 
-```{r, fig.show="hold", out.width='45%'}
+```{r, out.width='45%'}
 ggplot(election_map, aes(long, lat, group = group)) +
     geom_polygon(aes(fill = winner, alpha = winner_pct), color = "#666666", 
         size = .05, show.legend = FALSE) +
