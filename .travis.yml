@@ -23,9 +23,9 @@ addons:
         packages:
             - libopenblas-base
             - libudunits2-dev
-        r_github_packages: 
-            - tereom/estcomp
-            - diegovalle/mxmaps
+r_github_packages: 
+    - tereom/estcomp
+    - diegovalle/mxmaps
 
 repos: 
   CRAN: https://cran.rstudio.com

@@ -6,5 +6,5 @@ knitr::opts_chunk$set(
 )
 comma <- function(x) format(x, digits = 2, big.mark = ",")
 ggplot2::theme_set(ggplot2::theme_minimal())
-if(!require(estcomp)) devtools::install_github("tereom/estcomp")
-if(!require(mxmaps)) devtools::install_github("diegovalle/mxmaps")
+# if(!require(estcomp)) devtools::install_github("tereom/estcomp")
+# if(!require(mxmaps)) devtools::install_github("diegovalle/mxmaps")
