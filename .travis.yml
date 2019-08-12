@@ -27,6 +27,10 @@ addons:
             - tereom/estcomp
             - diegovalle/mxmaps
 
+repos: 
+  CRAN: https://cran.rstudio.com
+  rforge: http://R-Forge.R-project.org
+
 before_install:
   - sudo add-apt-repository ppa:marutter/rrutter -y
   - sudo apt-get update
@@ -34,6 +38,7 @@ before_install:
   - mkdir -p ~/.R/
   - echo "CXX14 = g++-7 -fPIC -flto=2" >> ~/.R/Makevars
   - echo "CXX14FLAGS = -mtune=native -march=native -Wno-unused-variable -Wno-unused-function -Wno-unused-local-typedefs -Wno-ignored-attributes -Wno-deprecated-declarations -Wno-attributes -O3" >> ~/.R/Makevars
+#  - R -e 'install.packages("rgdal", repos=c("http://R-Forge.R-project.org", "http://cran.rstudio.com"))'
   
 before_script:
     - chmod +x ./_build.sh
