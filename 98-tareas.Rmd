@@ -18,9 +18,26 @@ EstComp-TareaXX (donde XX corresponde al número de tarea, 01..).
 * Las tareas deben incluir código y resultados (si conocen [Rmarkdown](https://rmarkdown.rstudio.com) 
 es muy conveniente para este propósito).
 
-# Visualización
+## Visualización
 
-1. [Stack Overflo dveloper survey results](whttps://insights.stackoverflow.com/survey/2019)
+![](img/manicule.jpg) Tarea. Explora alguna de las bases de datos incluídas
+
+```{r}
+# install.packages("gapminder")
+library(gapminder)
+gapminder
+```
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; realiza al 
+menos $3$ gráficas y explica las relaciones que encuentres. Debes usar lo que 
+revisamos en estas notas: al menos una de las gráficas debe ser de páneles, 
+realiza una gráfica con datos de México, y (opcional)si lo consideras 
+interesante, puedes crear una variable categórica utilizando la función `cut2` 
+del paquete Hmisc. 
+
+
+
+1. [Stack Overflow dveloper survey results](whttps://insights.stackoverflow.com/survey/2019)
     + [Julia Silge y Jenny Bryan](https://github.com/jennybc/code-smells-and-feels/tree/master/stackoverflow-survey) 
     usaron los resultados para buscar evidencia de educación en 
     computación/programación entre usuarios de R.
