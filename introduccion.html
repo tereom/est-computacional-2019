@@ -137,6 +137,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#calificacion"><i class="fa fa-check"></i>Calificación</a></li>
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#software"><i class="fa fa-check"></i>Software</a></li>
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#otros-recursos"><i class="fa fa-check"></i>Otros recursos</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#noticias"><i class="fa fa-check"></i>Noticias</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="principios-visualizacion.html"><a href="principios-visualizacion.html"><i class="fa fa-check"></i><b>1</b> Principios visualización</a><ul>
@@ -147,11 +148,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.2" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html"><i class="fa fa-check"></i><b>1.2</b> Teoría de visualización de datos</a></li>
 <li class="chapter" data-level="1.3" data-path="factor-de-engano-y-chartjunk.html"><a href="factor-de-engano-y-chartjunk.html"><i class="fa fa-check"></i><b>1.3</b> Factor de engaño y Chartjunk</a></li>
 <li class="chapter" data-level="1.4" data-path="pequenos-multiplos-y-densidad-grafica.html"><a href="pequenos-multiplos-y-densidad-grafica.html"><i class="fa fa-check"></i><b>1.4</b> Pequeños múltiplos y densidad gráfica</a></li>
-<li class="chapter" data-level="1.5" data-path="mas-pequenos-multiplos.html"><a href="mas-pequenos-multiplos.html"><i class="fa fa-check"></i><b>1.5</b> Más pequeños múltiplos</a></li>
-<li class="chapter" data-level="1.6" data-path="tinta-de-datos.html"><a href="tinta-de-datos.html"><i class="fa fa-check"></i><b>1.6</b> Tinta de datos</a></li>
-<li class="chapter" data-level="1.7" data-path="decoracion.html"><a href="decoracion.html"><i class="fa fa-check"></i><b>1.7</b> Decoración</a></li>
-<li class="chapter" data-level="1.8" data-path="percepcion-de-escala.html"><a href="percepcion-de-escala.html"><i class="fa fa-check"></i><b>1.8</b> Percepción de escala</a></li>
-<li class="chapter" data-level="1.9" data-path="ejemplos-grafica-de-minard.html"><a href="ejemplos-grafica-de-minard.html"><i class="fa fa-check"></i><b>1.9</b> Ejemplos: gráfica de Minard</a></li>
+<li class="chapter" data-level="1.5" data-path="tinta-de-datos.html"><a href="tinta-de-datos.html"><i class="fa fa-check"></i><b>1.5</b> Tinta de datos</a></li>
+<li class="chapter" data-level="1.6" data-path="decoracion.html"><a href="decoracion.html"><i class="fa fa-check"></i><b>1.6</b> Decoración</a></li>
+<li class="chapter" data-level="1.7" data-path="percepcion-de-escala.html"><a href="percepcion-de-escala.html"><i class="fa fa-check"></i><b>1.7</b> Percepción de escala</a></li>
+<li class="chapter" data-level="1.8" data-path="ejemplos-grafica-de-minard.html"><a href="ejemplos-grafica-de-minard.html"><i class="fa fa-check"></i><b>1.8</b> Ejemplos: gráfica de Minard</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="introduccion-a-r-y-al-paquete-ggplot2.html"><a href="introduccion-a-r-y-al-paquete-ggplot2.html"><i class="fa fa-check"></i><b>2</b> Introducción a R y al paquete ggplot2</a><ul>
 <li class="chapter" data-level="2.1" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html"><i class="fa fa-check"></i><b>2.1</b> R: primeros pasos</a><ul>
@@ -186,7 +186,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
-<li class="chapter" data-level="3.3" data-path="visualizacion.html"><a href="visualizacion.html"><i class="fa fa-check"></i><b>3.3</b> Visualización</a></li>
+<li class="chapter" data-level="" data-path="instalacion-y-visualizacion.html"><a href="instalacion-y-visualizacion.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -231,13 +231,25 @@ independientemente del método de visualización.</p>
 <p><img src="img/tufte_cancer.jpg" /></p>
 <div id="visualizacion-de-datos-en-la-estadistica" class="section level3 unnumbered">
 <h3>Visualización de datos en la estadística</h3>
-<p>La estadística tradicionalmente se divide en dos partes: una parte de naturaleza
-exploratoria, donde jugamos el papel de detectives en búsqueda de los elementos
-de evidencia importante, y una parte de naturaleza inferencial, donde nos
-convertimos en jueces donde le damos pesos de credibilidad a la evidencia que
-presenta el detective. Estas dos partes tienen interacción fuerte en la
-práctica, pero por razones históricas se considera “superior” a la parte
-inferencial por encima de la exploratoria.</p>
+<p>El estándar científico para contestar preguntas o tomar decisiones es uno que se
+basa en el análisis de datos: para contestar preguntas o tomar decisiones es
+necesario, en primer lugar, reunir todos los datos disponibles que puedan
+contener o sugerir alguna guía para entender mejor la pregunta o la decisión a
+la que nos enfrentamos. Esta recopilación de datos -que pueden ser cualitativos,
+cuantitativos, o una mezcla de los dos, debe entonces ser analizada para extraer
+información relevante para nuestro problema.</p>
+<p>En análisis de datos existen dos distintos tipos de trabajo:</p>
+<div class="caja">
+<ul>
+<li><p>El trabajo exploratorio o de detective: ¿cuáles son los aspectos importantes
+de estos datos? ¿qué indicaciones generales muestran los datos? ¿qué tareas de
+análisis debemos empezar haciendo? ¿cuáles son los caminos generales para
+formular con precisión y contestar algunas preguntas que nos interesen?</p></li>
+<li>El trabajo inferencial, confirmatorio, o de juez: ¿cómo evaluar el peso de la
+evidencia de los descubrimientos del paso anterior? ¿qué tan bien soportadas
+están las respuestas y conclusiones por nuestro conjunto de datos?</li>
+</ul>
+</div>
 <p>Aunque en el proceso de inferencia las gráficas cada vez son más importantes, la
 visualización entra más claramente dentro del análisis exploratorio de datos. Y
 como en un principio no es claro como la visualización aporta al proceso de la
@@ -257,11 +269,24 @@ un caso grave y real (no simulado) de este análisis estadístico rutinario
 cultivaron diez variedades de cebada en seis sitios de Minnesota, en <span class="math inline">\(1921\)</span> y
 <span class="math inline">\(1932\)</span>. Este es uno de los primeros ejemplos en el que se aplicaron las ideas de
 Fisher en cuanto a diseño de experimentos.</p>
-<p>Estos datos fueron reanalizados desde esa época por muchos agrónomos. Hasta muy
-recientemente se detectó la anomalía en el comportamiento de los años en el
-sitio Morris, el cual es evidente en la gráfica. Investigación posterior ha
-mostrado convincentemente que en algún momento alguien volteó las etiquetas de
-los años en este sitio.</p>
+<p>En primer lugar, observamos:</p>
+<ul>
+<li>Los niveles generales de rendimiento varían mucho dependiendo del sitio: hay
+mejores y peores sitios.<br />
+</li>
+<li>Los rendimientos son típicamente más altos en 1931 que en 1932. Sin embargo,
+Morris es anómalo en cuanto a que el patrón no es consistente con el resto de
+los sitios.</li>
+<li>Hay variación considerable de las variedades dentro de cada sitio. ¿Existe
+alguna variedad que sea mejor que otras?</li>
+<li>Notamos claramente la anomalía en las diferencias: en el sitio Morris, el año
+1932 fue mejor que el de 1931.</li>
+</ul>
+<p>Estos datos fueron reanalizados desde la época en la que se recolectaron por
+muchos agrónomos. Hasta muy recientemente se detectó la anomalía en el
+comportamiento de los años en el sitio Morris, el cual es evidente en la
+gráfica. Investigación posterior ha mostrado que es muy plausible que en algún
+momento alguien volteó las etiquetas de los años en este sitio.</p>
 <p>Este ejemplo muestra, en primer lugar, que la visualización es crucial en el
 proceso de análisis de datos: sin ella estamos expuestos a no encontrar aspectos
 importantes de los datos (errores) que deben ser discutidos - aún cuando nuestra
