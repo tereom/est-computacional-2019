@@ -137,7 +137,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#calificacion"><i class="fa fa-check"></i>Calificación</a></li>
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#software"><i class="fa fa-check"></i>Software</a></li>
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#otros-recursos"><i class="fa fa-check"></i>Otros recursos</a></li>
-<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#noticias"><i class="fa fa-check"></i>Noticias</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="principios-visualizacion.html"><a href="principios-visualizacion.html"><i class="fa fa-check"></i><b>1</b> Principios visualización</a><ul>
@@ -148,10 +147,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.2" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html"><i class="fa fa-check"></i><b>1.2</b> Teoría de visualización de datos</a></li>
 <li class="chapter" data-level="1.3" data-path="factor-de-engano-y-chartjunk.html"><a href="factor-de-engano-y-chartjunk.html"><i class="fa fa-check"></i><b>1.3</b> Factor de engaño y Chartjunk</a></li>
 <li class="chapter" data-level="1.4" data-path="pequenos-multiplos-y-densidad-grafica.html"><a href="pequenos-multiplos-y-densidad-grafica.html"><i class="fa fa-check"></i><b>1.4</b> Pequeños múltiplos y densidad gráfica</a></li>
-<li class="chapter" data-level="1.5" data-path="tinta-de-datos.html"><a href="tinta-de-datos.html"><i class="fa fa-check"></i><b>1.5</b> Tinta de datos</a></li>
-<li class="chapter" data-level="1.6" data-path="decoracion.html"><a href="decoracion.html"><i class="fa fa-check"></i><b>1.6</b> Decoración</a></li>
-<li class="chapter" data-level="1.7" data-path="percepcion-de-escala.html"><a href="percepcion-de-escala.html"><i class="fa fa-check"></i><b>1.7</b> Percepción de escala</a></li>
-<li class="chapter" data-level="1.8" data-path="ejemplos-grafica-de-minard.html"><a href="ejemplos-grafica-de-minard.html"><i class="fa fa-check"></i><b>1.8</b> Ejemplos: gráfica de Minard</a></li>
+<li class="chapter" data-level="1.5" data-path="mas-pequenos-multiplos.html"><a href="mas-pequenos-multiplos.html"><i class="fa fa-check"></i><b>1.5</b> Más pequeños múltiplos</a></li>
+<li class="chapter" data-level="1.6" data-path="tinta-de-datos.html"><a href="tinta-de-datos.html"><i class="fa fa-check"></i><b>1.6</b> Tinta de datos</a></li>
+<li class="chapter" data-level="1.7" data-path="decoracion.html"><a href="decoracion.html"><i class="fa fa-check"></i><b>1.7</b> Decoración</a></li>
+<li class="chapter" data-level="1.8" data-path="percepcion-de-escala.html"><a href="percepcion-de-escala.html"><i class="fa fa-check"></i><b>1.8</b> Percepción de escala</a></li>
+<li class="chapter" data-level="1.9" data-path="ejemplos-grafica-de-minard.html"><a href="ejemplos-grafica-de-minard.html"><i class="fa fa-check"></i><b>1.9</b> Ejemplos: gráfica de Minard</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="introduccion-a-r-y-al-paquete-ggplot2.html"><a href="introduccion-a-r-y-al-paquete-ggplot2.html"><i class="fa fa-check"></i><b>2</b> Introducción a R y al paquete ggplot2</a><ul>
 <li class="chapter" data-level="2.1" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html"><i class="fa fa-check"></i><b>2.1</b> R: primeros pasos</a><ul>
@@ -186,7 +186,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
-<li class="chapter" data-level="" data-path="instalacion-y-visualizacion.html"><a href="instalacion-y-visualizacion.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
+<li class="chapter" data-level="3.3" data-path="visualizacion.html"><a href="visualizacion.html"><i class="fa fa-check"></i><b>3.3</b> Visualización</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -217,43 +217,43 @@ tienes instalado comienza instalando el paquete <code>ggplot2</code> o el <code>
 lo incluye.</p>
 <div id="graficas-de-dispersion" class="section level4 unnumbered">
 <h4>Gráficas de dispersión</h4>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">library</span>(tidyverse) <span class="co"># Cargamos el paquete en nuestra sesión</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">library</span>(tidyverse) <span class="co"># Cargamos el paquete en nuestra sesión</span></a></code></pre></div>
 <p>Usaremos el conjunto de datos <code>election_sub_2012</code> que se incluye en el paquete
 <code>estcomp</code>, puedes encontrar información de esta base de datos tecleando
 <code>?election_sub_2012</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">data</span>(election_sub_<span class="dv">2012</span>)</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">?election_sub_<span class="dv">2012</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="kw">glimpse</span>(election_sub_<span class="dv">2012</span>)</a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; Observations: 1,500</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; Variables: 23</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; $ state_code      &lt;chr&gt; &quot;19&quot;, &quot;30&quot;, &quot;09&quot;, &quot;07&quot;, &quot;09&quot;, &quot;27&quot;, &quot;20&quot;, &quot;15&quot;, …</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; $ state_name      &lt;chr&gt; &quot;Nuevo León&quot;, &quot;Veracruz&quot;, &quot;Ciudad de México&quot;, &quot;C…</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; $ state_abbr      &lt;chr&gt; &quot;NL&quot;, &quot;VER&quot;, &quot;CDMX&quot;, &quot;CHPS&quot;, &quot;CDMX&quot;, &quot;TAB&quot;, &quot;OAX…</span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; $ district_loc_17 &lt;int&gt; 20, 30, 27, 5, 26, 21, 15, 43, 4, 19, 17, 9, 9, …</span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt; $ district_fed_17 &lt;int&gt; 7, 11, 22, 5, 15, 6, 3, 7, 4, 5, 6, 4, 1, 1, 3, …</span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; $ polling_id      &lt;int&gt; 90532, 134417, 32160, 15456, 31925, 122541, 9451…</span></a>
-<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt; $ section         &lt;int&gt; 347, 1775, 2705, 1121, 4358, 502, 37, 826, 2207,…</span></a>
-<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt; $ region          &lt;chr&gt; &quot;noreste&quot;, &quot;este&quot;, &quot;centrosur&quot;, &quot;suroeste&quot;, &quot;cen…</span></a>
-<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt; $ polling_type    &lt;chr&gt; &quot;B-C&quot;, &quot;B-C&quot;, &quot;B-C&quot;, &quot;B-C&quot;, &quot;B-C&quot;, &quot;B-C&quot;, &quot;B-C&quot;,…</span></a>
-<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt; $ section_type    &lt;chr&gt; &quot;U&quot;, &quot;U&quot;, &quot;U&quot;, &quot;U&quot;, &quot;U&quot;, &quot;U&quot;, &quot;M&quot;, NA, &quot;U&quot;, &quot;M&quot;,…</span></a>
-<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt; $ pri_pvem        &lt;int&gt; 150, 146, 103, 135, 108, 102, 121, 157, 134, 187…</span></a>
-<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt; $ pan             &lt;int&gt; 111, 52, 43, 33, 95, 27, 60, 94, 40, 128, 53, 56…</span></a>
-<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt; $ panal           &lt;int&gt; 12, 4, 10, 10, 4, 4, 8, 16, 4, 10, 0, 12, 8, 1, …</span></a>
-<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt; $ prd_pt_mc       &lt;int&gt; 78, 226, 240, 237, 181, 290, 141, 158, 90, 63, 6…</span></a>
-<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt; $ otros           &lt;int&gt; 1, 4, 4, 7, 6, 14, 1, 8, 8, 11, 2, 14, 7, 12, 48…</span></a>
-<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#&gt; $ total           &lt;int&gt; 352, 432, 400, 422, 394, 437, 331, 433, 276, 399…</span></a>
-<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#&gt; $ nominal_list    &lt;int&gt; 675, 636, 688, 672, 522, 698, 596, 716, 506, 584…</span></a>
-<a class="sourceLine" id="cb6-25" data-line-number="25"><span class="co">#&gt; $ pri_pvem_pct    &lt;dbl&gt; 43, 34, 26, 32, 27, 23, 37, 36, 49, 47, 42, 42, …</span></a>
-<a class="sourceLine" id="cb6-26" data-line-number="26"><span class="co">#&gt; $ pan_pct         &lt;dbl&gt; 32, 12, 11, 8, 24, 6, 18, 22, 14, 32, 50, 12, 16…</span></a>
-<a class="sourceLine" id="cb6-27" data-line-number="27"><span class="co">#&gt; $ panal_pct       &lt;dbl&gt; 3, 1, 2, 2, 1, 1, 2, 4, 1, 3, 0, 3, 3, 0, 28, 0,…</span></a>
-<a class="sourceLine" id="cb6-28" data-line-number="28"><span class="co">#&gt; $ prd_pt_mc_pct   &lt;dbl&gt; 22, 52, 60, 56, 46, 66, 43, 36, 33, 16, 6, 40, 5…</span></a>
-<a class="sourceLine" id="cb6-29" data-line-number="29"><span class="co">#&gt; $ otros_pct       &lt;dbl&gt; 0, 1, 1, 2, 2, 3, 0, 2, 3, 3, 2, 3, 2, 3, 13, 8,…</span></a>
-<a class="sourceLine" id="cb6-30" data-line-number="30"><span class="co">#&gt; $ winner          &lt;chr&gt; &quot;pri_pvem&quot;, &quot;prd_pt_mc&quot;, &quot;prd_pt_mc&quot;, &quot;prd_pt_mc…</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw">data</span>(election_sub_<span class="dv">2012</span>)</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">?election_sub_<span class="dv">2012</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="kw">glimpse</span>(election_sub_<span class="dv">2012</span>)</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; Observations: 1,500</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; Variables: 23</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; $ state_code      &lt;chr&gt; &quot;19&quot;, &quot;30&quot;, &quot;09&quot;, &quot;07&quot;, &quot;09&quot;, &quot;27&quot;, &quot;20&quot;, &quot;15&quot;, …</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; $ state_name      &lt;chr&gt; &quot;Nuevo León&quot;, &quot;Veracruz&quot;, &quot;Ciudad de México&quot;, &quot;C…</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; $ state_abbr      &lt;chr&gt; &quot;NL&quot;, &quot;VER&quot;, &quot;CDMX&quot;, &quot;CHPS&quot;, &quot;CDMX&quot;, &quot;TAB&quot;, &quot;OAX…</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; $ district_loc_17 &lt;int&gt; 20, 30, 27, 5, 26, 21, 15, 43, 4, 19, 17, 9, 9, …</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt; $ district_fed_17 &lt;int&gt; 7, 11, 22, 5, 15, 6, 3, 7, 4, 5, 6, 4, 1, 1, 3, …</span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt; $ polling_id      &lt;int&gt; 90532, 134417, 32160, 15456, 31925, 122541, 9451…</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; $ section         &lt;int&gt; 347, 1775, 2705, 1121, 4358, 502, 37, 826, 2207,…</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt; $ region          &lt;chr&gt; &quot;noreste&quot;, &quot;este&quot;, &quot;centrosur&quot;, &quot;suroeste&quot;, &quot;cen…</span></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt; $ polling_type    &lt;chr&gt; &quot;B-C&quot;, &quot;B-C&quot;, &quot;B-C&quot;, &quot;B-C&quot;, &quot;B-C&quot;, &quot;B-C&quot;, &quot;B-C&quot;,…</span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt; $ section_type    &lt;chr&gt; &quot;U&quot;, &quot;U&quot;, &quot;U&quot;, &quot;U&quot;, &quot;U&quot;, &quot;U&quot;, &quot;M&quot;, NA, &quot;U&quot;, &quot;M&quot;,…</span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt; $ pri_pvem        &lt;int&gt; 150, 146, 103, 135, 108, 102, 121, 157, 134, 187…</span></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt; $ pan             &lt;int&gt; 111, 52, 43, 33, 95, 27, 60, 94, 40, 128, 53, 56…</span></a>
+<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt; $ panal           &lt;int&gt; 12, 4, 10, 10, 4, 4, 8, 16, 4, 10, 0, 12, 8, 1, …</span></a>
+<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt; $ prd_pt_mc       &lt;int&gt; 78, 226, 240, 237, 181, 290, 141, 158, 90, 63, 6…</span></a>
+<a class="sourceLine" id="cb8-22" data-line-number="22"><span class="co">#&gt; $ otros           &lt;int&gt; 1, 4, 4, 7, 6, 14, 1, 8, 8, 11, 2, 14, 7, 12, 48…</span></a>
+<a class="sourceLine" id="cb8-23" data-line-number="23"><span class="co">#&gt; $ total           &lt;int&gt; 352, 432, 400, 422, 394, 437, 331, 433, 276, 399…</span></a>
+<a class="sourceLine" id="cb8-24" data-line-number="24"><span class="co">#&gt; $ nominal_list    &lt;int&gt; 675, 636, 688, 672, 522, 698, 596, 716, 506, 584…</span></a>
+<a class="sourceLine" id="cb8-25" data-line-number="25"><span class="co">#&gt; $ pri_pvem_pct    &lt;dbl&gt; 43, 34, 26, 32, 27, 23, 37, 36, 49, 47, 42, 42, …</span></a>
+<a class="sourceLine" id="cb8-26" data-line-number="26"><span class="co">#&gt; $ pan_pct         &lt;dbl&gt; 32, 12, 11, 8, 24, 6, 18, 22, 14, 32, 50, 12, 16…</span></a>
+<a class="sourceLine" id="cb8-27" data-line-number="27"><span class="co">#&gt; $ panal_pct       &lt;dbl&gt; 3, 1, 2, 2, 1, 1, 2, 4, 1, 3, 0, 3, 3, 0, 28, 0,…</span></a>
+<a class="sourceLine" id="cb8-28" data-line-number="28"><span class="co">#&gt; $ prd_pt_mc_pct   &lt;dbl&gt; 22, 52, 60, 56, 46, 66, 43, 36, 33, 16, 6, 40, 5…</span></a>
+<a class="sourceLine" id="cb8-29" data-line-number="29"><span class="co">#&gt; $ otros_pct       &lt;dbl&gt; 0, 1, 1, 2, 2, 3, 0, 2, 3, 3, 2, 3, 2, 3, 13, 8,…</span></a>
+<a class="sourceLine" id="cb8-30" data-line-number="30"><span class="co">#&gt; $ winner          &lt;chr&gt; &quot;pri_pvem&quot;, &quot;prd_pt_mc&quot;, &quot;prd_pt_mc&quot;, &quot;prd_pt_mc…</span></a></code></pre></div>
 <p>Comencemos con nuestra primera gráfica:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> election_sub_<span class="dv">2012</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> total, <span class="dt">y =</span> prd_pt_mc))</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> election_sub_<span class="dv">2012</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> total, <span class="dt">y =</span> prd_pt_mc))</a></code></pre></div>
 <p><img src="01-visualizacion_intro_r_files/figure-html/plot_dispersion-1.png" width="528" style="display: block; margin: auto;" /></p>
 <p>En <code>ggplot2</code> se inicia una gráfica con la instrucción <code>ggplot()</code>, debemos
 especificar explicitamente que base de datos usamos, este es el primer argumento
@@ -264,12 +264,12 @@ graficar y el atributo de la gráfica al que queremos mapearlas.</p>
 <em>geometrías</em> incluídas en <code>ggplot2</code>: <code>geom_line()</code>, <code>geom_boxplot()</code>,
 <code>geom_histogram</code>,… Cada una acepta distintos argumentos para mapear las
 variables en los datos a características estéticas de la gráfica. En el ejemplo
-de arriba mapeamos <code>displ</code> al eje x, <code>prd_pt_mc</code> al eje y, pero <code>geom_point()</code> nos
+de arriba mapeamos <code>displ</code> al eje x, <code>hwy</code> al eje y, pero <code>geom_point()</code> nos
 permite representar más variables usando la forma, color y/o tamaño del punto.
 Esta flexibilidad nos permite entender o descubrir patrones más interesantes en
 los datos.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> total, <span class="dt">y =</span> prd_pt_mc, <span class="dt">color =</span> polling_type))</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> total, <span class="dt">y =</span> prd_pt_mc, <span class="dt">color =</span> polling_type))</a></code></pre></div>
 <p><img src="01-visualizacion_intro_r_files/figure-html/plot_dispersion_color-1.png" width="528" style="display: block; margin: auto;" /></p>
 <p><img src="img/manicule2.jpg" /> Experimenta con los <em>aesthetics</em> color (color),
 tamaño (size) y forma (shape).</p>
@@ -317,51 +317,51 @@ numéricas como edad, estatura, etc.), los <em>defaults</em> para algunos atribu
 </tbody>
 </table>
 <p>Los <em><em>geoms</em></em> controlan el tipo de gráfica</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> total, <span class="dt">y =</span> prd_pt_mc))</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">p <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> total, <span class="dt">y =</span> prd_pt_mc))</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">p <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>()</a></code></pre></div>
 <p><img src="01-visualizacion_intro_r_files/figure-html/plot_linea-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>¿Qué problema tiene la siguiente gráfica?</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> pan_pct, <span class="dt">y =</span> prd_pt_mc_pct))</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">p <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="fl">0.8</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> pan_pct, <span class="dt">y =</span> prd_pt_mc_pct))</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">p <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="fl">0.8</span>) </a></code></pre></div>
 <p><img src="01-visualizacion_intro_r_files/figure-html/plot_jitter-1.png" width="480" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">p <span class="op">+</span><span class="st"> </span><span class="kw">geom_jitter</span>(<span class="dt">size =</span> <span class="fl">0.8</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">p <span class="op">+</span><span class="st"> </span><span class="kw">geom_jitter</span>(<span class="dt">size =</span> <span class="fl">0.8</span>) </a></code></pre></div>
 <p><img src="01-visualizacion_intro_r_files/figure-html/plot_jitter-2.png" width="480" style="display: block; margin: auto;" /></p>
 <p><img src="img/manicule2.jpg" /> ¿Cómo podemos mejorar la siguiente gráfica?</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> state_abbr, <span class="dt">y =</span> prd_pt_mc_pct)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="fl">0.8</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> state_abbr, <span class="dt">y =</span> prd_pt_mc_pct)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="fl">0.8</span>)</a></code></pre></div>
 <p><img src="01-visualizacion_intro_r_files/figure-html/plot_edo_prd-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Intentemos reodenar los niveles de la variable clase</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(state_abbr, prd_pt_mc), </a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">    <span class="dt">y =</span> prd_pt_mc)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="fl">0.8</span>)</a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-11-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(state_abbr, prd_pt_mc), </a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">    <span class="dt">y =</span> prd_pt_mc)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="fl">0.8</span>)</a></code></pre></div>
+<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-12-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Podemos probar otros geoms.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(state_abbr, prd_pt_mc), </a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">    <span class="dt">y =</span> prd_pt_mc)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">size =</span> <span class="fl">0.8</span>)</a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/edo_boxplot-1.png" width="576" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(state_abbr, prd_pt_mc), </a>
-<a class="sourceLine" id="cb15-3" data-line-number="3">    <span class="dt">y =</span> prd_pt_mc)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="st">    </span><span class="kw">geom_boxplot</span>()</a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/edo_boxplot-2.png" width="576" style="display: block; margin: auto;" /></p>
-<p>También podemos usar más de un geom!</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(state_abbr, prd_pt_mc), </a>
 <a class="sourceLine" id="cb16-2" data-line-number="2">    <span class="dt">y =</span> prd_pt_mc)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">size =</span> <span class="fl">0.8</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="st">    </span><span class="kw">geom_boxplot</span>()</a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-12-1.png" width="576" style="display: block; margin: auto;" /></p>
-<p>Y mejorar presentación:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(state_abbr, prd_pt_mc), </a>
-<a class="sourceLine" id="cb17-2" data-line-number="2">    <span class="dt">y =</span> prd_pt_mc)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">alpha =</span> <span class="fl">0.6</span>, <span class="dt">size =</span> <span class="fl">0.8</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="st">    </span><span class="kw">geom_boxplot</span>(<span class="dt">outlier.color =</span> <span class="ot">NA</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">hjust =</span> <span class="dv">1</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Votos por casilla y estado&quot;</span>, </a>
-<a class="sourceLine" id="cb17-7" data-line-number="7">        <span class="dt">subtitle =</span> <span class="st">&quot;PRD-PT-MC&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;estado&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;total de votos&quot;</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">size =</span> <span class="fl">0.8</span>)</a></code></pre></div>
+<p><img src="01-visualizacion_intro_r_files/figure-html/edo_boxplot-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(state_abbr, prd_pt_mc), </a>
+<a class="sourceLine" id="cb17-3" data-line-number="3">    <span class="dt">y =</span> prd_pt_mc)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="st">    </span><span class="kw">geom_boxplot</span>()</a></code></pre></div>
+<p><img src="01-visualizacion_intro_r_files/figure-html/edo_boxplot-2.png" width="576" style="display: block; margin: auto;" /></p>
+<p>También podemos usar más de un geom!</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(state_abbr, prd_pt_mc), </a>
+<a class="sourceLine" id="cb18-2" data-line-number="2">    <span class="dt">y =</span> prd_pt_mc)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">size =</span> <span class="fl">0.8</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="st">    </span><span class="kw">geom_boxplot</span>()</a></code></pre></div>
 <p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-13-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Y mejorar presentación:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(state_abbr, prd_pt_mc), </a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">    <span class="dt">y =</span> prd_pt_mc)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">alpha =</span> <span class="fl">0.6</span>, <span class="dt">size =</span> <span class="fl">0.8</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="st">    </span><span class="kw">geom_boxplot</span>(<span class="dt">outlier.color =</span> <span class="ot">NA</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">hjust =</span> <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb19-6" data-line-number="6"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Votos por casilla y estado&quot;</span>, </a>
+<a class="sourceLine" id="cb19-7" data-line-number="7">        <span class="dt">subtitle =</span> <span class="st">&quot;PRD-PT-MC&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;estado&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;total de votos&quot;</span>)</a></code></pre></div>
+<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-14-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p><img src="img/manicule2.jpg" /> Lee la ayuda de <em>reorder</em> y repite las gráficas
-anteriores ordenando por la mediana de <em>prd_pt_mc</em>.</p>
+anteriores ordenando por la mediana de <em>hwy</em>.</p>
 <p>            ¿Cómo harías
 para graficar los puntos encima de las cajas de boxplot?</p>
 </div>
@@ -372,81 +372,81 @@ de una gráfica donde cada múltiplo representa un subconjunto de los datos, es
 una práctica muy útil para explorar relaciones condicionales.</p>
 <p>En ggplot podemos usar <em>facet_wrap()</em> para hacer paneles dividiendo los datos
 de acuerdo a las categorías de una sola variable</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(state_abbr, pri_pvem_pct, median), </a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">    <span class="dt">y =</span> pri_pvem_pct)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>section_type) <span class="op">+</span></a>
-<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-14-1.png" width="624" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(state_abbr, pri_pvem_pct, median), </a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">    <span class="dt">y =</span> pri_pvem_pct)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>section_type) <span class="op">+</span></a>
+<a class="sourceLine" id="cb20-5" data-line-number="5"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</a></code></pre></div>
+<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-15-1.png" width="624" style="display: block; margin: auto;" /></p>
 <p>Podemos eliminar los NA.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">filter</span>(election_sub_<span class="dv">2012</span>, <span class="op">!</span><span class="kw">is.na</span>(section_type)), </a>
-<a class="sourceLine" id="cb19-2" data-line-number="2">    <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(state_abbr, pri_pvem_pct, median), <span class="dt">y =</span> pri_pvem_pct)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>section_type) <span class="op">+</span></a>
-<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-15-1.png" width="768" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">filter</span>(election_sub_<span class="dv">2012</span>, <span class="op">!</span><span class="kw">is.na</span>(section_type)), </a>
+<a class="sourceLine" id="cb21-2" data-line-number="2">    <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(state_abbr, pri_pvem_pct, median), <span class="dt">y =</span> pri_pvem_pct)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>section_type) <span class="op">+</span></a>
+<a class="sourceLine" id="cb21-5" data-line-number="5"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</a></code></pre></div>
+<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-16-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>También podemos hacer una cuadrícula de <span class="math inline">\(2\)</span> dimensiones usando
 <em>facet_grid(filas~columnas)</em></p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="co"># Veremos como manipular datos en las próximas clases</span></a>
-<a class="sourceLine" id="cb20-2" data-line-number="2">election_region_<span class="dv">2012</span> &lt;-<span class="st"> </span>election_<span class="dv">2012</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="st">    </span><span class="kw">group_by</span>(region, section_type) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="st">    </span><span class="kw">summarise_at</span>(<span class="kw">vars</span>(pri_pvem<span class="op">:</span>total), sum) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb20-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(pri_pvem<span class="op">:</span>otros), <span class="dt">.funs =</span> <span class="op">~</span><span class="st"> </span><span class="dv">100</span> <span class="op">*</span><span class="st"> </span>.<span class="op">/</span>total) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb20-6" data-line-number="6"><span class="st">    </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb20-7" data-line-number="7"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">region =</span> <span class="kw">reorder</span>(region, pri_pvem)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb20-8" data-line-number="8"><span class="st">    </span><span class="kw">gather</span>(party, prop_votes, pri_pvem<span class="op">:</span>otros) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb20-9" data-line-number="9"><span class="st">    </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(section_type))</a>
-<a class="sourceLine" id="cb20-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb20-11" data-line-number="11"><span class="kw">ggplot</span>(election_region_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(party, prop_votes), </a>
-<a class="sourceLine" id="cb20-12" data-line-number="12">    <span class="dt">y =</span> prop_votes, <span class="dt">fill =</span> <span class="kw">reorder</span>(party, <span class="op">-</span>prop_votes))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb20-13" data-line-number="13"><span class="st">    </span><span class="kw">geom_col</span>(<span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb20-14" data-line-number="14"><span class="st">    </span><span class="kw">facet_grid</span>(region <span class="op">~</span><span class="st"> </span>section_type) <span class="op">+</span></a>
-<a class="sourceLine" id="cb20-15" data-line-number="15"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">hjust =</span> <span class="dv">1</span>)) </a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-16-1.png" width="480" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co"># Veremos como manipular datos en las próximas clases</span></a>
+<a class="sourceLine" id="cb22-2" data-line-number="2">election_region_<span class="dv">2012</span> &lt;-<span class="st"> </span>election_<span class="dv">2012</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="st">    </span><span class="kw">group_by</span>(region, section_type) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb22-4" data-line-number="4"><span class="st">    </span><span class="kw">summarise_at</span>(<span class="kw">vars</span>(pri_pvem<span class="op">:</span>total), sum) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb22-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(pri_pvem<span class="op">:</span>otros), <span class="dt">.funs =</span> <span class="op">~</span><span class="st"> </span><span class="dv">100</span> <span class="op">*</span><span class="st"> </span>.<span class="op">/</span>total) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb22-6" data-line-number="6"><span class="st">    </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb22-7" data-line-number="7"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">region =</span> <span class="kw">reorder</span>(region, pri_pvem)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb22-8" data-line-number="8"><span class="st">    </span><span class="kw">gather</span>(party, prop_votes, pri_pvem<span class="op">:</span>otros) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb22-9" data-line-number="9"><span class="st">    </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(section_type))</a>
+<a class="sourceLine" id="cb22-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb22-11" data-line-number="11"><span class="kw">ggplot</span>(election_region_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(party, prop_votes), </a>
+<a class="sourceLine" id="cb22-12" data-line-number="12">    <span class="dt">y =</span> prop_votes, <span class="dt">fill =</span> <span class="kw">reorder</span>(party, <span class="op">-</span>prop_votes))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb22-13" data-line-number="13"><span class="st">    </span><span class="kw">geom_col</span>(<span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb22-14" data-line-number="14"><span class="st">    </span><span class="kw">facet_grid</span>(region <span class="op">~</span><span class="st"> </span>section_type) <span class="op">+</span></a>
+<a class="sourceLine" id="cb22-15" data-line-number="15"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">hjust =</span> <span class="dv">1</span>)) </a></code></pre></div>
+<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-17-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>Los páneles pueden ser muy útiles para entender relaciones en nuestros datos. En
 la siguiente gráfica es difícil entender si existe una relación entre radiación
 solar y ozono.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">data</span>(airquality)</a>
-<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>() </a>
-<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="co">#&gt; Warning: Removed 42 rows containing missing values (geom_point).</span></a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-17-1.png" width="384" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">data</span>(airquality)</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>() </a>
+<a class="sourceLine" id="cb23-4" data-line-number="4"><span class="co">#&gt; Warning: Removed 42 rows containing missing values (geom_point).</span></a></code></pre></div>
+<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-18-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>Veamos que ocurre si realizamos páneles separando por velocidad del viento.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">library</span>(Hmisc)</a>
-<a class="sourceLine" id="cb22-2" data-line-number="2">airquality<span class="op">$</span>Wind.cat &lt;-<span class="st"> </span><span class="kw">cut2</span>(airquality<span class="op">$</span>Wind, <span class="dt">g =</span> <span class="dv">3</span>) </a>
-<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb22-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb22-5" data-line-number="5"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Wind.cat)</a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">library</span>(Hmisc)</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2">airquality<span class="op">$</span>Wind.cat &lt;-<span class="st"> </span><span class="kw">cut2</span>(airquality<span class="op">$</span>Wind, <span class="dt">g =</span> <span class="dv">3</span>) </a>
+<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb24-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb24-5" data-line-number="5"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Wind.cat)</a></code></pre></div>
+<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Podemos agregar un suavizador (loess) para ver mejor la relación de las
 variables en cada panel.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Wind.cat) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb23-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Wind.cat) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb25-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</a></code></pre></div>
+<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Como vimos en el caso de los resultados electorales por región, en ocasiones es
 necesario realizar transformaciones u obtener subconjuntos de los datos para
 poder responder preguntas de nuestro interés.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="kw">library</span>(babynames)</a>
-<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="kw">glimpse</span>(babynames)</a>
-<a class="sourceLine" id="cb24-4" data-line-number="4"><span class="co">#&gt; Observations: 1,924,665</span></a>
-<a class="sourceLine" id="cb24-5" data-line-number="5"><span class="co">#&gt; Variables: 5</span></a>
-<a class="sourceLine" id="cb24-6" data-line-number="6"><span class="co">#&gt; $ year &lt;dbl&gt; 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880,…</span></a>
-<a class="sourceLine" id="cb24-7" data-line-number="7"><span class="co">#&gt; $ sex  &lt;chr&gt; &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;,…</span></a>
-<a class="sourceLine" id="cb24-8" data-line-number="8"><span class="co">#&gt; $ name &lt;chr&gt; &quot;Mary&quot;, &quot;Anna&quot;, &quot;Emma&quot;, &quot;Elizabeth&quot;, &quot;Minnie&quot;, &quot;Margaret&quot;, …</span></a>
-<a class="sourceLine" id="cb24-9" data-line-number="9"><span class="co">#&gt; $ n    &lt;int&gt; 7065, 2604, 2003, 1939, 1746, 1578, 1472, 1414, 1320, 1288,…</span></a>
-<a class="sourceLine" id="cb24-10" data-line-number="10"><span class="co">#&gt; $ prop &lt;dbl&gt; 0.07238359, 0.02667896, 0.02052149, 0.01986579, 0.01788843,…</span></a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="kw">library</span>(babynames)</a>
+<a class="sourceLine" id="cb26-3" data-line-number="3"><span class="kw">glimpse</span>(babynames)</a>
+<a class="sourceLine" id="cb26-4" data-line-number="4"><span class="co">#&gt; Observations: 1,924,665</span></a>
+<a class="sourceLine" id="cb26-5" data-line-number="5"><span class="co">#&gt; Variables: 5</span></a>
+<a class="sourceLine" id="cb26-6" data-line-number="6"><span class="co">#&gt; $ year &lt;dbl&gt; 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880,…</span></a>
+<a class="sourceLine" id="cb26-7" data-line-number="7"><span class="co">#&gt; $ sex  &lt;chr&gt; &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;,…</span></a>
+<a class="sourceLine" id="cb26-8" data-line-number="8"><span class="co">#&gt; $ name &lt;chr&gt; &quot;Mary&quot;, &quot;Anna&quot;, &quot;Emma&quot;, &quot;Elizabeth&quot;, &quot;Minnie&quot;, &quot;Margaret&quot;, …</span></a>
+<a class="sourceLine" id="cb26-9" data-line-number="9"><span class="co">#&gt; $ n    &lt;int&gt; 7065, 2604, 2003, 1939, 1746, 1578, 1472, 1414, 1320, 1288,…</span></a>
+<a class="sourceLine" id="cb26-10" data-line-number="10"><span class="co">#&gt; $ prop &lt;dbl&gt; 0.07238359, 0.02667896, 0.02052149, 0.01986579, 0.01788843,…</span></a></code></pre></div>
 <p>Supongamos que queremos ver la tendencia del nombre “John”, para ello debemos
 generar un subconjunto de la base de datos. ¿Qué ocurre en la siguiente gráfica?</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">babynames_John &lt;-<span class="st"> </span><span class="kw">filter</span>(babynames, name <span class="op">==</span><span class="st"> &quot;Teresa&quot;</span>)</a>
-<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="kw">ggplot</span>(babynames_John, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> prop)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_line</span>()</a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-21-1.png" width="480" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">ggplot</span>(babynames_John, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> prop, <span class="dt">color =</span> sex)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_line</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">babynames_John &lt;-<span class="st"> </span><span class="kw">filter</span>(babynames, name <span class="op">==</span><span class="st"> &quot;John&quot;</span>)</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw">ggplot</span>(babynames_John, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> prop)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb27-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
 <p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-22-1.png" width="480" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw">ggplot</span>(babynames_John, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> prop, <span class="dt">color =</span> sex)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_line</span>()</a></code></pre></div>
+<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-23-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>La preparación de los datos es un aspecto muy importante del análisis y suele
 ser la fase que lleva más tiempo. Es por ello que el siguiente tema se enfocará
 en herramientas para hacer transformaciones de manera eficiente.</p>

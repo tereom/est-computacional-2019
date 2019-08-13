@@ -120,30 +120,10 @@ Para encuestas y ejercicios en clase.
 suscripción a [DataCamp](https://www.datacamp.com) (6 meses con acceso a todos
 los recursos de forma gratuita).
 
-### Noticias {-}
+<!--
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Great news that Brad Efron has won the 2019 Internalibrary(tidyv)tional Statistics Prize for the 1977 bootstrap idea - so simple and yet so powerful <a href="https://t.co/XKvsoWWqNX">https://t.co/XKvsoWWqNX</a> <a href="https://t.co/kUjy6jTSAS">pic.twitter.com/kUjy6jTSAS</a></p>&mdash; David Spiegelhalter (@d_spiegel) <a href="https://twitter.com/d_spiegel/status/1061968814043250688?ref_src=twsrc%5Etfw">November 12, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-Los dos premios más importantes en estadística se entregaron en 2019 a Hadley
-Whickham y a Bradley Efron en 2019, gran parte de nuestro curso se desarrolla 
-en torno a las contribuciones de estos dos estadísticos:
 
-* [Hadley Wickham](https://community.amstat.org/copss/awards/presidents) 
-cuyos paquetes, libros y artículos son los recursos esenciales para la primera
-parte del curso, ganó en 2019 el reconocido premio [COPSS](https://en.wikipedia.org/wiki/COPSS_Presidents%27_Award):
-    
-    *"Por la importancia de su trabajo en el computo estadístico, visualización, 
-    gráficas y análisis de datos; por desarrollar e implementar una extensa
-    ifraestructura computacional para el análisis de datos a través del 
-    *software* R; por hacer el pensamiento estadístico y el cómputo accesible
-    a una gran audiencia; y por realzar el importante papel de la estadística
-    entre los científicos de datos." (2019 Presidents' Award)*
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">So honoured and excited to receive the COPSS award for contributions to statistics through computing, visualisation, and data science ☺️ <a href="https://t.co/UiX6IlKGlt">https://t.co/UiX6IlKGlt</a></p>&mdash; Hadley Wickham (@hadleywickham) <a href="https://twitter.com/hadleywickham/status/1156693702372462592?ref_src=twsrc%5Etfw">July 31, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-* [Bradley Efron](https://statprize.org/index.cfm) creador del bootsrtap, que
-estudiaremos como segunda sección del curso, fue seleccionado en 2018 para
-recibir el *premio internacional en estadística* como reconocimiento al
-*bootstrap*, un método que desarrolló en 1977 para calcular incertidumbre en
-resultados científicos y que ha tenido un impacto extraordinario en muchos
-ámbitos.
-    
-    *"A pesar de que la estadística no ofrece una píldora mágica para la 
-    investigación científica cuantitativa, el bootstrap es el mejor analgésico
-    jamás producido " (Xiao-Li Meng, proff. at Harvard University.)*
+-->
