@@ -86,13 +86,26 @@ independientemente del método de visualización.
 
 ### Visualización de datos en la estadística {-}
 
-La estadística tradicionalmente se divide en dos partes: una parte de naturaleza 
-exploratoria, donde jugamos el papel de detectives en búsqueda de los elementos 
-de evidencia importante, y una parte de naturaleza inferencial, donde nos 
-convertimos en jueces donde le damos pesos de credibilidad a la evidencia que 
-presenta el detective. Estas dos partes tienen interacción fuerte en la 
-práctica, pero por razones históricas se considera “superior” a la parte 
-inferencial por encima de la exploratoria.
+El estándar científico para contestar preguntas o tomar decisiones es uno que se 
+basa en el análisis de datos: para contestar preguntas o tomar decisiones es 
+necesario, en primer lugar, reunir todos los datos disponibles que puedan 
+contener o sugerir alguna guía para entender mejor la pregunta o la decisión a 
+la que nos enfrentamos. Esta recopilación de datos -que pueden ser cualitativos, 
+cuantitativos, o una mezcla de los dos, debe entonces ser analizada para extraer 
+información relevante para nuestro problema.
+
+En análisis de datos existen dos distintos tipos de trabajo:
+
+<div class="caja">
+* El trabajo exploratorio o de detective: ¿cuáles son los aspectos importantes 
+de estos datos? ¿qué indicaciones generales muestran los datos? ¿qué tareas de 
+análisis debemos empezar haciendo? ¿cuáles son los caminos generales para 
+formular con precisión y contestar algunas preguntas que nos interesen?
+
+* El trabajo inferencial, confirmatorio, o de juez: ¿cómo evaluar el peso de la 
+evidencia de los descubrimientos del paso anterior? ¿qué tan bien soportadas 
+están las respuestas y conclusiones por nuestro conjunto de datos?
+</div>
 
 Aunque en el proceso de inferencia las gráficas cada vez son más importantes, la 
 visualización entra más claramente dentro del análisis exploratorio de datos. Y
@@ -122,11 +135,23 @@ cultivaron diez variedades de cebada en seis sitios de Minnesota, en $1921$ y
 $1932$. Este es uno de los primeros ejemplos en el que se aplicaron las ideas de 
 Fisher en cuanto a diseño de experimentos.
 
-Estos datos fueron reanalizados desde esa época por muchos agrónomos. Hasta muy 
-recientemente se detectó la anomalía en el comportamiento de los años en el 
-sitio Morris, el cual es evidente en la gráfica. Investigación posterior ha 
-mostrado convincentemente que en algún momento alguien volteó las etiquetas de 
-los años en este sitio.
+En primer lugar, observamos:
+
+* Los niveles generales de rendimiento varían mucho dependiendo del sitio: hay 
+mejores y peores sitios.  
+* Los rendimientos son típicamente más altos en 1931 que en 1932. Sin embargo, 
+Morris es anómalo en cuanto a que el patrón no es consistente con el resto de 
+los sitios.
+* Hay variación considerable de las variedades dentro de cada sitio. ¿Existe 
+alguna variedad que sea mejor que otras?
+* Notamos claramente la anomalía en las diferencias: en el sitio Morris, el año 
+1932 fue mejor que el de 1931.
+
+Estos datos fueron reanalizados desde la época en la que se recolectaron por 
+muchos agrónomos. Hasta muy recientemente se detectó la anomalía en el 
+comportamiento de los años en el sitio Morris, el cual es evidente en la 
+gráfica. Investigación posterior ha mostrado que es muy plausible que en algún 
+momento alguien volteó las etiquetas de los años en este sitio.
 
 Este ejemplo muestra, en primer lugar, que la visualización es crucial en el 
 proceso de análisis de datos: sin ella estamos expuestos a no encontrar aspectos 
@@ -222,6 +247,7 @@ fáciles para el ojo humano que otras [@cleveland94].
 El **factor de engaño** es el cociente entre el efecto mostrado en una gráfica y 
 el efecto correspondiente en los datos. Idealmente, el factor de engaño debe ser 
 1 (ninguna distorsión).  
+
 El **chartjunk** son aquellos elementos gráficos que no corresponden a variación 
 de datos, o que entorpecen la interpretación de una gráfica.  
 Estos son los indicadores de calidad más fáciles de entender y aplicar, y 
@@ -243,7 +269,7 @@ agregar las etiquetas como se muestra en la serie de la derecha, pero entonces:
 interpretación?
 
 La deficiencias en el pie se pueden ver claramente al intentar graficar más 
-categorías (13) . En el primer pie no podemos distinguir realmente cuáles son 
+categorías (13). En el primer pie no podemos distinguir realmente cuáles son 
 las categorías grandes y cuáles las chicas, y es muy difícil tener una imagen 
 mental clara de estos datos. Agregar los porcentajes ayuda, pero entonces, otra 
 vez, preguntamos cuál es el propósito del pie. La tabla de la izquierda hace 
@@ -252,19 +278,18 @@ chica). Es posible hacer una gráfica de barras como la de abajo a la izquierda.
 
 <div style="clear:both"></div>
 
-<div style= "float:left;top: -0px;width:300px">
+<div style= "float:left;top: -0px;width:350px">
 ![](img/barras_pie.jpg)
 </div>
 
+*** 
 
----
-
-Hay otros tipos de **chartjunk** comunes: uno es la textura de barras, por ejemplo. 
-El efecto es la producción de un efecto moiré que es desagradable y quita la 
-atención de los datos, como en la gráfica de barras de abajo. Otro común son las 
-rejillas, como mostramos en las gráficas de la izquierda. Nótese como en estos 
-casos hay efectos ópticos no planeados que degradan la percepción de los 
-patrones en los datos.
+Hay otros tipos de **chartjunk** comunes: uno es la textura de barras, por 
+ejemplo. El efecto es la producción de un efecto moiré que es desagradable y 
+quita la atención de los datos, como en la gráfica de barras de abajo. Otro 
+común son las rejillas, como mostramos en las gráficas de la izquierda. Nótese
+como en estos casos hay efectos ópticos no planeados que degradan la percepción 
+de los patrones en los datos.
 
 ![](img/barras_moire.jpg)
 
@@ -296,38 +321,15 @@ es tinta de datos. Otra vez, mayor proporción de tinta de datos representa más
 oportunidades que se pueden capitalizar, como muestra la gráfica de punto y 
 líneas que mostramos al principio (rendimiento en campos de cebada).
 
-## Más pequeños múltiplos
+#### Más pequeños múltiplos {-}
 
 Los pequeños múltiplos presentan oportunidades para mostrar más acerca
 de nuestro problema de interés. Consideramos por ejemplo la relación
-de radiación solar y niveles de ozono:
-
-
-```r
-ggplot(airquality, aes(x=Solar.R, y=Ozone)) + geom_point() +
-    geom_smooth(method = "loess", span = 1)
-```
-
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-5-1.png" width="480" style="display: block; margin: auto;" />
-
-En el ejempo anterior incluyendo
+de radiación solar y niveles de ozono. Podemos ver que si incluimos
 una variable adicional (velocidad del viento) podemos entender más
 acerca de la relación de radiación solar y niveles de ozono:
 
-
-```r
-airquality$Wind_cat <- cut(airquality$Wind, 
-            breaks = quantile(airquality$Wind, c(0, 1/3, 2/3, 1)),
-            include.lowest = TRUE)
-ggplot(airquality, aes(x=Solar.R, y=Ozone)) + geom_point() +
-    facet_wrap(~Wind_cat) + 
-    geom_smooth(method = "loess", span = 0.8, se = FALSE,
-                method.args = list(degree = 1, family="symmetric"))
-```
-
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-6-1.png" width="400px" style="display: block; margin: auto;" />
-
-
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" />
 
 
 ## Tinta de datos
@@ -363,8 +365,8 @@ tabla, y facilita la lectura:
 
 Para un ejemplo del proceso de rediseño de una tabla, ver [aquí](https://www.darkhorseanalytics.com/blog/clear-off-the-table).
 
-Finalmente, podemos ver un ejemplo que intenta incorporar
-los elementos del diseño analítico, incluyendo pequeños múltiplos:
+Finalmente, podemos ver un ejemplo que intenta incorporar los elementos del 
+diseño analítico, incluyendo pequeños múltiplos:
 
 ![](img/ejemplo_enigh.png)
 
@@ -387,11 +389,11 @@ una gráfica de pie.
 
 ![](img/cleveland_tasks.png)
 
-Los resultados de Cleveland y McGill fueron replicados por Heer y Bostock en
-2010 y los resultados se muestran en las gráficas de la derecha:
+Los resultados de Cleveland y McGill fueron replicados por [Heer y Bostock en
+2010](http://www.cs.kent.edu/~javed/class-P2P12F/papers-2012/PAPER2012-2010-MTurk-CHI.pdf) y los resultados se muestran en las gráficas de la abajo:
 
 <div style= "float:left;top:-10px;width:400px">
-![](img/heer-bostock_results.png)
+![Imagen de Heer y Bostock, 2010](img/heer-bostock_results.png)
 </div>
 
 <div style="clear:both"></div>
@@ -427,11 +429,10 @@ teoría de análisis de datos y creación de **infografías** con un fundamento
 estadístico.
 
 Se grafican 6 variables: el número de tropas de Napoleón, la distancia, la 
-temperatura, la latitud y la longitud, la dirección en que viajaban las tropas
-y la localización relativa a fechas específicas.
+temperatura, la ubicación (latitud y longitud), la dirección en que viajaban las 
+tropas y la localización relativa a fechas específicas.
 
-La 
-gráfica de Minard, como la describe E.J. Marey, parece "desafiar la pluma del 
+La gráfica de Minard, como la describe E.J. Marey, parece "desafiar la pluma del 
 historiador con su brutal elocuencia", la combinación de datos del mapa, y la 
 serie de tiempo, dibujados en 1869, "retratan una secuencia de pérdidas 
 devastadoras que sufrieron las tropas de Napoleón en 1812". Comienza en la 
@@ -575,7 +576,7 @@ print(read_csv)
 #>         comment = comment, n_max = n_max, guess_max = guess_max, 
 #>         progress = progress)
 #> }
-#> <bytecode: 0x9cb2cc0>
+#> <bytecode: 0x947c128>
 #> <environment: namespace:readr>
 
 library(readr)
@@ -593,7 +594,7 @@ print(read_csv)
 #>         comment = comment, n_max = n_max, guess_max = guess_max, 
 #>         progress = progress)
 #> }
-#> <bytecode: 0x9cb2cc0>
+#> <bytecode: 0x947c128>
 #> <environment: namespace:readr>
 ```
 
@@ -715,7 +716,7 @@ La función `geom_point()` añade una capa de puntos, hay muchas funciones
 *geometrías* incluídas en `ggplot2`: `geom_line()`, `geom_boxplot()`, 
 `geom_histogram`,... Cada una acepta distintos argumentos para mapear las 
 variables en los datos a características estéticas de la gráfica. En el ejemplo 
-de arriba mapeamos `displ` al eje x, `hwy` al eje y, pero `geom_point()` nos 
+de arriba mapeamos `displ` al eje x, `prd_pt_mc` al eje y, pero `geom_point()` nos 
 permite representar más variables usando la forma, color y/o tamaño del punto. 
 Esta flexibilidad nos permite entender o descubrir patrones más interesantes en 
 los datos.
@@ -794,7 +795,7 @@ ggplot(election_sub_2012, aes(x = reorder(state_abbr, prd_pt_mc),
     geom_point(size = 0.8)
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-12-1.png" width="576" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-11-1.png" width="576" style="display: block; margin: auto;" />
 
 Podemos probar otros geoms.
 
@@ -826,7 +827,7 @@ ggplot(election_sub_2012, aes(x = reorder(state_abbr, prd_pt_mc),
     geom_boxplot()
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-13-1.png" width="576" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-12-1.png" width="576" style="display: block; margin: auto;" />
 
 Y mejorar presentación:
 
@@ -841,11 +842,11 @@ ggplot(election_sub_2012, aes(x = reorder(state_abbr, prd_pt_mc),
         subtitle = "PRD-PT-MC", x = "estado", y = "total de votos")
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-14-1.png" width="576" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-13-1.png" width="576" style="display: block; margin: auto;" />
 
 
 ![](img/manicule2.jpg) Lee la ayuda de _reorder_ y repite las gráficas 
-anteriores ordenando por la mediana de _hwy_.
+anteriores ordenando por la mediana de _prd_pt_mc_.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ¿Cómo harías
 para graficar los puntos encima de las cajas de boxplot?
@@ -867,7 +868,7 @@ ggplot(election_sub_2012, aes(x = reorder(state_abbr, pri_pvem_pct, median),
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-15-1.png" width="624" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-14-1.png" width="624" style="display: block; margin: auto;" />
 
 Podemos eliminar los NA.
 
@@ -880,7 +881,7 @@ ggplot(filter(election_sub_2012, !is.na(section_type)),
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-16-1.png" width="768" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-15-1.png" width="768" style="display: block; margin: auto;" />
 
 También podemos hacer una cuadrícula de $2$ dimensiones usando 
 _facet\_grid(filas~columnas)_ 
@@ -904,7 +905,7 @@ ggplot(election_region_2012, aes(x = reorder(party, prop_votes),
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-17-1.png" width="480" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-16-1.png" width="480" style="display: block; margin: auto;" />
 
 Los páneles pueden ser muy útiles para entender relaciones en nuestros datos. En 
 la siguiente gráfica es difícil entender si existe una relación entre radiación
@@ -918,7 +919,7 @@ ggplot(airquality, aes(x = Solar.R, y = Ozone)) +
 #> Warning: Removed 42 rows containing missing values (geom_point).
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-18-1.png" width="384" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-17-1.png" width="384" style="display: block; margin: auto;" />
 
 Veamos que ocurre si realizamos páneles separando por velocidad del viento.
 
@@ -931,7 +932,7 @@ ggplot(airquality, aes(x = Solar.R, y = Ozone)) +
   facet_wrap(~ Wind.cat)
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" />
 
 Podemos agregar un suavizador (loess) para ver mejor la relación de las 
 variables en cada panel.
@@ -944,7 +945,7 @@ ggplot(airquality, aes(x = Solar.R, y = Ozone)) +
   geom_smooth(method = "lm")
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" />
 
 Como vimos en el caso de los resultados electorales por región, en ocasiones es 
 necesario realizar transformaciones u obtener subconjuntos de los datos para 
@@ -969,12 +970,12 @@ generar un subconjunto de la base de datos. ¿Qué ocurre en la siguiente gráfi
 
 
 ```r
-babynames_John <- filter(babynames, name == "John")
+babynames_John <- filter(babynames, name == "Teresa")
 ggplot(babynames_John, aes(x = year, y = prop)) +
-  geom_point()
+  geom_line()
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-22-1.png" width="480" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-21-1.png" width="480" style="display: block; margin: auto;" />
 
 
 ```r
@@ -982,7 +983,7 @@ ggplot(babynames_John, aes(x = year, y = prop, color = sex)) +
   geom_line()
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-23-1.png" width="480" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-22-1.png" width="480" style="display: block; margin: auto;" />
 
 La preparación de los datos es un aspecto muy importante del análisis y suele 
 ser la fase que lleva más tiempo. Es por ello que el siguiente tema se enfocará 
