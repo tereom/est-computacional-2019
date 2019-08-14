@@ -122,7 +122,7 @@ los recursos de forma gratuita).
 ### Noticias {-}
 
 Los dos premios más importantes en estadística se entregaron en 2019 a Hadley
-Whickham y a Bradley Efron en 2019, gran parte de nuestro curso se desarrolla 
+Whickham y a Bradley Efron, gran parte de nuestro curso se desarrolla 
 en torno a las contribuciones de estos dos estadísticos:
 
 * [Hadley Wickham](https://community.amstat.org/copss/awards/presidents) 

@@ -346,7 +346,7 @@ siguiente diagrama ejemplifiaca el paradigma de divide-aplica-combina:
 * **Aplica** funciones a cada subconjunto.  
 * **Combina** los resultados en una nueva base de datos.
 
-![](imagenes/split-apply-combine.png) 
+![](img/split-apply-combine.png) 
 
 Ahora, cuando pensamos como implementar la estrategia divide-aplica-combina es 
 natural pensar en iteraciones, por ejemplo utilizar un ciclo `for` para recorrer cada grupo de interés y aplicar las funciones resumen, sin embargo la aplicación
@@ -997,7 +997,9 @@ nombres de los archivos en un directorio, eligiendo aquellos que contengan las
 letras ".csv".
 
 ```{r, message=FALSE}
-paths <- dir("data/19RAMA", pattern = "\\.xls$", full.names = TRUE) 
+library(here)
+dir_rama <- here("data", "19RAMA")
+paths <- dir(dir_rama, pattern = "\\.xls$", full.names = TRUE) 
 paths
 ```
 
