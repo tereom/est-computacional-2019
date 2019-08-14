@@ -997,7 +997,9 @@ nombres de los archivos en un directorio, eligiendo aquellos que contengan las
 letras ".csv".
 
 ```{r, message=FALSE}
-paths <- dir("data/19RAMA", pattern = "\\.xls$", full.names = TRUE) 
+library(here)
+dir_rama <- here("data", "19RAMA")
+paths <- dir(dir_rama, pattern = "\\.xls$", full.names = TRUE) 
 paths
 ```
 
