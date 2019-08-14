@@ -373,6 +373,8 @@ es tinta de datos. Otra vez, mayor proporción de tinta de datos representa más
 oportunidades que se pueden capitalizar, como muestra la gráfica de punto y 
 líneas que mostramos al principio (rendimiento en campos de cebada).
 
+<div style="clear:both"></div>
+
 #### Más pequeños múltiplos {-}
 
 Los pequeños múltiplos presentan oportunidades para mostrar más acerca
@@ -381,19 +383,20 @@ de radiación solar y niveles de ozono. Podemos ver que si incluimos
 una variable adicional (velocidad del viento) podemos entender más
 acerca de la relación de radiación solar y niveles de ozono:
 
-```{r, message=FALSE, warning = FALSE, echo = FALSE, fig.show="hold", fig.align="center"}
+```{r, message=FALSE, warning = FALSE, echo = FALSE, fig.show="hold", fig.align="center", fig.width=6, fig.height=2.5}
 air_plot <- ggplot(airquality, aes(x=Solar.R, y=Ozone)) + geom_point() +
     geom_smooth(method = "loess", span = 1) +
     coord_fixed(2)
 airquality$Wind_cat <- cut(airquality$Wind, 
             breaks = quantile(airquality$Wind, c(0, 1/3, 2/3, 1)),
             include.lowest = TRUE)
-air_plot_facet <- ggplot(airquality, aes(x=Solar.R, y=Ozone)) + geom_point() +
+air_plot_facet <- ggplot(airquality, aes(x=Solar.R, y=Ozone)) + 
+    geom_point(size = 0.8) +
     facet_wrap(~Wind_cat) + 
     geom_smooth(method = "loess", span = 0.8, se = FALSE,
         method.args = list(degree = 1, family="symmetric")) +
     coord_fixed(2)
-gridExtra::grid.arrange(air_plot, air_plot_facet, nrow = 1)
+gridExtra::grid.arrange(air_plot, air_plot_facet, nrow = 1, widths = c(0.4, 0.6))
 ```
 
 
@@ -733,10 +736,10 @@ tamaño (size) y forma (shape).
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ¿Qué ocurre cuando combinas varios _aesthetics_?
 
 El mapeo de las propiedades estéticas se denomina escalamiento y depende del 
-tipo de variable, las variables discretas (por ejemplo, genero, escolaridad, 
-país) se mapean a distintas escalas que las variables continuas (variables 
-numéricas como edad, estatura, etc.), los *defaults* para algunos atributos son
-(los escalamientos se pueden modificar):
+tipo de variable, las variables discretas (por ejemplo, tipo de casilla, región, 
+estado) se mapean a distintas escalas que las variables continuas (variables 
+numéricas como voto por un partido, lista nominal, etc.), los *defaults* de 
+escalamiento para algunos atributos son (los escalamientos se pueden modificar):
 
 
 aes       |Discreta      |Continua  
@@ -832,7 +835,7 @@ ggplot(election_sub_2012, aes(x = reorder(state_abbr, pri_pvem_pct, median),
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-Podemos eliminar los NA.
+Podemos eliminar los NA. Veremos la función `filter()` en la próxima sesión.
 
 ```{r, fig.width = 8, fig.height = 3.5}
 ggplot(filter(election_sub_2012, !is.na(section_type)), 
@@ -843,7 +846,7 @@ ggplot(filter(election_sub_2012, !is.na(section_type)),
 ```
 
 También podemos hacer una cuadrícula de $2$ dimensiones usando 
-_facet\_grid(filas~columnas)_ 
+`facet\_grid(filas~columnas)`
 
 ```{r, fig.width = 5, fig.height = 8}
 # Veremos como manipular datos en las próximas clases

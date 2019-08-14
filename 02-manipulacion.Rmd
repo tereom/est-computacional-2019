@@ -346,7 +346,7 @@ siguiente diagrama ejemplifiaca el paradigma de divide-aplica-combina:
 * **Aplica** funciones a cada subconjunto.  
 * **Combina** los resultados en una nueva base de datos.
 
-![](imagenes/split-apply-combine.png) 
+![](img/split-apply-combine.png) 
 
 Ahora, cuando pensamos como implementar la estrategia divide-aplica-combina es 
 natural pensar en iteraciones, por ejemplo utilizar un ciclo `for` para recorrer cada grupo de interés y aplicar las funciones resumen, sin embargo la aplicación
