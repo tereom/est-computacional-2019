@@ -321,6 +321,8 @@ es tinta de datos. Otra vez, mayor proporción de tinta de datos representa más
 oportunidades que se pueden capitalizar, como muestra la gráfica de punto y 
 líneas que mostramos al principio (rendimiento en campos de cebada).
 
+<div style="clear:both"></div>
+
 #### Más pequeños múltiplos {-}
 
 Los pequeños múltiplos presentan oportunidades para mostrar más acerca
@@ -329,7 +331,7 @@ de radiación solar y niveles de ozono. Podemos ver que si incluimos
 una variable adicional (velocidad del viento) podemos entender más
 acerca de la relación de radiación solar y niveles de ozono:
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" />
 
 
 ## Tinta de datos
@@ -576,7 +578,7 @@ print(read_csv)
 #>         comment = comment, n_max = n_max, guess_max = guess_max, 
 #>         progress = progress)
 #> }
-#> <bytecode: 0x93e8c18>
+#> <bytecode: 0xa769dc0>
 #> <environment: namespace:readr>
 
 library(readr)
@@ -594,7 +596,7 @@ print(read_csv)
 #>         comment = comment, n_max = n_max, guess_max = guess_max, 
 #>         progress = progress)
 #> }
-#> <bytecode: 0x93e8c18>
+#> <bytecode: 0xa769dc0>
 #> <environment: namespace:readr>
 ```
 
@@ -737,10 +739,10 @@ tamaño (size) y forma (shape).
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ¿Qué ocurre cuando combinas varios _aesthetics_?
 
 El mapeo de las propiedades estéticas se denomina escalamiento y depende del 
-tipo de variable, las variables discretas (por ejemplo, genero, escolaridad, 
-país) se mapean a distintas escalas que las variables continuas (variables 
-numéricas como edad, estatura, etc.), los *defaults* para algunos atributos son
-(los escalamientos se pueden modificar):
+tipo de variable, las variables discretas (por ejemplo, tipo de casilla, región, 
+estado) se mapean a distintas escalas que las variables continuas (variables 
+numéricas como voto por un partido, lista nominal, etc.), los *defaults* de 
+escalamiento para algunos atributos son (los escalamientos se pueden modificar):
 
 
 aes       |Discreta      |Continua  
@@ -870,7 +872,7 @@ ggplot(election_sub_2012, aes(x = reorder(state_abbr, pri_pvem_pct, median),
 
 <img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-14-1.png" width="624" style="display: block; margin: auto;" />
 
-Podemos eliminar los NA.
+Podemos eliminar los NA. Veremos la función `filter()` en la próxima sesión.
 
 
 ```r
@@ -884,7 +886,7 @@ ggplot(filter(election_sub_2012, !is.na(section_type)),
 <img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-15-1.png" width="768" style="display: block; margin: auto;" />
 
 También podemos hacer una cuadrícula de $2$ dimensiones usando 
-_facet\_grid(filas~columnas)_ 
+`facet\_grid(filas~columnas)`
 
 
 ```r

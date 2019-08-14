@@ -13,12 +13,12 @@ es muy conveniente para este propósito).
 
 #### 1. Instala los siguientes paquetes (o colecciones): {-}
 
-    + tidyverse de CRAN (`install.packages("tidyverse")`)
-    + devtools de CRAN (`install.packages("devtools")`)
-    + gapminder de CRAN (`install.packages("gapminder")`)
-    + estcomp de GitHUB (debes haber instalado devtools y correr
-    `devtools::install_github("tereom/estcomp")`))
-    + mxmaps **instalarlo es opcional** de [GitHub](https://github.com/diegovalle/mxmaps#installation)
+* tidyverse de CRAN (`install.packages("tidyverse")`)
+* devtools de CRAN (`install.packages("devtools")`)
+* gapminder de CRAN (`install.packages("gapminder")`)
+* estcomp de GitHUB (debes haber instalado devtools y correr 
+devtools::install_github("tereom/estcomp")`))
+* mxmaps **instalarlo es opcional** de [GitHub](https://github.com/diegovalle/mxmaps#installation)
 
 
 #### 2. Visualización {-}

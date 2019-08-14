@@ -276,10 +276,10 @@ tamaño (size) y forma (shape).</p>
 <p>            ¿Qué diferencia hay entre las variables categóricas y las continuas?</p>
 <p>            ¿Qué ocurre cuando combinas varios <em>aesthetics</em>?</p>
 <p>El mapeo de las propiedades estéticas se denomina escalamiento y depende del
-tipo de variable, las variables discretas (por ejemplo, genero, escolaridad,
-país) se mapean a distintas escalas que las variables continuas (variables
-numéricas como edad, estatura, etc.), los <em>defaults</em> para algunos atributos son
-(los escalamientos se pueden modificar):</p>
+tipo de variable, las variables discretas (por ejemplo, tipo de casilla, región,
+estado) se mapean a distintas escalas que las variables continuas (variables
+numéricas como voto por un partido, lista nominal, etc.), los <em>defaults</em> de
+escalamiento para algunos atributos son (los escalamientos se pueden modificar):</p>
 <table>
 <colgroup>
 <col width="30%" />
@@ -378,7 +378,7 @@ de acuerdo a las categorías de una sola variable</p>
 <a class="sourceLine" id="cb18-4" data-line-number="4"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>section_type) <span class="op">+</span></a>
 <a class="sourceLine" id="cb18-5" data-line-number="5"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</a></code></pre></div>
 <p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-14-1.png" width="624" style="display: block; margin: auto;" /></p>
-<p>Podemos eliminar los NA.</p>
+<p>Podemos eliminar los NA. Veremos la función <code>filter()</code> en la próxima sesión.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">filter</span>(election_sub_<span class="dv">2012</span>, <span class="op">!</span><span class="kw">is.na</span>(section_type)), </a>
 <a class="sourceLine" id="cb19-2" data-line-number="2">    <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(state_abbr, pri_pvem_pct, median), <span class="dt">y =</span> pri_pvem_pct)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb19-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
@@ -386,7 +386,7 @@ de acuerdo a las categorías de una sola variable</p>
 <a class="sourceLine" id="cb19-5" data-line-number="5"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</a></code></pre></div>
 <p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-15-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>También podemos hacer una cuadrícula de <span class="math inline">\(2\)</span> dimensiones usando
-<em>facet_grid(filas~columnas)</em></p>
+<code>facet\_grid(filas~columnas)</code></p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="co"># Veremos como manipular datos en las próximas clases</span></a>
 <a class="sourceLine" id="cb20-2" data-line-number="2">election_region_<span class="dv">2012</span> &lt;-<span class="st"> </span>election_<span class="dv">2012</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb20-3" data-line-number="3"><span class="st">    </span><span class="kw">group_by</span>(region, section_type) <span class="op">%&gt;%</span><span class="st"> </span></a>
