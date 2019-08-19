@@ -19,7 +19,10 @@ trabajar.
 
 ## Transformación de datos
 
-Estudiaremos las siguientes funciones:
+Es sorprendente que una gran variedad de necesidades de transformación de datos
+se pueden resolver con pocas funciones, en esta sección veremos 5 *verbos* que 
+fueron diseñados para la tarea de transformación de datos y que comparten una 
+filosofía en cuanto a su estructura. Estudiaremos las siguientes funciones:
 
 * **filter**: obten un subconjunto de las filas de acuerdo a un criterio.
 * **select**: selecciona columnas de acuerdo al nombre
@@ -29,11 +32,12 @@ Estudiaremos las siguientes funciones:
 resúmenes de variables de la base original)
 
 Estas funciones trabajan de manera similar, el primer argumento que reciben 
-es un _data frame_, los argumentos que siguen indican que operación se va a efectuar y el resultado es un nuevo _data frame_.
+es un `data.frame`, los argumentos que siguen indican que operación se va a 
+efectuar y el resultado es un nuevo `data.frame`.
 
-Adicionalmente, se pueden usar con **group_by** que cambia el dominio de cada 
-función, pasando de operar en el conjunto de datos completos a operar en 
-grupos, esto lo veremos más adelante.
+Adicionalmente, se pueden usar con `group_by()` que veremos más adelante y que 
+cambia el dominio de cada función, pasando de operar en el conjunto de datos
+completos a operar en grupos.
 
 
 ### Datos {-}
@@ -157,8 +161,6 @@ derecho, la parte sombreada muestra las regiones que selecciona el operador:
 knitr::include_graphics("img/transform-logical.png")
 ```
 
-![](img/manicule2.jpg) Asigna distintos valores a `a` y `b` y experimenta con
-las operaciones booleanas (`a <- TRUE; b <- FALSE`).
 
 #### Observación: faltantes `NA` {-}
 
@@ -253,7 +255,7 @@ select(df_ej, contains("g"))
 ```
 
 ![](img/manicule2.jpg) Ve la ayuda de select (`?select`) y escribe tres
-maneras de seleccionar las variables del estado.
+maneras de seleccionar las variables del estado en los datos `df_mxmunicipio`.
 
 ```{r, eval=FALSE, echo=FALSE}
 select(df_mxmunicipio, contains("state"))
@@ -320,7 +322,25 @@ mutate(df_mxmunicipio, female_male_quotient = pop_female / pop_male,
     female_male_pct = 100 * female_male_quotient)
 ```
 
-Hay muchas funciones que podemos usar para crear nuevas variables con `mutate()`, éstas deben cumplir ser funciones vectorizadas, es decir, reciben un vector de valores y devuelven un vector de la misma dimensión.
+Hay muchas funciones que podemos usar para crear nuevas variables con `mutate()`, éstas deben cumplir ser funciones vectorizadas, es decir, reciben un vector de valores y devuelven un vector de la misma dimensión, por ejemplo
+multiplicar columnas o por un escalar.
+
+![](img/manicule2.jpg) ¿Cuáles de las siguientes funciones son adecuadas para
+`mutate()`? Notar que hay escenarios en los que nos puede interesar usar funciones no vectorizadas con `mutate()` pero vale la pena entender que es lo
+que regresan.  
+    * mean, pmin, max, `*`, `^`, quantile
+
+
+```{r}
+df_ej_2 <- add_column(df_ej, peso_actual = c(60, 80, 70, 50, 65), 
+    peso_anterior = c(66, 78, 73, 54, 61))
+
+mutate(df_ej_2, peso_medio = mean(c(peso_actual, peso_anterior)))
+mutate(df_ej_2, peso_menor = pmin(peso_actual, peso_anterior))
+mutate(df_ej_2, peso_mayor = max(peso_actual, peso_anterior))
+mutate(df_ej_2, estatura_sq = estatura ^ 2)
+```
+
 
 ### Summarise y resúmenes por grupo  {-}
 
@@ -328,6 +348,14 @@ Summarise sirve para crear nuevas bases de datos con resúmenes o agregaciones d
 
 ```{r}
 summarise(df_ej, promedio = mean(estatura))
+```
+
+![](img/manicule2.jpg) Calcula la población total, indígena y afromexicana a 
+total.
+
+```{r}
+summarise(df_mxmunicipio, indigeonous = sum(indigenous), 
+    afromexican = sum(afromexican))
 ```
 
 La mayor utlidad de `summarise` es cuando la combinamos con una variable de 
@@ -346,7 +374,9 @@ siguiente diagrama ejemplifiaca el paradigma de divide-aplica-combina:
 * **Aplica** funciones a cada subconjunto.  
 * **Combina** los resultados en una nueva base de datos.
 
-![](img/split-apply-combine.png) 
+```{r, out.width = "500px",echo = FALSE, fig.cap= "Imagen de [Software Carpentry](https://swcarpentry.github.io/r-novice-gapminder/fig/12-plyr-fig1.png) con licencia [CC-BY 4.0](https://swcarpentry.github.io/r-novice-gapminder/LICENSE.html)."}
+knitr::include_graphics("img/split-apply-combine.png")
+```
 
 Ahora, cuando pensamos como implementar la estrategia divide-aplica-combina es 
 natural pensar en iteraciones, por ejemplo utilizar un ciclo `for` para recorrer cada grupo de interés y aplicar las funciones resumen, sin embargo la aplicación
@@ -376,7 +406,7 @@ summarise(by_state, pop = sum(pop), indigenous = sum(indigenous),
     afromexican = sum(afromexican))
 ```
 
-![](img/manicule2.jpg) Calcula la población total, indígena y afromexicana
+![](img/manicule2.jpg) Calcula la población indígena y afromexicana
 por estado.
 
 ```{r, eval = FALSE, echo = FALSE}
@@ -386,7 +416,7 @@ summarise(by_state, pop = sum(pop), indigenous = sum(indigenous),
 ```
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ¿Qué otros 
-resúmenes puedes hacer para explorar?
+resúmenes puedes hacer para explorar los datos?
 
 * Algunas funciones útiles con _summarise_ son min(x), median(x), max(x), 
 quantile(x, p), n(), sum(x), sum(x > 1), mean(x > 1), sd(x).
@@ -399,12 +429,14 @@ by_metro_area <- group_by(df_mxmunicipio, metro_area)
 no_miss <- filter(by_metro_area, !is.na(metro_area))
 pop_metro_area <- summarise(no_miss, state = first(state_abbr), 
     n_municipios = n(), pop_total = sum(pop))
+head(pop_metro_area)
 ```
 
 
 #### Operador pipeline {-}
 
-En R cuando uno hace varias operaciones es difícil leer y entender el código: 
+En R, cuando uno hace varias operaciones es difícil leer y entender el 
+código: 
 
 ```{r}
 library(estcomp)
@@ -415,14 +447,23 @@ summarise(group_by(filter(election_2012, !is.na(section_type)), region,
 ```
 
 La dificultad radica en que usualmente los parámetros se asignan después del 
-nombre de la función usando (). El operador *Forward Pipe* (`%>%) cambia este 
-orden, de manera que un parámetro que precede a la función es enviado ("piped") 
-a la función: `x %>% f(y)` se vuelve `f(x,y)`,  `x %>% f(y) %>% g(z)` se vuelve 
-`g(f(x, y), z)`. Es así que podemos reescribir el código para poder leer las 
-operaciones que vamos aplicando de izquierda a derecha 
-y de arriba hacia abajo.
+nombre de la función usando (). 
 
-Veamos como cambia el código anterior:
+Una alternativa es ir almacenando las salidas en tablas de datos intermedias
+pero esto resulta poco práctico porque: 1) almacenamos en el mismo objeto 
+sobreescribiendo ó 2) terminamos con muchos objetos con nombres poco
+significativos.
+
+El operador *Forward Pipe* (`%>%) cambia el orden en que se asignan los 
+parámetros, de manera que un parámetro que precede a la función es enviado
+("piped")  a la función:
+* `x %>% f(y)` se vuelve `f(x, y)`,  
+* `x %>% f(y) %>% g(z)` se vuelve `g(f(x, y), z)`. 
+
+Es así que podemos reescribir el código para poder leer las 
+operaciones que vamos aplicando de izquierda a derecha y de arriba hacia abajo.
+
+Veamos como cambia el código del ejemplo:
 
 ```{r}
 election_2012 %>% 
@@ -438,14 +479,28 @@ election_2012 %>%
 
 podemos leer %>% como "_después_".
 
-![](img/manicule2.jpg) ¿Qué estados tienen la mayor participación (del 
-total de votantes en la lista nominal cuantos asistieron? Tip: debes eliminar
-las casillas especiales pues la lista nominal no está definida.
+![](img/manicule2.jpg) Siguiendo con los datos `election_2012`, ¿Qué estados
+tienen la mayor participación (esto es del total de votantes en la lista nominal
+que porcentaje asistió a votar)? Tip: debes eliminar las casillas especiales  pues la lista nominal (`ln`) no está definida.
+
+```{r, echo=FALSE, eval=FALSE}
+election_2012 %>% 
+    filter(polling_type != "S") %>% 
+    group_by(state_abbr) %>% 
+    summarise(
+        n = n(), 
+        total = sum(total), 
+        nominal_list = sum(nominal_list)
+        ) %>% 
+    mutate(part = 100 * total / nominal_list) %>% 
+    arrange(desc(part))
+```
 
 ### Variables por grupo {-}
 
 En ocasiones es conveniente crear variables por grupo, por ejemplo estandarizar
-dentro de cada grupo z = (x - mean(x)) / sd(x).
+dentro de cada grupo z = (x - mean(x)) / sd(x). Para esto usamos `group_by()`
+y `mutate()`.
 
 Veamos un ejemplo:
 
@@ -541,8 +596,9 @@ ggplot(election_map, aes(long, lat, group=group)) +
 Podemos especificar el color de cada categoría y la intensidad puede variar de
 acuerdo al porcentaje de votos que se llevó el partido/alianza ganador.
 
-```{r, out.width='45%'}
-ggplot(election_map, aes(long, lat, group = group)) +
+```{r, fig.width=8}
+library(gridExtra)
+map_edo <- ggplot(election_map, aes(long, lat, group = group)) +
     geom_polygon(aes(fill = winner, alpha = winner_pct), color = "#666666", 
         size = .05, show.legend = FALSE) +
     coord_map() +
@@ -556,7 +612,8 @@ state_labels_map <- mxhexbin.map %>%
     group_by(state_abbr) %>% 
     summarise(long = mean(long), lat = mean(lat), group = first(group))
 
-ggplot(election_hexbinmap, aes(long, lat, group = group)) +
+hexbinmap_edo <- ggplot(election_hexbinmap, aes(long, lat, 
+  group = group)) +
     geom_polygon(aes(fill = winner, alpha = winner_pct), color = "#666666", 
         size = .05, show.legend = FALSE) +
     coord_map() +
@@ -564,6 +621,8 @@ ggplot(election_hexbinmap, aes(long, lat, group = group)) +
         "pri_pvem" = "#00CD66")) +
     geom_text(data = state_labels_map, aes(long, lat, label = state_abbr)) +
     theme_void()
+
+grid.arrange(map_edo, hexbinmap_edo, nrow=1)
 ```
 
 ![](img/manicule2.jpg) Genera un mapa a nivel municipo que muestre el porcentaje
