@@ -20,7 +20,10 @@ trabajar.
 
 ## Transformación de datos
 
-Estudiaremos las siguientes funciones:
+Es sorprendente que una gran variedad de necesidades de transformación de datos
+se pueden resolver con pocas funciones, en esta sección veremos 5 *verbos* que 
+fueron diseñados para la tarea de transformación de datos y que comparten una 
+filosofía en cuanto a su estructura. Estudiaremos las siguientes funciones:
 
 * **filter**: obten un subconjunto de las filas de acuerdo a un criterio.
 * **select**: selecciona columnas de acuerdo al nombre
@@ -30,11 +33,12 @@ Estudiaremos las siguientes funciones:
 resúmenes de variables de la base original)
 
 Estas funciones trabajan de manera similar, el primer argumento que reciben 
-es un _data frame_, los argumentos que siguen indican que operación se va a efectuar y el resultado es un nuevo _data frame_.
+es un `data.frame`, los argumentos que siguen indican que operación se va a 
+efectuar y el resultado es un nuevo `data.frame`.
 
-Adicionalmente, se pueden usar con **group_by** que cambia el dominio de cada 
-función, pasando de operar en el conjunto de datos completos a operar en 
-grupos, esto lo veremos más adelante.
+Adicionalmente, se pueden usar con `group_by()` que veremos más adelante y que 
+cambia el dominio de cada función, pasando de operar en el conjunto de datos
+completos a operar en grupos.
 
 
 ### Datos {-}
@@ -223,8 +227,6 @@ derecho, la parte sombreada muestra las regiones que selecciona el operador:
 <p class="caption">(\#fig:unnamed-chunk-12)Operaciones booleanas, imagen del libro [r4ds](https://r4ds.had.co.nz/).</p>
 </div>
 
-![](img/manicule2.jpg) Asigna distintos valores a `a` y `b` y experimenta con
-las operaciones booleanas (`a <- TRUE; b <- FALSE`).
 
 #### Observación: faltantes `NA` {-}
 
@@ -371,7 +373,7 @@ select(df_ej, contains("g"))
 ```
 
 ![](img/manicule2.jpg) Ve la ayuda de select (`?select`) y escribe tres
-maneras de seleccionar las variables del estado.
+maneras de seleccionar las variables del estado en los datos `df_mxmunicipio`.
 
 
 
@@ -456,7 +458,58 @@ nueva variable que muestre el cociente entre la población femenina y masculina.
 
 
 
-Hay muchas funciones que podemos usar para crear nuevas variables con `mutate()`, éstas deben cumplir ser funciones vectorizadas, es decir, reciben un vector de valores y devuelven un vector de la misma dimensión.
+Hay muchas funciones que podemos usar para crear nuevas variables con `mutate()`, éstas deben cumplir ser funciones vectorizadas, es decir, reciben un vector de valores y devuelven un vector de la misma dimensión, por ejemplo
+multiplicar columnas o por un escalar.
+
+![](img/manicule2.jpg) ¿Cuáles de las siguientes funciones son adecuadas para
+`mutate()`? Notar que hay escenarios en los que nos puede interesar usar funciones no vectorizadas con `mutate()` pero vale la pena entender que es lo
+que regresan.  
+    * mean, pmin, max, `*`, `^`, quantile
+
+
+
+```r
+df_ej_2 <- add_column(df_ej, peso_actual = c(60, 80, 70, 50, 65), 
+    peso_anterior = c(66, 78, 73, 54, 61))
+
+mutate(df_ej_2, peso_medio = mean(c(peso_actual, peso_anterior)))
+#> # A tibble: 5 x 5
+#>   genero estatura peso_actual peso_anterior peso_medio
+#>   <chr>     <dbl>       <dbl>         <dbl>      <dbl>
+#> 1 mujer      1.65          60            66       65.7
+#> 2 hombre     1.8           80            78       65.7
+#> 3 mujer      1.7           70            73       65.7
+#> 4 mujer      1.6           50            54       65.7
+#> 5 hombre     1.67          65            61       65.7
+mutate(df_ej_2, peso_menor = pmin(peso_actual, peso_anterior))
+#> # A tibble: 5 x 5
+#>   genero estatura peso_actual peso_anterior peso_menor
+#>   <chr>     <dbl>       <dbl>         <dbl>      <dbl>
+#> 1 mujer      1.65          60            66         60
+#> 2 hombre     1.8           80            78         78
+#> 3 mujer      1.7           70            73         70
+#> 4 mujer      1.6           50            54         50
+#> 5 hombre     1.67          65            61         61
+mutate(df_ej_2, peso_mayor = max(peso_actual, peso_anterior))
+#> # A tibble: 5 x 5
+#>   genero estatura peso_actual peso_anterior peso_mayor
+#>   <chr>     <dbl>       <dbl>         <dbl>      <dbl>
+#> 1 mujer      1.65          60            66         80
+#> 2 hombre     1.8           80            78         80
+#> 3 mujer      1.7           70            73         80
+#> 4 mujer      1.6           50            54         80
+#> 5 hombre     1.67          65            61         80
+mutate(df_ej_2, estatura_sq = estatura ^ 2)
+#> # A tibble: 5 x 5
+#>   genero estatura peso_actual peso_anterior estatura_sq
+#>   <chr>     <dbl>       <dbl>         <dbl>       <dbl>
+#> 1 mujer      1.65          60            66        2.72
+#> 2 hombre     1.8           80            78        3.24
+#> 3 mujer      1.7           70            73        2.89
+#> 4 mujer      1.6           50            54        2.56
+#> 5 hombre     1.67          65            61        2.79
+```
+
 
 ### Summarise y resúmenes por grupo  {-}
 
@@ -469,6 +522,19 @@ summarise(df_ej, promedio = mean(estatura))
 #>   promedio
 #>      <dbl>
 #> 1     1.68
+```
+
+![](img/manicule2.jpg) Calcula la población total, indígena y afromexicana a 
+total.
+
+
+```r
+summarise(df_mxmunicipio, indigeonous = sum(indigenous), 
+    afromexican = sum(afromexican))
+#> # A tibble: 1 x 2
+#>   indigeonous afromexican
+#>         <dbl>       <dbl>
+#> 1    25694928     1381853
 ```
 
 La mayor utlidad de `summarise` es cuando la combinamos con una variable de 
@@ -487,7 +553,10 @@ siguiente diagrama ejemplifiaca el paradigma de divide-aplica-combina:
 * **Aplica** funciones a cada subconjunto.  
 * **Combina** los resultados en una nueva base de datos.
 
-![](img/split-apply-combine.png) 
+<div class="figure" style="text-align: center">
+<img src="img/split-apply-combine.png" alt="Imagen de [Software Carpentry](https://swcarpentry.github.io/r-novice-gapminder/fig/12-plyr-fig1.png) con licencia [CC-BY 4.0](https://swcarpentry.github.io/r-novice-gapminder/LICENSE.html)." width="500px" />
+<p class="caption">(\#fig:unnamed-chunk-34)Imagen de [Software Carpentry](https://swcarpentry.github.io/r-novice-gapminder/fig/12-plyr-fig1.png) con licencia [CC-BY 4.0](https://swcarpentry.github.io/r-novice-gapminder/LICENSE.html).</p>
+</div>
 
 Ahora, cuando pensamos como implementar la estrategia divide-aplica-combina es 
 natural pensar en iteraciones, por ejemplo utilizar un ciclo `for` para recorrer cada grupo de interés y aplicar las funciones resumen, sin embargo la aplicación
@@ -529,13 +598,13 @@ summarise(by_genero, promedio = mean(estatura))
 
 
 
-![](img/manicule2.jpg) Calcula la población total, indígena y afromexicana
+![](img/manicule2.jpg) Calcula la población indígena y afromexicana
 por estado.
 
 
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ¿Qué otros 
-resúmenes puedes hacer para explorar?
+resúmenes puedes hacer para explorar los datos?
 
 * Algunas funciones útiles con _summarise_ son min(x), median(x), max(x), 
 quantile(x, p), n(), sum(x), sum(x > 1), mean(x > 1), sd(x).
@@ -549,12 +618,23 @@ by_metro_area <- group_by(df_mxmunicipio, metro_area)
 no_miss <- filter(by_metro_area, !is.na(metro_area))
 pop_metro_area <- summarise(no_miss, state = first(state_abbr), 
     n_municipios = n(), pop_total = sum(pop))
+head(pop_metro_area)
+#> # A tibble: 6 x 4
+#>   metro_area     state n_municipios pop_total
+#>   <chr>          <chr>        <int>     <int>
+#> 1 Acapulco       GRO              2    886975
+#> 2 Acayucan       VER              3    120340
+#> 3 Aguascalientes AGS              3   1044049
+#> 4 Cancún         QROO             2    763121
+#> 5 Celaya         GTO              3    635706
+#> 6 Chihuahua      CHIH             3    918339
 ```
 
 
 #### Operador pipeline {-}
 
-En R cuando uno hace varias operaciones es difícil leer y entender el código: 
+En R, cuando uno hace varias operaciones es difícil leer y entender el 
+código: 
 
 
 ```r
@@ -581,14 +661,23 @@ summarise(group_by(filter(election_2012, !is.na(section_type)), region,
 ```
 
 La dificultad radica en que usualmente los parámetros se asignan después del 
-nombre de la función usando (). El operador *Forward Pipe* (`%>%) cambia este 
-orden, de manera que un parámetro que precede a la función es enviado ("piped") 
-a la función: `x %>% f(y)` se vuelve `f(x,y)`,  `x %>% f(y) %>% g(z)` se vuelve 
-`g(f(x, y), z)`. Es así que podemos reescribir el código para poder leer las 
-operaciones que vamos aplicando de izquierda a derecha 
-y de arriba hacia abajo.
+nombre de la función usando (). 
 
-Veamos como cambia el código anterior:
+Una alternativa es ir almacenando las salidas en tablas de datos intermedias
+pero esto resulta poco práctico porque: 1) almacenamos en el mismo objeto 
+sobreescribiendo ó 2) terminamos con muchos objetos con nombres poco
+significativos.
+
+El operador *Forward Pipe* (`%>%) cambia el orden en que se asignan los 
+parámetros, de manera que un parámetro que precede a la función es enviado
+("piped")  a la función:
+* `x %>% f(y)` se vuelve `f(x, y)`,  
+* `x %>% f(y) %>% g(z)` se vuelve `g(f(x, y), z)`. 
+
+Es así que podemos reescribir el código para poder leer las 
+operaciones que vamos aplicando de izquierda a derecha y de arriba hacia abajo.
+
+Veamos como cambia el código del ejemplo:
 
 
 ```r
@@ -620,14 +709,17 @@ election_2012 %>%
 
 podemos leer %>% como "_después_".
 
-![](img/manicule2.jpg) ¿Qué estados tienen la mayor participación (del 
-total de votantes en la lista nominal cuantos asistieron? Tip: debes eliminar
-las casillas especiales pues la lista nominal no está definida.
+![](img/manicule2.jpg) Siguiendo con los datos `election_2012`, ¿Qué estados
+tienen la mayor participación (esto es del total de votantes en la lista nominal
+que porcentaje asistió a votar)? Tip: debes eliminar las casillas especiales  pues la lista nominal (`ln`) no está definida.
+
+
 
 ### Variables por grupo {-}
 
 En ocasiones es conveniente crear variables por grupo, por ejemplo estandarizar
-dentro de cada grupo z = (x - mean(x)) / sd(x).
+dentro de cada grupo z = (x - mean(x)) / sd(x). Para esto usamos `group_by()`
+y `mutate()`.
 
 Veamos un ejemplo:
 
@@ -811,25 +903,26 @@ ggplot(election_map, aes(long, lat, group=group)) +
     coord_map()
 ```
 
-<img src="02-manipulacion_files/figure-html/unnamed-chunk-42-1.png" width="45%" style="display: block; margin: auto;" />
+<img src="02-manipulacion_files/figure-html/unnamed-chunk-46-1.png" width="45%" style="display: block; margin: auto;" />
 
 Podemos especificar el color de cada categoría y la intensidad puede variar de
 acuerdo al porcentaje de votos que se llevó el partido/alianza ganador.
 
 
 ```r
-ggplot(election_map, aes(long, lat, group = group)) +
+library(gridExtra)
+#> 
+#> Attaching package: 'gridExtra'
+#> The following object is masked from 'package:dplyr':
+#> 
+#>     combine
+map_edo <- ggplot(election_map, aes(long, lat, group = group)) +
     geom_polygon(aes(fill = winner, alpha = winner_pct), color = "#666666", 
         size = .05, show.legend = FALSE) +
     coord_map() +
     scale_fill_manual(values = c("prd_pt_mc" = "#FFCC00", "pan" = "#3399FF", 
         "pri_pvem" = "#00CD66")) + 
     theme_void()
-```
-
-<img src="02-manipulacion_files/figure-html/unnamed-chunk-43-1.png" width="45%" style="display: block; margin: auto;" />
-
-```r
 
 election_hexbinmap <- mxhexbin.map %>% 
     left_join(election_2012_state, by = c("region" = "state_code")) 
@@ -837,7 +930,8 @@ state_labels_map <- mxhexbin.map %>%
     group_by(state_abbr) %>% 
     summarise(long = mean(long), lat = mean(lat), group = first(group))
 
-ggplot(election_hexbinmap, aes(long, lat, group = group)) +
+hexbinmap_edo <- ggplot(election_hexbinmap, aes(long, lat, 
+  group = group)) +
     geom_polygon(aes(fill = winner, alpha = winner_pct), color = "#666666", 
         size = .05, show.legend = FALSE) +
     coord_map() +
@@ -845,9 +939,11 @@ ggplot(election_hexbinmap, aes(long, lat, group = group)) +
         "pri_pvem" = "#00CD66")) +
     geom_text(data = state_labels_map, aes(long, lat, label = state_abbr)) +
     theme_void()
+
+grid.arrange(map_edo, hexbinmap_edo, nrow=1)
 ```
 
-<img src="02-manipulacion_files/figure-html/unnamed-chunk-43-2.png" width="45%" style="display: block; margin: auto;" />
+<img src="02-manipulacion_files/figure-html/unnamed-chunk-47-1.png" width="768" style="display: block; margin: auto;" />
 
 ![](img/manicule2.jpg) Genera un mapa a nivel municipo que muestre el porcentaje
 de la población casada a total (mayores de 12 años).
@@ -1048,7 +1144,7 @@ pm25_2019_tidy %>%
         values = c("TRUE" = "salmon", "FALSE" = "gray"))
 ```
 
-<img src="02-manipulacion_files/figure-html/unnamed-chunk-47-1.png" width="672" style="display: block; margin: auto;" />
+<img src="02-manipulacion_files/figure-html/unnamed-chunk-51-1.png" width="672" style="display: block; margin: auto;" />
 
 Otro ejemplo, veamos los datos `df_edu`, ¿cuántas variables tenemos?
 
@@ -1128,7 +1224,7 @@ ggplot(df_edu_cdmx, aes(x = grade,
         "secondary", "highschool", "higher_edu"))
 ```
 
-<img src="02-manipulacion_files/figure-html/unnamed-chunk-50-1.png" width="672" style="display: block; margin: auto;" />
+<img src="02-manipulacion_files/figure-html/unnamed-chunk-54-1.png" width="672" style="display: block; margin: auto;" />
 
 
 
@@ -1154,28 +1250,28 @@ enlacep_sub_2013 <- enlacep_2013 %>%
 glimpse(enlacep_sub_2013)
 #> Observations: 1,000
 #> Variables: 22
-#> $ CVE_ENT    <chr> "11", "29", "15", "15", "14", "04", "16", "07", "30",…
-#> $ NOM_ENT    <chr> "GUANAJUATO", "TLAXCALA", "MEXICO", "MEXICO", "JALISC…
-#> $ CCT        <chr> "11DPR1048C", "29DPR0393E", "15DPR2303G", "15EPR4421H…
-#> $ TURNO      <chr> "VESPERTINO", "VESPERTINO", "VESPERTINO", "MATUTINO",…
-#> $ ESCUELA    <chr> "ADOLFO LOPEZ MATEOS", "VICENTE GUERRERO", "AQUILES S…
-#> $ TIPO       <chr> "GENERAL", "GENERAL", "GENERAL", "GENERAL", "GENERAL"…
-#> $ CVE_MUN    <chr> "042", "028", "053", "106", "098", "010", "022", "092…
-#> $ NOM_MUN    <chr> "VALLE DE SANTIAGO", "TEOLOCHOLCO", "MELCHOR OCAMPO",…
-#> $ CVE_LOC    <chr> "0001", "0001", "0001", "0001", "0001", "0095", "0046…
-#> $ NOM_LOC    <chr> "VALLE DE SANTIAGO", "TEOLOCHOLCO", "MELCHOR OCAMPO",…
-#> $ PUNT_ESP_3 <dbl> 505, 603, 614, 559, 692, 590, 692, 581, 438, 645, NA,…
-#> $ PUNT_MAT_3 <dbl> 523, 645, 672, 611, 789, 730, 751, 546, 482, 613, NA,…
-#> $ PUNT_FCE_3 <dbl> 454, 531, 558, 555, 584, 575, 628, 543, 383, 589, NA,…
-#> $ PUNT_ESP_4 <dbl> 464, 475, 535, 563, 522, 547, 500, 441, 440, 614, 542…
-#> $ PUNT_MAT_4 <dbl> 476, 502, 573, 583, 516, 669, 551, 446, 492, 663, 596…
-#> $ PUNT_FCE_4 <dbl> 429, 435, 485, 509, 483, 537, 500, 425, 399, 567, 529…
-#> $ PUNT_ESP_5 <dbl> 483, 532, 518, 589, 693, 481, 579, 765, 523, 556, NA,…
-#> $ PUNT_MAT_5 <dbl> 490, 551, 569, 588, 690, 656, 606, 832, 558, 537, NA,…
-#> $ PUNT_FCE_5 <dbl> 450, 537, 475, 516, 608, 461, 548, 602, 455, 537, NA,…
-#> $ PUNT_ESP_6 <dbl> 478, 597, 601, 553, 573, 485, 552, 476, 448, 503, NA,…
-#> $ PUNT_MAT_6 <dbl> 505, 682, 668, 562, 631, 688, 630, 524, 465, 512, NA,…
-#> $ PUNT_FCE_6 <dbl> 440, 504, 533, 494, 479, 465, 541, 437, 458, 415, NA,…
+#> $ CVE_ENT    <chr> "17", "15", "30", "07", "27", "09", "07", "09", "10",…
+#> $ NOM_ENT    <chr> "MORELOS", "MEXICO", "VERACRUZ", "CHIAPAS", "TABASCO"…
+#> $ CCT        <chr> "17PPR0308R", "15EPR1810D", "30DPR0938V", "07EPB0510Q…
+#> $ TURNO      <chr> "MATUTINO", "MATUTINO", "MATUTINO", "MATUTINO", "MATU…
+#> $ ESCUELA    <chr> "LA VILLA DE LOS NI\u0084OS", "IGNACIO ALLENDE", "JOS…
+#> $ TIPO       <chr> "PARTICULAR", "GENERAL", "GENERAL", "INDêGENA", "GENE…
+#> $ CVE_MUN    <chr> "018", "021", "157", "070", "002", "002", "017", "004…
+#> $ NOM_MUN    <chr> "TEMIXCO", "COATEPEC HARINAS", "CASTILLO DE TEAYO", "…
+#> $ CVE_LOC    <chr> "0001", "0060", "0007", "0045", "0058", "0203", "0001…
+#> $ NOM_LOC    <chr> "TEMIXCO", "SAN PEDRO", "LA DEFENSA", "BUENAVISTA", "…
+#> $ PUNT_ESP_3 <dbl> 586, 703, 639, 487, 472, 562, 389, 593, 647, 630, 596…
+#> $ PUNT_MAT_3 <dbl> 681, 822, 673, 500, 342, 590, 391, 648, 752, 757, 611…
+#> $ PUNT_FCE_3 <dbl> 559, 651, 568, 559, 436, 519, 437, 545, 603, 610, 555…
+#> $ PUNT_ESP_4 <dbl> 617, 676, 519, 396, 560, 597, 398, 640, 634, 452, 536…
+#> $ PUNT_MAT_4 <dbl> 559, 760, 554, 457, NA, 647, 468, 604, 671, 465, 552,…
+#> $ PUNT_FCE_4 <dbl> 523, 642, 477, 517, 454, 545, 426, 569, 563, 415, 469…
+#> $ PUNT_ESP_5 <dbl> NA, 647, 460, 370, 516, 618, 341, 600, 678, 520, 437,…
+#> $ PUNT_MAT_5 <dbl> NA, 710, 484, 490, 463, 683, 364, 587, 714, 548, 470,…
+#> $ PUNT_FCE_5 <dbl> NA, 619, 444, 523, 465, 544, 303, 544, 581, 449, 432,…
+#> $ PUNT_ESP_6 <dbl> 488, 578, 572, 408, 577, 630, 372, 620, 733, 462, 523…
+#> $ PUNT_MAT_6 <dbl> 709, 616, 684, 604, 554, 665, 393, 629, 737, 590, 515…
+#> $ PUNT_FCE_6 <dbl> 484, 509, 520, 584, 514, 571, 369, 536, 559, 413, 484…
 ```
 
 ![](img/manicule2.jpg) De manera similar a los ejemplos anteriores, 
@@ -1203,20 +1299,20 @@ lugares que encuentre un caracter que no es alfanumérico (espacio, guión,...).
 enlacep_tidy <- separate(data = enlacep_long, col = AREA_GRADO, 
     into = c("AREA", "GRADO"), sep = 9)
 enlacep_tidy
-#> # A tibble: 11,267 x 13
+#> # A tibble: 11,328 x 13
 #>    CVE_ENT NOM_ENT CCT   TURNO ESCUELA TIPO  CVE_MUN NOM_MUN CVE_LOC
 #>    <chr>   <chr>   <chr> <chr> <chr>   <chr> <chr>   <chr>   <chr>  
-#>  1 11      GUANAJ… 11DP… VESP… ADOLFO… GENE… 042     VALLE … 0001   
-#>  2 29      TLAXCA… 29DP… VESP… VICENT… GENE… 028     TEOLOC… 0001   
-#>  3 15      MEXICO  15DP… VESP… AQUILE… GENE… 053     MELCHO… 0001   
-#>  4 15      MEXICO  15EP… MATU… COR. F… GENE… 106     TOLUCA  0001   
-#>  5 14      JALISCO 14DP… MATU… IGNACI… GENE… 098     SAN PE… 0001   
-#>  6 04      CAMPEC… 04DP… MATU… MIGUEL… GENE… 010     CALAKM… 0095   
-#>  7 16      MICHOA… 16PP… MATU… LA PAZ  PART… 022     CHARO   0046   
-#>  8 07      CHIAPAS 07EP… MATU… LIBERA… GENE… 092     TECPAT… 0020   
-#>  9 30      VERACR… 30DP… MATU… ANTORC… GENE… 027     BENITO… 0018   
-#> 10 09      DISTRI… 09PP… MATU… TEPEYA… PART… 005     GUSTAV… 0078   
-#> # … with 11,257 more rows, and 4 more variables: NOM_LOC <chr>,
+#>  1 17      MORELOS 17PP… MATU… "LA VI… PART… 018     TEMIXCO 0001   
+#>  2 15      MEXICO  15EP… MATU… IGNACI… GENE… 021     COATEP… 0060   
+#>  3 30      VERACR… 30DP… MATU… JOSEFA… GENE… 157     CASTIL… 0007   
+#>  4 07      CHIAPAS 07EP… MATU… PRIMAR… INDê… 070     EL POR… 0045   
+#>  5 27      TABASCO 27DP… MATU… "PROFR… GENE… 002     CARDEN… 0058   
+#>  6 09      DISTRI… 09DP… MATU… AMALIA… GENE… 002     AZCAPO… 0203   
+#>  7 07      CHIAPAS 07KP… MATU… MONTE … CONA… 017     CINTAL… 0001   
+#>  8 09      DISTRI… 09PP… MATU… INSTIT… PART… 004     CUAJIM… 0034   
+#>  9 10      DURANGO 10DP… MATU… BENITO… GENE… 026     SAN DI… 0251   
+#> 10 30      VERACR… 30DP… MATU… LAZARO… GENE… 181     TLALIX… 0071   
+#> # … with 11,318 more rows, and 4 more variables: NOM_LOC <chr>,
 #> #   AREA <chr>, GRADO <chr>, PUNTAJE <dbl>
 
 # creamos un mejor código de área
@@ -1227,21 +1323,21 @@ enlacep_tidy <- enlacep_tidy %>%
         ) %>% 
     janitor::clean_names()
 glimpse(enlacep_tidy)
-#> Observations: 11,267
+#> Observations: 11,328
 #> Variables: 13
-#> $ cve_ent <chr> "11", "29", "15", "15", "14", "04", "16", "07", "30", "0…
-#> $ nom_ent <chr> "GUANAJUATO", "TLAXCALA", "MEXICO", "MEXICO", "JALISCO",…
-#> $ cct     <chr> "11DPR1048C", "29DPR0393E", "15DPR2303G", "15EPR4421H", …
-#> $ turno   <chr> "VESPERTINO", "VESPERTINO", "VESPERTINO", "MATUTINO", "M…
-#> $ escuela <chr> "ADOLFO LOPEZ MATEOS", "VICENTE GUERRERO", "AQUILES SERD…
-#> $ tipo    <chr> "GENERAL", "GENERAL", "GENERAL", "GENERAL", "GENERAL", "…
-#> $ cve_mun <chr> "042", "028", "053", "106", "098", "010", "022", "092", …
-#> $ nom_mun <chr> "VALLE DE SANTIAGO", "TEOLOCHOLCO", "MELCHOR OCAMPO", "T…
-#> $ cve_loc <chr> "0001", "0001", "0001", "0001", "0001", "0095", "0046", …
-#> $ nom_loc <chr> "VALLE DE SANTIAGO", "TEOLOCHOLCO", "MELCHOR OCAMPO", "T…
+#> $ cve_ent <chr> "17", "15", "30", "07", "27", "09", "07", "09", "10", "3…
+#> $ nom_ent <chr> "MORELOS", "MEXICO", "VERACRUZ", "CHIAPAS", "TABASCO", "…
+#> $ cct     <chr> "17PPR0308R", "15EPR1810D", "30DPR0938V", "07EPB0510Q", …
+#> $ turno   <chr> "MATUTINO", "MATUTINO", "MATUTINO", "MATUTINO", "MATUTIN…
+#> $ escuela <chr> "LA VILLA DE LOS NI\u0084OS", "IGNACIO ALLENDE", "JOSEFA…
+#> $ tipo    <chr> "PARTICULAR", "GENERAL", "GENERAL", "INDêGENA", "GENERAL…
+#> $ cve_mun <chr> "018", "021", "157", "070", "002", "002", "017", "004", …
+#> $ nom_mun <chr> "TEMIXCO", "COATEPEC HARINAS", "CASTILLO DE TEAYO", "EL …
+#> $ cve_loc <chr> "0001", "0060", "0007", "0045", "0058", "0203", "0001", …
+#> $ nom_loc <chr> "TEMIXCO", "SAN PEDRO", "LA DEFENSA", "BUENAVISTA", "NUE…
 #> $ area    <chr> "ESP", "ESP", "ESP", "ESP", "ESP", "ESP", "ESP", "ESP", …
 #> $ grado   <dbl> 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,…
-#> $ puntaje <dbl> 505, 603, 614, 559, 692, 590, 692, 581, 438, 645, 406, 6…
+#> $ puntaje <dbl> 586, 703, 639, 487, 472, 562, 389, 593, 647, 630, 596, 5…
 ```
 
 ### Variables almacenadas en filas y columnas {-}
