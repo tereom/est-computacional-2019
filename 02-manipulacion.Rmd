@@ -39,7 +39,6 @@ Adicionalmente, se pueden usar con `group_by()` que veremos más adelante y que
 cambia el dominio de cada función, pasando de operar en el conjunto de datos
 completos a operar en grupos.
 
-
 ### Datos {-}
 
 Usaremos datos de población municipal incluidos en el paquete `mxmaps` y 
@@ -68,14 +67,13 @@ glimpse(df_mxmunicipio)
 glimpse(df_edu)
 ```
 
-
 ### Filtrar {-}
 
 Creamos una tabla de datos de juguete para mostrar el funcionamiento de cada
 instrucción:
 
 ```{r}
-df_ej <- tibble(genero = c("mujer", "hombre", "mujer", "mujer", "hombre"), 
+df_ej <- tibble(sexo = c("mujer", "hombre", "mujer", "mujer", "hombre"), 
   estatura = c(1.65, 1.80, 1.70, 1.60, 1.67))
 df_ej
 ```
@@ -84,7 +82,7 @@ El primer argumento de `filter()` es el nombre del `data frame`, los
 subsecuentes son las expresiones que indican que filas filtrar.
 
 ```{r}
-filter(df_ej, genero == "mujer")
+filter(df_ej, sexo == "mujer")
 filter(df_ej, estatura > 1.65 & estatura < 1.75)
 ```
 
@@ -116,9 +114,8 @@ filter(df_mxmunicipio, state_abbr == "CDMX")
 
 filter(df_mxmunicipio, state_abbr == "NL", pop > 200000)
 
-filter(df_mxmunicipio, pop / 2 < (afromexican + part_afromexican))
+filter(df_mxmunicipio, pop / 2 < sum(afromexican, part_afromexican))
 ```
-
 
 #### Observación `==` y operadores booleanos {-}
 
@@ -245,13 +242,13 @@ Elegir columnas de un conjunto de datos.
 
 ```{r}
 df_ej
-select(df_ej, genero)
-select(df_ej, -genero)
+select(df_ej, sexo)
+select(df_ej, -sexo)
 ```
 
 ```{r, eval = FALSE}
-select(df_ej, starts_with("g"))
-select(df_ej, contains("g"))
+select(df_ej, starts_with("s"))
+select(df_ej, contains("x"))
 ```
 
 ![](img/manicule2.jpg) Ve la ayuda de select (`?select`) y escribe tres
@@ -269,7 +266,7 @@ select(df_mxmunicipio, 1, 4:6)
 Ordenar de acuerdo al valor de una o más variables:
 
 ```{r}
-arrange(df_ej, genero)
+arrange(df_ej, sexo)
 arrange(df_ej, desc(estatura))
 ```
 
@@ -277,7 +274,7 @@ arrange(df_ej, desc(estatura))
 menor.
 
 ```{r, eval = FALSE, echo = FALSE}
-arrange(df_mxmunicipio, desc(pop))
+arrange(select(df_mxmunicipio, municipio_name, pop), desc(pop))
 ```
 
 
@@ -285,7 +282,7 @@ arrange(df_mxmunicipio, desc(pop))
 son los municipios con mayor disparidad de sexo (a total)?
 
 ```{r, eval = FALSE, echo = FALSE}
-arrange(df_mxmunicipio, -abs(pop_male - pop_female))
+arrange(select(df_mxmunicipio, state_abbr, municipio_name, pop_male, pop_female), -abs(pop_male - pop_female))
 ```
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ¿Cuáles
@@ -293,7 +290,7 @@ son los municipios con mayor disparidad de sexo (proporcional)?, elimina los
 municipios con menos de 5000 habitantes y repite.
 
 ```{r, eval = FALSE, echo = FALSE}
-arrange(df_mxmunicipio, -abs((pop_male - pop_female) / pop))
+arrange(select(df_mxmunicipio, state_abbr, municipio_name, pop_male, pop_female, pop), -abs((pop_male - pop_female) / pop))
 arrange(filter(df_mxmunicipio, pop > 5000), -abs((pop_male - pop_female) / pop))
 ```
 
@@ -331,7 +328,7 @@ que regresan.
     * mean, pmin, max, `*`, `^`, quantile
 
 
-```{r}
+```{r, eval = FALSE, echo = FALSE}
 df_ej_2 <- add_column(df_ej, peso_actual = c(60, 80, 70, 50, 65), 
     peso_anterior = c(66, 78, 73, 54, 61))
 
@@ -387,15 +384,15 @@ trabajar con funciones creadas para estas tareas, usaremos el paquete
 Podemos hacer resúmenes por grupo, primero creamos una base de datos agrupada:
 
 ```{r}
-by_genero <- group_by(df_ej, genero)
-by_genero
+by_sexo <- group_by(df_ej, sexo)
+by_sexo
 ```
 
 y después operamos sobre cada grupo, creando un resumen a nivel grupo y uniendo
 los subconjuntos en una base nueva:
 
 ```{r}
-summarise(by_genero, promedio = mean(estatura))
+summarise(by_sexo, promedio = mean(estatura))
 ```
 
 ![](img/manicule2.jpg) Calcula la población total por estado.
@@ -454,10 +451,11 @@ pero esto resulta poco práctico porque: 1) almacenamos en el mismo objeto
 sobreescribiendo ó 2) terminamos con muchos objetos con nombres poco
 significativos.
 
-El operador *Forward Pipe* (`%>%) cambia el orden en que se asignan los 
+El operador *Forward Pipe* (`%>%`) cambia el orden en que se asignan los 
 parámetros, de manera que un parámetro que precede a la función es enviado
 ("piped")  a la función:
-* `x %>% f(y)` se vuelve `f(x, y)`,  
+
+* `x %>% f(y)` se vuelve `f(x, y)`,   
 * `x %>% f(y) %>% g(z)` se vuelve `g(f(x, y), z)`. 
 
 Es así que podemos reescribir el código para poder leer las 
@@ -478,6 +476,9 @@ election_2012 %>%
 ```
 
 podemos leer %>% como "_después_".
+
+**Tip:** Un atajo para producir el operador pipeline `%>%` es 
+shift + ctrl/cmd + M 
 
 ![](img/manicule2.jpg) Siguiendo con los datos `election_2012`, ¿Qué estados
 tienen la mayor participación (esto es del total de votantes en la lista nominal
@@ -570,7 +571,7 @@ Si queremos un mapa del ganador de las elecciones por estado debemos unir los
 datos de elecciones con datos geográficos, estos estan incluídos en `mxmaps`, 
 son `mxstate.map`.
 
-```{r, out.width='45%'}
+```{r, fig.width=4.5, fig.height=4}
 election_2012_state <- election_2012 %>%
     group_by(state_code) %>%
     summarise(
@@ -758,6 +759,7 @@ PM2.5 de la red automática de monitoreo atmosférico
 
 ```{r}
 data(pm25_2019)
+pm25_2019
 ```
 
 ¿Cuáles son las variables en estos datos?
@@ -779,7 +781,8 @@ cada *key*.
 notación para seleccionarlas es la misma que usamos con `select()`.
 
 ```{r}
-pm25_2019_tidy <- gather(pm25_2019, key = ESTACION, value = MEDICION, -FECHA, -HORA)
+pm25_2019_tidy <- gather(pm25_2019, key = station, value = measurement, -date, 
+  -hour)
 head(pm25_2019_tidy)
 tail(pm25_2019_tidy)
 ```
@@ -805,12 +808,12 @@ construir gráficas y resúmenes.
 ```{r}
 pm25_2019_tidy %>% 
     mutate(
-        FALTANTE = is.na(MEDICION), 
-        ESTACION = reorder(ESTACION, FALTANTE, sum)
+        missing = is.na(measurement), 
+        station = reorder(station, missing, sum)
         ) %>% 
-    ggplot(aes(x = FECHA, y = HORA, fill = is.na(MEDICION))) +
+    ggplot(aes(x = date, y = hour, fill = is.na(measurement))) +
     geom_raster(alpha = 0.8) +
-    facet_wrap(~ ESTACION) +
+    facet_wrap(~ station) +
     scale_fill_manual("faltante", 
         values = c("TRUE" = "salmon", "FALSE" = "gray"))
 ```
