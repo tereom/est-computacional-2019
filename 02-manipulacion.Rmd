@@ -759,6 +759,7 @@ PM2.5 de la red automática de monitoreo atmosférico
 
 ```{r}
 data(pm25_2019)
+pm25_2019
 ```
 
 ¿Cuáles son las variables en estos datos?
@@ -780,7 +781,8 @@ cada *key*.
 notación para seleccionarlas es la misma que usamos con `select()`.
 
 ```{r}
-pm25_2019_tidy <- gather(pm25_2019, key = ESTACION, value = MEDICION, -FECHA, -HORA)
+pm25_2019_tidy <- gather(pm25_2019, key = station, value = measurement, -date, 
+  -hour)
 head(pm25_2019_tidy)
 tail(pm25_2019_tidy)
 ```
@@ -806,12 +808,12 @@ construir gráficas y resúmenes.
 ```{r}
 pm25_2019_tidy %>% 
     mutate(
-        FALTANTE = is.na(MEDICION), 
-        ESTACION = reorder(ESTACION, FALTANTE, sum)
+        missing = is.na(measurement), 
+        station = reorder(station, missing, sum)
         ) %>% 
-    ggplot(aes(x = FECHA, y = HORA, fill = is.na(MEDICION))) +
+    ggplot(aes(x = date, y = hour, fill = is.na(measurement))) +
     geom_raster(alpha = 0.8) +
-    facet_wrap(~ ESTACION) +
+    facet_wrap(~ station) +
     scale_fill_manual("faltante", 
         values = c("TRUE" = "salmon", "FALSE" = "gray"))
 ```
