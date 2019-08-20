@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="tareas.html"/>
-<link rel="next" href="referencias.html"/>
+<link rel="next" href="transformacion-de-datos-1.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -187,6 +187,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalacion-y-visualizacion.html"><a href="instalacion-y-visualizacion.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -218,7 +219,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>devtools de CRAN (<code>install.packages(&quot;devtools&quot;)</code>)</li>
 <li>gapminder de CRAN (<code>install.packages(&quot;gapminder&quot;)</code>)</li>
 <li>estcomp de GitHUB (debes haber instalado devtools y correr
-devtools::install_github(“tereom/estcomp”)`))</li>
+<code>devtools::install_github(&quot;tereom/estcomp&quot;)</code>)</li>
 <li>mxmaps <strong>instalarlo es opcional</strong> de <a href="https://github.com/diegovalle/mxmaps#installation">GitHub</a></li>
 </ul>
 </div>
@@ -238,17 +239,77 @@ información de las variables (<code>?gapminder</code>):
 relaciones que encuentres. Debes usar lo que revisamos en estas notas y al menos
 una de las gráficas debe ser de paneles (usando <code>facet_wrap()</code> o <code>facet_grid</code>).</p></li>
 </ul>
-
+</div>
+<div id="prueba-en-clase" class="section level4 unnumbered">
+<h4>4. Prueba (en clase)!</h4>
+<p>Ejercicios basados en ejercicios de <span class="citation">Wickham and Grolemund (<a href="#ref-r4ds">2017</a>)</span>.</p>
+<p>Socrative: <a href="https://b.socrative.com/login/student/" class="uri">https://b.socrative.com/login/student/</a><br />
+Room: ESTCOMP</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1"><span class="kw">library</span>(tidyverse,<span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb83-2" data-line-number="2"><span class="kw">library</span>(gridExtra)</a>
+<a class="sourceLine" id="cb83-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb83-4" data-line-number="4"><span class="co"># 1.</span></a>
+<a class="sourceLine" id="cb83-5" data-line-number="5">one &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span></a>
+<a class="sourceLine" id="cb83-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy))</a>
+<a class="sourceLine" id="cb83-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb83-8" data-line-number="8"><span class="co"># 2.</span></a>
+<a class="sourceLine" id="cb83-9" data-line-number="9">two &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span></a>
+<a class="sourceLine" id="cb83-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy), <span class="dt">se =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb83-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb83-12" data-line-number="12"><span class="co"># 3.</span></a>
+<a class="sourceLine" id="cb83-13" data-line-number="13">three &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span></a>
+<a class="sourceLine" id="cb83-14" data-line-number="14"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">group =</span> drv))</a></code></pre></div>
+<p><img src="98-tareas_files/figure-html/unnamed-chunk-3-1.png" width="720" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb84-1" data-line-number="1"><span class="co"># 4. </span></a>
+<a class="sourceLine" id="cb84-2" data-line-number="2">four &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb84-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>), </a>
+<a class="sourceLine" id="cb84-4" data-line-number="4">    <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb84-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb84-6" data-line-number="6"><span class="co"># 5.</span></a>
+<a class="sourceLine" id="cb84-7" data-line-number="7">five &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb84-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy), <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>, </a>
+<a class="sourceLine" id="cb84-9" data-line-number="9">    <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb84-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb84-11" data-line-number="11"><span class="co"># 6. </span></a>
+<a class="sourceLine" id="cb84-12" data-line-number="12">six &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb84-13" data-line-number="13"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy), <span class="dt">color =</span> <span class="st">&quot;class&quot;</span>, </a>
+<a class="sourceLine" id="cb84-14" data-line-number="14">    <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb84-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb84-16" data-line-number="16"><span class="co"># 7.</span></a>
+<a class="sourceLine" id="cb84-17" data-line-number="17">seven &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb84-18" data-line-number="18"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> <span class="st">&quot;class&quot;</span>), </a>
+<a class="sourceLine" id="cb84-19" data-line-number="19">    <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p><img src="98-tareas_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1">eight &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> drv)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb85-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb85-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_smooth</span>()</a>
+<a class="sourceLine" id="cb85-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb85-5" data-line-number="5">nine &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb85-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> drv)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb85-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">data =</span> <span class="kw">select</span>(mpg, displ, hwy), <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy))</a>
+<a class="sourceLine" id="cb85-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb85-9" data-line-number="9">ten &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb85-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> drv)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb85-11" data-line-number="11"><span class="st">  </span><span class="kw">geom_smooth</span>()</a>
+<a class="sourceLine" id="cb85-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb85-13" data-line-number="13">eleven &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb85-14" data-line-number="14"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> drv)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb85-15" data-line-number="15"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> drv))</a></code></pre></div>
 </div>
 </div>
-<!-- </div> -->
+<h3>Referencias</h3>
+<div id="refs" class="references">
+<div id="ref-r4ds">
+<p>Wickham, Hadley, and Garrett Grolemund. 2017. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. 1st ed. O’Reilly Media, Inc.</p>
+</div>
+</div>
             </section>
 
           </div>
         </div>
       </div>
 <a href="tareas.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="transformacion-de-datos-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -40,7 +40,6 @@ Adicionalmente, se pueden usar con `group_by()` que veremos más adelante y que
 cambia el dominio de cada función, pasando de operar en el conjunto de datos
 completos a operar en grupos.
 
-
 ### Datos {-}
 
 Usaremos datos de población municipal incluidos en el paquete `mxmaps` y 
@@ -110,7 +109,6 @@ glimpse(df_edu)
 #> $ schoolyrs      <dbl> 10.211152, 10.380144, 10.056383, 7.854005, 7.6920…
 ```
 
-
 ### Filtrar {-}
 
 Creamos una tabla de datos de juguete para mostrar el funcionamiento de cada
@@ -118,11 +116,11 @@ instrucción:
 
 
 ```r
-df_ej <- tibble(genero = c("mujer", "hombre", "mujer", "mujer", "hombre"), 
+df_ej <- tibble(sexo = c("mujer", "hombre", "mujer", "mujer", "hombre"), 
   estatura = c(1.65, 1.80, 1.70, 1.60, 1.67))
 df_ej
 #> # A tibble: 5 x 2
-#>   genero estatura
+#>   sexo   estatura
 #>   <chr>     <dbl>
 #> 1 mujer      1.65
 #> 2 hombre     1.8 
@@ -136,16 +134,16 @@ subsecuentes son las expresiones que indican que filas filtrar.
 
 
 ```r
-filter(df_ej, genero == "mujer")
+filter(df_ej, sexo == "mujer")
 #> # A tibble: 3 x 2
-#>   genero estatura
-#>   <chr>     <dbl>
-#> 1 mujer      1.65
-#> 2 mujer      1.7 
-#> 3 mujer      1.6
+#>   sexo  estatura
+#>   <chr>    <dbl>
+#> 1 mujer     1.65
+#> 2 mujer     1.7 
+#> 3 mujer     1.6
 filter(df_ej, estatura > 1.65 & estatura < 1.75)
 #> # A tibble: 2 x 2
-#>   genero estatura
+#>   sexo   estatura
 #>   <chr>     <dbl>
 #> 1 mujer      1.7 
 #> 2 hombre     1.67
@@ -174,7 +172,6 @@ municipios de Nuevo León con más de 200,000 habitantes.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Los 
 municipios donde más de la mitad la población se autoidentifica como
 afromexicana o parte afromexicana.
-
 
 
 
@@ -339,23 +336,23 @@ Elegir columnas de un conjunto de datos.
 ```r
 df_ej
 #> # A tibble: 5 x 2
-#>   genero estatura
+#>   sexo   estatura
 #>   <chr>     <dbl>
 #> 1 mujer      1.65
 #> 2 hombre     1.8 
 #> 3 mujer      1.7 
 #> 4 mujer      1.6 
 #> 5 hombre     1.67
-select(df_ej, genero)
+select(df_ej, sexo)
 #> # A tibble: 5 x 1
-#>   genero
+#>   sexo  
 #>   <chr> 
 #> 1 mujer 
 #> 2 hombre
 #> 3 mujer 
 #> 4 mujer 
 #> 5 hombre
-select(df_ej, -genero)
+select(df_ej, -sexo)
 #> # A tibble: 5 x 1
 #>   estatura
 #>      <dbl>
@@ -368,8 +365,8 @@ select(df_ej, -genero)
 
 
 ```r
-select(df_ej, starts_with("g"))
-select(df_ej, contains("g"))
+select(df_ej, starts_with("s"))
+select(df_ej, contains("x"))
 ```
 
 ![](img/manicule2.jpg) Ve la ayuda de select (`?select`) y escribe tres
@@ -384,9 +381,9 @@ Ordenar de acuerdo al valor de una o más variables:
 
 
 ```r
-arrange(df_ej, genero)
+arrange(df_ej, sexo)
 #> # A tibble: 5 x 2
-#>   genero estatura
+#>   sexo   estatura
 #>   <chr>     <dbl>
 #> 1 hombre     1.8 
 #> 2 hombre     1.67
@@ -395,7 +392,7 @@ arrange(df_ej, genero)
 #> 5 mujer      1.6
 arrange(df_ej, desc(estatura))
 #> # A tibble: 5 x 2
-#>   genero estatura
+#>   sexo   estatura
 #>   <chr>     <dbl>
 #> 1 hombre     1.8 
 #> 2 mujer      1.7 
@@ -430,7 +427,7 @@ existentes:
 ```r
 mutate(df_ej, estatura_cm = estatura * 100) 
 #> # A tibble: 5 x 3
-#>   genero estatura estatura_cm
+#>   sexo   estatura estatura_cm
 #>   <chr>     <dbl>       <dbl>
 #> 1 mujer      1.65         165
 #> 2 hombre     1.8          180
@@ -439,7 +436,7 @@ mutate(df_ej, estatura_cm = estatura * 100)
 #> 5 hombre     1.67         167
 mutate(df_ej, estatura_cm = estatura * 100, estatura_in = estatura_cm * 0.3937) 
 #> # A tibble: 5 x 4
-#>   genero estatura estatura_cm estatura_in
+#>   sexo   estatura estatura_cm estatura_in
 #>   <chr>     <dbl>       <dbl>       <dbl>
 #> 1 mujer      1.65         165        65.0
 #> 2 hombre     1.8          180        70.9
@@ -468,47 +465,6 @@ que regresan.
 
 
 
-```r
-df_ej_2 <- add_column(df_ej, peso_actual = c(60, 80, 70, 50, 65), 
-    peso_anterior = c(66, 78, 73, 54, 61))
-
-mutate(df_ej_2, peso_medio = mean(c(peso_actual, peso_anterior)))
-#> # A tibble: 5 x 5
-#>   genero estatura peso_actual peso_anterior peso_medio
-#>   <chr>     <dbl>       <dbl>         <dbl>      <dbl>
-#> 1 mujer      1.65          60            66       65.7
-#> 2 hombre     1.8           80            78       65.7
-#> 3 mujer      1.7           70            73       65.7
-#> 4 mujer      1.6           50            54       65.7
-#> 5 hombre     1.67          65            61       65.7
-mutate(df_ej_2, peso_menor = pmin(peso_actual, peso_anterior))
-#> # A tibble: 5 x 5
-#>   genero estatura peso_actual peso_anterior peso_menor
-#>   <chr>     <dbl>       <dbl>         <dbl>      <dbl>
-#> 1 mujer      1.65          60            66         60
-#> 2 hombre     1.8           80            78         78
-#> 3 mujer      1.7           70            73         70
-#> 4 mujer      1.6           50            54         50
-#> 5 hombre     1.67          65            61         61
-mutate(df_ej_2, peso_mayor = max(peso_actual, peso_anterior))
-#> # A tibble: 5 x 5
-#>   genero estatura peso_actual peso_anterior peso_mayor
-#>   <chr>     <dbl>       <dbl>         <dbl>      <dbl>
-#> 1 mujer      1.65          60            66         80
-#> 2 hombre     1.8           80            78         80
-#> 3 mujer      1.7           70            73         80
-#> 4 mujer      1.6           50            54         80
-#> 5 hombre     1.67          65            61         80
-mutate(df_ej_2, estatura_sq = estatura ^ 2)
-#> # A tibble: 5 x 5
-#>   genero estatura peso_actual peso_anterior estatura_sq
-#>   <chr>     <dbl>       <dbl>         <dbl>       <dbl>
-#> 1 mujer      1.65          60            66        2.72
-#> 2 hombre     1.8           80            78        3.24
-#> 3 mujer      1.7           70            73        2.89
-#> 4 mujer      1.6           50            54        2.56
-#> 5 hombre     1.67          65            61        2.79
-```
 
 
 ### Summarise y resúmenes por grupo  {-}
@@ -568,11 +524,11 @@ Podemos hacer resúmenes por grupo, primero creamos una base de datos agrupada:
 
 
 ```r
-by_genero <- group_by(df_ej, genero)
-by_genero
+by_sexo <- group_by(df_ej, sexo)
+by_sexo
 #> # A tibble: 5 x 2
-#> # Groups:   genero [2]
-#>   genero estatura
+#> # Groups:   sexo [2]
+#>   sexo   estatura
 #>   <chr>     <dbl>
 #> 1 mujer      1.65
 #> 2 hombre     1.8 
@@ -586,9 +542,9 @@ los subconjuntos en una base nueva:
 
 
 ```r
-summarise(by_genero, promedio = mean(estatura))
+summarise(by_sexo, promedio = mean(estatura))
 #> # A tibble: 2 x 2
-#>   genero promedio
+#>   sexo   promedio
 #>   <chr>     <dbl>
 #> 1 hombre     1.74
 #> 2 mujer      1.65
@@ -668,10 +624,11 @@ pero esto resulta poco práctico porque: 1) almacenamos en el mismo objeto
 sobreescribiendo ó 2) terminamos con muchos objetos con nombres poco
 significativos.
 
-El operador *Forward Pipe* (`%>%) cambia el orden en que se asignan los 
+El operador *Forward Pipe* (`%>%`) cambia el orden en que se asignan los 
 parámetros, de manera que un parámetro que precede a la función es enviado
 ("piped")  a la función:
-* `x %>% f(y)` se vuelve `f(x, y)`,  
+
+* `x %>% f(y)` se vuelve `f(x, y)`,   
 * `x %>% f(y) %>% g(z)` se vuelve `g(f(x, y), z)`. 
 
 Es así que podemos reescribir el código para poder leer las 
@@ -708,6 +665,9 @@ election_2012 %>%
 ```
 
 podemos leer %>% como "_después_".
+
+**Tip:** Un atajo para producir el operador pipeline `%>%` es 
+shift + ctrl/cmd + M 
 
 ![](img/manicule2.jpg) Siguiendo con los datos `election_2012`, ¿Qué estados
 tienen la mayor participación (esto es del total de votantes en la lista nominal
@@ -903,7 +863,7 @@ ggplot(election_map, aes(long, lat, group=group)) +
     coord_map()
 ```
 
-<img src="02-manipulacion_files/figure-html/unnamed-chunk-46-1.png" width="45%" style="display: block; margin: auto;" />
+<img src="02-manipulacion_files/figure-html/unnamed-chunk-46-1.png" width="432" style="display: block; margin: auto;" />
 
 Podemos especificar el color de cada categoría y la intensidad puede variar de
 acuerdo al porcentaje de votos que se llevó el partido/alianza ganador.
@@ -1067,6 +1027,24 @@ PM2.5 de la red automática de monitoreo atmosférico
 
 ```r
 data(pm25_2019)
+pm25_2019
+#> # A tibble: 5,088 x 26
+#>    date        hour   AJM   AJU   BJU   CAM   CCA COY   FAR     GAM   HGM
+#>    <date>     <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <lgl> <lgl> <dbl> <dbl>
+#>  1 2019-01-01     1    19    35    62    90    66 NA    NA       NA    56
+#>  2 2019-01-01     2    17    24    88   104    84 NA    NA       NA    61
+#>  3 2019-01-01     3    14    20   107   140    95 NA    NA       NA    74
+#>  4 2019-01-01     4     6    15   101   162    97 NA    NA       NA    90
+#>  5 2019-01-01     5     4     8   121   133    88 NA    NA       NA    90
+#>  6 2019-01-01     6     7     7    93   106    77 NA    NA       NA   106
+#>  7 2019-01-01     7    12     8    84    98    51 NA    NA       NA   115
+#>  8 2019-01-01     8    15     7   101    82    39 NA    NA       NA    90
+#>  9 2019-01-01     9    24     3    89    54    26 NA    NA       NA    90
+#> 10 2019-01-01    10    24    NA    88    76    26 NA    NA       NA    99
+#> # … with 5,078 more rows, and 15 more variables: INN <dbl>, MER <dbl>,
+#> #   MGH <dbl>, MON <dbl>, MPA <lgl>, NEZ <dbl>, PED <dbl>, SAC <lgl>,
+#> #   SAG <dbl>, SFE <dbl>, SJA <lgl>, TLA <dbl>, UAX <dbl>, UIZ <dbl>,
+#> #   XAL <dbl>
 ```
 
 ¿Cuáles son las variables en estos datos?
@@ -1089,27 +1067,28 @@ notación para seleccionarlas es la misma que usamos con `select()`.
 
 
 ```r
-pm25_2019_tidy <- gather(pm25_2019, key = ESTACION, value = MEDICION, -FECHA, -HORA)
+pm25_2019_tidy <- gather(pm25_2019, key = station, value = measurement, -date, 
+  -hour)
 head(pm25_2019_tidy)
 #> # A tibble: 6 x 4
-#>   FECHA                HORA ESTACION MEDICION
-#>   <dttm>              <dbl> <chr>       <dbl>
-#> 1 2019-01-01 00:00:00     1 AJM            19
-#> 2 2019-01-01 00:00:00     2 AJM            17
-#> 3 2019-01-01 00:00:00     3 AJM            14
-#> 4 2019-01-01 00:00:00     4 AJM             6
-#> 5 2019-01-01 00:00:00     5 AJM             4
-#> 6 2019-01-01 00:00:00     6 AJM             7
+#>   date        hour station measurement
+#>   <date>     <dbl> <chr>         <dbl>
+#> 1 2019-01-01     1 AJM              19
+#> 2 2019-01-01     2 AJM              17
+#> 3 2019-01-01     3 AJM              14
+#> 4 2019-01-01     4 AJM               6
+#> 5 2019-01-01     5 AJM               4
+#> 6 2019-01-01     6 AJM               7
 tail(pm25_2019_tidy)
 #> # A tibble: 6 x 4
-#>   FECHA                HORA ESTACION MEDICION
-#>   <dttm>              <dbl> <chr>       <dbl>
-#> 1 2019-07-31 00:00:00    19 XAL            12
-#> 2 2019-07-31 00:00:00    20 XAL            11
-#> 3 2019-07-31 00:00:00    21 XAL             7
-#> 4 2019-07-31 00:00:00    22 XAL            NA
-#> 5 2019-07-31 00:00:00    23 XAL             7
-#> 6 2019-07-31 00:00:00    24 XAL             7
+#>   date        hour station measurement
+#>   <date>     <dbl> <chr>         <dbl>
+#> 1 2019-07-31    19 XAL              12
+#> 2 2019-07-31    20 XAL              11
+#> 3 2019-07-31    21 XAL               7
+#> 4 2019-07-31    22 XAL              NA
+#> 5 2019-07-31    23 XAL               7
+#> 6 2019-07-31    24 XAL               7
 ```
 
 Observemos que en la tabla ancha teníamos bajo la columna *<$10k*, en el renglón
@@ -1134,12 +1113,12 @@ construir gráficas y resúmenes.
 ```r
 pm25_2019_tidy %>% 
     mutate(
-        FALTANTE = is.na(MEDICION), 
-        ESTACION = reorder(ESTACION, FALTANTE, sum)
+        missing = is.na(measurement), 
+        station = reorder(station, missing, sum)
         ) %>% 
-    ggplot(aes(x = FECHA, y = HORA, fill = is.na(MEDICION))) +
+    ggplot(aes(x = date, y = hour, fill = is.na(measurement))) +
     geom_raster(alpha = 0.8) +
-    facet_wrap(~ ESTACION) +
+    facet_wrap(~ station) +
     scale_fill_manual("faltante", 
         values = c("TRUE" = "salmon", "FALSE" = "gray"))
 ```
@@ -1250,28 +1229,28 @@ enlacep_sub_2013 <- enlacep_2013 %>%
 glimpse(enlacep_sub_2013)
 #> Observations: 1,000
 #> Variables: 22
-#> $ CVE_ENT    <chr> "02", "30", "16", "10", "07", "15", "09", "12", "07",…
-#> $ NOM_ENT    <chr> "BAJA CALIFORNIA", "VERACRUZ", "MICHOACAN", "DURANGO"…
-#> $ CCT        <chr> "02EPR0266A", "30DPR4007L", "16KPR3319X", "10EPR0417Z…
+#> $ CVE_ENT    <chr> "17", "16", "13", "08", "07", "15", "30", "07", "21",…
+#> $ NOM_ENT    <chr> "MORELOS", "MICHOACAN", "HIDALGO", "CHIHUAHUA", "CHIA…
+#> $ CCT        <chr> "17PPR0378M", "16KPR4080K", "13DPR1881A", "08DPB0588D…
 #> $ TURNO      <chr> "MATUTINO", "MATUTINO", "MATUTINO", "MATUTINO", "MATU…
-#> $ ESCUELA    <chr> "LEANDRO VALLE", "JUAN DE LA BARRERA", "MACUTZIO ( LA…
-#> $ TIPO       <chr> "GENERAL", "GENERAL", "CONAFE", "GENERAL", "INDêGENA"…
-#> $ CVE_MUN    <chr> "004", "061", "112", "005", "077", "067", "010", "012…
-#> $ NOM_MUN    <chr> "TIJUANA", "LAS CHOAPAS", "ZITACUARO", "DURANGO", "SA…
-#> $ CVE_LOC    <chr> "0001", "0258", "0030", "0001", "0058", "0002", "0276…
-#> $ NOM_LOC    <chr> "TIJUANA", "LAS ISABELES", "MACUTZIO", "VICTORIA DE D…
-#> $ PUNT_ESP_3 <dbl> 636, 494, NA, 483, 387, 516, 525, 562, 510, 606, 599,…
-#> $ PUNT_MAT_3 <dbl> 666, 549, NA, 529, 410, 565, 561, 585, 641, 654, 622,…
-#> $ PUNT_FCE_3 <dbl> 547, 424, NA, 433, 377, 482, 461, 495, 470, 538, 551,…
-#> $ PUNT_ESP_4 <dbl> 637, 410, 556, 516, 342, 465, 526, 674, 347, 564, 600…
-#> $ PUNT_MAT_4 <dbl> 603, 475, 421, 520, 340, 484, 556, 766, 492, 632, 623…
-#> $ PUNT_FCE_4 <dbl> 528, 410, 528, 449, 354, 417, 484, 616, 430, 516, 529…
-#> $ PUNT_ESP_5 <dbl> 565, 392, 441, 556, 366, 466, 560, 603, 399, 535, 579…
-#> $ PUNT_MAT_5 <dbl> 568, 410, 352, 609, 366, 502, 557, 632, 405, 572, 592…
-#> $ PUNT_FCE_5 <dbl> 524, 384, 381, 496, 391, 435, 485, 552, 421, 479, 520…
-#> $ PUNT_ESP_6 <dbl> 598, 457, NA, 525, 390, 489, 569, 646, 393, 494, 591,…
-#> $ PUNT_MAT_6 <dbl> 591, 460, NA, 569, 393, 570, 597, 684, 409, 524, 601,…
-#> $ PUNT_FCE_6 <dbl> 498, 380, NA, 470, 406, 455, 508, 544, 306, 430, 529,…
+#> $ ESCUELA    <chr> "COLEGIO HARAMBEE", "CABEZAL, EL", "LIC. ADOLFO LOPEZ…
+#> $ TIPO       <chr> "PARTICULAR", "CONAFE", "GENERAL", "INDêGENA", "CONAF…
+#> $ CVE_MUN    <chr> "031", "008", "083", "030", "019", "033", "121", "057…
+#> $ NOM_MUN    <chr> "ZACATEPEC", "AQUILA", "ZEMPOALA", "GUAZAPARES", "COM…
+#> $ CVE_LOC    <chr> "0001", "0290", "0032", "1148", "0307", "0001", "0042…
+#> $ NOM_LOC    <chr> "ZACATEPEC DE HIDALGO", "CABEZAL, EL", "VILLA MARGARI…
+#> $ PUNT_ESP_3 <dbl> 451, NA, 598, 532, 582, 626, 460, 388, 525, 631, 625,…
+#> $ PUNT_MAT_3 <dbl> 404, NA, 649, 533, 557, 685, 472, 382, 555, 662, 650,…
+#> $ PUNT_FCE_3 <dbl> 433, NA, 578, 436, 533, 552, 435, 392, 459, 600, 586,…
+#> $ PUNT_ESP_4 <dbl> 560, 422, 621, 471, NA, 518, 401, 377, 556, 614, 608,…
+#> $ PUNT_MAT_4 <dbl> 549, 373, 618, 474, NA, 501, 426, 379, 579, 572, 611,…
+#> $ PUNT_FCE_4 <dbl> 499, 397, 583, 408, NA, 434, 397, 344, 504, 555, 515,…
+#> $ PUNT_ESP_5 <dbl> 573, 377, 606, 431, NA, 460, 459, 428, 582, 626, 634,…
+#> $ PUNT_MAT_5 <dbl> 564, 390, 620, 384, NA, 536, 463, 380, 589, 607, 730,…
+#> $ PUNT_FCE_5 <dbl> 542, 382, 550, 422, NA, 442, 413, 392, 543, 552, 597,…
+#> $ PUNT_ESP_6 <dbl> 452, NA, 612, 396, 371, 427, 422, NA, 553, 555, 621, …
+#> $ PUNT_MAT_6 <dbl> 439, NA, 661, 410, 336, 471, 459, NA, 632, 506, 626, …
+#> $ PUNT_FCE_6 <dbl> 360, NA, 556, 375, 341, 445, 445, NA, 520, 529, 567, …
 ```
 
 ![](img/manicule2.jpg) De manera similar a los ejemplos anteriores, 
@@ -1299,20 +1278,20 @@ lugares que encuentre un caracter que no es alfanumérico (espacio, guión,...).
 enlacep_tidy <- separate(data = enlacep_long, col = AREA_GRADO, 
     into = c("AREA", "GRADO"), sep = 9)
 enlacep_tidy
-#> # A tibble: 11,326 x 13
+#> # A tibble: 11,288 x 13
 #>    CVE_ENT NOM_ENT CCT   TURNO ESCUELA TIPO  CVE_MUN NOM_MUN CVE_LOC
 #>    <chr>   <chr>   <chr> <chr> <chr>   <chr> <chr>   <chr>   <chr>  
-#>  1 02      BAJA C… 02EP… MATU… LEANDR… GENE… 004     TIJUANA 0001   
-#>  2 30      VERACR… 30DP… MATU… JUAN D… GENE… 061     LAS CH… 0258   
-#>  3 10      DURANGO 10EP… MATU… JAIME … GENE… 005     DURANGO 0001   
-#>  4 07      CHIAPAS 07DP… MATU… "FRAY … INDê… 077     SALTO … 0058   
-#>  5 15      MEXICO  15DP… MATU… GRAL. … GENE… 067     OTZOLO… 0002   
-#>  6 09      DISTRI… 09DP… MATU… CARLOS… GENE… 010     ALVARO… 0276   
-#>  7 12      GUERRE… 12DP… MATU… PLAN D… GENE… 012     AYUTLA… 0001   
-#>  8 07      CHIAPAS 07KP… MATU… BAZOM   CONA… 038     HUIXTAN 0015   
-#>  9 15      MEXICO  15DP… MATU… IGNACI… GENE… 091     TEOLOY… 0010   
-#> 10 28      TAMAUL… 28DP… MATU… CLUB 2… GENE… 040     VALLE … 0001   
-#> # … with 11,316 more rows, and 4 more variables: NOM_LOC <chr>,
+#>  1 17      MORELOS 17PP… MATU… COLEGI… PART… 031     ZACATE… 0001   
+#>  2 13      HIDALGO 13DP… MATU… LIC. A… GENE… 083     ZEMPOA… 0032   
+#>  3 08      CHIHUA… 08DP… MATU… IGNACI… INDê… 030     GUAZAP… 1148   
+#>  4 07      CHIAPAS 07KP… MATU… EL ROS… CONA… 019     COMITA… 0307   
+#>  5 15      MEXICO  15DP… VESP… GRAL. … GENE… 033     ECATEP… 0001   
+#>  6 30      VERACR… 30DP… MATU… JAIME … GENE… 121     "OZULU… 0042   
+#>  7 07      CHIAPAS 07KP… MATU… LAS DE… CONA… 057     MOTOZI… 0576   
+#>  8 21      PUEBLA  21DP… MATU… MEXICO  GENE… 156     TEHUAC… 0001   
+#>  9 27      TABASCO 27PP… MATU… PAIDOS  PART… 004     CENTRO  0001   
+#> 10 30      VERACR… 30PP… MATU… COLEGI… PART… 038     COATEP… 0001   
+#> # … with 11,278 more rows, and 4 more variables: NOM_LOC <chr>,
 #> #   AREA <chr>, GRADO <chr>, PUNTAJE <dbl>
 
 # creamos un mejor código de área
@@ -1323,21 +1302,21 @@ enlacep_tidy <- enlacep_tidy %>%
         ) %>% 
     janitor::clean_names()
 glimpse(enlacep_tidy)
-#> Observations: 11,326
+#> Observations: 11,288
 #> Variables: 13
-#> $ cve_ent <chr> "02", "30", "10", "07", "15", "09", "12", "07", "15", "2…
-#> $ nom_ent <chr> "BAJA CALIFORNIA", "VERACRUZ", "DURANGO", "CHIAPAS", "ME…
-#> $ cct     <chr> "02EPR0266A", "30DPR4007L", "10EPR0417Z", "07DPB0828N", …
-#> $ turno   <chr> "MATUTINO", "MATUTINO", "MATUTINO", "MATUTINO", "MATUTIN…
-#> $ escuela <chr> "LEANDRO VALLE", "JUAN DE LA BARRERA", "JAIME TORRES BOD…
-#> $ tipo    <chr> "GENERAL", "GENERAL", "GENERAL", "INDêGENA", "GENERAL", …
-#> $ cve_mun <chr> "004", "061", "005", "077", "067", "010", "012", "038", …
-#> $ nom_mun <chr> "TIJUANA", "LAS CHOAPAS", "DURANGO", "SALTO DE AGUA", "O…
-#> $ cve_loc <chr> "0001", "0258", "0001", "0058", "0002", "0276", "0001", …
-#> $ nom_loc <chr> "TIJUANA", "LAS ISABELES", "VICTORIA DE DURANGO", "PASO …
+#> $ cve_ent <chr> "17", "13", "08", "07", "15", "30", "07", "21", "27", "3…
+#> $ nom_ent <chr> "MORELOS", "HIDALGO", "CHIHUAHUA", "CHIAPAS", "MEXICO", …
+#> $ cct     <chr> "17PPR0378M", "13DPR1881A", "08DPB0588D", "07KPR5100G", …
+#> $ turno   <chr> "MATUTINO", "MATUTINO", "MATUTINO", "MATUTINO", "VESPERT…
+#> $ escuela <chr> "COLEGIO HARAMBEE", "LIC. ADOLFO LOPEZ MATEOS", "IGNACIO…
+#> $ tipo    <chr> "PARTICULAR", "GENERAL", "INDêGENA", "CONAFE", "GENERAL"…
+#> $ cve_mun <chr> "031", "083", "030", "019", "033", "121", "057", "156", …
+#> $ nom_mun <chr> "ZACATEPEC", "ZEMPOALA", "GUAZAPARES", "COMITAN DE DOMIN…
+#> $ cve_loc <chr> "0001", "0032", "1148", "0307", "0001", "0042", "0576", …
+#> $ nom_loc <chr> "ZACATEPEC DE HIDALGO", "VILLA MARGARITA", "MESA DE OCOV…
 #> $ area    <chr> "ESP", "ESP", "ESP", "ESP", "ESP", "ESP", "ESP", "ESP", …
 #> $ grado   <dbl> 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,…
-#> $ puntaje <dbl> 636, 494, 483, 387, 516, 525, 562, 510, 606, 599, 611, 5…
+#> $ puntaje <dbl> 451, 598, 532, 582, 626, 460, 388, 525, 631, 625, 568, 6…
 ```
 
 ### Variables almacenadas en filas y columnas {-}
