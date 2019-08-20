@@ -148,7 +148,7 @@ library(estcomp)
   menos educación básica. 
   
   * Enuncia al menos una pregunta que se pueda responder transformando y 
-  graficando estos datos. Haz las transformaciones necesarias.
+  graficando estos datos. Crea tu(s) gráfica(s).
   
 
 
