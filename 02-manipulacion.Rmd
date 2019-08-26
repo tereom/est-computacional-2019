@@ -1020,7 +1020,14 @@ fertility_vars
 
 Finalmente, la columna *est* no es una variable, sino que almacena el nombre 
 de 2 variables: *Valor* y *Error Estándar* la operación que debemos aplicar 
-(`pivot_wider()`) es el inverso de apilar (`pivot_longer`):
+(`pivot_wider()`) es el inverso de apilar (`pivot_longer`), sus argumentos son:
+
+* data: `data.frame` que vamos a pivotear.  
+* names_from: nombre o nombres de las columnas (sin comillas) de los cuáles 
+obtendremos los nombres de las nuevas columnas.
+* values_from: nombre o nombres de las columnas (sin comillas) de los cuáles 
+obtendremos los valores que llenarán las nuevas columnas.
+
 
 ```{r, include=FALSE}
 fertility_tidy <- spread(data = fertility_vars, key = est, value = value)
@@ -1055,42 +1062,22 @@ fertility_lm <- lm(est ~ age_bracket, data = fertility_sub)
 summary(fertility_lm)
 ```
 
-### Mas de un tipo de observación en una misma tabla {-}
 
-Esta es quizá el principio menos importante de datos limpios y su conveniencia
-dependerá de la situación, pero vale la pena conocerlo.
+Vale la pena notar que aunque los datos limpios facilitan las 
+tareas de análisis, distintas funciones o tareas requieren los datos en 
+distintos formas y saber pivotear las tablas es muy útil.
 
-En ocasiones las bases de datos involucran valores en diferentes niveles, en 
-diferentes tipos de unidad observacional. En la limpieza de datos, cada unidad
-observacional debe estar almacenada en su propia tabla (esto esta ligado a 
-normalización de una base de datos), es importante para evitar inconsistencias 
-en los datos.
+![](img/manicule2.jpg) Grafica el valor estimado de fertilidad del grupo de
+edad 20-24 contra 25-29. ¿Qué transformación debes hacer?
 
-¿Cuáles son las unidades observacionales de los datos `df_mxmunicipio`?
+```{r, include=FALSE}
+fertility_age <- pivot_wider(fertility_tidy, names_from = age_bracket, 
+  values_from = c(est, std_error))
 
-```{r}
-df_mxmunicipio
+ggplot(fertility_age, aes(est_20_24, est_25_29, color = size_localidad)) +
+  geom_abline(alpha = 0.5) +
+  geom_point()
 ```
-
-Separemos esta base de datos en dos: la tabla a nivel municipio que almacena las
-variables de sexo (sex) a escolaridad media (schoolyrs).
-
-```{r}
-df_mxmunicipio_normal <- df_mxmunicipio %>% 
-    select(state_code, municipio_code, region, municipio_name:lat)
-glimpse(df_mxmunicipio_normal)
-```
-
-Y la tabla a nivel estado, que almacena las claves y variables a nivel 
-estado.
-
-```{r}
-df_statecodes <- df_mxmunicipio %>% 
-    select(contains("state")) %>% 
-    distinct()
-glimpse(df_statecodes)
-```
-
 
 ### Una misma unidad observacional está almacenada en múltiples tablas {-}
 
@@ -1175,14 +1162,17 @@ mejor que AgeDx).
 de variables (por ejemplo fechas), datos faltantes, _typos_ y detección de 
 valores atípicos.
 
-Finalmente vale la pena notar que aunque los datos limpios facilitan las 
-tareas de análisis, distintas funciones o tareas requieren los datos en 
-distintos formas y saber pivotear las tablas es muy útil.
 
 ### Recursos adicionales {-}
 
 * [Data Transformation Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf), 
 RStudio.
+
+* Limpiar nombres de columnas, eliminar filas vacías  y más paquete 
+[janitor](https://github.com/sfirke/janitor).
+
+* Lectura de datos tabulares con distintas estructuras, paquete 
+[tidycells](https://buff.ly/2z9CcBN).
 
 
 
