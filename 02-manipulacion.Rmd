@@ -1026,8 +1026,12 @@ de 2 variables: *Valor* y *Error Estándar* la operación que debemos aplicar
 fertility_tidy <- spread(data = fertility_vars, key = est, value = value)
 ```
 
-Y podemos mejorar los nombres de las columnas, una opción *rápida* es usar el
-paquete `janitor`.
+```{r}
+fertility_tidy <- pivot_wider(fertility_vars, names_from = est, 
+  values_from = value)
+```
+
+Y podemos mejorar los nombres de las columnas, una opción rápida es usar el paquete janitor.
 
 ```{r}
 fertility_tidy %>% 
