@@ -942,7 +942,7 @@ coincida del inicio de una variable.
 
 ```{r}
 pivot_longer(enlacep_sub_2013, cols = contains("PUNT"), 
-  names_to = c("AREA", "GRADO"), values_to = "PUNTAJE", 
+  names_to = c("AREA_GRADO"), values_to = "PUNTAJE", 
   names_prefix = "PUNT_") %>% 
   glimpse()
 ```
