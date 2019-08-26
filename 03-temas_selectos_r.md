@@ -92,12 +92,11 @@ center_vector(c(0, 5, 10))
 ```
 
 #### Ejercicio {-}
-Escribe una función que reciba un vector y devuelva el mismo vector reescalado 
-al rango 0 a 1.  
-
-    * Comienza escribiendo el código para un caso particular, por ejemplo, 
-    empieza reescalando el vector . Tip: la función 
-    `range()` devuelve el rango de un vector.  
+![](img/manicule2.jpg) Escribe una función que reciba un vector y devuelva el 
+mismo vector reescalado al rango 0 a 1. Comienza escribiendo el código para un 
+caso particular, por ejemplo, empieza reescalando el vector 
+. Tip: la función `range()` devuelve el rango de un 
+vector.  
 
 #### Estructura de una función {-}
 
@@ -126,15 +125,13 @@ formals(wtd_mean)
 #> rep(1, length(x))
 ```
 
-3. El ambiente: el _mapeo_ de la ubicación de las variables de la función.
+3. El ambiente: el _mapeo_ de la ubicación de las variables de la función, cómo
+busca la función cada función el valor de las variables que usa.
 
 
 ```r
-library(ggplot2)
 environment(wtd_mean)
 #> <environment: R_GlobalEnv>
-environment(ggplot)
-#> <environment: namespace:ggplot2>
 ```
 
 Veamos mas ejemplos, ¿qué regresan las siguientes funciones?
@@ -374,17 +371,17 @@ columnas numéricas.
 df <- data.frame(id = 1:10, a = rnorm(10), b = rnorm(10, 2), c = rnorm(10, 3), 
     d = rnorm(10, 4))
 df
-#>    id           a         b        c        d
-#> 1   1  0.62699562 1.6128363 2.941634 5.193462
-#> 2   2 -0.73353912 1.9983221 3.931641 4.114910
-#> 3   3 -0.27092523 1.0994666 2.430521 1.686018
-#> 4   4 -0.84243112 1.3398731 5.153881 4.067132
-#> 5   5 -0.33160247 3.3188119 4.108658 5.434240
-#> 6   6 -0.31722411 0.8298237 3.540725 5.055649
-#> 7   7  0.08708731 1.0920780 3.013671 5.100413
-#> 8   8  0.54691291 1.0290059 3.198920 5.152738
-#> 9   9 -0.24564715 2.1545382 1.487780 4.600173
-#> 10 10  0.89979417 1.6009744 2.915913 2.940297
+#>    id             a         b         c        d
+#> 1   1 -0.8961020922 2.3614407 3.7763403 5.827398
+#> 2   2 -0.3672036639 1.5933740 2.5423686 5.848696
+#> 3   3 -0.8945917353 2.2288593 2.9837629 5.326809
+#> 4   4 -0.6813129302 3.8212095 0.1996257 4.859310
+#> 5   5 -1.9474444910 0.5539005 3.9921969 4.615473
+#> 6   6 -0.4016011490 3.1667075 4.3073651 3.711626
+#> 7   7  0.3789739522 0.8661439 2.2237014 4.341076
+#> 8   8 -0.1780694946 2.5360105 3.4996407 2.895908
+#> 9   9 -0.0003728936 2.8044500 3.0558733 2.618737
+#> 10 10 -1.8285193784 3.4844087 3.4000939 3.246748
 ```
 
 Podemos crear el código para cada columna pero esto involucra *copy-paste* y 
@@ -393,13 +390,13 @@ no será muy práctico si aumenta el número de columnas:
 
 ```r
 mean(df$a)
-#> [1] -0.05805792
+#> [1] -0.6816244
 mean(df$b)
-#> [1] 1.607573
+#> [1] 2.34165
 mean(df$c)
-#> [1] 3.272334
+#> [1] 2.998097
 mean(df$d)
-#> [1] 4.334503
+#> [1] 4.329178
 ```
 
 Con un ciclo `for` sería:
@@ -411,7 +408,7 @@ for (i in 1:4) {
   salida[[i]] <- mean(df[[i + 1]])      
 }
 salida
-#> [1] -0.05805792  1.60757302  3.27233440  4.33450319
+#> [1] -0.6816244  2.3416505  2.9980969  4.3291781
 ```
 
 Los ciclos `for` tienen 3 componentes:
@@ -496,7 +493,7 @@ for (i in 1:4) {
   salida[[i]] <- mean(df[[i + 1]])      
 }
 salida
-#> [1] -0.05805792  1.60757302  3.27233440  4.33450319
+#> [1] -0.6816244  2.3416505  2.9980969  4.3291781
 ```
 
 Podemos crear una función que calcula la media de las columnas de un 
@@ -512,7 +509,7 @@ col_media <- function(df) {
   salida
 }
 col_media(df)
-#> [1]  5.50000000 -0.05805792  1.60757302  3.27233440  4.33450319
+#> [1]  5.5000000 -0.6816244  2.3416505  2.9980969  4.3291781
 col_media(select(iris, -Species))
 #> [1] 5.843333 3.057333 3.758000 1.199333
 ```
@@ -551,9 +548,9 @@ col_describe <- function(df, fun) {
   salida
 }
 col_describe(df, median)
-#> [1]  5.5000000 -0.2582862  1.4704237  3.1062954  4.8279112
+#> [1]  5.500000 -0.541457  2.448726  3.227984  4.478275
 col_describe(df, mean)
-#> [1]  5.50000000 -0.05805792  1.60757302  3.27233440  4.33450319
+#> [1]  5.5000000 -0.6816244  2.3416505  2.9980969  4.3291781
 ```
 
 Ahora utilizaremos esta idea de pasar funciones a funciones para eliminar los
@@ -582,8 +579,8 @@ vectores) y aplicará las funciones a las columnas del mismo.
 ```r
 library(purrr)
 map_dbl(df, mean)
-#>          id           a           b           c           d 
-#>  5.50000000 -0.05805792  1.60757302  3.27233440  4.33450319
+#>         id          a          b          c          d 
+#>  5.5000000 -0.6816244  2.3416505  2.9980969  4.3291781
 map_dbl(select(iris, -Species), median)
 #> Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
 #>         5.80         3.00         4.35         1.30
