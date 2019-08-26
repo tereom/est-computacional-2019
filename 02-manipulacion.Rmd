@@ -102,11 +102,9 @@ x %in% c("a", "b")
 ![](img/manicule2.jpg) Crea un subconjunto de los datos `df_mxmunicipio` que 
 contenga únicamente los municipios de la CDMX (`state_abbr` es `CDMX`)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Los 
-municipios de Nuevo León con más de 200,000 habitantes.
+* Los municipios de Nuevo León con más de 200,000 habitantes.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Los 
-municipios donde más de la mitad la población se autoidentifica como
+* Los municipios donde más de la mitad la población se autoidentifica como
 afromexicana o parte afromexicana.
 
 ```{r, echo=FALSE, eval=FALSE}
@@ -278,16 +276,14 @@ arrange(select(df_mxmunicipio, municipio_name, pop), desc(pop))
 ```
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ¿Cuáles
-son los municipios con mayor disparidad de sexo (a total)?
+* ¿Cuáles son los municipios con mayor disparidad de sexo (a total)?
 
 ```{r, eval = FALSE, echo = FALSE}
 arrange(select(df_mxmunicipio, state_abbr, municipio_name, pop_male, pop_female), -abs(pop_male - pop_female))
 ```
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ¿Cuáles
-son los municipios con mayor disparidad de sexo (proporcional)?, elimina los 
-municipios con menos de 5000 habitantes y repite.
+* ¿Cuáles son los municipios con mayor disparidad de sexo (proporcional)?, 
+elimina los municipios con menos de 5000 habitantes y repite.
 
 ```{r, eval = FALSE, echo = FALSE}
 arrange(select(df_mxmunicipio, state_abbr, municipio_name, pop_male, pop_female, pop), -abs((pop_male - pop_female) / pop))
@@ -311,8 +307,8 @@ municipio y almacenalo en una nueva variable.
 mutate(df_mxmunicipio, indigenous_prop = indigenous / pop)
 ```
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Crea una 
-nueva variable que muestre el cociente entre la población femenina y masculina.
+* Crea una nueva variable que muestre el cociente entre la población femenina y
+masculina.
 
 ```{r, eval = FALSE, echo = FALSE}
 mutate(df_mxmunicipio, female_male_quotient = pop_female / pop_male, 
@@ -328,14 +324,14 @@ que regresan.
     * mean, pmin, max, `*`, `^`, quantile
 
 
-```{r, eval = FALSE, echo = FALSE}
+```{r, eval = FALSE}
 df_ej_2 <- add_column(df_ej, peso_actual = c(60, 80, 70, 50, 65), 
     peso_anterior = c(66, 78, 73, 54, 61))
 
 mutate(df_ej_2, peso_medio = mean(c(peso_actual, peso_anterior)))
 mutate(df_ej_2, peso_menor = pmin(peso_actual, peso_anterior))
 mutate(df_ej_2, peso_mayor = max(peso_actual, peso_anterior))
-mutate(df_ej_2, estatura_sq = estatura ^ 2)
+mutate(df_ej_2, estatura_sq = estatura ^ 2, bmi = peso_actual / estatura_sq)
 ```
 
 
@@ -391,7 +387,7 @@ by_sexo
 y después operamos sobre cada grupo, creando un resumen a nivel grupo y uniendo
 los subconjuntos en una base nueva:
 
-```{r}
+```{r, eval = FALSE, echo = FALSE}
 summarise(by_sexo, promedio = mean(estatura))
 ```
 
@@ -403,8 +399,7 @@ summarise(by_state, pop = sum(pop), indigenous = sum(indigenous),
     afromexican = sum(afromexican))
 ```
 
-![](img/manicule2.jpg) Calcula la población indígena y afromexicana
-por estado.
+* Calcula la población indígena y afromexicana por estado.
 
 ```{r, eval = FALSE, echo = FALSE}
 by_state <- group_by(df_mxmunicipio, state_abbr)
@@ -412,10 +407,10 @@ summarise(by_state, pop = sum(pop), indigenous = sum(indigenous),
     afromexican = sum(afromexican))
 ```
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ¿Qué otros 
-resúmenes puedes hacer para explorar los datos?
+* ¿Qué otros resúmenes puedes hacer para explorar los datos?
 
-* Algunas funciones útiles con _summarise_ son min(x), median(x), max(x), 
+
+Algunas funciones útiles con _summarise_ son min(x), median(x), max(x), 
 quantile(x, p), n(), sum(x), sum(x > 1), mean(x > 1), sd(x).
 
 Por ejemplo, para cada área metropolitana: cuántos municipios engloba (`n()`), 
@@ -522,7 +517,7 @@ z_prd_pt_mc_state <- election_2012 %>%
 
 Muchas veces debemos reunir información que está almacenada a lo largo de 
 muchas tablas, por ejemplo, si nos interesa conocer como se relaciona el año de 
-escolaridad promedio (`schoolyrs` en el `tibble` `df_edu`) con el porcentaje de
+escolaridad promedio (`schoolyrs` en el `df_edu`) con el porcentaje de
 población indígena (`indigenous` en `df_mxmunicipios`), debemos poder *pegar*
 las dos tablas.
 
@@ -589,7 +584,7 @@ election_2012_state <- election_2012 %>%
 election_map <- mxstate.map %>% 
     left_join(election_2012_state, by = c("region" = "state_code")) 
 
-ggplot(election_map, aes(long, lat, group=group)) +
+ggplot(election_map, aes(long, lat, group = group)) +
     geom_polygon(aes(fill = winner)) +
     coord_map()
 ```
@@ -623,7 +618,7 @@ hexbinmap_edo <- ggplot(election_hexbinmap, aes(long, lat,
     geom_text(data = state_labels_map, aes(long, lat, label = state_abbr)) +
     theme_void()
 
-grid.arrange(map_edo, hexbinmap_edo, nrow=1)
+grid.arrange(map_edo, hexbinmap_edo, nrow = 1)
 ```
 
 ![](img/manicule2.jpg) Genera un mapa a nivel municipo que muestre el porcentaje
@@ -647,12 +642,13 @@ df_marital %>%
 ## Datos limpios
 
 Una vez que importamos datos a R es conveniente limpiarlos, esto implica 
-almacenarlos de una manera consisistente que nos permita
-enfocarnos en responder preguntas de los datos en lugar de estar luchando 
-con los datos. Entonces, **datos limpios** son datos que facilitan las tareas 
-del análisis de datos: 
+almacenarlos de una manera consisistente que nos permita enfocarnos en responder 
+preguntas de los datos en lugar de estar luchando con los datos. 
 
-*  **Visualización**: Resúmenes de datos usando gráficas, análisis exploratorio, o presentación de resultados. 
+Datos limpios son datos que facilitan las tareas del análisis de datos: 
+
+*  **Visualización**: Resúmenes de datos usando gráficas, análisis exploratorio, 
+o presentación de resultados. 
 
 * **Manipulación**: Manipulación de variables como agregar, filtrar, reordenar,
 transformar. 
@@ -660,19 +656,21 @@ transformar.
 * **Modelación**: Ajustar modelos es sencillo si los datos están en la forma 
 correcta.
 
-
-Los principios de *datos limpios* [@tidy] 
+<div class="caja">
+Los **principios de los datos limpios** [@tidy] 
 proveen una manera estándar de organizar la información:
 
-1. Cada variable forma una columna.
-2. Cada observación forma un renglón.
-3. *Cada tipo de unidad observacional forma una tabla.*
+1. Cada columna es una variable.
+2. Cada renglón es una observación .
+3. Cada celda es un único valor.
+</div>
 
 Vale la pena notar que los principios de los datos limpios se pueden ver como 
-teoría de algebra relacional para estadísticos, estós principios equivalen a 
+teoría de algebra relacional para estadísticos, estós principios junto con 
+*cada tipo de unidad observacional forma una tabla* equivalen a 
 [la tercera forma normal de Codd](https://en.wikipedia.org/wiki/Third_normal_form) 
-con enfoque en una sola tabla de datos en 
-lugar de muchas conectadas en bases de datos relacionales. 
+con enfoque en una sola tabla de datos en lugar de muchas conectadas en bases de 
+datos relacionales. 
 
 Veamos un ejemplo:
 
@@ -740,14 +738,25 @@ La mayor parte de estos problemas se pueden arreglar con pocas herramientas,
 a continuación veremos como _limpiar_ datos usando 2 funciones del paquete 
 `tidyr`:
 
-* **gather**: recibe múltiples columnas y las junta en pares de valores y 
-nombres, convierte los datos anchos en largos.  
-* **spread**: recibe 2 columnas y las separa, haciendo los datos más anchos.
+* `pivot_longer()`: recibe múltiples columnas y las convierte en pares de
+valores y nombres de tal manera que alarga los datos.  
+* `pivot_wider()`: el opuesto a `pivot_longer()` recibe columnas que separa 
+haciendo los datos más anchos.
 
 Repasaremos los problemas más comunes que se encuentran en conjuntos de datos
 sucios y mostraremos como se puede manipular la tabla de datos (usando las 
 funciones *gather* y *spread*) con el fin de estructurarla para que cumpla los
 principios de datos limpios.
+
+**Nota:** Usaremos la versión de GitHub de `tidyr` pues las funciones de
+pivoteo aún no se encuentran en la versión de CRAN, la versión que actualmente
+está en CRAN cuenta con las funciones `gather()` y `spread()` que tienen 
+funcionalidad más limitada y son más confusas:
+
+```{r, eval=FALSE}
+devtools::install_github("tidyverse/tidyr")
+```
+
 
 ### Los encabezados de las columanas son valores {-}
 
@@ -758,52 +767,51 @@ PM2.5 de la red automática de monitoreo atmosférico
 
 
 ```{r}
-data(pm25_2019)
+library(tidyverse)
+library(estcomp)
 pm25_2019
 ```
 
 ¿Cuáles son las variables en estos datos?
 
 Esta base de datos tiene 4 variables: fecha, hora, estación y medición 
-(en $\mu g/m^3$, microgramos por metro cúbico). 
+(en microgramos por metro cúbico $\mu g/m^3$). 
 
-Notemos que al alargar los datos desapareceran las columnas que se agrupan y dan 
-lugar a dos nuevas columnas: la correspondiente a estación y la 
-correspondiente a medición. Entonces, para alargar una base de datos usamos la 
-función `gather` que recibe los argumentos:
-
-* data: base de datos que vamos a reestructurar.  
-* key: nombre de la nueva variable que contiene lo que fueron los nombres
-de columnas que apilamos.  
-* value: nombre de la variable que almacenará los valores que corresponden a 
-cada *key*.  
-* ...: lo último que especificamos son las columnas que vamos a apilar, la 
-notación para seleccionarlas es la misma que usamos con `select()`.
-
-```{r}
+```{r, eval = FALSE, echo = FALSE}
 pm25_2019_tidy <- gather(pm25_2019, key = station, value = measurement, -date, 
   -hour)
 head(pm25_2019_tidy)
 tail(pm25_2019_tidy)
 ```
 
-Observemos que en la tabla ancha teníamos bajo la columna *<$10k*, en el renglón
-correspondiente a *Agnostic* un valor de 27, y podemos ver que este valor en 
-la tabla larga se almacena bajo la columna frecuencia y corresponde a religión
-*Agnostic*, income *<$10k*. También es importante ver que en este ejemplo 
-especificamos las columnas a apilar identificando la que **no** vamos a alargar
-con un signo negativo: es decir apila todas las columnas menos religión.
+Al alargar los datos desaparecerán las columnas que se agrupan y darán 
+lugar a dos nuevas columnas: la correspondiente a estación y la 
+correspondiente a medición. Entonces,  usamos la función `pivot_longer()` que 
+recibe los argumentos:
+
+* data: base de datos que vamos a pivotear.  
+* cols: columnas que vamos a pivotear a un formato largo (apilar), la 
+notación para seleccionarlas es `tidyselect`, la misma que usamos con `select()`
+en `dplyr`.
+* names_to: nombre (`string`: en comillas "") de la nueva columna que almacenará
+los nombres de las columnas en los datos.  
+* values_to: nombre (`string`: en comillas "") de la nueva columna que 
+almacenará los valores en los datos.
+
+```{r}
+pm25_2019_tidy <- pivot_longer(pm25_2019, cols = AJM:XAL, names_to = "station", 
+  values_to = "measurement")
+pm25_2019_tidy
+```
+
+Observemos que en la tabla ancha teníamos bajo la columna *AJM*, en el renglón
+correspondiente a *2019-01-01* hora *1* un valor de 19, y podemos ver que este 
+valor en la tabla larga se almacena bajo la columna *measurement* y corresponde 
+a la estación *AJM*.
 
 La nueva estructura de la base de datos nos permite, por ejemplo, hacer 
 fácilmente una gráfica donde podemos comparar las diferencias en las 
 frecuencias. 
-
-Nota: En esta sección no explicaremos las funciones de graficación pues estas 
-se cubren en las notas introductorias a R. En esta parte nos queremos concentrar
-en como limpiar datos y ejemplificar lo sencillo que es trabajar con datos 
-limpios, esto es, una vez que los datos fueron reestructurados es fácil 
-construir gráficas y resúmenes.
-
 
 ```{r}
 pm25_2019_tidy %>% 
@@ -825,29 +833,32 @@ df_edu
 ```
 
 Notemos que el nivel de escolaridad esta guardado en 6 columnas (preschool,
-elementary, ..., other), este tipo de almacenamiento no es *limpio* pero 
-puede ser útil al momento de ingresar la información.
+elementary, ..., other), este tipo de almacenamiento *no es limpio* pero 
+puede ser útil al momento de ingresar la información o para presentarla.
 
 Para tener datos *limpios* apilamos los niveles de escolaridad de manera que 
 sea una sola columna (nuevamente alargamos los datos):
 
-```{r}
+```{r, include = FALSE}
 df_edu_tidy <- gather(data = df_edu, grade, percent, preschool:other, 
-    na.rm = TRUE)
+  na.rm = TRUE)
 glimpse(df_edu_tidy)
 ```
 
-Notemos que en esta ocasión especificamos las columnas que vamos a apilar
-indicando el nombre de la primera de ellas seguido de `:` y por último el 
-nombre de la última variable a apilar. 
+```{r}
+df_edu_tidy <- pivot_longer(data = df_edu, cols = preschool:other, 
+  names_to = "grade", values_to = "percent", values_drop_na = TRUE)
+glimpse(df_edu_tidy)
+```
 
-Por otra parte, el parámetro `na.rm = TRUE` se utiliza para eliminar los
+El parámetro `values_drop_na = TRUE` se utiliza para eliminar los
 renglones con valores faltantes en la columna de porcentaje, esto es, eliminamos
-aquellas observaciones que tenían NA en la columnas de nivel de escolaridad de
+aquellas observaciones que tenían `NA` en la columnas de nivel de escolaridad de
 la tabla ancha. En este caso optamos por que los faltantes sean implícitos, la
 conveniencia de tenerlos implícitos/explícitos dependerá de la aplicación.
 
-Con los datos limpios es facil hacer manipulaciones y graficar.
+Con los datos limpios es facil hacer manipulaciones, ¿cómo habrían hecho la 
+siguiente gráfica antes de la limpieza?
 
 ```{r}
 df_edu_cdmx <- df_edu_tidy %>% 
@@ -864,14 +875,7 @@ ggplot(df_edu_cdmx, aes(x = grade,
 ```
 
 
-
-
 ### Una columna asociada a más de una variable {-}
-
-La siguiente base de datos proviene de la Organización Mundial de la Salud y 
-contiene el número de casos confirmados de tuberculosis por país y año, la
-información esta por grupo demográfico de acuerdo a sexo (m, f), y edad (0-4, 
-5-14, etc). Los datos están disponibles en http://www.who.int/tb/country/data/download/en/. 
 
 Utilizaremos un subconjunto de los datos de la prueba ENLACE a nivel primaria,
 la prueba [ENLACE](http://www.enlace.sep.gob.mx/ba/) evaluaba a todos los 
@@ -886,20 +890,26 @@ enlacep_sub_2013 <- enlacep_2013 %>%
 glimpse(enlacep_sub_2013)
 ```
 
-![](img/manicule2.jpg) De manera similar a los ejemplos anteriores, 
-utiliza la función `gather` para apilar las columnas correspondientes a 
+![](img/manicule2.jpg) ¿Cuántas variables tiene este subconjunto de los datos?
+
+* De manera similar a los ejemplos anteriores, 
+utiliza la función `pivot_longer` para apilar las columnas correspondientes a 
 área-grado.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Piensa en 
-como podemos separar la "variable" área-grado en dos columnas. 
-
-```{r, echo=FALSE, results=FALSE}
+```{r, echo=FALSE, eval=FALSE}
 enlacep_long <- gather(enlacep_sub_2013, AREA_GRADO, PUNTAJE, 
     contains("PUNT"), na.rm = TRUE)
 enlacep_long
 ```
 
-Ahora separaremos las variables materia y grado de la columna  `materia_grado`, 
+```{r, echo=FALSE}
+enlacep_long <- pivot_longer(enlacep_sub_2013, cols = contains("PUNT"), 
+  names_to = c("AREA_GRADO"), values_to = "PUNTAJE")
+```
+
+* Piensa en como podemos separar la "variable" área-grado en dos columnas. 
+
+Ahora separaremos las variables área grado de la columna  `AREA_GRADO`, 
 para ello debemos pasar a la función `separate()`, esta recibe como parámetros:  
 
 * el nombre de la base de datos,  
@@ -920,10 +930,52 @@ enlacep_tidy <- enlacep_tidy %>%
     mutate(
         AREA = substr(AREA, 6, 8),
         GRADO = as.numeric(GRADO)
-        ) %>% 
-    janitor::clean_names()
+        ) 
 glimpse(enlacep_tidy)
 ```
+
+Conforme nos habituemos a las funciones podemos sacar provecho de sus 
+argumentos adicionales:
+
+* `names_prefix`: recibe una expresión regular para eliminar el texto que 
+coincida del inicio de una variable.
+
+```{r}
+pivot_longer(enlacep_sub_2013, cols = contains("PUNT"), 
+  names_to = c("AREA", "GRADO"), values_to = "PUNTAJE", 
+  names_prefix = "PUNT_") %>% 
+  glimpse()
+```
+
+* `names_sep`: nos permite hacer el pivoteo y separar en una misma operación, 
+en este caso `names_to` consiste en un vector con más de una entrada y 
+`names_sep` indica como separar el nombre de las columnas.
+
+```{r}
+pivot_longer(enlacep_sub_2013, cols = contains("PUNT"), 
+  names_to = c("AREA", "GRADO"), values_to = "PUNTAJE", names_prefix = "PUNT_", 
+  names_sep = "_") %>% 
+  glimpse()
+```
+
+* `names_pattern`: similar a `names_sep` pero recibe una expresión regular.
+
+```{r, eval=FALSE}
+pivot_longer(enlacep_sub_2013, cols = contains("PUNT"), 
+  names_to = c("AREA", "GRADO"), names_pattern = "PUNT_?(.*)_(.*)", 
+  values_to = "PUNTAJE")
+```
+
+* `names_ptypes, values_ptypes`: permiten especificar el tipo de las nuevas
+columnas.
+
+```{r}
+pivot_longer(enlacep_sub_2013, cols = contains("PUNT"), 
+  names_to = c("AREA", "GRADO"), values_to = "PUNTAJE", names_prefix = "PUNT_", 
+  names_sep = "_", names_ptypes = list(GRADO = integer())) %>% 
+  glimpse()
+```
+
 
 ### Variables almacenadas en filas y columnas {-}
 
@@ -942,9 +994,15 @@ Error estándar).
 
 Comencemos por apilar las columnas.
 
-```{r}
+```{r, include=FALSE}
 fertility_long <- gather(df_fertility, age_bracket, value, age_15_19:global, 
     na.rm = TRUE)
+fertility_long
+```
+
+```{r}
+fertility_long <- pivot_longer(df_fertility, cols = age_15_19:global, 
+  names_to = "age_bracket", values_to = "value", names_prefix = "age_")
 fertility_long
 ```
 
@@ -961,10 +1019,10 @@ fertility_vars
 ```
 
 Finalmente, la columna *est* no es una variable, sino que almacena el nombre 
-de 5 variables, la operación que debemos aplicar (`spread`) es el inverso de 
-apilar (`gather`):
+de 2 variables: *Valor* y *Error Estándar* la operación que debemos aplicar 
+(`pivot_wider()`) es el inverso de apilar (`pivot_longer`):
 
-```{r}
+```{r, include=FALSE}
 fertility_tidy <- spread(data = fertility_vars, key = est, value = value)
 ```
 
@@ -1037,12 +1095,11 @@ separados en muchas tablas o archivos, es común que estas tablas esten dividida
 de acuerdo a una variable, de tal manera que cada archivo representa a una 
 persona, año o ubicación. Para juntar los archivos hacemos lo siguiente:
 
-1. Leemos los archivos en una lista de tablas. 
-2. Para cada tabla agregamos una columna que registra el nombre del archivo 
-original. 
+1. Enlistamos las rutas de los archivos. 
+2. Leemos cada archivo y agregamos una columna con el nombre del archivo. 
 3. Combinamos las tablas en un solo data frame.  
 
-Veamos un ejemplo, descarga la carpeta con los datos de varios contaminantes
+Veamos un ejemplo, descargamos la carpeta con los datos de varios contaminantes
 de RAMA,
 
 ```{r, eval=FALSE}
@@ -1058,11 +1115,15 @@ Los pasos en R (usando el paquete `purrr`), primero creamos un vector con los
 nombres de los archivos en un directorio, eligiendo aquellos que contengan las
 letras ".csv".
 
-```{r, message=FALSE}
+```{r, echo=FALSE, eval=FALSE}
 library(here)
 dir_rama <- here("data", "19RAMA")
 paths <- dir(dir_rama, pattern = "\\.xls$", full.names = TRUE) 
 paths
+```
+
+```{r}
+paths <- dir("data/19RAMA", pattern = "\\.xls$", full.names = TRUE)
 ```
 
 Después le asignamos el nombre del archivo al nombre de cada elemento del vector.
@@ -1109,6 +1170,10 @@ mejor que AgeDx).
 * Otros aspectos importantes en la _limpieza_ de datos son: selección del tipo 
 de variables (por ejemplo fechas), datos faltantes, _typos_ y detección de 
 valores atípicos.
+
+Finalmente vale la pena notar que aunque los datos limpios facilitan las 
+tareas de análisis, distintas funciones o tareas requieren los datos en 
+distintos formas y saber pivotear las tablas es muy útil.
 
 ### Recursos adicionales {-}
 
