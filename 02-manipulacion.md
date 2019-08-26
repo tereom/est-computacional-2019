@@ -166,11 +166,9 @@ x %in% c("a", "b")
 ![](img/manicule2.jpg) Crea un subconjunto de los datos `df_mxmunicipio` que 
 contenga únicamente los municipios de la CDMX (`state_abbr` es `CDMX`)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Los 
-municipios de Nuevo León con más de 200,000 habitantes.
+* Los municipios de Nuevo León con más de 200,000 habitantes.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Los 
-municipios donde más de la mitad la población se autoidentifica como
+* Los municipios donde más de la mitad la población se autoidentifica como
 afromexicana o parte afromexicana.
 
 
@@ -407,14 +405,12 @@ menor.
 
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ¿Cuáles
-son los municipios con mayor disparidad de sexo (a total)?
+* ¿Cuáles son los municipios con mayor disparidad de sexo (a total)?
 
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ¿Cuáles
-son los municipios con mayor disparidad de sexo (proporcional)?, elimina los 
-municipios con menos de 5000 habitantes y repite.
+* ¿Cuáles son los municipios con mayor disparidad de sexo (proporcional)?, 
+elimina los municipios con menos de 5000 habitantes y repite.
 
 
 
@@ -450,8 +446,8 @@ municipio y almacenalo en una nueva variable.
 
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Crea una 
-nueva variable que muestre el cociente entre la población femenina y masculina.
+* Crea una nueva variable que muestre el cociente entre la población femenina y
+masculina.
 
 
 
@@ -465,6 +461,15 @@ que regresan.
 
 
 
+```r
+df_ej_2 <- add_column(df_ej, peso_actual = c(60, 80, 70, 50, 65), 
+    peso_anterior = c(66, 78, 73, 54, 61))
+
+mutate(df_ej_2, peso_medio = mean(c(peso_actual, peso_anterior)))
+mutate(df_ej_2, peso_menor = pmin(peso_actual, peso_anterior))
+mutate(df_ej_2, peso_mayor = max(peso_actual, peso_anterior))
+mutate(df_ej_2, estatura_sq = estatura ^ 2, bmi = peso_actual / estatura_sq)
+```
 
 
 ### Summarise y resúmenes por grupo  {-}
@@ -541,28 +546,19 @@ y después operamos sobre cada grupo, creando un resumen a nivel grupo y uniendo
 los subconjuntos en una base nueva:
 
 
-```r
-summarise(by_sexo, promedio = mean(estatura))
-#> # A tibble: 2 x 2
-#>   sexo   promedio
-#>   <chr>     <dbl>
-#> 1 hombre     1.74
-#> 2 mujer      1.65
-```
 
 ![](img/manicule2.jpg) Calcula la población total por estado.
 
 
 
-![](img/manicule2.jpg) Calcula la población indígena y afromexicana
-por estado.
+* Calcula la población indígena y afromexicana por estado.
 
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ¿Qué otros 
-resúmenes puedes hacer para explorar los datos?
+* ¿Qué otros resúmenes puedes hacer para explorar los datos?
 
-* Algunas funciones útiles con _summarise_ son min(x), median(x), max(x), 
+
+Algunas funciones útiles con _summarise_ son min(x), median(x), max(x), 
 quantile(x, p), n(), sum(x), sum(x > 1), mean(x > 1), sd(x).
 
 Por ejemplo, para cada área metropolitana: cuántos municipios engloba (`n()`), 
@@ -701,7 +697,7 @@ z_prd_pt_mc_state <- election_2012 %>%
 
 Muchas veces debemos reunir información que está almacenada a lo largo de 
 muchas tablas, por ejemplo, si nos interesa conocer como se relaciona el año de 
-escolaridad promedio (`schoolyrs` en el `tibble` `df_edu`) con el porcentaje de
+escolaridad promedio (`schoolyrs` en el `df_edu`) con el porcentaje de
 población indígena (`indigenous` en `df_mxmunicipios`), debemos poder *pegar*
 las dos tablas.
 
@@ -858,7 +854,7 @@ election_2012_state <- election_2012 %>%
 election_map <- mxstate.map %>% 
     left_join(election_2012_state, by = c("region" = "state_code")) 
 
-ggplot(election_map, aes(long, lat, group=group)) +
+ggplot(election_map, aes(long, lat, group = group)) +
     geom_polygon(aes(fill = winner)) +
     coord_map()
 ```
@@ -900,7 +896,7 @@ hexbinmap_edo <- ggplot(election_hexbinmap, aes(long, lat,
     geom_text(data = state_labels_map, aes(long, lat, label = state_abbr)) +
     theme_void()
 
-grid.arrange(map_edo, hexbinmap_edo, nrow=1)
+grid.arrange(map_edo, hexbinmap_edo, nrow = 1)
 ```
 
 <img src="02-manipulacion_files/figure-html/unnamed-chunk-47-1.png" width="768" style="display: block; margin: auto;" />
@@ -914,12 +910,13 @@ de la población casada a total (mayores de 12 años).
 ## Datos limpios
 
 Una vez que importamos datos a R es conveniente limpiarlos, esto implica 
-almacenarlos de una manera consisistente que nos permita
-enfocarnos en responder preguntas de los datos en lugar de estar luchando 
-con los datos. Entonces, **datos limpios** son datos que facilitan las tareas 
-del análisis de datos: 
+almacenarlos de una manera consisistente que nos permita enfocarnos en responder 
+preguntas de los datos en lugar de estar luchando con los datos. 
 
-*  **Visualización**: Resúmenes de datos usando gráficas, análisis exploratorio, o presentación de resultados. 
+Datos limpios son datos que facilitan las tareas del análisis de datos: 
+
+*  **Visualización**: Resúmenes de datos usando gráficas, análisis exploratorio, 
+o presentación de resultados. 
 
 * **Manipulación**: Manipulación de variables como agregar, filtrar, reordenar,
 transformar. 
@@ -927,19 +924,21 @@ transformar.
 * **Modelación**: Ajustar modelos es sencillo si los datos están en la forma 
 correcta.
 
-
-Los principios de *datos limpios* [@tidy] 
+<div class="caja">
+Los **principios de los datos limpios** [@tidy] 
 proveen una manera estándar de organizar la información:
 
-1. Cada variable forma una columna.
-2. Cada observación forma un renglón.
-3. *Cada tipo de unidad observacional forma una tabla.*
+1. Cada columna es una variable.
+2. Cada renglón es una observación .
+3. Cada celda es un único valor.
+</div>
 
 Vale la pena notar que los principios de los datos limpios se pueden ver como 
-teoría de algebra relacional para estadísticos, estós principios equivalen a 
+teoría de algebra relacional para estadísticos, estós principios junto con 
+*cada tipo de unidad observacional forma una tabla* equivalen a 
 [la tercera forma normal de Codd](https://en.wikipedia.org/wiki/Third_normal_form) 
-con enfoque en una sola tabla de datos en 
-lugar de muchas conectadas en bases de datos relacionales. 
+con enfoque en una sola tabla de datos en lugar de muchas conectadas en bases de 
+datos relacionales. 
 
 Veamos un ejemplo:
 
@@ -1007,14 +1006,26 @@ La mayor parte de estos problemas se pueden arreglar con pocas herramientas,
 a continuación veremos como _limpiar_ datos usando 2 funciones del paquete 
 `tidyr`:
 
-* **gather**: recibe múltiples columnas y las junta en pares de valores y 
-nombres, convierte los datos anchos en largos.  
-* **spread**: recibe 2 columnas y las separa, haciendo los datos más anchos.
+* `pivot_longer()`: recibe múltiples columnas y las convierte en pares de
+valores y nombres de tal manera que alarga los datos.  
+* `pivot_wider()`: el opuesto a `pivot_longer()` recibe columnas que separa 
+haciendo los datos más anchos.
 
 Repasaremos los problemas más comunes que se encuentran en conjuntos de datos
 sucios y mostraremos como se puede manipular la tabla de datos (usando las 
 funciones *gather* y *spread*) con el fin de estructurarla para que cumpla los
 principios de datos limpios.
+
+**Nota:** Usaremos la versión de GitHub de `tidyr` pues las funciones de
+pivoteo aún no se encuentran en la versión de CRAN, la versión que actualmente
+está en CRAN cuenta con las funciones `gather()` y `spread()` que tienen 
+funcionalidad más limitada y son más confusas:
+
+
+```r
+devtools::install_github("tidyverse/tidyr")
+```
+
 
 ### Los encabezados de las columanas son valores {-}
 
@@ -1026,7 +1037,8 @@ PM2.5 de la red automática de monitoreo atmosférico
 
 
 ```r
-data(pm25_2019)
+library(tidyverse)
+library(estcomp)
 pm25_2019
 #> # A tibble: 5,088 x 26
 #>    date        hour   AJM   AJU   BJU   CAM   CCA COY   FAR     GAM   HGM
@@ -1050,64 +1062,53 @@ pm25_2019
 ¿Cuáles son las variables en estos datos?
 
 Esta base de datos tiene 4 variables: fecha, hora, estación y medición 
-(en $\mu g/m^3$, microgramos por metro cúbico). 
+(en microgramos por metro cúbico $\mu g/m^3$). 
 
-Notemos que al alargar los datos desapareceran las columnas que se agrupan y dan 
+
+
+Al alargar los datos desaparecerán las columnas que se agrupan y darán 
 lugar a dos nuevas columnas: la correspondiente a estación y la 
-correspondiente a medición. Entonces, para alargar una base de datos usamos la 
-función `gather` que recibe los argumentos:
+correspondiente a medición. Entonces,  usamos la función `pivot_longer()` que 
+recibe los argumentos:
 
-* data: base de datos que vamos a reestructurar.  
-* key: nombre de la nueva variable que contiene lo que fueron los nombres
-de columnas que apilamos.  
-* value: nombre de la variable que almacenará los valores que corresponden a 
-cada *key*.  
-* ...: lo último que especificamos son las columnas que vamos a apilar, la 
-notación para seleccionarlas es la misma que usamos con `select()`.
+* data: base de datos que vamos a pivotear.  
+* cols: columnas que vamos a pivotear a un formato largo (apilar), la 
+notación para seleccionarlas es `tidyselect`, la misma que usamos con `select()`
+en `dplyr`.
+* names_to: nombre (`string`: en comillas "") de la nueva columna que almacenará
+los nombres de las columnas en los datos.  
+* values_to: nombre (`string`: en comillas "") de la nueva columna que 
+almacenará los valores en los datos.
 
 
 ```r
-pm25_2019_tidy <- gather(pm25_2019, key = station, value = measurement, -date, 
-  -hour)
-head(pm25_2019_tidy)
-#> # A tibble: 6 x 4
-#>   date        hour station measurement
-#>   <date>     <dbl> <chr>         <dbl>
-#> 1 2019-01-01     1 AJM              19
-#> 2 2019-01-01     2 AJM              17
-#> 3 2019-01-01     3 AJM              14
-#> 4 2019-01-01     4 AJM               6
-#> 5 2019-01-01     5 AJM               4
-#> 6 2019-01-01     6 AJM               7
-tail(pm25_2019_tidy)
-#> # A tibble: 6 x 4
-#>   date        hour station measurement
-#>   <date>     <dbl> <chr>         <dbl>
-#> 1 2019-07-31    19 XAL              12
-#> 2 2019-07-31    20 XAL              11
-#> 3 2019-07-31    21 XAL               7
-#> 4 2019-07-31    22 XAL              NA
-#> 5 2019-07-31    23 XAL               7
-#> 6 2019-07-31    24 XAL               7
+pm25_2019_tidy <- pivot_longer(pm25_2019, cols = AJM:XAL, names_to = "station", 
+  values_to = "measurement")
+pm25_2019_tidy
+#> # A tibble: 122,112 x 4
+#>    date        hour station measurement
+#>    <date>     <dbl> <chr>         <dbl>
+#>  1 2019-01-01     1 AJM              19
+#>  2 2019-01-01     1 AJU              35
+#>  3 2019-01-01     1 BJU              62
+#>  4 2019-01-01     1 CAM              90
+#>  5 2019-01-01     1 CCA              66
+#>  6 2019-01-01     1 COY              NA
+#>  7 2019-01-01     1 FAR              NA
+#>  8 2019-01-01     1 GAM              NA
+#>  9 2019-01-01     1 HGM              56
+#> 10 2019-01-01     1 INN              22
+#> # … with 122,102 more rows
 ```
 
-Observemos que en la tabla ancha teníamos bajo la columna *<$10k*, en el renglón
-correspondiente a *Agnostic* un valor de 27, y podemos ver que este valor en 
-la tabla larga se almacena bajo la columna frecuencia y corresponde a religión
-*Agnostic*, income *<$10k*. También es importante ver que en este ejemplo 
-especificamos las columnas a apilar identificando la que **no** vamos a alargar
-con un signo negativo: es decir apila todas las columnas menos religión.
+Observemos que en la tabla ancha teníamos bajo la columna *AJM*, en el renglón
+correspondiente a *2019-01-01* hora *1* un valor de 19, y podemos ver que este 
+valor en la tabla larga se almacena bajo la columna *measurement* y corresponde 
+a la estación *AJM*.
 
 La nueva estructura de la base de datos nos permite, por ejemplo, hacer 
 fácilmente una gráfica donde podemos comparar las diferencias en las 
 frecuencias. 
-
-Nota: En esta sección no explicaremos las funciones de graficación pues estas 
-se cubren en las notas introductorias a R. En esta parte nos queremos concentrar
-en como limpiar datos y ejemplificar lo sencillo que es trabajar con datos 
-limpios, esto es, una vez que los datos fueron reestructurados es fácil 
-construir gráficas y resúmenes.
-
 
 
 ```r
@@ -1123,7 +1124,7 @@ pm25_2019_tidy %>%
         values = c("TRUE" = "salmon", "FALSE" = "gray"))
 ```
 
-<img src="02-manipulacion_files/figure-html/unnamed-chunk-51-1.png" width="672" style="display: block; margin: auto;" />
+<img src="02-manipulacion_files/figure-html/unnamed-chunk-53-1.png" width="672" style="display: block; margin: auto;" />
 
 Otro ejemplo, veamos los datos `df_edu`, ¿cuántas variables tenemos?
 
@@ -1149,44 +1150,43 @@ df_edu
 ```
 
 Notemos que el nivel de escolaridad esta guardado en 6 columnas (preschool,
-elementary, ..., other), este tipo de almacenamiento no es *limpio* pero 
-puede ser útil al momento de ingresar la información.
+elementary, ..., other), este tipo de almacenamiento *no es limpio* pero 
+puede ser útil al momento de ingresar la información o para presentarla.
 
 Para tener datos *limpios* apilamos los niveles de escolaridad de manera que 
 sea una sola columna (nuevamente alargamos los datos):
 
 
+
+
 ```r
-df_edu_tidy <- gather(data = df_edu, grade, percent, preschool:other, 
-    na.rm = TRUE)
+df_edu_tidy <- pivot_longer(data = df_edu, cols = preschool:other, 
+  names_to = "grade", values_to = "percent", values_drop_na = TRUE)
 glimpse(df_edu_tidy)
 #> Observations: 44,226
 #> Variables: 12
 #> $ state_code     <chr> "01", "01", "01", "01", "01", "01", "01", "01", "…
-#> $ municipio_code <chr> "001", "001", "001", "002", "002", "002", "003", …
-#> $ region         <chr> "01001", "01001", "01001", "01002", "01002", "010…
+#> $ municipio_code <chr> "001", "001", "001", "001", "001", "001", "001", …
+#> $ region         <chr> "01001", "01001", "01001", "01001", "01001", "010…
 #> $ state_name     <chr> "Aguascalientes", "Aguascalientes", "Aguascalient…
 #> $ state_abbr     <chr> "AGS", "AGS", "AGS", "AGS", "AGS", "AGS", "AGS", …
 #> $ municipio_name <chr> "Aguascalientes", "Aguascalientes", "Aguascalient…
-#> $ sex            <chr> "Total", "Hombres", "Mujeres", "Total", "Hombres"…
-#> $ pop_15         <dbl> 631064, 301714, 329350, 31013, 14991, 16022, 3867…
-#> $ no_school      <dbl> 2.662329, 2.355211, 2.943677, 4.011221, 4.389300,…
-#> $ schoolyrs      <dbl> 10.211152, 10.380144, 10.056383, 7.854005, 7.6920…
-#> $ grade          <chr> "preschool", "preschool", "preschool", "preschool…
-#> $ percent        <dbl> 0.17335801, 0.17466873, 0.17215728, 0.25795634, 0…
+#> $ sex            <chr> "Total", "Total", "Total", "Total", "Total", "Tot…
+#> $ pop_15         <dbl> 631064, 631064, 631064, 631064, 631064, 631064, 3…
+#> $ no_school      <dbl> 2.662329, 2.662329, 2.662329, 2.662329, 2.662329,…
+#> $ schoolyrs      <dbl> 10.211152, 10.211152, 10.211152, 10.211152, 10.21…
+#> $ grade          <chr> "preschool", "elementary", "secondary", "highscho…
+#> $ percent        <dbl> 0.17335801, 20.15247265, 29.31144860, 23.31823714…
 ```
 
-Notemos que en esta ocasión especificamos las columnas que vamos a apilar
-indicando el nombre de la primera de ellas seguido de `:` y por último el 
-nombre de la última variable a apilar. 
-
-Por otra parte, el parámetro `na.rm = TRUE` se utiliza para eliminar los
+El parámetro `values_drop_na = TRUE` se utiliza para eliminar los
 renglones con valores faltantes en la columna de porcentaje, esto es, eliminamos
-aquellas observaciones que tenían NA en la columnas de nivel de escolaridad de
+aquellas observaciones que tenían `NA` en la columnas de nivel de escolaridad de
 la tabla ancha. En este caso optamos por que los faltantes sean implícitos, la
 conveniencia de tenerlos implícitos/explícitos dependerá de la aplicación.
 
-Con los datos limpios es facil hacer manipulaciones y graficar.
+Con los datos limpios es facil hacer manipulaciones, ¿cómo habrían hecho la 
+siguiente gráfica antes de la limpieza?
 
 
 ```r
@@ -1203,17 +1203,10 @@ ggplot(df_edu_cdmx, aes(x = grade,
         "secondary", "highschool", "higher_edu"))
 ```
 
-<img src="02-manipulacion_files/figure-html/unnamed-chunk-54-1.png" width="672" style="display: block; margin: auto;" />
-
-
+<img src="02-manipulacion_files/figure-html/unnamed-chunk-57-1.png" width="672" style="display: block; margin: auto;" />
 
 
 ### Una columna asociada a más de una variable {-}
-
-La siguiente base de datos proviene de la Organización Mundial de la Salud y 
-contiene el número de casos confirmados de tuberculosis por país y año, la
-información esta por grupo demográfico de acuerdo a sexo (m, f), y edad (0-4, 
-5-14, etc). Los datos están disponibles en http://www.who.int/tb/country/data/download/en/. 
 
 Utilizaremos un subconjunto de los datos de la prueba ENLACE a nivel primaria,
 la prueba [ENLACE](http://www.enlace.sep.gob.mx/ba/) evaluaba a todos los 
@@ -1229,40 +1222,43 @@ enlacep_sub_2013 <- enlacep_2013 %>%
 glimpse(enlacep_sub_2013)
 #> Observations: 1,000
 #> Variables: 22
-#> $ CVE_ENT    <chr> "17", "16", "13", "08", "07", "15", "30", "07", "21",…
-#> $ NOM_ENT    <chr> "MORELOS", "MICHOACAN", "HIDALGO", "CHIHUAHUA", "CHIA…
-#> $ CCT        <chr> "17PPR0378M", "16KPR4080K", "13DPR1881A", "08DPB0588D…
-#> $ TURNO      <chr> "MATUTINO", "MATUTINO", "MATUTINO", "MATUTINO", "MATU…
-#> $ ESCUELA    <chr> "COLEGIO HARAMBEE", "CABEZAL, EL", "LIC. ADOLFO LOPEZ…
-#> $ TIPO       <chr> "PARTICULAR", "CONAFE", "GENERAL", "INDêGENA", "CONAF…
-#> $ CVE_MUN    <chr> "031", "008", "083", "030", "019", "033", "121", "057…
-#> $ NOM_MUN    <chr> "ZACATEPEC", "AQUILA", "ZEMPOALA", "GUAZAPARES", "COM…
-#> $ CVE_LOC    <chr> "0001", "0290", "0032", "1148", "0307", "0001", "0042…
-#> $ NOM_LOC    <chr> "ZACATEPEC DE HIDALGO", "CABEZAL, EL", "VILLA MARGARI…
-#> $ PUNT_ESP_3 <dbl> 451, NA, 598, 532, 582, 626, 460, 388, 525, 631, 625,…
-#> $ PUNT_MAT_3 <dbl> 404, NA, 649, 533, 557, 685, 472, 382, 555, 662, 650,…
-#> $ PUNT_FCE_3 <dbl> 433, NA, 578, 436, 533, 552, 435, 392, 459, 600, 586,…
-#> $ PUNT_ESP_4 <dbl> 560, 422, 621, 471, NA, 518, 401, 377, 556, 614, 608,…
-#> $ PUNT_MAT_4 <dbl> 549, 373, 618, 474, NA, 501, 426, 379, 579, 572, 611,…
-#> $ PUNT_FCE_4 <dbl> 499, 397, 583, 408, NA, 434, 397, 344, 504, 555, 515,…
-#> $ PUNT_ESP_5 <dbl> 573, 377, 606, 431, NA, 460, 459, 428, 582, 626, 634,…
-#> $ PUNT_MAT_5 <dbl> 564, 390, 620, 384, NA, 536, 463, 380, 589, 607, 730,…
-#> $ PUNT_FCE_5 <dbl> 542, 382, 550, 422, NA, 442, 413, 392, 543, 552, 597,…
-#> $ PUNT_ESP_6 <dbl> 452, NA, 612, 396, 371, 427, 422, NA, 553, 555, 621, …
-#> $ PUNT_MAT_6 <dbl> 439, NA, 661, 410, 336, 471, 459, NA, 632, 506, 626, …
-#> $ PUNT_FCE_6 <dbl> 360, NA, 556, 375, 341, 445, 445, NA, 520, 529, 567, …
+#> $ CVE_ENT    <chr> "24", "11", "11", "14", "07", "21", "11", "08", "07",…
+#> $ NOM_ENT    <chr> "SAN LUIS POTOSI", "GUANAJUATO", "GUANAJUATO", "JALIS…
+#> $ CCT        <chr> "24PPR0344F", "11DPR3613V", "11DPR1762P", "14DPR1884X…
+#> $ TURNO      <chr> "MATUTINO", "MATUTINO", "MATUTINO", "VESPERTINO", "MA…
+#> $ ESCUELA    <chr> "COLEGIO TELPOCHCALLI", "LAZARO CARDENAS DEL RIO", "P…
+#> $ TIPO       <chr> "PARTICULAR", "GENERAL", "GENERAL", "GENERAL", "GENER…
+#> $ CVE_MUN    <chr> "028", "007", "013", "065", "059", "015", "046", "029…
+#> $ NOM_MUN    <chr> "SAN LUIS POTOSI", "CELAYA", "DOCTOR MORA", "PIHUAMO"…
+#> $ CVE_LOC    <chr> "0001", "0001", "0016", "0175", "0732", "0031", "0091…
+#> $ NOM_LOC    <chr> "SAN LUIS POTOSI", "CELAYA", "DERRAMADERO DE CHARCAS"…
+#> $ PUNT_ESP_3 <dbl> 669, 497, 557, 522, 668, 550, 577, 586, 479, 778, 515…
+#> $ PUNT_MAT_3 <dbl> 744, 509, 642, 548, 732, 585, 571, 706, 463, 799, 469…
+#> $ PUNT_FCE_3 <dbl> 629, 451, 455, 541, 631, 522, 463, 534, 457, 675, 384…
+#> $ PUNT_ESP_4 <dbl> 636, 491, NA, 464, 542, 613, 623, 647, 540, 766, 551,…
+#> $ PUNT_MAT_4 <dbl> 661, 510, NA, 584, 622, 615, 664, 769, 552, 827, 559,…
+#> $ PUNT_FCE_4 <dbl> 593, 488, NA, 536, 515, 525, 580, 589, 460, 676, 571,…
+#> $ PUNT_ESP_5 <dbl> 689, 452, NA, 359, 563, 619, 605, 603, 401, 740, 499,…
+#> $ PUNT_MAT_5 <dbl> 644, 494, NA, 308, 388, 632, 695, 754, 368, 756, 498,…
+#> $ PUNT_FCE_5 <dbl> 589, 436, NA, 434, 632, 542, 525, 554, 447, 622, 427,…
+#> $ PUNT_ESP_6 <dbl> NA, 451, NA, NA, 586, 629, 562, 489, 353, 742, 514, 3…
+#> $ PUNT_MAT_6 <dbl> NA, 470, NA, NA, 666, 684, 662, 619, 394, 770, 535, 4…
+#> $ PUNT_FCE_6 <dbl> NA, 474, NA, NA, 605, 520, 524, 433, 369, 613, 498, 3…
 ```
 
-![](img/manicule2.jpg) De manera similar a los ejemplos anteriores, 
-utiliza la función `gather` para apilar las columnas correspondientes a 
+![](img/manicule2.jpg) ¿Cuántas variables tiene este subconjunto de los datos?
+
+* De manera similar a los ejemplos anteriores, 
+utiliza la función `pivot_longer` para apilar las columnas correspondientes a 
 área-grado.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Piensa en 
-como podemos separar la "variable" área-grado en dos columnas. 
 
 
 
-Ahora separaremos las variables materia y grado de la columna  `materia_grado`, 
+
+* Piensa en como podemos separar la "variable" área-grado en dos columnas. 
+
+Ahora separaremos las variables área grado de la columna  `AREA_GRADO`, 
 para ello debemos pasar a la función `separate()`, esta recibe como parámetros:  
 
 * el nombre de la base de datos,  
@@ -1278,20 +1274,20 @@ lugares que encuentre un caracter que no es alfanumérico (espacio, guión,...).
 enlacep_tidy <- separate(data = enlacep_long, col = AREA_GRADO, 
     into = c("AREA", "GRADO"), sep = 9)
 enlacep_tidy
-#> # A tibble: 11,288 x 13
+#> # A tibble: 12,000 x 13
 #>    CVE_ENT NOM_ENT CCT   TURNO ESCUELA TIPO  CVE_MUN NOM_MUN CVE_LOC
 #>    <chr>   <chr>   <chr> <chr> <chr>   <chr> <chr>   <chr>   <chr>  
-#>  1 17      MORELOS 17PP… MATU… COLEGI… PART… 031     ZACATE… 0001   
-#>  2 13      HIDALGO 13DP… MATU… LIC. A… GENE… 083     ZEMPOA… 0032   
-#>  3 08      CHIHUA… 08DP… MATU… IGNACI… INDê… 030     GUAZAP… 1148   
-#>  4 07      CHIAPAS 07KP… MATU… EL ROS… CONA… 019     COMITA… 0307   
-#>  5 15      MEXICO  15DP… VESP… GRAL. … GENE… 033     ECATEP… 0001   
-#>  6 30      VERACR… 30DP… MATU… JAIME … GENE… 121     "OZULU… 0042   
-#>  7 07      CHIAPAS 07KP… MATU… LAS DE… CONA… 057     MOTOZI… 0576   
-#>  8 21      PUEBLA  21DP… MATU… MEXICO  GENE… 156     TEHUAC… 0001   
-#>  9 27      TABASCO 27PP… MATU… PAIDOS  PART… 004     CENTRO  0001   
-#> 10 30      VERACR… 30PP… MATU… COLEGI… PART… 038     COATEP… 0001   
-#> # … with 11,278 more rows, and 4 more variables: NOM_LOC <chr>,
+#>  1 24      SAN LU… 24PP… MATU… COLEGI… PART… 028     SAN LU… 0001   
+#>  2 24      SAN LU… 24PP… MATU… COLEGI… PART… 028     SAN LU… 0001   
+#>  3 24      SAN LU… 24PP… MATU… COLEGI… PART… 028     SAN LU… 0001   
+#>  4 24      SAN LU… 24PP… MATU… COLEGI… PART… 028     SAN LU… 0001   
+#>  5 24      SAN LU… 24PP… MATU… COLEGI… PART… 028     SAN LU… 0001   
+#>  6 24      SAN LU… 24PP… MATU… COLEGI… PART… 028     SAN LU… 0001   
+#>  7 24      SAN LU… 24PP… MATU… COLEGI… PART… 028     SAN LU… 0001   
+#>  8 24      SAN LU… 24PP… MATU… COLEGI… PART… 028     SAN LU… 0001   
+#>  9 24      SAN LU… 24PP… MATU… COLEGI… PART… 028     SAN LU… 0001   
+#> 10 24      SAN LU… 24PP… MATU… COLEGI… PART… 028     SAN LU… 0001   
+#> # … with 11,990 more rows, and 4 more variables: NOM_LOC <chr>,
 #> #   AREA <chr>, GRADO <chr>, PUNTAJE <dbl>
 
 # creamos un mejor código de área
@@ -1299,25 +1295,115 @@ enlacep_tidy <- enlacep_tidy %>%
     mutate(
         AREA = substr(AREA, 6, 8),
         GRADO = as.numeric(GRADO)
-        ) %>% 
-    janitor::clean_names()
+        ) 
 glimpse(enlacep_tidy)
-#> Observations: 11,288
+#> Observations: 12,000
 #> Variables: 13
-#> $ cve_ent <chr> "17", "13", "08", "07", "15", "30", "07", "21", "27", "3…
-#> $ nom_ent <chr> "MORELOS", "HIDALGO", "CHIHUAHUA", "CHIAPAS", "MEXICO", …
-#> $ cct     <chr> "17PPR0378M", "13DPR1881A", "08DPB0588D", "07KPR5100G", …
-#> $ turno   <chr> "MATUTINO", "MATUTINO", "MATUTINO", "MATUTINO", "VESPERT…
-#> $ escuela <chr> "COLEGIO HARAMBEE", "LIC. ADOLFO LOPEZ MATEOS", "IGNACIO…
-#> $ tipo    <chr> "PARTICULAR", "GENERAL", "INDêGENA", "CONAFE", "GENERAL"…
-#> $ cve_mun <chr> "031", "083", "030", "019", "033", "121", "057", "156", …
-#> $ nom_mun <chr> "ZACATEPEC", "ZEMPOALA", "GUAZAPARES", "COMITAN DE DOMIN…
-#> $ cve_loc <chr> "0001", "0032", "1148", "0307", "0001", "0042", "0576", …
-#> $ nom_loc <chr> "ZACATEPEC DE HIDALGO", "VILLA MARGARITA", "MESA DE OCOV…
-#> $ area    <chr> "ESP", "ESP", "ESP", "ESP", "ESP", "ESP", "ESP", "ESP", …
-#> $ grado   <dbl> 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,…
-#> $ puntaje <dbl> 451, 598, 532, 582, 626, 460, 388, 525, 631, 625, 568, 6…
+#> $ CVE_ENT <chr> "24", "24", "24", "24", "24", "24", "24", "24", "24", "2…
+#> $ NOM_ENT <chr> "SAN LUIS POTOSI", "SAN LUIS POTOSI", "SAN LUIS POTOSI",…
+#> $ CCT     <chr> "24PPR0344F", "24PPR0344F", "24PPR0344F", "24PPR0344F", …
+#> $ TURNO   <chr> "MATUTINO", "MATUTINO", "MATUTINO", "MATUTINO", "MATUTIN…
+#> $ ESCUELA <chr> "COLEGIO TELPOCHCALLI", "COLEGIO TELPOCHCALLI", "COLEGIO…
+#> $ TIPO    <chr> "PARTICULAR", "PARTICULAR", "PARTICULAR", "PARTICULAR", …
+#> $ CVE_MUN <chr> "028", "028", "028", "028", "028", "028", "028", "028", …
+#> $ NOM_MUN <chr> "SAN LUIS POTOSI", "SAN LUIS POTOSI", "SAN LUIS POTOSI",…
+#> $ CVE_LOC <chr> "0001", "0001", "0001", "0001", "0001", "0001", "0001", …
+#> $ NOM_LOC <chr> "SAN LUIS POTOSI", "SAN LUIS POTOSI", "SAN LUIS POTOSI",…
+#> $ AREA    <chr> "ESP", "MAT", "FCE", "ESP", "MAT", "FCE", "ESP", "MAT", …
+#> $ GRADO   <dbl> 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 3, 3, 3, 4, 4, 4, 5,…
+#> $ PUNTAJE <dbl> 669, 744, 629, 636, 661, 593, 689, 644, 589, NA, NA, NA,…
 ```
+
+Conforme nos habituemos a las funciones podemos sacar provecho de sus 
+argumentos adicionales:
+
+* `names_prefix`: recibe una expresión regular para eliminar el texto que 
+coincida del inicio de una variable.
+
+
+```r
+pivot_longer(enlacep_sub_2013, cols = contains("PUNT"), 
+  names_to = c("AREA_GRADO"), values_to = "PUNTAJE", 
+  names_prefix = "PUNT_") %>% 
+  glimpse()
+#> Observations: 12,000
+#> Variables: 12
+#> $ CVE_ENT    <chr> "24", "24", "24", "24", "24", "24", "24", "24", "24",…
+#> $ NOM_ENT    <chr> "SAN LUIS POTOSI", "SAN LUIS POTOSI", "SAN LUIS POTOS…
+#> $ CCT        <chr> "24PPR0344F", "24PPR0344F", "24PPR0344F", "24PPR0344F…
+#> $ TURNO      <chr> "MATUTINO", "MATUTINO", "MATUTINO", "MATUTINO", "MATU…
+#> $ ESCUELA    <chr> "COLEGIO TELPOCHCALLI", "COLEGIO TELPOCHCALLI", "COLE…
+#> $ TIPO       <chr> "PARTICULAR", "PARTICULAR", "PARTICULAR", "PARTICULAR…
+#> $ CVE_MUN    <chr> "028", "028", "028", "028", "028", "028", "028", "028…
+#> $ NOM_MUN    <chr> "SAN LUIS POTOSI", "SAN LUIS POTOSI", "SAN LUIS POTOS…
+#> $ CVE_LOC    <chr> "0001", "0001", "0001", "0001", "0001", "0001", "0001…
+#> $ NOM_LOC    <chr> "SAN LUIS POTOSI", "SAN LUIS POTOSI", "SAN LUIS POTOS…
+#> $ AREA_GRADO <chr> "ESP_3", "MAT_3", "FCE_3", "ESP_4", "MAT_4", "FCE_4",…
+#> $ PUNTAJE    <dbl> 669, 744, 629, 636, 661, 593, 689, 644, 589, NA, NA, …
+```
+
+* `names_sep`: nos permite hacer el pivoteo y separar en una misma operación, 
+en este caso `names_to` consiste en un vector con más de una entrada y 
+`names_sep` indica como separar el nombre de las columnas.
+
+
+```r
+pivot_longer(enlacep_sub_2013, cols = contains("PUNT"), 
+  names_to = c("AREA", "GRADO"), values_to = "PUNTAJE", names_prefix = "PUNT_", 
+  names_sep = "_") %>% 
+  glimpse()
+#> Observations: 12,000
+#> Variables: 13
+#> $ CVE_ENT <chr> "24", "24", "24", "24", "24", "24", "24", "24", "24", "2…
+#> $ NOM_ENT <chr> "SAN LUIS POTOSI", "SAN LUIS POTOSI", "SAN LUIS POTOSI",…
+#> $ CCT     <chr> "24PPR0344F", "24PPR0344F", "24PPR0344F", "24PPR0344F", …
+#> $ TURNO   <chr> "MATUTINO", "MATUTINO", "MATUTINO", "MATUTINO", "MATUTIN…
+#> $ ESCUELA <chr> "COLEGIO TELPOCHCALLI", "COLEGIO TELPOCHCALLI", "COLEGIO…
+#> $ TIPO    <chr> "PARTICULAR", "PARTICULAR", "PARTICULAR", "PARTICULAR", …
+#> $ CVE_MUN <chr> "028", "028", "028", "028", "028", "028", "028", "028", …
+#> $ NOM_MUN <chr> "SAN LUIS POTOSI", "SAN LUIS POTOSI", "SAN LUIS POTOSI",…
+#> $ CVE_LOC <chr> "0001", "0001", "0001", "0001", "0001", "0001", "0001", …
+#> $ NOM_LOC <chr> "SAN LUIS POTOSI", "SAN LUIS POTOSI", "SAN LUIS POTOSI",…
+#> $ AREA    <chr> "ESP", "MAT", "FCE", "ESP", "MAT", "FCE", "ESP", "MAT", …
+#> $ GRADO   <chr> "3", "3", "3", "4", "4", "4", "5", "5", "5", "6", "6", "…
+#> $ PUNTAJE <dbl> 669, 744, 629, 636, 661, 593, 689, 644, 589, NA, NA, NA,…
+```
+
+* `names_pattern`: similar a `names_sep` pero recibe una expresión regular.
+
+
+```r
+pivot_longer(enlacep_sub_2013, cols = contains("PUNT"), 
+  names_to = c("AREA", "GRADO"), names_pattern = "PUNT_?(.*)_(.*)", 
+  values_to = "PUNTAJE")
+```
+
+* `names_ptypes, values_ptypes`: permiten especificar el tipo de las nuevas
+columnas.
+
+
+```r
+pivot_longer(enlacep_sub_2013, cols = contains("PUNT"), 
+  names_to = c("AREA", "GRADO"), values_to = "PUNTAJE", names_prefix = "PUNT_", 
+  names_sep = "_", names_ptypes = list(GRADO = integer())) %>% 
+  glimpse()
+#> Observations: 12,000
+#> Variables: 13
+#> $ CVE_ENT <chr> "24", "24", "24", "24", "24", "24", "24", "24", "24", "2…
+#> $ NOM_ENT <chr> "SAN LUIS POTOSI", "SAN LUIS POTOSI", "SAN LUIS POTOSI",…
+#> $ CCT     <chr> "24PPR0344F", "24PPR0344F", "24PPR0344F", "24PPR0344F", …
+#> $ TURNO   <chr> "MATUTINO", "MATUTINO", "MATUTINO", "MATUTINO", "MATUTIN…
+#> $ ESCUELA <chr> "COLEGIO TELPOCHCALLI", "COLEGIO TELPOCHCALLI", "COLEGIO…
+#> $ TIPO    <chr> "PARTICULAR", "PARTICULAR", "PARTICULAR", "PARTICULAR", …
+#> $ CVE_MUN <chr> "028", "028", "028", "028", "028", "028", "028", "028", …
+#> $ NOM_MUN <chr> "SAN LUIS POTOSI", "SAN LUIS POTOSI", "SAN LUIS POTOSI",…
+#> $ CVE_LOC <chr> "0001", "0001", "0001", "0001", "0001", "0001", "0001", …
+#> $ NOM_LOC <chr> "SAN LUIS POTOSI", "SAN LUIS POTOSI", "SAN LUIS POTOSI",…
+#> $ AREA    <chr> "ESP", "MAT", "FCE", "ESP", "MAT", "FCE", "ESP", "MAT", …
+#> $ GRADO   <int> 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 3, 3, 3, 4, 4, 4, 5,…
+#> $ PUNTAJE <dbl> 669, 744, 629, 636, 661, 593, 689, 644, 589, NA, NA, NA,…
+```
+
 
 ### Variables almacenadas en filas y columnas {-}
 
@@ -1353,23 +1439,25 @@ Error estándar).
 Comencemos por apilar las columnas.
 
 
+
+
 ```r
-fertility_long <- gather(df_fertility, age_bracket, value, age_15_19:global, 
-    na.rm = TRUE)
+fertility_long <- pivot_longer(df_fertility, cols = age_15_19:global, 
+  names_to = "age_bracket", values_to = "value", names_prefix = "age_")
 fertility_long
 #> # A tibble: 2,448 x 5
-#>    state             size_localidad          est          age_bracket value
-#>    <chr>             <chr>                   <chr>        <chr>       <dbl>
-#>  1 01 Aguascalientes Menos de 2 500 habitan… Valor        age_15_19   74.2 
-#>  2 01 Aguascalientes Menos de 2 500 habitan… Error están… age_15_19    6.71
-#>  3 01 Aguascalientes 2 500-14 999 habitantes Valor        age_15_19   82.5 
-#>  4 01 Aguascalientes 2 500-14 999 habitantes Error están… age_15_19    9.79
-#>  5 01 Aguascalientes 15 000-49 999 habitant… Valor        age_15_19   72.6 
-#>  6 01 Aguascalientes 15 000-49 999 habitant… Error están… age_15_19    7.07
-#>  7 01 Aguascalientes 100 000 y más habitant… Valor        age_15_19   66.3 
-#>  8 01 Aguascalientes 100 000 y más habitant… Error están… age_15_19    7.57
-#>  9 02 Baja Californ… Menos de 2 500 habitan… Valor        age_15_19   89.6 
-#> 10 02 Baja Californ… Menos de 2 500 habitan… Error están… age_15_19   15.8 
+#>    state            size_localidad          est          age_bracket  value
+#>    <chr>            <chr>                   <chr>        <chr>        <dbl>
+#>  1 01 Aguascalient… Menos de 2 500 habitan… Valor        15_19        74.2 
+#>  2 01 Aguascalient… Menos de 2 500 habitan… Valor        20_24       175.  
+#>  3 01 Aguascalient… Menos de 2 500 habitan… Valor        25_29       175.  
+#>  4 01 Aguascalient… Menos de 2 500 habitan… Valor        30_34       102.  
+#>  5 01 Aguascalient… Menos de 2 500 habitan… Valor        35_39        59.0 
+#>  6 01 Aguascalient… Menos de 2 500 habitan… Valor        40_44        23.0 
+#>  7 01 Aguascalient… Menos de 2 500 habitan… Valor        45_49         4.49
+#>  8 01 Aguascalient… Menos de 2 500 habitan… Valor        global        3.06
+#>  9 01 Aguascalient… Menos de 2 500 habitan… Error están… 15_19         6.71
+#> 10 01 Aguascalient… Menos de 2 500 habitan… Error están… 20_24        11.0 
 #> # … with 2,438 more rows
 ```
 
@@ -1385,32 +1473,34 @@ fertility_vars <- fertility_long %>%
     select(-state)
 fertility_vars
 #> # A tibble: 2,448 x 6
-#>    size_localidad       est       age_bracket value state_code state_name  
-#>    <chr>                <chr>     <chr>       <dbl> <chr>      <chr>       
-#>  1 Menos de 2 500 habi… Valor     age_15_19   74.2  01         Aguascalien…
-#>  2 Menos de 2 500 habi… Error es… age_15_19    6.71 01         Aguascalien…
-#>  3 2 500-14 999 habita… Valor     age_15_19   82.5  01         Aguascalien…
-#>  4 2 500-14 999 habita… Error es… age_15_19    9.79 01         Aguascalien…
-#>  5 15 000-49 999 habit… Valor     age_15_19   72.6  01         Aguascalien…
-#>  6 15 000-49 999 habit… Error es… age_15_19    7.07 01         Aguascalien…
-#>  7 100 000 y más habit… Valor     age_15_19   66.3  01         Aguascalien…
-#>  8 100 000 y más habit… Error es… age_15_19    7.57 01         Aguascalien…
-#>  9 Menos de 2 500 habi… Valor     age_15_19   89.6  02         Baja Califo…
-#> 10 Menos de 2 500 habi… Error es… age_15_19   15.8  02         Baja Califo…
+#>    size_localidad       est       age_bracket  value state_code state_name 
+#>    <chr>                <chr>     <chr>        <dbl> <chr>      <chr>      
+#>  1 Menos de 2 500 habi… Valor     15_19        74.2  01         Aguascalie…
+#>  2 Menos de 2 500 habi… Valor     20_24       175.   01         Aguascalie…
+#>  3 Menos de 2 500 habi… Valor     25_29       175.   01         Aguascalie…
+#>  4 Menos de 2 500 habi… Valor     30_34       102.   01         Aguascalie…
+#>  5 Menos de 2 500 habi… Valor     35_39        59.0  01         Aguascalie…
+#>  6 Menos de 2 500 habi… Valor     40_44        23.0  01         Aguascalie…
+#>  7 Menos de 2 500 habi… Valor     45_49         4.49 01         Aguascalie…
+#>  8 Menos de 2 500 habi… Valor     global        3.06 01         Aguascalie…
+#>  9 Menos de 2 500 habi… Error es… 15_19         6.71 01         Aguascalie…
+#> 10 Menos de 2 500 habi… Error es… 20_24        11.0  01         Aguascalie…
 #> # … with 2,438 more rows
 ```
 
 Finalmente, la columna *est* no es una variable, sino que almacena el nombre 
-de 5 variables, la operación que debemos aplicar (`spread`) es el inverso de 
-apilar (`gather`):
+de 2 variables: *Valor* y *Error Estándar* la operación que debemos aplicar 
+(`pivot_wider()`) es el inverso de apilar (`pivot_longer`):
+
+
 
 
 ```r
-fertility_tidy <- spread(data = fertility_vars, key = est, value = value)
+fertility_tidy <- pivot_wider(fertility_vars, names_from = est, 
+  values_from = value)
 ```
 
-Y podemos mejorar los nombres de las columnas, una opción *rápida* es usar el
-paquete `janitor`.
+Y podemos mejorar los nombres de las columnas, una opción rápida es usar el paquete janitor.
 
 
 ```r
@@ -1419,12 +1509,12 @@ fertility_tidy %>%
     glimpse()
 #> Observations: 1,224
 #> Variables: 6
-#> $ size_localidad <chr> "100 000 y más habitantes", "100 000 y más habita…
-#> $ age_bracket    <chr> "age_15_19", "age_15_19", "age_15_19", "age_15_19…
-#> $ state_code     <chr> "01", "02", "03", "04", "05", "06", "07", "08", "…
-#> $ state_name     <chr> "Aguascalientes", "Baja California", "Baja Califo…
-#> $ error_estandar <dbl> 7.572352, 3.204220, 13.055474, 9.145983, 4.819321…
-#> $ valor          <dbl> 66.33564, 43.03023, 58.97916, 61.79522, 80.08338,…
+#> $ size_localidad <chr> "Menos de 2 500 habitantes", "Menos de 2 500 habi…
+#> $ age_bracket    <chr> "15_19", "20_24", "25_29", "30_34", "35_39", "40_…
+#> $ state_code     <chr> "01", "01", "01", "01", "01", "01", "01", "01", "…
+#> $ state_name     <chr> "Aguascalientes", "Aguascalientes", "Aguascalient…
+#> $ valor          <dbl> 74.2032276, 175.0281396, 174.5274362, 101.5836230…
+#> $ error_estandar <dbl> 6.70671255, 11.00329648, 9.34594033, 8.04764573, …
 ```
 
 o podemos hacerlo manualmente
@@ -1449,23 +1539,23 @@ summary(fertility_lm)
 #> 
 #> Residuals:
 #>     Min      1Q  Median      3Q     Max 
-#> -7.3784 -2.3282 -0.5896  1.1359 31.5091 
+#> -55.060  -5.778  -0.383   6.874  55.133 
 #> 
 #> Coefficients:
-#>                      Estimate Std. Error t value Pr(>|t|)    
-#> (Intercept)            6.8723     0.3277  20.973  < 2e-16 ***
-#> age_bracketage_20_24   2.3948     0.4634   5.168 2.83e-07 ***
-#> age_bracketage_25_29   2.3272     0.4634   5.022 5.99e-07 ***
-#> age_bracketage_30_34   1.2363     0.4634   2.668  0.00775 ** 
-#> age_bracketage_35_39  -0.9413     0.4634  -2.031  0.04246 *  
-#> age_bracketage_40_44  -3.7525     0.4634  -8.098 1.52e-15 ***
-#> age_bracketage_45_49  -6.0480     0.4634 -13.051  < 2e-16 ***
+#>                  Estimate Std. Error t value Pr(>|t|)    
+#> (Intercept)        66.505      1.143   58.21   <2e-16 ***
+#> age_bracket20_24   70.675      1.616   43.74   <2e-16 ***
+#> age_bracket25_29   58.881      1.616   36.44   <2e-16 ***
+#> age_bracket30_34   22.910      1.616   14.18   <2e-16 ***
+#> age_bracket35_39  -20.312      1.616  -12.57   <2e-16 ***
+#> age_bracket40_44  -53.346      1.616  -33.01   <2e-16 ***
+#> age_bracket45_49  -64.797      1.616  -40.10   <2e-16 ***
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
-#> Residual standard error: 4.053 on 1064 degrees of freedom
-#> Multiple R-squared:  0.3479,	Adjusted R-squared:  0.3443 
-#> F-statistic: 94.62 on 6 and 1064 DF,  p-value: < 2.2e-16
+#> Residual standard error: 14.13 on 1064 degrees of freedom
+#> Multiple R-squared:  0.922,	Adjusted R-squared:  0.9215 
+#> F-statistic:  2096 on 6 and 1064 DF,  p-value: < 2.2e-16
 ```
 
 ### Mas de un tipo de observación en una misma tabla {-}
@@ -1556,12 +1646,11 @@ separados en muchas tablas o archivos, es común que estas tablas esten dividida
 de acuerdo a una variable, de tal manera que cada archivo representa a una 
 persona, año o ubicación. Para juntar los archivos hacemos lo siguiente:
 
-1. Leemos los archivos en una lista de tablas. 
-2. Para cada tabla agregamos una columna que registra el nombre del archivo 
-original. 
+1. Enlistamos las rutas de los archivos. 
+2. Leemos cada archivo y agregamos una columna con el nombre del archivo. 
 3. Combinamos las tablas en un solo data frame.  
 
-Veamos un ejemplo, descarga la carpeta con los datos de varios contaminantes
+Veamos un ejemplo, descargamos la carpeta con los datos de varios contaminantes
 de RAMA,
 
 
@@ -1579,12 +1668,10 @@ nombres de los archivos en un directorio, eligiendo aquellos que contengan las
 letras ".csv".
 
 
+
+
 ```r
-library(here)
-dir_rama <- here("data", "19RAMA")
-paths <- dir(dir_rama, pattern = "\\.xls$", full.names = TRUE) 
-paths
-#> character(0)
+paths <- dir("data/19RAMA", pattern = "\\.xls$", full.names = TRUE)
 ```
 
 Después le asignamos el nombre del archivo al nombre de cada elemento del vector.
@@ -1635,6 +1722,10 @@ mejor que AgeDx).
 * Otros aspectos importantes en la _limpieza_ de datos son: selección del tipo 
 de variables (por ejemplo fechas), datos faltantes, _typos_ y detección de 
 valores atípicos.
+
+Finalmente vale la pena notar que aunque los datos limpios facilitan las 
+tareas de análisis, distintas funciones o tareas requieren los datos en 
+distintos formas y saber pivotear las tablas es muy útil.
 
 ### Recursos adicionales {-}
 

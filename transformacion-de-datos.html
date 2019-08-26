@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3.1 Transformación de datos | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
-  <meta name="generator" content="bookdown 0.12.2 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.13.1 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3.1 Transformación de datos | Estadística Computacional" />
   <meta property="og:type" content="book" />
@@ -185,6 +185,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#recursos-adicionales"><i class="fa fa-check"></i>Recursos adicionales</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="4" data-path="temas-selectos-de-r.html"><a href="temas-selectos-de-r.html"><i class="fa fa-check"></i><b>4</b> Temas selectos de R</a><ul>
+<li class="chapter" data-level="4.1" data-path="funciones-e-iteracion.html"><a href="funciones-e-iteracion.html"><i class="fa fa-check"></i><b>4.1</b> Funciones e iteración</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="funciones-e-iteracion.html"><a href="funciones-e-iteracion.html#funciones"><i class="fa fa-check"></i><b>4.1.1</b> Funciones</a></li>
+<li class="chapter" data-level="4.1.2" data-path="funciones-e-iteracion.html"><a href="funciones-e-iteracion.html#iteracion"><i class="fa fa-check"></i><b>4.1.2</b> Iteración</a></li>
+<li class="chapter" data-level="" data-path="funciones-e-iteracion.html"><a href="funciones-e-iteracion.html#programacion-funcional"><i class="fa fa-check"></i>Programación funcional</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalacion-y-visualizacion.html"><a href="instalacion-y-visualizacion.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
@@ -325,11 +332,11 @@ subsecuentes son las expresiones que indican que filas filtrar.</p>
 <a class="sourceLine" id="cb32-7" data-line-number="7">x <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>)</a></code></pre></div>
 <p><img src="img/manicule2.jpg" /> Crea un subconjunto de los datos <code>df_mxmunicipio</code> que
 contenga únicamente los municipios de la CDMX (<code>state_abbr</code> es <code>CDMX</code>)</p>
-<p>            Los
-municipios de Nuevo León con más de 200,000 habitantes.</p>
-<p>            Los
-municipios donde más de la mitad la población se autoidentifica como
-afromexicana o parte afromexicana.</p>
+<ul>
+<li><p>Los municipios de Nuevo León con más de 200,000 habitantes.</p></li>
+<li><p>Los municipios donde más de la mitad la población se autoidentifica como
+afromexicana o parte afromexicana.</p></li>
+</ul>
 <div id="observacion-y-operadores-booleanos" class="section level4 unnumbered">
 <h4>Observación <code>==</code> y operadores booleanos</h4>
 <p>Debemos tener cuidado al usar <code>==</code>, ¿qué devuelven las siguientes expresiones?</p>
@@ -482,11 +489,11 @@ maneras de seleccionar las variables del estado en los datos <code>df_mxmunicipi
 <a class="sourceLine" id="cb47-18" data-line-number="18"><span class="co">#&gt; 5 mujer      1.6</span></a></code></pre></div>
 <p><img src="img/manicule2.jpg" /> Ordena los municipios por población, de mayor a
 menor.</p>
-<p>            ¿Cuáles
-son los municipios con mayor disparidad de sexo (a total)?</p>
-<p>            ¿Cuáles
-son los municipios con mayor disparidad de sexo (proporcional)?, elimina los
-municipios con menos de 5000 habitantes y repite.</p>
+<ul>
+<li><p>¿Cuáles son los municipios con mayor disparidad de sexo (a total)?</p></li>
+<li><p>¿Cuáles son los municipios con mayor disparidad de sexo (proporcional)?,
+elimina los municipios con menos de 5000 habitantes y repite.</p></li>
+</ul>
 </div>
 <div id="mutar" class="section level3 unnumbered">
 <h3>Mutar</h3>
@@ -512,31 +519,40 @@ existentes:</p>
 <a class="sourceLine" id="cb48-18" data-line-number="18"><span class="co">#&gt; 5 hombre     1.67         167        65.7</span></a></code></pre></div>
 <p><img src="img/manicule2.jpg" /> Calcula el porcentaje de población indígena de cada
 municipio y almacenalo en una nueva variable.</p>
-<p>            Crea una
-nueva variable que muestre el cociente entre la población femenina y masculina.</p>
+<ul>
+<li>Crea una nueva variable que muestre el cociente entre la población femenina y
+masculina.</li>
+</ul>
 <p>Hay muchas funciones que podemos usar para crear nuevas variables con <code>mutate()</code>, éstas deben cumplir ser funciones vectorizadas, es decir, reciben un vector de valores y devuelven un vector de la misma dimensión, por ejemplo
 multiplicar columnas o por un escalar.</p>
 <p><img src="img/manicule2.jpg" /> ¿Cuáles de las siguientes funciones son adecuadas para
 <code>mutate()</code>? Notar que hay escenarios en los que nos puede interesar usar funciones no vectorizadas con <code>mutate()</code> pero vale la pena entender que es lo
 que regresan.<br />
 * mean, pmin, max, <code>*</code>, <code>^</code>, quantile</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">df_ej_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">add_column</span>(df_ej, <span class="dt">peso_actual =</span> <span class="kw">c</span>(<span class="dv">60</span>, <span class="dv">80</span>, <span class="dv">70</span>, <span class="dv">50</span>, <span class="dv">65</span>), </a>
+<a class="sourceLine" id="cb49-2" data-line-number="2">    <span class="dt">peso_anterior =</span> <span class="kw">c</span>(<span class="dv">66</span>, <span class="dv">78</span>, <span class="dv">73</span>, <span class="dv">54</span>, <span class="dv">61</span>))</a>
+<a class="sourceLine" id="cb49-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb49-4" data-line-number="4"><span class="kw">mutate</span>(df_ej_<span class="dv">2</span>, <span class="dt">peso_medio =</span> <span class="kw">mean</span>(<span class="kw">c</span>(peso_actual, peso_anterior)))</a>
+<a class="sourceLine" id="cb49-5" data-line-number="5"><span class="kw">mutate</span>(df_ej_<span class="dv">2</span>, <span class="dt">peso_menor =</span> <span class="kw">pmin</span>(peso_actual, peso_anterior))</a>
+<a class="sourceLine" id="cb49-6" data-line-number="6"><span class="kw">mutate</span>(df_ej_<span class="dv">2</span>, <span class="dt">peso_mayor =</span> <span class="kw">max</span>(peso_actual, peso_anterior))</a>
+<a class="sourceLine" id="cb49-7" data-line-number="7"><span class="kw">mutate</span>(df_ej_<span class="dv">2</span>, <span class="dt">estatura_sq =</span> estatura <span class="op">^</span><span class="st"> </span><span class="dv">2</span>, <span class="dt">bmi =</span> peso_actual <span class="op">/</span><span class="st"> </span>estatura_sq)</a></code></pre></div>
 </div>
 <div id="summarise-y-resumenes-por-grupo" class="section level3 unnumbered">
 <h3>Summarise y resúmenes por grupo</h3>
 <p>Summarise sirve para crear nuevas bases de datos con resúmenes o agregaciones de los datos originales.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw">summarise</span>(df_ej, <span class="dt">promedio =</span> <span class="kw">mean</span>(estatura))</a>
-<a class="sourceLine" id="cb49-2" data-line-number="2"><span class="co">#&gt; # A tibble: 1 x 1</span></a>
-<a class="sourceLine" id="cb49-3" data-line-number="3"><span class="co">#&gt;   promedio</span></a>
-<a class="sourceLine" id="cb49-4" data-line-number="4"><span class="co">#&gt;      &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb49-5" data-line-number="5"><span class="co">#&gt; 1     1.68</span></a></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">summarise</span>(df_ej, <span class="dt">promedio =</span> <span class="kw">mean</span>(estatura))</a>
+<a class="sourceLine" id="cb50-2" data-line-number="2"><span class="co">#&gt; # A tibble: 1 x 1</span></a>
+<a class="sourceLine" id="cb50-3" data-line-number="3"><span class="co">#&gt;   promedio</span></a>
+<a class="sourceLine" id="cb50-4" data-line-number="4"><span class="co">#&gt;      &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb50-5" data-line-number="5"><span class="co">#&gt; 1     1.68</span></a></code></pre></div>
 <p><img src="img/manicule2.jpg" /> Calcula la población total, indígena y afromexicana a
 total.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">summarise</span>(df_mxmunicipio, <span class="dt">indigeonous =</span> <span class="kw">sum</span>(indigenous), </a>
-<a class="sourceLine" id="cb50-2" data-line-number="2">    <span class="dt">afromexican =</span> <span class="kw">sum</span>(afromexican))</a>
-<a class="sourceLine" id="cb50-3" data-line-number="3"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
-<a class="sourceLine" id="cb50-4" data-line-number="4"><span class="co">#&gt;   indigeonous afromexican</span></a>
-<a class="sourceLine" id="cb50-5" data-line-number="5"><span class="co">#&gt;         &lt;dbl&gt;       &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb50-6" data-line-number="6"><span class="co">#&gt; 1    25694928     1381853</span></a></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw">summarise</span>(df_mxmunicipio, <span class="dt">indigeonous =</span> <span class="kw">sum</span>(indigenous), </a>
+<a class="sourceLine" id="cb51-2" data-line-number="2">    <span class="dt">afromexican =</span> <span class="kw">sum</span>(afromexican))</a>
+<a class="sourceLine" id="cb51-3" data-line-number="3"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
+<a class="sourceLine" id="cb51-4" data-line-number="4"><span class="co">#&gt;   indigeonous afromexican</span></a>
+<a class="sourceLine" id="cb51-5" data-line-number="5"><span class="co">#&gt;         &lt;dbl&gt;       &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb51-6" data-line-number="6"><span class="co">#&gt; 1    25694928     1381853</span></a></code></pre></div>
 <p>La mayor utlidad de <code>summarise</code> es cuando la combinamos con una variable de
 agrupación y esta combinación es la estrategia separa-aplica combina.</p>
 <div id="separa-aplica-combina-split-apply-combine" class="section level4 unnumbered">
@@ -566,34 +582,26 @@ de ciclos <code>for</code> desemboca en código difícil de entender por lo que 
 trabajar con funciones creadas para estas tareas, usaremos el paquete
 <code>dplyr</code> que además de ser más claro suele ser más veloz.</p>
 <p>Podemos hacer resúmenes por grupo, primero creamos una base de datos agrupada:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">by_sexo &lt;-<span class="st"> </span><span class="kw">group_by</span>(df_ej, sexo)</a>
-<a class="sourceLine" id="cb51-2" data-line-number="2">by_sexo</a>
-<a class="sourceLine" id="cb51-3" data-line-number="3"><span class="co">#&gt; # A tibble: 5 x 2</span></a>
-<a class="sourceLine" id="cb51-4" data-line-number="4"><span class="co">#&gt; # Groups:   sexo [2]</span></a>
-<a class="sourceLine" id="cb51-5" data-line-number="5"><span class="co">#&gt;   sexo   estatura</span></a>
-<a class="sourceLine" id="cb51-6" data-line-number="6"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb51-7" data-line-number="7"><span class="co">#&gt; 1 mujer      1.65</span></a>
-<a class="sourceLine" id="cb51-8" data-line-number="8"><span class="co">#&gt; 2 hombre     1.8 </span></a>
-<a class="sourceLine" id="cb51-9" data-line-number="9"><span class="co">#&gt; 3 mujer      1.7 </span></a>
-<a class="sourceLine" id="cb51-10" data-line-number="10"><span class="co">#&gt; 4 mujer      1.6 </span></a>
-<a class="sourceLine" id="cb51-11" data-line-number="11"><span class="co">#&gt; 5 hombre     1.67</span></a></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">by_sexo &lt;-<span class="st"> </span><span class="kw">group_by</span>(df_ej, sexo)</a>
+<a class="sourceLine" id="cb52-2" data-line-number="2">by_sexo</a>
+<a class="sourceLine" id="cb52-3" data-line-number="3"><span class="co">#&gt; # A tibble: 5 x 2</span></a>
+<a class="sourceLine" id="cb52-4" data-line-number="4"><span class="co">#&gt; # Groups:   sexo [2]</span></a>
+<a class="sourceLine" id="cb52-5" data-line-number="5"><span class="co">#&gt;   sexo   estatura</span></a>
+<a class="sourceLine" id="cb52-6" data-line-number="6"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb52-7" data-line-number="7"><span class="co">#&gt; 1 mujer      1.65</span></a>
+<a class="sourceLine" id="cb52-8" data-line-number="8"><span class="co">#&gt; 2 hombre     1.8 </span></a>
+<a class="sourceLine" id="cb52-9" data-line-number="9"><span class="co">#&gt; 3 mujer      1.7 </span></a>
+<a class="sourceLine" id="cb52-10" data-line-number="10"><span class="co">#&gt; 4 mujer      1.6 </span></a>
+<a class="sourceLine" id="cb52-11" data-line-number="11"><span class="co">#&gt; 5 hombre     1.67</span></a></code></pre></div>
 <p>y después operamos sobre cada grupo, creando un resumen a nivel grupo y uniendo
 los subconjuntos en una base nueva:</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="kw">summarise</span>(by_sexo, <span class="dt">promedio =</span> <span class="kw">mean</span>(estatura))</a>
-<a class="sourceLine" id="cb52-2" data-line-number="2"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
-<a class="sourceLine" id="cb52-3" data-line-number="3"><span class="co">#&gt;   sexo   promedio</span></a>
-<a class="sourceLine" id="cb52-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb52-5" data-line-number="5"><span class="co">#&gt; 1 hombre     1.74</span></a>
-<a class="sourceLine" id="cb52-6" data-line-number="6"><span class="co">#&gt; 2 mujer      1.65</span></a></code></pre></div>
 <p><img src="img/manicule2.jpg" /> Calcula la población total por estado.</p>
-<p><img src="img/manicule2.jpg" /> Calcula la población indígena y afromexicana
-por estado.</p>
-<p>            ¿Qué otros
-resúmenes puedes hacer para explorar los datos?</p>
 <ul>
-<li>Algunas funciones útiles con <em>summarise</em> son min(x), median(x), max(x),
-quantile(x, p), n(), sum(x), sum(x &gt; 1), mean(x &gt; 1), sd(x).</li>
+<li><p>Calcula la población indígena y afromexicana por estado.</p></li>
+<li><p>¿Qué otros resúmenes puedes hacer para explorar los datos?</p></li>
 </ul>
+<p>Algunas funciones útiles con <em>summarise</em> son min(x), median(x), max(x),
+quantile(x, p), n(), sum(x), sum(x &gt; 1), mean(x &gt; 1), sd(x).</p>
 <p>Por ejemplo, para cada área metropolitana: cuántos municipios engloba (<code>n()</code>),
 la población total (<code>sum()</code>) y al estado al que pertenece (<code>first()</code>).</p>
 <div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">by_metro_area &lt;-<span class="st"> </span><span class="kw">group_by</span>(df_mxmunicipio, metro_area)</a>
@@ -705,7 +713,7 @@ y <code>mutate()</code>.</p>
 <h3>Verbos de dos tablas</h3>
 <p>Muchas veces debemos reunir información que está almacenada a lo largo de
 muchas tablas, por ejemplo, si nos interesa conocer como se relaciona el año de
-escolaridad promedio (<code>schoolyrs</code> en el <code>tibble</code> <code>df_edu</code>) con el porcentaje de
+escolaridad promedio (<code>schoolyrs</code> en el <code>df_edu</code>) con el porcentaje de
 población indígena (<code>indigenous</code> en <code>df_mxmunicipios</code>), debemos poder <em>pegar</em>
 las dos tablas.</p>
 <p>Hay varias maneras de unir dos bases de datos y debemos pensar en el
@@ -865,7 +873,7 @@ son <code>mxstate.map</code>.</p>
 <a class="sourceLine" id="cb59-15" data-line-number="15">election_map &lt;-<span class="st"> </span>mxstate.map <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb59-16" data-line-number="16"><span class="st">    </span><span class="kw">left_join</span>(election_<span class="dv">2012</span>_state, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;region&quot;</span> =<span class="st"> &quot;state_code&quot;</span>)) </a>
 <a class="sourceLine" id="cb59-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb59-18" data-line-number="18"><span class="kw">ggplot</span>(election_map, <span class="kw">aes</span>(long, lat, <span class="dt">group=</span>group)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb59-18" data-line-number="18"><span class="kw">ggplot</span>(election_map, <span class="kw">aes</span>(long, lat, <span class="dt">group =</span> group)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb59-19" data-line-number="19"><span class="st">    </span><span class="kw">geom_polygon</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> winner)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb59-20" data-line-number="20"><span class="st">    </span><span class="kw">coord_map</span>()</a></code></pre></div>
 <p><img src="02-manipulacion_files/figure-html/unnamed-chunk-46-1.png" width="432" style="display: block; margin: auto;" /></p>
@@ -901,7 +909,7 @@ acuerdo al porcentaje de votos que se llevó el partido/alianza ganador.</p>
 <a class="sourceLine" id="cb60-28" data-line-number="28"><span class="st">    </span><span class="kw">geom_text</span>(<span class="dt">data =</span> state_labels_map, <span class="kw">aes</span>(long, lat, <span class="dt">label =</span> state_abbr)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb60-29" data-line-number="29"><span class="st">    </span><span class="kw">theme_void</span>()</a>
 <a class="sourceLine" id="cb60-30" data-line-number="30"></a>
-<a class="sourceLine" id="cb60-31" data-line-number="31"><span class="kw">grid.arrange</span>(map_edo, hexbinmap_edo, <span class="dt">nrow=</span><span class="dv">1</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb60-31" data-line-number="31"><span class="kw">grid.arrange</span>(map_edo, hexbinmap_edo, <span class="dt">nrow =</span> <span class="dv">1</span>)</a></code></pre></div>
 <p><img src="02-manipulacion_files/figure-html/unnamed-chunk-47-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p><img src="img/manicule2.jpg" /> Genera un mapa a nivel municipo que muestre el porcentaje
 de la población casada a total (mayores de 12 años).</p>

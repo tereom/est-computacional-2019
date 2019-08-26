@@ -578,7 +578,7 @@ print(read_csv)
 #>         comment = comment, n_max = n_max, guess_max = guess_max, 
 #>         progress = progress)
 #> }
-#> <bytecode: 0xa1c2398>
+#> <bytecode: 0x85b7898>
 #> <environment: namespace:readr>
 
 library(readr)
@@ -596,7 +596,7 @@ print(read_csv)
 #>         comment = comment, n_max = n_max, guess_max = guess_max, 
 #>         progress = progress)
 #> }
-#> <bytecode: 0xa1c2398>
+#> <bytecode: 0x85b7898>
 #> <environment: namespace:readr>
 ```
 
@@ -734,9 +734,9 @@ ggplot(election_sub_2012) +
 ![](img/manicule2.jpg) Experimenta con los _aesthetics_ color (color), 
 tamaño (size) y forma (shape).
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ¿Qué diferencia hay entre las variables categóricas y las continuas?
+*  ¿Qué diferencia hay entre las variables categóricas y las continuas?
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ¿Qué ocurre cuando combinas varios _aesthetics_?
+*  ¿Qué ocurre cuando combinas varios _aesthetics_?
 
 El mapeo de las propiedades estéticas se denomina escalamiento y depende del 
 tipo de variable, las variables discretas (por ejemplo, tipo de casilla, región, 
@@ -850,7 +850,7 @@ ggplot(election_sub_2012, aes(x = reorder(state_abbr, prd_pt_mc),
 ![](img/manicule2.jpg) Lee la ayuda de _reorder_ y repite las gráficas 
 anteriores ordenando por la mediana de _prd_pt_mc_.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ¿Cómo harías
+* ¿Cómo harías
 para graficar los puntos encima de las cajas de boxplot?
 
 #### Paneles {-}
