@@ -698,7 +698,6 @@ Si vemos los principios (cada variable forma una columna, cada observación
 forma un renglón, cada tipo de unidad observacional forma una tabla), ¿las 
 tablas anteriores cumplen los principios?
 
-
 Para responder la pregunta identifiquemos primero cuáles son las variables y 
 cuáles las observaciones de esta pequeña base. Las variables son: 
 persona/nombre, tratamiento y resultado. Entonces, siguiendo los principios de
@@ -745,18 +744,21 @@ haciendo los datos más anchos.
 
 Repasaremos los problemas más comunes que se encuentran en conjuntos de datos
 sucios y mostraremos como se puede manipular la tabla de datos (usando las 
-funciones *gather* y *spread*) con el fin de estructurarla para que cumpla los
+funciones de pivoteo) con el fin de estructurarla para que cumpla los
 principios de datos limpios.
 
 **Nota:** Usaremos la versión de GitHub de `tidyr` pues las funciones de
 pivoteo aún no se encuentran en la versión de CRAN, la versión que actualmente
 está en CRAN cuenta con las funciones `gather()` y `spread()` que tienen 
-funcionalidad más limitada y son más confusas:
+funcionalidad menor limitada y son menos intutivas. Para instalar la versión 
+de GitHub corre:
 
 ```{r, eval=FALSE}
 devtools::install_github("tidyverse/tidyr")
 ```
 
+[Aquí](https://tereom.github.io/tutoriales/datos_limpios.html) puedes
+encontrar una versión de las notas usando `gather()` y `spread()`.
 
 ### Los encabezados de las columanas son valores {-}
 
@@ -789,8 +791,8 @@ lugar a dos nuevas columnas: la correspondiente a estación y la
 correspondiente a medición. Entonces,  usamos la función `pivot_longer()` que 
 recibe los argumentos:
 
-* data: base de datos que vamos a pivotear.  
-* cols: columnas que vamos a pivotear a un formato largo (apilar), la 
+* data: `data.frame` que vamos a pivotear, alargar.  
+* cols: columnas que vamos a pivotear (apilar), la 
 notación para seleccionarlas es `tidyselect`, la misma que usamos con `select()`
 en `dplyr`.
 * names_to: nombre (`string`: en comillas "") de la nueva columna que almacenará
@@ -804,7 +806,7 @@ pm25_2019_tidy <- pivot_longer(pm25_2019, cols = AJM:XAL, names_to = "station",
 pm25_2019_tidy
 ```
 
-Observemos que en la tabla ancha teníamos bajo la columna *AJM*, en el renglón
+Observemos que en la tabla original teníamos bajo la columna *AJM*, en el renglón
 correspondiente a *2019-01-01* hora *1* un valor de 19, y podemos ver que este 
 valor en la tabla larga se almacena bajo la columna *measurement* y corresponde 
 a la estación *AJM*.
@@ -833,7 +835,7 @@ df_edu
 ```
 
 Notemos que el nivel de escolaridad esta guardado en 6 columnas (preschool,
-elementary, ..., other), este tipo de almacenamiento *no es limpio* pero 
+elementary, ..., other), este tipo de almacenamiento *no es limpio* aunque 
 puede ser útil al momento de ingresar la información o para presentarla.
 
 Para tener datos *limpios* apilamos los niveles de escolaridad de manera que 
@@ -857,8 +859,8 @@ aquellas observaciones que tenían `NA` en la columnas de nivel de escolaridad d
 la tabla ancha. En este caso optamos por que los faltantes sean implícitos, la
 conveniencia de tenerlos implícitos/explícitos dependerá de la aplicación.
 
-Con los datos limpios es facil hacer manipulaciones, ¿cómo habrían hecho la 
-siguiente gráfica antes de la limpieza?
+Con los datos limpios es facil hacer manipulaciones y grfiacs, ¿cómo habrían 
+hecho la siguiente gráfica antes de la limpieza?
 
 ```{r}
 df_edu_cdmx <- df_edu_tidy %>% 
@@ -909,14 +911,14 @@ enlacep_long <- pivot_longer(enlacep_sub_2013, cols = contains("PUNT"),
 
 * Piensa en como podemos separar la "variable" área-grado en dos columnas. 
 
-Ahora separaremos las variables área grado de la columna  `AREA_GRADO`, 
+Ahora separaremos las variables área y grado de la columna  `AREA_GRADO`, 
 para ello debemos pasar a la función `separate()`, esta recibe como parámetros:  
 
-* el nombre de la base de datos,  
+- el nombre de la base de datos,  
 
-* el nombre de la variable que deseamos separar en más de una,  
+- el nombre de la variable que deseamos separar en más de una,  
 
-* la posición de donde deseamos "cortar" (hay más opciones para especificar 
+- la posición de donde deseamos "cortar" (hay más opciones para especificar 
 como separar, ver `?separate`). El default es separar valores en todos los 
 lugares que encuentre un caracter que no es alfanumérico (espacio, guión,...).
 
@@ -1062,13 +1064,14 @@ fertility_lm <- lm(est ~ age_bracket, data = fertility_sub)
 summary(fertility_lm)
 ```
 
-
 Vale la pena notar que aunque los datos limpios facilitan las 
 tareas de análisis, distintas funciones o tareas requieren los datos en 
 distintos formas y saber pivotear las tablas es muy útil.
 
 ![](img/manicule2.jpg) Grafica el valor estimado de fertilidad del grupo de
-edad 20-24 contra 25-29. ¿Qué transformación debes hacer?
+edad 20-24 contra 25-29. ¿Qué transformación debes hacer? Tip: elimina la 
+columna que corresponde al error estándar antes de ensanchar los
+datos.
 
 ```{r, include=FALSE}
 fertility_age <- pivot_wider(fertility_tidy, names_from = age_bracket, 
@@ -1168,7 +1171,7 @@ valores atípicos.
 * [Data Transformation Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf), 
 RStudio.
 
-* Limpiar nombres de columnas, eliminar filas vacías  y más paquete 
+* Limpiar nombres de columnas, eliminar filas vacías y más, paquete 
 [janitor](https://github.com/sfirke/janitor).
 
 * Lectura de datos tabulares con distintas estructuras, paquete 
