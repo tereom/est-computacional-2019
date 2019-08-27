@@ -371,17 +371,17 @@ columnas numéricas.
 df <- data.frame(id = 1:10, a = rnorm(10), b = rnorm(10, 2), c = rnorm(10, 3), 
     d = rnorm(10, 4))
 df
-#>    id           a         b         c        d
-#> 1   1  3.02957700 2.0843689 2.3139313 4.118511
-#> 2   2  0.93061600 1.9166965 1.1202254 3.048737
-#> 3   3 -0.53594468 0.8658084 3.9930111 3.798072
-#> 4   4 -0.27674758 2.9119878 3.4498564 3.556668
-#> 5   5  0.98532958 3.0895455 3.0181749 2.875896
-#> 6   6 -0.06036273 2.2506256 3.2729238 3.146173
-#> 7   7  0.89889554 2.1169567 4.2413790 5.025391
-#> 8   8 -0.72399464 3.4755687 2.2275448 2.725062
-#> 9   9 -1.32534404 2.7512802 4.3550325 3.254269
-#> 10 10  2.45117787 1.8246688 0.4855693 3.721493
+#>    id           a        b         c        d
+#> 1   1 -0.97360816 2.372574 2.6848648 3.621143
+#> 2   2 -1.41369206 2.920685 3.8076065 4.087614
+#> 3   3  0.59141878 1.778834 0.8890294 3.553544
+#> 4   4  0.94902443 2.072480 3.9362955 4.486464
+#> 5   5  1.96065405 2.968214 3.9862561 2.273374
+#> 6   6 -1.04992302 1.358080 3.4433430 2.747913
+#> 7   7 -0.87684384 1.187679 2.1440542 3.802031
+#> 8   8  0.65956912 2.198765 2.8021119 4.036627
+#> 9   9 -0.09391813 1.640758 4.2300131 1.903772
+#> 10 10 -1.47805930 1.142063 2.0063901 4.437383
 ```
 
 Podemos crear el código para cada columna pero esto involucra *copy-paste* y 
@@ -390,13 +390,13 @@ no será muy práctico si aumenta el número de columnas:
 
 ```r
 mean(df$a)
-#> [1] 0.5373202
+#> [1] -0.1725378
 mean(df$b)
-#> [1] 2.328751
+#> [1] 1.964013
 mean(df$c)
-#> [1] 2.847765
+#> [1] 2.992996
 mean(df$d)
-#> [1] 3.527027
+#> [1] 3.494986
 ```
 
 Con un ciclo `for` sería:
@@ -408,7 +408,7 @@ for (i in 1:4) {
   salida[[i]] <- mean(df[[i + 1]])      
 }
 salida
-#> [1] 0.5373202 2.3287507 2.8477649 3.5270271
+#> [1] -0.1725378  1.9640130  2.9929965  3.4949864
 ```
 
 Los ciclos `for` tienen 3 componentes:
@@ -436,18 +436,22 @@ interesa sobre cada objeto en la iteración.
 
 #### Ejercicio {-}
 
-* Calcula el número de valores únicos en cada columna de los datos `iris`.
+* Calcula el valor máximo de cada columna numérica de los datos de ENLACE 
+3o de primaria `enlacep_2013_3`.
 
 
 ```r
-head(iris)
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#> 1          5.1         3.5          1.4         0.2  setosa
-#> 2          4.9         3.0          1.4         0.2  setosa
-#> 3          4.7         3.2          1.3         0.2  setosa
-#> 4          4.6         3.1          1.5         0.2  setosa
-#> 5          5.0         3.6          1.4         0.2  setosa
-#> 6          5.4         3.9          1.7         0.4  setosa
+library(estcomp)
+head(enlacep_2013_3)
+#> # A tibble: 6 x 6
+#>   CVE_ENT PUNT_ESP_3 PUNT_MAT_3 PUNT_FCE_3 ALUM_NOCONFIABLE_3 ALUM_EVAL_3
+#>   <chr>        <dbl>      <dbl>      <dbl>              <dbl>       <dbl>
+#> 1 01             513        536        459                  0          40
+#> 2 01             472        472        404                  2          36
+#> 3 01             496        526        426                  0          96
+#> 4 01             543        586        495                  5          74
+#> 5 01             554        560        506                  0          30
+#> 6 01             505        546        460                  0          67
 ```
 
 
@@ -493,7 +497,7 @@ for (i in 1:4) {
   salida[[i]] <- mean(df[[i + 1]])      
 }
 salida
-#> [1] 0.5373202 2.3287507 2.8477649 3.5270271
+#> [1] -0.1725378  1.9640130  2.9929965  3.4949864
 ```
 
 Podemos crear una función que calcula la media de las columnas de un 
@@ -509,7 +513,7 @@ col_media <- function(df) {
   salida
 }
 col_media(df)
-#> [1] 5.5000000 0.5373202 2.3287507 2.8477649 3.5270271
+#> [1]  5.5000000 -0.1725378  1.9640130  2.9929965  3.4949864
 col_media(select(iris, -Species))
 #> [1] 5.843333 3.057333 3.758000 1.199333
 ```
@@ -548,9 +552,9 @@ col_describe <- function(df, fun) {
   salida
 }
 col_describe(df, median)
-#> [1] 5.5000000 0.4192664 2.1837911 3.1455493 3.4054683
+#> [1]  5.500000 -0.485381  1.925657  3.122727  3.711587
 col_describe(df, mean)
-#> [1] 5.5000000 0.5373202 2.3287507 2.8477649 3.5270271
+#> [1]  5.5000000 -0.1725378  1.9640130  2.9929965  3.4949864
 ```
 
 Ahora utilizaremos esta idea de pasar funciones a funciones para eliminar los
@@ -579,8 +583,8 @@ vectores) y aplicará las funciones a las columnas del mismo.
 ```r
 library(purrr)
 map_dbl(df, mean)
-#>        id         a         b         c         d 
-#> 5.5000000 0.5373202 2.3287507 2.8477649 3.5270271
+#>         id          a          b          c          d 
+#>  5.5000000 -0.1725378  1.9640130  2.9929965  3.4949864
 map_dbl(select(iris, -Species), median)
 #> Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
 #>         5.80         3.00         4.35         1.30
@@ -636,6 +640,4 @@ models[[1]]$coefficients[2]
 
 * Utiliza map_*** para crear un vector con la media de 
 nitrato de cada estación de monitoreo, itera sobre el vector `specdata_us_vec`.
-
-
 

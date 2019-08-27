@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3.2 Datos limpios | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
-  <meta name="generator" content="bookdown 0.13.1 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.13.2 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3.2 Datos limpios | Estadística Computacional" />
   <meta property="og:type" content="book" />
@@ -194,6 +194,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalacion-y-visualizacion.html"><a href="instalacion-y-visualizacion.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
+<li class="chapter" data-level="" data-path="union-de-tablas-y-limpieza-de-datos.html"><a href="union-de-tablas-y-limpieza-de-datos.html"><i class="fa fa-check"></i>3. Unión de tablas y limpieza de datos</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -385,13 +386,16 @@ haciendo los datos más anchos.</li>
 </ul>
 <p>Repasaremos los problemas más comunes que se encuentran en conjuntos de datos
 sucios y mostraremos como se puede manipular la tabla de datos (usando las
-funciones <em>gather</em> y <em>spread</em>) con el fin de estructurarla para que cumpla los
+funciones de pivoteo) con el fin de estructurarla para que cumpla los
 principios de datos limpios.</p>
 <p><strong>Nota:</strong> Usaremos la versión de GitHub de <code>tidyr</code> pues las funciones de
 pivoteo aún no se encuentran en la versión de CRAN, la versión que actualmente
 está en CRAN cuenta con las funciones <code>gather()</code> y <code>spread()</code> que tienen
-funcionalidad más limitada y son más confusas:</p>
+funcionalidad menor limitada y son menos intutivas. Para instalar la versión
+de GitHub corre:</p>
 <div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;tidyverse/tidyr&quot;</span>)</a></code></pre></div>
+<p><a href="https://tereom.github.io/tutoriales/datos_limpios.html">Aquí</a> puedes
+encontrar una versión de las notas usando <code>gather()</code> y <code>spread()</code>.</p>
 </div>
 <div id="los-encabezados-de-las-columanas-son-valores" class="section level3 unnumbered">
 <h3>Los encabezados de las columanas son valores</h3>
@@ -427,9 +431,9 @@ lugar a dos nuevas columnas: la correspondiente a estación y la
 correspondiente a medición. Entonces, usamos la función <code>pivot_longer()</code> que
 recibe los argumentos:</p>
 <ul>
-<li>data: base de datos que vamos a pivotear.<br />
+<li>data: <code>data.frame</code> que vamos a pivotear, alargar.<br />
 </li>
-<li>cols: columnas que vamos a pivotear a un formato largo (apilar), la
+<li>cols: columnas que vamos a pivotear (apilar), la
 notación para seleccionarlas es <code>tidyselect</code>, la misma que usamos con <code>select()</code>
 en <code>dplyr</code>.</li>
 <li>names_to: nombre (<code>string</code>: en comillas “”) de la nueva columna que almacenará
@@ -455,7 +459,7 @@ almacenará los valores en los datos.</li>
 <a class="sourceLine" id="cb63-15" data-line-number="15"><span class="co">#&gt;  9 2019-01-01     1 HGM              56</span></a>
 <a class="sourceLine" id="cb63-16" data-line-number="16"><span class="co">#&gt; 10 2019-01-01     1 INN              22</span></a>
 <a class="sourceLine" id="cb63-17" data-line-number="17"><span class="co">#&gt; # … with 122,102 more rows</span></a></code></pre></div>
-<p>Observemos que en la tabla ancha teníamos bajo la columna <em>AJM</em>, en el renglón
+<p>Observemos que en la tabla original teníamos bajo la columna <em>AJM</em>, en el renglón
 correspondiente a <em>2019-01-01</em> hora <em>1</em> un valor de 19, y podemos ver que este
 valor en la tabla larga se almacena bajo la columna <em>measurement</em> y corresponde
 a la estación <em>AJM</em>.</p>
@@ -492,7 +496,7 @@ frecuencias.</p>
 <a class="sourceLine" id="cb65-16" data-line-number="16"><span class="co">#&gt; #   no_school &lt;dbl&gt;, preschool &lt;dbl&gt;, elementary &lt;dbl&gt;, secondary &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb65-17" data-line-number="17"><span class="co">#&gt; #   highschool &lt;dbl&gt;, higher_edu &lt;dbl&gt;, other &lt;dbl&gt;, schoolyrs &lt;dbl&gt;</span></a></code></pre></div>
 <p>Notemos que el nivel de escolaridad esta guardado en 6 columnas (preschool,
-elementary, …, other), este tipo de almacenamiento <em>no es limpio</em> pero
+elementary, …, other), este tipo de almacenamiento <em>no es limpio</em> aunque
 puede ser útil al momento de ingresar la información o para presentarla.</p>
 <p>Para tener datos <em>limpios</em> apilamos los niveles de escolaridad de manera que
 sea una sola columna (nuevamente alargamos los datos):</p>
@@ -518,8 +522,8 @@ renglones con valores faltantes en la columna de porcentaje, esto es, eliminamos
 aquellas observaciones que tenían <code>NA</code> en la columnas de nivel de escolaridad de
 la tabla ancha. En este caso optamos por que los faltantes sean implícitos, la
 conveniencia de tenerlos implícitos/explícitos dependerá de la aplicación.</p>
-<p>Con los datos limpios es facil hacer manipulaciones, ¿cómo habrían hecho la
-siguiente gráfica antes de la limpieza?</p>
+<p>Con los datos limpios es facil hacer manipulaciones y grfiacs, ¿cómo habrían
+hecho la siguiente gráfica antes de la limpieza?</p>
 <div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1">df_edu_cdmx &lt;-<span class="st"> </span>df_edu_tidy <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb67-2" data-line-number="2"><span class="st">    </span><span class="kw">filter</span>(state_abbr <span class="op">==</span><span class="st"> &quot;CDMX&quot;</span>, sex <span class="op">!=</span><span class="st"> &quot;Total&quot;</span>, grade <span class="op">!=</span><span class="st"> &quot;other&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb67-3" data-line-number="3"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">municipio_name =</span> <span class="kw">reorder</span>(municipio_name, percent, last))</a>
@@ -546,28 +550,28 @@ alumnos de tercero a sexto de primaria y a los alumnos de secundaria del país e
 <a class="sourceLine" id="cb68-5" data-line-number="5"><span class="kw">glimpse</span>(enlacep_sub_<span class="dv">2013</span>)</a>
 <a class="sourceLine" id="cb68-6" data-line-number="6"><span class="co">#&gt; Observations: 1,000</span></a>
 <a class="sourceLine" id="cb68-7" data-line-number="7"><span class="co">#&gt; Variables: 22</span></a>
-<a class="sourceLine" id="cb68-8" data-line-number="8"><span class="co">#&gt; $ CVE_ENT    &lt;chr&gt; &quot;25&quot;, &quot;13&quot;, &quot;05&quot;, &quot;31&quot;, &quot;30&quot;, &quot;20&quot;, &quot;13&quot;, &quot;11&quot;, &quot;05&quot;,…</span></a>
-<a class="sourceLine" id="cb68-9" data-line-number="9"><span class="co">#&gt; $ NOM_ENT    &lt;chr&gt; &quot;SINALOA&quot;, &quot;HIDALGO&quot;, &quot;COAHUILA&quot;, &quot;YUCATAN&quot;, &quot;VERACRU…</span></a>
-<a class="sourceLine" id="cb68-10" data-line-number="10"><span class="co">#&gt; $ CCT        &lt;chr&gt; &quot;25PPR0593L&quot;, &quot;13DPB0373P&quot;, &quot;05PPR0099X&quot;, &quot;31DPR1706K…</span></a>
-<a class="sourceLine" id="cb68-11" data-line-number="11"><span class="co">#&gt; $ TURNO      &lt;chr&gt; &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATU…</span></a>
-<a class="sourceLine" id="cb68-12" data-line-number="12"><span class="co">#&gt; $ ESCUELA    &lt;chr&gt; &quot;COLEGIO BEGSU&quot;, &quot;NI\u0084OS HEROES&quot;, &quot;COLEGIO SAN JO…</span></a>
-<a class="sourceLine" id="cb68-13" data-line-number="13"><span class="co">#&gt; $ TIPO       &lt;chr&gt; &quot;PARTICULAR&quot;, &quot;INDêGENA&quot;, &quot;PARTICULAR&quot;, &quot;GENERAL&quot;, &quot;G…</span></a>
-<a class="sourceLine" id="cb68-14" data-line-number="14"><span class="co">#&gt; $ CVE_MUN    &lt;chr&gt; &quot;012&quot;, &quot;043&quot;, &quot;030&quot;, &quot;038&quot;, &quot;101&quot;, &quot;131&quot;, &quot;060&quot;, &quot;011…</span></a>
-<a class="sourceLine" id="cb68-15" data-line-number="15"><span class="co">#&gt; $ NOM_MUN    &lt;chr&gt; &quot;MAZATLAN&quot;, &quot;NICOLAS FLORES&quot;, &quot;SALTILLO&quot;, &quot;HUNUCMA&quot;, …</span></a>
-<a class="sourceLine" id="cb68-16" data-line-number="16"><span class="co">#&gt; $ CVE_LOC    &lt;chr&gt; &quot;0001&quot;, &quot;0003&quot;, &quot;0001&quot;, &quot;0001&quot;, &quot;0025&quot;, &quot;0011&quot;, &quot;0022…</span></a>
-<a class="sourceLine" id="cb68-17" data-line-number="17"><span class="co">#&gt; $ NOM_LOC    &lt;chr&gt; &quot;MAZATLAN&quot;, &quot;AGUA LIMPIA&quot;, &quot;SALTILLO&quot;, &quot;HUNUCMA&quot;, &quot;EL…</span></a>
-<a class="sourceLine" id="cb68-18" data-line-number="18"><span class="co">#&gt; $ PUNT_ESP_3 &lt;dbl&gt; 638, 463, 598, 531, 453, NA, 448, 561, 517, 606, 568,…</span></a>
-<a class="sourceLine" id="cb68-19" data-line-number="19"><span class="co">#&gt; $ PUNT_MAT_3 &lt;dbl&gt; 728, 512, 646, 556, 495, NA, 490, 545, 547, 653, 581,…</span></a>
-<a class="sourceLine" id="cb68-20" data-line-number="20"><span class="co">#&gt; $ PUNT_FCE_3 &lt;dbl&gt; 591, 413, 548, 489, 418, NA, 376, 525, 443, 552, 507,…</span></a>
-<a class="sourceLine" id="cb68-21" data-line-number="21"><span class="co">#&gt; $ PUNT_ESP_4 &lt;dbl&gt; 677, 549, 627, 597, 374, 472, 435, 527, 526, 573, 535…</span></a>
-<a class="sourceLine" id="cb68-22" data-line-number="22"><span class="co">#&gt; $ PUNT_MAT_4 &lt;dbl&gt; 737, 563, 630, 638, 390, 364, 515, 582, 571, 617, 524…</span></a>
-<a class="sourceLine" id="cb68-23" data-line-number="23"><span class="co">#&gt; $ PUNT_FCE_4 &lt;dbl&gt; 595, 484, 550, 596, 403, 372, 405, 483, 439, 531, 457…</span></a>
-<a class="sourceLine" id="cb68-24" data-line-number="24"><span class="co">#&gt; $ PUNT_ESP_5 &lt;dbl&gt; 648, 485, 648, 550, 360, NA, 414, 520, 530, 567, 556,…</span></a>
-<a class="sourceLine" id="cb68-25" data-line-number="25"><span class="co">#&gt; $ PUNT_MAT_5 &lt;dbl&gt; 731, 518, 634, 699, 362, NA, 475, 541, 558, 537, 559,…</span></a>
-<a class="sourceLine" id="cb68-26" data-line-number="26"><span class="co">#&gt; $ PUNT_FCE_5 &lt;dbl&gt; 573, 467, 578, 559, 353, NA, 392, 528, 505, 505, 510,…</span></a>
-<a class="sourceLine" id="cb68-27" data-line-number="27"><span class="co">#&gt; $ PUNT_ESP_6 &lt;dbl&gt; 643, 527, 646, 503, 423, 407, 501, 551, 519, 580, 578…</span></a>
-<a class="sourceLine" id="cb68-28" data-line-number="28"><span class="co">#&gt; $ PUNT_MAT_6 &lt;dbl&gt; 713, 532, 664, 534, 369, 371, 580, 626, 562, 696, 620…</span></a>
-<a class="sourceLine" id="cb68-29" data-line-number="29"><span class="co">#&gt; $ PUNT_FCE_6 &lt;dbl&gt; 585, 511, 598, 492, 394, 389, 482, 539, 489, 539, 520…</span></a></code></pre></div>
+<a class="sourceLine" id="cb68-8" data-line-number="8"><span class="co">#&gt; $ CVE_ENT    &lt;chr&gt; &quot;15&quot;, &quot;09&quot;, &quot;18&quot;, &quot;21&quot;, &quot;11&quot;, &quot;15&quot;, &quot;11&quot;, &quot;10&quot;, &quot;28&quot;,…</span></a>
+<a class="sourceLine" id="cb68-9" data-line-number="9"><span class="co">#&gt; $ NOM_ENT    &lt;chr&gt; &quot;MEXICO&quot;, &quot;DISTRITO FEDERAL&quot;, &quot;NAYARIT&quot;, &quot;PUEBLA&quot;, &quot;G…</span></a>
+<a class="sourceLine" id="cb68-10" data-line-number="10"><span class="co">#&gt; $ CCT        &lt;chr&gt; &quot;15DPB0120K&quot;, &quot;09DPR5044T&quot;, &quot;18DPR0878B&quot;, &quot;21DPR2765Z…</span></a>
+<a class="sourceLine" id="cb68-11" data-line-number="11"><span class="co">#&gt; $ TURNO      &lt;chr&gt; &quot;MATUTINO&quot;, &quot;VESPERTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;VE…</span></a>
+<a class="sourceLine" id="cb68-12" data-line-number="12"><span class="co">#&gt; $ ESCUELA    &lt;chr&gt; &quot;JAIME NUNO ROCA&quot;, &quot;RUFINO TAMAYO&quot;, &quot;MINERVA&quot;, &quot;BENIT…</span></a>
+<a class="sourceLine" id="cb68-13" data-line-number="13"><span class="co">#&gt; $ TIPO       &lt;chr&gt; &quot;INDêGENA&quot;, &quot;GENERAL&quot;, &quot;GENERAL&quot;, &quot;GENERAL&quot;, &quot;GENERAL…</span></a>
+<a class="sourceLine" id="cb68-14" data-line-number="14"><span class="co">#&gt; $ CVE_MUN    &lt;chr&gt; &quot;074&quot;, &quot;007&quot;, &quot;011&quot;, &quot;177&quot;, &quot;037&quot;, &quot;123&quot;, &quot;020&quot;, &quot;023…</span></a>
+<a class="sourceLine" id="cb68-15" data-line-number="15"><span class="co">#&gt; $ NOM_MUN    &lt;chr&gt; &quot;SAN FELIPE DEL PROGRESO&quot;, &quot;IZTAPALAPA&quot;, &quot;RUIZ&quot;, &quot;TLA…</span></a>
+<a class="sourceLine" id="cb68-16" data-line-number="16"><span class="co">#&gt; $ CVE_LOC    &lt;chr&gt; &quot;0056&quot;, &quot;0405&quot;, &quot;0032&quot;, &quot;0011&quot;, &quot;0191&quot;, &quot;0001&quot;, &quot;0001…</span></a>
+<a class="sourceLine" id="cb68-17" data-line-number="17"><span class="co">#&gt; $ NOM_LOC    &lt;chr&gt; &quot;PALMILLAS&quot;, &quot;CONJUNTO HABITACIONAL SOLIDARIDAD I&quot;, &quot;…</span></a>
+<a class="sourceLine" id="cb68-18" data-line-number="18"><span class="co">#&gt; $ PUNT_ESP_3 &lt;dbl&gt; 411, 538, 460, 567, 520, 627, 497, 517, 496, 536, 476…</span></a>
+<a class="sourceLine" id="cb68-19" data-line-number="19"><span class="co">#&gt; $ PUNT_MAT_3 &lt;dbl&gt; 396, 569, 485, 634, 533, 647, 499, 568, 535, 576, 503…</span></a>
+<a class="sourceLine" id="cb68-20" data-line-number="20"><span class="co">#&gt; $ PUNT_FCE_3 &lt;dbl&gt; 386, 485, 430, 529, 519, 588, 437, 577, 436, 421, 409…</span></a>
+<a class="sourceLine" id="cb68-21" data-line-number="21"><span class="co">#&gt; $ PUNT_ESP_4 &lt;dbl&gt; 355, 579, 454, 590, 456, 597, 511, 480, 519, 470, 348…</span></a>
+<a class="sourceLine" id="cb68-22" data-line-number="22"><span class="co">#&gt; $ PUNT_MAT_4 &lt;dbl&gt; 413, 625, 518, 600, 480, 723, 516, 549, 580, 492, 382…</span></a>
+<a class="sourceLine" id="cb68-23" data-line-number="23"><span class="co">#&gt; $ PUNT_FCE_4 &lt;dbl&gt; 355, 505, 427, 525, 472, 619, 460, 449, 454, 414, 349…</span></a>
+<a class="sourceLine" id="cb68-24" data-line-number="24"><span class="co">#&gt; $ PUNT_ESP_5 &lt;dbl&gt; 422, 540, 507, 465, 482, 579, 507, 467, 525, 519, 537…</span></a>
+<a class="sourceLine" id="cb68-25" data-line-number="25"><span class="co">#&gt; $ PUNT_MAT_5 &lt;dbl&gt; 496, 569, 572, 466, 477, 606, 542, 482, 576, 497, 495…</span></a>
+<a class="sourceLine" id="cb68-26" data-line-number="26"><span class="co">#&gt; $ PUNT_FCE_5 &lt;dbl&gt; 377, 495, 540, 419, 469, 529, 483, 464, 491, 427, 581…</span></a>
+<a class="sourceLine" id="cb68-27" data-line-number="27"><span class="co">#&gt; $ PUNT_ESP_6 &lt;dbl&gt; 452, 562, 369, 466, NA, 609, 519, 476, 486, 432, 474,…</span></a>
+<a class="sourceLine" id="cb68-28" data-line-number="28"><span class="co">#&gt; $ PUNT_MAT_6 &lt;dbl&gt; 473, 606, 598, 486, NA, 689, 508, 563, 547, 467, 500,…</span></a>
+<a class="sourceLine" id="cb68-29" data-line-number="29"><span class="co">#&gt; $ PUNT_FCE_6 &lt;dbl&gt; 404, 505, 488, 444, NA, 546, 467, 513, 471, 413, 525,…</span></a></code></pre></div>
 <p><img src="img/manicule2.jpg" /> ¿Cuántas variables tiene este subconjunto de los datos?</p>
 <ul>
 <li><p>De manera similar a los ejemplos anteriores,
@@ -575,7 +579,7 @@ utiliza la función <code>pivot_longer</code> para apilar las columnas correspon
 área-grado.</p></li>
 <li><p>Piensa en como podemos separar la “variable” área-grado en dos columnas.</p></li>
 </ul>
-<p>Ahora separaremos las variables área grado de la columna <code>AREA_GRADO</code>,
+<p>Ahora separaremos las variables área y grado de la columna <code>AREA_GRADO</code>,
 para ello debemos pasar a la función <code>separate()</code>, esta recibe como parámetros:</p>
 <ul>
 <li><p>el nombre de la base de datos,</p></li>
@@ -590,16 +594,16 @@ lugares que encuentre un caracter que no es alfanumérico (espacio, guión,…).
 <a class="sourceLine" id="cb69-4" data-line-number="4"><span class="co">#&gt; # A tibble: 12,000 x 13</span></a>
 <a class="sourceLine" id="cb69-5" data-line-number="5"><span class="co">#&gt;    CVE_ENT NOM_ENT CCT   TURNO ESCUELA TIPO  CVE_MUN NOM_MUN CVE_LOC</span></a>
 <a class="sourceLine" id="cb69-6" data-line-number="6"><span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  </span></a>
-<a class="sourceLine" id="cb69-7" data-line-number="7"><span class="co">#&gt;  1 25      SINALOA 25PP… MATU… COLEGI… PART… 012     MAZATL… 0001   </span></a>
-<a class="sourceLine" id="cb69-8" data-line-number="8"><span class="co">#&gt;  2 25      SINALOA 25PP… MATU… COLEGI… PART… 012     MAZATL… 0001   </span></a>
-<a class="sourceLine" id="cb69-9" data-line-number="9"><span class="co">#&gt;  3 25      SINALOA 25PP… MATU… COLEGI… PART… 012     MAZATL… 0001   </span></a>
-<a class="sourceLine" id="cb69-10" data-line-number="10"><span class="co">#&gt;  4 25      SINALOA 25PP… MATU… COLEGI… PART… 012     MAZATL… 0001   </span></a>
-<a class="sourceLine" id="cb69-11" data-line-number="11"><span class="co">#&gt;  5 25      SINALOA 25PP… MATU… COLEGI… PART… 012     MAZATL… 0001   </span></a>
-<a class="sourceLine" id="cb69-12" data-line-number="12"><span class="co">#&gt;  6 25      SINALOA 25PP… MATU… COLEGI… PART… 012     MAZATL… 0001   </span></a>
-<a class="sourceLine" id="cb69-13" data-line-number="13"><span class="co">#&gt;  7 25      SINALOA 25PP… MATU… COLEGI… PART… 012     MAZATL… 0001   </span></a>
-<a class="sourceLine" id="cb69-14" data-line-number="14"><span class="co">#&gt;  8 25      SINALOA 25PP… MATU… COLEGI… PART… 012     MAZATL… 0001   </span></a>
-<a class="sourceLine" id="cb69-15" data-line-number="15"><span class="co">#&gt;  9 25      SINALOA 25PP… MATU… COLEGI… PART… 012     MAZATL… 0001   </span></a>
-<a class="sourceLine" id="cb69-16" data-line-number="16"><span class="co">#&gt; 10 25      SINALOA 25PP… MATU… COLEGI… PART… 012     MAZATL… 0001   </span></a>
+<a class="sourceLine" id="cb69-7" data-line-number="7"><span class="co">#&gt;  1 15      MEXICO  15DP… MATU… JAIME … INDê… 074     SAN FE… 0056   </span></a>
+<a class="sourceLine" id="cb69-8" data-line-number="8"><span class="co">#&gt;  2 15      MEXICO  15DP… MATU… JAIME … INDê… 074     SAN FE… 0056   </span></a>
+<a class="sourceLine" id="cb69-9" data-line-number="9"><span class="co">#&gt;  3 15      MEXICO  15DP… MATU… JAIME … INDê… 074     SAN FE… 0056   </span></a>
+<a class="sourceLine" id="cb69-10" data-line-number="10"><span class="co">#&gt;  4 15      MEXICO  15DP… MATU… JAIME … INDê… 074     SAN FE… 0056   </span></a>
+<a class="sourceLine" id="cb69-11" data-line-number="11"><span class="co">#&gt;  5 15      MEXICO  15DP… MATU… JAIME … INDê… 074     SAN FE… 0056   </span></a>
+<a class="sourceLine" id="cb69-12" data-line-number="12"><span class="co">#&gt;  6 15      MEXICO  15DP… MATU… JAIME … INDê… 074     SAN FE… 0056   </span></a>
+<a class="sourceLine" id="cb69-13" data-line-number="13"><span class="co">#&gt;  7 15      MEXICO  15DP… MATU… JAIME … INDê… 074     SAN FE… 0056   </span></a>
+<a class="sourceLine" id="cb69-14" data-line-number="14"><span class="co">#&gt;  8 15      MEXICO  15DP… MATU… JAIME … INDê… 074     SAN FE… 0056   </span></a>
+<a class="sourceLine" id="cb69-15" data-line-number="15"><span class="co">#&gt;  9 15      MEXICO  15DP… MATU… JAIME … INDê… 074     SAN FE… 0056   </span></a>
+<a class="sourceLine" id="cb69-16" data-line-number="16"><span class="co">#&gt; 10 15      MEXICO  15DP… MATU… JAIME … INDê… 074     SAN FE… 0056   </span></a>
 <a class="sourceLine" id="cb69-17" data-line-number="17"><span class="co">#&gt; # … with 11,990 more rows, and 4 more variables: NOM_LOC &lt;chr&gt;,</span></a>
 <a class="sourceLine" id="cb69-18" data-line-number="18"><span class="co">#&gt; #   AREA &lt;chr&gt;, GRADO &lt;chr&gt;, PUNTAJE &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb69-19" data-line-number="19"></a>
@@ -612,19 +616,19 @@ lugares que encuentre un caracter que no es alfanumérico (espacio, guión,…).
 <a class="sourceLine" id="cb69-26" data-line-number="26"><span class="kw">glimpse</span>(enlacep_tidy)</a>
 <a class="sourceLine" id="cb69-27" data-line-number="27"><span class="co">#&gt; Observations: 12,000</span></a>
 <a class="sourceLine" id="cb69-28" data-line-number="28"><span class="co">#&gt; Variables: 13</span></a>
-<a class="sourceLine" id="cb69-29" data-line-number="29"><span class="co">#&gt; $ CVE_ENT &lt;chr&gt; &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;2…</span></a>
-<a class="sourceLine" id="cb69-30" data-line-number="30"><span class="co">#&gt; $ NOM_ENT &lt;chr&gt; &quot;SINALOA&quot;, &quot;SINALOA&quot;, &quot;SINALOA&quot;, &quot;SINALOA&quot;, &quot;SINALOA&quot;, &quot;…</span></a>
-<a class="sourceLine" id="cb69-31" data-line-number="31"><span class="co">#&gt; $ CCT     &lt;chr&gt; &quot;25PPR0593L&quot;, &quot;25PPR0593L&quot;, &quot;25PPR0593L&quot;, &quot;25PPR0593L&quot;, …</span></a>
+<a class="sourceLine" id="cb69-29" data-line-number="29"><span class="co">#&gt; $ CVE_ENT &lt;chr&gt; &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;1…</span></a>
+<a class="sourceLine" id="cb69-30" data-line-number="30"><span class="co">#&gt; $ NOM_ENT &lt;chr&gt; &quot;MEXICO&quot;, &quot;MEXICO&quot;, &quot;MEXICO&quot;, &quot;MEXICO&quot;, &quot;MEXICO&quot;, &quot;MEXIC…</span></a>
+<a class="sourceLine" id="cb69-31" data-line-number="31"><span class="co">#&gt; $ CCT     &lt;chr&gt; &quot;15DPB0120K&quot;, &quot;15DPB0120K&quot;, &quot;15DPB0120K&quot;, &quot;15DPB0120K&quot;, …</span></a>
 <a class="sourceLine" id="cb69-32" data-line-number="32"><span class="co">#&gt; $ TURNO   &lt;chr&gt; &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTIN…</span></a>
-<a class="sourceLine" id="cb69-33" data-line-number="33"><span class="co">#&gt; $ ESCUELA &lt;chr&gt; &quot;COLEGIO BEGSU&quot;, &quot;COLEGIO BEGSU&quot;, &quot;COLEGIO BEGSU&quot;, &quot;COLE…</span></a>
-<a class="sourceLine" id="cb69-34" data-line-number="34"><span class="co">#&gt; $ TIPO    &lt;chr&gt; &quot;PARTICULAR&quot;, &quot;PARTICULAR&quot;, &quot;PARTICULAR&quot;, &quot;PARTICULAR&quot;, …</span></a>
-<a class="sourceLine" id="cb69-35" data-line-number="35"><span class="co">#&gt; $ CVE_MUN &lt;chr&gt; &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, …</span></a>
-<a class="sourceLine" id="cb69-36" data-line-number="36"><span class="co">#&gt; $ NOM_MUN &lt;chr&gt; &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLA…</span></a>
-<a class="sourceLine" id="cb69-37" data-line-number="37"><span class="co">#&gt; $ CVE_LOC &lt;chr&gt; &quot;0001&quot;, &quot;0001&quot;, &quot;0001&quot;, &quot;0001&quot;, &quot;0001&quot;, &quot;0001&quot;, &quot;0001&quot;, …</span></a>
-<a class="sourceLine" id="cb69-38" data-line-number="38"><span class="co">#&gt; $ NOM_LOC &lt;chr&gt; &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLA…</span></a>
+<a class="sourceLine" id="cb69-33" data-line-number="33"><span class="co">#&gt; $ ESCUELA &lt;chr&gt; &quot;JAIME NUNO ROCA&quot;, &quot;JAIME NUNO ROCA&quot;, &quot;JAIME NUNO ROCA&quot;,…</span></a>
+<a class="sourceLine" id="cb69-34" data-line-number="34"><span class="co">#&gt; $ TIPO    &lt;chr&gt; &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGEN…</span></a>
+<a class="sourceLine" id="cb69-35" data-line-number="35"><span class="co">#&gt; $ CVE_MUN &lt;chr&gt; &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, …</span></a>
+<a class="sourceLine" id="cb69-36" data-line-number="36"><span class="co">#&gt; $ NOM_MUN &lt;chr&gt; &quot;SAN FELIPE DEL PROGRESO&quot;, &quot;SAN FELIPE DEL PROGRESO&quot;, &quot;S…</span></a>
+<a class="sourceLine" id="cb69-37" data-line-number="37"><span class="co">#&gt; $ CVE_LOC &lt;chr&gt; &quot;0056&quot;, &quot;0056&quot;, &quot;0056&quot;, &quot;0056&quot;, &quot;0056&quot;, &quot;0056&quot;, &quot;0056&quot;, …</span></a>
+<a class="sourceLine" id="cb69-38" data-line-number="38"><span class="co">#&gt; $ NOM_LOC &lt;chr&gt; &quot;PALMILLAS&quot;, &quot;PALMILLAS&quot;, &quot;PALMILLAS&quot;, &quot;PALMILLAS&quot;, &quot;PAL…</span></a>
 <a class="sourceLine" id="cb69-39" data-line-number="39"><span class="co">#&gt; $ AREA    &lt;chr&gt; &quot;ESP&quot;, &quot;MAT&quot;, &quot;FCE&quot;, &quot;ESP&quot;, &quot;MAT&quot;, &quot;FCE&quot;, &quot;ESP&quot;, &quot;MAT&quot;, …</span></a>
 <a class="sourceLine" id="cb69-40" data-line-number="40"><span class="co">#&gt; $ GRADO   &lt;dbl&gt; 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 3, 3, 3, 4, 4, 4, 5,…</span></a>
-<a class="sourceLine" id="cb69-41" data-line-number="41"><span class="co">#&gt; $ PUNTAJE &lt;dbl&gt; 638, 728, 591, 677, 737, 595, 648, 731, 573, 643, 713, 5…</span></a></code></pre></div>
+<a class="sourceLine" id="cb69-41" data-line-number="41"><span class="co">#&gt; $ PUNTAJE &lt;dbl&gt; 411, 396, 386, 355, 413, 355, 422, 496, 377, 452, 473, 4…</span></a></code></pre></div>
 <p>Conforme nos habituemos a las funciones podemos sacar provecho de sus
 argumentos adicionales:</p>
 <ul>
@@ -637,18 +641,18 @@ coincida del inicio de una variable.</li>
 <a class="sourceLine" id="cb70-4" data-line-number="4"><span class="st">  </span><span class="kw">glimpse</span>()</a>
 <a class="sourceLine" id="cb70-5" data-line-number="5"><span class="co">#&gt; Observations: 12,000</span></a>
 <a class="sourceLine" id="cb70-6" data-line-number="6"><span class="co">#&gt; Variables: 12</span></a>
-<a class="sourceLine" id="cb70-7" data-line-number="7"><span class="co">#&gt; $ CVE_ENT    &lt;chr&gt; &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;,…</span></a>
-<a class="sourceLine" id="cb70-8" data-line-number="8"><span class="co">#&gt; $ NOM_ENT    &lt;chr&gt; &quot;SINALOA&quot;, &quot;SINALOA&quot;, &quot;SINALOA&quot;, &quot;SINALOA&quot;, &quot;SINALOA&quot;…</span></a>
-<a class="sourceLine" id="cb70-9" data-line-number="9"><span class="co">#&gt; $ CCT        &lt;chr&gt; &quot;25PPR0593L&quot;, &quot;25PPR0593L&quot;, &quot;25PPR0593L&quot;, &quot;25PPR0593L…</span></a>
+<a class="sourceLine" id="cb70-7" data-line-number="7"><span class="co">#&gt; $ CVE_ENT    &lt;chr&gt; &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;,…</span></a>
+<a class="sourceLine" id="cb70-8" data-line-number="8"><span class="co">#&gt; $ NOM_ENT    &lt;chr&gt; &quot;MEXICO&quot;, &quot;MEXICO&quot;, &quot;MEXICO&quot;, &quot;MEXICO&quot;, &quot;MEXICO&quot;, &quot;ME…</span></a>
+<a class="sourceLine" id="cb70-9" data-line-number="9"><span class="co">#&gt; $ CCT        &lt;chr&gt; &quot;15DPB0120K&quot;, &quot;15DPB0120K&quot;, &quot;15DPB0120K&quot;, &quot;15DPB0120K…</span></a>
 <a class="sourceLine" id="cb70-10" data-line-number="10"><span class="co">#&gt; $ TURNO      &lt;chr&gt; &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATU…</span></a>
-<a class="sourceLine" id="cb70-11" data-line-number="11"><span class="co">#&gt; $ ESCUELA    &lt;chr&gt; &quot;COLEGIO BEGSU&quot;, &quot;COLEGIO BEGSU&quot;, &quot;COLEGIO BEGSU&quot;, &quot;C…</span></a>
-<a class="sourceLine" id="cb70-12" data-line-number="12"><span class="co">#&gt; $ TIPO       &lt;chr&gt; &quot;PARTICULAR&quot;, &quot;PARTICULAR&quot;, &quot;PARTICULAR&quot;, &quot;PARTICULAR…</span></a>
-<a class="sourceLine" id="cb70-13" data-line-number="13"><span class="co">#&gt; $ CVE_MUN    &lt;chr&gt; &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, &quot;012…</span></a>
-<a class="sourceLine" id="cb70-14" data-line-number="14"><span class="co">#&gt; $ NOM_MUN    &lt;chr&gt; &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZA…</span></a>
-<a class="sourceLine" id="cb70-15" data-line-number="15"><span class="co">#&gt; $ CVE_LOC    &lt;chr&gt; &quot;0001&quot;, &quot;0001&quot;, &quot;0001&quot;, &quot;0001&quot;, &quot;0001&quot;, &quot;0001&quot;, &quot;0001…</span></a>
-<a class="sourceLine" id="cb70-16" data-line-number="16"><span class="co">#&gt; $ NOM_LOC    &lt;chr&gt; &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZA…</span></a>
+<a class="sourceLine" id="cb70-11" data-line-number="11"><span class="co">#&gt; $ ESCUELA    &lt;chr&gt; &quot;JAIME NUNO ROCA&quot;, &quot;JAIME NUNO ROCA&quot;, &quot;JAIME NUNO ROC…</span></a>
+<a class="sourceLine" id="cb70-12" data-line-number="12"><span class="co">#&gt; $ TIPO       &lt;chr&gt; &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDê…</span></a>
+<a class="sourceLine" id="cb70-13" data-line-number="13"><span class="co">#&gt; $ CVE_MUN    &lt;chr&gt; &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, &quot;074…</span></a>
+<a class="sourceLine" id="cb70-14" data-line-number="14"><span class="co">#&gt; $ NOM_MUN    &lt;chr&gt; &quot;SAN FELIPE DEL PROGRESO&quot;, &quot;SAN FELIPE DEL PROGRESO&quot;,…</span></a>
+<a class="sourceLine" id="cb70-15" data-line-number="15"><span class="co">#&gt; $ CVE_LOC    &lt;chr&gt; &quot;0056&quot;, &quot;0056&quot;, &quot;0056&quot;, &quot;0056&quot;, &quot;0056&quot;, &quot;0056&quot;, &quot;0056…</span></a>
+<a class="sourceLine" id="cb70-16" data-line-number="16"><span class="co">#&gt; $ NOM_LOC    &lt;chr&gt; &quot;PALMILLAS&quot;, &quot;PALMILLAS&quot;, &quot;PALMILLAS&quot;, &quot;PALMILLAS&quot;, &quot;…</span></a>
 <a class="sourceLine" id="cb70-17" data-line-number="17"><span class="co">#&gt; $ AREA_GRADO &lt;chr&gt; &quot;ESP_3&quot;, &quot;MAT_3&quot;, &quot;FCE_3&quot;, &quot;ESP_4&quot;, &quot;MAT_4&quot;, &quot;FCE_4&quot;,…</span></a>
-<a class="sourceLine" id="cb70-18" data-line-number="18"><span class="co">#&gt; $ PUNTAJE    &lt;dbl&gt; 638, 728, 591, 677, 737, 595, 648, 731, 573, 643, 713…</span></a></code></pre></div>
+<a class="sourceLine" id="cb70-18" data-line-number="18"><span class="co">#&gt; $ PUNTAJE    &lt;dbl&gt; 411, 396, 386, 355, 413, 355, 422, 496, 377, 452, 473…</span></a></code></pre></div>
 <ul>
 <li><code>names_sep</code>: nos permite hacer el pivoteo y separar en una misma operación,
 en este caso <code>names_to</code> consiste en un vector con más de una entrada y
@@ -660,19 +664,19 @@ en este caso <code>names_to</code> consiste en un vector con más de una entrada
 <a class="sourceLine" id="cb71-4" data-line-number="4"><span class="st">  </span><span class="kw">glimpse</span>()</a>
 <a class="sourceLine" id="cb71-5" data-line-number="5"><span class="co">#&gt; Observations: 12,000</span></a>
 <a class="sourceLine" id="cb71-6" data-line-number="6"><span class="co">#&gt; Variables: 13</span></a>
-<a class="sourceLine" id="cb71-7" data-line-number="7"><span class="co">#&gt; $ CVE_ENT &lt;chr&gt; &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;2…</span></a>
-<a class="sourceLine" id="cb71-8" data-line-number="8"><span class="co">#&gt; $ NOM_ENT &lt;chr&gt; &quot;SINALOA&quot;, &quot;SINALOA&quot;, &quot;SINALOA&quot;, &quot;SINALOA&quot;, &quot;SINALOA&quot;, &quot;…</span></a>
-<a class="sourceLine" id="cb71-9" data-line-number="9"><span class="co">#&gt; $ CCT     &lt;chr&gt; &quot;25PPR0593L&quot;, &quot;25PPR0593L&quot;, &quot;25PPR0593L&quot;, &quot;25PPR0593L&quot;, …</span></a>
+<a class="sourceLine" id="cb71-7" data-line-number="7"><span class="co">#&gt; $ CVE_ENT &lt;chr&gt; &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;1…</span></a>
+<a class="sourceLine" id="cb71-8" data-line-number="8"><span class="co">#&gt; $ NOM_ENT &lt;chr&gt; &quot;MEXICO&quot;, &quot;MEXICO&quot;, &quot;MEXICO&quot;, &quot;MEXICO&quot;, &quot;MEXICO&quot;, &quot;MEXIC…</span></a>
+<a class="sourceLine" id="cb71-9" data-line-number="9"><span class="co">#&gt; $ CCT     &lt;chr&gt; &quot;15DPB0120K&quot;, &quot;15DPB0120K&quot;, &quot;15DPB0120K&quot;, &quot;15DPB0120K&quot;, …</span></a>
 <a class="sourceLine" id="cb71-10" data-line-number="10"><span class="co">#&gt; $ TURNO   &lt;chr&gt; &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTIN…</span></a>
-<a class="sourceLine" id="cb71-11" data-line-number="11"><span class="co">#&gt; $ ESCUELA &lt;chr&gt; &quot;COLEGIO BEGSU&quot;, &quot;COLEGIO BEGSU&quot;, &quot;COLEGIO BEGSU&quot;, &quot;COLE…</span></a>
-<a class="sourceLine" id="cb71-12" data-line-number="12"><span class="co">#&gt; $ TIPO    &lt;chr&gt; &quot;PARTICULAR&quot;, &quot;PARTICULAR&quot;, &quot;PARTICULAR&quot;, &quot;PARTICULAR&quot;, …</span></a>
-<a class="sourceLine" id="cb71-13" data-line-number="13"><span class="co">#&gt; $ CVE_MUN &lt;chr&gt; &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, …</span></a>
-<a class="sourceLine" id="cb71-14" data-line-number="14"><span class="co">#&gt; $ NOM_MUN &lt;chr&gt; &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLA…</span></a>
-<a class="sourceLine" id="cb71-15" data-line-number="15"><span class="co">#&gt; $ CVE_LOC &lt;chr&gt; &quot;0001&quot;, &quot;0001&quot;, &quot;0001&quot;, &quot;0001&quot;, &quot;0001&quot;, &quot;0001&quot;, &quot;0001&quot;, …</span></a>
-<a class="sourceLine" id="cb71-16" data-line-number="16"><span class="co">#&gt; $ NOM_LOC &lt;chr&gt; &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLA…</span></a>
+<a class="sourceLine" id="cb71-11" data-line-number="11"><span class="co">#&gt; $ ESCUELA &lt;chr&gt; &quot;JAIME NUNO ROCA&quot;, &quot;JAIME NUNO ROCA&quot;, &quot;JAIME NUNO ROCA&quot;,…</span></a>
+<a class="sourceLine" id="cb71-12" data-line-number="12"><span class="co">#&gt; $ TIPO    &lt;chr&gt; &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGEN…</span></a>
+<a class="sourceLine" id="cb71-13" data-line-number="13"><span class="co">#&gt; $ CVE_MUN &lt;chr&gt; &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, …</span></a>
+<a class="sourceLine" id="cb71-14" data-line-number="14"><span class="co">#&gt; $ NOM_MUN &lt;chr&gt; &quot;SAN FELIPE DEL PROGRESO&quot;, &quot;SAN FELIPE DEL PROGRESO&quot;, &quot;S…</span></a>
+<a class="sourceLine" id="cb71-15" data-line-number="15"><span class="co">#&gt; $ CVE_LOC &lt;chr&gt; &quot;0056&quot;, &quot;0056&quot;, &quot;0056&quot;, &quot;0056&quot;, &quot;0056&quot;, &quot;0056&quot;, &quot;0056&quot;, …</span></a>
+<a class="sourceLine" id="cb71-16" data-line-number="16"><span class="co">#&gt; $ NOM_LOC &lt;chr&gt; &quot;PALMILLAS&quot;, &quot;PALMILLAS&quot;, &quot;PALMILLAS&quot;, &quot;PALMILLAS&quot;, &quot;PAL…</span></a>
 <a class="sourceLine" id="cb71-17" data-line-number="17"><span class="co">#&gt; $ AREA    &lt;chr&gt; &quot;ESP&quot;, &quot;MAT&quot;, &quot;FCE&quot;, &quot;ESP&quot;, &quot;MAT&quot;, &quot;FCE&quot;, &quot;ESP&quot;, &quot;MAT&quot;, …</span></a>
 <a class="sourceLine" id="cb71-18" data-line-number="18"><span class="co">#&gt; $ GRADO   &lt;chr&gt; &quot;3&quot;, &quot;3&quot;, &quot;3&quot;, &quot;4&quot;, &quot;4&quot;, &quot;4&quot;, &quot;5&quot;, &quot;5&quot;, &quot;5&quot;, &quot;6&quot;, &quot;6&quot;, &quot;…</span></a>
-<a class="sourceLine" id="cb71-19" data-line-number="19"><span class="co">#&gt; $ PUNTAJE &lt;dbl&gt; 638, 728, 591, 677, 737, 595, 648, 731, 573, 643, 713, 5…</span></a></code></pre></div>
+<a class="sourceLine" id="cb71-19" data-line-number="19"><span class="co">#&gt; $ PUNTAJE &lt;dbl&gt; 411, 396, 386, 355, 413, 355, 422, 496, 377, 452, 473, 4…</span></a></code></pre></div>
 <ul>
 <li><code>names_pattern</code>: similar a <code>names_sep</code> pero recibe una expresión regular.</li>
 </ul>
@@ -689,19 +693,19 @@ columnas.</li>
 <a class="sourceLine" id="cb73-4" data-line-number="4"><span class="st">  </span><span class="kw">glimpse</span>()</a>
 <a class="sourceLine" id="cb73-5" data-line-number="5"><span class="co">#&gt; Observations: 12,000</span></a>
 <a class="sourceLine" id="cb73-6" data-line-number="6"><span class="co">#&gt; Variables: 13</span></a>
-<a class="sourceLine" id="cb73-7" data-line-number="7"><span class="co">#&gt; $ CVE_ENT &lt;chr&gt; &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;25&quot;, &quot;2…</span></a>
-<a class="sourceLine" id="cb73-8" data-line-number="8"><span class="co">#&gt; $ NOM_ENT &lt;chr&gt; &quot;SINALOA&quot;, &quot;SINALOA&quot;, &quot;SINALOA&quot;, &quot;SINALOA&quot;, &quot;SINALOA&quot;, &quot;…</span></a>
-<a class="sourceLine" id="cb73-9" data-line-number="9"><span class="co">#&gt; $ CCT     &lt;chr&gt; &quot;25PPR0593L&quot;, &quot;25PPR0593L&quot;, &quot;25PPR0593L&quot;, &quot;25PPR0593L&quot;, …</span></a>
+<a class="sourceLine" id="cb73-7" data-line-number="7"><span class="co">#&gt; $ CVE_ENT &lt;chr&gt; &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;1…</span></a>
+<a class="sourceLine" id="cb73-8" data-line-number="8"><span class="co">#&gt; $ NOM_ENT &lt;chr&gt; &quot;MEXICO&quot;, &quot;MEXICO&quot;, &quot;MEXICO&quot;, &quot;MEXICO&quot;, &quot;MEXICO&quot;, &quot;MEXIC…</span></a>
+<a class="sourceLine" id="cb73-9" data-line-number="9"><span class="co">#&gt; $ CCT     &lt;chr&gt; &quot;15DPB0120K&quot;, &quot;15DPB0120K&quot;, &quot;15DPB0120K&quot;, &quot;15DPB0120K&quot;, …</span></a>
 <a class="sourceLine" id="cb73-10" data-line-number="10"><span class="co">#&gt; $ TURNO   &lt;chr&gt; &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTIN…</span></a>
-<a class="sourceLine" id="cb73-11" data-line-number="11"><span class="co">#&gt; $ ESCUELA &lt;chr&gt; &quot;COLEGIO BEGSU&quot;, &quot;COLEGIO BEGSU&quot;, &quot;COLEGIO BEGSU&quot;, &quot;COLE…</span></a>
-<a class="sourceLine" id="cb73-12" data-line-number="12"><span class="co">#&gt; $ TIPO    &lt;chr&gt; &quot;PARTICULAR&quot;, &quot;PARTICULAR&quot;, &quot;PARTICULAR&quot;, &quot;PARTICULAR&quot;, …</span></a>
-<a class="sourceLine" id="cb73-13" data-line-number="13"><span class="co">#&gt; $ CVE_MUN &lt;chr&gt; &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, &quot;012&quot;, …</span></a>
-<a class="sourceLine" id="cb73-14" data-line-number="14"><span class="co">#&gt; $ NOM_MUN &lt;chr&gt; &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLA…</span></a>
-<a class="sourceLine" id="cb73-15" data-line-number="15"><span class="co">#&gt; $ CVE_LOC &lt;chr&gt; &quot;0001&quot;, &quot;0001&quot;, &quot;0001&quot;, &quot;0001&quot;, &quot;0001&quot;, &quot;0001&quot;, &quot;0001&quot;, …</span></a>
-<a class="sourceLine" id="cb73-16" data-line-number="16"><span class="co">#&gt; $ NOM_LOC &lt;chr&gt; &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLAN&quot;, &quot;MAZATLA…</span></a>
+<a class="sourceLine" id="cb73-11" data-line-number="11"><span class="co">#&gt; $ ESCUELA &lt;chr&gt; &quot;JAIME NUNO ROCA&quot;, &quot;JAIME NUNO ROCA&quot;, &quot;JAIME NUNO ROCA&quot;,…</span></a>
+<a class="sourceLine" id="cb73-12" data-line-number="12"><span class="co">#&gt; $ TIPO    &lt;chr&gt; &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGEN…</span></a>
+<a class="sourceLine" id="cb73-13" data-line-number="13"><span class="co">#&gt; $ CVE_MUN &lt;chr&gt; &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, &quot;074&quot;, …</span></a>
+<a class="sourceLine" id="cb73-14" data-line-number="14"><span class="co">#&gt; $ NOM_MUN &lt;chr&gt; &quot;SAN FELIPE DEL PROGRESO&quot;, &quot;SAN FELIPE DEL PROGRESO&quot;, &quot;S…</span></a>
+<a class="sourceLine" id="cb73-15" data-line-number="15"><span class="co">#&gt; $ CVE_LOC &lt;chr&gt; &quot;0056&quot;, &quot;0056&quot;, &quot;0056&quot;, &quot;0056&quot;, &quot;0056&quot;, &quot;0056&quot;, &quot;0056&quot;, …</span></a>
+<a class="sourceLine" id="cb73-16" data-line-number="16"><span class="co">#&gt; $ NOM_LOC &lt;chr&gt; &quot;PALMILLAS&quot;, &quot;PALMILLAS&quot;, &quot;PALMILLAS&quot;, &quot;PALMILLAS&quot;, &quot;PAL…</span></a>
 <a class="sourceLine" id="cb73-17" data-line-number="17"><span class="co">#&gt; $ AREA    &lt;chr&gt; &quot;ESP&quot;, &quot;MAT&quot;, &quot;FCE&quot;, &quot;ESP&quot;, &quot;MAT&quot;, &quot;FCE&quot;, &quot;ESP&quot;, &quot;MAT&quot;, …</span></a>
 <a class="sourceLine" id="cb73-18" data-line-number="18"><span class="co">#&gt; $ GRADO   &lt;int&gt; 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 3, 3, 3, 4, 4, 4, 5,…</span></a>
-<a class="sourceLine" id="cb73-19" data-line-number="19"><span class="co">#&gt; $ PUNTAJE &lt;dbl&gt; 638, 728, 591, 677, 737, 595, 648, 731, 573, 643, 713, 5…</span></a></code></pre></div>
+<a class="sourceLine" id="cb73-19" data-line-number="19"><span class="co">#&gt; $ PUNTAJE &lt;dbl&gt; 411, 396, 386, 355, 413, 355, 422, 496, 377, 452, 473, 4…</span></a></code></pre></div>
 </div>
 <div id="variables-almacenadas-en-filas-y-columnas" class="section level3 unnumbered">
 <h3>Variables almacenadas en filas y columnas</h3>
@@ -828,7 +832,9 @@ obtendremos los valores que llenarán las nuevas columnas.</li>
 tareas de análisis, distintas funciones o tareas requieren los datos en
 distintos formas y saber pivotear las tablas es muy útil.</p>
 <p><img src="img/manicule2.jpg" /> Grafica el valor estimado de fertilidad del grupo de
-edad 20-24 contra 25-29. ¿Qué transformación debes hacer?</p>
+edad 20-24 contra 25-29. ¿Qué transformación debes hacer? Tip: elimina la
+columna que corresponde al error estándar antes de ensanchar los
+datos.</p>
 </div>
 <div id="una-misma-unidad-observacional-esta-almacenada-en-multiples-tablas" class="section level3 unnumbered">
 <h3>Una misma unidad observacional está almacenada en múltiples tablas</h3>
@@ -905,7 +911,7 @@ valores atípicos.</p></li>
 <ul>
 <li><p><a href="https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf">Data Transformation Cheat Sheet</a>,
 RStudio.</p></li>
-<li><p>Limpiar nombres de columnas, eliminar filas vacías y más paquete
+<li><p>Limpiar nombres de columnas, eliminar filas vacías y más, paquete
 <a href="https://github.com/sfirke/janitor">janitor</a>.</p></li>
 <li><p>Lectura de datos tabulares con distintas estructuras, paquete
 <a href="https://buff.ly/2z9CcBN">tidycells</a>.</p></li>

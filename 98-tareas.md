@@ -140,6 +140,44 @@ library(estcomp)
   * Enuncia al menos una pregunta que se pueda responder transformando y 
   graficando estos datos. Crea tu(s) gráfica(s).
   
+## 3. Unión de tablas y limpieza de datos {-}
+
+Pueden encontrar la versión de las notas de datos limpuis usando `gather()` y 
+`spread()` [aquí](https://tereom.github.io/tutoriales/datos_limpios.html.
+
+Trabajaremos con los datos `df_marital`, 
+
+1. ¿Están limpios los datos? en caso de que no
+¿qué principio no cumplen?
 
 
+```r
+library(estcomp)
+df_marital
+#> # A tibble: 29,484 x 14
+#>    state_code municipio_code region state_name state_abbr municipio_name
+#>    <chr>      <chr>          <chr>  <chr>      <chr>      <chr>         
+#>  1 01         001            01001  Aguascali… AGS        Aguascalientes
+#>  2 01         001            01001  Aguascali… AGS        Aguascalientes
+#>  3 01         001            01001  Aguascali… AGS        Aguascalientes
+#>  4 01         001            01001  Aguascali… AGS        Aguascalientes
+#>  5 01         001            01001  Aguascali… AGS        Aguascalientes
+#>  6 01         001            01001  Aguascali… AGS        Aguascalientes
+#>  7 01         001            01001  Aguascali… AGS        Aguascalientes
+#>  8 01         001            01001  Aguascali… AGS        Aguascalientes
+#>  9 01         001            01001  Aguascali… AGS        Aguascalientes
+#> 10 01         001            01001  Aguascali… AGS        Aguascalientes
+#> # … with 29,474 more rows, and 8 more variables: sex <chr>,
+#> #   age_group <chr>, pop <dbl>, single <dbl>, married <dbl>,
+#> #   living_w_partner <dbl>, separated <dbl>, other <dbl>
+```
 
+2. Limpia los datos y muestra las primeras y últimas líneas (usa `head()` y 
+`tail()`).
+
+3. Filtra para eliminar los casos a total en las variables sexo y edad, calcula 
+a nivel nacional cuál es la proporción en cada situación conyugal por grupo de 
+edad y sexo. ¿Cómo puedes graficar o presentar los resultados?
+
+4. Regresando a los datos que obtuviste en 2, une la tabla de datos con 
+`df_edu`, ¿qué variables se usarán para unir?
