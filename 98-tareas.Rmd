@@ -3,7 +3,7 @@
 ```{r options, echo = FALSE, message=FALSE, error=TRUE}
 knitr::opts_chunk$set(
     comment = "#>",
-    collapse = TRUE, error=TRUE
+    collapse = TRUE, error = TRUE
 )
 comma <- function(x) format(x, digits = 2, big.mark = ",")
 options(digits = 3)
@@ -150,6 +150,27 @@ library(estcomp)
   * Enuncia al menos una pregunta que se pueda responder transformando y 
   graficando estos datos. Crea tu(s) gráfica(s).
   
+## 3. Unión de tablas y limpieza de datos {-}
 
+Pueden encontrar la versión de las notas de datos limpuis usando `gather()` y 
+`spread()` [aquí](https://tereom.github.io/tutoriales/datos_limpios.html.
 
+Trabajaremos con los datos `df_marital`, 
 
+1. ¿Están limpios los datos? en caso de que no
+¿qué principio no cumplen?
+
+```{r}
+library(estcomp)
+df_marital
+```
+
+2. Limpia los datos y muestra las primeras y últimas líneas (usa `head()` y 
+`tail()`).
+
+3. Filtra para eliminar los casos a total en las variables sexo y edad, calcula 
+a nivel nacional cuál es la proporción en cada situación conyugal por grupo de 
+edad y sexo. ¿Cómo puedes graficar o presentar los resultados?
+
+4. Regresando a los datos que obtuviste en 2, une la tabla de datos con 
+`df_edu`, ¿qué variables se usarán para unir?
