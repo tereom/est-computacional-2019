@@ -332,10 +332,12 @@ interesa sobre cada objeto en la iteración.
 
 #### Ejercicio {-}
 
-* Calcula el número de valores únicos en cada columna de los datos `iris`.
+* Calcula el valor máximo de cada columna numérica de los datos de ENLACE 
+3o de primaria `enlacep_2013_3`.
 
 ```{r}
-head(iris)
+library(estcomp)
+head(enlacep_2013_3)
 ```
 
 
@@ -506,6 +508,4 @@ models[[1]]$coefficients[2]
 
 * Utiliza map_*** para crear un vector con la media de 
 nitrato de cada estación de monitoreo, itera sobre el vector `specdata_us_vec`.
-
-
 
