@@ -2,10 +2,10 @@
 
 > Bootstrap: _to pull oneself up by one's bootstrap_
 
-```{r options, echo = FALSE, message=FALSE, error=TRUE}
+```{r options, echo = FALSE, message=FALSE}
 knitr::opts_chunk$set(
     comment = "#>",
-    collapse = TRUE, error=FALSE
+    collapse = TRUE
 )
 comma <- function(x) format(x, digits = 2, big.mark = ",")
 options(digits=5)
@@ -24,11 +24,7 @@ de @tim. Abordamos los siguientes temas:
 * Bootstrap no paramétrico  
 * Ejemplos: componentes principales, ajuste de curvas, muestreo.
 
-<!-- la inferencia estadística se ocupa de aprender de la experiencia: 
-observamos una muestra aleatoria x y queremos inferir propiedades de la 
-población que produjo la muestra. Probabilidad va en la dirección contraria:
-de la composicion de una pob deducimos las propiedades de una muestra aleatoria
-x -->
+
 
 #### Ejemplo: aspirina y ataques cardiacos {-}
 Como explican Efron y Tibshirani, las 
@@ -119,15 +115,15 @@ boot_ratio_rates <- function(){
   rates[1] / rates[2]
 } 
 
-boot_ratio_rates <- rerun(1000, boot_ratio_rates()) %>% 
-  map_dbl(~.x)
+rates <- rerun(1000, boot_ratio_rates()) %>% 
+  flatten_dbl()
 ```
 
 Las replicaciones se pueden utilizar para hacer inferencia de los datos. Por 
 ejemplo, podemos estimar el error estándar de $\theta$:
 
 ```{r inferencias_bootstrap, fig.align='center', fig.width=4, fig.height=4}
-se <- sd(boot_ratio_rates)
+se <- sd(rates)
 comma(se)
 ```
 
@@ -192,7 +188,7 @@ de la población $\mathcal{X}$ a partir de los datos observados $\textbf{x}$.
 #### Ejemplo: ENLACE {-}
 
 ```{r limpieza de datos, echo = FALSE, eval = FALSE}
-load("data/base_completa.Rdata")
+load("datos/base_completa.Rdata")
 primaria <- tbl_df(primaria) %>%
     filter(entidad == "DISTRITO FEDERAL", esp.3 > 0, esp.6 > 0, eval.3 > 0, 
         eval.6 > 0) %>%
@@ -206,7 +202,7 @@ de la Ciudad de México, de un universo de 3,200 escuelas,
 
 ```{r seleccion_muestra}
 # universo
-primaria <- read_csv("data/primarias.csv")
+primaria <- read_csv("datos/primarias.csv")
 glimpse(primaria)
 set.seed(16021)
 n <- 300
@@ -251,9 +247,7 @@ la probabilidad empírica:
 $$P_n(A)=\#\{x_i \in A \}/n$$
 </div>
 
-<!--Ahora, muchos problemas de inferencia estadística involucran la estimación
-de algún aspecto de una distribución de de probabilidad $P$ en base a una 
-muestra aleatoria obtenida de $P$. -->
+
 
 * La función de distribución empírica $P_n$ es una estimación de la distribución 
 completa $P$, por lo que una manera inmediata de estimar aspectos de $P$ 
@@ -383,7 +377,7 @@ Observamos 100 lanzamientos de un dado, obteniendo la siguiente distribución
 empírica:
 
 ```{r dado}
-dado <- read.table("data/dado.csv", header=TRUE, quote="\"")
+dado <- read.table("datos/dado.csv", header=TRUE, quote="\"")
 prop.table(table(dado$x))
 ```
 
@@ -551,7 +545,7 @@ error estándar $se_P(\bar{x})$.
 ![](imagenes/manicule2.jpg) Consideramos la base de datos `primaria`, y la 
 columna de calificaciones de español 3^o^ de primaria (`esp_3`). 
 
-- Selecciona una muestra de tamaño $n = 10, 100, 1000$. Para cada muestra 
+- Seleccina una muestra de tamaño $n = 10, 100, 1000$. Para cada muestra 
 calcula media y el error estándar de la media usando el principio del *plug-in*:
 $\hat{\mu}=\bar{x}$, y $\hat{se}(\bar{x})=\hat{\sigma}_{P_n}/\sqrt{n}$.
 
@@ -747,7 +741,7 @@ se demuestra con la ley débil de los grandes números.
 
 ![](imagenes/manicule2.jpg) Considera el coeficiente de correlación muestral
 entre la calificación de $y=$esp_3 y la de $z=$esp_6: 
-$\hat{corr}(y,z)=0.9$. ¿Qué tan precisa es esta estimación? 
+$\hat{corr}(y,z)=0.7$. ¿Qué tan precisa es esta estimación? 
 
 
 ### Variación en distribuciones bootstrap {-}
@@ -770,18 +764,6 @@ muestras con reemplazo de tamaño $n$, hay ${2n-1}\choose{n}$ posibles muestras
 y si seleccionamos todas obtenemos $\hat{se}_\infty$ (bootstrap ideal), sin
 embargo, en la mayor parte de los problemas no es factible proceder así.
 
-<!--
-* En la práctica para elegir el tamaño de $B$ debemos considerar que buscamos 
-las mismas propiedades para la estimación de un error estándar que para 
-cualquier estimación: poco sesgo y desviación estándar chica. El sesgo de la 
-estifmación bootstrap del error estándar suele ser bajo y el error estándar está
-
- Una respuesta aproximada es en términos del coeficiente de variación de 
-$\hat{se}_B$, esto es el cociente de la desviación estándar de $\hat{se}_B$ y su 
-valor esperado, la variabilidad adicional de parar en $B$ replicaciones en lugar 
-de seguir hasta infiniti se refleja en un incremento en el coeficiente de 
-variación
--->
 Entonces, ¿cuántas muestras bootstrap? 
 
 1. Incluso un número chico de replicaciones bootstrap, digamos $B=25$ es 
@@ -803,389 +785,6 @@ B_muestras <- data_frame(n_sims = c(5, 25, 50, 100, 200, 400, 1000, 1500, 3000,
     mutate(est = map_dbl(n_sims, ~seMediaBoot(x = primaria_muestra$esp_3, B = .)))
 B_muestras
 ```
-
-
-
-#### Ejemplo componentes principales: calificaciones en exámenes {-}
-Los datos _marks_ (Mardia, Kent y Bibby, 1979) contienen los puntajes de 88 
-estudiantes en 5 pruebas: mecánica, vectores, álgebra, análisis y estadística.
-Cada renglón corresponde a la calificación de un estudiante en cada prueba.
-
-```{r leer_marks}
-marks <- read_csv("data/marks.csv")
-glimpse(marks)
-marks <- select(marks, -id)
-```
-
-Entonces un análisis de componentes principales proseguiría como sigue:
-
-```{r pc, fig.height=4, fig.width=4}
-pc_marks <- princomp(marks)
-summary(pc_marks)
-loadings(pc_marks)
-plot(pc_marks, type = "lines")
-```
-
-
-```{r}
-biplot(pc_marks)
-```
-
-Los cálculos de un análisis de componentes principales involucran la matriz de 
-covarianzas empírica $G$ (estimaciones _plug-in_)
-
-$$G_{jk} = \frac{1}{88}\sum_{i=1}^88(x_{ij}-\bar{x_j})(x_{ik}-\bar{x_k})$$
-
-para $j,k=1,2,3,4,5$, y donde $\bar{x_j} = \sum_{i=1}^88 x_{ij} / 88$ (la media 
-de la i-ésima columna).
-
-```{r}
-G <- cov(marks) * 87 / 88
-G
-```
-
-Los _pesos_ y las _componentes principales_ no son mas que los eigenvalores y 
-eigenvectores de la matriz de covarianzas $G$, estos se calculan a través de una 
-serie de de manipulaciones algebraicas que requieren cálculos del orden de p^3
-(cuando G es una matriz de tamaño p$\times$p).
-
-```{r}
-eigen_G <- eigen(G)
-lambda <- eigen_G$values
-v <- eigen_G$vectors
-lambda
-v
-```
-
-1. Proponemos el siguiente modelo simple para puntajes correlacionados:
-
-$$\textbf{x}_i = Q_i \textbf{v}$$
-
-donde $\textbf{x}_i$ es la tupla de calificaciones del i-ésimo estudiante, 
-$Q_i$ es un número que representa la habilidad del estudiante y $\textbf{v}$ es
-un vector fijo con 5 números que aplica a todos los estudiantes. Si este modelo
-simple fuera cierto, entonces únicamente el $\hat{\lambda}_1$ sería positivo
-y $\textbf{v} = \hat{v}_1$.
-Sea $$\hat{\theta}=\sum_{i=1}^5\hat{\lambda}_i$$
-el modelo propuesto es equivalente a $\hat{\theta}=1$, inculso si el modelo es
-correcto, no esperamos que $\hat{\theta}$ sea exactamente uno pues hay ruido en 
-los datos.
-
-```{r}
-theta_hat <- lambda[1]/sum(lambda)
-theta_hat
-```
-
-El valor de $\hat{\theta}$ mide el porcentaje de la varianza explicada en la 
-primer componente principal, ¿qué tan preciso es  $\hat{\theta}$? La complejidad
-matemática en el cálculo de  $\hat{\theta}$ es irrelevante siempre y cuando 
-podamos calcular  $\hat{\theta}^*$ para una muestra bootstrap, en esta caso una
-muestra bootsrtap es una base de datos de 88$\times$5 $\textbf{X}^*$, donde las
-filas $\textbf{x_i}^*$ de $\textbf{X}^*$ son una muestra aleatoria de tamaño
-88 de la verdadera matriz de datos.
-
-```{r}
-pc_boot <- function(){
-    muestra_boot <- sample_n(marks, size = 88, replace = TRUE)
-    G <- cov(muestra_boot) * 87 / 88 
-    eigen_G <- eigen(G)
-    theta_hat <- eigen_G$values[1] / sum(eigen_G$values)
-}
-B <- 1000
-thetas_boot <- rerun(B, pc_boot()) %>% flatten_dbl()
-```
-
-Veamos un histograma de las replicaciones de  $\hat{\theta}$:
-
-```{r pc_hist, fig.height=4, fig.width=4, out.width="300px"}
-ggplot(data_frame(theta = thetas_boot)) +
-    geom_histogram(aes(x = theta, y = ..density..), binwidth = 0.02, fill = "gray40") + 
-    geom_vline(aes(xintercept = mean(theta)), color = "red") +
-    labs(x = expression(hat(theta)^"*"), y = "")
-```
-
-Estas tienen un error estándar
-
-```{r}
-theta_se <- sd(thetas_boot)
-theta_se
-```
-
-y media
-
-```{r}
-mean(thetas_boot)
-```
-
-la media de las replicaciones es muy similar a la estimación $\hat{\theta}$, 
-esto indica que $\hat{\theta}$ es cercano a insesgado. 
-
-
-2. El eigenvetor $\hat{v}_1$ correspondiente al mayor eigenvalor se conoce
-como primera componente de $G$, supongamos que deseamos resumir la calificación
-de los estudiantes mediante un único número, entonces la mejor combinación 
-lineal de los puntajes es 
-
-$$y_i = \sum_{k = 1}^5 \hat{v}_{1k}x_{ik}$$
-
-esto es, la combinación lineal que utiliza las componentes de $\hat{v}_1$ como
-ponderadores. Si queremos un resumen compuesto por dos números $(y_i,z_i)$, la
-segunda combinación lineal debería ser:
-
-$$z_i = \sum_{k = 1}^5 \hat{v}_{2k}x_{ik}$$
-
-![](imagenes/manicule2.jpg) Las componentes principales $\hat{v}_1$ y 
-$\hat{v}_2$ son estadísticos, usa bootstrap para dar una medición de su 
-variabilidad calculando el error estándar de cada una.
-
-
-### Más alla de muestras aleatorias simples {-}
-
-Introdujimos el bootstrap en el contexto de muestras aleatorias, esto es,
-suponiendo que las observaciones son independientes; en este escenario basta con
-aproximar la distribución desconocida $P$ usando la dsitribución empírica $P_n$, 
-y el cálculo de los estadísticos es inmediato. Hay casos en los que el mecanismo
-que generó los datos es más complicado, por ejemplo, cuando tenemos dos 
-muestras, en diseños de encuestas complejas o en series de 
-tiempo.
-
-#### Ejemplo: Dos muestras {-}
-
-En el ejemplo de experimentos clínicos de aspirina y ataques de de corazón, 
-podemos pensar el modelo probabilístico $P$ como compuesto por dos 
-distribuciones de probabilidad $G$ y $Q$ una correspondiente al grupo control y
-otra al grupo de tratamiento, entonces las observaciones de 
-cada grupo provienen de distribuciones distintas y el método bootstrap debe 
-tomar en cuenta esto al generar las muestras, en este caso implica seleccionar 
-muesreas de manera independiente dentro de cada grupo.
-
-#### Ejemplo: Bootstrap en muestreo de encuestas {-}
-
-La necesidad de estimaciones confiables junto con el uso eficiente de recursos
-conllevan a diseños de muestras complejas. Estos diseños típicamente usan las
-siguientes técnicas: muestreo sin reemplazo de una población finita, muestreo
-sistemático, estratificación, conglomerados, ajustes a no-respuesta, 
-postestratificación. Como consecuencia, los valores de la muestra suelen no ser
-independientes.
-
-La complejidad de los diseños de encuestas conlleva a que el cálculo de errores
-estándar sea muy complicado, para atacar este problema hay dos técnicas básicas:
-1) un enfoque analítico usando linearización, 2) métodos de remuestreo como 
-bootstrap. El incremento en el poder de cómputo ha favorecido los métodos de
-remuestreo pues la linearización requiere del desarrollo de una fórmula para 
-cada estimación y supuestos adicionales para simplificar.
-
-En 1988 @RaoWu propusieron un método de bootstrap para diseños 
-estratificados multietápicos con reemplazo de UPMs que describimos a 
-continuación.
-
-**ENIGH**. Usaremos como ejemplo la Encuesta Nacional de Ingresos y 
-Gastos de los Hogares, ENIGH 2014 [@enigh], esta encuesta usa un diseño de 
-conglomerados estratificado.
-
-Antes de proceder a bootstrap debemos entender como se seleccionaron los datos,
-esto es, el [diseño de la muestra](http://www.inegi.org.mx/prod_serv/contenidos/espanol/bvinegi/productos/metodologias/ENIGH/ENIGH2012/702825050597.pdf):
-
-1. Unidad primaria de muestreo (UPM). Las UPMs están constituidas por 
-agrupaciones de viviendas. Se les denomina unidades primarias pues corresponden
-a la primera etapa de selección, las unidades secundarias (USMs) serían los 
-hogares.
-
-2. Estratificación. Los estratos se construyen en base a estado, ámbito (urbano, 
-complemento urbano, rural), características sociodemográficas de los habitantes
-de las viviendas, características físicas y equipamiento. El proceso de 
-estratificación resulta en 888 subestratos en todo el ámbito nacional.
-
-3. La selección de la muestra es independiente para cada estrato, y una 
-vez que se obtiene la muestra se calculan los factores de expansión que 
-reflejan las distintas probabilidades de selección. Después se llevan a cabo
-ajustes por no respuesta y por proyección (calibración), esta última 
-busca que distintos dominios de la muestra coincidan con la proyección de 
-población de INEGI.
-
-```{r, message=FALSE, warning=FALSE}
-concentrado_hogar <- read_csv("data/concentradohogar.csv")
-concentrado_hogar
-
-# seleccionar variable de ingreso corriente
-hogar <- concentrado_hogar %>% 
-    mutate(jefe_hombre = sexo_jefe == 1) %>% 
-    select(folioviv, foliohog, est_dis, upm, factor_hog, ing_cor, sexo_jefe, edad_jefe) %>%
-    group_by(est_dis) %>% 
-    mutate(
-        n = n_distinct(upm), # número de upms por estrato
-        jefa_50 = (sexo_jefe == 2) & (edad_jefe > 50)
-      ) %>% 
-    ungroup()
-
-head(hogar)
-```
-
-Para el cálculo de estadísticos debemos usar los factores de expansión, por ejemplo
-el ingreso trimestral total sería:
-
-```{r}
-sum(hogar$factor_hog * hogar$ing_cor / 1000)
-```
-
-y ingreso trimestral medio (miles pesos)
-
-```{r}
-sum(hogar$factor_hog * hogar$ing_cor / 1000) / sum(hogar$factor_hog)
-```
-
-Veamos ahora como calcular el error estándar siguiendo el bootstrap de Rao y Wu:
-
-1. En cada estrato se seleccionan con reemplazo $m_h$ UPMs de las $n_h$ de la
-muestra original. Denotamos por $m_{hi}^*$ el número de veces que se seleccionó
-la UPM $i$ en el estrato $h$ (de tal manera que $\sum m_{hi}^*=m_h$). Creamos
-una replicación del ponderador correspondiente a la $k$-ésima unidad (USM) como:
-
-$$d_k^*=d_k \bigg[\bigg(1-\sqrt{\frac{m_h}{n_h - 1}}\bigg) + 
-\bigg(\sqrt{\frac{m_h}{n_h - 1}}\frac{n_h}{m_h}m_{h}^*\bigg)\bigg]$$
-
-donde $d_k$ es el inverso de la probabilidad de selección. Si $m_h<(n_h -1)$ 
-todos los pesos definidos de esta manera serán no negativos. Calculamos el 
-peso final $w_k^*$ aplicando a $d_k^*$ los mismos ajustes que se hicieron a los 
-ponderadores originales.
-
-2. Calculamos el estadístico de interés $\hat{\theta}$ usando los ponderadores
-$w_k^*$ en lugar de los originales $w_k$.
-
-3. Repetimos los pasos 1 y 2 $B$ veces para obtener $\hat{\theta}^{*1},\hat{\theta}^{*2},...,\hat{\theta}^{*B}$.
-
-4. Calculamos el error estándar como:
-$$\hat{se}_B = \bigg\{\frac{\sum_{b=1}^B[\hat{\theta}^*(b)-\hat{\theta}^*(\cdot)]^2 }{B}\bigg\}^{1/2}$$
-
-Podemos elegir cualquier valor de $m_h \geq 1$, el más sencillo es elegir
-$m_h=n_h-1$, en este caso:
-$$d_k^*=d_k \frac{n_h}{n_h-1}m_{hi}^*$$
-en este escenario las unidades que no se incluyen en la muestra tienen 
-un valor de cero como ponderador. Si elegimos $n_h \ne n_h-1$ las unidades que 
-no están en la muestra tienen ponderador distinto a cero, si $m_h=n_h$ el
-ponderador podría tomar valores negativos.
-
-Implementemos el bootstrap de Rao y Wu a la ENIGH, usaremos $m_h=n_h-1$
-
-```{r, cache = TRUE, message=FALSE}
-# creamos una tabla con los estratos y upms
-est_upm <- hogar %>% 
-    distinct(est_dis, upm, n)
-
-hogar_factor <- est_upm %>% 
-    split(.$est_dis) %>% # dentro de cada estrato tomamos muestra (n_h-1)
-    map_df(~sample_n(., size = first(.$n) - 1, replace = TRUE)) %>% 
-    add_count(upm) %>% # calculamos m_hi*
-    left_join(hogar, by = c("est_dis", "upm", "n")) %>% 
-    mutate(factor_b = factor_hog * nn * n / (n - 1))
-
-# unimos los pasos anteriores en una función para replicar en cada muestra bootstrap
-svy_boot <- function(est_upm, hogar){
-    m_hi <- est_upm %>% 
-        split(.$est_dis) %>% 
-        map(~sample(.$upm, size = first(.$n) - 1, replace = TRUE)) %>% 
-        flatten_chr() %>% 
-        plyr::count() %>% 
-        select(upm = x, m_h = freq)
-    m_hi %>% 
-        mutate(upm = as.character(upm)) %>% 
-        left_join(hogar, by = c("upm")) %>% 
-        mutate(factor_b = factor_hog * m_h * n / (n - 1))
-}
-set.seed(1038984)
-boot_rep <- rerun(500, svy_boot(est_upm, hogar))
-
-# Aplicación a ingreso medio
-media <- function(w, x) sum(w * x) / sum(w)
-
-# La media es:
-hogar %>% 
-    summarise(media = media(factor_hog, ing_cor))
-```
-
-Y el error estándar:
-
-```{r}
-map_dbl(boot_rep, ~media(w = .$factor_b, x = .$ing_cor)) %>% sd()
-```
-
-
-El método bootstrap está implementado en el paquete `survey` y más recientemente 
-en `srvyr` que es una versión *tidy* que utiliza las funciones en `survey`. 
-
-Podemos comparar nuestros resultados con la implementación en `survey`.
-```{r srvyr_media, cache=TRUE, message=FALSE}
-# 1. Definimos el diseño de la encuesta
-library(survey)
-library(srvyr)
-
-enigh_design <- hogar %>% 
-    as_survey_design(ids = upm, weights = factor_hog, strata = est_dis)
-
-# 2. Elegimos bootstrap como el método para el cálculo de errores estándar
-set.seed(7398731)
-enigh_boot <- enigh_design %>% 
-    as_survey_rep(type = "subbootstrap", replicates = 500)
-
-# 3. Así calculamos la media
-enigh_boot %>% 
-    srvyr::summarise(mean_ingcor = survey_mean(ing_cor))
-# cuantiles
-svyquantile(~ing_cor, enigh_boot, quantiles = seq(0.1, 1, 0.1), interval.type = "quantile")
-```
-
-Supongamos que queremos calcular la media para los hogares con jefe de familia
-mujer mayor a 50 años.
-
-```{r jefa_50, cache = TRUE}
-# Creamos datos con filter y repetimos lo de arriba
-hogar_mujer <- filter(hogar, jefa_50)
-est_upm_mujer <- hogar_mujer %>% 
-    distinct(est_dis, upm, n)
-# bootstrap
-boot_rep_mujer <- rerun(500, svy_boot(est_upm_mujer, hogar_mujer))
-# media y error estándar
-hogar_mujer %>% 
-    summarise(media = media(factor_hog, ing_cor))
-# usamos bootstrap para calcular los errores estándar
-map_dbl(boot_rep_mujer, ~media(w = .$factor_b, x = .$ing_cor)) %>% sd()
-```
-
-Comparemos con los resultados de `srvyr`. ¿qué pasa?
-
-```{r srvyr_jefa_50}
-library(srvyr)
-enigh_boot %>% 
-    srvyr::group_by(jefa_50) %>% 
-    srvyr::summarise(mean_ingcor = survey_mean(ing_cor))
-```
-
-Sub-poblaciones como "jefas de familia mayores a 50" se conocen como un dominio, 
-esto es
-un subgrupo cuyo tamaño de muestra es aleatorio. Este ejemplo nos recalca la 
-importancia de considerar el proceso en que se generó la muestra para calcular 
-los errores estándar bootstrap.
-
-```{r jefa_50_2}
-map_dbl(boot_rep, 
-    function(x){hm <- filter(x, jefa_50); media(w = hm$factor_b, x = hm$ing_cor)}) %>% 
-    sd()
-```
-
-Resumiendo:
-
-* El bootstrap de Rao y Wu genera un estimador consistente y aproximadamente 
-insesgado de la varianza de estadísticos no lineales. 
-
-* Este método supone que la seleccion de UPMs es con reemplazo; hay variaciones 
-del estimador bootstrap de Rao y Wu que extienden el método que acabamos de 
-estudiar; sin embargo, es común ignorar este aspecto, 
-por ejemplo [Mach et al](https://fcsm.sites.usa.gov/files/2014/05/2005FCSM_Mach_Dumais_Robidou_VA.pdf) estudian las propiedades del estimador de varianza bootstrap de Rao y Wu cuando 
-la muestra se seleccionó sin reemplazo.
-
-<!-- West explica porque únicamente se ignora la variabilidad de las USMs en un 
-(deocumento)[http://www.isr.umich.edu/src/smp/asda/first_stage_ve_new.pdf]
--->
 
 ## Intervalos de confianza
 
@@ -1221,7 +820,7 @@ muestra $n$; sin embargo, también sobresale que no es necesario tomar una
 muestra demasiado grande ($n = 60$ ya es razonable).
 
 ```{r shiny_clt}
-knitr::include_app("https://tereom.shinyapps.io/15-TLC/", height = "900px")
+knitr::include_app("https://tereom.shinyapps.io/15-TLC/", height = "1000px")
 ```
 
 En lo que sigue veremos distintas maneras de construir intervalos de confianza 
@@ -1249,7 +848,7 @@ distribución $N(0,1)$.
 este intervalo está soportado por el Teorema Central del Límite, sin embargo,
 no es adecuado cuando $\hat{\theta}$ no se distribuye aproximadamente Normal.
 
-#### Ejemplo: kurtosis {-}
+#### Ejemplo: kurtosis
 
 Supongamos que queremos estimar la kurtosis de una base de datos que consta de
 799 tiempos de espera entre pulsasiones de un nervio (Cox, Lewis 1976).
@@ -1257,7 +856,7 @@ Supongamos que queremos estimar la kurtosis de una base de datos que consta de
 $$\hat{\theta} = t(P_n) =\frac{1/n \sum_{i=1}^n(x_i-\hat{\mu})^3}{\hat{\sigma}^3}$$
 
 ```{r}
-nerve <- read_delim("data/nerve.txt", "\t", escape_double = FALSE, 
+nerve <- read_delim("datos/nerve.txt", "\t", escape_double = FALSE, 
     col_names = FALSE, trim_ws = TRUE)
 nerve_long <- tidyr::gather(nerve, col, val, X1:X6) %>%
     filter(!is.na(val))
@@ -1477,9 +1076,9 @@ método es que requiere que conozcamos la transformación adecuada para cada
 parámetro. 
 
 Por otra parte, podemos pensar en el método del percentil como un 
-algoritmo que incorpora la transformación de manera automática:
+algoritmo que incorpora la transformación de manera automática.
 
-<div class="caja>
+<div class="caja">
 **Lema**. Supongamos que la transformación $\hat{\phi}=m(\hat{\theta})$ 
 normaliza la distribución de $\hat{\theta}$ de manera perfecta, 
 $$\hat{\phi} \approx N(\phi, c^2)$$
@@ -1488,8 +1087,7 @@ en $\hat{\theta}$ es igual a
 $$(m^{-1} (\hat{\phi}-z^{(1-\alpha)}c), m^{-1}(\hat{\phi}-z^{(\alpha)}c))$$
 </div>
 
-Se dice que el intervalo de confianza de percentiles es **invariante a
-transformaciones**.
+Se dice que el intervalo de confianza de percentiles es **invariante a transformaciones**.
 
 Existen otras alternativas al método del percentil y cubren otras fallas del 
 intervalo normal. Por ejemplo, hay ocasiones en que $\hat{\theta}$ tiene una
@@ -1499,7 +1097,7 @@ $$\hat{\theta} \approx N(\theta + sesgo, \hat{se}^2)$$
 en este caso no existe una transformación $m(\theta)$ que _arregle_ el 
 intervalo.
 
-<div class="caja>
+<div class="caja">
 3. **Intervalos acelerados y corregidos por sesgo**. Esta es una versión 
 mejorada del intervalo de percentil, la denotamos $BC_{a}$ (*bias-corrected and 
 accelerated*).
@@ -1514,6 +1112,7 @@ usual insesgado:
 $$\hat{\theta}=\sum_{i=1}^n(A_i-\bar{A})^2/(n-1)$$
 </div>
 
+
 ```{r spatial, fig.width=3.5, fig.height=3.5}
 library(bootstrap)
 
@@ -1527,7 +1126,6 @@ sum((spatial$A - mean(spatial$A)) ^ 2) / (nrow(spatial) - 1)
 El método $BC_{a}$ corrige el sesgo de manera automática, lo cuál es una 
 de sus prinicipales ventajas comparado con el método del percentil.
 
-<div class="caja>
 Los extremos en los intervalos $BC_{a}$ están dados por percentiles de la
 distribución bootstrap, los percentiles usados dependen de dos números $\hat{a}$
 y $\hat{z}_0$, que se denominan la aceleración y la corrección del sesgo:
@@ -1538,7 +1136,6 @@ $$\alpha_2= \Phi\bigg(\hat{z}_0 + \frac{\hat{z}_0 + z^{(1-\alpha)}}{1- \hat{a}(\
 y $\Phi$ es la función de distribución acumulada de la distribución normal estándar
 y $z^{\alpha}$ es el percentil $100 \cdot \alpha$ de una distribución normal
 estándar.
-</div>
 
 Notemos que si $\hat{a}$ y $\hat{z}_0$ son cero entonces $\alpha_1=\alpha$  
 y $\alpha_2=1-\alpha$, obteniendo así los intervalos de percentiles.
@@ -1582,11 +1179,13 @@ expansiones de Taylor).
 
 Usando la implementación del paquete bootstrap:
 
+
 ```{r}
 library(bootstrap)
 var_sesgada <- function(x) sum((x - mean(x)) ^ 2) / length(x)
 bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada, alpha = c(0.025, 0.975))
 ```
+
 
 ![](imagenes/manicule2.jpg) Comapara el intervalo anterior con los intervalos
 normal y de percentiles.
@@ -1623,6 +1222,400 @@ orden: los errores de cobertura se van a cero a una tasa de $1/\sqrt{n}$.
 * Los intervalos $BC_a$ tienen exactitud de segundo 
 orden: los errores de cobertura se van a cero a una tasa de $1/n$.
 
+* A pesar de que los intervalos $BC_a$ pueden ser superiores a los intervalos
+normales y de percentiles, en la práctica es más común utilizar intervalos
+normales o de percentiles pues su implementación es más sencilla y son 
+adecuados para un gran número de casos.
+
+#### Ejemplo componentes principales: calificaciones en exámenes {-}
+
+Los datos _marks_ (Mardia, Kent y Bibby, 1979) contienen los puntajes de 88 
+estudiantes en 5 pruebas: mecánica, vectores, álgebra, análisis y estadística.
+Cada renglón corresponde a la calificación de un estudiante en cada prueba.
+
+```{r leer_marks}
+marks <- read_csv("datos/marks.csv")
+glimpse(marks)
+marks <- select(marks, -id)
+```
+
+Entonces un análisis de componentes principales proseguiría como sigue:
+
+```{r pc, fig.height=4, fig.width=4}
+pc_marks <- princomp(marks)
+summary(pc_marks)
+loadings(pc_marks)
+plot(pc_marks, type = "lines")
+```
+
+
+```{r}
+biplot(pc_marks)
+```
+
+Los cálculos de un análisis de componentes principales involucran la matriz de 
+covarianzas empírica $G$ (estimaciones _plug-in_)
+
+$$G_{jk} = \frac{1}{88}\sum_{i=1}^88(x_{ij}-\bar{x_j})(x_{ik}-\bar{x_k})$$
+
+para $j,k=1,2,3,4,5$, y donde $\bar{x_j} = \sum_{i=1}^88 x_{ij} / 88$ (la media 
+de la i-ésima columna).
+
+```{r}
+G <- cov(marks) * 87 / 88
+G
+```
+
+Los _pesos_ y las _componentes principales_ no son mas que los eigenvalores y 
+eigenvectores de la matriz de covarianzas $G$, estos se calculan a través de una 
+serie de de manipulaciones algebraicas que requieren cálculos del orden de p^3
+(cuando G es una matriz de tamaño p$\times$p).
+
+```{r}
+eigen_G <- eigen(G)
+lambda <- eigen_G$values
+v <- eigen_G$vectors
+lambda
+v
+```
+
+1. Proponemos el siguiente modelo simple para puntajes correlacionados:
+
+$$\textbf{x}_i = Q_i \textbf{v}$$
+
+donde $\textbf{x}_i$ es la tupla de calificaciones del i-ésimo estudiante, 
+$Q_i$ es un número que representa la habilidad del estudiante y $\textbf{v}$ es
+un vector fijo con 5 números que aplica a todos los estudiantes. Si este modelo
+simple fuera cierto, entonces únicamente el $\hat{\lambda}_1$ sería positivo
+y $\textbf{v} = \hat{v}_1$.
+Sea $$\hat{\theta}=\sum_{i=1}^5\hat{\lambda}_i$$
+el modelo propuesto es equivalente a $\hat{\theta}=1$, inculso si el modelo es
+correcto, no esperamos que $\hat{\theta}$ sea exactamente uno pues hay ruido en 
+los datos.
+
+```{r}
+theta_hat <- lambda[1]/sum(lambda)
+theta_hat
+```
+
+El valor de $\hat{\theta}$ mide el porcentaje de la varianza explicada en la 
+primer componente principal, ¿qué tan preciso es  $\hat{\theta}$? La complejidad
+matemática en el cálculo de  $\hat{\theta}$ es irrelevante siempre y cuando 
+podamos calcular  $\hat{\theta}^*$ para una muestra bootstrap, en esta caso una
+muestra bootsrtap es una base de datos de 88$\times$5 $\textbf{X}^*$, donde las
+filas $\textbf{x_i}^*$ de $\textbf{X}^*$ son una muestra aleatoria de tamaño
+88 de la verdadera matriz de datos.
+
+```{r}
+pc_boot <- function(){
+    muestra_boot <- sample_n(marks, size = 88, replace = TRUE)
+    G <- cov(muestra_boot) * 87 / 88 
+    eigen_G <- eigen(G)
+    theta_hat <- eigen_G$values[1] / sum(eigen_G$values)
+}
+B <- 1000
+thetas_boot <- rerun(B, pc_boot()) %>% flatten_dbl()
+```
+
+Veamos un histograma de las replicaciones de  $\hat{\theta}$:
+
+```{r pc_hist, fig.height=4, fig.width=4, out.width="300px"}
+ggplot(data_frame(theta = thetas_boot)) +
+    geom_histogram(aes(x = theta, y = ..density..), binwidth = 0.02, fill = "gray40") + 
+    geom_vline(aes(xintercept = mean(theta)), color = "red") +
+    labs(x = expression(hat(theta)^"*"), y = "")
+```
+
+Estas tienen un error estándar
+
+```{r}
+theta_se <- sd(thetas_boot)
+theta_se
+```
+
+y media
+
+```{r}
+mean(thetas_boot)
+```
+
+la media de las replicaciones es muy similar a la estimación $\hat{\theta}$, 
+esto indica que $\hat{\theta}$ es cercano a insesgado. 
+
+
+2. El eigenvetor $\hat{v}_1$ correspondiente al mayor eigenvalor se conoce
+como primera componente de $G$, supongamos que deseamos resumir la calificación
+de los estudiantes mediante un único número, entonces la mejor combinación 
+lineal de los puntajes es 
+
+$$y_i = \sum_{k = 1}^5 \hat{v}_{1k}x_{ik}$$
+
+esto es, la combinación lineal que utiliza las componentes de $\hat{v}_1$ como
+ponderadores. Si queremos un resumen compuesto por dos números $(y_i,z_i)$, la
+segunda combinación lineal debería ser:
+
+$$z_i = \sum_{k = 1}^5 \hat{v}_{2k}x_{ik}$$
+
+![](../imagenes/manicule2.jpg) Las componentes principales $\hat{v}_1$ y 
+$\hat{v}_2$ son estadísticos, usa bootstrap para dar una medición de su 
+variabilidad calculando el error estándar de cada una.
+
+
+## Más alla de muestras aleatorias simples
+
+Introdujimos el bootstrap en el contexto de muestras aleatorias, esto es,
+suponiendo que las observaciones son independientes; en este escenario basta con
+aproximar la distribución desconocida $P$ usando la dsitribución empírica $P_n$, 
+y el cálculo de los estadísticos es inmediato. Hay casos en los que el mecanismo
+que generó los datos es más complicado, por ejemplo, cuando tenemos dos 
+muestras, en diseños de encuestas complejas o en series de 
+tiempo.
+
+#### Ejemplo: Dos muestras {-}
+
+En el ejemplo de experimentos clínicos de aspirina y ataques de de corazón, 
+podemos pensar el modelo probabilístico $P$ como compuesto por dos 
+distribuciones de probabilidad $G$ y $Q$ una correspondiente al grupo control y
+otra al grupo de tratamiento, entonces las observaciones de 
+cada grupo provienen de distribuciones distintas y el método bootstrap debe 
+tomar en cuenta esto al generar las muestras, en este caso implica seleccionar 
+muesreas de manera independiente dentro de cada grupo.
+
+#### Ejemplo: Bootstrap en muestreo de encuestas {-}
+
+La necesidad de estimaciones confiables junto con el uso eficiente de recursos
+conllevan a diseños de muestras complejas. Estos diseños típicamente usan las
+siguientes técnicas: muestreo sin reemplazo de una población finita, muestreo
+sistemático, estratificación, conglomerados, ajustes a no-respuesta, 
+postestratificación. Como consecuencia, los valores de la muestra suelen no ser
+independientes.
+
+La complejidad de los diseños de encuestas conlleva a que el cálculo de errores
+estándar sea muy complicado, para atacar este problema hay dos técnicas básicas:
+1) un enfoque analítico usando linearización, 2) métodos de remuestreo como 
+bootstrap. El incremento en el poder de cómputo ha favorecido los métodos de
+remuestreo pues la linearización requiere del desarrollo de una fórmula para 
+cada estimación y supuestos adicionales para simplificar.
+
+En 1988 @RaoWu propusieron un método de bootstrap para diseños 
+estratificados multietápicos con reemplazo de UPMs que describimos a 
+continuación.
+
+**ENIGH**. Usaremos como ejemplo la Encuesta Nacional de Ingresos y 
+Gastos de los Hogares, ENIGH 2014 [@enigh], esta encuesta usa un diseño de 
+conglomerados estratificado.
+
+Antes de proceder a bootstrap debemos entender como se seleccionaron los datos,
+esto es, el [diseño de la muestra](http://internet.contenidos.inegi.org.mx/contenidos/Productos/prod_serv/contenidos/espanol/bvinegi/productos/nueva_estruc/702825091972.pdf):
+
+1. Unidad primaria de muestreo (UPM). Las UPMs están constituidas por 
+agrupaciones de viviendas. Se les denomina unidades primarias pues corresponden
+a la primera etapa de selección, las unidades secundarias (USMs) serían los 
+hogares.
+
+2. Estratificación. Los estratos se construyen en base a estado, ámbito (urbano, 
+complemento urbano, rural), características sociodemográficas de los habitantes
+de las viviendas, características físicas y equipamiento. El proceso de 
+estratificación resulta en 888 subestratos en todo el ámbito nacional.
+
+3. La selección de la muestra es independiente para cada estrato, y una 
+vez que se obtiene la muestra se calculan los factores de expansión que 
+reflejan las distintas probabilidades de selección. Después se llevan a cabo
+ajustes por no respuesta y por proyección (calibración), esta última 
+busca que distintos dominios de la muestra coincidan con la proyección de 
+población de INEGI.
+
+```{r, message=FALSE, warning=FALSE}
+concentrado_hogar <- read_csv("datos/concentradohogar.csv")
+concentrado_hogar
+
+# seleccionar variable de ingreso corriente
+hogar <- concentrado_hogar %>% 
+    mutate(
+        jefe_hombre = sexo_jefe == 1, 
+        edo = str_sub(ubica_geo, 1, 2)
+        ) %>% 
+    select(folioviv, foliohog, est_dis, upm, factor_hog, ing_cor, sexo_jefe, edad_jefe, edo) %>%
+    group_by(est_dis) %>% 
+    mutate(
+        n = n_distinct(upm), # número de upms por estrato
+        jefa_50 = (sexo_jefe == 2) & (edad_jefe > 50)
+      ) %>% 
+    ungroup()
+
+head(hogar)
+```
+
+Para el cálculo de estadísticos debemos usar los factores de expansión, por ejemplo
+el ingreso trimestral total sería:
+
+```{r}
+sum(hogar$factor_hog * hogar$ing_cor / 1000)
+```
+
+y ingreso trimestral medio (miles pesos)
+
+```{r}
+sum(hogar$factor_hog * hogar$ing_cor / 1000) / sum(hogar$factor_hog)
+```
+
+Veamos ahora como calcular el error estándar siguiendo el bootstrap de Rao y Wu:
+
+1. En cada estrato se seleccionan con reemplazo $m_h$ UPMs de las $n_h$ de la
+muestra original. Denotamos por $m_{hi}^*$ el número de veces que se seleccionó
+la UPM $i$ en el estrato $h$ (de tal manera que $\sum m_{hi}^*=m_h$). Creamos
+una replicación del ponderador correspondiente a la $k$-ésima unidad (USM) como:
+
+$$d_k^*=d_k \bigg[\bigg(1-\sqrt{\frac{m_h}{n_h - 1}}\bigg) + 
+\bigg(\sqrt{\frac{m_h}{n_h - 1}}\frac{n_h}{m_h}m_{h}^*\bigg)\bigg]$$
+
+donde $d_k$ es el inverso de la probabilidad de selección. Si $m_h<(n_h -1)$ 
+todos los pesos definidos de esta manera serán no negativos. Calculamos el 
+peso final $w_k^*$ aplicando a $d_k^*$ los mismos ajustes que se hicieron a los 
+ponderadores originales.
+
+2. Calculamos el estadístico de interés $\hat{\theta}$ usando los ponderadores
+$w_k^*$ en lugar de los originales $w_k$.
+
+3. Repetimos los pasos 1 y 2 $B$ veces para obtener $\hat{\theta}^{*1},\hat{\theta}^{*2},...,\hat{\theta}^{*B}$.
+
+4. Calculamos el error estándar como:
+$$\hat{se}_B = \bigg\{\frac{\sum_{b=1}^B[\hat{\theta}^*(b)-\hat{\theta}^*(\cdot)]^2 }{B}\bigg\}^{1/2}$$
+
+Podemos elegir cualquier valor de $m_h \geq 1$, el más sencillo es elegir
+$m_h=n_h-1$, en este caso:
+$$d_k^*=d_k \frac{n_h}{n_h-1}m_{hi}^*$$
+en este escenario las unidades que no se incluyen en la muestra tienen 
+un valor de cero como ponderador. Si elegimos $n_h \ne n_h-1$ las unidades que 
+no están en la muestra tienen ponderador distinto a cero, si $m_h=n_h$ el
+ponderador podría tomar valores negativos.
+
+Implementemos el bootstrap de Rao y Wu a la ENIGH, usaremos $m_h=n_h-1$
+
+```{r, cache = TRUE, message=FALSE}
+# creamos una tabla con los estratos y upms
+est_upm <- hogar %>% 
+    distinct(est_dis, upm, n)
+
+hogar_factor <- est_upm %>% 
+    split(.$est_dis) %>% # dentro de cada estrato tomamos muestra (n_h-1)
+    map_df(~sample_n(., size = first(.$n) - 1, replace = TRUE)) %>% 
+    add_count(upm) %>% # calculamos m_hi*
+    left_join(hogar, by = c("est_dis", "upm", "n")) %>% 
+    mutate(factor_b = factor_hog * nn * n / (n - 1))
+
+# unimos los pasos anteriores en una función para replicar en cada muestra bootstrap
+svy_boot <- function(est_upm, hogar){
+    m_hi <- est_upm %>% 
+        split(.$est_dis) %>% 
+        map(~sample(.$upm, size = first(.$n) - 1, replace = TRUE)) %>% 
+        flatten_chr() %>% 
+        plyr::count() %>% 
+        select(upm = x, m_h = freq)
+    m_hi %>% 
+        mutate(upm = as.character(upm)) %>% 
+        left_join(hogar, by = c("upm")) %>% 
+        mutate(factor_b = factor_hog * m_h * n / (n - 1))
+}
+set.seed(1038984)
+boot_rep <- rerun(500, svy_boot(est_upm, hogar))
+
+# Aplicación a ingreso medio
+media <- function(w, x) sum(w * x) / sum(w)
+
+# La media es:
+hogar %>% 
+    summarise(media = media(factor_hog, ing_cor))
+```
+
+Y el error estándar:
+
+```{r}
+map_dbl(boot_rep, ~media(w = .$factor_b, x = .$ing_cor)) %>% sd()
+```
+
+
+El método bootstrap está implementado en el paquete `survey` y más recientemente 
+en `srvyr` que es una versión *tidy* que utiliza las funciones en `survey`. 
+
+Podemos comparar nuestros resultados con la implementación en `survey`.
+```{r srvyr_media, cache=TRUE, message=FALSE}
+# 1. Definimos el diseño de la encuesta
+library(survey)
+library(srvyr)
+
+enigh_design <- hogar %>% 
+    as_survey_design(ids = upm, weights = factor_hog, strata = est_dis)
+
+# 2. Elegimos bootstrap como el método para el cálculo de errores estándar
+set.seed(7398731)
+enigh_boot <- enigh_design %>% 
+    as_survey_rep(type = "subbootstrap", replicates = 500)
+
+# 3. Así calculamos la media
+enigh_boot %>% 
+    srvyr::summarise(mean_ingcor = survey_mean(ing_cor))
+
+enigh_boot %>% 
+    group_by(edo) %>% 
+    srvyr::summarise(mean_ingcor = survey_mean(ing_cor)) %>% 
+    mutate(error_rel = mean_ingcor_se / mean_ingcor) 
+# cuantiles
+svyquantile(~ing_cor, enigh_boot, quantiles = seq(0.1, 1, 0.1), interval.type = "quantile")
+```
+
+Supongamos que queremos calcular la media para los hogares con jefe de familia
+mujer mayor a 50 años.
+
+```{r jefa_50, cache = TRUE}
+# Creamos datos con filter y repetimos lo de arriba
+hogar_mujer <- filter(hogar, jefa_50)
+est_upm_mujer <- hogar_mujer %>% 
+    distinct(est_dis, upm, n)
+# bootstrap
+boot_rep_mujer <- rerun(500, svy_boot(est_upm_mujer, hogar_mujer))
+# media y error estándar
+hogar_mujer %>% 
+    summarise(media = media(factor_hog, ing_cor))
+# usamos bootstrap para calcular los errores estándar
+map_dbl(boot_rep_mujer, ~media(w = .$factor_b, x = .$ing_cor)) %>% sd()
+```
+
+Comparemos con los resultados de `srvyr`. ¿qué pasa?
+
+```{r srvyr_jefa_50}
+library(srvyr)
+enigh_boot %>% 
+    srvyr::group_by(jefa_50) %>% 
+    srvyr::summarise(mean_ingcor = survey_mean(ing_cor))
+```
+
+Sub-poblaciones como "jefas de familia mayores a 50" se conocen como un dominio, 
+esto es
+un subgrupo cuyo tamaño de muestra es aleatorio. Este ejemplo nos recalca la 
+importancia de considerar el proceso en que se generó la muestra para calcular 
+los errores estándar bootstrap.
+
+```{r jefa_50_2}
+map_dbl(boot_rep, 
+    function(x){hm <- filter(x, jefa_50); media(w = hm$factor_b, x = hm$ing_cor)}) %>% 
+    sd()
+```
+
+Resumiendo:
+
+* El bootstrap de Rao y Wu genera un estimador consistente y aproximadamente 
+insesgado de la varianza de estadísticos no lineales y para la varianza de un 
+cuantil. 
+
+* Este método supone que la seleccion de UPMs es con reemplazo; hay variaciones 
+del estimador bootstrap de Rao y Wu que extienden el método que acabamos de 
+estudiar; sin embargo, es común ignorar este aspecto, 
+por ejemplo [Mach et al](https://fcsm.sites.usa.gov/files/2014/05/2005FCSM_Mach_Dumais_Robidou_VA.pdf) estudian las propiedades del estimador de varianza bootstrap de Rao y Wu cuando 
+la muestra se seleccionó sin reemplazo.
+
+
+
 ## Bootstrap en R
 
 Es común crear nuestras porpias funciones cuando usamos bootstrap, sin embargo, 
@@ -1635,9 +1628,10 @@ identificador del número y tipo de muestra.
 
 Veamos un ejemplo donde seleccionamos muestras del conjunto de datos 
 `muestra_computos` que contiene 10,000 observaciones.
+
 ```{r}
 library(rsample)
-muestra_computos <- read_csv("data/muestra_computos_2012.csv")
+muestra_computos <- read_csv("datos/muestra_computos_2012.csv")
 muestra_computos
 ```
 
@@ -1693,6 +1687,8 @@ de funciones para calcular replicaciones y construir intervalos de confianza:
     + intervalos $BC_a$ con la función `bcanon()`, 
     + intevalos ABC con la función `abcnon().
 
+
+
 ## Conclusiones y observaciones
 
 * El principio fundamental del Bootstrap no paramétrico es que podemos estimar
@@ -1722,4 +1718,90 @@ las distribuciones, por lo que es difícil construir intervalos de confianza
 (usando bootstrap no paramétrico) para estadísticas que dependen mucho de las 
 colas.
 
+## Práctica: Conteo Rápido
+
+En México, las elecciones tienen lugar un domingo, los resultados oficiales 
+del proceso se presentan a la población una semana después. A fin de evitar 
+proclamaciones de victoria injustificadas durante ese periodo el INE organiza un 
+conteo rápido.
+El conteo rápido es un procedimiento para estimar, a partir de una muestra 
+aleatoria de casillas, el porcentaje de votos a favor de los candidatos 
+en la elección. 
+
+En este ejercicio deberás crear intervalos de confianza para la proporción de
+votos que recibió cada candidato en las elecciones de 2006. La inferencia se 
+hará a partir de una muestra de las casillas similar a la que se utilizó para el 
+conteo rápido de 2006.
+
+El diseño utilizado es *muestreo estratificado simple*, lo que quiere decir que:
+
+i) se particionan las casillas de la pablación en estratos (cada casilla
+pertenece a exactamente un estrato), y 
+
+ii) dentro de cada estrato se usa *muestreo aleatorio* para seleccionar las 
+casillas que estarán en la muestra. 
+
+En este ejercicio (similar al conteo rápido de 2006):
+
+* Se seleccionó una muestra de $7,200$ casillas
+
+* La muestra se repartió a lo largo de 300 estratos. 
+
+* La tabla `muestra_estratos` contiene en la columna $N$ el número total de 
+casillas en el estrato y en $n$ el número de casillas que se seleccionaron en la 
+muestra, para cada estrato:
+
+```{r, message=FALSE}
+muestra_estratos <- read_csv("datos/muestra_estratos.csv")
+```
+
+* La tabla `muestra_2006` contiene para cada casilla:
+    + el estrato al que pertenece: `estrato`
+    + el número de votos que recibió cada partido/coalición: `pan`, `pri_pvem`, 
+    `panal`, `prd_pt_convergencia`, `psd` y la columna `otros` indica el 
+    número de votos nulos o por candidatos no registrados.
+    + el total de votos registrado en la casilla: `total`.
+
+```{r}
+muestra_2006 <- read_csv("datos/muestra_2006.csv")
+```
+
+
+Una de las metodolgías de estimación, que se usa en el conteo rápido, es 
+*estimador de razón* y se contruyen intervalos de 95% de confianza usando el 
+método normal con error estándar bootstrap. En este ejercicio debes construir 
+intervalos usando este procedimiento.
+
+Para cada candidato:
+
+1. Calcula el estimador de razón combinado, para muestreo estratificado la 
+fórmula es:
+
+$$\hat{p}=\frac{\sum_h \frac{N_h}{n_h} \sum_i Y_{hi}}{\sum_h \frac{N_h}{n_h} \sum_i X_{hi}}$$
+donde:
+
+* $\hat{p}$ es la estimación de la proporción de votos que recibió el candidato
+en la elección.
+
+* $Y_{hi}$ es el número total de votos que recibió el candidato
+en la $i$-ésima casillas, que pertence al $h$-ésimo estrato.
+
+* $X_{hi}$ es el número total de votos en la $i$-ésima casilla, que pertence al 
+$h$-ésimo estrato. 
+
+* $N_h$ es el número total de casillas en el $h$-ésimo estrato.
+
+* $n_h$ es el número de casillas del $h$-ésimo estrato que se seleccionaron en 
+la muestra.
+
+2. Utiliza bootstrap para calcular el error estándar, y reporta tu 
+estimación del error.
+    + Genera 1000 muestras bootstrap.
+    + Recuerda que las muestras bootstrap tienen que tomar en cuenta la 
+    metodología que se utilizó en la selección de la muestra original.
+
+3. Construye un intervalo del 95% de confianza utilizando el método normal.
+
+Repite para todos los partidos (y la categoría otros). Reporta tus intervalos
+en una tabla. 
 
