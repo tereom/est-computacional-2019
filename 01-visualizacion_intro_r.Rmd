@@ -1,13 +1,3 @@
-```{r include=FALSE, cache=FALSE}
-knitr::opts_chunk$set(
-    comment = "#>",
-    collapse = TRUE,
-    fig.align = "center"
-)
-comma <- function(x) format(x, digits = 2, big.mark = ",")
-ggplot2::theme_set(ggplot2::theme_minimal())
-```
-
 # Principios visualización
 
 > "The simple graph has brought more information to the data analyst’s mind 
@@ -133,9 +123,10 @@ la que nos enfrentamos. Esta recopilación de datos -que pueden ser cualitativos
 cuantitativos, o una mezcla de los dos, debe entonces ser analizada para extraer 
 información relevante para nuestro problema.
 
-En análisis de datos existen dos distintos tipos de trabajo:
+Tradicionalmente el análisis de datos se divide en dos distintos tipos de 
+trabajo:
 
-<div class="caja">
+```{est, type="caja"}
 * El trabajo exploratorio o de detective: ¿cuáles son los aspectos importantes 
 de estos datos? ¿qué indicaciones generales muestran los datos? ¿qué tareas de 
 análisis debemos empezar haciendo? ¿cuáles son los caminos generales para 
@@ -144,7 +135,7 @@ formular con precisión y contestar algunas preguntas que nos interesen?
 * El trabajo inferencial, confirmatorio, o de juez: ¿cómo evaluar el peso de la 
 evidencia de los descubrimientos del paso anterior? ¿qué tan bien soportadas 
 están las respuestas y conclusiones por nuestro conjunto de datos?
-</div>
+```
 
 Aunque en el proceso de inferencia las gráficas cada vez son más importantes, la 
 visualización entra más claramente dentro del análisis exploratorio de datos. Y
@@ -152,7 +143,6 @@ como en un principio no es claro como la visualización aporta al proceso de la
 inferencia, se le consideró por mucho tiempo como un área de poca importancia 
 para la estadística: una herramienta que en todo caso sirve para comunicar ideas 
 simples, de manera deficiente, y a personas poco sofisticadas.
-
 
 ```{r, message=FALSE, echo=FALSE, warning=FALSE}
 library(lattice)
@@ -247,7 +237,8 @@ En resumen, hablaremos de las siguientes guías:
 Aplicables a una presentación o análisis completos, y como guía para construir 
 nuevas visualizaciones [@tufte06].
 
-<div class="caja">
+
+```{principios, type="caja"}
 **Principio 1.** Muestra comparaciones, contrastes, diferencias.  
 **Principio 2.** Muestra causalidad, mecanismo, explicación, estructura
 sistemática.  
@@ -258,26 +249,29 @@ variables.
 y problemas relevantes.  
 **Principio 6.** Las presentaciones analíticas, a fin de cuentas, se sostienen o 
 caen dependiendo de la calidad, relevancia e integridad de su contenido.
-</div>
+```
 
 #### Técnicas de visualización {-} 
 Esta categoría incluye técnicas específicas que dependen de la forma de nuestros 
 datos y el tipo de pregunta que queremos investigar (@tukey77, @cleveland93, 
 @cleveland94, @tufte06).
 
-<div class="caja">
+
+```{tiposgraficas, type="caja"}
+
 **Tipos de gráficas:** cuantiles, histogramas, caja y brazos, gráficas de 
 dispersión, puntos/barras/ líneas, series de tiempo.  
 **Técnicas para mejorar gráficas:** Transformación de datos, transparencia, 
 vibración, banking 45, suavizamiento y bandas de confianza.  
 **Pequeños múltiplos**  
-</div>
+```
 
 #### Indicadores de calidad gráfica {-}
 Aplicables a cualquier gráfica en particular. Estas son guías concretas y 
 relativamente objetivas para evaluar la calidad de una gráfica [@tufte86].
 
-<div class="caja">
+
+```{indicadores, type="caja"}
 **Integridad Gráfica.** El factor de engaño, es decir, la distorsión gráfica de
 las cantidades representadas, debe ser mínimo.  
 **Chartjunk.** Minimizar el uso de decoración gráfica que interfiera con la 
@@ -288,7 +282,7 @@ la gráfica. *For non-data- ink, less is more. For data-ink, less is a bore.*
 es la razón entre el tamaño del conjunto de datos y el área de la gráfica. Las 
 gráficas se pueden encoger mucho. Percepción visual. Algunas tareas son más 
 fáciles para el ojo humano que otras [@cleveland94].
-</div>
+```
 
 ## Factor de engaño y Chartjunk 
 

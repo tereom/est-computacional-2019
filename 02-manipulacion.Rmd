@@ -656,14 +656,15 @@ transformar.
 * **Modelación**: Ajustar modelos es sencillo si los datos están en la forma 
 correcta.
 
-<div class="caja">
+
+```{datoslimpios, type="caja"}
 Los **principios de los datos limpios** [@tidy] 
 proveen una manera estándar de organizar la información:
 
 1. Cada columna es una variable.
 2. Cada renglón es una observación .
 3. Cada celda es un único valor.
-</div>
+```
 
 Vale la pena notar que los principios de los datos limpios se pueden ver como 
 teoría de algebra relacional para estadísticos, estós principios junto con 
@@ -1168,8 +1169,11 @@ valores atípicos.
 
 ### Recursos adicionales {-}
 
-* [Data Transformation Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf), 
-RStudio.
+* [Data Transformation Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf) 
+de RStudio.
+
+* [Data Wrangling Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+de RStudio.
 
 * Limpiar nombres de columnas, eliminar filas vacías y más, paquete 
 [janitor](https://github.com/sfirke/janitor).
