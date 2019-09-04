@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>4.2 Vectores | Estadística Computacional</title>
+  <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
+  <meta name="generator" content="bookdown 0.13.2 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="4.2 Vectores | Estadística Computacional" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
+  <meta name="github-repo" content="tereom/est-computacional-2019" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4.2 Vectores | Estadística Computacional" />
+  
+  <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
+  
+
+<meta name="author" content="María Teresa Ortiz" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="funciones-e-iteracion.html"/>
+<link rel="next" href="iteracion.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<script src="libs/d3-3.5.6/d3.min.js"></script>
+<link href="libs/profvis-0.3.6/profvis.css" rel="stylesheet" />
+<script src="libs/profvis-0.3.6/profvis.js"></script>
+<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-6.2.0/highlight.js"></script>
+<script src="libs/profvis-binding-0.3.6/profvis.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="css/toc.css" type="text/css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+<link rel="stylesheet" href="css/cajas.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Estadística Computacional</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Información del curso</a><ul>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html"><i class="fa fa-check"></i>Temario</a><ul>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#calificacion"><i class="fa fa-check"></i>Calificación</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#software"><i class="fa fa-check"></i>Software</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#otros-recursos"><i class="fa fa-check"></i>Otros recursos</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#noticias"><i class="fa fa-check"></i>Noticias</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="principios-visualizacion.html"><a href="principios-visualizacion.html"><i class="fa fa-check"></i><b>1</b> Principios visualización</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduccion.html"><a href="introduccion.html"><i class="fa fa-check"></i><b>1.1</b> Introducción</a><ul>
+<li class="chapter" data-level="" data-path="introduccion.html"><a href="introduccion.html#visualizacion-de-datos-en-la-estadistica"><i class="fa fa-check"></i>Visualización de datos en la estadística</a></li>
+<li class="chapter" data-level="" data-path="introduccion.html"><a href="introduccion.html#visualizacion-popular-de-datos"><i class="fa fa-check"></i>Visualización popular de datos</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html"><i class="fa fa-check"></i><b>1.2</b> Teoría de visualización de datos</a></li>
+<li class="chapter" data-level="1.3" data-path="factor-de-engano-y-chartjunk.html"><a href="factor-de-engano-y-chartjunk.html"><i class="fa fa-check"></i><b>1.3</b> Factor de engaño y Chartjunk</a></li>
+<li class="chapter" data-level="1.4" data-path="pequenos-multiplos-y-densidad-grafica.html"><a href="pequenos-multiplos-y-densidad-grafica.html"><i class="fa fa-check"></i><b>1.4</b> Pequeños múltiplos y densidad gráfica</a></li>
+<li class="chapter" data-level="1.5" data-path="tinta-de-datos.html"><a href="tinta-de-datos.html"><i class="fa fa-check"></i><b>1.5</b> Tinta de datos</a></li>
+<li class="chapter" data-level="1.6" data-path="decoracion.html"><a href="decoracion.html"><i class="fa fa-check"></i><b>1.6</b> Decoración</a></li>
+<li class="chapter" data-level="1.7" data-path="percepcion-de-escala.html"><a href="percepcion-de-escala.html"><i class="fa fa-check"></i><b>1.7</b> Percepción de escala</a></li>
+<li class="chapter" data-level="1.8" data-path="ejemplos-grafica-de-minard.html"><a href="ejemplos-grafica-de-minard.html"><i class="fa fa-check"></i><b>1.8</b> Ejemplos: gráfica de Minard</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introduccion-a-r-y-al-paquete-ggplot2.html"><a href="introduccion-a-r-y-al-paquete-ggplot2.html"><i class="fa fa-check"></i><b>2</b> Introducción a R y al paquete ggplot2</a><ul>
+<li class="chapter" data-level="2.1" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html"><i class="fa fa-check"></i><b>2.1</b> R: primeros pasos</a><ul>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#r-en-analisis-de-datos"><i class="fa fa-check"></i>R en análisis de datos</a></li>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#paquetes-y-el-tidyverse"><i class="fa fa-check"></i>Paquetes y el Tidyverse</a></li>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#recursos"><i class="fa fa-check"></i>Recursos</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="visualizacion-con-ggplot2.html"><a href="visualizacion-con-ggplot2.html"><i class="fa fa-check"></i><b>2.2</b> Visualización con ggplot2</a><ul>
+<li class="chapter" data-level="" data-path="visualizacion-con-ggplot2.html"><a href="visualizacion-con-ggplot2.html#recursos-1"><i class="fa fa-check"></i>Recursos</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="manipulacion-y-agrupacion-de-datos.html"><a href="manipulacion-y-agrupacion-de-datos.html"><i class="fa fa-check"></i><b>3</b> Manipulación y agrupación de datos</a><ul>
+<li class="chapter" data-level="3.1" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html"><i class="fa fa-check"></i><b>3.1</b> Transformación de datos</a><ul>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#datos"><i class="fa fa-check"></i>Datos</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#filtrar"><i class="fa fa-check"></i>Filtrar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#seleccionar"><i class="fa fa-check"></i>Seleccionar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#ordenar"><i class="fa fa-check"></i>Ordenar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#mutar"><i class="fa fa-check"></i>Mutar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#summarise-y-resumenes-por-grupo"><i class="fa fa-check"></i>Summarise y resúmenes por grupo</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#variables-por-grupo"><i class="fa fa-check"></i>Variables por grupo</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#verbos-de-dos-tablas"><i class="fa fa-check"></i>Verbos de dos tablas</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="datos-limpios.html"><a href="datos-limpios.html"><i class="fa fa-check"></i><b>3.2</b> Datos limpios</a><ul>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#limpieza-bases-de-datos"><i class="fa fa-check"></i>Limpieza bases de datos</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#los-encabezados-de-las-columanas-son-valores"><i class="fa fa-check"></i>Los encabezados de las columanas son valores</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-columna-asociada-a-mas-de-una-variable"><i class="fa fa-check"></i>Una columna asociada a más de una variable</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#variables-almacenadas-en-filas-y-columnas"><i class="fa fa-check"></i>Variables almacenadas en filas y columnas</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-misma-unidad-observacional-esta-almacenada-en-multiples-tablas"><i class="fa fa-check"></i>Una misma unidad observacional está almacenada en múltiples tablas</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#otras-consideraciones"><i class="fa fa-check"></i>Otras consideraciones</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#recursos-adicionales"><i class="fa fa-check"></i>Recursos adicionales</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="temas-selectos-de-r.html"><a href="temas-selectos-de-r.html"><i class="fa fa-check"></i><b>4</b> Temas selectos de R</a><ul>
+<li class="chapter" data-level="4.1" data-path="funciones-e-iteracion.html"><a href="funciones-e-iteracion.html"><i class="fa fa-check"></i><b>4.1</b> Funciones e iteración</a><ul>
+<li class="chapter" data-level="" data-path="funciones-e-iteracion.html"><a href="funciones-e-iteracion.html#funciones"><i class="fa fa-check"></i>Funciones</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="vectores.html"><a href="vectores.html"><i class="fa fa-check"></i><b>4.2</b> Vectores</a><ul>
+<li class="chapter" data-level="" data-path="vectores.html"><a href="vectores.html#propiedades"><i class="fa fa-check"></i>Propiedades</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="iteracion.html"><a href="iteracion.html"><i class="fa fa-check"></i><b>4.3</b> Iteración</a><ul>
+<li class="chapter" data-level="" data-path="iteracion.html"><a href="iteracion.html#ciclos-for"><i class="fa fa-check"></i>Ciclos for</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html"><i class="fa fa-check"></i><b>4.4</b> Rendimiento en R</a><ul>
+<li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#diagnosticar"><i class="fa fa-check"></i>Diagnosticar</a></li>
+<li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#estrategias-para-mejorar-desempeno"><i class="fa fa-check"></i>Estrategias para mejorar desempeño</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="introduccion-a-calculo-de-probabilidades.html"><a href="introduccion-a-calculo-de-probabilidades.html"><i class="fa fa-check"></i><b>5</b> Introducción a Cálculo de Probabilidades</a><ul>
+<li class="chapter" data-level="5.1" data-path="probabilidad-como-extension-de-proporcion.html"><a href="probabilidad-como-extension-de-proporcion.html"><i class="fa fa-check"></i><b>5.1</b> Probabilidad como extensión de proporción</a></li>
+<li class="chapter" data-level="5.2" data-path="interpretacion-frecuentista-de-probabilidad.html"><a href="interpretacion-frecuentista-de-probabilidad.html"><i class="fa fa-check"></i><b>5.2</b> Interpretación frecuentista de probabilidad</a><ul>
+<li class="chapter" data-level="" data-path="interpretacion-frecuentista-de-probabilidad.html"><a href="interpretacion-frecuentista-de-probabilidad.html#resultados-empiricos-acerca-de-frecuencias-relativas"><i class="fa fa-check"></i>Resultados empíricos acerca de frecuencias relativas</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="simulacion-para-el-calculo-de-probabilidades.html"><a href="simulacion-para-el-calculo-de-probabilidades.html"><i class="fa fa-check"></i><b>5.3</b> Simulación para el cálculo de probabilidades</a></li>
+<li class="chapter" data-level="5.4" data-path="modelos-de-probabilidad-definicion-general.html"><a href="modelos-de-probabilidad-definicion-general.html"><i class="fa fa-check"></i><b>5.4</b> Modelos de probabilidad (definición general)</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="modelos-de-probabilidad-definicion-general.html"><a href="modelos-de-probabilidad-definicion-general.html#espacios-discretos"><i class="fa fa-check"></i><b>5.4.1</b> Espacios discretos</a></li>
+<li class="chapter" data-level="5.4.2" data-path="modelos-de-probabilidad-definicion-general.html"><a href="modelos-de-probabilidad-definicion-general.html#espacios-continuos"><i class="fa fa-check"></i><b>5.4.2</b> Espacios continuos</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="probabilidad-definicion-matematica.html"><a href="probabilidad-definicion-matematica.html"><i class="fa fa-check"></i><b>5.5</b> Probabilidad: definición matemática</a><ul>
+<li class="chapter" data-level="" data-path="probabilidad-definicion-matematica.html"><a href="probabilidad-definicion-matematica.html#propiedades-de-la-funcion-de-probabilidad"><i class="fa fa-check"></i>Propiedades de la función de probabilidad:</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html"><i class="fa fa-check"></i><b>5.6</b> Variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html#distribucion-de-probabilidad"><i class="fa fa-check"></i>Distribución de probabilidad</a></li>
+<li class="chapter" data-level="" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html#variables-aleatorias-continuas"><i class="fa fa-check"></i>Variables aleatorias continuas</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="bootstrap-no-parametrico.html"><a href="bootstrap-no-parametrico.html"><i class="fa fa-check"></i><b>6</b> Bootstrap no paramétrico</a><ul>
+<li class="chapter" data-level="6.1" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html"><i class="fa fa-check"></i><b>6.1</b> El principio del plug-in</a><ul>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#muestras-aleatorias"><i class="fa fa-check"></i>Muestras aleatorias</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#funcion-de-distribucion-empirica"><i class="fa fa-check"></i>Función de distribución empírica</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#parametros-y-estadisticas"><i class="fa fa-check"></i>Parámetros y estadísticas</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#distribuciones-muestrales-y-errores-estandar"><i class="fa fa-check"></i>Distribuciones muestrales y errores estándar</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="el-estimador-bootstrap-del-error-estandar.html"><a href="el-estimador-bootstrap-del-error-estandar.html"><i class="fa fa-check"></i><b>6.2</b> El estimador bootstrap del error estándar</a><ul>
+<li class="chapter" data-level="" data-path="el-estimador-bootstrap-del-error-estandar.html"><a href="el-estimador-bootstrap-del-error-estandar.html#variacion-en-distribuciones-bootstrap"><i class="fa fa-check"></i>Variación en distribuciones bootstrap</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="intervalos-de-confianza.html"><a href="intervalos-de-confianza.html"><i class="fa fa-check"></i><b>6.3</b> Intervalos de confianza</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
+<li class="chapter" data-level="" data-path="instalacion-y-visualizacion.html"><a href="instalacion-y-visualizacion.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
+<li class="chapter" data-level="" data-path="union-de-tablas-y-limpieza-de-datos.html"><a href="union-de-tablas-y-limpieza-de-datos.html"><i class="fa fa-check"></i>3. Unión de tablas y limpieza de datos</a></li>
+<li class="chapter" data-level="" data-path="programacion-funcional-y-distribucion-muestral.html"><a href="programacion-funcional-y-distribucion-muestral.html"><i class="fa fa-check"></i>4. Programación funcional y distribución muestral</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Estadística Computacional</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="vectores" class="section level2">
+<h2><span class="header-section-number">4.2</span> Vectores</h2>
+<p>En R se puede trabajar con distintas estructuras de datos, algunas son de una
+sola dimensión y otras permiten más, como indica el diagrama de abajo:</p>
+<p><img src="imagenes/data_structures.png" width="250px"/></p>
+<p>Hasta ahora nos hemos centrado en trabajar con <code>data.frames</code>, y hemos usado
+vectores atómicos sin profundizar, en esta sección se explican características
+de los vectores, y veremos que son la base de los <code>data.frames</code>.</p>
+<p>En R hay dos tipos de vectores, esto es, estructuras de datos de una sola
+dimensión: los vectores atómicos y las listas.</p>
+<ul>
+<li>Los vectores atómicos pueden ser de 6 tipos: lógico, entero, double, caracter,
+complejo y raw. Los dos últimos son poco comunes.</li>
+</ul>
+<p>Vector atómico de tipo lógico:</p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb113-2" data-line-number="2">a</a>
+<a class="sourceLine" id="cb113-3" data-line-number="3"><span class="co">#&gt; [1]  TRUE FALSE FALSE</span></a></code></pre></div>
+<p>Numérico (double):</p>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb114-1" data-line-number="1">b &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="fl">4.1</span>, <span class="dv">7</span>, <span class="fl">9.2</span>)</a>
+<a class="sourceLine" id="cb114-2" data-line-number="2">b</a>
+<a class="sourceLine" id="cb114-3" data-line-number="3"><span class="co">#&gt; [1] 5.0 2.0 4.1 7.0 9.2</span></a>
+<a class="sourceLine" id="cb114-4" data-line-number="4">b[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb114-5" data-line-number="5"><span class="co">#&gt; [1] 5</span></a>
+<a class="sourceLine" id="cb114-6" data-line-number="6">b[<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb114-7" data-line-number="7"><span class="co">#&gt; [1] 2</span></a>
+<a class="sourceLine" id="cb114-8" data-line-number="8">b[<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>]</a>
+<a class="sourceLine" id="cb114-9" data-line-number="9"><span class="co">#&gt; [1] 2.0 4.1 7.0</span></a></code></pre></div>
+<p>Las operaciones básicas con vectores atómicos son componente a componente:</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" data-line-number="1">c &lt;-<span class="st"> </span>b <span class="op">+</span><span class="st"> </span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb115-2" data-line-number="2">c</a>
+<a class="sourceLine" id="cb115-3" data-line-number="3"><span class="co">#&gt; [1] 15.0 12.0 14.1 17.0 19.2</span></a>
+<a class="sourceLine" id="cb115-4" data-line-number="4">d &lt;-<span class="st"> </span><span class="kw">sqrt</span>(b)</a>
+<a class="sourceLine" id="cb115-5" data-line-number="5">d</a>
+<a class="sourceLine" id="cb115-6" data-line-number="6"><span class="co">#&gt; [1] 2.236068 1.414214 2.024846 2.645751 3.033150</span></a>
+<a class="sourceLine" id="cb115-7" data-line-number="7">b <span class="op">+</span><span class="st"> </span>d</a>
+<a class="sourceLine" id="cb115-8" data-line-number="8"><span class="co">#&gt; [1]  7.236068  3.414214  6.124846  9.645751 12.233150</span></a>
+<a class="sourceLine" id="cb115-9" data-line-number="9"><span class="dv">10</span> <span class="op">*</span><span class="st"> </span>b</a>
+<a class="sourceLine" id="cb115-10" data-line-number="10"><span class="co">#&gt; [1] 50 20 41 70 92</span></a>
+<a class="sourceLine" id="cb115-11" data-line-number="11">b <span class="op">*</span><span class="st"> </span>d</a>
+<a class="sourceLine" id="cb115-12" data-line-number="12"><span class="co">#&gt; [1] 11.180340  2.828427  8.301867 18.520259 27.904982</span></a></code></pre></div>
+<p>Y podemos crear secuencias como sigue:</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" data-line-number="1">e &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb116-2" data-line-number="2">e</a>
+<a class="sourceLine" id="cb116-3" data-line-number="3"><span class="co">#&gt;  [1]  1  2  3  4  5  6  7  8  9 10</span></a>
+<a class="sourceLine" id="cb116-4" data-line-number="4">f &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.25</span>)</a>
+<a class="sourceLine" id="cb116-5" data-line-number="5">f</a>
+<a class="sourceLine" id="cb116-6" data-line-number="6"><span class="co">#&gt; [1] 0.00 0.25 0.50 0.75 1.00</span></a></code></pre></div>
+<p>Para calcular características de vectores atómicos usamos funciones:</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" data-line-number="1"><span class="co"># media del vector</span></a>
+<a class="sourceLine" id="cb117-2" data-line-number="2"><span class="kw">mean</span>(b)</a>
+<a class="sourceLine" id="cb117-3" data-line-number="3"><span class="co">#&gt; [1] 5.46</span></a>
+<a class="sourceLine" id="cb117-4" data-line-number="4"><span class="co"># suma de sus componentes</span></a>
+<a class="sourceLine" id="cb117-5" data-line-number="5"><span class="kw">sum</span>(b)</a>
+<a class="sourceLine" id="cb117-6" data-line-number="6"><span class="co">#&gt; [1] 27.3</span></a>
+<a class="sourceLine" id="cb117-7" data-line-number="7"><span class="co"># longitud del vector</span></a>
+<a class="sourceLine" id="cb117-8" data-line-number="8"><span class="kw">length</span>(b)</a>
+<a class="sourceLine" id="cb117-9" data-line-number="9"><span class="co">#&gt; [1] 5</span></a></code></pre></div>
+<p>Y ejemplo de vector atómico de tipo caracter y funciones:</p>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb118-1" data-line-number="1">frutas &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;manzana&#39;</span>, <span class="st">&#39;manzana&#39;</span>, <span class="st">&#39;pera&#39;</span>, <span class="st">&#39;plátano&#39;</span>, <span class="st">&#39;fresa&#39;</span>, <span class="st">&quot;kiwi&quot;</span>)</a>
+<a class="sourceLine" id="cb118-2" data-line-number="2">frutas</a>
+<a class="sourceLine" id="cb118-3" data-line-number="3"><span class="co">#&gt; [1] &quot;manzana&quot; &quot;manzana&quot; &quot;pera&quot;    &quot;plátano&quot; &quot;fresa&quot;   &quot;kiwi&quot;</span></a>
+<a class="sourceLine" id="cb118-4" data-line-number="4"><span class="kw">grep</span>(<span class="st">&quot;a&quot;</span>, frutas)</a>
+<a class="sourceLine" id="cb118-5" data-line-number="5"><span class="co">#&gt; [1] 1 2 3 4 5</span></a>
+<a class="sourceLine" id="cb118-6" data-line-number="6"><span class="kw">gsub</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;x&quot;</span>, frutas)</a>
+<a class="sourceLine" id="cb118-7" data-line-number="7"><span class="co">#&gt; [1] &quot;mxnzxnx&quot; &quot;mxnzxnx&quot; &quot;perx&quot;    &quot;plátxno&quot; &quot;fresx&quot;   &quot;kiwi&quot;</span></a></code></pre></div>
+<ul>
+<li>Las listas, a diferencia de los vectores atómicos, pueden contener otras
+listas. Las listas son muy flexibles pues pueden almacenar objetos de cualquier
+tipo.</li>
+</ul>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="st">&quot;Mila&quot;</span>, <span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>), <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">5</span>, <span class="fl">3.2</span>))</a>
+<a class="sourceLine" id="cb119-2" data-line-number="2"><span class="kw">str</span>(x)</a>
+<a class="sourceLine" id="cb119-3" data-line-number="3"><span class="co">#&gt; List of 4</span></a>
+<a class="sourceLine" id="cb119-4" data-line-number="4"><span class="co">#&gt;  $ : int [1:3] 1 2 3</span></a>
+<a class="sourceLine" id="cb119-5" data-line-number="5"><span class="co">#&gt;  $ : chr &quot;Mila&quot;</span></a>
+<a class="sourceLine" id="cb119-6" data-line-number="6"><span class="co">#&gt;  $ : logi [1:3] TRUE FALSE FALSE</span></a>
+<a class="sourceLine" id="cb119-7" data-line-number="7"><span class="co">#&gt;  $ : num [1:3] 2 5 3.2</span></a></code></pre></div>
+<p>Las listas son vectores <em>recursivos</em> debido a que pueden almacenar otras listas.</p>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb120-1" data-line-number="1">y &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="kw">list</span>())))</a>
+<a class="sourceLine" id="cb120-2" data-line-number="2"><span class="kw">str</span>(y)</a>
+<a class="sourceLine" id="cb120-3" data-line-number="3"><span class="co">#&gt; List of 1</span></a>
+<a class="sourceLine" id="cb120-4" data-line-number="4"><span class="co">#&gt;  $ :List of 1</span></a>
+<a class="sourceLine" id="cb120-5" data-line-number="5"><span class="co">#&gt;   ..$ :List of 1</span></a>
+<a class="sourceLine" id="cb120-6" data-line-number="6"><span class="co">#&gt;   .. ..$ : list()</span></a></code></pre></div>
+<p>Para construir subconjuntos a partir de listas usamos <code>[]</code> y <code>[[]]</code>. En el primer
+caso siempre obtenemos como resultado una lista:</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1">x_<span class="dv">1</span> &lt;-<span class="st"> </span>x[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb121-2" data-line-number="2">x_<span class="dv">1</span></a>
+<a class="sourceLine" id="cb121-3" data-line-number="3"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb121-4" data-line-number="4"><span class="co">#&gt; [1] 1 2 3</span></a>
+<a class="sourceLine" id="cb121-5" data-line-number="5"><span class="kw">str</span>(x_<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb121-6" data-line-number="6"><span class="co">#&gt; List of 1</span></a>
+<a class="sourceLine" id="cb121-7" data-line-number="7"><span class="co">#&gt;  $ : int [1:3] 1 2 3</span></a></code></pre></div>
+<p>Y en el caso de <code>[[]]</code> extraemos un componente de la lista, eliminando un nivel
+de la jerarquía de la lista.</p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb122-1" data-line-number="1">x_<span class="dv">2</span> &lt;-<span class="st"> </span>x[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb122-2" data-line-number="2">x_<span class="dv">2</span></a>
+<a class="sourceLine" id="cb122-3" data-line-number="3"><span class="co">#&gt; [1] 1 2 3</span></a>
+<a class="sourceLine" id="cb122-4" data-line-number="4"><span class="kw">str</span>(x_<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb122-5" data-line-number="5"><span class="co">#&gt;  int [1:3] 1 2 3</span></a></code></pre></div>
+<p>¿Cómo se comparan <code>y</code>, <code>y[1]</code> y <code>y[[1]]</code>?</p>
+<div id="propiedades" class="section level3 unnumbered">
+<h3>Propiedades</h3>
+<p>Todos los vectores (atómicos y listas) tienen las propiedades tipo y longitud,
+la función <code>typeof()</code> se usa para determinar el tipo,</p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1"><span class="kw">typeof</span>(a)</a>
+<a class="sourceLine" id="cb123-2" data-line-number="2"><span class="co">#&gt; [1] &quot;logical&quot;</span></a>
+<a class="sourceLine" id="cb123-3" data-line-number="3"><span class="kw">typeof</span>(b)</a>
+<a class="sourceLine" id="cb123-4" data-line-number="4"><span class="co">#&gt; [1] &quot;double&quot;</span></a>
+<a class="sourceLine" id="cb123-5" data-line-number="5"><span class="kw">typeof</span>(frutas)</a>
+<a class="sourceLine" id="cb123-6" data-line-number="6"><span class="co">#&gt; [1] &quot;character&quot;</span></a>
+<a class="sourceLine" id="cb123-7" data-line-number="7"><span class="kw">typeof</span>(x)</a>
+<a class="sourceLine" id="cb123-8" data-line-number="8"><span class="co">#&gt; [1] &quot;list&quot;</span></a></code></pre></div>
+<p>y <code>length()</code> la longitud:</p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" data-line-number="1"><span class="kw">length</span>(a)</a>
+<a class="sourceLine" id="cb124-2" data-line-number="2"><span class="co">#&gt; [1] 3</span></a>
+<a class="sourceLine" id="cb124-3" data-line-number="3"><span class="kw">length</span>(frutas)</a>
+<a class="sourceLine" id="cb124-4" data-line-number="4"><span class="co">#&gt; [1] 6</span></a>
+<a class="sourceLine" id="cb124-5" data-line-number="5"><span class="kw">length</span>(x)</a>
+<a class="sourceLine" id="cb124-6" data-line-number="6"><span class="co">#&gt; [1] 4</span></a>
+<a class="sourceLine" id="cb124-7" data-line-number="7"><span class="kw">length</span>(y)</a>
+<a class="sourceLine" id="cb124-8" data-line-number="8"><span class="co">#&gt; [1] 1</span></a></code></pre></div>
+<p>La flexibilidad de las listas las convierte en estructuras muy útiles y muy
+comunes, muchas funciones regresan resultados en forma de lista. Incluso podemos
+ver que un data.frame es una lista de vectores, donde todos los vectores son
+de la misma longitud.</p>
+<p>Adicionalmente, los vectores pueden tener atributo de nombres, que puede usarse
+para indexar.</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" data-line-number="1"><span class="kw">names</span>(b) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;momo&quot;</span>, <span class="st">&quot;mila&quot;</span>, <span class="st">&quot;duna&quot;</span>, <span class="st">&quot;milu&quot;</span>, <span class="st">&quot;moka&quot;</span>)</a>
+<a class="sourceLine" id="cb125-2" data-line-number="2">b</a>
+<a class="sourceLine" id="cb125-3" data-line-number="3"><span class="co">#&gt; momo mila duna milu moka </span></a>
+<a class="sourceLine" id="cb125-4" data-line-number="4"><span class="co">#&gt;  5.0  2.0  4.1  7.0  9.2</span></a>
+<a class="sourceLine" id="cb125-5" data-line-number="5">b[<span class="st">&quot;moka&quot;</span>]</a>
+<a class="sourceLine" id="cb125-6" data-line-number="6"><span class="co">#&gt; moka </span></a>
+<a class="sourceLine" id="cb125-7" data-line-number="7"><span class="co">#&gt;  9.2</span></a></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" data-line-number="1"><span class="kw">names</span>(x) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;d&quot;</span>)</a>
+<a class="sourceLine" id="cb126-2" data-line-number="2">x</a>
+<a class="sourceLine" id="cb126-3" data-line-number="3"><span class="co">#&gt; $a</span></a>
+<a class="sourceLine" id="cb126-4" data-line-number="4"><span class="co">#&gt; [1] 1 2 3</span></a>
+<a class="sourceLine" id="cb126-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb126-6" data-line-number="6"><span class="co">#&gt; $b</span></a>
+<a class="sourceLine" id="cb126-7" data-line-number="7"><span class="co">#&gt; [1] &quot;Mila&quot;</span></a>
+<a class="sourceLine" id="cb126-8" data-line-number="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb126-9" data-line-number="9"><span class="co">#&gt; $c</span></a>
+<a class="sourceLine" id="cb126-10" data-line-number="10"><span class="co">#&gt; [1]  TRUE FALSE FALSE</span></a>
+<a class="sourceLine" id="cb126-11" data-line-number="11"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb126-12" data-line-number="12"><span class="co">#&gt; $d</span></a>
+<a class="sourceLine" id="cb126-13" data-line-number="13"><span class="co">#&gt; [1] 2.0 5.0 3.2</span></a>
+<a class="sourceLine" id="cb126-14" data-line-number="14">x<span class="op">$</span>a</a>
+<a class="sourceLine" id="cb126-15" data-line-number="15"><span class="co">#&gt; [1] 1 2 3</span></a>
+<a class="sourceLine" id="cb126-16" data-line-number="16">x[[<span class="st">&quot;c&quot;</span>]]</a>
+<a class="sourceLine" id="cb126-17" data-line-number="17"><span class="co">#&gt; [1]  TRUE FALSE FALSE</span></a></code></pre></div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="funciones-e-iteracion.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="iteracion.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/tereom/est-computacional-2019/edit/master/03-temas_selectos_r.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

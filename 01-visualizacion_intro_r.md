@@ -1,6 +1,4 @@
 
-
-
 # Principios visualización
 
 > "The simple graph has brought more information to the data analyst’s mind 
@@ -17,7 +15,7 @@ encontramos rápidamente que los conjuntos de datos son muy distintos.
 
 <div style= "float:left;top:-10px;width:500px;">
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" />
 
 </div>
 
@@ -94,9 +92,11 @@ la que nos enfrentamos. Esta recopilación de datos -que pueden ser cualitativos
 cuantitativos, o una mezcla de los dos, debe entonces ser analizada para extraer 
 información relevante para nuestro problema.
 
-En análisis de datos existen dos distintos tipos de trabajo:
+Tradicionalmente el análisis de datos se divide en dos distintos tipos de 
+trabajo:
 
-<div class="caja">
+
+```est
 * El trabajo exploratorio o de detective: ¿cuáles son los aspectos importantes 
 de estos datos? ¿qué indicaciones generales muestran los datos? ¿qué tareas de 
 análisis debemos empezar haciendo? ¿cuáles son los caminos generales para 
@@ -105,7 +105,7 @@ formular con precisión y contestar algunas preguntas que nos interesen?
 * El trabajo inferencial, confirmatorio, o de juez: ¿cómo evaluar el peso de la 
 evidencia de los descubrimientos del paso anterior? ¿qué tan bien soportadas 
 están las respuestas y conclusiones por nuestro conjunto de datos?
-</div>
+```
 
 Aunque en el proceso de inferencia las gráficas cada vez son más importantes, la 
 visualización entra más claramente dentro del análisis exploratorio de datos. Y
@@ -113,7 +113,6 @@ como en un principio no es claro como la visualización aporta al proceso de la
 inferencia, se le consideró por mucho tiempo como un área de poca importancia 
 para la estadística: una herramienta que en todo caso sirve para comunicar ideas 
 simples, de manera deficiente, y a personas poco sofisticadas.
-
 
 
 
@@ -195,7 +194,9 @@ En resumen, hablaremos de las siguientes guías:
 Aplicables a una presentación o análisis completos, y como guía para construir 
 nuevas visualizaciones [@tufte06].
 
-<div class="caja">
+
+
+```principios
 **Principio 1.** Muestra comparaciones, contrastes, diferencias.  
 **Principio 2.** Muestra causalidad, mecanismo, explicación, estructura
 sistemática.  
@@ -206,26 +207,31 @@ variables.
 y problemas relevantes.  
 **Principio 6.** Las presentaciones analíticas, a fin de cuentas, se sostienen o 
 caen dependiendo de la calidad, relevancia e integridad de su contenido.
-</div>
+```
 
 #### Técnicas de visualización {-} 
 Esta categoría incluye técnicas específicas que dependen de la forma de nuestros 
 datos y el tipo de pregunta que queremos investigar (@tukey77, @cleveland93, 
 @cleveland94, @tufte06).
 
-<div class="caja">
+
+
+```tiposgraficas
+
 **Tipos de gráficas:** cuantiles, histogramas, caja y brazos, gráficas de 
 dispersión, puntos/barras/ líneas, series de tiempo.  
 **Técnicas para mejorar gráficas:** Transformación de datos, transparencia, 
 vibración, banking 45, suavizamiento y bandas de confianza.  
 **Pequeños múltiplos**  
-</div>
+```
 
 #### Indicadores de calidad gráfica {-}
 Aplicables a cualquier gráfica en particular. Estas son guías concretas y 
 relativamente objetivas para evaluar la calidad de una gráfica [@tufte86].
 
-<div class="caja">
+
+
+```indicadores
 **Integridad Gráfica.** El factor de engaño, es decir, la distorsión gráfica de
 las cantidades representadas, debe ser mínimo.  
 **Chartjunk.** Minimizar el uso de decoración gráfica que interfiera con la 
@@ -236,7 +242,7 @@ la gráfica. *For non-data- ink, less is more. For data-ink, less is a bore.*
 es la razón entre el tamaño del conjunto de datos y el área de la gráfica. Las 
 gráficas se pueden encoger mucho. Percepción visual. Algunas tareas son más 
 fáciles para el ojo humano que otras [@cleveland94].
-</div>
+```
 
 ## Factor de engaño y Chartjunk 
 
@@ -331,7 +337,7 @@ de radiación solar y niveles de ozono. Podemos ver que si incluimos
 una variable adicional (velocidad del viento) podemos entender más
 acerca de la relación de radiación solar y niveles de ozono:
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-8-1.png" width="576" style="display: block; margin: auto;" />
 
 
 ## Tinta de datos
@@ -578,7 +584,7 @@ print(read_csv)
 #>         comment = comment, n_max = n_max, guess_max = guess_max, 
 #>         progress = progress)
 #> }
-#> <bytecode: 0x807c970>
+#> <bytecode: 0x92b9f80>
 #> <environment: namespace:readr>
 
 library(readr)
@@ -596,7 +602,7 @@ print(read_csv)
 #>         comment = comment, n_max = n_max, guess_max = guess_max, 
 #>         progress = progress)
 #> }
-#> <bytecode: 0x807c970>
+#> <bytecode: 0x92b9f80>
 #> <environment: namespace:readr>
 ```
 
@@ -797,7 +803,7 @@ ggplot(election_sub_2012, aes(x = reorder(state_abbr, prd_pt_mc),
     geom_point(size = 0.8)
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-11-1.png" width="576" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-14-1.png" width="576" style="display: block; margin: auto;" />
 
 Podemos probar otros geoms.
 
@@ -829,7 +835,7 @@ ggplot(election_sub_2012, aes(x = reorder(state_abbr, prd_pt_mc),
     geom_boxplot()
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-12-1.png" width="576" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-15-1.png" width="576" style="display: block; margin: auto;" />
 
 Y mejorar presentación:
 
@@ -844,7 +850,7 @@ ggplot(election_sub_2012, aes(x = reorder(state_abbr, prd_pt_mc),
         subtitle = "PRD-PT-MC", x = "estado", y = "total de votos")
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-13-1.png" width="576" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-16-1.png" width="576" style="display: block; margin: auto;" />
 
 
 ![](img/manicule2.jpg) Lee la ayuda de _reorder_ y repite las gráficas 
@@ -870,7 +876,7 @@ ggplot(election_sub_2012, aes(x = reorder(state_abbr, pri_pvem_pct, median),
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-14-1.png" width="624" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-17-1.png" width="624" style="display: block; margin: auto;" />
 
 Podemos eliminar los NA. Veremos la función `filter()` en la próxima sesión.
 
@@ -883,7 +889,7 @@ ggplot(filter(election_sub_2012, !is.na(section_type)),
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-15-1.png" width="768" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-18-1.png" width="768" style="display: block; margin: auto;" />
 
 También podemos hacer una cuadrícula de $2$ dimensiones usando 
 `facet\_grid(filas~columnas)`
@@ -907,7 +913,7 @@ ggplot(election_region_2012, aes(x = reorder(party, prop_votes),
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-16-1.png" width="480" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-19-1.png" width="480" style="display: block; margin: auto;" />
 
 Los páneles pueden ser muy útiles para entender relaciones en nuestros datos. En 
 la siguiente gráfica es difícil entender si existe una relación entre radiación
@@ -921,7 +927,7 @@ ggplot(airquality, aes(x = Solar.R, y = Ozone)) +
 #> Warning: Removed 42 rows containing missing values (geom_point).
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-17-1.png" width="384" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-20-1.png" width="384" style="display: block; margin: auto;" />
 
 Veamos que ocurre si realizamos páneles separando por velocidad del viento.
 
@@ -934,7 +940,7 @@ ggplot(airquality, aes(x = Solar.R, y = Ozone)) +
   facet_wrap(~ Wind.cat)
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" />
 
 Podemos agregar un suavizador (loess) para ver mejor la relación de las 
 variables en cada panel.
@@ -947,7 +953,7 @@ ggplot(airquality, aes(x = Solar.R, y = Ozone)) +
   geom_smooth(method = "lm")
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" />
 
 Como vimos en el caso de los resultados electorales por región, en ocasiones es 
 necesario realizar transformaciones u obtener subconjuntos de los datos para 
@@ -977,7 +983,7 @@ ggplot(babynames_John, aes(x = year, y = prop)) +
   geom_line()
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-21-1.png" width="480" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-24-1.png" width="480" style="display: block; margin: auto;" />
 
 
 ```r
@@ -985,7 +991,7 @@ ggplot(babynames_John, aes(x = year, y = prop, color = sex)) +
   geom_line()
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-22-1.png" width="480" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-25-1.png" width="480" style="display: block; margin: auto;" />
 
 La preparación de los datos es un aspecto muy importante del análisis y suele 
 ser la fase que lleva más tiempo. Es por ello que el siguiente tema se enfocará 

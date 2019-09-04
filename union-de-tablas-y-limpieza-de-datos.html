@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="transformacion-de-datos-1.html"/>
-<link rel="next" href="referencias.html"/>
+<link rel="next" href="programacion-funcional-y-distribucion-muestral.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -46,6 +46,13 @@
 
 
 
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<script src="libs/d3-3.5.6/d3.min.js"></script>
+<link href="libs/profvis-0.3.6/profvis.css" rel="stylesheet" />
+<script src="libs/profvis-0.3.6/profvis.js"></script>
+<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-6.2.0/highlight.js"></script>
+<script src="libs/profvis-binding-0.3.6/profvis.js"></script>
 
 
 <style type="text/css">
@@ -186,15 +193,54 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="temas-selectos-de-r.html"><a href="temas-selectos-de-r.html"><i class="fa fa-check"></i><b>4</b> Temas selectos de R</a><ul>
 <li class="chapter" data-level="4.1" data-path="funciones-e-iteracion.html"><a href="funciones-e-iteracion.html"><i class="fa fa-check"></i><b>4.1</b> Funciones e iteración</a><ul>
-<li class="chapter" data-level="4.1.1" data-path="funciones-e-iteracion.html"><a href="funciones-e-iteracion.html#funciones"><i class="fa fa-check"></i><b>4.1.1</b> Funciones</a></li>
-<li class="chapter" data-level="4.1.2" data-path="funciones-e-iteracion.html"><a href="funciones-e-iteracion.html#iteracion"><i class="fa fa-check"></i><b>4.1.2</b> Iteración</a></li>
-<li class="chapter" data-level="" data-path="funciones-e-iteracion.html"><a href="funciones-e-iteracion.html#programacion-funcional"><i class="fa fa-check"></i>Programación funcional</a></li>
+<li class="chapter" data-level="" data-path="funciones-e-iteracion.html"><a href="funciones-e-iteracion.html#funciones"><i class="fa fa-check"></i>Funciones</a></li>
 </ul></li>
+<li class="chapter" data-level="4.2" data-path="vectores.html"><a href="vectores.html"><i class="fa fa-check"></i><b>4.2</b> Vectores</a><ul>
+<li class="chapter" data-level="" data-path="vectores.html"><a href="vectores.html#propiedades"><i class="fa fa-check"></i>Propiedades</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="iteracion.html"><a href="iteracion.html"><i class="fa fa-check"></i><b>4.3</b> Iteración</a><ul>
+<li class="chapter" data-level="" data-path="iteracion.html"><a href="iteracion.html#ciclos-for"><i class="fa fa-check"></i>Ciclos for</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html"><i class="fa fa-check"></i><b>4.4</b> Rendimiento en R</a><ul>
+<li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#diagnosticar"><i class="fa fa-check"></i>Diagnosticar</a></li>
+<li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#estrategias-para-mejorar-desempeno"><i class="fa fa-check"></i>Estrategias para mejorar desempeño</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="introduccion-a-calculo-de-probabilidades.html"><a href="introduccion-a-calculo-de-probabilidades.html"><i class="fa fa-check"></i><b>5</b> Introducción a Cálculo de Probabilidades</a><ul>
+<li class="chapter" data-level="5.1" data-path="probabilidad-como-extension-de-proporcion.html"><a href="probabilidad-como-extension-de-proporcion.html"><i class="fa fa-check"></i><b>5.1</b> Probabilidad como extensión de proporción</a></li>
+<li class="chapter" data-level="5.2" data-path="interpretacion-frecuentista-de-probabilidad.html"><a href="interpretacion-frecuentista-de-probabilidad.html"><i class="fa fa-check"></i><b>5.2</b> Interpretación frecuentista de probabilidad</a><ul>
+<li class="chapter" data-level="" data-path="interpretacion-frecuentista-de-probabilidad.html"><a href="interpretacion-frecuentista-de-probabilidad.html#resultados-empiricos-acerca-de-frecuencias-relativas"><i class="fa fa-check"></i>Resultados empíricos acerca de frecuencias relativas</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="simulacion-para-el-calculo-de-probabilidades.html"><a href="simulacion-para-el-calculo-de-probabilidades.html"><i class="fa fa-check"></i><b>5.3</b> Simulación para el cálculo de probabilidades</a></li>
+<li class="chapter" data-level="5.4" data-path="modelos-de-probabilidad-definicion-general.html"><a href="modelos-de-probabilidad-definicion-general.html"><i class="fa fa-check"></i><b>5.4</b> Modelos de probabilidad (definición general)</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="modelos-de-probabilidad-definicion-general.html"><a href="modelos-de-probabilidad-definicion-general.html#espacios-discretos"><i class="fa fa-check"></i><b>5.4.1</b> Espacios discretos</a></li>
+<li class="chapter" data-level="5.4.2" data-path="modelos-de-probabilidad-definicion-general.html"><a href="modelos-de-probabilidad-definicion-general.html#espacios-continuos"><i class="fa fa-check"></i><b>5.4.2</b> Espacios continuos</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="probabilidad-definicion-matematica.html"><a href="probabilidad-definicion-matematica.html"><i class="fa fa-check"></i><b>5.5</b> Probabilidad: definición matemática</a><ul>
+<li class="chapter" data-level="" data-path="probabilidad-definicion-matematica.html"><a href="probabilidad-definicion-matematica.html#propiedades-de-la-funcion-de-probabilidad"><i class="fa fa-check"></i>Propiedades de la función de probabilidad:</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html"><i class="fa fa-check"></i><b>5.6</b> Variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html#distribucion-de-probabilidad"><i class="fa fa-check"></i>Distribución de probabilidad</a></li>
+<li class="chapter" data-level="" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html#variables-aleatorias-continuas"><i class="fa fa-check"></i>Variables aleatorias continuas</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="bootstrap-no-parametrico.html"><a href="bootstrap-no-parametrico.html"><i class="fa fa-check"></i><b>6</b> Bootstrap no paramétrico</a><ul>
+<li class="chapter" data-level="6.1" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html"><i class="fa fa-check"></i><b>6.1</b> El principio del plug-in</a><ul>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#muestras-aleatorias"><i class="fa fa-check"></i>Muestras aleatorias</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#funcion-de-distribucion-empirica"><i class="fa fa-check"></i>Función de distribución empírica</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#parametros-y-estadisticas"><i class="fa fa-check"></i>Parámetros y estadísticas</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#distribuciones-muestrales-y-errores-estandar"><i class="fa fa-check"></i>Distribuciones muestrales y errores estándar</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="el-estimador-bootstrap-del-error-estandar.html"><a href="el-estimador-bootstrap-del-error-estandar.html"><i class="fa fa-check"></i><b>6.2</b> El estimador bootstrap del error estándar</a><ul>
+<li class="chapter" data-level="" data-path="el-estimador-bootstrap-del-error-estandar.html"><a href="el-estimador-bootstrap-del-error-estandar.html#variacion-en-distribuciones-bootstrap"><i class="fa fa-check"></i>Variación en distribuciones bootstrap</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="intervalos-de-confianza.html"><a href="intervalos-de-confianza.html"><i class="fa fa-check"></i><b>6.3</b> Intervalos de confianza</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalacion-y-visualizacion.html"><a href="instalacion-y-visualizacion.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
 <li class="chapter" data-level="" data-path="union-de-tablas-y-limpieza-de-datos.html"><a href="union-de-tablas-y-limpieza-de-datos.html"><i class="fa fa-check"></i>3. Unión de tablas y limpieza de datos</a></li>
+<li class="chapter" data-level="" data-path="programacion-funcional-y-distribucion-muestral.html"><a href="programacion-funcional-y-distribucion-muestral.html"><i class="fa fa-check"></i>4. Programación funcional y distribución muestral</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -226,24 +272,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>¿Están limpios los datos? en caso de que no
 ¿qué principio no cumplen?</li>
 </ol>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
-<a class="sourceLine" id="cb124-2" data-line-number="2">df_marital</a>
-<a class="sourceLine" id="cb124-3" data-line-number="3"><span class="co">#&gt; # A tibble: 29,484 x 14</span></a>
-<a class="sourceLine" id="cb124-4" data-line-number="4"><span class="co">#&gt;    state_code municipio_code region state_name state_abbr municipio_name</span></a>
-<a class="sourceLine" id="cb124-5" data-line-number="5"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;         </span></a>
-<a class="sourceLine" id="cb124-6" data-line-number="6"><span class="co">#&gt;  1 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb124-7" data-line-number="7"><span class="co">#&gt;  2 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb124-8" data-line-number="8"><span class="co">#&gt;  3 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb124-9" data-line-number="9"><span class="co">#&gt;  4 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb124-10" data-line-number="10"><span class="co">#&gt;  5 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb124-11" data-line-number="11"><span class="co">#&gt;  6 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb124-12" data-line-number="12"><span class="co">#&gt;  7 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb124-13" data-line-number="13"><span class="co">#&gt;  8 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb124-14" data-line-number="14"><span class="co">#&gt;  9 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb124-15" data-line-number="15"><span class="co">#&gt; 10 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb124-16" data-line-number="16"><span class="co">#&gt; # … with 29,474 more rows, and 8 more variables: sex &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb124-17" data-line-number="17"><span class="co">#&gt; #   age_group &lt;chr&gt;, pop &lt;dbl&gt;, single &lt;dbl&gt;, married &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb124-18" data-line-number="18"><span class="co">#&gt; #   living_w_partner &lt;dbl&gt;, separated &lt;dbl&gt;, other &lt;dbl&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb215-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
+<a class="sourceLine" id="cb215-2" data-line-number="2">df_marital</a>
+<a class="sourceLine" id="cb215-3" data-line-number="3"><span class="co">#&gt; # A tibble: 29,484 x 14</span></a>
+<a class="sourceLine" id="cb215-4" data-line-number="4"><span class="co">#&gt;    state_code municipio_code region state_name state_abbr municipio_name</span></a>
+<a class="sourceLine" id="cb215-5" data-line-number="5"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;         </span></a>
+<a class="sourceLine" id="cb215-6" data-line-number="6"><span class="co">#&gt;  1 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb215-7" data-line-number="7"><span class="co">#&gt;  2 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb215-8" data-line-number="8"><span class="co">#&gt;  3 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb215-9" data-line-number="9"><span class="co">#&gt;  4 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb215-10" data-line-number="10"><span class="co">#&gt;  5 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb215-11" data-line-number="11"><span class="co">#&gt;  6 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb215-12" data-line-number="12"><span class="co">#&gt;  7 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb215-13" data-line-number="13"><span class="co">#&gt;  8 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb215-14" data-line-number="14"><span class="co">#&gt;  9 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb215-15" data-line-number="15"><span class="co">#&gt; 10 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb215-16" data-line-number="16"><span class="co">#&gt; # … with 29,474 more rows, and 8 more variables: sex &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb215-17" data-line-number="17"><span class="co">#&gt; #   age_group &lt;chr&gt;, pop &lt;dbl&gt;, single &lt;dbl&gt;, married &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb215-18" data-line-number="18"><span class="co">#&gt; #   living_w_partner &lt;dbl&gt;, separated &lt;dbl&gt;, other &lt;dbl&gt;</span></a></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li><p>Limpia los datos y muestra las primeras y últimas líneas (usa <code>head()</code> y
 <code>tail()</code>).</p></li>
@@ -253,16 +299,14 @@ edad y sexo. ¿Cómo puedes graficar o presentar los resultados?</p></li>
 <li><p>Regresando a los datos que obtuviste en 2, une la tabla de datos con
 <code>df_edu</code>, ¿qué variables se usarán para unir?</p></li>
 </ol>
-
 </div>
-<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
 <a href="transformacion-de-datos-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="programacion-funcional-y-distribucion-muestral.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

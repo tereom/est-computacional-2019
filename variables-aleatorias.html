@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>5.6 Variables aleatorias | Estadística Computacional</title>
+  <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
+  <meta name="generator" content="bookdown 0.13.2 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="5.6 Variables aleatorias | Estadística Computacional" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
+  <meta name="github-repo" content="tereom/est-computacional-2019" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="5.6 Variables aleatorias | Estadística Computacional" />
+  
+  <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
+  
+
+<meta name="author" content="María Teresa Ortiz" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="probabilidad-definicion-matematica.html"/>
+<link rel="next" href="bootstrap-no-parametrico.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<script src="libs/d3-3.5.6/d3.min.js"></script>
+<link href="libs/profvis-0.3.6/profvis.css" rel="stylesheet" />
+<script src="libs/profvis-0.3.6/profvis.js"></script>
+<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-6.2.0/highlight.js"></script>
+<script src="libs/profvis-binding-0.3.6/profvis.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="css/toc.css" type="text/css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+<link rel="stylesheet" href="css/cajas.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Estadística Computacional</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Información del curso</a><ul>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html"><i class="fa fa-check"></i>Temario</a><ul>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#calificacion"><i class="fa fa-check"></i>Calificación</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#software"><i class="fa fa-check"></i>Software</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#otros-recursos"><i class="fa fa-check"></i>Otros recursos</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#noticias"><i class="fa fa-check"></i>Noticias</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="principios-visualizacion.html"><a href="principios-visualizacion.html"><i class="fa fa-check"></i><b>1</b> Principios visualización</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduccion.html"><a href="introduccion.html"><i class="fa fa-check"></i><b>1.1</b> Introducción</a><ul>
+<li class="chapter" data-level="" data-path="introduccion.html"><a href="introduccion.html#visualizacion-de-datos-en-la-estadistica"><i class="fa fa-check"></i>Visualización de datos en la estadística</a></li>
+<li class="chapter" data-level="" data-path="introduccion.html"><a href="introduccion.html#visualizacion-popular-de-datos"><i class="fa fa-check"></i>Visualización popular de datos</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html"><i class="fa fa-check"></i><b>1.2</b> Teoría de visualización de datos</a></li>
+<li class="chapter" data-level="1.3" data-path="factor-de-engano-y-chartjunk.html"><a href="factor-de-engano-y-chartjunk.html"><i class="fa fa-check"></i><b>1.3</b> Factor de engaño y Chartjunk</a></li>
+<li class="chapter" data-level="1.4" data-path="pequenos-multiplos-y-densidad-grafica.html"><a href="pequenos-multiplos-y-densidad-grafica.html"><i class="fa fa-check"></i><b>1.4</b> Pequeños múltiplos y densidad gráfica</a></li>
+<li class="chapter" data-level="1.5" data-path="tinta-de-datos.html"><a href="tinta-de-datos.html"><i class="fa fa-check"></i><b>1.5</b> Tinta de datos</a></li>
+<li class="chapter" data-level="1.6" data-path="decoracion.html"><a href="decoracion.html"><i class="fa fa-check"></i><b>1.6</b> Decoración</a></li>
+<li class="chapter" data-level="1.7" data-path="percepcion-de-escala.html"><a href="percepcion-de-escala.html"><i class="fa fa-check"></i><b>1.7</b> Percepción de escala</a></li>
+<li class="chapter" data-level="1.8" data-path="ejemplos-grafica-de-minard.html"><a href="ejemplos-grafica-de-minard.html"><i class="fa fa-check"></i><b>1.8</b> Ejemplos: gráfica de Minard</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introduccion-a-r-y-al-paquete-ggplot2.html"><a href="introduccion-a-r-y-al-paquete-ggplot2.html"><i class="fa fa-check"></i><b>2</b> Introducción a R y al paquete ggplot2</a><ul>
+<li class="chapter" data-level="2.1" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html"><i class="fa fa-check"></i><b>2.1</b> R: primeros pasos</a><ul>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#r-en-analisis-de-datos"><i class="fa fa-check"></i>R en análisis de datos</a></li>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#paquetes-y-el-tidyverse"><i class="fa fa-check"></i>Paquetes y el Tidyverse</a></li>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#recursos"><i class="fa fa-check"></i>Recursos</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="visualizacion-con-ggplot2.html"><a href="visualizacion-con-ggplot2.html"><i class="fa fa-check"></i><b>2.2</b> Visualización con ggplot2</a><ul>
+<li class="chapter" data-level="" data-path="visualizacion-con-ggplot2.html"><a href="visualizacion-con-ggplot2.html#recursos-1"><i class="fa fa-check"></i>Recursos</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="manipulacion-y-agrupacion-de-datos.html"><a href="manipulacion-y-agrupacion-de-datos.html"><i class="fa fa-check"></i><b>3</b> Manipulación y agrupación de datos</a><ul>
+<li class="chapter" data-level="3.1" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html"><i class="fa fa-check"></i><b>3.1</b> Transformación de datos</a><ul>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#datos"><i class="fa fa-check"></i>Datos</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#filtrar"><i class="fa fa-check"></i>Filtrar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#seleccionar"><i class="fa fa-check"></i>Seleccionar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#ordenar"><i class="fa fa-check"></i>Ordenar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#mutar"><i class="fa fa-check"></i>Mutar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#summarise-y-resumenes-por-grupo"><i class="fa fa-check"></i>Summarise y resúmenes por grupo</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#variables-por-grupo"><i class="fa fa-check"></i>Variables por grupo</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#verbos-de-dos-tablas"><i class="fa fa-check"></i>Verbos de dos tablas</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="datos-limpios.html"><a href="datos-limpios.html"><i class="fa fa-check"></i><b>3.2</b> Datos limpios</a><ul>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#limpieza-bases-de-datos"><i class="fa fa-check"></i>Limpieza bases de datos</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#los-encabezados-de-las-columanas-son-valores"><i class="fa fa-check"></i>Los encabezados de las columanas son valores</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-columna-asociada-a-mas-de-una-variable"><i class="fa fa-check"></i>Una columna asociada a más de una variable</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#variables-almacenadas-en-filas-y-columnas"><i class="fa fa-check"></i>Variables almacenadas en filas y columnas</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-misma-unidad-observacional-esta-almacenada-en-multiples-tablas"><i class="fa fa-check"></i>Una misma unidad observacional está almacenada en múltiples tablas</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#otras-consideraciones"><i class="fa fa-check"></i>Otras consideraciones</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#recursos-adicionales"><i class="fa fa-check"></i>Recursos adicionales</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="temas-selectos-de-r.html"><a href="temas-selectos-de-r.html"><i class="fa fa-check"></i><b>4</b> Temas selectos de R</a><ul>
+<li class="chapter" data-level="4.1" data-path="funciones-e-iteracion.html"><a href="funciones-e-iteracion.html"><i class="fa fa-check"></i><b>4.1</b> Funciones e iteración</a><ul>
+<li class="chapter" data-level="" data-path="funciones-e-iteracion.html"><a href="funciones-e-iteracion.html#funciones"><i class="fa fa-check"></i>Funciones</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="vectores.html"><a href="vectores.html"><i class="fa fa-check"></i><b>4.2</b> Vectores</a><ul>
+<li class="chapter" data-level="" data-path="vectores.html"><a href="vectores.html#propiedades"><i class="fa fa-check"></i>Propiedades</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="iteracion.html"><a href="iteracion.html"><i class="fa fa-check"></i><b>4.3</b> Iteración</a><ul>
+<li class="chapter" data-level="" data-path="iteracion.html"><a href="iteracion.html#ciclos-for"><i class="fa fa-check"></i>Ciclos for</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html"><i class="fa fa-check"></i><b>4.4</b> Rendimiento en R</a><ul>
+<li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#diagnosticar"><i class="fa fa-check"></i>Diagnosticar</a></li>
+<li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#estrategias-para-mejorar-desempeno"><i class="fa fa-check"></i>Estrategias para mejorar desempeño</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="introduccion-a-calculo-de-probabilidades.html"><a href="introduccion-a-calculo-de-probabilidades.html"><i class="fa fa-check"></i><b>5</b> Introducción a Cálculo de Probabilidades</a><ul>
+<li class="chapter" data-level="5.1" data-path="probabilidad-como-extension-de-proporcion.html"><a href="probabilidad-como-extension-de-proporcion.html"><i class="fa fa-check"></i><b>5.1</b> Probabilidad como extensión de proporción</a></li>
+<li class="chapter" data-level="5.2" data-path="interpretacion-frecuentista-de-probabilidad.html"><a href="interpretacion-frecuentista-de-probabilidad.html"><i class="fa fa-check"></i><b>5.2</b> Interpretación frecuentista de probabilidad</a><ul>
+<li class="chapter" data-level="" data-path="interpretacion-frecuentista-de-probabilidad.html"><a href="interpretacion-frecuentista-de-probabilidad.html#resultados-empiricos-acerca-de-frecuencias-relativas"><i class="fa fa-check"></i>Resultados empíricos acerca de frecuencias relativas</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="simulacion-para-el-calculo-de-probabilidades.html"><a href="simulacion-para-el-calculo-de-probabilidades.html"><i class="fa fa-check"></i><b>5.3</b> Simulación para el cálculo de probabilidades</a></li>
+<li class="chapter" data-level="5.4" data-path="modelos-de-probabilidad-definicion-general.html"><a href="modelos-de-probabilidad-definicion-general.html"><i class="fa fa-check"></i><b>5.4</b> Modelos de probabilidad (definición general)</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="modelos-de-probabilidad-definicion-general.html"><a href="modelos-de-probabilidad-definicion-general.html#espacios-discretos"><i class="fa fa-check"></i><b>5.4.1</b> Espacios discretos</a></li>
+<li class="chapter" data-level="5.4.2" data-path="modelos-de-probabilidad-definicion-general.html"><a href="modelos-de-probabilidad-definicion-general.html#espacios-continuos"><i class="fa fa-check"></i><b>5.4.2</b> Espacios continuos</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="probabilidad-definicion-matematica.html"><a href="probabilidad-definicion-matematica.html"><i class="fa fa-check"></i><b>5.5</b> Probabilidad: definición matemática</a><ul>
+<li class="chapter" data-level="" data-path="probabilidad-definicion-matematica.html"><a href="probabilidad-definicion-matematica.html#propiedades-de-la-funcion-de-probabilidad"><i class="fa fa-check"></i>Propiedades de la función de probabilidad:</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html"><i class="fa fa-check"></i><b>5.6</b> Variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html#distribucion-de-probabilidad"><i class="fa fa-check"></i>Distribución de probabilidad</a></li>
+<li class="chapter" data-level="" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html#variables-aleatorias-continuas"><i class="fa fa-check"></i>Variables aleatorias continuas</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="bootstrap-no-parametrico.html"><a href="bootstrap-no-parametrico.html"><i class="fa fa-check"></i><b>6</b> Bootstrap no paramétrico</a><ul>
+<li class="chapter" data-level="6.1" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html"><i class="fa fa-check"></i><b>6.1</b> El principio del plug-in</a><ul>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#muestras-aleatorias"><i class="fa fa-check"></i>Muestras aleatorias</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#funcion-de-distribucion-empirica"><i class="fa fa-check"></i>Función de distribución empírica</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#parametros-y-estadisticas"><i class="fa fa-check"></i>Parámetros y estadísticas</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#distribuciones-muestrales-y-errores-estandar"><i class="fa fa-check"></i>Distribuciones muestrales y errores estándar</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="el-estimador-bootstrap-del-error-estandar.html"><a href="el-estimador-bootstrap-del-error-estandar.html"><i class="fa fa-check"></i><b>6.2</b> El estimador bootstrap del error estándar</a><ul>
+<li class="chapter" data-level="" data-path="el-estimador-bootstrap-del-error-estandar.html"><a href="el-estimador-bootstrap-del-error-estandar.html#variacion-en-distribuciones-bootstrap"><i class="fa fa-check"></i>Variación en distribuciones bootstrap</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="intervalos-de-confianza.html"><a href="intervalos-de-confianza.html"><i class="fa fa-check"></i><b>6.3</b> Intervalos de confianza</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
+<li class="chapter" data-level="" data-path="instalacion-y-visualizacion.html"><a href="instalacion-y-visualizacion.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
+<li class="chapter" data-level="" data-path="union-de-tablas-y-limpieza-de-datos.html"><a href="union-de-tablas-y-limpieza-de-datos.html"><i class="fa fa-check"></i>3. Unión de tablas y limpieza de datos</a></li>
+<li class="chapter" data-level="" data-path="programacion-funcional-y-distribucion-muestral.html"><a href="programacion-funcional-y-distribucion-muestral.html"><i class="fa fa-check"></i>4. Programación funcional y distribución muestral</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Estadística Computacional</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="variables-aleatorias" class="section level2">
+<h2><span class="header-section-number">5.6</span> Variables aleatorias</h2>
+<p>A partir de un experimento aleatorio se pueden definir muchas preguntas de
+probabilidad, por ejemplo, en el caso de la ruina del jugador podríamos
+preguntarnos: las ganancias después del tercer juego, probabilidad de ganar,
+duración del experimento (cuántos juegos se jugaron antes de alcanzar las
+reglas de término). Sin embargo, muchas veces nos centramos en estudiar un solo
+aspecto <strong>numérico</strong> del experimento.</p>
+
+<div class="caja">
+La variable aleatoria <span class="math inline">\(X\)</span> es un mapeo entre el espacio de resultados y los
+números reales.
+</div>
+
+<p>Este enfoque tiene dos ventajas importantes:</p>
+<ul>
+<li><p>Simplifica muchas veces el ejercicio de modelación, pues en lugar
+de tener que entender y modelar la totalidad del experimento aleatorio,
+podemos concentrarnos en propiedades de la función <span class="math inline">\(X\)</span>.</p></li>
+<li><p>Usando probabilidades asociadas a la función <span class="math inline">\(X\)</span> podemos resumir aspectos
+de interés el experimento aleatorio.</p></li>
+<li><p>El uso de variables aleatorias nos permite usar álgebra para derivar resultados
+y representar cómputos de manera conveniente.</p></li>
+</ul>
+<div id="ejemplo-3" class="section level4 unnumbered">
+<h4>Ejemplo</h4>
+<p>Supongamos que nuestro experimento aleatorio es tirar un dado 10 veces.
+Este experimento aleatorio tiene <span class="math inline">\(10^6\)</span> posibles resultados. Supongamos
+que nos interesa principlamente
+<span class="math inline">\(X =\)</span> número de seises que obtuvimos en le experimento.</p>
+<p>Entonces es posible demostrar (o puedes estimar con simulación), que las
+probabilidades asociadas a <span class="math inline">\(X\)</span> podemos escribirlas como:</p>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb175-1" data-line-number="1">X_prob &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">X =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb175-2" data-line-number="2"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">prob =</span> <span class="kw">dbinom</span>(X, <span class="dv">10</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">6</span>), <span class="dt">prob_redondear =</span> <span class="kw">round</span>(prob, <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb175-3" data-line-number="3">X_prob</a>
+<a class="sourceLine" id="cb175-4" data-line-number="4"><span class="co">#&gt; # A tibble: 11 x 3</span></a>
+<a class="sourceLine" id="cb175-5" data-line-number="5"><span class="co">#&gt;        X         prob prob_redondear</span></a>
+<a class="sourceLine" id="cb175-6" data-line-number="6"><span class="co">#&gt;    &lt;int&gt;        &lt;dbl&gt;          &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb175-7" data-line-number="7"><span class="co">#&gt;  1     0 0.162                 0.162</span></a>
+<a class="sourceLine" id="cb175-8" data-line-number="8"><span class="co">#&gt;  2     1 0.323                 0.323</span></a>
+<a class="sourceLine" id="cb175-9" data-line-number="9"><span class="co">#&gt;  3     2 0.291                 0.291</span></a>
+<a class="sourceLine" id="cb175-10" data-line-number="10"><span class="co">#&gt;  4     3 0.155                 0.155</span></a>
+<a class="sourceLine" id="cb175-11" data-line-number="11"><span class="co">#&gt;  5     4 0.0543                0.054</span></a>
+<a class="sourceLine" id="cb175-12" data-line-number="12"><span class="co">#&gt;  6     5 0.0130                0.013</span></a>
+<a class="sourceLine" id="cb175-13" data-line-number="13"><span class="co">#&gt;  7     6 0.00217               0.002</span></a>
+<a class="sourceLine" id="cb175-14" data-line-number="14"><span class="co">#&gt;  8     7 0.000248              0    </span></a>
+<a class="sourceLine" id="cb175-15" data-line-number="15"><span class="co">#&gt;  9     8 0.0000186             0    </span></a>
+<a class="sourceLine" id="cb175-16" data-line-number="16"><span class="co">#&gt; 10     9 0.000000827           0    </span></a>
+<a class="sourceLine" id="cb175-17" data-line-number="17"><span class="co">#&gt; 11    10 0.0000000165          0</span></a></code></pre></div>
+<p>Y con esta función podemos resolver otros problemas de interés sin
+tener que recurrir al modelo probabilístico completo. Por ejemplo,
+contesta la siguientes preguntas (puedes usar simulación si es necesario) :</p>
+<ul>
+<li>¿Cuál es la probabilidad de que al jugar este juego obtengamos 2 o menos
+seises?</li>
+<li>¿Cuál es la probabilidad de que tiremos un número par de seises?</li>
+<li>Si repetimos este juego 5 veces, ¿cuál es la probabilidad de obtener
+un número total de seises mayor a 5?</li>
+</ul>
+</div>
+<div id="distribucion-de-probabilidad" class="section level3 unnumbered">
+<h3>Distribución de probabilidad</h3>
+<p>En general, la distribución de probabilidad de una variable aleatoria <span class="math inline">\(X\)</span> es
+la función que asigna a cada evento <span class="math inline">\(X\in A\)</span> una probabilidad <span class="math inline">\(P(X\in A)\)</span>.
+A los eventos <span class="math inline">\(X \in A\)</span> les llamamos eventos asociados a una variable
+aleatoria. Nótese que no todos los eventos posibles asociados son de la
+forma <span class="math inline">\(X\in A\)</span> para una variable aleatoria fija.</p>
+<div id="ejemplo-4" class="section level4 unnumbered">
+<h4>Ejemplo</h4>
+<p>En el ejemplo anterior calculamos <span class="math inline">\(P(X \in \{ 0, 1, 2 \} = P(X \geq 2)\)</span>
+y <span class="math inline">\(P(X \in \{0,2,4,6,8,10\}).\)</span> Sin embargo, el evento “tiramos al menos un 3”
+no se puede escribir en la forma <span class="math inline">\(P(X\in A)\)</span>. Este tipo de eventos siempre
+está relacionado con el número de seises que obtuvimos en el experimento.</p>
+<p>Como vimos arriba, si tenemos una variable aleatoria que toma un número
+finito de valores, las probabilidades <span class="math inline">\(P(X\in A)\)</span> pueden calcularse sumando
+probabilidades individuales de los valores en A:
+<span class="math display">\[P(X\in A) = \sum_{a \in A} P(X = a)\]</span></p>
+<p>Y una argumento similar se puede utilizar para variables que toman
+un número infinito pero numerable de valores (por ejemplo, enteros de 0 a infinito).</p>
+</div>
+</div>
+<div id="variables-aleatorias-continuas" class="section level3 unnumbered">
+<h3>Variables aleatorias continuas</h3>
+<p>Consideremos el ejemplo del dardo sesgado unidimensional que vimos arriba. Para
+este experimento aleatorio, definimos la variable aleatoria <span class="math inline">\(X =\)</span> posición
+del dardo en el intervalo <span class="math inline">\([0,1]\)</span>, y propusimos un modelo donde las probabilidades
+se calculan integrando:</p>
+<p><span class="math display">\[P(X\in [a,b]) = \int_a^b f(x)\, dx\]</span></p>
+<p>En general, para cualquier subconjunto <span class="math inline">\(A\subset [0,1]\)</span> podemos definir
+la integral que defina la función de destribución como:</p>
+<p><span class="math display">\[P(X\in A) = \int_A f(x)\, dx\]</span>
+que se calcula sumando las probabilidades de los intervalos individuales
+que componen <span class="math inline">\(A\)</span></p>
+<div id="ejemplo-5" class="section level4 unnumbered">
+<h4>Ejemplo</h4>
+<p>Si queremos calcular la probabilidad de que el dardo segado caiga en los
+extremos, por ejemplo en <span class="math inline">\([0,0.1]\)</span> o <span class="math inline">\([0.9,1]\)</span>, podemos hacer
+<span class="math display">\[A = [0,0.1]\cup[0.9,1]\]</span>
+y calcular
+<span class="math display">\[P(X\in A) = \int_0^{0.1} f(x)\, dx  + \int_{0.9}^1 f(x)\, dx\]</span></p>
+<p>La <strong>función de distribución acumulada</strong> contiene la misma información que la
+función de distribución y se define como
+<span class="math display">\[P(X \le x)\]</span>
+con la ventaja de que la definición aplica tanto al caso discreto como en el
+caso continuo.</p>
+</div>
+<div id="ejemplo-6" class="section level4 unnumbered">
+<h4>Ejemplo</h4>
+<p>Calculamos la función de distribución acumulada para el ejemplo anterior:</p>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb176-1" data-line-number="1">X_prob <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">fda =</span> <span class="kw">cumsum</span>(prob))</a>
+<a class="sourceLine" id="cb176-2" data-line-number="2"><span class="co">#&gt; # A tibble: 11 x 4</span></a>
+<a class="sourceLine" id="cb176-3" data-line-number="3"><span class="co">#&gt;        X         prob prob_redondear   fda</span></a>
+<a class="sourceLine" id="cb176-4" data-line-number="4"><span class="co">#&gt;    &lt;int&gt;        &lt;dbl&gt;          &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb176-5" data-line-number="5"><span class="co">#&gt;  1     0 0.162                 0.162 0.162</span></a>
+<a class="sourceLine" id="cb176-6" data-line-number="6"><span class="co">#&gt;  2     1 0.323                 0.323 0.485</span></a>
+<a class="sourceLine" id="cb176-7" data-line-number="7"><span class="co">#&gt;  3     2 0.291                 0.291 0.775</span></a>
+<a class="sourceLine" id="cb176-8" data-line-number="8"><span class="co">#&gt;  4     3 0.155                 0.155 0.930</span></a>
+<a class="sourceLine" id="cb176-9" data-line-number="9"><span class="co">#&gt;  5     4 0.0543                0.054 0.985</span></a>
+<a class="sourceLine" id="cb176-10" data-line-number="10"><span class="co">#&gt;  6     5 0.0130                0.013 0.998</span></a>
+<a class="sourceLine" id="cb176-11" data-line-number="11"><span class="co">#&gt;  7     6 0.00217               0.002 1.000</span></a>
+<a class="sourceLine" id="cb176-12" data-line-number="12"><span class="co">#&gt;  8     7 0.000248              0     1.000</span></a>
+<a class="sourceLine" id="cb176-13" data-line-number="13"><span class="co">#&gt;  9     8 0.0000186             0     1.000</span></a>
+<a class="sourceLine" id="cb176-14" data-line-number="14"><span class="co">#&gt; 10     9 0.000000827           0     1.000</span></a>
+<a class="sourceLine" id="cb176-15" data-line-number="15"><span class="co">#&gt; 11    10 0.0000000165          0     1.000</span></a></code></pre></div>
+<p><strong>Pregunta</strong>: ¿cómo recuperamos la probabilidades de cada valor a
+partir de la función de distribución acumulada?</p>
+</div>
+<div id="esperanza" class="section level4 unnumbered">
+<h4>Esperanza</h4>
+
+<div class="comentario">
+La <strong>esperanza</strong> (valor esperado o media) de una variable aleatoria <span class="math inline">\(X\)</span>,
+es la media de la distribución <span class="math inline">\(X\)</span>, esto es,
+<span class="math display">\[E(X)=\sum_{x\in \Omega_x} x P(X=x)\]</span>
+el promedio de todos los posibles valores de <span class="math inline">\(X\)</span> ponderados por sus probabilidades.
+</div>
+
+<p>Por ejemplo, si <span class="math inline">\(X\)</span> toma únicamente dos posibles valores, <span class="math inline">\(a,b\)</span> con
+probabilidad <span class="math inline">\(P(a)\)</span> y <span class="math inline">\(P(b)\)</span> entonces
+<span class="math display">\[E(X)=aP(a)+bP(b).\]</span></p>
+<p>Ejemplo: Supongamos que <span class="math inline">\(X\)</span> es el valor que se produce cuando tiro un
+dado justo. Entonces,
+<span class="math display">\[E(X)=1\cdot P(X=1) +2\cdot P(X=2) +3\cdot P(X=3) +4\cdot P(X=4) +5\cdot P(X=5) +6\cdot P(X=6) = 3.5\]</span>
+Lo que nos dice que si tiramos el dado muchas veces deberíamos esperar que el promedio de las tiradas sea cercano a 3.5.</p>
+<p><strong>Esperanza como un promedio cuando n es grande</strong>. Si vemos las probabilidades de los valores de <span class="math inline">\(X\)</span> como una aproximación de frecuencias relativas cuando n es grande, entonces <span class="math inline">\(E(X)\)</span> es aproximadamente el valor promedio del valor de <span class="math inline">\(X\)</span> cuando n es grande.</p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb177-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10000</span>, <span class="dt">mean =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb177-2" data-line-number="2"><span class="kw">mean</span>(x)</a>
+<a class="sourceLine" id="cb177-3" data-line-number="3"><span class="co">#&gt; [1] 9.997833</span></a></code></pre></div>
+<!--
+**Esperanza y predicción**. Supongamos que deseamos predecir el valor de una variable aleatoria $X$. ¿Cuál es el mejor predictor de X? Para responder la pregunta es preciso seleccionar un criterio. Es común que el criterio 
+sea minimizar el 
+-->
+<p>La esperanza cumple las siguientes reglas:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Constantes</strong>. La esperanza de una variable aleatoria constante
+es su valor constante,
+<span class="math display">\[E(c) = c\]</span></p></li>
+<li><p><strong>Indicadoras</strong>. Si <span class="math inline">\(I_A\)</span> es la función indicadora del evento <span class="math inline">\(A\)</span>,
+<span class="math display">\[E(I_A) = P(A)\]</span></p></li>
+<li><p><strong>Funciones</strong>. Típicamente, <span class="math inline">\(E[g(X)]\ne g[E(X)]\)</span>, pero
+<span class="math display">\[E[g(X)] = \sum_{x \in \Omega_X} g(x) P(X=x)\]</span></p></li>
+<li><p><strong>Factores constantes</strong>. Para una constante c,
+<span class="math display">\[E(cX)=cE(X)\]</span></p></li>
+<li><p><strong>Adición</strong>. Para cualquier par de variables aleatorias <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span>,
+<span class="math display">\[E(X+Y) = E(X)+E(Y)\]</span></p></li>
+<li><p><strong>Multiplicación</strong>. Típicamente <span class="math inline">\(E(XY) \ne E(X)E(Y)\)</span>, pero
+si <span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> son independientes, entonces <span class="math display">\[E(XY)=E(X)E(Y)\]</span></p></li>
+</ol>
+<!-- Supongamos que lanzamos una moneda al aire y definimos la variable 
+aleatoria
+$Z$ como el tiempo en segundos que transcurre antes de que la moneda toque el suelo. En este caso el espacio de resultados es inconveniente de describir. Sin
+embargo, el soporte de $Z$ sería $(0, \infty)$, es claro que el conjunto $(0, \infty)$ es demasiado grande, pero veremos que en la práctica a veces es
+conveniente estudiar el soporte extendido. -->
+</div>
+<div id="varianza-y-desviacion-estandar" class="section level4 unnumbered">
+<h4>Varianza y desviación estándar</h4>
+<p>Si intentamos predecir el valor de una variable aleatoria usando su media
+<span class="math inline">\(E(X)=\mu\)</span>, vamos a fallar por una cantidad aleatoria <span class="math inline">\(X-\mu\)</span>. Suele ser
+importante tener una idea de que tan grande será esta desviación. Debido a que
+<span class="math display">\[E(X-\mu) = E(X)-\mu=0\]</span>
+es necesario considerar la diferencia absoluta o la diferencia al cuadrado de
+<span class="math inline">\(X-\mu\)</span> con el fin de tener una idea del tamaño de la desviación sin importar el
+signo de esta.</p>
+<p><strong>Varianza y desviación estándar</strong>. La varianza de <span class="math inline">\(X\)</span>, denotada
+<span class="math inline">\(var(X)=\sigma^2\)</span> es la media de la desviación cuadrada de <span class="math inline">\(X\)</span> respecto a su
+valor esperado <span class="math inline">\(\mu=E(X)\)</span>: <span class="math display">\[\sigma^2(X)=var(X)=E(X-\mu)^2\]</span>
+La desviación estándar de <span class="math inline">\(X\)</span>, es la raíz cuadrada de la varianza de X:
+<span class="math display">\[\sigma(X)=sd(X)=\sqrt{var(X)}\]</span></p>
+<p>Intuitivamente, <span class="math inline">\(sd(X)\)</span> es una medida de la dispersión de la distribución de <span class="math inline">\(X\)</span>
+alrededor de su media. Debido a que la varianza es el valor central de la
+distribución de <span class="math inline">\((X-\mu)^2\)</span>, su raíz cuadrada da una idea del tamaño típico de
+la desviación absoluta <span class="math inline">\(|X-\mu|\)</span>. Notemos que <span class="math inline">\(E(X)\)</span>, <span class="math inline">\(var(X)\)</span> y <span class="math inline">\(sd(X)\)</span> están
+determinados por <span class="math inline">\(X\)</span>, de tal manera que si dos variables aleatorias tienen la
+misma distribución, también tienen la misma media, varianza y desviación
+estándar.</p>
+
+</div>
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="probabilidad-definicion-matematica.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="bootstrap-no-parametrico.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/tereom/est-computacional-2019/edit/master/04_probabilidad.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
