@@ -516,7 +516,7 @@ ejemplo supongamos que se lanza un dardo a un tablero cuadrandgular de lado 2,
 ¿cuál es la probabilidad de que el dardo caiga en el círculo de radio 1 inscrito 
 en un cuadrado de lado 2?
 
-```{r, include=FALSE}
+```{r, eval=FALSE}
 tablero <- ggplot() + 
     ggforce::geom_circle(aes(x0 = 0, y0 = 0, r = 1)) +
     geom_rect(aes(xmin = -1, xmax = 1,   ymin = -1, ymax = 1), fill = "white", 
