@@ -1096,3 +1096,20 @@ Paralelizar usa varios _cores_  para trabajar de manera simultánea en varias
 secciones de un problema, no reduce el tiempo computacional pero incrementa el 
 tiempo del usuario pues aprovecha los recursos. Como referencia está 
 [Parallel Computing for Data Science] de Norm Matloff.
+
+### Lecturas y recursos recomendados de R
+
+Algunas recomendaciones para mejorar el flujo de trabajo y aprender nuevas
+herramientas de R son:
+
+* [What they forgot to teach you about R](https://whattheyforgot.org) de 
+Jenny Bryan y Jim Hester. Flujos de trabajo basados en proyectos que facilitan 
+el trabajo del analista.
+
+* [Good enough practices in scientific computing](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510), 
+Greg Wilson, Jennifer Bryan, et al. 
+
+* [Happy Git with R](https://happygitwithr.com), Jenny Bryan y Jim Hester.
+
+* [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/), 
+Yihui Xie, J. J. Allaire, Garrett Grolemund.
