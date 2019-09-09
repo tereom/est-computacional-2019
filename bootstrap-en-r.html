@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4.3 Iteración | Estadística Computacional</title>
+  <title>6.5 Bootstrap en R | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   <meta name="generator" content="bookdown 0.13.2 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4.3 Iteración | Estadística Computacional" />
+  <meta property="og:title" content="6.5 Bootstrap en R | Estadística Computacional" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="tereom/est-computacional-2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4.3 Iteración | Estadística Computacional" />
+  <meta name="twitter:title" content="6.5 Bootstrap en R | Estadística Computacional" />
   
   <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="vectores.html"/>
-<link rel="next" href="rendimiento-en-r.html"/>
+<link rel="prev" href="mas-alla-de-muestras-aleatorias-simples.html"/>
+<link rel="next" href="conclusiones-y-observaciones.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -267,211 +267,133 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="iteracion" class="section level2">
-<h2><span class="header-section-number">4.3</span> Iteración</h2>
-<p>En análisis de datos es común implementar rutinas iteraivas, esto es, cuando
-debemos aplicar los mismos pasos a distintas entradas. Veremos que hay dos
-paradigmas de iteración:</p>
+<div id="bootstrap-en-r" class="section level2">
+<h2><span class="header-section-number">6.5</span> Bootstrap en R</h2>
+<p>Es común crear nuestras porpias funciones cuando usamos bootstrap, sin embargo,
+en R también hay alternativas que pueden resultar convenientes, mencionamos 3:</p>
 <ol style="list-style-type: decimal">
-<li><p>Programación imperativa: ciclos <code>for</code> y ciclos <code>while</code>.</p></li>
-<li><p>Programación funcional: los ciclos se implmentan mediante funciones,</p></li>
+<li>El paquete <code>rsample</code> (forma parte de la colección <a href="https://www.tidyverse.org/articles/2018/08/tidymodels-0-0-1/">tidymodels</a>)
+y tiene una función <code>bootsrtraps()</code> que regresa un arreglo cuadrangular
+(<code>tibble</code>, <code>data.frame</code>) que incluye una columna con las muestras bootstrap y un
+identificador del número y tipo de muestra.</li>
 </ol>
-<p>La ventaja de la programación imperativa es que hacen la iteración de manera
-clara, sin embargo, veremos que una vez que nos familiarizamos con el paradigma
-de programación funcional, resulta en código más fácil de mantener y menos
-propenso a errores.</p>
-<div id="ciclos-for" class="section level3 unnumbered">
-<h3>Ciclos for</h3>
-<p>Supongamos que tenemos una base de datos y queremos calcular la media de sus
-columnas numéricas.</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb127-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">a =</span> <span class="kw">rnorm</span>(<span class="dv">10</span>), <span class="dt">b =</span> <span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">2</span>), <span class="dt">c =</span> <span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">3</span>), </a>
-<a class="sourceLine" id="cb127-2" data-line-number="2">    <span class="dt">d =</span> <span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">4</span>))</a>
-<a class="sourceLine" id="cb127-3" data-line-number="3">df</a>
-<a class="sourceLine" id="cb127-4" data-line-number="4"><span class="co">#&gt;    id           a         b         c        d</span></a>
-<a class="sourceLine" id="cb127-5" data-line-number="5"><span class="co">#&gt; 1   1 -0.09106974 3.1316970 1.5524429 3.890669</span></a>
-<a class="sourceLine" id="cb127-6" data-line-number="6"><span class="co">#&gt; 2   2  0.59335180 1.6750473 2.4839951 4.208494</span></a>
-<a class="sourceLine" id="cb127-7" data-line-number="7"><span class="co">#&gt; 3   3  0.37340784 2.6627255 2.8823414 4.558897</span></a>
-<a class="sourceLine" id="cb127-8" data-line-number="8"><span class="co">#&gt; 4   4 -0.24137666 0.4587353 3.8014011 2.355818</span></a>
-<a class="sourceLine" id="cb127-9" data-line-number="9"><span class="co">#&gt; 5   5 -0.53494975 1.5612779 2.0507393 3.022445</span></a>
-<a class="sourceLine" id="cb127-10" data-line-number="10"><span class="co">#&gt; 6   6 -0.26368884 3.2401406 2.7280984 4.124810</span></a>
-<a class="sourceLine" id="cb127-11" data-line-number="11"><span class="co">#&gt; 7   7  1.45821013 1.4666610 0.9953887 2.580550</span></a>
-<a class="sourceLine" id="cb127-12" data-line-number="12"><span class="co">#&gt; 8   8  0.85102446 3.7080059 3.2787138 3.642504</span></a>
-<a class="sourceLine" id="cb127-13" data-line-number="13"><span class="co">#&gt; 9   9  0.14584979 1.4234618 2.7913564 4.789051</span></a>
-<a class="sourceLine" id="cb127-14" data-line-number="14"><span class="co">#&gt; 10 10 -0.91608084 3.8442705 3.4068177 3.338610</span></a></code></pre></div>
-<p>Podemos crear el código para cada columna pero esto involucra <em>copy-paste</em> y
-no será muy práctico si aumenta el número de columnas:</p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" data-line-number="1"><span class="kw">mean</span>(df<span class="op">$</span>a)</a>
-<a class="sourceLine" id="cb128-2" data-line-number="2"><span class="co">#&gt; [1] 0.1374678</span></a>
-<a class="sourceLine" id="cb128-3" data-line-number="3"><span class="kw">mean</span>(df<span class="op">$</span>b)</a>
-<a class="sourceLine" id="cb128-4" data-line-number="4"><span class="co">#&gt; [1] 2.317202</span></a>
-<a class="sourceLine" id="cb128-5" data-line-number="5"><span class="kw">mean</span>(df<span class="op">$</span>c)</a>
-<a class="sourceLine" id="cb128-6" data-line-number="6"><span class="co">#&gt; [1] 2.597129</span></a>
-<a class="sourceLine" id="cb128-7" data-line-number="7"><span class="kw">mean</span>(df<span class="op">$</span>d)</a>
-<a class="sourceLine" id="cb128-8" data-line-number="8"><span class="co">#&gt; [1] 3.651185</span></a></code></pre></div>
-<p>Con un ciclo <code>for</code> sería:</p>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb129-1" data-line-number="1">salida &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="dv">4</span>)  </a>
-<a class="sourceLine" id="cb129-2" data-line-number="2"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>) {            </a>
-<a class="sourceLine" id="cb129-3" data-line-number="3">  salida[[i]] &lt;-<span class="st"> </span><span class="kw">mean</span>(df[[i <span class="op">+</span><span class="st"> </span><span class="dv">1</span>]])      </a>
-<a class="sourceLine" id="cb129-4" data-line-number="4">}</a>
-<a class="sourceLine" id="cb129-5" data-line-number="5">salida</a>
-<a class="sourceLine" id="cb129-6" data-line-number="6"><span class="co">#&gt; [1] 0.1374678 2.3172023 2.5971295 3.6511848</span></a></code></pre></div>
-<p>Los ciclos <code>for</code> tienen 3 componentes:</p>
-<ol style="list-style-type: decimal">
-<li><p>La salida: <code>salida &lt;- vector(&quot;double&quot;, 4)</code>. Es importante especificar el
-tamaño de la salida antes de iniciar el ciclo <code>for</code>, de lo contrario el código
-puede ser muy lento.</p></li>
-<li><p>La secuencia: determina sobre que será la iteración, la función <code>seq_along</code>
-puede resultar útil.</p></li>
+<p>Veamos un ejemplo donde seleccionamos muestras del conjunto de datos
+<code>muestra_computos</code> que contiene 10,000 observaciones.</p>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb234-1" data-line-number="1"><span class="kw">library</span>(rsample)</a>
+<a class="sourceLine" id="cb234-2" data-line-number="2"><span class="kw">library</span>(estcomp)</a>
+<a class="sourceLine" id="cb234-3" data-line-number="3">muestra_computos &lt;-<span class="st"> </span><span class="kw">sample_n</span>(election_<span class="dv">2012</span>, <span class="dv">10000</span>)</a>
+<a class="sourceLine" id="cb234-4" data-line-number="4">muestra_computos</a>
+<a class="sourceLine" id="cb234-5" data-line-number="5"><span class="co">#&gt; # A tibble: 10,000 x 23</span></a>
+<a class="sourceLine" id="cb234-6" data-line-number="6"><span class="co">#&gt;    state_code state_name state_abbr district_loc_17 district_fed_17</span></a>
+<a class="sourceLine" id="cb234-7" data-line-number="7"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;                &lt;int&gt;           &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb234-8" data-line-number="8"><span class="co">#&gt;  1 27         Tabasco    TAB                      5               5</span></a>
+<a class="sourceLine" id="cb234-9" data-line-number="9"><span class="co">#&gt;  2 15         México     MEX                     32              24</span></a>
+<a class="sourceLine" id="cb234-10" data-line-number="10"><span class="co">#&gt;  3 09         Ciudad de… CDMX                    20              17</span></a>
+<a class="sourceLine" id="cb234-11" data-line-number="11"><span class="co">#&gt;  4 21         Puebla     PUE                     16              12</span></a>
+<a class="sourceLine" id="cb234-12" data-line-number="12"><span class="co">#&gt;  5 12         Guerrero   GRO                     17               1</span></a>
+<a class="sourceLine" id="cb234-13" data-line-number="13"><span class="co">#&gt;  6 30         Veracruz   VER                      8               7</span></a>
+<a class="sourceLine" id="cb234-14" data-line-number="14"><span class="co">#&gt;  7 11         Guanajuato GTO                     18               7</span></a>
+<a class="sourceLine" id="cb234-15" data-line-number="15"><span class="co">#&gt;  8 12         Guerrero   GRO                      4               4</span></a>
+<a class="sourceLine" id="cb234-16" data-line-number="16"><span class="co">#&gt;  9 30         Veracruz   VER                     25              19</span></a>
+<a class="sourceLine" id="cb234-17" data-line-number="17"><span class="co">#&gt; 10 15         México     MEX                     29              15</span></a>
+<a class="sourceLine" id="cb234-18" data-line-number="18"><span class="co">#&gt; # … with 9,990 more rows, and 18 more variables: polling_id &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb234-19" data-line-number="19"><span class="co">#&gt; #   section &lt;int&gt;, region &lt;chr&gt;, polling_type &lt;chr&gt;, section_type &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb234-20" data-line-number="20"><span class="co">#&gt; #   pri_pvem &lt;int&gt;, pan &lt;int&gt;, panal &lt;int&gt;, prd_pt_mc &lt;int&gt;, otros &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb234-21" data-line-number="21"><span class="co">#&gt; #   total &lt;int&gt;, nominal_list &lt;int&gt;, pri_pvem_pct &lt;dbl&gt;, pan_pct &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb234-22" data-line-number="22"><span class="co">#&gt; #   panal_pct &lt;dbl&gt;, prd_pt_mc_pct &lt;dbl&gt;, otros_pct &lt;dbl&gt;, winner &lt;chr&gt;</span></a></code></pre></div>
+<p>Generamos 100 muestras bootstrap, y la función nos regresa un arreglo con 100
+renglones, cada uno corresponde a una muestra bootstrap.</p>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb235-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">839287482</span>)</a>
+<a class="sourceLine" id="cb235-2" data-line-number="2">computos_boot &lt;-<span class="st"> </span><span class="kw">bootstraps</span>(muestra_computos, <span class="dt">times =</span> <span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb235-3" data-line-number="3">computos_boot</a>
+<a class="sourceLine" id="cb235-4" data-line-number="4"><span class="co">#&gt; # Bootstrap sampling </span></a>
+<a class="sourceLine" id="cb235-5" data-line-number="5"><span class="co">#&gt; # A tibble: 100 x 2</span></a>
+<a class="sourceLine" id="cb235-6" data-line-number="6"><span class="co">#&gt;    splits             id          </span></a>
+<a class="sourceLine" id="cb235-7" data-line-number="7"><span class="co">#&gt;    &lt;list&gt;             &lt;chr&gt;       </span></a>
+<a class="sourceLine" id="cb235-8" data-line-number="8"><span class="co">#&gt;  1 &lt;split [10K/3.6K]&gt; Bootstrap001</span></a>
+<a class="sourceLine" id="cb235-9" data-line-number="9"><span class="co">#&gt;  2 &lt;split [10K/3.6K]&gt; Bootstrap002</span></a>
+<a class="sourceLine" id="cb235-10" data-line-number="10"><span class="co">#&gt;  3 &lt;split [10K/3.7K]&gt; Bootstrap003</span></a>
+<a class="sourceLine" id="cb235-11" data-line-number="11"><span class="co">#&gt;  4 &lt;split [10K/3.7K]&gt; Bootstrap004</span></a>
+<a class="sourceLine" id="cb235-12" data-line-number="12"><span class="co">#&gt;  5 &lt;split [10K/3.7K]&gt; Bootstrap005</span></a>
+<a class="sourceLine" id="cb235-13" data-line-number="13"><span class="co">#&gt;  6 &lt;split [10K/3.7K]&gt; Bootstrap006</span></a>
+<a class="sourceLine" id="cb235-14" data-line-number="14"><span class="co">#&gt;  7 &lt;split [10K/3.7K]&gt; Bootstrap007</span></a>
+<a class="sourceLine" id="cb235-15" data-line-number="15"><span class="co">#&gt;  8 &lt;split [10K/3.7K]&gt; Bootstrap008</span></a>
+<a class="sourceLine" id="cb235-16" data-line-number="16"><span class="co">#&gt;  9 &lt;split [10K/3.6K]&gt; Bootstrap009</span></a>
+<a class="sourceLine" id="cb235-17" data-line-number="17"><span class="co">#&gt; 10 &lt;split [10K/3.7K]&gt; Bootstrap010</span></a>
+<a class="sourceLine" id="cb235-18" data-line-number="18"><span class="co">#&gt; # … with 90 more rows</span></a></code></pre></div>
+<p>La columna <code>splits</code> tiene información de las muestras seleccionadas, para la
+primera vemos que de 10,000 observaciones en la muestra original la primera
+muestra bootstrap contiene 10000-3647=6353.</p>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb236-1" data-line-number="1">first_computos_boot &lt;-<span class="st"> </span>computos_boot<span class="op">$</span>splits[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb236-2" data-line-number="2">first_computos_boot </a>
+<a class="sourceLine" id="cb236-3" data-line-number="3"><span class="co">#&gt; &lt;10000/3647/10000&gt;</span></a></code></pre></div>
+<p>Y podemos obtener los datos de la muestra bootstrap con la función
+<code>as.data.frame()</code></p>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb237-1" data-line-number="1"><span class="kw">as.data.frame</span>(first_computos_boot)</a>
+<a class="sourceLine" id="cb237-2" data-line-number="2"><span class="co">#&gt; # A tibble: 10,000 x 23</span></a>
+<a class="sourceLine" id="cb237-3" data-line-number="3"><span class="co">#&gt;    state_code state_name state_abbr district_loc_17 district_fed_17</span></a>
+<a class="sourceLine" id="cb237-4" data-line-number="4"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;                &lt;int&gt;           &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb237-5" data-line-number="5"><span class="co">#&gt;  1 01         Aguascali… AGS                     18               3</span></a>
+<a class="sourceLine" id="cb237-6" data-line-number="6"><span class="co">#&gt;  2 15         México     MEX                     17              18</span></a>
+<a class="sourceLine" id="cb237-7" data-line-number="7"><span class="co">#&gt;  3 02         Baja Cali… BC                      10               6</span></a>
+<a class="sourceLine" id="cb237-8" data-line-number="8"><span class="co">#&gt;  4 16         Michoacán  MICH                     8               2</span></a>
+<a class="sourceLine" id="cb237-9" data-line-number="9"><span class="co">#&gt;  5 09         Ciudad de… CDMX                     7               9</span></a>
+<a class="sourceLine" id="cb237-10" data-line-number="10"><span class="co">#&gt;  6 05         Coahuila   COAH                    15               7</span></a>
+<a class="sourceLine" id="cb237-11" data-line-number="11"><span class="co">#&gt;  7 26         Sonora     SON                     20               7</span></a>
+<a class="sourceLine" id="cb237-12" data-line-number="12"><span class="co">#&gt;  8 09         Ciudad de… CDMX                     4               2</span></a>
+<a class="sourceLine" id="cb237-13" data-line-number="13"><span class="co">#&gt;  9 30         Veracruz   VER                     14              12</span></a>
+<a class="sourceLine" id="cb237-14" data-line-number="14"><span class="co">#&gt; 10 30         Veracruz   VER                     24              19</span></a>
+<a class="sourceLine" id="cb237-15" data-line-number="15"><span class="co">#&gt; # … with 9,990 more rows, and 18 more variables: polling_id &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb237-16" data-line-number="16"><span class="co">#&gt; #   section &lt;int&gt;, region &lt;chr&gt;, polling_type &lt;chr&gt;, section_type &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb237-17" data-line-number="17"><span class="co">#&gt; #   pri_pvem &lt;int&gt;, pan &lt;int&gt;, panal &lt;int&gt;, prd_pt_mc &lt;int&gt;, otros &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb237-18" data-line-number="18"><span class="co">#&gt; #   total &lt;int&gt;, nominal_list &lt;int&gt;, pri_pvem_pct &lt;dbl&gt;, pan_pct &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb237-19" data-line-number="19"><span class="co">#&gt; #   panal_pct &lt;dbl&gt;, prd_pt_mc_pct &lt;dbl&gt;, otros_pct &lt;dbl&gt;, winner &lt;chr&gt;</span></a></code></pre></div>
+<p>Una de las principales ventajas de usar este paquete es que es eficiente en
+el uso de memoria.</p>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb238-1" data-line-number="1"><span class="kw">library</span>(pryr)</a>
+<a class="sourceLine" id="cb238-2" data-line-number="2"><span class="co">#&gt; Registered S3 method overwritten by &#39;pryr&#39;:</span></a>
+<a class="sourceLine" id="cb238-3" data-line-number="3"><span class="co">#&gt;   method      from</span></a>
+<a class="sourceLine" id="cb238-4" data-line-number="4"><span class="co">#&gt;   print.bytes Rcpp</span></a>
+<a class="sourceLine" id="cb238-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb238-6" data-line-number="6"><span class="co">#&gt; Attaching package: &#39;pryr&#39;</span></a>
+<a class="sourceLine" id="cb238-7" data-line-number="7"><span class="co">#&gt; The following objects are masked from &#39;package:purrr&#39;:</span></a>
+<a class="sourceLine" id="cb238-8" data-line-number="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb238-9" data-line-number="9"><span class="co">#&gt;     compose, partial</span></a>
+<a class="sourceLine" id="cb238-10" data-line-number="10"><span class="kw">object_size</span>(muestra_computos)</a>
+<a class="sourceLine" id="cb238-11" data-line-number="11"><span class="co">#&gt; 1.41 MB</span></a>
+<a class="sourceLine" id="cb238-12" data-line-number="12"><span class="kw">object_size</span>(computos_boot)</a>
+<a class="sourceLine" id="cb238-13" data-line-number="13"><span class="co">#&gt; 5.49 MB</span></a>
+<a class="sourceLine" id="cb238-14" data-line-number="14"><span class="co"># tamaño por muestra</span></a>
+<a class="sourceLine" id="cb238-15" data-line-number="15"><span class="kw">object_size</span>(computos_boot)<span class="op">/</span><span class="kw">nrow</span>(computos_boot)</a>
+<a class="sourceLine" id="cb238-16" data-line-number="16"><span class="co">#&gt; 54.9 kB</span></a>
+<a class="sourceLine" id="cb238-17" data-line-number="17"><span class="co"># el incremento en tamaño es &lt;&lt; 100</span></a>
+<a class="sourceLine" id="cb238-18" data-line-number="18"><span class="kw">as.numeric</span>(<span class="kw">object_size</span>(computos_boot)<span class="op">/</span><span class="kw">object_size</span>(muestra_computos))</a>
+<a class="sourceLine" id="cb238-19" data-line-number="19"><span class="co">#&gt; [1] 3.894717</span></a></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>El paquete <code>boot</code> está asociado al libro <em>Bootstrap Methods and Their
+Applications</em> (<span class="citation">Davison and Hinkley (<a href="#ref-davison">1997</a>)</span>) y tiene, entre otras, funciones para calcular
+replicaciones bootstrap y para construir intervalos de confianza usando bootstrap:
+<ul>
+<li>calculo de replicaciones bootstrap con la función <code>boot()</code>,</li>
+<li>intervalos normales, de percentiles y <span class="math inline">\(BC_a\)</span> con la función <code>boot.ci()</code>,</li>
+<li>intevalos ABC con la función `abc.ci().</li>
+</ul></li>
+<li>El paquete <code>bootstrap</code> contiene datos usados en <span class="citation">Efron and Tibshirani (<a href="#ref-efron">1993</a>)</span>, y la implementación
+de funciones para calcular replicaciones y construir intervalos de confianza:
+<ul>
+<li>calculo de replicaciones bootstrap con la función <code>bootstrap()</code>,</li>
+<li>intervalos <span class="math inline">\(BC_a\)</span> con la función <code>bcanon()</code>,</li>
+<li>intevalos ABC con la función `abcnon().</li>
+</ul></li>
 </ol>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" data-line-number="1">salida &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="dv">5</span>)  </a>
-<a class="sourceLine" id="cb130-2" data-line-number="2"><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(df)) {            </a>
-<a class="sourceLine" id="cb130-3" data-line-number="3">  salida[[i]] &lt;-<span class="st"> </span><span class="kw">mean</span>(df[[i]])      </a>
-<a class="sourceLine" id="cb130-4" data-line-number="4">}</a>
-<a class="sourceLine" id="cb130-5" data-line-number="5"><span class="kw">seq_along</span>(df)</a>
-<a class="sourceLine" id="cb130-6" data-line-number="6"><span class="co">#&gt; [1] 1 2 3 4 5</span></a></code></pre></div>
-<ol start="3" style="list-style-type: decimal">
-<li>El cuerpo: <code>salida[[i]] &lt;- mean(df[[i]])</code>, el código que calcula lo que nos
-interesa sobre cada objeto en la iteración.</li>
-</ol>
-<p><img src="img/manicule2.jpg" /> Calcula el valor máximo de cada columna numérica de los
-datos de ENLACE 3o de primaria <code>enlacep_2013_3</code>.</p>
-<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb131-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
-<a class="sourceLine" id="cb131-2" data-line-number="2"><span class="kw">head</span>(enlacep_<span class="dv">2013</span>_<span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb131-3" data-line-number="3"><span class="co">#&gt; # A tibble: 6 x 6</span></a>
-<a class="sourceLine" id="cb131-4" data-line-number="4"><span class="co">#&gt;   CVE_ENT PUNT_ESP_3 PUNT_MAT_3 PUNT_FCE_3 ALUM_NOCONFIABLE_3 ALUM_EVAL_3</span></a>
-<a class="sourceLine" id="cb131-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;        &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;              &lt;dbl&gt;       &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb131-6" data-line-number="6"><span class="co">#&gt; 1 01             513        536        459                  0          40</span></a>
-<a class="sourceLine" id="cb131-7" data-line-number="7"><span class="co">#&gt; 2 01             472        472        404                  2          36</span></a>
-<a class="sourceLine" id="cb131-8" data-line-number="8"><span class="co">#&gt; 3 01             496        526        426                  0          96</span></a>
-<a class="sourceLine" id="cb131-9" data-line-number="9"><span class="co">#&gt; 4 01             543        586        495                  5          74</span></a>
-<a class="sourceLine" id="cb131-10" data-line-number="10"><span class="co">#&gt; 5 01             554        560        506                  0          30</span></a>
-<a class="sourceLine" id="cb131-11" data-line-number="11"><span class="co">#&gt; 6 01             505        546        460                  0          67</span></a></code></pre></div>
-<ul>
-<li>Recordando la limpieza de datos de la sección anterior en uno de los
-últimos ejercicios leíamos archivos de manera iteativa. En este ejercicio
-descargaremos un archivo zip con archivos csv que contienen información
-de monitoreo de contaminantes en ciudad de México (<a href="http://www.aire.cdmx.gob.mx/default.php?opc=%27aKBh%27">RAMA</a>), en particular
-PM2.5. Y juntaremos la información en una sola tabla, la siguiente instrucción
-descarga los datos en una carpeta <code>data</code>.</li>
-</ul>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" data-line-number="1"><span class="kw">library</span>(usethis)</a>
-<a class="sourceLine" id="cb132-2" data-line-number="2"><span class="kw">use_directory</span>(<span class="st">&quot;data&quot;</span>) <span class="co"># crea carpeta en caso de que no exista ya</span></a>
-<a class="sourceLine" id="cb132-3" data-line-number="3">usethis<span class="op">::</span><span class="kw">use_zip</span>(<span class="st">&quot;https://github.com/tereom/estcomp/raw/master/data-raw/19RAMA.zip&quot;</span>, </a>
-<a class="sourceLine" id="cb132-4" data-line-number="4">    <span class="st">&quot;data&quot;</span>) <span class="co"># descargar y descomprimir zip</span></a></code></pre></div>
-<ul>
-<li>Enlistamos los archivos xls en la carpeta.</li>
-</ul>
-<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb133-1" data-line-number="1">paths &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="st">&quot;data/19RAMA&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.xls$&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<p><img src="img/manicule2.jpg" /> Tu turno, implementa un ciclo <code>for</code> para leer los
-archivos y crear una única tabla de datos. Si <em>pegas</em> los data.frames de manera
-iterativa sugerimos usar la función <code>bind_rows()</code>.</p>
-<div id="programacion-funcional" class="section level4 unnumbered">
-<h4>Programación funcional</h4>
-<p>Ahora veremos como abordar iteración usando programación funcional.</p>
-<p>Regresando al ejemplo inicial de calcular la media de las columnas de una
-tabla de datos:</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb134-1" data-line-number="1">salida &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="dv">4</span>) </a>
-<a class="sourceLine" id="cb134-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb134-3" data-line-number="3"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>) {            </a>
-<a class="sourceLine" id="cb134-4" data-line-number="4">  salida[[i]] &lt;-<span class="st"> </span><span class="kw">mean</span>(df[[i <span class="op">+</span><span class="st"> </span><span class="dv">1</span>]])      </a>
-<a class="sourceLine" id="cb134-5" data-line-number="5">}</a>
-<a class="sourceLine" id="cb134-6" data-line-number="6">salida</a>
-<a class="sourceLine" id="cb134-7" data-line-number="7"><span class="co">#&gt; [1] 0.1374678 2.3172023 2.5971295 3.6511848</span></a></code></pre></div>
-<p>Podemos crear una función que calcula la media de las columnas de un
-<code>data.frame</code>:</p>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" data-line-number="1">col_media &lt;-<span class="st"> </span><span class="cf">function</span>(df) {</a>
-<a class="sourceLine" id="cb135-2" data-line-number="2">  salida &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="kw">length</span>(df))</a>
-<a class="sourceLine" id="cb135-3" data-line-number="3">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(df)) {</a>
-<a class="sourceLine" id="cb135-4" data-line-number="4">    salida[i] &lt;-<span class="st"> </span><span class="kw">mean</span>(df[[i]])</a>
-<a class="sourceLine" id="cb135-5" data-line-number="5">  }</a>
-<a class="sourceLine" id="cb135-6" data-line-number="6">  salida</a>
-<a class="sourceLine" id="cb135-7" data-line-number="7">}</a>
-<a class="sourceLine" id="cb135-8" data-line-number="8"><span class="kw">col_media</span>(df)</a>
-<a class="sourceLine" id="cb135-9" data-line-number="9"><span class="co">#&gt; [1] 5.5000000 0.1374678 2.3172023 2.5971295 3.6511848</span></a>
-<a class="sourceLine" id="cb135-10" data-line-number="10"><span class="kw">col_media</span>(<span class="kw">select</span>(iris, <span class="op">-</span>Species))</a>
-<a class="sourceLine" id="cb135-11" data-line-number="11"><span class="co">#&gt; [1] 5.843333 3.057333 3.758000 1.199333</span></a></code></pre></div>
-<p>Y podemos extender a crear más funciones que describan los datos:</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb136-1" data-line-number="1">col_mediana &lt;-<span class="st"> </span><span class="cf">function</span>(df) {</a>
-<a class="sourceLine" id="cb136-2" data-line-number="2">  salida &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="kw">length</span>(df))</a>
-<a class="sourceLine" id="cb136-3" data-line-number="3">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(df)) {</a>
-<a class="sourceLine" id="cb136-4" data-line-number="4">    salida[i] &lt;-<span class="st"> </span><span class="kw">median</span>(df[[i]])</a>
-<a class="sourceLine" id="cb136-5" data-line-number="5">  }</a>
-<a class="sourceLine" id="cb136-6" data-line-number="6">  salida</a>
-<a class="sourceLine" id="cb136-7" data-line-number="7">}</a>
-<a class="sourceLine" id="cb136-8" data-line-number="8">col_sd &lt;-<span class="st"> </span><span class="cf">function</span>(df) {</a>
-<a class="sourceLine" id="cb136-9" data-line-number="9">  salida &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="kw">length</span>(df))</a>
-<a class="sourceLine" id="cb136-10" data-line-number="10">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(df)) {</a>
-<a class="sourceLine" id="cb136-11" data-line-number="11">    salida[i] &lt;-<span class="st"> </span><span class="kw">sd</span>(df[[i]])</a>
-<a class="sourceLine" id="cb136-12" data-line-number="12">  }</a>
-<a class="sourceLine" id="cb136-13" data-line-number="13">  salida</a>
-<a class="sourceLine" id="cb136-14" data-line-number="14">}</a></code></pre></div>
-<p>Podemos hacer nuestro código más general y compacto escribiendo una función
-que reciba los datos sobre los que queremos iterar y la función que queremos
-aplicar:</p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" data-line-number="1">col_describe &lt;-<span class="st"> </span><span class="cf">function</span>(df, fun) {</a>
-<a class="sourceLine" id="cb137-2" data-line-number="2">  salida &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="kw">length</span>(df))</a>
-<a class="sourceLine" id="cb137-3" data-line-number="3">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(df)) {</a>
-<a class="sourceLine" id="cb137-4" data-line-number="4">    salida[i] &lt;-<span class="st"> </span><span class="kw">fun</span>(df[[i]])</a>
-<a class="sourceLine" id="cb137-5" data-line-number="5">  }</a>
-<a class="sourceLine" id="cb137-6" data-line-number="6">  salida</a>
-<a class="sourceLine" id="cb137-7" data-line-number="7">}</a>
-<a class="sourceLine" id="cb137-8" data-line-number="8"><span class="kw">col_describe</span>(df, median)</a>
-<a class="sourceLine" id="cb137-9" data-line-number="9"><span class="co">#&gt; [1] 5.50000000 0.02739002 2.16888642 2.75972741 3.76658635</span></a>
-<a class="sourceLine" id="cb137-10" data-line-number="10"><span class="kw">col_describe</span>(df, mean)</a>
-<a class="sourceLine" id="cb137-11" data-line-number="11"><span class="co">#&gt; [1] 5.5000000 0.1374678 2.3172023 2.5971295 3.6511848</span></a></code></pre></div>
-<p>Ahora utilizaremos esta idea de pasar funciones a funciones para eliminar los
-ciclos <code>for</code>.</p>
-<p>La iteración a través de funciones es muy común en R, hay funciones para hacer
-esto en R base (<code>lapply()</code>, <code>apply()</code>, <code>sapply()</code>). Nosotros utilizaremos las
-funciones del paquete <code>purrr</code>,</p>
-<p>La familia de funciones del paquete iteran siempre sobre un vector (vector
-atómico o lista), aplican una
-función a cada parte y regresan un nuevo vector de la misma longitud que el
-vector entrada. Cada función especifica en su nombre el tipo de salida:</p>
-<ul>
-<li><code>map()</code> devuelve una lista.</li>
-<li><code>map_lgl()</code> devuelve un vector lógico.</li>
-<li><code>map_int()</code> devuelve un vector entero.</li>
-<li><code>map_dbl()</code> devuelve un vector double.</li>
-<li><code>map_chr()</code> devuelve un vector caracter.</li>
-<li><code>map_df()</code> devuelve un data.frame.</li>
-</ul>
-<p>En el ejemplo de las medias, <code>map</code> puede recibir un <code>data.frame</code> (lista de
-vectores) y aplicará las funciones a las columnas del mismo.</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb138-1" data-line-number="1"><span class="kw">library</span>(purrr)</a>
-<a class="sourceLine" id="cb138-2" data-line-number="2"><span class="kw">map_dbl</span>(df, mean)</a>
-<a class="sourceLine" id="cb138-3" data-line-number="3"><span class="co">#&gt;        id         a         b         c         d </span></a>
-<a class="sourceLine" id="cb138-4" data-line-number="4"><span class="co">#&gt; 5.5000000 0.1374678 2.3172023 2.5971295 3.6511848</span></a>
-<a class="sourceLine" id="cb138-5" data-line-number="5"><span class="kw">map_dbl</span>(<span class="kw">select</span>(iris, <span class="op">-</span>Species), median)</a>
-<a class="sourceLine" id="cb138-6" data-line-number="6"><span class="co">#&gt; Sepal.Length  Sepal.Width Petal.Length  Petal.Width </span></a>
-<a class="sourceLine" id="cb138-7" data-line-number="7"><span class="co">#&gt;         5.80         3.00         4.35         1.30</span></a></code></pre></div>
-<p>Usaremos <code>map</code> para ajustar un modelo lineal a subconjuntos de los datos
-<code>mtcars</code> determinados por el cilindraje del motor.</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb139-1" data-line-number="1">models &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb139-2" data-line-number="2"><span class="st">  </span><span class="kw">split</span>(.<span class="op">$</span>cyl) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb139-3" data-line-number="3"><span class="st">  </span><span class="kw">map</span>(<span class="cf">function</span>(df) <span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>wt, <span class="dt">data =</span> df))</a></code></pre></div>
-<p>Podemos usar la notación <code>.</code> para hacer código más corto:</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb140-1" data-line-number="1">models &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb140-2" data-line-number="2"><span class="st">  </span><span class="kw">split</span>(.<span class="op">$</span>cyl) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb140-3" data-line-number="3"><span class="st">  </span><span class="kw">map</span>(<span class="op">~</span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>wt, <span class="dt">data =</span> .))</a></code></pre></div>
-<p>Usemos <code>map_**</code> para unir tablas de datos que están almacenadas en múltiples
-archivos csv.</p>
-<p>En este caso es más apropiado usar map_df</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb141-1" data-line-number="1"><span class="kw">library</span>(readxl)</a>
-<a class="sourceLine" id="cb141-2" data-line-number="2">rama &lt;-<span class="st"> </span><span class="kw">map_df</span>(paths, read_excel, <span class="dt">.id =</span> <span class="st">&quot;FILENAME&quot;</span>)</a></code></pre></div>
 </div>
-<div id="ejercicio-1" class="section level4 unnumbered">
-<h4>Ejercicio</h4>
-<ul>
-<li><p>Usa la función <code>map_**</code> para calcular el número de valores únicos en las
-columnas de <code>iris</code>.</p></li>
-<li><p>Usa la función <code>map_**</code> para extraer el coeficiete de la variable <code>wt</code> para
-cada modelo:</p></li>
-</ul>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" data-line-number="1">models[[<span class="dv">1</span>]]<span class="op">$</span>coefficients[<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb142-2" data-line-number="2"><span class="co">#&gt;        wt </span></a>
-<a class="sourceLine" id="cb142-3" data-line-number="3"><span class="co">#&gt; -5.647025</span></a></code></pre></div>
+<h3>Referencias</h3>
+<div id="refs" class="references">
+<div id="ref-davison">
+<p>Davison, A. C., and D. V. Hinkley. 1997. <em>Bootstrap Methods and Their Applications</em>. Cambridge: Cambridge University Press. <a href="http://statwww.epfl.ch/davison/BMA/" class="uri">http://statwww.epfl.ch/davison/BMA/</a>.</p>
 </div>
+<div id="ref-efron">
+<p>Efron, Bradley, and Robert J. Tibshirani. 1993. <em>An Introduction to the Bootstrap</em>. Monographs on Statistics and Applied Probability 57. Boca Raton, Florida, USA: Chapman &amp; Hall/CRC.</p>
 </div>
 </div>
             </section>
@@ -479,8 +401,8 @@ cada modelo:</p></li>
           </div>
         </div>
       </div>
-<a href="vectores.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="rendimiento-en-r.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="mas-alla-de-muestras-aleatorias-simples.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="conclusiones-y-observaciones.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -510,7 +432,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2019/edit/master/03-temas_selectos_r.Rmd",
+"link": "https://github.com/tereom/est-computacional-2019/edit/master/05-bootstrap_no_parametrico.Rmd",
 "text": "Edit"
 },
 "history": {

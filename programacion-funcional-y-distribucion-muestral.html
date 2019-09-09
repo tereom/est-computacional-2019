@@ -204,6 +204,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.4" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html"><i class="fa fa-check"></i><b>4.4</b> Rendimiento en R</a><ul>
 <li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#diagnosticar"><i class="fa fa-check"></i>Diagnosticar</a></li>
 <li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#estrategias-para-mejorar-desempeno"><i class="fa fa-check"></i>Estrategias para mejorar desempeño</a></li>
+<li class="chapter" data-level="4.4.1" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#lecturas-y-recursos-recomendados-de-r"><i class="fa fa-check"></i><b>4.4.1</b> Lecturas y recursos recomendados de R</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="introduccion-a-calculo-de-probabilidades.html"><a href="introduccion-a-calculo-de-probabilidades.html"><i class="fa fa-check"></i><b>5</b> Introducción a Cálculo de Probabilidades</a><ul>
@@ -235,6 +236,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="el-estimador-bootstrap-del-error-estandar.html"><a href="el-estimador-bootstrap-del-error-estandar.html#variacion-en-distribuciones-bootstrap"><i class="fa fa-check"></i>Variación en distribuciones bootstrap</a></li>
 </ul></li>
 <li class="chapter" data-level="6.3" data-path="intervalos-de-confianza.html"><a href="intervalos-de-confianza.html"><i class="fa fa-check"></i><b>6.3</b> Intervalos de confianza</a></li>
+<li class="chapter" data-level="6.4" data-path="mas-alla-de-muestras-aleatorias-simples.html"><a href="mas-alla-de-muestras-aleatorias-simples.html"><i class="fa fa-check"></i><b>6.4</b> Más alla de muestras aleatorias simples</a></li>
+<li class="chapter" data-level="6.5" data-path="bootstrap-en-r.html"><a href="bootstrap-en-r.html"><i class="fa fa-check"></i><b>6.5</b> Bootstrap en R</a></li>
+<li class="chapter" data-level="6.6" data-path="conclusiones-y-observaciones.html"><a href="conclusiones-y-observaciones.html"><i class="fa fa-check"></i><b>6.6</b> Conclusiones y observaciones</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalacion-y-visualizacion.html"><a href="instalacion-y-visualizacion.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -277,10 +281,10 @@ identificador de las estaciones.</li>
 <li>La siguiente instrucción descarga los datos si trabajas con proyectos de
 RStudio, también puedes descargar el zip manualmente.</li>
 </ul>
-<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb216-1" data-line-number="1"><span class="kw">library</span>(usethis)</a>
-<a class="sourceLine" id="cb216-2" data-line-number="2"><span class="kw">use_directory</span>(<span class="st">&quot;data&quot;</span>) </a>
-<a class="sourceLine" id="cb216-3" data-line-number="3"><span class="kw">use_zip</span>(<span class="st">&quot;https://d396qusza40orc.cloudfront.net/rprog%2Fdata%2Fspecdata.zip&quot;</span>, </a>
-<a class="sourceLine" id="cb216-4" data-line-number="4">    <span class="dt">destdir =</span> <span class="st">&quot;data&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb244-1" data-line-number="1"><span class="kw">library</span>(usethis)</a>
+<a class="sourceLine" id="cb244-2" data-line-number="2"><span class="kw">use_directory</span>(<span class="st">&quot;data&quot;</span>) </a>
+<a class="sourceLine" id="cb244-3" data-line-number="3"><span class="kw">use_zip</span>(<span class="st">&quot;https://d396qusza40orc.cloudfront.net/rprog%2Fdata%2Fspecdata.zip&quot;</span>, </a>
+<a class="sourceLine" id="cb244-4" data-line-number="4">    <span class="dt">destdir =</span> <span class="st">&quot;data&quot;</span>)</a></code></pre></div>
 <ul>
 <li>Crea un vector con las direcciones de los archivos.<br />
 </li>
@@ -296,14 +300,14 @@ la estación.</li>
 <li>Consideramos los datos de ENLACE edo. de México
 (<code>enlace</code>), y la columna de calificaciones de español 3<sup>o</sup> de primaria (<code>esp_3</code>).</li>
 </ol>
-<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
-<a class="sourceLine" id="cb217-2" data-line-number="2">enlace &lt;-<span class="st"> </span>enlacep_<span class="dv">2013</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb217-3" data-line-number="3"><span class="st">    </span>janitor<span class="op">::</span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb217-4" data-line-number="4"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb217-5" data-line-number="5"><span class="st">    </span><span class="kw">select</span>(id, cve_ent, turno, tipo, <span class="dt">esp_3 =</span> punt_esp_<span class="dv">3</span>, <span class="dt">esp_6 =</span> punt_esp_<span class="dv">6</span>, </a>
-<a class="sourceLine" id="cb217-6" data-line-number="6">        <span class="dt">n_eval_3 =</span> alum_eval_<span class="dv">3</span>, <span class="dt">n_eval_6 =</span> alum_eval_<span class="dv">6</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb217-7" data-line-number="7"><span class="st">    </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb217-8" data-line-number="8"><span class="st">    </span><span class="kw">filter</span>(esp_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, esp_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, cve_ent <span class="op">==</span><span class="st"> &quot;15&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb245-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
+<a class="sourceLine" id="cb245-2" data-line-number="2">enlace &lt;-<span class="st"> </span>enlacep_<span class="dv">2013</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb245-3" data-line-number="3"><span class="st">    </span>janitor<span class="op">::</span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb245-4" data-line-number="4"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb245-5" data-line-number="5"><span class="st">    </span><span class="kw">select</span>(id, cve_ent, turno, tipo, <span class="dt">esp_3 =</span> punt_esp_<span class="dv">3</span>, <span class="dt">esp_6 =</span> punt_esp_<span class="dv">6</span>, </a>
+<a class="sourceLine" id="cb245-6" data-line-number="6">        <span class="dt">n_eval_3 =</span> alum_eval_<span class="dv">3</span>, <span class="dt">n_eval_6 =</span> alum_eval_<span class="dv">6</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb245-7" data-line-number="7"><span class="st">    </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb245-8" data-line-number="8"><span class="st">    </span><span class="kw">filter</span>(esp_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, esp_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, cve_ent <span class="op">==</span><span class="st"> &quot;15&quot;</span>)</a></code></pre></div>
 <ul>
 <li><p>Selecciona una muestra de tamaño <span class="math inline">\(n = 10, 100, 1000\)</span>. Para cada muestra
 calcula media y el error estándar de la media usando el principio del <em>plug-in</em>:
@@ -319,10 +323,10 @@ estándar de las medias del paso ii. Tip: Escribe una función que dependa del
 tamaño de muestra y usa la función <code>rerun()</code> del paquete <code>purrr</code> para hacer las
 <span class="math inline">\(10,000\)</span> simulaciones.</li>
 </ol>
-<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb218-1" data-line-number="1">simula_media &lt;-<span class="st"> </span><span class="cf">function</span>(n) {</a>
-<a class="sourceLine" id="cb218-2" data-line-number="2">    </a>
-<a class="sourceLine" id="cb218-3" data-line-number="3">}</a>
-<a class="sourceLine" id="cb218-4" data-line-number="4">medias_<span class="dv">10</span> &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">10000</span>, <span class="kw">simula_media</span>(<span class="dt">n =</span> <span class="dv">10</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb246-1" data-line-number="1">simula_media &lt;-<span class="st"> </span><span class="cf">function</span>(n) {</a>
+<a class="sourceLine" id="cb246-2" data-line-number="2">    </a>
+<a class="sourceLine" id="cb246-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb246-4" data-line-number="4">medias_<span class="dv">10</span> &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">10000</span>, <span class="kw">simula_media</span>(<span class="dt">n =</span> <span class="dv">10</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a></code></pre></div>
 <ul>
 <li><p>Calcula el error estándar de la media para cada tamaño de muestra usando la
 información poblacional (ésta no es una aproximación), usa la fórmula:
