@@ -1097,7 +1097,7 @@ secciones de un problema, no reduce el tiempo computacional pero incrementa el
 tiempo del usuario pues aprovecha los recursos. Como referencia está 
 [Parallel Computing for Data Science] de Norm Matloff.
 
-### Lecturas y recursos recomendados de R
+## Lecturas y recursos recomendados de R
 
 Algunas recomendaciones para mejorar el flujo de trabajo y aprender nuevas
 herramientas de R son:
