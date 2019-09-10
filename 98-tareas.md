@@ -255,4 +255,125 @@ $se_P(\bar{x}) = \sigma_P/ \sqrt{n}$.
 - ¿Cómo se comparan los errores estándar correspondientes a los distintos 
 tamaños de muestra? 
   
+## 5. Bootstrap {-}
+
+**Conteo rápido**
+
+En México, las elecciones tienen lugar un domingo, los resultados oficiales 
+del proceso se presentan a la población una semana después. A fin de evitar 
+proclamaciones de victoria injustificadas durante ese periodo el INE organiza un 
+conteo rápido.
+El conteo rápido es un procedimiento para estimar, a partir de una muestra 
+aleatoria de casillas, el porcentaje de votos a favor de los candidatos 
+en la elección. 
+
+En este ejercicio deberás crear intervalos de confianza para la proporción de
+votos que recibió cada candidato en las elecciones de 2006. La inferencia se 
+hará a partir de una muestra de las casillas similar a la que se utilizó para el 
+conteo rápido de 2006.
+
+El diseño utilizado es *muestreo estratificado simple*, lo que quiere decir que:
+
+i) se particionan las casillas de la pablación en estratos (cada casilla
+pertenece a exactamente un estrato), y 
+
+ii) dentro de cada estrato se usa *muestreo aleatorio* para seleccionar las 
+casillas que estarán en la muestra. 
+
+En este ejercicio (similar al conteo rápido de 2006):
+
+* Se seleccionó una muestra de $7,200$ casillas
+
+* La muestra se repartió a lo largo de 300 estratos. 
+
+* La tabla `strata_sample_2006` contiene en la columna $N$ el número total de 
+casillas en el estrato y en $n$ el número de casillas que se seleccionaron en la 
+muestra, para cada estrato:
+
+
+```r
+library(estcomp)
+strata_sample_2006
+#> # A tibble: 300 x 3
+#>    stratum     n     N
+#>      <dbl> <int> <int>
+#>  1       1    20   369
+#>  2       2    23   420
+#>  3       3    24   440
+#>  4       4    31   570
+#>  5       5    29   528
+#>  6       6    37   664
+#>  7       7    26   474
+#>  8       8    21   373
+#>  9       9    25   457
+#> 10      10    24   430
+#> # … with 290 more rows
+```
+
+* La tabla `sample_2006` en el paquete `estcomp` (vuelve a instalar de ser 
+necesario) contiene para cada casilla:
+    + el estrato al que pertenece: `stratum`
+    + el número de votos que recibió cada partido/coalición: `pan`, `pri_pvem`, 
+    `panal`, `prd_pt_convergencia`, `psd` y la columna `otros` indica el 
+    número de votos nulos o por candidatos no registrados.
+    + el total de votos registrado en la casilla: `total`.
+
+
+```r
+sample_2006
+#> # A tibble: 7,200 x 10
+#>    polling_id stratum edo_id pri_pvem   pan panal prd_pt_conv   psd otros
+#>         <int>   <dbl>  <int>    <int> <int> <int>       <int> <int> <int>
+#>  1      74593     106     16       47    40     0          40     0     9
+#>  2     109927     194     27      131    10     0         147     1     8
+#>  3     112039     199     28       51    74     2          57     2     2
+#>  4      86392     141     20      145    64     2         139     1    14
+#>  5     101306     176     24       51   160     0          64    14     1
+#>  6      86044     140     20      150    20     0         166     1    11
+#>  7      56057      57     15      117   119     2          82     0    24
+#>  8      84186     128     19      118   205     8          73     9    13
+#>  9      27778     283      9       26    65     5         249     7     2
+#> 10      29892     289      9       27    32     0         338    14     7
+#> # … with 7,190 more rows, and 1 more variable: total <int>
+```
+
+Una de las metodolgías de estimación, que se usa en el conteo rápido, es 
+*estimador de razón* y se contruyen intervalos de 95% de confianza usando el 
+método normal con error estándar bootstrap. En este ejercicio debes construir 
+intervalos usando este procedimiento.
+
+Para cada candidato:
+
+1. Calcula el estimador de razón combinado, para muestreo estratificado la 
+fórmula es:
+
+$$\hat{p}=\frac{\sum_h \frac{N_h}{n_h} \sum_i Y_{hi}}{\sum_h \frac{N_h}{n_h} \sum_i X_{hi}}$$
+donde:
+
+* $\hat{p}$ es la estimación de la proporción de votos que recibió el candidato
+en la elección.
+
+* $Y_{hi}$ es el número total de votos que recibió el candidato
+en la $i$-ésima casillas, que pertence al $h$-ésimo estrato.
+
+* $X_{hi}$ es el número total de votos en la $i$-ésima casilla, que pertence al 
+$h$-ésimo estrato. 
+
+* $N_h$ es el número total de casillas en el $h$-ésimo estrato.
+
+* $n_h$ es el número de casillas del $h$-ésimo estrato que se seleccionaron en 
+la muestra.
+
+2. Utiliza **bootstrap** para calcular el error estándar, y reporta tu 
+estimación del error.
+    + Genera 1000 muestras bootstrap.
+    + Recuerda que las muestras bootstrap tienen que tomar en cuenta la 
+    metodología que se utilizó en la selección de la muestra original, en este
+    caso, lo que implica es que debes tomar una muestra aleatoria independient
+    dentro de cada estrato.
+
+3. Construye un intervalo del 95% de confianza utilizando el método normal.
+
+Repite para todos los partidos (y la categoría otros). Reporta tus intervalos
+en una tabla. 
 

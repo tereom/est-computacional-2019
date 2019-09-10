@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>3. Unión de tablas y limpieza de datos | Estadística Computacional</title>
+  <title>5. Bootstrap | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   <meta name="generator" content="bookdown 0.13.2 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="3. Unión de tablas y limpieza de datos | Estadística Computacional" />
+  <meta property="og:title" content="5. Bootstrap | Estadística Computacional" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="tereom/est-computacional-2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="3. Unión de tablas y limpieza de datos | Estadística Computacional" />
+  <meta name="twitter:title" content="5. Bootstrap | Estadística Computacional" />
   
   <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="transformacion-de-datos-1.html"/>
-<link rel="next" href="programacion-funcional-y-distribucion-muestral.html"/>
+<link rel="prev" href="programacion-funcional-y-distribucion-muestral.html"/>
+<link rel="next" href="referencias.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -268,50 +268,123 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="union-de-tablas-y-limpieza-de-datos" class="section level2 unnumbered">
-<h2>3. Unión de tablas y limpieza de datos</h2>
-<p>Pueden encontrar la versión de las notas de datos limpuis usando <code>gather()</code> y
-<code>spread()</code> [aquí](<a href="https://tereom.github.io/tutoriales/datos_limpios.html" class="uri">https://tereom.github.io/tutoriales/datos_limpios.html</a>.</p>
-<p>Trabajaremos con los datos <code>df_marital</code>,</p>
+<div id="bootstrap" class="section level2 unnumbered">
+<h2>5. Bootstrap</h2>
+<p><strong>Conteo rápido</strong></p>
+<p>En México, las elecciones tienen lugar un domingo, los resultados oficiales
+del proceso se presentan a la población una semana después. A fin de evitar
+proclamaciones de victoria injustificadas durante ese periodo el INE organiza un
+conteo rápido.
+El conteo rápido es un procedimiento para estimar, a partir de una muestra
+aleatoria de casillas, el porcentaje de votos a favor de los candidatos
+en la elección.</p>
+<p>En este ejercicio deberás crear intervalos de confianza para la proporción de
+votos que recibió cada candidato en las elecciones de 2006. La inferencia se
+hará a partir de una muestra de las casillas similar a la que se utilizó para el
+conteo rápido de 2006.</p>
+<p>El diseño utilizado es <em>muestreo estratificado simple</em>, lo que quiere decir que:</p>
+<ol style="list-style-type: lower-roman">
+<li><p>se particionan las casillas de la pablación en estratos (cada casilla
+pertenece a exactamente un estrato), y</p></li>
+<li><p>dentro de cada estrato se usa <em>muestreo aleatorio</em> para seleccionar las
+casillas que estarán en la muestra.</p></li>
+</ol>
+<p>En este ejercicio (similar al conteo rápido de 2006):</p>
+<ul>
+<li><p>Se seleccionó una muestra de <span class="math inline">\(7,200\)</span> casillas</p></li>
+<li><p>La muestra se repartió a lo largo de 300 estratos.</p></li>
+<li><p>La tabla <code>strata_sample_2006</code> contiene en la columna <span class="math inline">\(N\)</span> el número total de
+casillas en el estrato y en <span class="math inline">\(n\)</span> el número de casillas que se seleccionaron en la
+muestra, para cada estrato:</p></li>
+</ul>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb248-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
+<a class="sourceLine" id="cb248-2" data-line-number="2">strata_sample_<span class="dv">2006</span></a>
+<a class="sourceLine" id="cb248-3" data-line-number="3"><span class="co">#&gt; # A tibble: 300 x 3</span></a>
+<a class="sourceLine" id="cb248-4" data-line-number="4"><span class="co">#&gt;    stratum     n     N</span></a>
+<a class="sourceLine" id="cb248-5" data-line-number="5"><span class="co">#&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb248-6" data-line-number="6"><span class="co">#&gt;  1       1    20   369</span></a>
+<a class="sourceLine" id="cb248-7" data-line-number="7"><span class="co">#&gt;  2       2    23   420</span></a>
+<a class="sourceLine" id="cb248-8" data-line-number="8"><span class="co">#&gt;  3       3    24   440</span></a>
+<a class="sourceLine" id="cb248-9" data-line-number="9"><span class="co">#&gt;  4       4    31   570</span></a>
+<a class="sourceLine" id="cb248-10" data-line-number="10"><span class="co">#&gt;  5       5    29   528</span></a>
+<a class="sourceLine" id="cb248-11" data-line-number="11"><span class="co">#&gt;  6       6    37   664</span></a>
+<a class="sourceLine" id="cb248-12" data-line-number="12"><span class="co">#&gt;  7       7    26   474</span></a>
+<a class="sourceLine" id="cb248-13" data-line-number="13"><span class="co">#&gt;  8       8    21   373</span></a>
+<a class="sourceLine" id="cb248-14" data-line-number="14"><span class="co">#&gt;  9       9    25   457</span></a>
+<a class="sourceLine" id="cb248-15" data-line-number="15"><span class="co">#&gt; 10      10    24   430</span></a>
+<a class="sourceLine" id="cb248-16" data-line-number="16"><span class="co">#&gt; # … with 290 more rows</span></a></code></pre></div>
+<ul>
+<li>La tabla <code>sample_2006</code> en el paquete <code>estcomp</code> (vuelve a instalar de ser
+necesario) contiene para cada casilla:
+<ul>
+<li>el estrato al que pertenece: <code>stratum</code></li>
+<li>el número de votos que recibió cada partido/coalición: <code>pan</code>, <code>pri_pvem</code>,
+<code>panal</code>, <code>prd_pt_convergencia</code>, <code>psd</code> y la columna <code>otros</code> indica el
+número de votos nulos o por candidatos no registrados.</li>
+<li>el total de votos registrado en la casilla: <code>total</code>.</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb249-1" data-line-number="1">sample_<span class="dv">2006</span></a>
+<a class="sourceLine" id="cb249-2" data-line-number="2"><span class="co">#&gt; # A tibble: 7,200 x 10</span></a>
+<a class="sourceLine" id="cb249-3" data-line-number="3"><span class="co">#&gt;    polling_id stratum edo_id pri_pvem   pan panal prd_pt_conv   psd otros</span></a>
+<a class="sourceLine" id="cb249-4" data-line-number="4"><span class="co">#&gt;         &lt;int&gt;   &lt;dbl&gt;  &lt;int&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt;       &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb249-5" data-line-number="5"><span class="co">#&gt;  1      74593     106     16       47    40     0          40     0     9</span></a>
+<a class="sourceLine" id="cb249-6" data-line-number="6"><span class="co">#&gt;  2     109927     194     27      131    10     0         147     1     8</span></a>
+<a class="sourceLine" id="cb249-7" data-line-number="7"><span class="co">#&gt;  3     112039     199     28       51    74     2          57     2     2</span></a>
+<a class="sourceLine" id="cb249-8" data-line-number="8"><span class="co">#&gt;  4      86392     141     20      145    64     2         139     1    14</span></a>
+<a class="sourceLine" id="cb249-9" data-line-number="9"><span class="co">#&gt;  5     101306     176     24       51   160     0          64    14     1</span></a>
+<a class="sourceLine" id="cb249-10" data-line-number="10"><span class="co">#&gt;  6      86044     140     20      150    20     0         166     1    11</span></a>
+<a class="sourceLine" id="cb249-11" data-line-number="11"><span class="co">#&gt;  7      56057      57     15      117   119     2          82     0    24</span></a>
+<a class="sourceLine" id="cb249-12" data-line-number="12"><span class="co">#&gt;  8      84186     128     19      118   205     8          73     9    13</span></a>
+<a class="sourceLine" id="cb249-13" data-line-number="13"><span class="co">#&gt;  9      27778     283      9       26    65     5         249     7     2</span></a>
+<a class="sourceLine" id="cb249-14" data-line-number="14"><span class="co">#&gt; 10      29892     289      9       27    32     0         338    14     7</span></a>
+<a class="sourceLine" id="cb249-15" data-line-number="15"><span class="co">#&gt; # … with 7,190 more rows, and 1 more variable: total &lt;int&gt;</span></a></code></pre></div>
+<p>Una de las metodolgías de estimación, que se usa en el conteo rápido, es
+<em>estimador de razón</em> y se contruyen intervalos de 95% de confianza usando el
+método normal con error estándar bootstrap. En este ejercicio debes construir
+intervalos usando este procedimiento.</p>
+<p>Para cada candidato:</p>
 <ol style="list-style-type: decimal">
-<li>¿Están limpios los datos? en caso de que no
-¿qué principio no cumplen?</li>
+<li>Calcula el estimador de razón combinado, para muestreo estratificado la
+fórmula es:</li>
 </ol>
-<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb244-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
-<a class="sourceLine" id="cb244-2" data-line-number="2">df_marital</a>
-<a class="sourceLine" id="cb244-3" data-line-number="3"><span class="co">#&gt; # A tibble: 29,484 x 14</span></a>
-<a class="sourceLine" id="cb244-4" data-line-number="4"><span class="co">#&gt;    state_code municipio_code region state_name state_abbr municipio_name</span></a>
-<a class="sourceLine" id="cb244-5" data-line-number="5"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;         </span></a>
-<a class="sourceLine" id="cb244-6" data-line-number="6"><span class="co">#&gt;  1 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-7" data-line-number="7"><span class="co">#&gt;  2 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-8" data-line-number="8"><span class="co">#&gt;  3 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-9" data-line-number="9"><span class="co">#&gt;  4 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-10" data-line-number="10"><span class="co">#&gt;  5 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-11" data-line-number="11"><span class="co">#&gt;  6 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-12" data-line-number="12"><span class="co">#&gt;  7 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-13" data-line-number="13"><span class="co">#&gt;  8 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-14" data-line-number="14"><span class="co">#&gt;  9 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-15" data-line-number="15"><span class="co">#&gt; 10 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-16" data-line-number="16"><span class="co">#&gt; # … with 29,474 more rows, and 8 more variables: sex &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb244-17" data-line-number="17"><span class="co">#&gt; #   age_group &lt;chr&gt;, pop &lt;dbl&gt;, single &lt;dbl&gt;, married &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb244-18" data-line-number="18"><span class="co">#&gt; #   living_w_partner &lt;dbl&gt;, separated &lt;dbl&gt;, other &lt;dbl&gt;</span></a></code></pre></div>
+<p><span class="math display">\[\hat{p}=\frac{\sum_h \frac{N_h}{n_h} \sum_i Y_{hi}}{\sum_h \frac{N_h}{n_h} \sum_i X_{hi}}\]</span>
+donde:</p>
+<ul>
+<li><p><span class="math inline">\(\hat{p}\)</span> es la estimación de la proporción de votos que recibió el candidato
+en la elección.</p></li>
+<li><p><span class="math inline">\(Y_{hi}\)</span> es el número total de votos que recibió el candidato
+en la <span class="math inline">\(i\)</span>-ésima casillas, que pertence al <span class="math inline">\(h\)</span>-ésimo estrato.</p></li>
+<li><p><span class="math inline">\(X_{hi}\)</span> es el número total de votos en la <span class="math inline">\(i\)</span>-ésima casilla, que pertence al
+<span class="math inline">\(h\)</span>-ésimo estrato.</p></li>
+<li><p><span class="math inline">\(N_h\)</span> es el número total de casillas en el <span class="math inline">\(h\)</span>-ésimo estrato.</p></li>
+<li><p><span class="math inline">\(n_h\)</span> es el número de casillas del <span class="math inline">\(h\)</span>-ésimo estrato que se seleccionaron en
+la muestra.</p></li>
+</ul>
 <ol start="2" style="list-style-type: decimal">
-<li><p>Limpia los datos y muestra las primeras y últimas líneas (usa <code>head()</code> y
-<code>tail()</code>).</p></li>
-<li><p>Filtra para eliminar los casos a total en las variables sexo y edad, calcula
-a nivel nacional cuál es la proporción en cada situación conyugal por grupo de
-edad y sexo. ¿Cómo puedes graficar o presentar los resultados?</p></li>
-<li><p>Regresando a los datos que obtuviste en 2, une la tabla de datos con
-<code>df_edu</code>, ¿qué variables se usarán para unir?</p></li>
+<li>Utiliza <strong>bootstrap</strong> para calcular el error estándar, y reporta tu
+estimación del error.
+<ul>
+<li>Genera 1000 muestras bootstrap.</li>
+<li>Recuerda que las muestras bootstrap tienen que tomar en cuenta la
+metodología que se utilizó en la selección de la muestra original, en este
+caso, lo que implica es que debes tomar una muestra aleatoria independient
+dentro de cada estrato.</li>
+</ul></li>
+<li>Construye un intervalo del 95% de confianza utilizando el método normal.</li>
 </ol>
+<p>Repite para todos los partidos (y la categoría otros). Reporta tus intervalos
+en una tabla.</p>
+
 </div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="transformacion-de-datos-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="programacion-funcional-y-distribucion-muestral.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="programacion-funcional-y-distribucion-muestral.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

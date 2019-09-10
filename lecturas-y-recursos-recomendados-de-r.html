@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>3. Unión de tablas y limpieza de datos | Estadística Computacional</title>
+  <title>4.5 Lecturas y recursos recomendados de R | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   <meta name="generator" content="bookdown 0.13.2 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="3. Unión de tablas y limpieza de datos | Estadística Computacional" />
+  <meta property="og:title" content="4.5 Lecturas y recursos recomendados de R | Estadística Computacional" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="tereom/est-computacional-2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="3. Unión de tablas y limpieza de datos | Estadística Computacional" />
+  <meta name="twitter:title" content="4.5 Lecturas y recursos recomendados de R | Estadística Computacional" />
   
   <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="transformacion-de-datos-1.html"/>
-<link rel="next" href="programacion-funcional-y-distribucion-muestral.html"/>
+<link rel="prev" href="rendimiento-en-r.html"/>
+<link rel="next" href="introduccion-a-calculo-de-probabilidades.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -268,50 +268,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="union-de-tablas-y-limpieza-de-datos" class="section level2 unnumbered">
-<h2>3. Unión de tablas y limpieza de datos</h2>
-<p>Pueden encontrar la versión de las notas de datos limpuis usando <code>gather()</code> y
-<code>spread()</code> [aquí](<a href="https://tereom.github.io/tutoriales/datos_limpios.html" class="uri">https://tereom.github.io/tutoriales/datos_limpios.html</a>.</p>
-<p>Trabajaremos con los datos <code>df_marital</code>,</p>
-<ol style="list-style-type: decimal">
-<li>¿Están limpios los datos? en caso de que no
-¿qué principio no cumplen?</li>
-</ol>
-<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb244-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
-<a class="sourceLine" id="cb244-2" data-line-number="2">df_marital</a>
-<a class="sourceLine" id="cb244-3" data-line-number="3"><span class="co">#&gt; # A tibble: 29,484 x 14</span></a>
-<a class="sourceLine" id="cb244-4" data-line-number="4"><span class="co">#&gt;    state_code municipio_code region state_name state_abbr municipio_name</span></a>
-<a class="sourceLine" id="cb244-5" data-line-number="5"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;         </span></a>
-<a class="sourceLine" id="cb244-6" data-line-number="6"><span class="co">#&gt;  1 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-7" data-line-number="7"><span class="co">#&gt;  2 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-8" data-line-number="8"><span class="co">#&gt;  3 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-9" data-line-number="9"><span class="co">#&gt;  4 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-10" data-line-number="10"><span class="co">#&gt;  5 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-11" data-line-number="11"><span class="co">#&gt;  6 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-12" data-line-number="12"><span class="co">#&gt;  7 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-13" data-line-number="13"><span class="co">#&gt;  8 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-14" data-line-number="14"><span class="co">#&gt;  9 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-15" data-line-number="15"><span class="co">#&gt; 10 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-16" data-line-number="16"><span class="co">#&gt; # … with 29,474 more rows, and 8 more variables: sex &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb244-17" data-line-number="17"><span class="co">#&gt; #   age_group &lt;chr&gt;, pop &lt;dbl&gt;, single &lt;dbl&gt;, married &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb244-18" data-line-number="18"><span class="co">#&gt; #   living_w_partner &lt;dbl&gt;, separated &lt;dbl&gt;, other &lt;dbl&gt;</span></a></code></pre></div>
-<ol start="2" style="list-style-type: decimal">
-<li><p>Limpia los datos y muestra las primeras y últimas líneas (usa <code>head()</code> y
-<code>tail()</code>).</p></li>
-<li><p>Filtra para eliminar los casos a total en las variables sexo y edad, calcula
-a nivel nacional cuál es la proporción en cada situación conyugal por grupo de
-edad y sexo. ¿Cómo puedes graficar o presentar los resultados?</p></li>
-<li><p>Regresando a los datos que obtuviste en 2, une la tabla de datos con
-<code>df_edu</code>, ¿qué variables se usarán para unir?</p></li>
-</ol>
+<div id="lecturas-y-recursos-recomendados-de-r" class="section level2">
+<h2><span class="header-section-number">4.5</span> Lecturas y recursos recomendados de R</h2>
+<p>Algunas recomendaciones para mejorar el flujo de trabajo y aprender nuevas
+herramientas de R son:</p>
+<ul>
+<li><p><a href="https://whattheyforgot.org">What they forgot to teach you about R</a> de
+Jenny Bryan y Jim Hester. Flujos de trabajo basados en proyectos que facilitan
+el trabajo del analista.</p></li>
+<li><p><a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510">Good enough practices in scientific computing</a>,
+Greg Wilson, Jennifer Bryan, et al.</p></li>
+<li><p><a href="https://happygitwithr.com">Happy Git with R</a>, Jenny Bryan y Jim Hester.</p></li>
+<li><p><a href="https://bookdown.org/yihui/rmarkdown/">R Markdown: The Definitive Guide</a>,
+Yihui Xie, J. J. Allaire, Garrett Grolemund.</p></li>
+</ul>
+
 </div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="transformacion-de-datos-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="programacion-funcional-y-distribucion-muestral.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="rendimiento-en-r.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="introduccion-a-calculo-de-probabilidades.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -341,7 +321,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2019/edit/master/98-tareas.Rmd",
+"link": "https://github.com/tereom/est-computacional-2019/edit/master/03-temas_selectos_r.Rmd",
 "text": "Edit"
 },
 "history": {

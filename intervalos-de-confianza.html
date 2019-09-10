@@ -204,8 +204,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.4" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html"><i class="fa fa-check"></i><b>4.4</b> Rendimiento en R</a><ul>
 <li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#diagnosticar"><i class="fa fa-check"></i>Diagnosticar</a></li>
 <li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#estrategias-para-mejorar-desempeno"><i class="fa fa-check"></i>Estrategias para mejorar desempeño</a></li>
-<li class="chapter" data-level="4.4.1" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#lecturas-y-recursos-recomendados-de-r"><i class="fa fa-check"></i><b>4.4.1</b> Lecturas y recursos recomendados de R</a></li>
 </ul></li>
+<li class="chapter" data-level="4.5" data-path="lecturas-y-recursos-recomendados-de-r.html"><a href="lecturas-y-recursos-recomendados-de-r.html"><i class="fa fa-check"></i><b>4.5</b> Lecturas y recursos recomendados de R</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="introduccion-a-calculo-de-probabilidades.html"><a href="introduccion-a-calculo-de-probabilidades.html"><i class="fa fa-check"></i><b>5</b> Introducción a Cálculo de Probabilidades</a><ul>
 <li class="chapter" data-level="5.1" data-path="probabilidad-como-extension-de-proporcion.html"><a href="probabilidad-como-extension-de-proporcion.html"><i class="fa fa-check"></i><b>5.1</b> Probabilidad como extensión de proporción</a></li>
@@ -245,6 +245,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
 <li class="chapter" data-level="" data-path="union-de-tablas-y-limpieza-de-datos.html"><a href="union-de-tablas-y-limpieza-de-datos.html"><i class="fa fa-check"></i>3. Unión de tablas y limpieza de datos</a></li>
 <li class="chapter" data-level="" data-path="programacion-funcional-y-distribucion-muestral.html"><a href="programacion-funcional-y-distribucion-muestral.html"><i class="fa fa-check"></i>4. Programación funcional y distribución muestral</a></li>
+<li class="chapter" data-level="" data-path="bootstrap.html"><a href="bootstrap.html"><i class="fa fa-check"></i>5. Bootstrap</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -295,7 +296,7 @@ objetivo es estimar la media del tamaño de la lista nominal de las casillas
 aproximación Normal de la distribución muestral conforme aumenta el tamaño de
 muestra <span class="math inline">\(n\)</span>; sin embargo, también sobresale que no es necesario tomar una
 muestra demasiado grande (<span class="math inline">\(n = 60\)</span> ya es razonable).</p>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb198-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">include_app</span>(<span class="st">&quot;https://tereom.shinyapps.io/15-TLC/&quot;</span>, <span class="dt">height =</span> <span class="st">&quot;1000px&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb199-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">include_app</span>(<span class="st">&quot;https://tereom.shinyapps.io/15-TLC/&quot;</span>, <span class="dt">height =</span> <span class="st">&quot;1000px&quot;</span>)</a></code></pre></div>
 <iframe src="https://tereom.shinyapps.io/15-TLC/?showcase=0" width="672" height="1000px">
 </iframe>
 <p>En lo que sigue veremos distintas maneras de construir intervalos de confianza
@@ -323,32 +324,32 @@ no es adecuado cuando <span class="math inline">\(\hat{\theta}\)</span> no se di
 <p>Supongamos que queremos estimar la kurtosis de una base de datos que consta de
 799 tiempos de espera entre pulsasiones de un nervio (Cox, Lewis 1976).</p>
 <p><span class="math display">\[\hat{\theta} = t(P_n) =\frac{1/n \sum_{i=1}^n(x_i-\hat{\mu})^3}{\hat{\sigma}^3}\]</span></p>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb199-1" data-line-number="1"><span class="kw">library</span>(ACSWR)</a>
-<a class="sourceLine" id="cb199-2" data-line-number="2"><span class="kw">data</span>(<span class="st">&quot;nerve&quot;</span>)</a>
-<a class="sourceLine" id="cb199-3" data-line-number="3"><span class="kw">head</span>(nerve)</a>
-<a class="sourceLine" id="cb199-4" data-line-number="4"><span class="co">#&gt; [1] 0.21 0.03 0.05 0.11 0.59 0.06</span></a>
-<a class="sourceLine" id="cb199-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb199-6" data-line-number="6">kurtosis &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
-<a class="sourceLine" id="cb199-7" data-line-number="7">    n &lt;-<span class="st"> </span><span class="kw">length</span>(x)</a>
-<a class="sourceLine" id="cb199-8" data-line-number="8">    <span class="dv">1</span> <span class="op">/</span><span class="st"> </span>n <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((x <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(x)) <span class="op">^</span><span class="st"> </span><span class="dv">3</span>) <span class="op">/</span><span class="st"> </span><span class="kw">sd</span>(x) <span class="op">^</span><span class="st"> </span><span class="dv">3</span> </a>
-<a class="sourceLine" id="cb199-9" data-line-number="9">}</a>
-<a class="sourceLine" id="cb199-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb199-11" data-line-number="11">theta_hat &lt;-<span class="st"> </span><span class="kw">kurtosis</span>(nerve)</a>
-<a class="sourceLine" id="cb199-12" data-line-number="12">theta_hat</a>
-<a class="sourceLine" id="cb199-13" data-line-number="13"><span class="co">#&gt; [1] 1.757943</span></a>
-<a class="sourceLine" id="cb199-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb199-15" data-line-number="15">kurtosis_boot &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
-<a class="sourceLine" id="cb199-16" data-line-number="16">  x_boot &lt;-<span class="st"> </span><span class="kw">sample</span>(x, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb199-17" data-line-number="17">  <span class="kw">kurtosis</span>(x_boot)</a>
-<a class="sourceLine" id="cb199-18" data-line-number="18">}</a>
-<a class="sourceLine" id="cb199-19" data-line-number="19">B &lt;-<span class="st"> </span><span class="dv">10000</span></a>
-<a class="sourceLine" id="cb199-20" data-line-number="20">kurtosis &lt;-<span class="st"> </span><span class="kw">rerun</span>(B, <span class="kw">kurtosis_boot</span>(nerve)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb199-21" data-line-number="21"><span class="st">  </span><span class="kw">flatten_dbl</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb200-1" data-line-number="1"><span class="kw">library</span>(ACSWR)</a>
+<a class="sourceLine" id="cb200-2" data-line-number="2"><span class="kw">data</span>(<span class="st">&quot;nerve&quot;</span>)</a>
+<a class="sourceLine" id="cb200-3" data-line-number="3"><span class="kw">head</span>(nerve)</a>
+<a class="sourceLine" id="cb200-4" data-line-number="4"><span class="co">#&gt; [1] 0.21 0.03 0.05 0.11 0.59 0.06</span></a>
+<a class="sourceLine" id="cb200-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb200-6" data-line-number="6">kurtosis &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb200-7" data-line-number="7">    n &lt;-<span class="st"> </span><span class="kw">length</span>(x)</a>
+<a class="sourceLine" id="cb200-8" data-line-number="8">    <span class="dv">1</span> <span class="op">/</span><span class="st"> </span>n <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((x <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(x)) <span class="op">^</span><span class="st"> </span><span class="dv">3</span>) <span class="op">/</span><span class="st"> </span><span class="kw">sd</span>(x) <span class="op">^</span><span class="st"> </span><span class="dv">3</span> </a>
+<a class="sourceLine" id="cb200-9" data-line-number="9">}</a>
+<a class="sourceLine" id="cb200-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb200-11" data-line-number="11">theta_hat &lt;-<span class="st"> </span><span class="kw">kurtosis</span>(nerve)</a>
+<a class="sourceLine" id="cb200-12" data-line-number="12">theta_hat</a>
+<a class="sourceLine" id="cb200-13" data-line-number="13"><span class="co">#&gt; [1] 1.757943</span></a>
+<a class="sourceLine" id="cb200-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb200-15" data-line-number="15">kurtosis_boot &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb200-16" data-line-number="16">  x_boot &lt;-<span class="st"> </span><span class="kw">sample</span>(x, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb200-17" data-line-number="17">  <span class="kw">kurtosis</span>(x_boot)</a>
+<a class="sourceLine" id="cb200-18" data-line-number="18">}</a>
+<a class="sourceLine" id="cb200-19" data-line-number="19">B &lt;-<span class="st"> </span><span class="dv">10000</span></a>
+<a class="sourceLine" id="cb200-20" data-line-number="20">kurtosis &lt;-<span class="st"> </span><span class="kw">rerun</span>(B, <span class="kw">kurtosis_boot</span>(nerve)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb200-21" data-line-number="21"><span class="st">  </span><span class="kw">flatten_dbl</span>()</a></code></pre></div>
 <p>Usando el intervalo normal tenemos:</p>
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb200-1" data-line-number="1">li_normal &lt;-<span class="st"> </span><span class="kw">round</span>(theta_hat <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(kurtosis), <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb200-2" data-line-number="2">ls_normal &lt;-<span class="st"> </span><span class="kw">round</span>(theta_hat <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(kurtosis), <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb200-3" data-line-number="3"><span class="kw">c</span>(li_normal, ls_normal)</a>
-<a class="sourceLine" id="cb200-4" data-line-number="4"><span class="co">#&gt; [1] 1.44 2.08</span></a></code></pre></div>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb201-1" data-line-number="1">li_normal &lt;-<span class="st"> </span><span class="kw">round</span>(theta_hat <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(kurtosis), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb201-2" data-line-number="2">ls_normal &lt;-<span class="st"> </span><span class="kw">round</span>(theta_hat <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(kurtosis), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb201-3" data-line-number="3"><span class="kw">c</span>(li_normal, ls_normal)</a>
+<a class="sourceLine" id="cb201-4" data-line-number="4"><span class="co">#&gt; [1] 1.44 2.08</span></a></code></pre></div>
 <p>Una modificación común del intervalo normal es el intervalo t, estos intervalos
 son mejores en caso de muestras pequeñas (<span class="math inline">\(n\)</span> chica).</p>
 <div class="caja">
@@ -361,40 +362,40 @@ define como:</li>
 <p>donde <span class="math inline">\(t^{(\alpha)}_{n-1}\)</span> denota denota el percentil <span class="math inline">\(100\cdot \alpha\)</span> de una
 distribución <span class="math inline">\(t\)</span> con <span class="math inline">\(n-1\)</span> grados de libertad.</p>
 </div>
-<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb201-1" data-line-number="1">n_nerve &lt;-<span class="st"> </span><span class="kw">length</span>(nerve)</a>
-<a class="sourceLine" id="cb201-2" data-line-number="2">li_t &lt;-<span class="st"> </span><span class="kw">round</span>(theta_hat <span class="op">+</span><span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.025</span>, n_nerve <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(kurtosis), <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb201-3" data-line-number="3">ls_t &lt;-<span class="st"> </span><span class="kw">round</span>(theta_hat <span class="op">-</span><span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.025</span>, n_nerve <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(kurtosis), <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb201-4" data-line-number="4"><span class="kw">c</span>(li_t, ls_t)</a>
-<a class="sourceLine" id="cb201-5" data-line-number="5"><span class="co">#&gt; [1] 1.44 2.08</span></a></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb202-1" data-line-number="1">n_nerve &lt;-<span class="st"> </span><span class="kw">length</span>(nerve)</a>
+<a class="sourceLine" id="cb202-2" data-line-number="2">li_t &lt;-<span class="st"> </span><span class="kw">round</span>(theta_hat <span class="op">+</span><span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.025</span>, n_nerve <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(kurtosis), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb202-3" data-line-number="3">ls_t &lt;-<span class="st"> </span><span class="kw">round</span>(theta_hat <span class="op">-</span><span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.025</span>, n_nerve <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(kurtosis), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb202-4" data-line-number="4"><span class="kw">c</span>(li_t, ls_t)</a>
+<a class="sourceLine" id="cb202-5" data-line-number="5"><span class="co">#&gt; [1] 1.44 2.08</span></a></code></pre></div>
 <p>Los intervalos normales y <span class="math inline">\(t\)</span> se valen de la estimación bootstrap del error
 estándar; sin embargo, el bootstrap se puede usar para estimar la función de
 distribución de <span class="math inline">\(\hat{\theta}\)</span> por lo que no es necesario hacer supuestos
 distribucionales para <span class="math inline">\(\hat{\theta}\)</span> sino que podemos estimarla como parte del
 proceso de construir intervalos de confianza.</p>
 <p>Veamos un histograma de las replicaciones bootstrap de <span class="math inline">\(\hat{\theta}^*\)</span></p>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb202-1" data-line-number="1"><span class="kw">library</span>(gridExtra)</a>
-<a class="sourceLine" id="cb202-2" data-line-number="2">nerve_kurtosis &lt;-<span class="st"> </span><span class="kw">tibble</span>(kurtosis)</a>
-<a class="sourceLine" id="cb202-3" data-line-number="3">hist_nerve &lt;-<span class="st"> </span><span class="kw">ggplot</span>(nerve_kurtosis, <span class="kw">aes</span>(<span class="dt">x =</span> kurtosis)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb202-4" data-line-number="4"><span class="st">        </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="fl">0.05</span>, <span class="dt">fill =</span> <span class="st">&quot;gray30&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb202-5" data-line-number="5"><span class="st">            </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="kw">c</span>(li_normal, ls_normal, theta_hat), </a>
-<a class="sourceLine" id="cb202-6" data-line-number="6">            <span class="dt">color =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="dt">alpha =</span> <span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb202-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb202-8" data-line-number="8">qq_nerve &lt;-<span class="st"> </span><span class="kw">ggplot</span>(nerve_kurtosis) <span class="op">+</span></a>
-<a class="sourceLine" id="cb202-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb202-10" data-line-number="10"><span class="st">  </span><span class="kw">stat_qq</span>(<span class="kw">aes</span>(<span class="dt">sample =</span> kurtosis), <span class="dt">dparams =</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(kurtosis), <span class="dt">sd =</span> <span class="kw">sd</span>(kurtosis))) </a>
-<a class="sourceLine" id="cb202-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb202-12" data-line-number="12"><span class="kw">grid.arrange</span>(hist_nerve, qq_nerve, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">newpage =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
-<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-11-1.png" width="816" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb203-1" data-line-number="1"><span class="kw">library</span>(gridExtra)</a>
+<a class="sourceLine" id="cb203-2" data-line-number="2">nerve_kurtosis &lt;-<span class="st"> </span><span class="kw">tibble</span>(kurtosis)</a>
+<a class="sourceLine" id="cb203-3" data-line-number="3">hist_nerve &lt;-<span class="st"> </span><span class="kw">ggplot</span>(nerve_kurtosis, <span class="kw">aes</span>(<span class="dt">x =</span> kurtosis)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb203-4" data-line-number="4"><span class="st">        </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="fl">0.05</span>, <span class="dt">fill =</span> <span class="st">&quot;gray30&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb203-5" data-line-number="5"><span class="st">            </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="kw">c</span>(li_normal, ls_normal, theta_hat), </a>
+<a class="sourceLine" id="cb203-6" data-line-number="6">            <span class="dt">color =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="dt">alpha =</span> <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb203-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb203-8" data-line-number="8">qq_nerve &lt;-<span class="st"> </span><span class="kw">ggplot</span>(nerve_kurtosis) <span class="op">+</span></a>
+<a class="sourceLine" id="cb203-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb203-10" data-line-number="10"><span class="st">  </span><span class="kw">stat_qq</span>(<span class="kw">aes</span>(<span class="dt">sample =</span> kurtosis), <span class="dt">dparams =</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(kurtosis), <span class="dt">sd =</span> <span class="kw">sd</span>(kurtosis))) </a>
+<a class="sourceLine" id="cb203-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb203-12" data-line-number="12"><span class="kw">grid.arrange</span>(hist_nerve, qq_nerve, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">newpage =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-12-1.png" width="816" style="display: block; margin: auto;" /></p>
 <p>En el ejemplo anterior el supuesto de normalidad parece razonable, veamos
 como se comparan los cuantiles de la estimación de la distribución de
 <span class="math inline">\(\hat{\theta}\)</span> con los cuantiles de una normal:</p>
-<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb203-1" data-line-number="1"><span class="kw">comma</span>(q_kurt &lt;-<span class="st"> </span><span class="kw">quantile</span>(kurtosis, </a>
-<a class="sourceLine" id="cb203-2" data-line-number="2">  <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.9</span>, <span class="fl">0.95</span>, <span class="fl">0.975</span>)))</a>
-<a class="sourceLine" id="cb203-3" data-line-number="3"><span class="kw">comma</span>(<span class="kw">qnorm</span>(<span class="dt">p =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.9</span>, <span class="fl">0.95</span>, <span class="fl">0.975</span>), <span class="dt">mean =</span> theta_hat, </a>
-<a class="sourceLine" id="cb203-4" data-line-number="4">  <span class="dt">sd =</span> <span class="kw">sd</span>(kurtosis)))</a>
-<a class="sourceLine" id="cb203-5" data-line-number="5"><span class="co">#&gt;  2.5%    5%   10%   90%   95% 97.5% </span></a>
-<a class="sourceLine" id="cb203-6" data-line-number="6"><span class="co">#&gt; &quot;1.4&quot; &quot;1.5&quot; &quot;1.5&quot; &quot;2.0&quot; &quot;2.0&quot; &quot;2.1&quot; </span></a>
-<a class="sourceLine" id="cb203-7" data-line-number="7"><span class="co">#&gt; [1] &quot;1.4&quot; &quot;1.5&quot; &quot;1.5&quot; &quot;2.0&quot; &quot;2.0&quot; &quot;2.1&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb204-1" data-line-number="1"><span class="kw">comma</span>(q_kurt &lt;-<span class="st"> </span><span class="kw">quantile</span>(kurtosis, </a>
+<a class="sourceLine" id="cb204-2" data-line-number="2">  <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.9</span>, <span class="fl">0.95</span>, <span class="fl">0.975</span>)))</a>
+<a class="sourceLine" id="cb204-3" data-line-number="3"><span class="kw">comma</span>(<span class="kw">qnorm</span>(<span class="dt">p =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.9</span>, <span class="fl">0.95</span>, <span class="fl">0.975</span>), <span class="dt">mean =</span> theta_hat, </a>
+<a class="sourceLine" id="cb204-4" data-line-number="4">  <span class="dt">sd =</span> <span class="kw">sd</span>(kurtosis)))</a>
+<a class="sourceLine" id="cb204-5" data-line-number="5"><span class="co">#&gt;  2.5%    5%   10%   90%   95% 97.5% </span></a>
+<a class="sourceLine" id="cb204-6" data-line-number="6"><span class="co">#&gt; &quot;1.4&quot; &quot;1.5&quot; &quot;1.5&quot; &quot;2.0&quot; &quot;2.0&quot; &quot;2.1&quot; </span></a>
+<a class="sourceLine" id="cb204-7" data-line-number="7"><span class="co">#&gt; [1] &quot;1.4&quot; &quot;1.5&quot; &quot;1.5&quot; &quot;2.0&quot; &quot;2.0&quot; &quot;2.1&quot;</span></a></code></pre></div>
 <p>Esto sugiere usar los cuantiles del histograma bootstrap para definir los
 límites de los intervalos de confianza:</p>
 <div class="caja">
@@ -409,14 +410,14 @@ intervalo bootstrap como
 <span class="math display">\[(\theta^*_{\%,inf}, \theta^*_{\%,sup})=(\hat{\theta}^*(\alpha),\hat{\theta}^*(1-\alpha))\]</span></li>
 </ol>
 </div>
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb204-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">arrange</span>(nerve_kurtosis, kurtosis)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb204-2" data-line-number="2"><span class="st">    </span><span class="kw">stat_ecdf</span>(<span class="kw">aes</span>(<span class="dt">x =</span> kurtosis)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb204-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_segment</span>(<span class="dt">data =</span> <span class="kw">data_frame</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="op">-</span><span class="ot">Inf</span>, <span class="op">-</span><span class="ot">Inf</span>, q_kurt[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">6</span>)]), </a>
-<a class="sourceLine" id="cb204-4" data-line-number="4">        <span class="dt">xend =</span> q_kurt[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">1</span>, <span class="dv">6</span>)], <span class="dt">y =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>, <span class="dv">0</span>, <span class="dv">0</span>), </a>
-<a class="sourceLine" id="cb204-5" data-line-number="5">        <span class="dt">yend =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>, <span class="fl">0.025</span>, <span class="fl">0.975</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">xend =</span> xend, <span class="dt">y =</span> y, </a>
-<a class="sourceLine" id="cb204-6" data-line-number="6">        <span class="dt">yend =</span> yend), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">size =</span> <span class="fl">0.4</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb204-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Cuantiles muestrales&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;ecdf&quot;</span>)</a></code></pre></div>
-<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-13-1.png" width="384" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb205-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">arrange</span>(nerve_kurtosis, kurtosis)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb205-2" data-line-number="2"><span class="st">    </span><span class="kw">stat_ecdf</span>(<span class="kw">aes</span>(<span class="dt">x =</span> kurtosis)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb205-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_segment</span>(<span class="dt">data =</span> <span class="kw">data_frame</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="op">-</span><span class="ot">Inf</span>, <span class="op">-</span><span class="ot">Inf</span>, q_kurt[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">6</span>)]), </a>
+<a class="sourceLine" id="cb205-4" data-line-number="4">        <span class="dt">xend =</span> q_kurt[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">1</span>, <span class="dv">6</span>)], <span class="dt">y =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>, <span class="dv">0</span>, <span class="dv">0</span>), </a>
+<a class="sourceLine" id="cb205-5" data-line-number="5">        <span class="dt">yend =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>, <span class="fl">0.025</span>, <span class="fl">0.975</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">xend =</span> xend, <span class="dt">y =</span> y, </a>
+<a class="sourceLine" id="cb205-6" data-line-number="6">        <span class="dt">yend =</span> yend), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">size =</span> <span class="fl">0.4</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb205-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Cuantiles muestrales&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;ecdf&quot;</span>)</a></code></pre></div>
+<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-14-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>Las expresiones de arriba hacen referencia a la situación bootstrap <em>ideal</em>
 donde el número de replicaciones bootstrap es infinito, en la práctica usamos
 aproximaciones. Y se procede como sigue:</p>
@@ -431,88 +432,88 @@ de percentil <span class="math inline">\(1-2\alpha\)</span> como
 <span class="math display">\[(\theta^*_{\%,inf}, \theta^*_{\%,sup})\approx(\hat{\theta}^*_B(\alpha),\hat{\theta}^*_B(1-\alpha))\]</span></li>
 </ul>
 </div>
-<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb205-1" data-line-number="1">ls_per &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">quantile</span>(kurtosis, <span class="dt">prob =</span> <span class="fl">0.975</span>), <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb205-2" data-line-number="2">li_per &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">quantile</span>(kurtosis, <span class="dt">prob =</span> <span class="fl">0.025</span>), <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb205-3" data-line-number="3">stringr<span class="op">::</span><span class="kw">str_c</span>(li_normal, ls_normal, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>)</a>
-<a class="sourceLine" id="cb205-4" data-line-number="4">stringr<span class="op">::</span><span class="kw">str_c</span>(li_per, ls_per, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>)</a>
-<a class="sourceLine" id="cb205-5" data-line-number="5"><span class="co">#&gt; [1] &quot;1.44,2.08&quot;</span></a>
-<a class="sourceLine" id="cb205-6" data-line-number="6"><span class="co">#&gt; [1] &quot;1.42,2.07&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb206-1" data-line-number="1">ls_per &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">quantile</span>(kurtosis, <span class="dt">prob =</span> <span class="fl">0.975</span>), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb206-2" data-line-number="2">li_per &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">quantile</span>(kurtosis, <span class="dt">prob =</span> <span class="fl">0.025</span>), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb206-3" data-line-number="3">stringr<span class="op">::</span><span class="kw">str_c</span>(li_normal, ls_normal, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>)</a>
+<a class="sourceLine" id="cb206-4" data-line-number="4">stringr<span class="op">::</span><span class="kw">str_c</span>(li_per, ls_per, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>)</a>
+<a class="sourceLine" id="cb206-5" data-line-number="5"><span class="co">#&gt; [1] &quot;1.44,2.08&quot;</span></a>
+<a class="sourceLine" id="cb206-6" data-line-number="6"><span class="co">#&gt; [1] &quot;1.42,2.07&quot;</span></a></code></pre></div>
 <p>Si la distribución de <span class="math inline">\(\hat{\theta}^*\)</span> es aproximadamente normal, entonces
 los intervalos normales y de percentiles serán similares.</p>
 <p>Con el fin de comparar los intervalos creamos un ejemplo de simulación
 (ejemplo tomado de <span class="citation">Efron and Tibshirani (<a href="#ref-efron">1993</a>)</span>), generamos una muestra de tamaño 10 de una
 distribución normal estándar, supongamos que el parámetro de interés es
 <span class="math inline">\(e^{\mu}\)</span> donde <span class="math inline">\(\mu\)</span> es la media poblacional.</p>
-<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb206-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">137612</span>)</a>
-<a class="sourceLine" id="cb206-2" data-line-number="2">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb206-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb206-4" data-line-number="4">boot_sim_exp &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
-<a class="sourceLine" id="cb206-5" data-line-number="5">  x_boot &lt;-<span class="st"> </span><span class="kw">sample</span>(x, <span class="dt">size =</span> <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb206-6" data-line-number="6">  <span class="kw">exp</span>(<span class="kw">mean</span>(x_boot))</a>
-<a class="sourceLine" id="cb206-7" data-line-number="7">}</a>
-<a class="sourceLine" id="cb206-8" data-line-number="8">theta_boot &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">boot_sim_exp</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a>
-<a class="sourceLine" id="cb206-9" data-line-number="9">theta_boot_df &lt;-<span class="st"> </span><span class="kw">data_frame</span>(theta_boot)</a>
-<a class="sourceLine" id="cb206-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb206-11" data-line-number="11">hist_emu &lt;-<span class="st"> </span><span class="kw">ggplot</span>(theta_boot_df, <span class="kw">aes</span>(<span class="dt">x =</span> theta_boot)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb206-12" data-line-number="12"><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">fill =</span> <span class="st">&quot;gray30&quot;</span>, <span class="dt">binwidth =</span> <span class="fl">0.08</span>) </a>
-<a class="sourceLine" id="cb206-13" data-line-number="13">qq_emu &lt;-<span class="st"> </span><span class="kw">ggplot</span>(theta_boot_df) <span class="op">+</span></a>
-<a class="sourceLine" id="cb206-14" data-line-number="14"><span class="st">    </span><span class="kw">geom_abline</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb206-15" data-line-number="15"><span class="st">    </span><span class="kw">stat_qq</span>(<span class="kw">aes</span>(<span class="dt">sample =</span> theta_boot), </a>
-<a class="sourceLine" id="cb206-16" data-line-number="16">        <span class="dt">dparams =</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(theta_boot), <span class="dt">sd =</span> <span class="kw">sd</span>(theta_boot))) </a>
-<a class="sourceLine" id="cb206-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb206-18" data-line-number="18"><span class="kw">grid.arrange</span>(hist_emu, qq_emu, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">newpage =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
-<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-15-1.png" width="816" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb207-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">137612</span>)</a>
+<a class="sourceLine" id="cb207-2" data-line-number="2">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb207-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb207-4" data-line-number="4">boot_sim_exp &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
+<a class="sourceLine" id="cb207-5" data-line-number="5">  x_boot &lt;-<span class="st"> </span><span class="kw">sample</span>(x, <span class="dt">size =</span> <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb207-6" data-line-number="6">  <span class="kw">exp</span>(<span class="kw">mean</span>(x_boot))</a>
+<a class="sourceLine" id="cb207-7" data-line-number="7">}</a>
+<a class="sourceLine" id="cb207-8" data-line-number="8">theta_boot &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">boot_sim_exp</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a>
+<a class="sourceLine" id="cb207-9" data-line-number="9">theta_boot_df &lt;-<span class="st"> </span><span class="kw">data_frame</span>(theta_boot)</a>
+<a class="sourceLine" id="cb207-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb207-11" data-line-number="11">hist_emu &lt;-<span class="st"> </span><span class="kw">ggplot</span>(theta_boot_df, <span class="kw">aes</span>(<span class="dt">x =</span> theta_boot)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb207-12" data-line-number="12"><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">fill =</span> <span class="st">&quot;gray30&quot;</span>, <span class="dt">binwidth =</span> <span class="fl">0.08</span>) </a>
+<a class="sourceLine" id="cb207-13" data-line-number="13">qq_emu &lt;-<span class="st"> </span><span class="kw">ggplot</span>(theta_boot_df) <span class="op">+</span></a>
+<a class="sourceLine" id="cb207-14" data-line-number="14"><span class="st">    </span><span class="kw">geom_abline</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb207-15" data-line-number="15"><span class="st">    </span><span class="kw">stat_qq</span>(<span class="kw">aes</span>(<span class="dt">sample =</span> theta_boot), </a>
+<a class="sourceLine" id="cb207-16" data-line-number="16">        <span class="dt">dparams =</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(theta_boot), <span class="dt">sd =</span> <span class="kw">sd</span>(theta_boot))) </a>
+<a class="sourceLine" id="cb207-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb207-18" data-line-number="18"><span class="kw">grid.arrange</span>(hist_emu, qq_emu, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">newpage =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-16-1.png" width="816" style="display: block; margin: auto;" /></p>
 <p>La distribución empírica de <span class="math inline">\(\hat{\theta}^*\)</span> es asimétrica, por lo que no
 esperamos que coincidan los intervalos.</p>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb207-1" data-line-number="1"><span class="co"># Normal</span></a>
-<a class="sourceLine" id="cb207-2" data-line-number="2"><span class="kw">round</span>(<span class="kw">exp</span>(<span class="kw">mean</span>(x)) <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(theta_boot), <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb207-3" data-line-number="3"><span class="co">#&gt; [1] 0.36</span></a>
-<a class="sourceLine" id="cb207-4" data-line-number="4"><span class="kw">round</span>(<span class="kw">exp</span>(<span class="kw">mean</span>(x)) <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(theta_boot), <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb207-5" data-line-number="5"><span class="co">#&gt; [1] 1.6</span></a>
-<a class="sourceLine" id="cb207-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb207-7" data-line-number="7"><span class="co">#Percentil</span></a>
-<a class="sourceLine" id="cb207-8" data-line-number="8"><span class="kw">round</span>(<span class="kw">quantile</span>(theta_boot, <span class="dt">prob =</span> <span class="fl">0.025</span>), <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb207-9" data-line-number="9"><span class="co">#&gt; 2.5% </span></a>
-<a class="sourceLine" id="cb207-10" data-line-number="10"><span class="co">#&gt; 0.53</span></a>
-<a class="sourceLine" id="cb207-11" data-line-number="11"><span class="kw">round</span>(<span class="kw">quantile</span>(theta_boot, <span class="dt">prob =</span> <span class="fl">0.975</span>), <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb207-12" data-line-number="12"><span class="co">#&gt; 97.5% </span></a>
-<a class="sourceLine" id="cb207-13" data-line-number="13"><span class="co">#&gt;  1.79</span></a></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb208-1" data-line-number="1"><span class="co"># Normal</span></a>
+<a class="sourceLine" id="cb208-2" data-line-number="2"><span class="kw">round</span>(<span class="kw">exp</span>(<span class="kw">mean</span>(x)) <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(theta_boot), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb208-3" data-line-number="3"><span class="co">#&gt; [1] 0.36</span></a>
+<a class="sourceLine" id="cb208-4" data-line-number="4"><span class="kw">round</span>(<span class="kw">exp</span>(<span class="kw">mean</span>(x)) <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(theta_boot), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb208-5" data-line-number="5"><span class="co">#&gt; [1] 1.6</span></a>
+<a class="sourceLine" id="cb208-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb208-7" data-line-number="7"><span class="co">#Percentil</span></a>
+<a class="sourceLine" id="cb208-8" data-line-number="8"><span class="kw">round</span>(<span class="kw">quantile</span>(theta_boot, <span class="dt">prob =</span> <span class="fl">0.025</span>), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb208-9" data-line-number="9"><span class="co">#&gt; 2.5% </span></a>
+<a class="sourceLine" id="cb208-10" data-line-number="10"><span class="co">#&gt; 0.53</span></a>
+<a class="sourceLine" id="cb208-11" data-line-number="11"><span class="kw">round</span>(<span class="kw">quantile</span>(theta_boot, <span class="dt">prob =</span> <span class="fl">0.975</span>), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb208-12" data-line-number="12"><span class="co">#&gt; 97.5% </span></a>
+<a class="sourceLine" id="cb208-13" data-line-number="13"><span class="co">#&gt;  1.79</span></a></code></pre></div>
 <p>La inspección del histograma deja claro que la aproximación normal no es
 conveniente en este caso, veamos que ocurre cuando aplicamos la transformación
 logarítmica.</p>
-<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb208-1" data-line-number="1">hist_log &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">data_frame</span>(theta_boot), <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(theta_boot))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb208-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">fill =</span> <span class="st">&quot;gray30&quot;</span>, <span class="dt">binwidth =</span> <span class="fl">0.08</span>) </a>
-<a class="sourceLine" id="cb208-3" data-line-number="3">qq_log &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">data_frame</span>(theta_boot)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb208-4" data-line-number="4"><span class="st">    </span><span class="kw">geom_abline</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb208-5" data-line-number="5"><span class="st">    </span><span class="kw">stat_qq</span>(<span class="kw">aes</span>(<span class="dt">sample =</span> <span class="kw">log</span>(theta_boot)), </a>
-<a class="sourceLine" id="cb208-6" data-line-number="6">        <span class="dt">dparams =</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(<span class="kw">log</span>(theta_boot)), <span class="dt">sd =</span> <span class="kw">sd</span>(<span class="kw">log</span>(theta_boot)))) </a>
-<a class="sourceLine" id="cb208-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb208-8" data-line-number="8"><span class="kw">grid.arrange</span>(hist_log, qq_log, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">newpage =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
-<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-17-1.png" width="816" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb209-1" data-line-number="1">hist_log &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">data_frame</span>(theta_boot), <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(theta_boot))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb209-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">fill =</span> <span class="st">&quot;gray30&quot;</span>, <span class="dt">binwidth =</span> <span class="fl">0.08</span>) </a>
+<a class="sourceLine" id="cb209-3" data-line-number="3">qq_log &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">data_frame</span>(theta_boot)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb209-4" data-line-number="4"><span class="st">    </span><span class="kw">geom_abline</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb209-5" data-line-number="5"><span class="st">    </span><span class="kw">stat_qq</span>(<span class="kw">aes</span>(<span class="dt">sample =</span> <span class="kw">log</span>(theta_boot)), </a>
+<a class="sourceLine" id="cb209-6" data-line-number="6">        <span class="dt">dparams =</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(<span class="kw">log</span>(theta_boot)), <span class="dt">sd =</span> <span class="kw">sd</span>(<span class="kw">log</span>(theta_boot)))) </a>
+<a class="sourceLine" id="cb209-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb209-8" data-line-number="8"><span class="kw">grid.arrange</span>(hist_log, qq_log, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">newpage =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-18-1.png" width="816" style="display: block; margin: auto;" /></p>
 <p>Y los intervalos se comparan:</p>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb209-1" data-line-number="1"><span class="co"># Normal</span></a>
-<a class="sourceLine" id="cb209-2" data-line-number="2"><span class="kw">round</span>(<span class="kw">mean</span>(x) <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(<span class="kw">log</span>(theta_boot)), <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb209-3" data-line-number="3"><span class="co">#&gt; [1] -0.63</span></a>
-<a class="sourceLine" id="cb209-4" data-line-number="4"><span class="kw">round</span>(<span class="kw">mean</span>(x) <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(<span class="kw">log</span>(theta_boot)), <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb209-5" data-line-number="5"><span class="co">#&gt; [1] 0.58</span></a>
-<a class="sourceLine" id="cb209-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb209-7" data-line-number="7"><span class="co">#Percentil</span></a>
-<a class="sourceLine" id="cb209-8" data-line-number="8"><span class="kw">round</span>(<span class="kw">quantile</span>(<span class="kw">log</span>(theta_boot), <span class="dt">prob =</span> <span class="fl">0.025</span>), <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb209-9" data-line-number="9"><span class="co">#&gt;  2.5% </span></a>
-<a class="sourceLine" id="cb209-10" data-line-number="10"><span class="co">#&gt; -0.63</span></a>
-<a class="sourceLine" id="cb209-11" data-line-number="11"><span class="kw">round</span>(<span class="kw">quantile</span>(<span class="kw">log</span>(theta_boot), <span class="dt">prob =</span> <span class="fl">0.975</span>), <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb209-12" data-line-number="12"><span class="co">#&gt; 97.5% </span></a>
-<a class="sourceLine" id="cb209-13" data-line-number="13"><span class="co">#&gt;  0.58</span></a></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb210-1" data-line-number="1"><span class="co"># Normal</span></a>
+<a class="sourceLine" id="cb210-2" data-line-number="2"><span class="kw">round</span>(<span class="kw">mean</span>(x) <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(<span class="kw">log</span>(theta_boot)), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb210-3" data-line-number="3"><span class="co">#&gt; [1] -0.63</span></a>
+<a class="sourceLine" id="cb210-4" data-line-number="4"><span class="kw">round</span>(<span class="kw">mean</span>(x) <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(<span class="kw">log</span>(theta_boot)), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb210-5" data-line-number="5"><span class="co">#&gt; [1] 0.58</span></a>
+<a class="sourceLine" id="cb210-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb210-7" data-line-number="7"><span class="co">#Percentil</span></a>
+<a class="sourceLine" id="cb210-8" data-line-number="8"><span class="kw">round</span>(<span class="kw">quantile</span>(<span class="kw">log</span>(theta_boot), <span class="dt">prob =</span> <span class="fl">0.025</span>), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb210-9" data-line-number="9"><span class="co">#&gt;  2.5% </span></a>
+<a class="sourceLine" id="cb210-10" data-line-number="10"><span class="co">#&gt; -0.63</span></a>
+<a class="sourceLine" id="cb210-11" data-line-number="11"><span class="kw">round</span>(<span class="kw">quantile</span>(<span class="kw">log</span>(theta_boot), <span class="dt">prob =</span> <span class="fl">0.975</span>), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb210-12" data-line-number="12"><span class="co">#&gt; 97.5% </span></a>
+<a class="sourceLine" id="cb210-13" data-line-number="13"><span class="co">#&gt;  0.58</span></a></code></pre></div>
 <p>La transformación logarítmica convierte la distribución de <span class="math inline">\(\hat{\theta}\)</span> en
 normal y por tanto los intervalos de <span class="math inline">\(\hat{\phi}^*=log(\hat{\theta}^*)\)</span> son
 similares. La forma normal no es sorprendente pues <span class="math inline">\(\hat{\phi}^*=\bar{x}^*\)</span>.</p>
 <p>Si mapeamos los intervalos normales calculados para <span class="math inline">\(log(\hat{\theta}^*)\)</span> de
 regreso a la escala de <span class="math inline">\(\theta\)</span> obtenemos intervalos similares a los calculados
 para <span class="math inline">\(\hat{\theta}^*\)</span> usando percentiles:</p>
-<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb210-1" data-line-number="1"><span class="kw">exp</span>(<span class="kw">round</span>(<span class="kw">mean</span>(x) <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(<span class="kw">log</span>(theta_boot)), <span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb210-2" data-line-number="2"><span class="co">#&gt; [1] 0.5325918</span></a>
-<a class="sourceLine" id="cb210-3" data-line-number="3"><span class="kw">exp</span>(<span class="kw">round</span>(<span class="kw">mean</span>(x) <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(<span class="kw">log</span>(theta_boot)), <span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb210-4" data-line-number="4"><span class="co">#&gt; [1] 1.786038</span></a></code></pre></div>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb211-1" data-line-number="1"><span class="kw">exp</span>(<span class="kw">round</span>(<span class="kw">mean</span>(x) <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(<span class="kw">log</span>(theta_boot)), <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb211-2" data-line-number="2"><span class="co">#&gt; [1] 0.5325918</span></a>
+<a class="sourceLine" id="cb211-3" data-line-number="3"><span class="kw">exp</span>(<span class="kw">round</span>(<span class="kw">mean</span>(x) <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(<span class="kw">log</span>(theta_boot)), <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb211-4" data-line-number="4"><span class="co">#&gt; [1] 1.786038</span></a></code></pre></div>
 <p>Podemos ver que el método de aplicar una transformación, calcular intervalos
 usando la normal y aplicar la transformación inversa para volver a la escala
 original genera intervalos de confianza atractivos, el problema con este
@@ -543,23 +544,23 @@ accelerated</em>).</li>
 </ol>
 <p>Usaremos un ejemplo de <span class="citation">Efron and Tibshirani (<a href="#ref-efron">1993</a>)</span>, los datos constan de los resultados
 en dos pruebas espaciales de 26 niños con algún problema neurológico. Supongamos
-que queremos calcular un intervalo de confianza de 90% para <span class="math inline">\(\theta=var(A)\)</span>.
-El estimador plugin es:
+que queremos calcular un intervalo de confianza de 90% para <span class="math inline">\(\theta=var(A)\)</span>.</p>
+<p>El estimador plugin es:
 <span class="math display">\[\hat{\theta}=\sum_{i=1}^n(A_i-\bar{A})^2/n\]</span>
 notemos que el estimador <em>plug-in</em> es ligeramente menor que el estimador
 usual insesgado:
 <span class="math display">\[\hat{\theta}=\sum_{i=1}^n(A_i-\bar{A})^2/(n-1)\]</span></p>
 </div>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb211-1" data-line-number="1"><span class="kw">library</span>(bootstrap)</a>
-<a class="sourceLine" id="cb211-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb211-3" data-line-number="3"><span class="kw">ggplot</span>(spatial) <span class="op">+</span></a>
-<a class="sourceLine" id="cb211-4" data-line-number="4"><span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(A, B))</a></code></pre></div>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb212-1" data-line-number="1"><span class="kw">library</span>(bootstrap)</a>
+<a class="sourceLine" id="cb212-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb212-3" data-line-number="3"><span class="kw">ggplot</span>(spatial) <span class="op">+</span></a>
+<a class="sourceLine" id="cb212-4" data-line-number="4"><span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(A, B))</a></code></pre></div>
 <p><img src="05-bootstrap_no_parametrico_files/figure-html/spatial-1.png" width="336" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb212-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb212-2" data-line-number="2"><span class="kw">sum</span>((spatial<span class="op">$</span>A <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(spatial<span class="op">$</span>A)) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(spatial)</a>
-<a class="sourceLine" id="cb212-3" data-line-number="3"><span class="co">#&gt; [1] 171.534</span></a>
-<a class="sourceLine" id="cb212-4" data-line-number="4"><span class="kw">sum</span>((spatial<span class="op">$</span>A <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(spatial<span class="op">$</span>A)) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>(<span class="kw">nrow</span>(spatial) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb212-5" data-line-number="5"><span class="co">#&gt; [1] 178.3954</span></a></code></pre></div>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb213-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb213-2" data-line-number="2"><span class="kw">sum</span>((spatial<span class="op">$</span>A <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(spatial<span class="op">$</span>A)) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(spatial)</a>
+<a class="sourceLine" id="cb213-3" data-line-number="3"><span class="co">#&gt; [1] 171.534</span></a>
+<a class="sourceLine" id="cb213-4" data-line-number="4"><span class="kw">sum</span>((spatial<span class="op">$</span>A <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(spatial<span class="op">$</span>A)) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>(<span class="kw">nrow</span>(spatial) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb213-5" data-line-number="5"><span class="co">#&gt; [1] 178.3954</span></a></code></pre></div>
 <p>El método <span class="math inline">\(BC_{a}\)</span> corrige el sesgo de manera automática, lo cuál es una
 de sus prinicipales ventajas comparado con el método del percentil.</p>
 <p>Los extremos en los intervalos <span class="math inline">\(BC_{a}\)</span> están dados por percentiles de la
@@ -605,29 +606,29 @@ menos <span class="math inline">\(B= 1000\)</span> replicaciones son necesairas 
 intervals), que es un método para aproximar <span class="math inline">\(BC_{a}\)</span> analíticamente (usando
 expansiones de Taylor).</p>
 <p>Usando la implementación del paquete bootstrap:</p>
-<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb213-1" data-line-number="1"><span class="kw">library</span>(bootstrap)</a>
-<a class="sourceLine" id="cb213-2" data-line-number="2">var_sesgada &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">sum</span>((x <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(x)) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(x)</a>
-<a class="sourceLine" id="cb213-3" data-line-number="3"><span class="kw">bcanon</span>(<span class="dt">x =</span> spatial[, <span class="dv">1</span>], <span class="dt">nboot =</span> <span class="dv">2000</span>, <span class="dt">theta =</span> var_sesgada, <span class="dt">alpha =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a>
-<a class="sourceLine" id="cb213-4" data-line-number="4"><span class="co">#&gt; $confpoints</span></a>
-<a class="sourceLine" id="cb213-5" data-line-number="5"><span class="co">#&gt;      alpha bca point</span></a>
-<a class="sourceLine" id="cb213-6" data-line-number="6"><span class="co">#&gt; [1,] 0.025  103.8402</span></a>
-<a class="sourceLine" id="cb213-7" data-line-number="7"><span class="co">#&gt; [2,] 0.975  274.0533</span></a>
-<a class="sourceLine" id="cb213-8" data-line-number="8"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb213-9" data-line-number="9"><span class="co">#&gt; $z0</span></a>
-<a class="sourceLine" id="cb213-10" data-line-number="10"><span class="co">#&gt; [1] 0.1383042</span></a>
-<a class="sourceLine" id="cb213-11" data-line-number="11"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb213-12" data-line-number="12"><span class="co">#&gt; $acc</span></a>
-<a class="sourceLine" id="cb213-13" data-line-number="13"><span class="co">#&gt; [1] 0.06124012</span></a>
-<a class="sourceLine" id="cb213-14" data-line-number="14"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb213-15" data-line-number="15"><span class="co">#&gt; $u</span></a>
-<a class="sourceLine" id="cb213-16" data-line-number="16"><span class="co">#&gt;  [1] 164.3936 176.7200 174.5184 178.3776 172.0544 172.0544 174.5184</span></a>
-<a class="sourceLine" id="cb213-17" data-line-number="17"><span class="co">#&gt;  [8] 172.0544 175.9584 173.0400 168.5984 168.2016 155.1200 141.8144</span></a>
-<a class="sourceLine" id="cb213-18" data-line-number="18"><span class="co">#&gt; [15] 177.9296 178.2816 177.6096 151.0176 178.1664 177.0656 165.8784</span></a>
-<a class="sourceLine" id="cb213-19" data-line-number="19"><span class="co">#&gt; [22] 173.0400 177.0656 177.8400 178.3904 173.0400</span></a>
-<a class="sourceLine" id="cb213-20" data-line-number="20"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb213-21" data-line-number="21"><span class="co">#&gt; $call</span></a>
-<a class="sourceLine" id="cb213-22" data-line-number="22"><span class="co">#&gt; bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada, alpha = c(0.025, </span></a>
-<a class="sourceLine" id="cb213-23" data-line-number="23"><span class="co">#&gt;     0.975))</span></a></code></pre></div>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb214-1" data-line-number="1"><span class="kw">library</span>(bootstrap)</a>
+<a class="sourceLine" id="cb214-2" data-line-number="2">var_sesgada &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">sum</span>((x <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(x)) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(x)</a>
+<a class="sourceLine" id="cb214-3" data-line-number="3"><span class="kw">bcanon</span>(<span class="dt">x =</span> spatial[, <span class="dv">1</span>], <span class="dt">nboot =</span> <span class="dv">2000</span>, <span class="dt">theta =</span> var_sesgada, <span class="dt">alpha =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a>
+<a class="sourceLine" id="cb214-4" data-line-number="4"><span class="co">#&gt; $confpoints</span></a>
+<a class="sourceLine" id="cb214-5" data-line-number="5"><span class="co">#&gt;      alpha bca point</span></a>
+<a class="sourceLine" id="cb214-6" data-line-number="6"><span class="co">#&gt; [1,] 0.025  103.8402</span></a>
+<a class="sourceLine" id="cb214-7" data-line-number="7"><span class="co">#&gt; [2,] 0.975  274.0533</span></a>
+<a class="sourceLine" id="cb214-8" data-line-number="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb214-9" data-line-number="9"><span class="co">#&gt; $z0</span></a>
+<a class="sourceLine" id="cb214-10" data-line-number="10"><span class="co">#&gt; [1] 0.1383042</span></a>
+<a class="sourceLine" id="cb214-11" data-line-number="11"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb214-12" data-line-number="12"><span class="co">#&gt; $acc</span></a>
+<a class="sourceLine" id="cb214-13" data-line-number="13"><span class="co">#&gt; [1] 0.06124012</span></a>
+<a class="sourceLine" id="cb214-14" data-line-number="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb214-15" data-line-number="15"><span class="co">#&gt; $u</span></a>
+<a class="sourceLine" id="cb214-16" data-line-number="16"><span class="co">#&gt;  [1] 164.3936 176.7200 174.5184 178.3776 172.0544 172.0544 174.5184</span></a>
+<a class="sourceLine" id="cb214-17" data-line-number="17"><span class="co">#&gt;  [8] 172.0544 175.9584 173.0400 168.5984 168.2016 155.1200 141.8144</span></a>
+<a class="sourceLine" id="cb214-18" data-line-number="18"><span class="co">#&gt; [15] 177.9296 178.2816 177.6096 151.0176 178.1664 177.0656 165.8784</span></a>
+<a class="sourceLine" id="cb214-19" data-line-number="19"><span class="co">#&gt; [22] 173.0400 177.0656 177.8400 178.3904 173.0400</span></a>
+<a class="sourceLine" id="cb214-20" data-line-number="20"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb214-21" data-line-number="21"><span class="co">#&gt; $call</span></a>
+<a class="sourceLine" id="cb214-22" data-line-number="22"><span class="co">#&gt; bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada, alpha = c(0.025, </span></a>
+<a class="sourceLine" id="cb214-23" data-line-number="23"><span class="co">#&gt;     0.975))</span></a></code></pre></div>
 <p><img src="img/manicule2.jpg" /> Comapara el intervalo anterior con los intervalos
 normal y de percentiles.</p>
 <p>Otros intervalos basados en bootstrap incluyen los intervalos pivotales y los
@@ -669,74 +670,74 @@ adecuados para un gran número de casos.</p></li>
 <p>Los datos <em>marks</em> (Mardia, Kent y Bibby, 1979) contienen los puntajes de 88
 estudiantes en 5 pruebas: mecánica, vectores, álgebra, análisis y estadística.
 Cada renglón corresponde a la calificación de un estudiante en cada prueba.</p>
-<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb214-1" data-line-number="1"><span class="kw">data</span>(marks, <span class="dt">package =</span> <span class="st">&quot;ggm&quot;</span>)</a>
-<a class="sourceLine" id="cb214-2" data-line-number="2"><span class="kw">glimpse</span>(marks)</a>
-<a class="sourceLine" id="cb214-3" data-line-number="3"><span class="co">#&gt; Observations: 88</span></a>
-<a class="sourceLine" id="cb214-4" data-line-number="4"><span class="co">#&gt; Variables: 5</span></a>
-<a class="sourceLine" id="cb214-5" data-line-number="5"><span class="co">#&gt; $ mechanics  &lt;dbl&gt; 77, 63, 75, 55, 63, 53, 51, 59, 62, 64, 52, 55, 50, 6…</span></a>
-<a class="sourceLine" id="cb214-6" data-line-number="6"><span class="co">#&gt; $ vectors    &lt;dbl&gt; 82, 78, 73, 72, 63, 61, 67, 70, 60, 72, 64, 67, 50, 6…</span></a>
-<a class="sourceLine" id="cb214-7" data-line-number="7"><span class="co">#&gt; $ algebra    &lt;dbl&gt; 67, 80, 71, 63, 65, 72, 65, 68, 58, 60, 60, 59, 64, 5…</span></a>
-<a class="sourceLine" id="cb214-8" data-line-number="8"><span class="co">#&gt; $ analysis   &lt;dbl&gt; 67, 70, 66, 70, 70, 64, 65, 62, 62, 62, 63, 62, 55, 5…</span></a>
-<a class="sourceLine" id="cb214-9" data-line-number="9"><span class="co">#&gt; $ statistics &lt;dbl&gt; 81, 81, 81, 68, 63, 73, 68, 56, 70, 45, 54, 44, 63, 3…</span></a></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb215-1" data-line-number="1"><span class="kw">data</span>(marks, <span class="dt">package =</span> <span class="st">&quot;ggm&quot;</span>)</a>
+<a class="sourceLine" id="cb215-2" data-line-number="2"><span class="kw">glimpse</span>(marks)</a>
+<a class="sourceLine" id="cb215-3" data-line-number="3"><span class="co">#&gt; Observations: 88</span></a>
+<a class="sourceLine" id="cb215-4" data-line-number="4"><span class="co">#&gt; Variables: 5</span></a>
+<a class="sourceLine" id="cb215-5" data-line-number="5"><span class="co">#&gt; $ mechanics  &lt;dbl&gt; 77, 63, 75, 55, 63, 53, 51, 59, 62, 64, 52, 55, 50, 6…</span></a>
+<a class="sourceLine" id="cb215-6" data-line-number="6"><span class="co">#&gt; $ vectors    &lt;dbl&gt; 82, 78, 73, 72, 63, 61, 67, 70, 60, 72, 64, 67, 50, 6…</span></a>
+<a class="sourceLine" id="cb215-7" data-line-number="7"><span class="co">#&gt; $ algebra    &lt;dbl&gt; 67, 80, 71, 63, 65, 72, 65, 68, 58, 60, 60, 59, 64, 5…</span></a>
+<a class="sourceLine" id="cb215-8" data-line-number="8"><span class="co">#&gt; $ analysis   &lt;dbl&gt; 67, 70, 66, 70, 70, 64, 65, 62, 62, 62, 63, 62, 55, 5…</span></a>
+<a class="sourceLine" id="cb215-9" data-line-number="9"><span class="co">#&gt; $ statistics &lt;dbl&gt; 81, 81, 81, 68, 63, 73, 68, 56, 70, 45, 54, 44, 63, 3…</span></a></code></pre></div>
 <p>Entonces un análisis de componentes principales proseguiría como sigue:</p>
-<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb215-1" data-line-number="1">pc_marks &lt;-<span class="st"> </span><span class="kw">princomp</span>(marks)</a>
-<a class="sourceLine" id="cb215-2" data-line-number="2"><span class="kw">summary</span>(pc_marks)</a>
-<a class="sourceLine" id="cb215-3" data-line-number="3"><span class="co">#&gt; Importance of components:</span></a>
-<a class="sourceLine" id="cb215-4" data-line-number="4"><span class="co">#&gt;                            Comp.1     Comp.2      Comp.3     Comp.4</span></a>
-<a class="sourceLine" id="cb215-5" data-line-number="5"><span class="co">#&gt; Standard deviation     26.0600955 14.1291852 10.13060363 9.15149631</span></a>
-<a class="sourceLine" id="cb215-6" data-line-number="6"><span class="co">#&gt; Proportion of Variance  0.6191097  0.1819910  0.09355915 0.07634838</span></a>
-<a class="sourceLine" id="cb215-7" data-line-number="7"><span class="co">#&gt; Cumulative Proportion   0.6191097  0.8011007  0.89465983 0.97100821</span></a>
-<a class="sourceLine" id="cb215-8" data-line-number="8"><span class="co">#&gt;                            Comp.5</span></a>
-<a class="sourceLine" id="cb215-9" data-line-number="9"><span class="co">#&gt; Standard deviation     5.63935825</span></a>
-<a class="sourceLine" id="cb215-10" data-line-number="10"><span class="co">#&gt; Proportion of Variance 0.02899179</span></a>
-<a class="sourceLine" id="cb215-11" data-line-number="11"><span class="co">#&gt; Cumulative Proportion  1.00000000</span></a>
-<a class="sourceLine" id="cb215-12" data-line-number="12"><span class="kw">loadings</span>(pc_marks)</a>
-<a class="sourceLine" id="cb215-13" data-line-number="13"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb215-14" data-line-number="14"><span class="co">#&gt; Loadings:</span></a>
-<a class="sourceLine" id="cb215-15" data-line-number="15"><span class="co">#&gt;            Comp.1 Comp.2 Comp.3 Comp.4 Comp.5</span></a>
-<a class="sourceLine" id="cb215-16" data-line-number="16"><span class="co">#&gt; mechanics   0.505  0.749  0.301  0.295       </span></a>
-<a class="sourceLine" id="cb215-17" data-line-number="17"><span class="co">#&gt; vectors     0.368  0.207 -0.419 -0.781  0.190</span></a>
-<a class="sourceLine" id="cb215-18" data-line-number="18"><span class="co">#&gt; algebra     0.346        -0.146        -0.924</span></a>
-<a class="sourceLine" id="cb215-19" data-line-number="19"><span class="co">#&gt; analysis    0.451 -0.301 -0.594  0.521  0.286</span></a>
-<a class="sourceLine" id="cb215-20" data-line-number="20"><span class="co">#&gt; statistics  0.535 -0.547  0.600 -0.178  0.151</span></a>
-<a class="sourceLine" id="cb215-21" data-line-number="21"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb215-22" data-line-number="22"><span class="co">#&gt;                Comp.1 Comp.2 Comp.3 Comp.4 Comp.5</span></a>
-<a class="sourceLine" id="cb215-23" data-line-number="23"><span class="co">#&gt; SS loadings       1.0    1.0    1.0    1.0    1.0</span></a>
-<a class="sourceLine" id="cb215-24" data-line-number="24"><span class="co">#&gt; Proportion Var    0.2    0.2    0.2    0.2    0.2</span></a>
-<a class="sourceLine" id="cb215-25" data-line-number="25"><span class="co">#&gt; Cumulative Var    0.2    0.4    0.6    0.8    1.0</span></a>
-<a class="sourceLine" id="cb215-26" data-line-number="26"><span class="kw">plot</span>(pc_marks, <span class="dt">type =</span> <span class="st">&quot;lines&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb216-1" data-line-number="1">pc_marks &lt;-<span class="st"> </span><span class="kw">princomp</span>(marks)</a>
+<a class="sourceLine" id="cb216-2" data-line-number="2"><span class="kw">summary</span>(pc_marks)</a>
+<a class="sourceLine" id="cb216-3" data-line-number="3"><span class="co">#&gt; Importance of components:</span></a>
+<a class="sourceLine" id="cb216-4" data-line-number="4"><span class="co">#&gt;                            Comp.1     Comp.2      Comp.3     Comp.4</span></a>
+<a class="sourceLine" id="cb216-5" data-line-number="5"><span class="co">#&gt; Standard deviation     26.0600955 14.1291852 10.13060363 9.15149631</span></a>
+<a class="sourceLine" id="cb216-6" data-line-number="6"><span class="co">#&gt; Proportion of Variance  0.6191097  0.1819910  0.09355915 0.07634838</span></a>
+<a class="sourceLine" id="cb216-7" data-line-number="7"><span class="co">#&gt; Cumulative Proportion   0.6191097  0.8011007  0.89465983 0.97100821</span></a>
+<a class="sourceLine" id="cb216-8" data-line-number="8"><span class="co">#&gt;                            Comp.5</span></a>
+<a class="sourceLine" id="cb216-9" data-line-number="9"><span class="co">#&gt; Standard deviation     5.63935825</span></a>
+<a class="sourceLine" id="cb216-10" data-line-number="10"><span class="co">#&gt; Proportion of Variance 0.02899179</span></a>
+<a class="sourceLine" id="cb216-11" data-line-number="11"><span class="co">#&gt; Cumulative Proportion  1.00000000</span></a>
+<a class="sourceLine" id="cb216-12" data-line-number="12"><span class="kw">loadings</span>(pc_marks)</a>
+<a class="sourceLine" id="cb216-13" data-line-number="13"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb216-14" data-line-number="14"><span class="co">#&gt; Loadings:</span></a>
+<a class="sourceLine" id="cb216-15" data-line-number="15"><span class="co">#&gt;            Comp.1 Comp.2 Comp.3 Comp.4 Comp.5</span></a>
+<a class="sourceLine" id="cb216-16" data-line-number="16"><span class="co">#&gt; mechanics   0.505  0.749  0.301  0.295       </span></a>
+<a class="sourceLine" id="cb216-17" data-line-number="17"><span class="co">#&gt; vectors     0.368  0.207 -0.419 -0.781  0.190</span></a>
+<a class="sourceLine" id="cb216-18" data-line-number="18"><span class="co">#&gt; algebra     0.346        -0.146        -0.924</span></a>
+<a class="sourceLine" id="cb216-19" data-line-number="19"><span class="co">#&gt; analysis    0.451 -0.301 -0.594  0.521  0.286</span></a>
+<a class="sourceLine" id="cb216-20" data-line-number="20"><span class="co">#&gt; statistics  0.535 -0.547  0.600 -0.178  0.151</span></a>
+<a class="sourceLine" id="cb216-21" data-line-number="21"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb216-22" data-line-number="22"><span class="co">#&gt;                Comp.1 Comp.2 Comp.3 Comp.4 Comp.5</span></a>
+<a class="sourceLine" id="cb216-23" data-line-number="23"><span class="co">#&gt; SS loadings       1.0    1.0    1.0    1.0    1.0</span></a>
+<a class="sourceLine" id="cb216-24" data-line-number="24"><span class="co">#&gt; Proportion Var    0.2    0.2    0.2    0.2    0.2</span></a>
+<a class="sourceLine" id="cb216-25" data-line-number="25"><span class="co">#&gt; Cumulative Var    0.2    0.4    0.6    0.8    1.0</span></a>
+<a class="sourceLine" id="cb216-26" data-line-number="26"><span class="kw">plot</span>(pc_marks, <span class="dt">type =</span> <span class="st">&quot;lines&quot;</span>)</a></code></pre></div>
 <p><img src="05-bootstrap_no_parametrico_files/figure-html/pc-1.png" width="288" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb216-1" data-line-number="1"><span class="kw">biplot</span>(pc_marks)</a></code></pre></div>
-<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" data-line-number="1"><span class="kw">biplot</span>(pc_marks)</a></code></pre></div>
+<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Los cálculos de un análisis de componentes principales involucran la matriz de
 covarianzas empírica <span class="math inline">\(G\)</span> (estimaciones <em>plug-in</em>)</p>
 <p><span class="math display">\[G_{jk} = \frac{1}{88}\sum_{i=1}^88(x_{ij}-\bar{x_j})(x_{ik}-\bar{x_k})\]</span></p>
 <p>para <span class="math inline">\(j,k=1,2,3,4,5\)</span>, y donde <span class="math inline">\(\bar{x_j} = \sum_{i=1}^88 x_{ij} / 88\)</span> (la media
 de la i-ésima columna).</p>
-<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" data-line-number="1">G &lt;-<span class="st"> </span><span class="kw">cov</span>(marks) <span class="op">*</span><span class="st"> </span><span class="dv">87</span> <span class="op">/</span><span class="st"> </span><span class="dv">88</span></a>
-<a class="sourceLine" id="cb217-2" data-line-number="2">G</a>
-<a class="sourceLine" id="cb217-3" data-line-number="3"><span class="co">#&gt;            mechanics   vectors   algebra  analysis statistics</span></a>
-<a class="sourceLine" id="cb217-4" data-line-number="4"><span class="co">#&gt; mechanics   302.2147 125.59969 100.31599 105.11415  116.15819</span></a>
-<a class="sourceLine" id="cb217-5" data-line-number="5"><span class="co">#&gt; vectors     125.5997 170.87810  84.18957  93.59711   97.88688</span></a>
-<a class="sourceLine" id="cb217-6" data-line-number="6"><span class="co">#&gt; algebra     100.3160  84.18957 111.60318 110.83936  120.48567</span></a>
-<a class="sourceLine" id="cb217-7" data-line-number="7"><span class="co">#&gt; analysis    105.1142  93.59711 110.83936 217.87603  153.76808</span></a>
-<a class="sourceLine" id="cb217-8" data-line-number="8"><span class="co">#&gt; statistics  116.1582  97.88688 120.48567 153.76808  294.37177</span></a></code></pre></div>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb218-1" data-line-number="1">G &lt;-<span class="st"> </span><span class="kw">cov</span>(marks) <span class="op">*</span><span class="st"> </span><span class="dv">87</span> <span class="op">/</span><span class="st"> </span><span class="dv">88</span></a>
+<a class="sourceLine" id="cb218-2" data-line-number="2">G</a>
+<a class="sourceLine" id="cb218-3" data-line-number="3"><span class="co">#&gt;            mechanics   vectors   algebra  analysis statistics</span></a>
+<a class="sourceLine" id="cb218-4" data-line-number="4"><span class="co">#&gt; mechanics   302.2147 125.59969 100.31599 105.11415  116.15819</span></a>
+<a class="sourceLine" id="cb218-5" data-line-number="5"><span class="co">#&gt; vectors     125.5997 170.87810  84.18957  93.59711   97.88688</span></a>
+<a class="sourceLine" id="cb218-6" data-line-number="6"><span class="co">#&gt; algebra     100.3160  84.18957 111.60318 110.83936  120.48567</span></a>
+<a class="sourceLine" id="cb218-7" data-line-number="7"><span class="co">#&gt; analysis    105.1142  93.59711 110.83936 217.87603  153.76808</span></a>
+<a class="sourceLine" id="cb218-8" data-line-number="8"><span class="co">#&gt; statistics  116.1582  97.88688 120.48567 153.76808  294.37177</span></a></code></pre></div>
 <p>Los <em>pesos</em> y las <em>componentes principales</em> no son mas que los eigenvalores y
 eigenvectores de la matriz de covarianzas <span class="math inline">\(G\)</span>, estos se calculan a través de una
 serie de de manipulaciones algebraicas que requieren cálculos del orden de p^3
 (cuando G es una matriz de tamaño p<span class="math inline">\(\times\)</span>p).</p>
-<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb218-1" data-line-number="1">eigen_G &lt;-<span class="st"> </span><span class="kw">eigen</span>(G)</a>
-<a class="sourceLine" id="cb218-2" data-line-number="2">lambda &lt;-<span class="st"> </span>eigen_G<span class="op">$</span>values</a>
-<a class="sourceLine" id="cb218-3" data-line-number="3">v &lt;-<span class="st"> </span>eigen_G<span class="op">$</span>vectors</a>
-<a class="sourceLine" id="cb218-4" data-line-number="4">lambda</a>
-<a class="sourceLine" id="cb218-5" data-line-number="5"><span class="co">#&gt; [1] 679.12858 199.63388 102.62913  83.74988  31.80236</span></a>
-<a class="sourceLine" id="cb218-6" data-line-number="6">v</a>
-<a class="sourceLine" id="cb218-7" data-line-number="7"><span class="co">#&gt;           [,1]        [,2]       [,3]         [,4]        [,5]</span></a>
-<a class="sourceLine" id="cb218-8" data-line-number="8"><span class="co">#&gt; [1,] 0.5053373  0.74917585  0.3006046  0.294631757 -0.07873256</span></a>
-<a class="sourceLine" id="cb218-9" data-line-number="9"><span class="co">#&gt; [2,] 0.3682215  0.20692361 -0.4185473 -0.781332853 -0.18955902</span></a>
-<a class="sourceLine" id="cb218-10" data-line-number="10"><span class="co">#&gt; [3,] 0.3456083 -0.07622065 -0.1457830 -0.003348995  0.92384059</span></a>
-<a class="sourceLine" id="cb218-11" data-line-number="11"><span class="co">#&gt; [4,] 0.4512152 -0.30063472 -0.5944322  0.520724416 -0.28551729</span></a>
-<a class="sourceLine" id="cb218-12" data-line-number="12"><span class="co">#&gt; [5,] 0.5347961 -0.54747360  0.5998773 -0.177611847 -0.15121842</span></a></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" data-line-number="1">eigen_G &lt;-<span class="st"> </span><span class="kw">eigen</span>(G)</a>
+<a class="sourceLine" id="cb219-2" data-line-number="2">lambda &lt;-<span class="st"> </span>eigen_G<span class="op">$</span>values</a>
+<a class="sourceLine" id="cb219-3" data-line-number="3">v &lt;-<span class="st"> </span>eigen_G<span class="op">$</span>vectors</a>
+<a class="sourceLine" id="cb219-4" data-line-number="4">lambda</a>
+<a class="sourceLine" id="cb219-5" data-line-number="5"><span class="co">#&gt; [1] 679.12858 199.63388 102.62913  83.74988  31.80236</span></a>
+<a class="sourceLine" id="cb219-6" data-line-number="6">v</a>
+<a class="sourceLine" id="cb219-7" data-line-number="7"><span class="co">#&gt;           [,1]        [,2]       [,3]         [,4]        [,5]</span></a>
+<a class="sourceLine" id="cb219-8" data-line-number="8"><span class="co">#&gt; [1,] 0.5053373  0.74917585  0.3006046  0.294631757 -0.07873256</span></a>
+<a class="sourceLine" id="cb219-9" data-line-number="9"><span class="co">#&gt; [2,] 0.3682215  0.20692361 -0.4185473 -0.781332853 -0.18955902</span></a>
+<a class="sourceLine" id="cb219-10" data-line-number="10"><span class="co">#&gt; [3,] 0.3456083 -0.07622065 -0.1457830 -0.003348995  0.92384059</span></a>
+<a class="sourceLine" id="cb219-11" data-line-number="11"><span class="co">#&gt; [4,] 0.4512152 -0.30063472 -0.5944322  0.520724416 -0.28551729</span></a>
+<a class="sourceLine" id="cb219-12" data-line-number="12"><span class="co">#&gt; [5,] 0.5347961 -0.54747360  0.5998773 -0.177611847 -0.15121842</span></a></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Proponemos el siguiente modelo simple para puntajes correlacionados:</li>
 </ol>
@@ -750,9 +751,9 @@ Sea <span class="math display">\[\hat{\theta}=\sum_{i=1}^5\hat{\lambda}_i\]</spa
 el modelo propuesto es equivalente a <span class="math inline">\(\hat{\theta}=1\)</span>, inculso si el modelo es
 correcto, no esperamos que <span class="math inline">\(\hat{\theta}\)</span> sea exactamente uno pues hay ruido en
 los datos.</p>
-<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" data-line-number="1">theta_hat &lt;-<span class="st"> </span>lambda[<span class="dv">1</span>]<span class="op">/</span><span class="kw">sum</span>(lambda)</a>
-<a class="sourceLine" id="cb219-2" data-line-number="2">theta_hat</a>
-<a class="sourceLine" id="cb219-3" data-line-number="3"><span class="co">#&gt; [1] 0.6191097</span></a></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb220-1" data-line-number="1">theta_hat &lt;-<span class="st"> </span>lambda[<span class="dv">1</span>]<span class="op">/</span><span class="kw">sum</span>(lambda)</a>
+<a class="sourceLine" id="cb220-2" data-line-number="2">theta_hat</a>
+<a class="sourceLine" id="cb220-3" data-line-number="3"><span class="co">#&gt; [1] 0.6191097</span></a></code></pre></div>
 <p>El valor de <span class="math inline">\(\hat{\theta}\)</span> mide el porcentaje de la varianza explicada en la
 primer componente principal, ¿qué tan preciso es <span class="math inline">\(\hat{\theta}\)</span>? La complejidad
 matemática en el cálculo de <span class="math inline">\(\hat{\theta}\)</span> es irrelevante siempre y cuando
@@ -760,28 +761,28 @@ podamos calcular <span class="math inline">\(\hat{\theta}^*\)</span> para una mu
 muestra bootsrtap es una base de datos de 88$$5 <span class="math inline">\(\textbf{X}^*\)</span>, donde las
 filas <span class="math inline">\(\textbf{x_i}^*\)</span> de <span class="math inline">\(\textbf{X}^*\)</span> son una muestra aleatoria de tamaño
 88 de la verdadera matriz de datos.</p>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb220-1" data-line-number="1">pc_boot &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
-<a class="sourceLine" id="cb220-2" data-line-number="2">    muestra_boot &lt;-<span class="st"> </span><span class="kw">sample_n</span>(marks, <span class="dt">size =</span> <span class="dv">88</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb220-3" data-line-number="3">    G &lt;-<span class="st"> </span><span class="kw">cov</span>(muestra_boot) <span class="op">*</span><span class="st"> </span><span class="dv">87</span> <span class="op">/</span><span class="st"> </span><span class="dv">88</span> </a>
-<a class="sourceLine" id="cb220-4" data-line-number="4">    eigen_G &lt;-<span class="st"> </span><span class="kw">eigen</span>(G)</a>
-<a class="sourceLine" id="cb220-5" data-line-number="5">    theta_hat &lt;-<span class="st"> </span>eigen_G<span class="op">$</span>values[<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(eigen_G<span class="op">$</span>values)</a>
-<a class="sourceLine" id="cb220-6" data-line-number="6">}</a>
-<a class="sourceLine" id="cb220-7" data-line-number="7">B &lt;-<span class="st"> </span><span class="dv">1000</span></a>
-<a class="sourceLine" id="cb220-8" data-line-number="8">thetas_boot &lt;-<span class="st"> </span><span class="kw">rerun</span>(B, <span class="kw">pc_boot</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb221-1" data-line-number="1">pc_boot &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
+<a class="sourceLine" id="cb221-2" data-line-number="2">    muestra_boot &lt;-<span class="st"> </span><span class="kw">sample_n</span>(marks, <span class="dt">size =</span> <span class="dv">88</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb221-3" data-line-number="3">    G &lt;-<span class="st"> </span><span class="kw">cov</span>(muestra_boot) <span class="op">*</span><span class="st"> </span><span class="dv">87</span> <span class="op">/</span><span class="st"> </span><span class="dv">88</span> </a>
+<a class="sourceLine" id="cb221-4" data-line-number="4">    eigen_G &lt;-<span class="st"> </span><span class="kw">eigen</span>(G)</a>
+<a class="sourceLine" id="cb221-5" data-line-number="5">    theta_hat &lt;-<span class="st"> </span>eigen_G<span class="op">$</span>values[<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(eigen_G<span class="op">$</span>values)</a>
+<a class="sourceLine" id="cb221-6" data-line-number="6">}</a>
+<a class="sourceLine" id="cb221-7" data-line-number="7">B &lt;-<span class="st"> </span><span class="dv">1000</span></a>
+<a class="sourceLine" id="cb221-8" data-line-number="8">thetas_boot &lt;-<span class="st"> </span><span class="kw">rerun</span>(B, <span class="kw">pc_boot</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a></code></pre></div>
 <p>Veamos un histograma de las replicaciones de <span class="math inline">\(\hat{\theta}\)</span>:</p>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb221-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">data_frame</span>(<span class="dt">theta =</span> thetas_boot)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb221-2" data-line-number="2"><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> ..density..), <span class="dt">binwidth =</span> <span class="fl">0.02</span>, </a>
-<a class="sourceLine" id="cb221-3" data-line-number="3">        <span class="dt">fill =</span> <span class="st">&quot;gray40&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb221-4" data-line-number="4"><span class="st">    </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(theta)), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb221-5" data-line-number="5"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(<span class="kw">hat</span>(theta)<span class="op">^</span><span class="st">&quot;*&quot;</span>), <span class="dt">y =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb222-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">data_frame</span>(<span class="dt">theta =</span> thetas_boot)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb222-2" data-line-number="2"><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> ..density..), <span class="dt">binwidth =</span> <span class="fl">0.02</span>, </a>
+<a class="sourceLine" id="cb222-3" data-line-number="3">        <span class="dt">fill =</span> <span class="st">&quot;gray40&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb222-4" data-line-number="4"><span class="st">    </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(theta)), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb222-5" data-line-number="5"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(<span class="kw">hat</span>(theta)<span class="op">^</span><span class="st">&quot;*&quot;</span>), <span class="dt">y =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
 <p><img src="05-bootstrap_no_parametrico_files/figure-html/pc_hist-1.png" width="300px" style="display: block; margin: auto;" /></p>
 <p>Estas tienen un error estándar</p>
-<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb222-1" data-line-number="1">theta_se &lt;-<span class="st"> </span><span class="kw">sd</span>(thetas_boot)</a>
-<a class="sourceLine" id="cb222-2" data-line-number="2">theta_se</a>
-<a class="sourceLine" id="cb222-3" data-line-number="3"><span class="co">#&gt; [1] 0.04689286</span></a></code></pre></div>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb223-1" data-line-number="1">theta_se &lt;-<span class="st"> </span><span class="kw">sd</span>(thetas_boot)</a>
+<a class="sourceLine" id="cb223-2" data-line-number="2">theta_se</a>
+<a class="sourceLine" id="cb223-3" data-line-number="3"><span class="co">#&gt; [1] 0.04689286</span></a></code></pre></div>
 <p>y media</p>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb223-1" data-line-number="1"><span class="kw">mean</span>(thetas_boot)</a>
-<a class="sourceLine" id="cb223-2" data-line-number="2"><span class="co">#&gt; [1] 0.6193033</span></a></code></pre></div>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb224-1" data-line-number="1"><span class="kw">mean</span>(thetas_boot)</a>
+<a class="sourceLine" id="cb224-2" data-line-number="2"><span class="co">#&gt; [1] 0.6193033</span></a></code></pre></div>
 <p>la media de las replicaciones es muy similar a la estimación <span class="math inline">\(\hat{\theta}\)</span>,
 esto indica que <span class="math inline">\(\hat{\theta}\)</span> es cercano a insesgado.</p>
 <ol start="2" style="list-style-type: decimal">

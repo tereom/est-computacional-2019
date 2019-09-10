@@ -640,26 +640,27 @@ distribución empírica a falta de la distribución poblacional.
 
 
 ## El estimador bootstrap del error estándar
+
 Entonces, los pasos para calcular estimador bootstrap del error estándar son:
 
 Tenemos una muestra aleatoria $\textbf{x}=(x_1,x_2,...,x_n)$ 
 proveniente de una distribución de probabilidad desconocida $P$, 
 
-* Seleccionamos muestras aleatorias con reemplazo de la distribución empírica.
+1. Seleccionamos muestras aleatorias con reemplazo de la distribución empírica.
 
-* Calculamos la estadística de interés para cada muestra:
+2. Calculamos la estadística de interés para cada muestra:
     $$\hat{\theta}=s(\textbf{x})$$ 
     la estimación puede ser la estimación _plug-in_ $t(P_n)$ pero también puede 
     ser otra. 
 
-* La distribución de la estadística es la distribución bootstrap, y el estimador
-bootstrap del error estándar es la desviación estándar de la distribución 
-bootstrap.
+3. La distribución de la estadística es la distribución bootstrap, y el 
+estimador bootstrap del error estándar es la desviación estándar de la 
+distribución bootstrap.
 
 
 
 ```r
-dist_empirica <- data_frame(id = 1:30, obs = samples$sims[[1]])
+dist_empirica <- tibble(id = 1:30, obs = samples$sims[[1]])
 
 dist_empirica_plot <- ggplot(dist_empirica, aes(x = obs)) +
     geom_histogram(binwidth = 2, alpha = 0.5, fill = "darkgray") +
@@ -675,7 +676,8 @@ dist_empirica_plot <- ggplot(dist_empirica, aes(x = obs)) +
 samples_boot <- data_frame(sample_boot = 1:3) %>% 
     mutate(
         sims_boot = rerun(3, sample(dist_empirica$obs, replace = TRUE)), 
-        x_bar_boot = map_dbl(sims_boot, mean))
+        x_bar_boot = map_dbl(sims_boot, mean)
+      )
 
 muestras_boot_plot <- samples_boot %>% 
     unnest() %>% 
@@ -820,7 +822,7 @@ original. Esto es: *La estimación bootstrap ideal es un resultado asintótico
 $B=\infty$, en esta caso $\hat{se}_B$ iguala la estimación _plug-in_ 
 $se_{P_n}$.* 
 
-En el proceso de *bootstrap* podemos controlar la variación del sgundo aspecto,
+En el proceso de *bootstrap* podemos controlar la variación del segundo aspecto,
 conocida como **implementación de muestreo Monte Carlo**, y la variación 
 Monte Carlo decrece conforme incrementamos el número de muestras. 
 
@@ -828,6 +830,106 @@ Podemos eliminar la variación Monte Carlo si seleccionamos todas las posibles
 muestras con reemplazo de tamaño $n$, hay ${2n-1}\choose{n}$ posibles muestras 
 y si seleccionamos todas obtenemos $\hat{se}_\infty$ (bootstrap ideal), sin
 embargo, en la mayor parte de los problemas no es factible proceder así.
+
+
+```r
+set.seed(8098)
+pob_plot <- ggplot(data_frame(x = -15:20), aes(x)) +
+    stat_function(fun = dnormm, args = list(p = c(0.3, 0.7), mu = c(-2, 8), 
+        sigma = c(3.5, 3)), alpha = 0.8) +
+    geom_vline(aes(color = "mu", xintercept = 5), alpha = 0.5) +
+    scale_colour_manual(values = c('mu' = 'red'), name = '', 
+        labels = expression(mu)) +
+    labs(x = "", y = "", subtitle = "Población", color = "") +
+    theme(axis.text.y = element_blank())
+
+samples <- data_frame(sample = 1:6) %>% 
+    mutate(
+        sims = rerun(6, rnormm(50, p = c(0.3, 0.7), mu = c(-2, 8), 
+            sigma = c(3.5, 3))), 
+        x_bar = map_dbl(sims, mean))
+
+ means_boot <- function(n, sims) {
+    rerun(n, mean(sample(sims, replace = TRUE))) %>%
+        flatten_dbl()
+ }
+samples_boot <- samples %>% 
+    mutate(
+        medias_boot_30_1 = map(sims, ~means_boot(n = 30, .)), 
+        medias_boot_30_2 = map(sims, ~means_boot(n = 30, .)), 
+        medias_boot_1000_1 = map(sims, ~means_boot(n = 1000, .)), 
+        medias_boot_1000_2 = map(sims, ~means_boot(n = 1000, .))
+    )
+
+emp_dists <- samples_boot %>% 
+    unnest(cols = sims) %>% 
+    rename(obs = sims)
+emp_dists_plots <- ggplot(emp_dists, aes(x = obs)) +
+    geom_histogram(binwidth = 2, alpha = 0.5, fill = "darkgray") +
+    geom_vline(aes(color = "mu", xintercept = 5), alpha = 0.5, 
+      show.legend = FALSE) +
+    geom_vline(aes(xintercept = x_bar, color = "x_bar"), show.legend = FALSE, 
+        alpha = 0.8, linetype = "dashed") +
+    xlim(-15, 20) +
+    geom_vline(xintercept = 5, color = "red", alpha = 0.5) +
+    labs(x = "", y = "", subtitle = expression("Distribución empírica"~P[n])) +
+    scale_colour_manual(values = c('mu' = 'red', 'x_bar' = 'blue'), name = '', 
+        labels = c(expression(mu), expression(bar(x)))) +
+    facet_wrap(~ sample, ncol = 1) +
+    theme(strip.background = element_blank(), strip.text.x = element_blank(), 
+        axis.text.y = element_blank())
+ 
+boot_dists_30 <- samples_boot %>% 
+    unnest(cols = c(medias_boot_30_1, medias_boot_30_2)) %>% 
+    pivot_longer(cols = c(medias_boot_30_1, medias_boot_30_2), 
+    values_to = "mu_hat_star", names_to = "boot_trial",
+    names_prefix = "medias_boot_30_")
+boot_dists_30_plot <- ggplot(boot_dists_30, aes(x = mu_hat_star)) +
+    geom_histogram(alpha = 0.5, fill = "darkgray") +
+    labs(x = "", y = "",
+        subtitle = expression("Distribución bootstrap B = 30")) +
+    geom_vline(xintercept = 5, color = "red", alpha = 0.5) +
+    geom_vline(aes(xintercept = x_bar), color = "blue", 
+        linetype = "dashed", alpha = 0.8) +
+    facet_grid(sample~boot_trial) +
+    theme(strip.background = element_blank(), strip.text.y = element_blank(), 
+        axis.text.y = element_blank())
+
+boot_dists_1000 <- samples_boot %>% 
+    unnest(cols = c(medias_boot_1000_1, medias_boot_1000_2)) %>% 
+    pivot_longer(cols = c(medias_boot_1000_1, medias_boot_1000_2), 
+    values_to = "mu_hat_star", names_to = "boot_trial",
+    names_prefix = "medias_boot_1000_")
+boot_dists_1000_plot <- ggplot(boot_dists_1000, aes(x = mu_hat_star)) +
+    geom_histogram(alpha = 0.5, fill = "darkgray") +
+    labs(subtitle = expression("Distribución bootstrap B = 1000"), 
+       x = "", y = "") +
+    geom_vline(xintercept = 5, color = "red", alpha = 0.5) +
+    geom_vline(aes(xintercept = x_bar), color = "blue", 
+        linetype = "dashed", alpha = 0.8) +
+    facet_grid(sample~boot_trial) +
+    scale_colour_manual(values = c('mu' = 'red', 'x_bar' = 'blue'), name = '',
+    labels = c(expression(mu), expression(bar(x)))) +
+    theme(strip.background = element_blank(), strip.text.y = element_blank(), 
+        strip.text.x = element_blank(), axis.text.y = element_blank())
+
+(pob_plot | plot_spacer() | plot_spacer()) /
+(emp_dists_plots | boot_dists_30_plot | boot_dists_1000_plot) +
+plot_layout(heights = c(1, 5))
+```
+
+En la siguiente gráfica mostramos 6 posibles muestras de tamaño 50 simuladas de
+la población, para cada una de ellas se graficó la distribución empírica y se
+se realizan histogramas de la distribución bootstrap con $B=30$ y $B=1000$, en 
+cada caso hacemos dos repeticiones, notemos que cuando el número de muestras 
+bootstrap es grande las distribuciones bootstrap son muy similares (para una 
+muestra de la población dada), esto es porque disminuimos el erro Monte Carlo. 
+También vale la pena recalcar que la distribución bootstrap está centrada en el 
+valor observado en la muestra (línea azúl punteada) y no en el valor poblacional
+sin embargo la forma de la distribución es similar a lo largo de las filas.
+
+![](img/bootstrap_mc_error.png)
+
 
 <!--
 * En la práctica para elegir el tamaño de $B$ debemos considerar que buscamos 
@@ -1038,7 +1140,7 @@ qq_nerve <- ggplot(nerve_kurtosis) +
 grid.arrange(hist_nerve, qq_nerve, ncol = 2, newpage = FALSE)
 ```
 
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-11-1.png" width="816" style="display: block; margin: auto;" />
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-12-1.png" width="816" style="display: block; margin: auto;" />
 
 En el ejemplo anterior el supuesto de normalidad parece razonable, veamos 
 como se comparan los cuantiles de la estimación de la distribución de 
@@ -1080,7 +1182,7 @@ ggplot(arrange(nerve_kurtosis, kurtosis)) +
   labs(x = "Cuantiles muestrales", y = "ecdf")
 ```
 
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-13-1.png" width="384" style="display: block; margin: auto;" />
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-14-1.png" width="384" style="display: block; margin: auto;" />
 
 Las expresiones de arriba hacen referencia a la situación bootstrap _ideal_ 
 donde el número de replicaciones bootstrap es infinito, en la práctica usamos
@@ -1139,7 +1241,7 @@ qq_emu <- ggplot(theta_boot_df) +
 grid.arrange(hist_emu, qq_emu, ncol = 2, newpage = FALSE)
 ```
 
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-15-1.png" width="816" style="display: block; margin: auto;" />
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-16-1.png" width="816" style="display: block; margin: auto;" />
 
 La distribución empírica de $\hat{\theta}^*$ es asimétrica, por lo que no
 esperamos que coincidan los intervalos.
@@ -1177,7 +1279,7 @@ qq_log <- ggplot(data_frame(theta_boot)) +
 grid.arrange(hist_log, qq_log, ncol = 2, newpage = FALSE)
 ```
 
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-17-1.png" width="816" style="display: block; margin: auto;" />
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-18-1.png" width="816" style="display: block; margin: auto;" />
 
 Y los intervalos se comparan:
 
@@ -1250,13 +1352,13 @@ accelerated*).
 Usaremos un ejemplo de @efron, los datos constan de los resultados 
 en dos pruebas espaciales de 26 niños con algún problema neurológico. Supongamos
 que queremos calcular un intervalo de confianza de 90\% para $\theta=var(A)$.
+
 El estimador plugin es:
 $$\hat{\theta}=\sum_{i=1}^n(A_i-\bar{A})^2/n$$
 notemos que el estimador _plug-in_ es ligeramente menor que el estimador
 usual insesgado:
 $$\hat{\theta}=\sum_{i=1}^n(A_i-\bar{A})^2/(n-1)$$
 </div>
-
 
 
 
@@ -1334,7 +1436,6 @@ expansiones de Taylor).
 Usando la implementación del paquete bootstrap:
 
 
-
 ```r
 library(bootstrap)
 var_sesgada <- function(x) sum((x - mean(x)) ^ 2) / length(x)
@@ -1360,7 +1461,6 @@ bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada, alpha = c(0.025, 0.9
 #> bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada, alpha = c(0.025, 
 #>     0.975))
 ```
-
 
 ![](img/manicule2.jpg) Comapara el intervalo anterior con los intervalos
 normal y de percentiles.
@@ -1461,7 +1561,7 @@ plot(pc_marks, type = "lines")
 biplot(pc_marks)
 ```
 
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" />
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" />
 
 Los cálculos de un análisis de componentes principales involucran la matriz de 
 covarianzas empírica $G$ (estimaciones _plug-in_)
@@ -1855,7 +1955,11 @@ La estimación del error estándar, por otro lado, no es sencilla y requiere
 usar aproximaciones, en la metodología de INEGI proponen una aproximación con 
 series de Taylor.
 
-![](img/inegi_metodologia_razon.png)
+
+<div class="figure" style="text-align: center">
+<img src="img/inegi_metodologia_razon.png" alt="Extracto de estimación de errores de muestreo, ENIGH 2018." width="400px" />
+<p class="caption">(\#fig:unnamed-chunk-33)Extracto de estimación de errores de muestreo, ENIGH 2018.</p>
+</div>
 
 Veamos ahora como calcular el error estándar siguiendo el bootstrap de Rao y Wu:
 
