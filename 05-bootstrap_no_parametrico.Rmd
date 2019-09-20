@@ -276,7 +276,7 @@ En la siguiente gráfica la curva roja
 representa la función de distribución acumulada empírica y la curva con relleno
 gris la función de distribución acumulada poblacional.
 
-```{r, out.height="300px"}
+```{r, fig.height=3.5, fig.width=5}
 ggplot() +
     stat_ecdf(data = filter(enlace_long, clase == "población"), 
         aes(x = calif, ymin = 0, ymax = ..y..), geom = "ribbon", pad = TRUE, 
@@ -893,6 +893,139 @@ B_muestras <- data_frame(n_sims = c(5, 25, 50, 100, 200, 400, 1000, 1500, 3000,
 B_muestras
 ```
 
+#### Ejemplo componentes principales: calificaciones en exámenes {-}
+
+Los datos _marks_ (Mardia, Kent y Bibby, 1979) contienen los puntajes de 88 
+estudiantes en 5 pruebas: mecánica, vectores, álgebra, análisis y estadística.
+Cada renglón corresponde a la calificación de un estudiante en cada prueba.
+
+```{r leer_marks}
+data(marks, package = "ggm")
+glimpse(marks)
+```
+
+Entonces un análisis de componentes principales proseguiría como sigue:
+
+```{r pc, fig.height=3, fig.width=3}
+pc_marks <- princomp(marks)
+summary(pc_marks)
+loadings(pc_marks)
+plot(pc_marks, type = "lines")
+```
+
+
+```{r}
+biplot(pc_marks)
+```
+
+Los cálculos de un análisis de componentes principales involucran la matriz de 
+covarianzas empírica $G$ (estimaciones _plug-in_)
+
+$$G_{jk} = \frac{1}{88}\sum_{i=1}^88(x_{ij}-\bar{x_j})(x_{ik}-\bar{x_k})$$
+
+para $j,k=1,2,3,4,5$, y donde $\bar{x_j} = \sum_{i=1}^88 x_{ij} / 88$ (la media 
+de la i-ésima columna).
+
+```{r}
+G <- cov(marks) * 87 / 88
+G
+```
+
+Los _pesos_ y las _componentes principales_ no son mas que los eigenvalores y 
+eigenvectores de la matriz de covarianzas $G$, estos se calculan a través de una 
+serie de de manipulaciones algebraicas que requieren cálculos del orden de p^3^
+(cuando G es una matriz de tamaño p$\times$p).
+
+```{r}
+eigen_G <- eigen(G)
+lambda <- eigen_G$values
+v <- eigen_G$vectors
+lambda
+v
+```
+
+1. Proponemos el siguiente modelo simple para puntajes correlacionados:
+
+$$\textbf{x}_i = Q_i \textbf{v}$$
+
+donde $\textbf{x}_i$ es la tupla de calificaciones del i-ésimo estudiante, 
+$Q_i$ es un número que representa la habilidad del estudiante y $\textbf{v}$ es
+un vector fijo con 5 números que aplica a todos los estudiantes. Si este modelo
+simple fuera cierto, entonces únicamente el $\hat{\lambda}_1$ sería positivo
+y $\textbf{v} = \hat{v}_1$.
+Sea $$\hat{\theta}=\sum_{i=1}^5\hat{\lambda}_i$$
+el modelo propuesto es equivalente a $\hat{\theta}=1$, inculso si el modelo es
+correcto, no esperamos que $\hat{\theta}$ sea exactamente uno pues hay ruido en 
+los datos.
+
+```{r}
+theta_hat <- lambda[1]/sum(lambda)
+theta_hat
+```
+
+El valor de $\hat{\theta}$ mide el porcentaje de la varianza explicada en la 
+primer componente principal, ¿qué tan preciso es  $\hat{\theta}$? La complejidad
+matemática en el cálculo de  $\hat{\theta}$ es irrelevante siempre y cuando 
+podamos calcular  $\hat{\theta}^*$ para una muestra bootstrap, en esta caso una
+muestra bootsrtap es una base de datos de 88 $\times$ 5 $\textbf{X}^*$, donde las
+filas $\bf{x_i}^*$ de $\textbf{X}^*$ son una muestra aleatoria de tamaño
+88 de la verdadera matriz de datos.
+
+```{r}
+pc_boot <- function(){
+    muestra_boot <- sample_n(marks, size = 88, replace = TRUE)
+    G <- cov(muestra_boot) * 87 / 88 
+    eigen_G <- eigen(G)
+    theta_hat <- eigen_G$values[1] / sum(eigen_G$values)
+}
+B <- 1000
+thetas_boot <- rerun(B, pc_boot()) %>% flatten_dbl()
+```
+
+Veamos un histograma de las replicaciones de  $\hat{\theta}$:
+
+```{r pc_hist, fig.height=4, fig.width=4, out.width="300px"}
+ggplot(data_frame(theta = thetas_boot)) +
+    geom_histogram(aes(x = theta, y = ..density..), binwidth = 0.02, 
+        fill = "gray40") + 
+    geom_vline(aes(xintercept = mean(theta)), color = "red") +
+    labs(x = expression(hat(theta)^"*"), y = "")
+```
+
+Estas tienen un error estándar
+
+```{r}
+theta_se <- sd(thetas_boot)
+theta_se
+```
+
+y media
+
+```{r}
+mean(thetas_boot)
+```
+
+la media de las replicaciones es muy similar a la estimación $\hat{\theta}$, 
+esto indica que $\hat{\theta}$ es cercano a insesgado. 
+
+2. El eigenvetor $\hat{v}_1$ correspondiente al mayor eigenvalor se conoce
+como primera componente de $G$, supongamos que deseamos resumir la calificación
+de los estudiantes mediante un único número, entonces la mejor combinación 
+lineal de los puntajes es 
+
+$$y_i = \sum_{k = 1}^5 \hat{v}_{1k}x_{ik}$$
+
+esto es, la combinación lineal que utiliza las componentes de $\hat{v}_1$ como
+ponderadores. Si queremos un resumen compuesto por dos números $(y_i,z_i)$, la
+segunda combinación lineal debería ser:
+
+$$z_i = \sum_{k = 1}^5 \hat{v}_{2k}x_{ik}$$
+
+![](img/manicule2.jpg) Las componentes principales $\hat{v}_1$ y 
+$\hat{v}_2$ son estadísticos, usa bootstrap para dar una medición de su 
+variabilidad calculando el error estándar de cada una.
+
+
 
 ## Intervalos de confianza
 
@@ -959,7 +1092,7 @@ este intervalo está soportado por el Teorema Central del Límite, sin embargo,
 no es adecuado cuando $\hat{\theta}$ no se distribuye aproximadamente Normal.
 
 
-#### Ejemplo: kurtosis
+#### Ejemplo: kurtosis {-}
 
 Supongamos que queremos estimar la kurtosis de una base de datos que consta de
 799 tiempos de espera entre pulsasiones de un nervio (Cox, Lewis 1976).
@@ -1095,8 +1228,8 @@ $$(\theta^*_{\%,inf}, \theta^*_{\%,sup})\approx(\hat{\theta}^*_B(\alpha),\hat{\t
 
 
 ```{r, results = "hold"}
-ls_per <- round(quantile(kurtosis, prob = 0.975), 2)
-li_per <- round(quantile(kurtosis, prob = 0.025), 2)
+ls_per <- round(quantile(kurtosis, probs = 0.975), 2)
+li_per <- round(quantile(kurtosis, probs = 0.025), 2)
 stringr::str_c(li_normal, ls_normal, sep = ",")
 stringr::str_c(li_per, ls_per, sep = ",")
 ```
@@ -1227,14 +1360,31 @@ usual insesgado:
 $$\hat{\theta}=\sum_{i=1}^n(A_i-\bar{A})^2/(n-1)$$
 </div>
 
+Usaremos un ejempo de @efron con datos de una prueba espacial, la muestra es
+chica, se tienen mediciones de $n=26$ niños con discapacidad neurológica, cada
+uno tomó dos pruebas de percepción espacial, en este ejemplo nos interesa 
+construir un intervalo de $90%$ de confianza para $\theta=var(A)$
 
 ```{r spatial, fig.width=3.5, fig.height=3.5}
 library(bootstrap)
 
+spatial
+
 ggplot(spatial) +
     geom_point(aes(A, B))
+```
 
+El estimador *plug-in* de $\theta$ es 
+
+$$\hat{\theta}=\sum_{i=1}^{n}(A_i-\bar{A})^2/n$$
+
+```{r}
 sum((spatial$A - mean(spatial$A)) ^ 2) / nrow(spatial)
+```
+
+Notemos que es ligeramente menor que el estimador insesgado:
+
+```{r}
 sum((spatial$A - mean(spatial$A)) ^ 2) / (nrow(spatial) - 1)
 ```
 
@@ -1286,11 +1436,13 @@ es, los errores de cobertura se van a cero a una tasa de 1/n.
 Los intervalos $BC_{a}$ están implementados en el paquete boot (`boot.ci()`) y 
 en el paquete bootstrap (`bcanon()`). La desventaja de los intervalos $BC_{a}$ es 
 que requieren intenso cómputo estadístico, de acuerdo a @efron al
-menos $B= 1000$ replicaciones son necesairas para reducir el error de muestreo.
+menos $B= 1000$ replicaciones son necesarias para reducir el error de muestreo.
 
 Ante esto surgen los intervalos ABC (approximate bootstrap confidence 
 intervals), que es un método para aproximar $BC_{a}$ analíticamente (usando
-expansiones de Taylor).
+expansiones de Taylor), estos intervalos requieren que la estadística 
+$\hat{\theta} = s(x)$ este definida de manera suave sobre x (la mediana, por 
+ejemplo, no es suave).
 
 Usando la implementación del paquete bootstrap:
 
@@ -1330,7 +1482,9 @@ Un intervalo que sub-cubre un lado y sobre-cubre el otro es **sesgado**.
 </div>
 
 * Los intervalos estándar y de percentiles tienen exactitud de primer 
-orden: los errores de cobertura se van a cero a una tasa de $1/\sqrt{n}$.
+orden: los errores de cobertura se van a cero a una tasa de $1/\sqrt{n}$. Suelen
+ser demasido estrechos resultando en cobertura real menor a la nominal, 
+sobretodo con muestras chicas.
 
 * Los intervalos $BC_a$ tienen exactitud de segundo 
 orden: los errores de cobertura se van a cero a una tasa de $1/n$.
@@ -1340,137 +1494,6 @@ normales y de percentiles, en la práctica es más común utilizar intervalos
 normales o de percentiles pues su implementación es más sencilla y son 
 adecuados para un gran número de casos.
 
-#### Ejemplo componentes principales: calificaciones en exámenes {-}
-
-Los datos _marks_ (Mardia, Kent y Bibby, 1979) contienen los puntajes de 88 
-estudiantes en 5 pruebas: mecánica, vectores, álgebra, análisis y estadística.
-Cada renglón corresponde a la calificación de un estudiante en cada prueba.
-
-```{r leer_marks}
-data(marks, package = "ggm")
-glimpse(marks)
-```
-
-Entonces un análisis de componentes principales proseguiría como sigue:
-
-```{r pc, fig.height=3, fig.width=3}
-pc_marks <- princomp(marks)
-summary(pc_marks)
-loadings(pc_marks)
-plot(pc_marks, type = "lines")
-```
-
-
-```{r}
-biplot(pc_marks)
-```
-
-Los cálculos de un análisis de componentes principales involucran la matriz de 
-covarianzas empírica $G$ (estimaciones _plug-in_)
-
-$$G_{jk} = \frac{1}{88}\sum_{i=1}^88(x_{ij}-\bar{x_j})(x_{ik}-\bar{x_k})$$
-
-para $j,k=1,2,3,4,5$, y donde $\bar{x_j} = \sum_{i=1}^88 x_{ij} / 88$ (la media 
-de la i-ésima columna).
-
-```{r}
-G <- cov(marks) * 87 / 88
-G
-```
-
-Los _pesos_ y las _componentes principales_ no son mas que los eigenvalores y 
-eigenvectores de la matriz de covarianzas $G$, estos se calculan a través de una 
-serie de de manipulaciones algebraicas que requieren cálculos del orden de p^3
-(cuando G es una matriz de tamaño p$\times$p).
-
-```{r}
-eigen_G <- eigen(G)
-lambda <- eigen_G$values
-v <- eigen_G$vectors
-lambda
-v
-```
-
-1. Proponemos el siguiente modelo simple para puntajes correlacionados:
-
-$$\textbf{x}_i = Q_i \textbf{v}$$
-
-donde $\textbf{x}_i$ es la tupla de calificaciones del i-ésimo estudiante, 
-$Q_i$ es un número que representa la habilidad del estudiante y $\textbf{v}$ es
-un vector fijo con 5 números que aplica a todos los estudiantes. Si este modelo
-simple fuera cierto, entonces únicamente el $\hat{\lambda}_1$ sería positivo
-y $\textbf{v} = \hat{v}_1$.
-Sea $$\hat{\theta}=\sum_{i=1}^5\hat{\lambda}_i$$
-el modelo propuesto es equivalente a $\hat{\theta}=1$, inculso si el modelo es
-correcto, no esperamos que $\hat{\theta}$ sea exactamente uno pues hay ruido en 
-los datos.
-
-```{r}
-theta_hat <- lambda[1]/sum(lambda)
-theta_hat
-```
-
-El valor de $\hat{\theta}$ mide el porcentaje de la varianza explicada en la 
-primer componente principal, ¿qué tan preciso es  $\hat{\theta}$? La complejidad
-matemática en el cálculo de  $\hat{\theta}$ es irrelevante siempre y cuando 
-podamos calcular  $\hat{\theta}^*$ para una muestra bootstrap, en esta caso una
-muestra bootsrtap es una base de datos de 88$\times$5 $\textbf{X}^*$, donde las
-filas $\textbf{x_i}^*$ de $\textbf{X}^*$ son una muestra aleatoria de tamaño
-88 de la verdadera matriz de datos.
-
-```{r}
-pc_boot <- function(){
-    muestra_boot <- sample_n(marks, size = 88, replace = TRUE)
-    G <- cov(muestra_boot) * 87 / 88 
-    eigen_G <- eigen(G)
-    theta_hat <- eigen_G$values[1] / sum(eigen_G$values)
-}
-B <- 1000
-thetas_boot <- rerun(B, pc_boot()) %>% flatten_dbl()
-```
-
-Veamos un histograma de las replicaciones de  $\hat{\theta}$:
-
-```{r pc_hist, fig.height=4, fig.width=4, out.width="300px"}
-ggplot(data_frame(theta = thetas_boot)) +
-    geom_histogram(aes(x = theta, y = ..density..), binwidth = 0.02, 
-        fill = "gray40") + 
-    geom_vline(aes(xintercept = mean(theta)), color = "red") +
-    labs(x = expression(hat(theta)^"*"), y = "")
-```
-
-Estas tienen un error estándar
-
-```{r}
-theta_se <- sd(thetas_boot)
-theta_se
-```
-
-y media
-
-```{r}
-mean(thetas_boot)
-```
-
-la media de las replicaciones es muy similar a la estimación $\hat{\theta}$, 
-esto indica que $\hat{\theta}$ es cercano a insesgado. 
-
-2. El eigenvetor $\hat{v}_1$ correspondiente al mayor eigenvalor se conoce
-como primera componente de $G$, supongamos que deseamos resumir la calificación
-de los estudiantes mediante un único número, entonces la mejor combinación 
-lineal de los puntajes es 
-
-$$y_i = \sum_{k = 1}^5 \hat{v}_{1k}x_{ik}$$
-
-esto es, la combinación lineal que utiliza las componentes de $\hat{v}_1$ como
-ponderadores. Si queremos un resumen compuesto por dos números $(y_i,z_i)$, la
-segunda combinación lineal debería ser:
-
-$$z_i = \sum_{k = 1}^5 \hat{v}_{2k}x_{ik}$$
-
-![](img/manicule2.jpg) Las componentes principales $\hat{v}_1$ y 
-$\hat{v}_2$ son estadísticos, usa bootstrap para dar una medición de su 
-variabilidad calculando el error estándar de cada una.
 
 ## Más alla de muestras aleatorias simples
 
@@ -1752,7 +1775,7 @@ la muestra se seleccionó sin reemplazo.
 
 ## Bootstrap en R
 
-Es común crear nuestras porpias funciones cuando usamos bootstrap, sin embargo, 
+Es común crear nuestras propias funciones cuando usamos bootstrap, sin embargo, 
 en R también hay alternativas que pueden resultar convenientes, mencionamos 3:
 
 1. El paquete `rsample` (forma parte de la colección [tidymodels](https://www.tidyverse.org/articles/2018/08/tidymodels-0-0-1/)) 
@@ -1841,8 +1864,9 @@ mejores propiedades son los intervalos $BC_a$, sin embargo los más comunes son
 los intervalos normales con error estándar bootstrap y los intervalos de 
 percentiles de la distribución bootstrap.
 
-* Antes de hacer intervalos normales vale la pena graficar la distribución 
-bootstrap y evaluar si el supuesto de normalidad es razonable.
+* Antes de hacer intervalos normales (o con percentiles de una t) vale la pena 
+graficar la distribución bootstrap y evaluar si el supuesto de normalidad es 
+razonable.
 
 * En cuanto al número de muestras bootstrap se recomienda al menos $1,000$ 
 al hacer pruebas, y $10,000$ o $15,000$ para los resultados finales, sobre
