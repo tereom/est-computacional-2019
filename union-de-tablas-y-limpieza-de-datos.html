@@ -39,6 +39,9 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -244,8 +247,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="instalacion-y-visualizacion.html"><a href="instalacion-y-visualizacion.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
 <li class="chapter" data-level="" data-path="union-de-tablas-y-limpieza-de-datos.html"><a href="union-de-tablas-y-limpieza-de-datos.html"><i class="fa fa-check"></i>3. Unión de tablas y limpieza de datos</a></li>
-<li class="chapter" data-level="" data-path="programacion-funcional-y-distribucion-muestral.html"><a href="programacion-funcional-y-distribucion-muestral.html"><i class="fa fa-check"></i>4. Programación funcional y distribución muestral</a></li>
-<li class="chapter" data-level="" data-path="bootstrap.html"><a href="bootstrap.html"><i class="fa fa-check"></i>5. Bootstrap</a></li>
+<li class="chapter" data-level="" data-path="programacion-funcional-y-distribucion-muestral.html"><a href="programacion-funcional-y-distribucion-muestral.html"><i class="fa fa-check"></i>4. Programación funcional y distribución muestral</a><ul>
+<li class="chapter" data-level="" data-path="programacion-funcional-y-distribucion-muestral.html"><a href="programacion-funcional-y-distribucion-muestral.html#solucion-bootstrap"><i class="fa fa-check"></i>Solución + bootstrap</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bootstrap-conteo.html"><a href="bootstrap-conteo.html"><i class="fa fa-check"></i>5. Bootstrap conteo</a></li>
+<li class="chapter" data-level="6.7" data-path="respuesta-ejercicio-clase.html"><a href="respuesta-ejercicio-clase.html"><i class="fa fa-check"></i><b>6.7</b> Respuesta ejercicio clase</a></li>
+<li class="chapter" data-level="" data-path="mas-bootstrap.html"><a href="mas-bootstrap.html"><i class="fa fa-check"></i>5. Más bootstrap</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -277,24 +284,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>¿Están limpios los datos? en caso de que no
 ¿qué principio no cumplen?</li>
 </ol>
-<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb244-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
-<a class="sourceLine" id="cb244-2" data-line-number="2">df_marital</a>
-<a class="sourceLine" id="cb244-3" data-line-number="3"><span class="co">#&gt; # A tibble: 29,484 x 14</span></a>
-<a class="sourceLine" id="cb244-4" data-line-number="4"><span class="co">#&gt;    state_code municipio_code region state_name state_abbr municipio_name</span></a>
-<a class="sourceLine" id="cb244-5" data-line-number="5"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;         </span></a>
-<a class="sourceLine" id="cb244-6" data-line-number="6"><span class="co">#&gt;  1 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-7" data-line-number="7"><span class="co">#&gt;  2 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-8" data-line-number="8"><span class="co">#&gt;  3 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-9" data-line-number="9"><span class="co">#&gt;  4 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-10" data-line-number="10"><span class="co">#&gt;  5 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-11" data-line-number="11"><span class="co">#&gt;  6 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-12" data-line-number="12"><span class="co">#&gt;  7 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-13" data-line-number="13"><span class="co">#&gt;  8 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-14" data-line-number="14"><span class="co">#&gt;  9 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-15" data-line-number="15"><span class="co">#&gt; 10 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb244-16" data-line-number="16"><span class="co">#&gt; # … with 29,474 more rows, and 8 more variables: sex &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb244-17" data-line-number="17"><span class="co">#&gt; #   age_group &lt;chr&gt;, pop &lt;dbl&gt;, single &lt;dbl&gt;, married &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb244-18" data-line-number="18"><span class="co">#&gt; #   living_w_partner &lt;dbl&gt;, separated &lt;dbl&gt;, other &lt;dbl&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb239-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
+<a class="sourceLine" id="cb239-2" data-line-number="2">df_marital</a>
+<a class="sourceLine" id="cb239-3" data-line-number="3"><span class="co">#&gt; # A tibble: 29,484 x 14</span></a>
+<a class="sourceLine" id="cb239-4" data-line-number="4"><span class="co">#&gt;    state_code municipio_code region state_name state_abbr municipio_name</span></a>
+<a class="sourceLine" id="cb239-5" data-line-number="5"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;         </span></a>
+<a class="sourceLine" id="cb239-6" data-line-number="6"><span class="co">#&gt;  1 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb239-7" data-line-number="7"><span class="co">#&gt;  2 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb239-8" data-line-number="8"><span class="co">#&gt;  3 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb239-9" data-line-number="9"><span class="co">#&gt;  4 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb239-10" data-line-number="10"><span class="co">#&gt;  5 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb239-11" data-line-number="11"><span class="co">#&gt;  6 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb239-12" data-line-number="12"><span class="co">#&gt;  7 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb239-13" data-line-number="13"><span class="co">#&gt;  8 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb239-14" data-line-number="14"><span class="co">#&gt;  9 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb239-15" data-line-number="15"><span class="co">#&gt; 10 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb239-16" data-line-number="16"><span class="co">#&gt; # … with 29,474 more rows, and 8 more variables: sex &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb239-17" data-line-number="17"><span class="co">#&gt; #   age_group &lt;chr&gt;, pop &lt;dbl&gt;, single &lt;dbl&gt;, married &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb239-18" data-line-number="18"><span class="co">#&gt; #   living_w_partner &lt;dbl&gt;, separated &lt;dbl&gt;, other &lt;dbl&gt;</span></a></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li><p>Limpia los datos y muestra las primeras y últimas líneas (usa <code>head()</code> y
 <code>tail()</code>).</p></li>
@@ -316,11 +323,13 @@ edad y sexo. ¿Cómo puedes graficar o presentar los resultados?</p></li>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({

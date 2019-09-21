@@ -39,6 +39,9 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -244,8 +247,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="instalacion-y-visualizacion.html"><a href="instalacion-y-visualizacion.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
 <li class="chapter" data-level="" data-path="union-de-tablas-y-limpieza-de-datos.html"><a href="union-de-tablas-y-limpieza-de-datos.html"><i class="fa fa-check"></i>3. Unión de tablas y limpieza de datos</a></li>
-<li class="chapter" data-level="" data-path="programacion-funcional-y-distribucion-muestral.html"><a href="programacion-funcional-y-distribucion-muestral.html"><i class="fa fa-check"></i>4. Programación funcional y distribución muestral</a></li>
-<li class="chapter" data-level="" data-path="bootstrap.html"><a href="bootstrap.html"><i class="fa fa-check"></i>5. Bootstrap</a></li>
+<li class="chapter" data-level="" data-path="programacion-funcional-y-distribucion-muestral.html"><a href="programacion-funcional-y-distribucion-muestral.html"><i class="fa fa-check"></i>4. Programación funcional y distribución muestral</a><ul>
+<li class="chapter" data-level="" data-path="programacion-funcional-y-distribucion-muestral.html"><a href="programacion-funcional-y-distribucion-muestral.html#solucion-bootstrap"><i class="fa fa-check"></i>Solución + bootstrap</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bootstrap-conteo.html"><a href="bootstrap-conteo.html"><i class="fa fa-check"></i>5. Bootstrap conteo</a></li>
+<li class="chapter" data-level="6.7" data-path="respuesta-ejercicio-clase.html"><a href="respuesta-ejercicio-clase.html"><i class="fa fa-check"></i><b>6.7</b> Respuesta ejercicio clase</a></li>
+<li class="chapter" data-level="" data-path="mas-bootstrap.html"><a href="mas-bootstrap.html"><i class="fa fa-check"></i>5. Más bootstrap</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -349,61 +356,61 @@ inferencia estadística. La idea detrás es que si una muestra es una aproximaci
 de la población que la generó, entoces podemos hacer muestreos de la muestra
 para calcular una estadística de interés y medir la exactitud en la misma.</p>
 <p>En este caso tenemos los resultados del experimento en la variable <em>trial</em>.</p>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb178-1" data-line-number="1">trial &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">patient =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">22071</span>, </a>
-<a class="sourceLine" id="cb178-2" data-line-number="2">    <span class="dt">group =</span> <span class="kw">ifelse</span>(patient <span class="op">&lt;=</span><span class="st"> </span><span class="dv">11037</span>, <span class="st">&quot;aspirin&quot;</span>, <span class="st">&quot;control&quot;</span>), </a>
-<a class="sourceLine" id="cb178-3" data-line-number="3">    <span class="dt">heart_attack =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="ot">TRUE</span>, <span class="dv">104</span>), <span class="kw">rep</span>(<span class="ot">FALSE</span>, <span class="dv">10933</span>), <span class="kw">rep</span>(<span class="ot">TRUE</span>, <span class="dv">189</span>), </a>
-<a class="sourceLine" id="cb178-4" data-line-number="4">      <span class="kw">rep</span>(<span class="ot">FALSE</span>, <span class="dv">10845</span>)))</a>
-<a class="sourceLine" id="cb178-5" data-line-number="5">trial</a>
-<a class="sourceLine" id="cb178-6" data-line-number="6"><span class="co">#&gt; # A tibble: 22,071 x 3</span></a>
-<a class="sourceLine" id="cb178-7" data-line-number="7"><span class="co">#&gt;    patient group   heart_attack</span></a>
-<a class="sourceLine" id="cb178-8" data-line-number="8"><span class="co">#&gt;      &lt;int&gt; &lt;chr&gt;   &lt;lgl&gt;       </span></a>
-<a class="sourceLine" id="cb178-9" data-line-number="9"><span class="co">#&gt;  1       1 aspirin TRUE        </span></a>
-<a class="sourceLine" id="cb178-10" data-line-number="10"><span class="co">#&gt;  2       2 aspirin TRUE        </span></a>
-<a class="sourceLine" id="cb178-11" data-line-number="11"><span class="co">#&gt;  3       3 aspirin TRUE        </span></a>
-<a class="sourceLine" id="cb178-12" data-line-number="12"><span class="co">#&gt;  4       4 aspirin TRUE        </span></a>
-<a class="sourceLine" id="cb178-13" data-line-number="13"><span class="co">#&gt;  5       5 aspirin TRUE        </span></a>
-<a class="sourceLine" id="cb178-14" data-line-number="14"><span class="co">#&gt;  6       6 aspirin TRUE        </span></a>
-<a class="sourceLine" id="cb178-15" data-line-number="15"><span class="co">#&gt;  7       7 aspirin TRUE        </span></a>
-<a class="sourceLine" id="cb178-16" data-line-number="16"><span class="co">#&gt;  8       8 aspirin TRUE        </span></a>
-<a class="sourceLine" id="cb178-17" data-line-number="17"><span class="co">#&gt;  9       9 aspirin TRUE        </span></a>
-<a class="sourceLine" id="cb178-18" data-line-number="18"><span class="co">#&gt; 10      10 aspirin TRUE        </span></a>
-<a class="sourceLine" id="cb178-19" data-line-number="19"><span class="co">#&gt; # … with 22,061 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb172-1" data-line-number="1">trial &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">patient =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">22071</span>, </a>
+<a class="sourceLine" id="cb172-2" data-line-number="2">    <span class="dt">group =</span> <span class="kw">ifelse</span>(patient <span class="op">&lt;=</span><span class="st"> </span><span class="dv">11037</span>, <span class="st">&quot;aspirin&quot;</span>, <span class="st">&quot;control&quot;</span>), </a>
+<a class="sourceLine" id="cb172-3" data-line-number="3">    <span class="dt">heart_attack =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="ot">TRUE</span>, <span class="dv">104</span>), <span class="kw">rep</span>(<span class="ot">FALSE</span>, <span class="dv">10933</span>), <span class="kw">rep</span>(<span class="ot">TRUE</span>, <span class="dv">189</span>), </a>
+<a class="sourceLine" id="cb172-4" data-line-number="4">      <span class="kw">rep</span>(<span class="ot">FALSE</span>, <span class="dv">10845</span>)))</a>
+<a class="sourceLine" id="cb172-5" data-line-number="5">trial</a>
+<a class="sourceLine" id="cb172-6" data-line-number="6"><span class="co">#&gt; # A tibble: 22,071 x 3</span></a>
+<a class="sourceLine" id="cb172-7" data-line-number="7"><span class="co">#&gt;    patient group   heart_attack</span></a>
+<a class="sourceLine" id="cb172-8" data-line-number="8"><span class="co">#&gt;      &lt;int&gt; &lt;chr&gt;   &lt;lgl&gt;       </span></a>
+<a class="sourceLine" id="cb172-9" data-line-number="9"><span class="co">#&gt;  1       1 aspirin TRUE        </span></a>
+<a class="sourceLine" id="cb172-10" data-line-number="10"><span class="co">#&gt;  2       2 aspirin TRUE        </span></a>
+<a class="sourceLine" id="cb172-11" data-line-number="11"><span class="co">#&gt;  3       3 aspirin TRUE        </span></a>
+<a class="sourceLine" id="cb172-12" data-line-number="12"><span class="co">#&gt;  4       4 aspirin TRUE        </span></a>
+<a class="sourceLine" id="cb172-13" data-line-number="13"><span class="co">#&gt;  5       5 aspirin TRUE        </span></a>
+<a class="sourceLine" id="cb172-14" data-line-number="14"><span class="co">#&gt;  6       6 aspirin TRUE        </span></a>
+<a class="sourceLine" id="cb172-15" data-line-number="15"><span class="co">#&gt;  7       7 aspirin TRUE        </span></a>
+<a class="sourceLine" id="cb172-16" data-line-number="16"><span class="co">#&gt;  8       8 aspirin TRUE        </span></a>
+<a class="sourceLine" id="cb172-17" data-line-number="17"><span class="co">#&gt;  9       9 aspirin TRUE        </span></a>
+<a class="sourceLine" id="cb172-18" data-line-number="18"><span class="co">#&gt; 10      10 aspirin TRUE        </span></a>
+<a class="sourceLine" id="cb172-19" data-line-number="19"><span class="co">#&gt; # … with 22,061 more rows</span></a></code></pre></div>
 <p>Y calculamos el cociente de las tasas:</p>
-<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb179-1" data-line-number="1">summary_stats &lt;-<span class="st"> </span>trial <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb179-2" data-line-number="2"><span class="st">    </span><span class="kw">group_by</span>(group) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb179-3" data-line-number="3"><span class="st">    </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb179-4" data-line-number="4">        <span class="dt">n_attacks =</span> <span class="kw">sum</span>(heart_attack), </a>
-<a class="sourceLine" id="cb179-5" data-line-number="5">        <span class="dt">n_subjects =</span> <span class="kw">n</span>(),</a>
-<a class="sourceLine" id="cb179-6" data-line-number="6">        <span class="dt">rate_attacks =</span> n_attacks <span class="op">/</span><span class="st"> </span>n_subjects <span class="op">*</span><span class="st"> </span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb179-7" data-line-number="7">      )</a>
-<a class="sourceLine" id="cb179-8" data-line-number="8">summary_stats</a>
-<a class="sourceLine" id="cb179-9" data-line-number="9"><span class="co">#&gt; # A tibble: 2 x 4</span></a>
-<a class="sourceLine" id="cb179-10" data-line-number="10"><span class="co">#&gt;   group   n_attacks n_subjects rate_attacks</span></a>
-<a class="sourceLine" id="cb179-11" data-line-number="11"><span class="co">#&gt;   &lt;chr&gt;       &lt;int&gt;      &lt;int&gt;        &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb179-12" data-line-number="12"><span class="co">#&gt; 1 aspirin       104      11037        0.942</span></a>
-<a class="sourceLine" id="cb179-13" data-line-number="13"><span class="co">#&gt; 2 control       189      11034        1.71</span></a>
-<a class="sourceLine" id="cb179-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb179-15" data-line-number="15">ratio_rates &lt;-<span class="st"> </span>summary_stats<span class="op">$</span>rate_attacks[<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>summary_stats<span class="op">$</span>rate_attacks[<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb179-16" data-line-number="16">ratio_rates</a>
-<a class="sourceLine" id="cb179-17" data-line-number="17"><span class="co">#&gt; [1] 0.550115</span></a></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb173-1" data-line-number="1">summary_stats &lt;-<span class="st"> </span>trial <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb173-2" data-line-number="2"><span class="st">    </span><span class="kw">group_by</span>(group) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb173-3" data-line-number="3"><span class="st">    </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb173-4" data-line-number="4">        <span class="dt">n_attacks =</span> <span class="kw">sum</span>(heart_attack), </a>
+<a class="sourceLine" id="cb173-5" data-line-number="5">        <span class="dt">n_subjects =</span> <span class="kw">n</span>(),</a>
+<a class="sourceLine" id="cb173-6" data-line-number="6">        <span class="dt">rate_attacks =</span> n_attacks <span class="op">/</span><span class="st"> </span>n_subjects <span class="op">*</span><span class="st"> </span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb173-7" data-line-number="7">      )</a>
+<a class="sourceLine" id="cb173-8" data-line-number="8">summary_stats</a>
+<a class="sourceLine" id="cb173-9" data-line-number="9"><span class="co">#&gt; # A tibble: 2 x 4</span></a>
+<a class="sourceLine" id="cb173-10" data-line-number="10"><span class="co">#&gt;   group   n_attacks n_subjects rate_attacks</span></a>
+<a class="sourceLine" id="cb173-11" data-line-number="11"><span class="co">#&gt;   &lt;chr&gt;       &lt;int&gt;      &lt;int&gt;        &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb173-12" data-line-number="12"><span class="co">#&gt; 1 aspirin       104      11037        0.942</span></a>
+<a class="sourceLine" id="cb173-13" data-line-number="13"><span class="co">#&gt; 2 control       189      11034        1.71</span></a>
+<a class="sourceLine" id="cb173-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb173-15" data-line-number="15">ratio_rates &lt;-<span class="st"> </span>summary_stats<span class="op">$</span>rate_attacks[<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>summary_stats<span class="op">$</span>rate_attacks[<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb173-16" data-line-number="16">ratio_rates</a>
+<a class="sourceLine" id="cb173-17" data-line-number="17"><span class="co">#&gt; [1] 0.550115</span></a></code></pre></div>
 <p>Después calculamos 1000 replicaciones <em>bootstrap</em> de <span class="math inline">\(\hat{\theta*}\)</span></p>
-<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb180-1" data-line-number="1">boot_ratio_rates &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
-<a class="sourceLine" id="cb180-2" data-line-number="2">    boot_sample &lt;-<span class="st"> </span>trial <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb180-3" data-line-number="3"><span class="st">        </span><span class="kw">group_by</span>(group) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb180-4" data-line-number="4"><span class="st">        </span><span class="kw">sample_frac</span>(<span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb180-5" data-line-number="5">    rates &lt;-<span class="st"> </span>boot_sample <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb180-6" data-line-number="6"><span class="st">        </span><span class="kw">summarise</span>(<span class="dt">rate_attacks =</span> <span class="kw">sum</span>(heart_attack) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb180-7" data-line-number="7"><span class="st">        </span><span class="kw">pull</span>(rate_attacks)</a>
-<a class="sourceLine" id="cb180-8" data-line-number="8">    rates[<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>rates[<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb180-9" data-line-number="9">} </a>
-<a class="sourceLine" id="cb180-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb180-11" data-line-number="11">boot_ratio_rates &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">boot_ratio_rates</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb180-12" data-line-number="12"><span class="st">    </span><span class="kw">flatten_dbl</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb174-1" data-line-number="1">boot_ratio_rates &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
+<a class="sourceLine" id="cb174-2" data-line-number="2">    boot_sample &lt;-<span class="st"> </span>trial <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb174-3" data-line-number="3"><span class="st">        </span><span class="kw">group_by</span>(group) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb174-4" data-line-number="4"><span class="st">        </span><span class="kw">sample_frac</span>(<span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb174-5" data-line-number="5">    rates &lt;-<span class="st"> </span>boot_sample <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb174-6" data-line-number="6"><span class="st">        </span><span class="kw">summarise</span>(<span class="dt">rate_attacks =</span> <span class="kw">sum</span>(heart_attack) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb174-7" data-line-number="7"><span class="st">        </span><span class="kw">pull</span>(rate_attacks)</a>
+<a class="sourceLine" id="cb174-8" data-line-number="8">    rates[<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>rates[<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb174-9" data-line-number="9">} </a>
+<a class="sourceLine" id="cb174-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb174-11" data-line-number="11">boot_ratio_rates &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">boot_ratio_rates</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb174-12" data-line-number="12"><span class="st">    </span><span class="kw">flatten_dbl</span>()</a></code></pre></div>
 <p>Las replicaciones se pueden utilizar para hacer inferencia de los datos. Por
 ejemplo, podemos estimar el error estándar de <span class="math inline">\(\theta\)</span>:</p>
-<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb181-1" data-line-number="1">se &lt;-<span class="st"> </span><span class="kw">sd</span>(boot_ratio_rates)</a>
-<a class="sourceLine" id="cb181-2" data-line-number="2"><span class="kw">comma</span>(se)</a>
-<a class="sourceLine" id="cb181-3" data-line-number="3"><span class="co">#&gt; [1] &quot;0.067&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb175-1" data-line-number="1">se &lt;-<span class="st"> </span><span class="kw">sd</span>(boot_ratio_rates)</a>
+<a class="sourceLine" id="cb175-2" data-line-number="2"><span class="kw">comma</span>(se)</a>
+<a class="sourceLine" id="cb175-3" data-line-number="3"><span class="co">#&gt; [1] &quot;0.067&quot;</span></a></code></pre></div>
 </div> 
 </div>
 <h3>Referencias</h3>
@@ -426,11 +433,13 @@ ejemplo, podemos estimar el error estándar de <span class="math inline">\(\thet
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({

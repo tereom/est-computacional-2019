@@ -39,6 +39,9 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -244,8 +247,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="instalacion-y-visualizacion.html"><a href="instalacion-y-visualizacion.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
 <li class="chapter" data-level="" data-path="union-de-tablas-y-limpieza-de-datos.html"><a href="union-de-tablas-y-limpieza-de-datos.html"><i class="fa fa-check"></i>3. Unión de tablas y limpieza de datos</a></li>
-<li class="chapter" data-level="" data-path="programacion-funcional-y-distribucion-muestral.html"><a href="programacion-funcional-y-distribucion-muestral.html"><i class="fa fa-check"></i>4. Programación funcional y distribución muestral</a></li>
-<li class="chapter" data-level="" data-path="bootstrap.html"><a href="bootstrap.html"><i class="fa fa-check"></i>5. Bootstrap</a></li>
+<li class="chapter" data-level="" data-path="programacion-funcional-y-distribucion-muestral.html"><a href="programacion-funcional-y-distribucion-muestral.html"><i class="fa fa-check"></i>4. Programación funcional y distribución muestral</a><ul>
+<li class="chapter" data-level="" data-path="programacion-funcional-y-distribucion-muestral.html"><a href="programacion-funcional-y-distribucion-muestral.html#solucion-bootstrap"><i class="fa fa-check"></i>Solución + bootstrap</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bootstrap-conteo.html"><a href="bootstrap-conteo.html"><i class="fa fa-check"></i>5. Bootstrap conteo</a></li>
+<li class="chapter" data-level="6.7" data-path="respuesta-ejercicio-clase.html"><a href="respuesta-ejercicio-clase.html"><i class="fa fa-check"></i><b>6.7</b> Respuesta ejercicio clase</a></li>
+<li class="chapter" data-level="" data-path="mas-bootstrap.html"><a href="mas-bootstrap.html"><i class="fa fa-check"></i>5. Más bootstrap</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -282,43 +289,54 @@ análisis?), por una parte, y a algunos estudios de percepción visual.</p>
 <h4>Principios generales del diseño analítico</h4>
 <p>Aplicables a una presentación o análisis completos, y como guía para construir
 nuevas visualizaciones <span class="citation">(Tufte <a href="#ref-tufte06">2006</a>)</span>.</p>
-<pre class="principios"><code>**Principio 1.** Muestra comparaciones, contrastes, diferencias.  
-**Principio 2.** Muestra causalidad, mecanismo, explicación, estructura
-sistemática.  
-**Principio 3.** Muestra datos multivariados, es decir, más de una o dos
-variables.  
-**Principio 4.** Integra palabras, números, imágenes y diagramas.  
-**Principio 5.** Describe la totalidad de la evidencia. Muestra fuentes usadas 
-y problemas relevantes.  
-**Principio 6.** Las presentaciones analíticas, a fin de cuentas, se sostienen o 
-caen dependiendo de la calidad, relevancia e integridad de su contenido.</code></pre>
+
+<div class="caja">
+<strong>Principio 1.</strong> Muestra comparaciones, contrastes, diferencias.<br />
+<strong>Principio 2.</strong> Muestra causalidad, mecanismo, explicación, estructura
+sistemática.<br />
+<strong>Principio 3.</strong> Muestra datos multivariados, es decir, más de una o dos
+variables.<br />
+<strong>Principio 4.</strong> Integra palabras, números, imágenes y diagramas.<br />
+<strong>Principio 5.</strong> Describe la totalidad de la evidencia. Muestra fuentes usadas
+y problemas relevantes.<br />
+<strong>Principio 6.</strong> Las presentaciones analíticas, a fin de cuentas, se sostienen o
+caen dependiendo de la calidad, relevancia e integridad de su contenido.
+</div>
+
 </div>
 <div id="tecnicas-de-visualizacion" class="section level4 unnumbered">
 <h4>Técnicas de visualización</h4>
 <p>Esta categoría incluye técnicas específicas que dependen de la forma de nuestros
 datos y el tipo de pregunta que queremos investigar (<span class="citation">Tukey (<a href="#ref-tukey77">1977</a>)</span>, <span class="citation">Cleveland (<a href="#ref-cleveland93">1993</a>)</span>,
 <span class="citation">Cleveland (<a href="#ref-cleveland94">1994</a>)</span>, <span class="citation">Tufte (<a href="#ref-tufte06">2006</a>)</span>).</p>
-<pre class="tiposgraficas"><code>
-**Tipos de gráficas:** cuantiles, histogramas, caja y brazos, gráficas de 
-dispersión, puntos/barras/ líneas, series de tiempo.  
-**Técnicas para mejorar gráficas:** Transformación de datos, transparencia, 
-vibración, banking 45, suavizamiento y bandas de confianza.  
-**Pequeños múltiplos**  </code></pre>
+
+<div class="caja">
+<strong>Tipos de gráficas:</strong> cuantiles, histogramas, caja y brazos, gráficas de
+dispersión, puntos/barras/ líneas, series de tiempo.<br />
+<strong>Técnicas para mejorar gráficas:</strong> Transformación de datos, transparencia,
+vibración, banking 45, suavizamiento y bandas de confianza.<br />
+<strong>Pequeños múltiplos</strong>
+</div>
+
 </div>
 <div id="indicadores-de-calidad-grafica" class="section level4 unnumbered">
 <h4>Indicadores de calidad gráfica</h4>
 <p>Aplicables a cualquier gráfica en particular. Estas son guías concretas y
 relativamente objetivas para evaluar la calidad de una gráfica <span class="citation">(Tufte <a href="#ref-tufte86">1986</a>)</span>.</p>
-<pre class="indicadores"><code>**Integridad Gráfica.** El factor de engaño, es decir, la distorsión gráfica de
-las cantidades representadas, debe ser mínimo.  
-**Chartjunk.** Minimizar el uso de decoración gráfica que interfiera con la 
-interpretación de los datos: 3D, rejillas, rellenos con patrones.  
-**Tinta de datos.** Maximizar la proporción de tinta de datos vs. tinta total de 
-la gráfica. *For non-data- ink, less is more. For data-ink, less is a bore.*  
-**Densidad de datos.** Las mejores gráficas tienen mayor densidad de datos, que 
-es la razón entre el tamaño del conjunto de datos y el área de la gráfica. Las 
-gráficas se pueden encoger mucho. Percepción visual. Algunas tareas son más 
-fáciles para el ojo humano que otras [@cleveland94].</code></pre>
+
+<div class="caja">
+<strong>Integridad Gráfica.</strong> El factor de engaño, es decir, la distorsión gráfica de
+las cantidades representadas, debe ser mínimo.<br />
+<strong>Chartjunk.</strong> Minimizar el uso de decoración gráfica que interfiera con la
+interpretación de los datos: 3D, rejillas, rellenos con patrones.<br />
+<strong>Tinta de datos.</strong> Maximizar la proporción de tinta de datos vs. tinta total de
+la gráfica. <em>For non-data- ink, less is more. For data-ink, less is a bore.</em><br />
+<strong>Densidad de datos.</strong> Las mejores gráficas tienen mayor densidad de datos, que
+es la razón entre el tamaño del conjunto de datos y el área de la gráfica. Las
+gráficas se pueden encoger mucho. Percepción visual. Algunas tareas son más
+fáciles para el ojo humano que otras <span class="citation">(Cleveland <a href="#ref-cleveland94">1994</a>)</span>.
+</div>
+
 </div>
 </div>
 <h3>Referencias</h3>
@@ -350,11 +368,13 @@ fáciles para el ojo humano que otras [@cleveland94].</code></pre>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({

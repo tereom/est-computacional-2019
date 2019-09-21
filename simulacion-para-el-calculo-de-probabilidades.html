@@ -39,6 +39,9 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -244,8 +247,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="instalacion-y-visualizacion.html"><a href="instalacion-y-visualizacion.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
 <li class="chapter" data-level="" data-path="union-de-tablas-y-limpieza-de-datos.html"><a href="union-de-tablas-y-limpieza-de-datos.html"><i class="fa fa-check"></i>3. Unión de tablas y limpieza de datos</a></li>
-<li class="chapter" data-level="" data-path="programacion-funcional-y-distribucion-muestral.html"><a href="programacion-funcional-y-distribucion-muestral.html"><i class="fa fa-check"></i>4. Programación funcional y distribución muestral</a></li>
-<li class="chapter" data-level="" data-path="bootstrap.html"><a href="bootstrap.html"><i class="fa fa-check"></i>5. Bootstrap</a></li>
+<li class="chapter" data-level="" data-path="programacion-funcional-y-distribucion-muestral.html"><a href="programacion-funcional-y-distribucion-muestral.html"><i class="fa fa-check"></i>4. Programación funcional y distribución muestral</a><ul>
+<li class="chapter" data-level="" data-path="programacion-funcional-y-distribucion-muestral.html"><a href="programacion-funcional-y-distribucion-muestral.html#solucion-bootstrap"><i class="fa fa-check"></i>Solución + bootstrap</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bootstrap-conteo.html"><a href="bootstrap-conteo.html"><i class="fa fa-check"></i>5. Bootstrap conteo</a></li>
+<li class="chapter" data-level="6.7" data-path="respuesta-ejercicio-clase.html"><a href="respuesta-ejercicio-clase.html"><i class="fa fa-check"></i><b>6.7</b> Respuesta ejercicio clase</a></li>
+<li class="chapter" data-level="" data-path="mas-bootstrap.html"><a href="mas-bootstrap.html"><i class="fa fa-check"></i>5. Más bootstrap</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -302,18 +309,18 @@ conformado por 3 hombres y 2 mujeres?</p>
 claro que cada persona solo puee estar una vez.</p></li>
 <li></li>
 </ol>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb158-1" data-line-number="1">candidatos &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">paste</span>(<span class="st">&quot;M&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">9</span>, <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>), <span class="kw">paste</span>(<span class="st">&quot;H&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>))</a>
-<a class="sourceLine" id="cb158-2" data-line-number="2"><span class="kw">sample</span>(candidatos, <span class="dv">5</span>, <span class="dt">replace =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb158-3" data-line-number="3"><span class="co">#&gt; [1] &quot;M_9&quot; &quot;M_2&quot; &quot;M_8&quot; &quot;M_3&quot; &quot;M_6&quot;</span></a></code></pre></div>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb159-1" data-line-number="1">comite &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
-<a class="sourceLine" id="cb159-2" data-line-number="2">    candidatos &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">paste</span>(<span class="st">&quot;M&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">9</span>, <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>), <span class="kw">paste</span>(<span class="st">&quot;H&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>))</a>
-<a class="sourceLine" id="cb159-3" data-line-number="3">    comite &lt;-<span class="st"> </span><span class="kw">sample</span>(candidatos, <span class="dv">5</span>, <span class="dt">replace =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb159-4" data-line-number="4">    n_mujeres &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">substr</span>(comite, <span class="dv">1</span>, <span class="dv">1</span>) <span class="op">==</span><span class="st"> &quot;M&quot;</span>)</a>
-<a class="sourceLine" id="cb159-5" data-line-number="5">    n_mujeres <span class="op">==</span><span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb159-6" data-line-number="6">}</a>
-<a class="sourceLine" id="cb159-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb159-8" data-line-number="8"><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">comite</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mean</span>()</a>
-<a class="sourceLine" id="cb159-9" data-line-number="9"><span class="co">#&gt; [1] 0.223</span></a></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb152-1" data-line-number="1">candidatos &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">paste</span>(<span class="st">&quot;M&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">9</span>, <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>), <span class="kw">paste</span>(<span class="st">&quot;H&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>))</a>
+<a class="sourceLine" id="cb152-2" data-line-number="2"><span class="kw">sample</span>(candidatos, <span class="dv">5</span>, <span class="dt">replace =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb152-3" data-line-number="3"><span class="co">#&gt; [1] &quot;M_9&quot; &quot;M_2&quot; &quot;M_8&quot; &quot;M_3&quot; &quot;M_6&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb153-1" data-line-number="1">comite &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
+<a class="sourceLine" id="cb153-2" data-line-number="2">    candidatos &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">paste</span>(<span class="st">&quot;M&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">9</span>, <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>), <span class="kw">paste</span>(<span class="st">&quot;H&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>))</a>
+<a class="sourceLine" id="cb153-3" data-line-number="3">    comite &lt;-<span class="st"> </span><span class="kw">sample</span>(candidatos, <span class="dv">5</span>, <span class="dt">replace =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb153-4" data-line-number="4">    n_mujeres &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">substr</span>(comite, <span class="dv">1</span>, <span class="dv">1</span>) <span class="op">==</span><span class="st"> &quot;M&quot;</span>)</a>
+<a class="sourceLine" id="cb153-5" data-line-number="5">    n_mujeres <span class="op">==</span><span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb153-6" data-line-number="6">}</a>
+<a class="sourceLine" id="cb153-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb153-8" data-line-number="8"><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">comite</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mean</span>()</a>
+<a class="sourceLine" id="cb153-9" data-line-number="9"><span class="co">#&gt; [1] 0.223</span></a></code></pre></div>
 </div>
 <div id="ejemplo-la-ruina-del-jugador" class="section level4 unnumbered">
 <h4>Ejemplo: La ruina del jugador</h4>
@@ -338,33 +345,33 @@ monto de la apuesta está fijo en $5, no importa el capital en cada momento. La
 componente aleatoria involucra si gana cada uno de los juegos y esto
 ocurre con probabilidad 0.47.</li>
 </ol>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb160-1" data-line-number="1">apostar &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">dinero =</span> <span class="dv">100</span>, <span class="dt">apuesta =</span> <span class="dv">5</span>, <span class="dt">tope =</span> <span class="dv">200</span>) {</a>
-<a class="sourceLine" id="cb160-2" data-line-number="2">    <span class="cf">while</span> (<span class="dv">0</span> <span class="op">&lt;</span><span class="st"> </span>dinero <span class="op">&amp;</span><span class="st"> </span>dinero <span class="op">&lt;</span><span class="st"> </span>tope) {</a>
-<a class="sourceLine" id="cb160-3" data-line-number="3">        <span class="cf">if</span> (<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">38</span>, <span class="dv">1</span>) <span class="op">&lt;=</span><span class="st"> </span><span class="dv">18</span>) {</a>
-<a class="sourceLine" id="cb160-4" data-line-number="4">            dinero &lt;-<span class="st"> </span>dinero <span class="op">+</span><span class="st"> </span>apuesta</a>
-<a class="sourceLine" id="cb160-5" data-line-number="5">        } </a>
-<a class="sourceLine" id="cb160-6" data-line-number="6">        <span class="cf">else</span> {</a>
-<a class="sourceLine" id="cb160-7" data-line-number="7">            dinero &lt;-<span class="st"> </span>dinero <span class="op">-</span><span class="st"> </span>apuesta</a>
-<a class="sourceLine" id="cb160-8" data-line-number="8">        }</a>
-<a class="sourceLine" id="cb160-9" data-line-number="9">    }</a>
-<a class="sourceLine" id="cb160-10" data-line-number="10">    dinero <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span></a>
-<a class="sourceLine" id="cb160-11" data-line-number="11">}</a>
-<a class="sourceLine" id="cb160-12" data-line-number="12"><span class="kw">set.seed</span>(<span class="dv">9923</span>)</a>
-<a class="sourceLine" id="cb160-13" data-line-number="13">n_juegos &lt;-<span class="st"> </span><span class="dv">5000</span></a>
-<a class="sourceLine" id="cb160-14" data-line-number="14">juegos &lt;-<span class="st"> </span><span class="kw">rerun</span>(n_juegos, <span class="kw">apostar</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a>
-<a class="sourceLine" id="cb160-15" data-line-number="15"><span class="kw">mean</span>(juegos)</a>
-<a class="sourceLine" id="cb160-16" data-line-number="16"><span class="co">#&gt; [1] 0.1126</span></a>
-<a class="sourceLine" id="cb160-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb160-18" data-line-number="18"><span class="co"># incrementos de 50?</span></a>
-<a class="sourceLine" id="cb160-19" data-line-number="19">juegos &lt;-<span class="st"> </span><span class="kw">rerun</span>(n_juegos, <span class="kw">apostar</span>(<span class="dt">apuesta =</span> <span class="dv">50</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a>
-<a class="sourceLine" id="cb160-20" data-line-number="20"><span class="kw">mean</span>(juegos)</a>
-<a class="sourceLine" id="cb160-21" data-line-number="21"><span class="co">#&gt; [1] 0.454</span></a></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb154-1" data-line-number="1">apostar &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">dinero =</span> <span class="dv">100</span>, <span class="dt">apuesta =</span> <span class="dv">5</span>, <span class="dt">tope =</span> <span class="dv">200</span>) {</a>
+<a class="sourceLine" id="cb154-2" data-line-number="2">    <span class="cf">while</span> (<span class="dv">0</span> <span class="op">&lt;</span><span class="st"> </span>dinero <span class="op">&amp;</span><span class="st"> </span>dinero <span class="op">&lt;</span><span class="st"> </span>tope) {</a>
+<a class="sourceLine" id="cb154-3" data-line-number="3">        <span class="cf">if</span> (<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">38</span>, <span class="dv">1</span>) <span class="op">&lt;=</span><span class="st"> </span><span class="dv">18</span>) {</a>
+<a class="sourceLine" id="cb154-4" data-line-number="4">            dinero &lt;-<span class="st"> </span>dinero <span class="op">+</span><span class="st"> </span>apuesta</a>
+<a class="sourceLine" id="cb154-5" data-line-number="5">        } </a>
+<a class="sourceLine" id="cb154-6" data-line-number="6">        <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb154-7" data-line-number="7">            dinero &lt;-<span class="st"> </span>dinero <span class="op">-</span><span class="st"> </span>apuesta</a>
+<a class="sourceLine" id="cb154-8" data-line-number="8">        }</a>
+<a class="sourceLine" id="cb154-9" data-line-number="9">    }</a>
+<a class="sourceLine" id="cb154-10" data-line-number="10">    dinero <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb154-11" data-line-number="11">}</a>
+<a class="sourceLine" id="cb154-12" data-line-number="12"><span class="kw">set.seed</span>(<span class="dv">9923</span>)</a>
+<a class="sourceLine" id="cb154-13" data-line-number="13">n_juegos &lt;-<span class="st"> </span><span class="dv">5000</span></a>
+<a class="sourceLine" id="cb154-14" data-line-number="14">juegos &lt;-<span class="st"> </span><span class="kw">rerun</span>(n_juegos, <span class="kw">apostar</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a>
+<a class="sourceLine" id="cb154-15" data-line-number="15"><span class="kw">mean</span>(juegos)</a>
+<a class="sourceLine" id="cb154-16" data-line-number="16"><span class="co">#&gt; [1] 0.1126</span></a>
+<a class="sourceLine" id="cb154-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb154-18" data-line-number="18"><span class="co"># incrementos de 50?</span></a>
+<a class="sourceLine" id="cb154-19" data-line-number="19">juegos &lt;-<span class="st"> </span><span class="kw">rerun</span>(n_juegos, <span class="kw">apostar</span>(<span class="dt">apuesta =</span> <span class="dv">50</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a>
+<a class="sourceLine" id="cb154-20" data-line-number="20"><span class="kw">mean</span>(juegos)</a>
+<a class="sourceLine" id="cb154-21" data-line-number="21"><span class="co">#&gt; [1] 0.454</span></a></code></pre></div>
 <p>La solución analítica la pueden leer en este documento de <a href="http://web.mit.edu/neboat/Public/6.042/randomwalks.pdf">caminatas aleatorias</a>:</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb161-1" data-line-number="1">p &lt;-<span class="st"> </span><span class="fl">0.474</span></a>
-<a class="sourceLine" id="cb161-2" data-line-number="2"><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(p <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p)) <span class="op">^</span><span class="st"> </span>(<span class="dv">100</span> <span class="op">/</span><span class="st"> </span><span class="dv">5</span>)) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(p <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p)) <span class="op">^</span><span class="st"> </span>(<span class="dv">200</span> <span class="op">/</span><span class="st"> </span><span class="dv">5</span>)) <span class="co"># apostando de 5 en 5</span></a>
-<a class="sourceLine" id="cb161-3" data-line-number="3"><span class="co">#&gt; [1] 0.1108707</span></a>
-<a class="sourceLine" id="cb161-4" data-line-number="4"><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(p <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p)) <span class="op">^</span><span class="st"> </span>(<span class="dv">100</span> <span class="op">/</span><span class="st"> </span><span class="dv">50</span>)) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(p <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p)) <span class="op">^</span><span class="st"> </span>(<span class="dv">200</span> <span class="op">/</span><span class="st"> </span><span class="dv">50</span>)) <span class="co"># apostando de 50 en 50</span></a>
-<a class="sourceLine" id="cb161-5" data-line-number="5"><span class="co">#&gt; [1] 0.4481402</span></a></code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb155-1" data-line-number="1">p &lt;-<span class="st"> </span><span class="fl">0.474</span></a>
+<a class="sourceLine" id="cb155-2" data-line-number="2"><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(p <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p)) <span class="op">^</span><span class="st"> </span>(<span class="dv">100</span> <span class="op">/</span><span class="st"> </span><span class="dv">5</span>)) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(p <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p)) <span class="op">^</span><span class="st"> </span>(<span class="dv">200</span> <span class="op">/</span><span class="st"> </span><span class="dv">5</span>)) <span class="co"># apostando de 5 en 5</span></a>
+<a class="sourceLine" id="cb155-3" data-line-number="3"><span class="co">#&gt; [1] 0.1108707</span></a>
+<a class="sourceLine" id="cb155-4" data-line-number="4"><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(p <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p)) <span class="op">^</span><span class="st"> </span>(<span class="dv">100</span> <span class="op">/</span><span class="st"> </span><span class="dv">50</span>)) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(p <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p)) <span class="op">^</span><span class="st"> </span>(<span class="dv">200</span> <span class="op">/</span><span class="st"> </span><span class="dv">50</span>)) <span class="co"># apostando de 50 en 50</span></a>
+<a class="sourceLine" id="cb155-5" data-line-number="5"><span class="co">#&gt; [1] 0.4481402</span></a></code></pre></div>
 <p><img src="img/manicule2.jpg" /> Cumpleaños. ¿Cuántas personas debe haber en un
 salón para que la probabilidad de encontrar 2 con el mismo cumpleaños sea
 mayor a 0.5?
@@ -406,34 +413,34 @@ de que los dos sean macho?</p></li>
 ejemplo supongamos que se lanza un dardo a un tablero cuadrandgular de lado 2,
 ¿cuál es la probabilidad de que el dardo caiga en el círculo de radio 1 inscrito
 en un cuadrado de lado 2?</p>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" data-line-number="1">tablero &lt;-<span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb162-2" data-line-number="2"><span class="st">    </span>ggforce<span class="op">::</span><span class="kw">geom_circle</span>(<span class="kw">aes</span>(<span class="dt">x0 =</span> <span class="dv">0</span>, <span class="dt">y0 =</span> <span class="dv">0</span>, <span class="dt">r =</span> <span class="dv">1</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb162-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_rect</span>(<span class="kw">aes</span>(<span class="dt">xmin =</span> <span class="dv">-1</span>, <span class="dt">xmax =</span> <span class="dv">1</span>,   <span class="dt">ymin =</span> <span class="dv">-1</span>, <span class="dt">ymax =</span> <span class="dv">1</span>), <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>, </a>
-<a class="sourceLine" id="cb162-4" data-line-number="4">        <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb162-5" data-line-number="5"><span class="st">    </span><span class="kw">coord_equal</span>()</a>
-<a class="sourceLine" id="cb162-6" data-line-number="6"><span class="kw">ggsave</span>(<span class="st">&quot;img/tablero.png&quot;</span>, tablero, <span class="dt">width =</span> <span class="dv">3</span>, <span class="dt">height =</span> <span class="dv">3</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb163-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;img/tablero.png&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb156-1" data-line-number="1">tablero &lt;-<span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb156-2" data-line-number="2"><span class="st">    </span>ggforce<span class="op">::</span><span class="kw">geom_circle</span>(<span class="kw">aes</span>(<span class="dt">x0 =</span> <span class="dv">0</span>, <span class="dt">y0 =</span> <span class="dv">0</span>, <span class="dt">r =</span> <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb156-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_rect</span>(<span class="kw">aes</span>(<span class="dt">xmin =</span> <span class="dv">-1</span>, <span class="dt">xmax =</span> <span class="dv">1</span>,   <span class="dt">ymin =</span> <span class="dv">-1</span>, <span class="dt">ymax =</span> <span class="dv">1</span>), <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>, </a>
+<a class="sourceLine" id="cb156-4" data-line-number="4">        <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb156-5" data-line-number="5"><span class="st">    </span><span class="kw">coord_equal</span>()</a>
+<a class="sourceLine" id="cb156-6" data-line-number="6"><span class="kw">ggsave</span>(<span class="st">&quot;img/tablero.png&quot;</span>, tablero, <span class="dt">width =</span> <span class="dv">3</span>, <span class="dt">height =</span> <span class="dv">3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb157-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;img/tablero.png&quot;</span>)</a></code></pre></div>
 <p><img src="img/tablero.png" width="400px" style="display: block; margin: auto;" /></p>
 <p>En este caso usamos áreas relativas para calcular la probabilidad: denotemos C
 al evento tal que el dardo cae en el círculo, entonces:</p>
 <p><span class="math display">\[P(B) = \frac{Área(B)}{Área(\Omega)}\]</span>
 ¿Y simulando?</p>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" data-line-number="1">dentro_circunferencia &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
-<a class="sourceLine" id="cb164-2" data-line-number="2">  x &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb164-3" data-line-number="3">  y &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb164-4" data-line-number="4">  <span class="kw">sqrt</span>(x <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>y <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb164-5" data-line-number="5">}</a>
-<a class="sourceLine" id="cb164-6" data-line-number="6"><span class="kw">rerun</span>(<span class="dv">10000</span>, <span class="kw">dentro_circunferencia</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mean</span>()</a>
-<a class="sourceLine" id="cb164-7" data-line-number="7"><span class="co">#&gt; [1] 0.787</span></a></code></pre></div>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" data-line-number="1">dardos &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">runif</span>(<span class="dv">1000</span>, <span class="dv">-1</span>, <span class="dv">1</span>), <span class="dt">y =</span> <span class="kw">runif</span>(<span class="dv">1000</span>, <span class="dv">-1</span>, <span class="dv">1</span>), </a>
-<a class="sourceLine" id="cb165-2" data-line-number="2">    <span class="dt">en_circulo =</span> <span class="kw">sqrt</span>(x <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>y <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb165-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb165-4" data-line-number="4">tablero_dardos &lt;-<span class="st"> </span>tablero <span class="op">+</span></a>
-<a class="sourceLine" id="cb165-5" data-line-number="5"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> dardos, <span class="kw">aes</span>(x, y, <span class="dt">color =</span> en_circulo), <span class="dt">alpha =</span> <span class="fl">0.5</span>, </a>
-<a class="sourceLine" id="cb165-6" data-line-number="6">        <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb165-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb165-8" data-line-number="8"><span class="kw">ggsave</span>(<span class="st">&quot;img/tablero_dardos.png&quot;</span>, tablero_dardos, <span class="dt">width =</span> <span class="dv">3</span>, <span class="dt">height =</span> <span class="dv">3</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;img/tablero_dardos.png&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb158-1" data-line-number="1">dentro_circunferencia &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
+<a class="sourceLine" id="cb158-2" data-line-number="2">  x &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb158-3" data-line-number="3">  y &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb158-4" data-line-number="4">  <span class="kw">sqrt</span>(x <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>y <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb158-5" data-line-number="5">}</a>
+<a class="sourceLine" id="cb158-6" data-line-number="6"><span class="kw">rerun</span>(<span class="dv">10000</span>, <span class="kw">dentro_circunferencia</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mean</span>()</a>
+<a class="sourceLine" id="cb158-7" data-line-number="7"><span class="co">#&gt; [1] 0.787</span></a></code></pre></div>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb159-1" data-line-number="1">dardos &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">runif</span>(<span class="dv">1000</span>, <span class="dv">-1</span>, <span class="dv">1</span>), <span class="dt">y =</span> <span class="kw">runif</span>(<span class="dv">1000</span>, <span class="dv">-1</span>, <span class="dv">1</span>), </a>
+<a class="sourceLine" id="cb159-2" data-line-number="2">    <span class="dt">en_circulo =</span> <span class="kw">sqrt</span>(x <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>y <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb159-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb159-4" data-line-number="4">tablero_dardos &lt;-<span class="st"> </span>tablero <span class="op">+</span></a>
+<a class="sourceLine" id="cb159-5" data-line-number="5"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> dardos, <span class="kw">aes</span>(x, y, <span class="dt">color =</span> en_circulo), <span class="dt">alpha =</span> <span class="fl">0.5</span>, </a>
+<a class="sourceLine" id="cb159-6" data-line-number="6">        <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb159-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb159-8" data-line-number="8"><span class="kw">ggsave</span>(<span class="st">&quot;img/tablero_dardos.png&quot;</span>, tablero_dardos, <span class="dt">width =</span> <span class="dv">3</span>, <span class="dt">height =</span> <span class="dv">3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb160-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;img/tablero_dardos.png&quot;</span>)</a></code></pre></div>
 <p><img src="img/tablero_dardos.png" width="400px" style="display: block; margin: auto;" /></p>
 <p>¿Qué defectos puedes ver en este modelo probabilístico para el lanzamiento
 de un dardo?</p>
@@ -450,11 +457,13 @@ de un dardo?</p>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({

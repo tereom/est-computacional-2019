@@ -331,7 +331,7 @@ ggplot() +
     labs(color = "")
 ```
 
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-3-1.png" width="672" height="300px" style="display: block; margin: auto;" />
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-3-1.png" width="480" style="display: block; margin: auto;" />
 
 Cuando la variable de interés toma pocos valores es fácil ver la distribución 
 empírica, supongamos que la medición de las unidades que nos interesa es la 
@@ -984,6 +984,200 @@ B_muestras
 #> 12  20000  3.26
 ```
 
+#### Ejemplo componentes principales: calificaciones en exámenes {-}
+
+Los datos _marks_ (Mardia, Kent y Bibby, 1979) contienen los puntajes de 88 
+estudiantes en 5 pruebas: mecánica, vectores, álgebra, análisis y estadística.
+Cada renglón corresponde a la calificación de un estudiante en cada prueba.
+
+
+```r
+data(marks, package = "ggm")
+glimpse(marks)
+#> Observations: 88
+#> Variables: 5
+#> $ mechanics  <dbl> 77, 63, 75, 55, 63, 53, 51, 59, 62, 64, 52, 55, 50, 6…
+#> $ vectors    <dbl> 82, 78, 73, 72, 63, 61, 67, 70, 60, 72, 64, 67, 50, 6…
+#> $ algebra    <dbl> 67, 80, 71, 63, 65, 72, 65, 68, 58, 60, 60, 59, 64, 5…
+#> $ analysis   <dbl> 67, 70, 66, 70, 70, 64, 65, 62, 62, 62, 63, 62, 55, 5…
+#> $ statistics <dbl> 81, 81, 81, 68, 63, 73, 68, 56, 70, 45, 54, 44, 63, 3…
+```
+
+Entonces un análisis de componentes principales proseguiría como sigue:
+
+
+```r
+pc_marks <- princomp(marks)
+summary(pc_marks)
+#> Importance of components:
+#>                            Comp.1     Comp.2      Comp.3     Comp.4
+#> Standard deviation     26.0600955 14.1291852 10.13060363 9.15149631
+#> Proportion of Variance  0.6191097  0.1819910  0.09355915 0.07634838
+#> Cumulative Proportion   0.6191097  0.8011007  0.89465983 0.97100821
+#>                            Comp.5
+#> Standard deviation     5.63935825
+#> Proportion of Variance 0.02899179
+#> Cumulative Proportion  1.00000000
+loadings(pc_marks)
+#> 
+#> Loadings:
+#>            Comp.1 Comp.2 Comp.3 Comp.4 Comp.5
+#> mechanics   0.505  0.749  0.301  0.295       
+#> vectors     0.368  0.207 -0.419 -0.781  0.190
+#> algebra     0.346        -0.146        -0.924
+#> analysis    0.451 -0.301 -0.594  0.521  0.286
+#> statistics  0.535 -0.547  0.600 -0.178  0.151
+#> 
+#>                Comp.1 Comp.2 Comp.3 Comp.4 Comp.5
+#> SS loadings       1.0    1.0    1.0    1.0    1.0
+#> Proportion Var    0.2    0.2    0.2    0.2    0.2
+#> Cumulative Var    0.2    0.4    0.6    0.8    1.0
+plot(pc_marks, type = "lines")
+```
+
+<img src="05-bootstrap_no_parametrico_files/figure-html/pc-1.png" width="288" style="display: block; margin: auto;" />
+
+
+
+```r
+biplot(pc_marks)
+```
+
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" />
+
+Los cálculos de un análisis de componentes principales involucran la matriz de 
+covarianzas empírica $G$ (estimaciones _plug-in_)
+
+$$G_{jk} = \frac{1}{88}\sum_{i=1}^88(x_{ij}-\bar{x_j})(x_{ik}-\bar{x_k})$$
+
+para $j,k=1,2,3,4,5$, y donde $\bar{x_j} = \sum_{i=1}^88 x_{ij} / 88$ (la media 
+de la i-ésima columna).
+
+
+```r
+G <- cov(marks) * 87 / 88
+G
+#>            mechanics   vectors   algebra  analysis statistics
+#> mechanics   302.2147 125.59969 100.31599 105.11415  116.15819
+#> vectors     125.5997 170.87810  84.18957  93.59711   97.88688
+#> algebra     100.3160  84.18957 111.60318 110.83936  120.48567
+#> analysis    105.1142  93.59711 110.83936 217.87603  153.76808
+#> statistics  116.1582  97.88688 120.48567 153.76808  294.37177
+```
+
+Los _pesos_ y las _componentes principales_ no son mas que los eigenvalores y 
+eigenvectores de la matriz de covarianzas $G$, estos se calculan a través de una 
+serie de de manipulaciones algebraicas que requieren cálculos del orden de p^3^
+(cuando G es una matriz de tamaño p$\times$p).
+
+
+```r
+eigen_G <- eigen(G)
+lambda <- eigen_G$values
+v <- eigen_G$vectors
+lambda
+#> [1] 679.12858 199.63388 102.62913  83.74988  31.80236
+v
+#>           [,1]        [,2]       [,3]         [,4]        [,5]
+#> [1,] 0.5053373  0.74917585  0.3006046  0.294631757 -0.07873256
+#> [2,] 0.3682215  0.20692361 -0.4185473 -0.781332853 -0.18955902
+#> [3,] 0.3456083 -0.07622065 -0.1457830 -0.003348995  0.92384059
+#> [4,] 0.4512152 -0.30063472 -0.5944322  0.520724416 -0.28551729
+#> [5,] 0.5347961 -0.54747360  0.5998773 -0.177611847 -0.15121842
+```
+
+1. Proponemos el siguiente modelo simple para puntajes correlacionados:
+
+$$\textbf{x}_i = Q_i \textbf{v}$$
+
+donde $\textbf{x}_i$ es la tupla de calificaciones del i-ésimo estudiante, 
+$Q_i$ es un número que representa la habilidad del estudiante y $\textbf{v}$ es
+un vector fijo con 5 números que aplica a todos los estudiantes. Si este modelo
+simple fuera cierto, entonces únicamente el $\hat{\lambda}_1$ sería positivo
+y $\textbf{v} = \hat{v}_1$.
+Sea $$\hat{\theta}=\sum_{i=1}^5\hat{\lambda}_i$$
+el modelo propuesto es equivalente a $\hat{\theta}=1$, inculso si el modelo es
+correcto, no esperamos que $\hat{\theta}$ sea exactamente uno pues hay ruido en 
+los datos.
+
+
+```r
+theta_hat <- lambda[1]/sum(lambda)
+theta_hat
+#> [1] 0.6191097
+```
+
+El valor de $\hat{\theta}$ mide el porcentaje de la varianza explicada en la 
+primer componente principal, ¿qué tan preciso es  $\hat{\theta}$? La complejidad
+matemática en el cálculo de  $\hat{\theta}$ es irrelevante siempre y cuando 
+podamos calcular  $\hat{\theta}^*$ para una muestra bootstrap, en esta caso una
+muestra bootsrtap es una base de datos de 88 $\times$ 5 $\textbf{X}^*$, donde las
+filas $\bf{x_i}^*$ de $\textbf{X}^*$ son una muestra aleatoria de tamaño
+88 de la verdadera matriz de datos.
+
+
+```r
+pc_boot <- function(){
+    muestra_boot <- sample_n(marks, size = 88, replace = TRUE)
+    G <- cov(muestra_boot) * 87 / 88 
+    eigen_G <- eigen(G)
+    theta_hat <- eigen_G$values[1] / sum(eigen_G$values)
+}
+B <- 1000
+thetas_boot <- rerun(B, pc_boot()) %>% flatten_dbl()
+```
+
+Veamos un histograma de las replicaciones de  $\hat{\theta}$:
+
+
+```r
+ggplot(data_frame(theta = thetas_boot)) +
+    geom_histogram(aes(x = theta, y = ..density..), binwidth = 0.02, 
+        fill = "gray40") + 
+    geom_vline(aes(xintercept = mean(theta)), color = "red") +
+    labs(x = expression(hat(theta)^"*"), y = "")
+```
+
+<img src="05-bootstrap_no_parametrico_files/figure-html/pc_hist-1.png" width="300px" style="display: block; margin: auto;" />
+
+Estas tienen un error estándar
+
+
+```r
+theta_se <- sd(thetas_boot)
+theta_se
+#> [1] 0.04657769
+```
+
+y media
+
+
+```r
+mean(thetas_boot)
+#> [1] 0.6199592
+```
+
+la media de las replicaciones es muy similar a la estimación $\hat{\theta}$, 
+esto indica que $\hat{\theta}$ es cercano a insesgado. 
+
+2. El eigenvetor $\hat{v}_1$ correspondiente al mayor eigenvalor se conoce
+como primera componente de $G$, supongamos que deseamos resumir la calificación
+de los estudiantes mediante un único número, entonces la mejor combinación 
+lineal de los puntajes es 
+
+$$y_i = \sum_{k = 1}^5 \hat{v}_{1k}x_{ik}$$
+
+esto es, la combinación lineal que utiliza las componentes de $\hat{v}_1$ como
+ponderadores. Si queremos un resumen compuesto por dos números $(y_i,z_i)$, la
+segunda combinación lineal debería ser:
+
+$$z_i = \sum_{k = 1}^5 \hat{v}_{2k}x_{ik}$$
+
+![](img/manicule2.jpg) Las componentes principales $\hat{v}_1$ y 
+$\hat{v}_2$ son estadísticos, usa bootstrap para dar una medición de su 
+variabilidad calculando el error estándar de cada una.
+
+
 
 ## Intervalos de confianza
 
@@ -1050,7 +1244,7 @@ este intervalo está soportado por el Teorema Central del Límite, sin embargo,
 no es adecuado cuando $\hat{\theta}$ no se distribuye aproximadamente Normal.
 
 
-#### Ejemplo: kurtosis
+#### Ejemplo: kurtosis {-}
 
 Supongamos que queremos estimar la kurtosis de una base de datos que consta de
 799 tiempos de espera entre pulsasiones de un nervio (Cox, Lewis 1976).
@@ -1140,7 +1334,7 @@ qq_nerve <- ggplot(nerve_kurtosis) +
 grid.arrange(hist_nerve, qq_nerve, ncol = 2, newpage = FALSE)
 ```
 
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-12-1.png" width="816" style="display: block; margin: auto;" />
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-19-1.png" width="816" style="display: block; margin: auto;" />
 
 En el ejemplo anterior el supuesto de normalidad parece razonable, veamos 
 como se comparan los cuantiles de la estimación de la distribución de 
@@ -1182,7 +1376,7 @@ ggplot(arrange(nerve_kurtosis, kurtosis)) +
   labs(x = "Cuantiles muestrales", y = "ecdf")
 ```
 
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-14-1.png" width="384" style="display: block; margin: auto;" />
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-21-1.png" width="384" style="display: block; margin: auto;" />
 
 Las expresiones de arriba hacen referencia a la situación bootstrap _ideal_ 
 donde el número de replicaciones bootstrap es infinito, en la práctica usamos
@@ -1203,12 +1397,12 @@ $$(\theta^*_{\%,inf}, \theta^*_{\%,sup})\approx(\hat{\theta}^*_B(\alpha),\hat{\t
 
 
 ```r
-ls_per <- round(quantile(kurtosis, prob = 0.975), 2)
-li_per <- round(quantile(kurtosis, prob = 0.025), 2)
+ls_per <- round(quantile(kurtosis, probs = 0.975), 2)
+li_per <- round(quantile(kurtosis, probs = 0.025), 2)
 stringr::str_c(li_normal, ls_normal, sep = ",")
 stringr::str_c(li_per, ls_per, sep = ",")
 #> [1] "1.44,2.08"
-#> [1] "1.42,2.07"
+#> [1] "1.43,2.07"
 ```
 
 Si la distribución de $\hat{\theta}^*$ es aproximadamente normal, entonces 
@@ -1241,7 +1435,7 @@ qq_emu <- ggplot(theta_boot_df) +
 grid.arrange(hist_emu, qq_emu, ncol = 2, newpage = FALSE)
 ```
 
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-16-1.png" width="816" style="display: block; margin: auto;" />
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-23-1.png" width="816" style="display: block; margin: auto;" />
 
 La distribución empírica de $\hat{\theta}^*$ es asimétrica, por lo que no
 esperamos que coincidan los intervalos.
@@ -1279,7 +1473,7 @@ qq_log <- ggplot(data_frame(theta_boot)) +
 grid.arrange(hist_log, qq_log, ncol = 2, newpage = FALSE)
 ```
 
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-18-1.png" width="816" style="display: block; margin: auto;" />
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-25-1.png" width="816" style="display: block; margin: auto;" />
 
 Y los intervalos se comparan:
 
@@ -1348,9 +1542,10 @@ intervalo.
 3. **Intervalos acelerados y corregidos por sesgo**. Esta es una versión 
 mejorada del intervalo de percentil, la denotamos $BC_{a}$ (*bias-corrected and 
 accelerated*).
+</div>
 
 Usaremos un ejemplo de @efron, los datos constan de los resultados 
-en dos pruebas espaciales de 26 niños con algún problema neurológico. Supongamos
+en dos pruebas espaciales de 26 niños con discapacidad neurológico. Supongamos
 que queremos calcular un intervalo de confianza de 90\% para $\theta=var(A)$.
 
 El estimador plugin es:
@@ -1358,12 +1553,40 @@ $$\hat{\theta}=\sum_{i=1}^n(A_i-\bar{A})^2/n$$
 notemos que el estimador _plug-in_ es ligeramente menor que el estimador
 usual insesgado:
 $$\hat{\theta}=\sum_{i=1}^n(A_i-\bar{A})^2/(n-1)$$
-</div>
 
 
 
 ```r
 library(bootstrap)
+
+spatial
+#>      A  B
+#> V1  48 42
+#> V2  36 33
+#> V3  20 16
+#> V4  29 39
+#> V5  42 38
+#> V6  42 36
+#> V7  20 15
+#> V8  42 33
+#> V9  22 20
+#> V10 41 43
+#> V11 45 34
+#> V12 14 22
+#> V13  6  7
+#> V14  0 15
+#> V15 33 34
+#> V16 28 29
+#> V17 34 41
+#> V18  4 13
+#> V19 32 38
+#> V20 24 25
+#> V21 47 27
+#> V22 41 41
+#> V23 24 28
+#> V24 26 14
+#> V25 30 28
+#> V26 41 40
 
 ggplot(spatial) +
     geom_point(aes(A, B))
@@ -1371,10 +1594,18 @@ ggplot(spatial) +
 
 <img src="05-bootstrap_no_parametrico_files/figure-html/spatial-1.png" width="336" style="display: block; margin: auto;" />
 
-```r
+El estimador *plug-in* de $\theta$ es 
 
+
+```r
 sum((spatial$A - mean(spatial$A)) ^ 2) / nrow(spatial)
 #> [1] 171.534
+```
+
+Notemos que es ligeramente menor que el estimador insesgado:
+
+
+```r
 sum((spatial$A - mean(spatial$A)) ^ 2) / (nrow(spatial) - 1)
 #> [1] 178.3954
 ```
@@ -1427,17 +1658,18 @@ es, los errores de cobertura se van a cero a una tasa de 1/n.
 Los intervalos $BC_{a}$ están implementados en el paquete boot (`boot.ci()`) y 
 en el paquete bootstrap (`bcanon()`). La desventaja de los intervalos $BC_{a}$ es 
 que requieren intenso cómputo estadístico, de acuerdo a @efron al
-menos $B= 1000$ replicaciones son necesairas para reducir el error de muestreo.
+menos $B= 1000$ replicaciones son necesarias para reducir el error de muestreo.
 
 Ante esto surgen los intervalos ABC (approximate bootstrap confidence 
 intervals), que es un método para aproximar $BC_{a}$ analíticamente (usando
-expansiones de Taylor).
+expansiones de Taylor), estos intervalos requieren que la estadística 
+$\hat{\theta} = s(x)$ este definida de manera suave sobre x (la mediana, por 
+ejemplo, no es suave).
 
 Usando la implementación del paquete bootstrap:
 
 
 ```r
-library(bootstrap)
 var_sesgada <- function(x) sum((x - mean(x)) ^ 2) / length(x)
 bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada, alpha = c(0.025, 0.975))
 #> $confpoints
@@ -1492,7 +1724,9 @@ Un intervalo que sub-cubre un lado y sobre-cubre el otro es **sesgado**.
 </div>
 
 * Los intervalos estándar y de percentiles tienen exactitud de primer 
-orden: los errores de cobertura se van a cero a una tasa de $1/\sqrt{n}$.
+orden: los errores de cobertura se van a cero a una tasa de $1/\sqrt{n}$. Suelen
+ser demasido estrechos resultando en cobertura real menor a la nominal, 
+sobretodo con muestras chicas.
 
 * Los intervalos $BC_a$ tienen exactitud de segundo 
 orden: los errores de cobertura se van a cero a una tasa de $1/n$.
@@ -1502,198 +1736,6 @@ normales y de percentiles, en la práctica es más común utilizar intervalos
 normales o de percentiles pues su implementación es más sencilla y son 
 adecuados para un gran número de casos.
 
-#### Ejemplo componentes principales: calificaciones en exámenes {-}
-
-Los datos _marks_ (Mardia, Kent y Bibby, 1979) contienen los puntajes de 88 
-estudiantes en 5 pruebas: mecánica, vectores, álgebra, análisis y estadística.
-Cada renglón corresponde a la calificación de un estudiante en cada prueba.
-
-
-```r
-data(marks, package = "ggm")
-glimpse(marks)
-#> Observations: 88
-#> Variables: 5
-#> $ mechanics  <dbl> 77, 63, 75, 55, 63, 53, 51, 59, 62, 64, 52, 55, 50, 6…
-#> $ vectors    <dbl> 82, 78, 73, 72, 63, 61, 67, 70, 60, 72, 64, 67, 50, 6…
-#> $ algebra    <dbl> 67, 80, 71, 63, 65, 72, 65, 68, 58, 60, 60, 59, 64, 5…
-#> $ analysis   <dbl> 67, 70, 66, 70, 70, 64, 65, 62, 62, 62, 63, 62, 55, 5…
-#> $ statistics <dbl> 81, 81, 81, 68, 63, 73, 68, 56, 70, 45, 54, 44, 63, 3…
-```
-
-Entonces un análisis de componentes principales proseguiría como sigue:
-
-
-```r
-pc_marks <- princomp(marks)
-summary(pc_marks)
-#> Importance of components:
-#>                            Comp.1     Comp.2      Comp.3     Comp.4
-#> Standard deviation     26.0600955 14.1291852 10.13060363 9.15149631
-#> Proportion of Variance  0.6191097  0.1819910  0.09355915 0.07634838
-#> Cumulative Proportion   0.6191097  0.8011007  0.89465983 0.97100821
-#>                            Comp.5
-#> Standard deviation     5.63935825
-#> Proportion of Variance 0.02899179
-#> Cumulative Proportion  1.00000000
-loadings(pc_marks)
-#> 
-#> Loadings:
-#>            Comp.1 Comp.2 Comp.3 Comp.4 Comp.5
-#> mechanics   0.505  0.749  0.301  0.295       
-#> vectors     0.368  0.207 -0.419 -0.781  0.190
-#> algebra     0.346        -0.146        -0.924
-#> analysis    0.451 -0.301 -0.594  0.521  0.286
-#> statistics  0.535 -0.547  0.600 -0.178  0.151
-#> 
-#>                Comp.1 Comp.2 Comp.3 Comp.4 Comp.5
-#> SS loadings       1.0    1.0    1.0    1.0    1.0
-#> Proportion Var    0.2    0.2    0.2    0.2    0.2
-#> Cumulative Var    0.2    0.4    0.6    0.8    1.0
-plot(pc_marks, type = "lines")
-```
-
-<img src="05-bootstrap_no_parametrico_files/figure-html/pc-1.png" width="288" style="display: block; margin: auto;" />
-
-
-
-```r
-biplot(pc_marks)
-```
-
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" />
-
-Los cálculos de un análisis de componentes principales involucran la matriz de 
-covarianzas empírica $G$ (estimaciones _plug-in_)
-
-$$G_{jk} = \frac{1}{88}\sum_{i=1}^88(x_{ij}-\bar{x_j})(x_{ik}-\bar{x_k})$$
-
-para $j,k=1,2,3,4,5$, y donde $\bar{x_j} = \sum_{i=1}^88 x_{ij} / 88$ (la media 
-de la i-ésima columna).
-
-
-```r
-G <- cov(marks) * 87 / 88
-G
-#>            mechanics   vectors   algebra  analysis statistics
-#> mechanics   302.2147 125.59969 100.31599 105.11415  116.15819
-#> vectors     125.5997 170.87810  84.18957  93.59711   97.88688
-#> algebra     100.3160  84.18957 111.60318 110.83936  120.48567
-#> analysis    105.1142  93.59711 110.83936 217.87603  153.76808
-#> statistics  116.1582  97.88688 120.48567 153.76808  294.37177
-```
-
-Los _pesos_ y las _componentes principales_ no son mas que los eigenvalores y 
-eigenvectores de la matriz de covarianzas $G$, estos se calculan a través de una 
-serie de de manipulaciones algebraicas que requieren cálculos del orden de p^3
-(cuando G es una matriz de tamaño p$\times$p).
-
-
-```r
-eigen_G <- eigen(G)
-lambda <- eigen_G$values
-v <- eigen_G$vectors
-lambda
-#> [1] 679.12858 199.63388 102.62913  83.74988  31.80236
-v
-#>           [,1]        [,2]       [,3]         [,4]        [,5]
-#> [1,] 0.5053373  0.74917585  0.3006046  0.294631757 -0.07873256
-#> [2,] 0.3682215  0.20692361 -0.4185473 -0.781332853 -0.18955902
-#> [3,] 0.3456083 -0.07622065 -0.1457830 -0.003348995  0.92384059
-#> [4,] 0.4512152 -0.30063472 -0.5944322  0.520724416 -0.28551729
-#> [5,] 0.5347961 -0.54747360  0.5998773 -0.177611847 -0.15121842
-```
-
-1. Proponemos el siguiente modelo simple para puntajes correlacionados:
-
-$$\textbf{x}_i = Q_i \textbf{v}$$
-
-donde $\textbf{x}_i$ es la tupla de calificaciones del i-ésimo estudiante, 
-$Q_i$ es un número que representa la habilidad del estudiante y $\textbf{v}$ es
-un vector fijo con 5 números que aplica a todos los estudiantes. Si este modelo
-simple fuera cierto, entonces únicamente el $\hat{\lambda}_1$ sería positivo
-y $\textbf{v} = \hat{v}_1$.
-Sea $$\hat{\theta}=\sum_{i=1}^5\hat{\lambda}_i$$
-el modelo propuesto es equivalente a $\hat{\theta}=1$, inculso si el modelo es
-correcto, no esperamos que $\hat{\theta}$ sea exactamente uno pues hay ruido en 
-los datos.
-
-
-```r
-theta_hat <- lambda[1]/sum(lambda)
-theta_hat
-#> [1] 0.6191097
-```
-
-El valor de $\hat{\theta}$ mide el porcentaje de la varianza explicada en la 
-primer componente principal, ¿qué tan preciso es  $\hat{\theta}$? La complejidad
-matemática en el cálculo de  $\hat{\theta}$ es irrelevante siempre y cuando 
-podamos calcular  $\hat{\theta}^*$ para una muestra bootstrap, en esta caso una
-muestra bootsrtap es una base de datos de 88$\times$5 $\textbf{X}^*$, donde las
-filas $\textbf{x_i}^*$ de $\textbf{X}^*$ son una muestra aleatoria de tamaño
-88 de la verdadera matriz de datos.
-
-
-```r
-pc_boot <- function(){
-    muestra_boot <- sample_n(marks, size = 88, replace = TRUE)
-    G <- cov(muestra_boot) * 87 / 88 
-    eigen_G <- eigen(G)
-    theta_hat <- eigen_G$values[1] / sum(eigen_G$values)
-}
-B <- 1000
-thetas_boot <- rerun(B, pc_boot()) %>% flatten_dbl()
-```
-
-Veamos un histograma de las replicaciones de  $\hat{\theta}$:
-
-
-```r
-ggplot(data_frame(theta = thetas_boot)) +
-    geom_histogram(aes(x = theta, y = ..density..), binwidth = 0.02, 
-        fill = "gray40") + 
-    geom_vline(aes(xintercept = mean(theta)), color = "red") +
-    labs(x = expression(hat(theta)^"*"), y = "")
-```
-
-<img src="05-bootstrap_no_parametrico_files/figure-html/pc_hist-1.png" width="300px" style="display: block; margin: auto;" />
-
-Estas tienen un error estándar
-
-
-```r
-theta_se <- sd(thetas_boot)
-theta_se
-#> [1] 0.04689286
-```
-
-y media
-
-
-```r
-mean(thetas_boot)
-#> [1] 0.6193033
-```
-
-la media de las replicaciones es muy similar a la estimación $\hat{\theta}$, 
-esto indica que $\hat{\theta}$ es cercano a insesgado. 
-
-2. El eigenvetor $\hat{v}_1$ correspondiente al mayor eigenvalor se conoce
-como primera componente de $G$, supongamos que deseamos resumir la calificación
-de los estudiantes mediante un único número, entonces la mejor combinación 
-lineal de los puntajes es 
-
-$$y_i = \sum_{k = 1}^5 \hat{v}_{1k}x_{ik}$$
-
-esto es, la combinación lineal que utiliza las componentes de $\hat{v}_1$ como
-ponderadores. Si queremos un resumen compuesto por dos números $(y_i,z_i)$, la
-segunda combinación lineal debería ser:
-
-$$z_i = \sum_{k = 1}^5 \hat{v}_{2k}x_{ik}$$
-
-![](img/manicule2.jpg) Las componentes principales $\hat{v}_1$ y 
-$\hat{v}_2$ son estadísticos, usa bootstrap para dar una medición de su 
-variabilidad calculando el error estándar de cada una.
 
 ## Más alla de muestras aleatorias simples
 
@@ -1958,7 +2000,7 @@ series de Taylor.
 
 <div class="figure" style="text-align: center">
 <img src="img/inegi_metodologia_razon.png" alt="Extracto de estimación de errores de muestreo, ENIGH 2018." width="400px" />
-<p class="caption">(\#fig:unnamed-chunk-33)Extracto de estimación de errores de muestreo, ENIGH 2018.</p>
+<p class="caption">(\#fig:unnamed-chunk-35)Extracto de estimación de errores de muestreo, ENIGH 2018.</p>
 </div>
 
 Veamos ahora como calcular el error estándar siguiendo el bootstrap de Rao y Wu:
@@ -2188,7 +2230,7 @@ la muestra se seleccionó sin reemplazo.
 
 ## Bootstrap en R
 
-Es común crear nuestras porpias funciones cuando usamos bootstrap, sin embargo, 
+Es común crear nuestras propias funciones cuando usamos bootstrap, sin embargo, 
 en R también hay alternativas que pueden resultar convenientes, mencionamos 3:
 
 1. El paquete `rsample` (forma parte de la colección [tidymodels](https://www.tidyverse.org/articles/2018/08/tidymodels-0-0-1/)) 
@@ -2346,8 +2388,9 @@ mejores propiedades son los intervalos $BC_a$, sin embargo los más comunes son
 los intervalos normales con error estándar bootstrap y los intervalos de 
 percentiles de la distribución bootstrap.
 
-* Antes de hacer intervalos normales vale la pena graficar la distribución 
-bootstrap y evaluar si el supuesto de normalidad es razonable.
+* Antes de hacer intervalos normales (o con percentiles de una t) vale la pena 
+graficar la distribución bootstrap y evaluar si el supuesto de normalidad es 
+razonable.
 
 * En cuanto al número de muestras bootstrap se recomienda al menos $1,000$ 
 al hacer pruebas, y $10,000$ o $15,000$ para los resultados finales, sobre

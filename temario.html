@@ -39,6 +39,9 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -244,8 +247,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="instalacion-y-visualizacion.html"><a href="instalacion-y-visualizacion.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
 <li class="chapter" data-level="" data-path="union-de-tablas-y-limpieza-de-datos.html"><a href="union-de-tablas-y-limpieza-de-datos.html"><i class="fa fa-check"></i>3. Unión de tablas y limpieza de datos</a></li>
-<li class="chapter" data-level="" data-path="programacion-funcional-y-distribucion-muestral.html"><a href="programacion-funcional-y-distribucion-muestral.html"><i class="fa fa-check"></i>4. Programación funcional y distribución muestral</a></li>
-<li class="chapter" data-level="" data-path="bootstrap.html"><a href="bootstrap.html"><i class="fa fa-check"></i>5. Bootstrap</a></li>
+<li class="chapter" data-level="" data-path="programacion-funcional-y-distribucion-muestral.html"><a href="programacion-funcional-y-distribucion-muestral.html"><i class="fa fa-check"></i>4. Programación funcional y distribución muestral</a><ul>
+<li class="chapter" data-level="" data-path="programacion-funcional-y-distribucion-muestral.html"><a href="programacion-funcional-y-distribucion-muestral.html#solucion-bootstrap"><i class="fa fa-check"></i>Solución + bootstrap</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bootstrap-conteo.html"><a href="bootstrap-conteo.html"><i class="fa fa-check"></i>5. Bootstrap conteo</a></li>
+<li class="chapter" data-level="6.7" data-path="respuesta-ejercicio-clase.html"><a href="respuesta-ejercicio-clase.html"><i class="fa fa-check"></i><b>6.7</b> Respuesta ejercicio clase</a></li>
+<li class="chapter" data-level="" data-path="mas-bootstrap.html"><a href="mas-bootstrap.html"><i class="fa fa-check"></i>5. Más bootstrap</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -295,7 +302,7 @@ no estándar.</li>
 </ul></li>
 <li>Introducción a modelos probabilísticos.</li>
 </ul>
-<p>Referencias: <span class="citation">Ross (<a href="#ref-ross">1998</a>)</span>, <span class="citation">Efron and Tibshirani (<a href="#ref-efron">1993</a>)</span>.</p>
+<p>Referencias: <span class="citation">Ross (<a href="#ref-ross">1998</a>)</span>, <span class="citation">Efron and Tibshirani (<a href="#ref-efron">1993</a>)</span>, <span class="citation">Chihara and Hesterberg (<a href="#ref-chihara">2018</a>)</span>.</p>
 <ol start="3" style="list-style-type: decimal">
 <li><strong>Modelos de probabilidad y simulación</strong></li>
 </ol>
@@ -400,6 +407,9 @@ jamás producido” (Xiao-Li Meng, proff. at Harvard University.)</em></p></li>
 <!-- </div> -->
 <h3>Referencias</h3>
 <div id="refs" class="references">
+<div id="ref-chihara">
+<p>Chihara, Laura M., and Tim C. Hesterberg. 2018. <em>Mathematical Statistics with Resampling and R</em>. 2nd ed. Hoboken, NJ: John Wiley &amp; Sons. <a href="https://sites.google.com/site/chiharahesterberg/home" class="uri">https://sites.google.com/site/chiharahesterberg/home</a>.</p>
+</div>
 <div id="ref-cleveland93">
 <p>Cleveland, W.S. 1993. <em>Visualizing Data</em>. At&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=V-dQAAAAMAAJ" class="uri">https://books.google.com.mx/books?id=V-dQAAAAMAAJ</a>.</p>
 </div>
@@ -439,11 +449,13 @@ jamás producido” (Xiao-Li Meng, proff. at Harvard University.)</em></p></li>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
