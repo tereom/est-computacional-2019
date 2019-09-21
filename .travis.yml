@@ -22,7 +22,6 @@ addons:
 r_github_packages: 
     - tereom/estcomp
     - diegovalle/mxmaps
-    - tidyverse/tidyr
 
 # repos: 
 #   CRAN: https://cran.rstudio.com

@@ -657,7 +657,7 @@ transformar.
 correcta.
 
 
-```{datoslimpios, type="caja"}
+```{block2, type="caja"}
 Los **principios de los datos limpios** [@tidy] 
 proveen una manera estándar de organizar la información:
 
@@ -748,18 +748,10 @@ sucios y mostraremos como se puede manipular la tabla de datos (usando las
 funciones de pivoteo) con el fin de estructurarla para que cumpla los
 principios de datos limpios.
 
-**Nota:** Usaremos la versión de GitHub de `tidyr` pues las funciones de
-pivoteo aún no se encuentran en la versión de CRAN, la versión que actualmente
-está en CRAN cuenta con las funciones `gather()` y `spread()` que tienen 
-funcionalidad menor limitada y son menos intutivas. Para instalar la versión 
-de GitHub corre:
-
-```{r, eval=FALSE}
-devtools::install_github("tidyverse/tidyr")
-```
-
-[Aquí](https://tereom.github.io/tutoriales/datos_limpios.html) puedes
-encontrar una versión de las notas usando `gather()` y `spread()`.
+**Nota:** Quizá has visto código de `tidyr` usando las funciones `gather()` y 
+`spread()`, estas son versiones anteriores a las funciones de pivoteo, sin 
+embargo, se les seguirá dando mantenimiento puesto que son muy populares, [aquí](https://tereom.github.io/tutoriales/datos_limpios.html) puedes encontrar 
+una versión de las notas usando que utilizan `gather()` y `spread()`.
 
 ### Los encabezados de las columanas son valores {-}
 

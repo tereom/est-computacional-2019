@@ -1,3 +1,23 @@
+```{r include=FALSE, cache=FALSE}
+library(tidyverse)
+knitr::opts_chunk$set(
+    comment = "#>",
+    collapse = TRUE,
+    fig.align = "center"
+)
+comma <- function(x) format(x, digits = 2, big.mark = ",")
+ggplot2::theme_set(ggplot2::theme_minimal())
+```
+```{r include=FALSE, cache=FALSE}
+library(tidyverse)
+knitr::opts_chunk$set(
+    comment = "#>",
+    collapse = TRUE,
+    fig.align = "center"
+)
+comma <- function(x) format(x, digits = 2, big.mark = ",")
+ggplot2::theme_set(ggplot2::theme_minimal())
+```
 # Principios visualización
 
 > "The simple graph has brought more information to the data analyst’s mind 
@@ -126,7 +146,7 @@ información relevante para nuestro problema.
 Tradicionalmente el análisis de datos se divide en dos distintos tipos de 
 trabajo:
 
-```{est, type="caja"}
+```{block2, type="caja"}
 * El trabajo exploratorio o de detective: ¿cuáles son los aspectos importantes 
 de estos datos? ¿qué indicaciones generales muestran los datos? ¿qué tareas de 
 análisis debemos empezar haciendo? ¿cuáles son los caminos generales para 
@@ -238,7 +258,7 @@ Aplicables a una presentación o análisis completos, y como guía para construi
 nuevas visualizaciones [@tufte06].
 
 
-```{principios, type="caja"}
+```{block2, type="caja"}
 **Principio 1.** Muestra comparaciones, contrastes, diferencias.  
 **Principio 2.** Muestra causalidad, mecanismo, explicación, estructura
 sistemática.  
@@ -257,7 +277,7 @@ datos y el tipo de pregunta que queremos investigar (@tukey77, @cleveland93,
 @cleveland94, @tufte06).
 
 
-```{tiposgraficas, type="caja"}
+```{block2, type="caja"}
 
 **Tipos de gráficas:** cuantiles, histogramas, caja y brazos, gráficas de 
 dispersión, puntos/barras/ líneas, series de tiempo.  
@@ -271,7 +291,7 @@ Aplicables a cualquier gráfica en particular. Estas son guías concretas y
 relativamente objetivas para evaluar la calidad de una gráfica [@tufte86].
 
 
-```{indicadores, type="caja"}
+```{block2, type="caja"}
 **Integridad Gráfica.** El factor de engaño, es decir, la distorsión gráfica de
 las cantidades representadas, debe ser mínimo.  
 **Chartjunk.** Minimizar el uso de decoración gráfica que interfiera con la 

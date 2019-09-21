@@ -58,7 +58,7 @@ Referencias: @tufte06, @cleveland93, @r4ds, @advr.
     -   Estructuras de datos complejos.
 -   Introducción a modelos probabilísticos.
 
-Referencias: @ross, @efron.
+Referencias: @ross, @efron, @chihara.
 
 3. **Modelos de probabilidad y simulación**
 
