@@ -1348,9 +1348,10 @@ intervalo.
 3. **Intervalos acelerados y corregidos por sesgo**. Esta es una versión 
 mejorada del intervalo de percentil, la denotamos $BC_{a}$ (*bias-corrected and 
 accelerated*).
+</div>
 
 Usaremos un ejemplo de @efron, los datos constan de los resultados 
-en dos pruebas espaciales de 26 niños con algún problema neurológico. Supongamos
+en dos pruebas espaciales de 26 niños con discapacidad neurológico. Supongamos
 que queremos calcular un intervalo de confianza de 90\% para $\theta=var(A)$.
 
 El estimador plugin es:
@@ -1358,12 +1359,7 @@ $$\hat{\theta}=\sum_{i=1}^n(A_i-\bar{A})^2/n$$
 notemos que el estimador _plug-in_ es ligeramente menor que el estimador
 usual insesgado:
 $$\hat{\theta}=\sum_{i=1}^n(A_i-\bar{A})^2/(n-1)$$
-</div>
 
-Usaremos un ejempo de @efron con datos de una prueba espacial, la muestra es
-chica, se tienen mediciones de $n=26$ niños con discapacidad neurológica, cada
-uno tomó dos pruebas de percepción espacial, en este ejemplo nos interesa 
-construir un intervalo de $90%$ de confianza para $\theta=var(A)$
 
 ```{r spatial, fig.width=3.5, fig.height=3.5}
 library(bootstrap)
@@ -1375,8 +1371,6 @@ ggplot(spatial) +
 ```
 
 El estimador *plug-in* de $\theta$ es 
-
-$$\hat{\theta}=\sum_{i=1}^{n}(A_i-\bar{A})^2/n$$
 
 ```{r}
 sum((spatial$A - mean(spatial$A)) ^ 2) / nrow(spatial)
@@ -1447,7 +1441,6 @@ ejemplo, no es suave).
 Usando la implementación del paquete bootstrap:
 
 ```{r}
-library(bootstrap)
 var_sesgada <- function(x) sum((x - mean(x)) ^ 2) / length(x)
 bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada, alpha = c(0.025, 0.975))
 ```
