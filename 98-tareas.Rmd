@@ -488,7 +488,7 @@ estimación del error.
 Repite para todos los partidos (y la categoría otros). Reporta tus intervalos
 en una tabla. 
 
-## Respuesta ejercicio clase
+## Respuesta ejercicio clase {-}
 
 Varianza sesgada
 
@@ -515,7 +515,7 @@ quantile(reps_boot, probs = c(0.025, 0.975))
 
 
 
-## 5. Más bootstrap {-}
+## 6. Más bootstrap {-}
 
 1. Consideramos la siguiente muestra de los datos de ENLACE:
 
