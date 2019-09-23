@@ -488,9 +488,43 @@ estimación del error.
 Repite para todos los partidos (y la categoría otros). Reporta tus intervalos
 en una tabla. 
 
-## Respuesta ejercicio clase
+## Respuesta ejercicios clase {-}
 
-Varianza sesgada
+* Considera el coeficiente de correlación muestral entre la 
+calificación de $y=$esp_3 y la de $z=$esp_6. ¿Qué tan 
+precisa es esta estimación? Calcula el estimador plug-in y el error estándar 
+bootstrap.
+
+```{r, eval=FALSE}
+library(estcomp)
+# universo: creamos datos de ENLACE estado de México
+enlace <- enlacep_2013 %>% 
+    janitor::clean_names() %>% 
+    mutate(id = 1:n()) %>% 
+    select(id, cve_ent, turno, tipo, esp_3 = punt_esp_3, esp_6 = punt_esp_6, 
+        n_eval_3 = alum_eval_3, n_eval_6 = alum_eval_6) %>% 
+    na.omit() %>% 
+    filter(esp_3 > 0, esp_6 > 0, n_eval_3 > 0, n_eval_6 > 0, cve_ent == "15")
+glimpse(enlace)
+set.seed(16021)
+n <- 300
+# muestra
+enlace_muestra <- sample_n(enlace, n)
+
+# estimador plug-in
+theta_hat <- cor(enlace_muestra$esp_3, enlace_muestra$esp_6)
+
+boot_reps <- function(){
+    muestra_boot <- sample_frac(enlace_muestra, size = 1, replace = TRUE)
+    cor(muestra_boot$esp_3, muestra_boot$esp_6)
+}
+# error estandar bootstrap
+replicaciones <- rerun(1000, boot_reps()) %>% flatten_dbl()
+sd(replicaciones)
+```
+
+
+* Varianza sesgada con datos spatial.
 
 ```{r, eval = FALSE}
 library(bootstrap)
@@ -515,7 +549,7 @@ quantile(reps_boot, probs = c(0.025, 0.975))
 
 
 
-## 5. Más bootstrap {-}
+## 6. Más bootstrap {-}
 
 1. Consideramos la siguiente muestra de los datos de ENLACE:
 
