@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>5.6 Variables aleatorias | Estadística Computacional</title>
+  <title>Respuesta ejercicios clase | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   <meta name="generator" content="bookdown 0.13.2 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="5.6 Variables aleatorias | Estadística Computacional" />
+  <meta property="og:title" content="Respuesta ejercicios clase | Estadística Computacional" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="tereom/est-computacional-2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="5.6 Variables aleatorias | Estadística Computacional" />
+  <meta name="twitter:title" content="Respuesta ejercicios clase | Estadística Computacional" />
   
   <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="probabilidad-definicion-matematica.html"/>
-<link rel="next" href="bootstrap-no-parametrico.html"/>
+<link rel="prev" href="bootstrap-conteo.html"/>
+<link rel="next" href="mas-bootstrap.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -275,213 +275,68 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="variables-aleatorias" class="section level2">
-<h2><span class="header-section-number">5.6</span> Variables aleatorias</h2>
-<p>A partir de un experimento aleatorio se pueden definir muchas preguntas de
-probabilidad, por ejemplo, en el caso de la ruina del jugador podríamos
-preguntarnos: las ganancias después del tercer juego, probabilidad de ganar,
-duración del experimento (cuántos juegos se jugaron antes de alcanzar las
-reglas de término). Sin embargo, muchas veces nos centramos en estudiar un solo
-aspecto <strong>numérico</strong> del experimento.</p>
-
-<div class="caja">
-La variable aleatoria <span class="math inline">\(X\)</span> es un mapeo entre el espacio de resultados y los
-números reales.
-</div>
-
-<p>Este enfoque tiene dos ventajas importantes:</p>
+<div id="respuesta-ejercicios-clase" class="section level2 unnumbered">
+<h2>Respuesta ejercicios clase</h2>
 <ul>
-<li><p>Simplifica muchas veces el ejercicio de modelación, pues en lugar
-de tener que entender y modelar la totalidad del experimento aleatorio,
-podemos concentrarnos en propiedades de la función <span class="math inline">\(X\)</span>.</p></li>
-<li><p>Usando probabilidades asociadas a la función <span class="math inline">\(X\)</span> podemos resumir aspectos
-de interés el experimento aleatorio.</p></li>
-<li><p>El uso de variables aleatorias nos permite usar álgebra para derivar resultados
-y representar cómputos de manera conveniente.</p></li>
+<li>Considera el coeficiente de correlación muestral entre la
+calificación de <span class="math inline">\(y=\)</span>esp_3 y la de <span class="math inline">\(z=\)</span>esp_6. ¿Qué tan
+precisa es esta estimación? Calcula el estimador plug-in y el error estándar
+bootstrap.</li>
 </ul>
-<div id="ejemplo-3" class="section level4 unnumbered">
-<h4>Ejemplo</h4>
-<p>Supongamos que nuestro experimento aleatorio es tirar un dado 10 veces.
-Este experimento aleatorio tiene <span class="math inline">\(10^6\)</span> posibles resultados. Supongamos
-que nos interesa principlamente
-<span class="math inline">\(X =\)</span> número de seises que obtuvimos en le experimento.</p>
-<p>Entonces es posible demostrar (o puedes estimar con simulación), que las
-probabilidades asociadas a <span class="math inline">\(X\)</span> podemos escribirlas como:</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" data-line-number="1">X_prob &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">X =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb169-2" data-line-number="2"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">prob =</span> <span class="kw">dbinom</span>(X, <span class="dv">10</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">6</span>), <span class="dt">prob_redondear =</span> <span class="kw">round</span>(prob, <span class="dv">3</span>))</a>
-<a class="sourceLine" id="cb169-3" data-line-number="3">X_prob</a>
-<a class="sourceLine" id="cb169-4" data-line-number="4"><span class="co">#&gt; # A tibble: 11 x 3</span></a>
-<a class="sourceLine" id="cb169-5" data-line-number="5"><span class="co">#&gt;        X         prob prob_redondear</span></a>
-<a class="sourceLine" id="cb169-6" data-line-number="6"><span class="co">#&gt;    &lt;int&gt;        &lt;dbl&gt;          &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb169-7" data-line-number="7"><span class="co">#&gt;  1     0 0.162                 0.162</span></a>
-<a class="sourceLine" id="cb169-8" data-line-number="8"><span class="co">#&gt;  2     1 0.323                 0.323</span></a>
-<a class="sourceLine" id="cb169-9" data-line-number="9"><span class="co">#&gt;  3     2 0.291                 0.291</span></a>
-<a class="sourceLine" id="cb169-10" data-line-number="10"><span class="co">#&gt;  4     3 0.155                 0.155</span></a>
-<a class="sourceLine" id="cb169-11" data-line-number="11"><span class="co">#&gt;  5     4 0.0543                0.054</span></a>
-<a class="sourceLine" id="cb169-12" data-line-number="12"><span class="co">#&gt;  6     5 0.0130                0.013</span></a>
-<a class="sourceLine" id="cb169-13" data-line-number="13"><span class="co">#&gt;  7     6 0.00217               0.002</span></a>
-<a class="sourceLine" id="cb169-14" data-line-number="14"><span class="co">#&gt;  8     7 0.000248              0    </span></a>
-<a class="sourceLine" id="cb169-15" data-line-number="15"><span class="co">#&gt;  9     8 0.0000186             0    </span></a>
-<a class="sourceLine" id="cb169-16" data-line-number="16"><span class="co">#&gt; 10     9 0.000000827           0    </span></a>
-<a class="sourceLine" id="cb169-17" data-line-number="17"><span class="co">#&gt; 11    10 0.0000000165          0</span></a></code></pre></div>
-<p>Y con esta función podemos resolver otros problemas de interés sin
-tener que recurrir al modelo probabilístico completo. Por ejemplo,
-contesta la siguientes preguntas (puedes usar simulación si es necesario) :</p>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb253-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
+<a class="sourceLine" id="cb253-2" data-line-number="2"><span class="co"># universo: creamos datos de ENLACE estado de México</span></a>
+<a class="sourceLine" id="cb253-3" data-line-number="3">enlace &lt;-<span class="st"> </span>enlacep_<span class="dv">2013</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb253-4" data-line-number="4"><span class="st">    </span>janitor<span class="op">::</span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb253-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb253-6" data-line-number="6"><span class="st">    </span><span class="kw">select</span>(id, cve_ent, turno, tipo, <span class="dt">esp_3 =</span> punt_esp_<span class="dv">3</span>, <span class="dt">esp_6 =</span> punt_esp_<span class="dv">6</span>, </a>
+<a class="sourceLine" id="cb253-7" data-line-number="7">        <span class="dt">n_eval_3 =</span> alum_eval_<span class="dv">3</span>, <span class="dt">n_eval_6 =</span> alum_eval_<span class="dv">6</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb253-8" data-line-number="8"><span class="st">    </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb253-9" data-line-number="9"><span class="st">    </span><span class="kw">filter</span>(esp_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, esp_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, cve_ent <span class="op">==</span><span class="st"> &quot;15&quot;</span>)</a>
+<a class="sourceLine" id="cb253-10" data-line-number="10"><span class="kw">glimpse</span>(enlace)</a>
+<a class="sourceLine" id="cb253-11" data-line-number="11"><span class="kw">set.seed</span>(<span class="dv">16021</span>)</a>
+<a class="sourceLine" id="cb253-12" data-line-number="12">n &lt;-<span class="st"> </span><span class="dv">300</span></a>
+<a class="sourceLine" id="cb253-13" data-line-number="13"><span class="co"># muestra</span></a>
+<a class="sourceLine" id="cb253-14" data-line-number="14">enlace_muestra &lt;-<span class="st"> </span><span class="kw">sample_n</span>(enlace, n)</a>
+<a class="sourceLine" id="cb253-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb253-16" data-line-number="16"><span class="co"># estimador plug-in</span></a>
+<a class="sourceLine" id="cb253-17" data-line-number="17">theta_hat &lt;-<span class="st"> </span><span class="kw">cor</span>(enlace_muestra<span class="op">$</span>esp_<span class="dv">3</span>, enlace_muestra<span class="op">$</span>esp_<span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb253-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb253-19" data-line-number="19">boot_reps &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
+<a class="sourceLine" id="cb253-20" data-line-number="20">    muestra_boot &lt;-<span class="st"> </span><span class="kw">sample_frac</span>(enlace_muestra, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb253-21" data-line-number="21">    <span class="kw">cor</span>(muestra_boot<span class="op">$</span>esp_<span class="dv">3</span>, muestra_boot<span class="op">$</span>esp_<span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb253-22" data-line-number="22">}</a>
+<a class="sourceLine" id="cb253-23" data-line-number="23"><span class="co"># error estandar bootstrap</span></a>
+<a class="sourceLine" id="cb253-24" data-line-number="24">replicaciones &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">boot_reps</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a>
+<a class="sourceLine" id="cb253-25" data-line-number="25"><span class="kw">sd</span>(replicaciones)</a></code></pre></div>
 <ul>
-<li>¿Cuál es la probabilidad de que al jugar este juego obtengamos 2 o menos
-seises?</li>
-<li>¿Cuál es la probabilidad de que tiremos un número par de seises?</li>
-<li>Si repetimos este juego 5 veces, ¿cuál es la probabilidad de obtener
-un número total de seises mayor a 5?</li>
+<li>Varianza sesgada con datos spatial.</li>
 </ul>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb254-1" data-line-number="1"><span class="kw">library</span>(bootstrap)</a>
+<a class="sourceLine" id="cb254-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb254-3" data-line-number="3">rep_bootstrap &lt;-<span class="st"> </span><span class="cf">function</span>() {</a>
+<a class="sourceLine" id="cb254-4" data-line-number="4">  boot_sample &lt;-<span class="st"> </span><span class="kw">sample</span>(spatial<span class="op">$</span>A, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb254-5" data-line-number="5">  boot_replication &lt;-<span class="st"> </span><span class="kw">var_sesgada</span>(boot_sample)</a>
+<a class="sourceLine" id="cb254-6" data-line-number="6">}</a>
+<a class="sourceLine" id="cb254-7" data-line-number="7">theta_hat &lt;-<span class="st"> </span><span class="kw">var_sesgada</span>(spatial<span class="op">$</span>A)</a>
+<a class="sourceLine" id="cb254-8" data-line-number="8">reps_boot &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">5000</span>, <span class="kw">rep_bootstrap</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a>
+<a class="sourceLine" id="cb254-9" data-line-number="9"><span class="kw">qplot</span>(reps_boot)</a>
+<a class="sourceLine" id="cb254-10" data-line-number="10">sd_spatial &lt;-<span class="st"> </span><span class="kw">sd</span>(reps_boot)</a>
+<a class="sourceLine" id="cb254-11" data-line-number="11"><span class="co"># Normal</span></a>
+<a class="sourceLine" id="cb254-12" data-line-number="12">theta_hat <span class="op">-</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>sd_spatial</a>
+<a class="sourceLine" id="cb254-13" data-line-number="13">theta_hat <span class="op">+</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>sd_spatial</a>
+<a class="sourceLine" id="cb254-14" data-line-number="14"><span class="co"># t</span></a>
+<a class="sourceLine" id="cb254-15" data-line-number="15">theta_hat <span class="op">+</span><span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.025</span>, <span class="dv">25</span>) <span class="op">*</span><span class="st"> </span>sd_spatial</a>
+<a class="sourceLine" id="cb254-16" data-line-number="16">theta_hat <span class="op">+</span><span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.975</span>, <span class="dv">25</span>) <span class="op">*</span><span class="st"> </span>sd_spatial</a>
+<a class="sourceLine" id="cb254-17" data-line-number="17"><span class="co"># Percentiles</span></a>
+<a class="sourceLine" id="cb254-18" data-line-number="18"><span class="kw">quantile</span>(reps_boot, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre></div>
 </div>
-<div id="distribucion-de-probabilidad" class="section level3 unnumbered">
-<h3>Distribución de probabilidad</h3>
-<p>En general, la distribución de probabilidad de una variable aleatoria <span class="math inline">\(X\)</span> es
-la función que asigna a cada evento <span class="math inline">\(X\in A\)</span> una probabilidad <span class="math inline">\(P(X\in A)\)</span>.
-A los eventos <span class="math inline">\(X \in A\)</span> les llamamos eventos asociados a una variable
-aleatoria. Nótese que no todos los eventos posibles asociados son de la
-forma <span class="math inline">\(X\in A\)</span> para una variable aleatoria fija.</p>
-<div id="ejemplo-4" class="section level4 unnumbered">
-<h4>Ejemplo</h4>
-<p>En el ejemplo anterior calculamos <span class="math inline">\(P(X \in \{ 0, 1, 2 \} = P(X \geq 2)\)</span>
-y <span class="math inline">\(P(X \in \{0,2,4,6,8,10\}).\)</span> Sin embargo, el evento “tiramos al menos un 3”
-no se puede escribir en la forma <span class="math inline">\(P(X\in A)\)</span>. Este tipo de eventos siempre
-está relacionado con el número de seises que obtuvimos en el experimento.</p>
-<p>Como vimos arriba, si tenemos una variable aleatoria que toma un número
-finito de valores, las probabilidades <span class="math inline">\(P(X\in A)\)</span> pueden calcularse sumando
-probabilidades individuales de los valores en A:
-<span class="math display">\[P(X\in A) = \sum_{a \in A} P(X = a)\]</span></p>
-<p>Y una argumento similar se puede utilizar para variables que toman
-un número infinito pero numerable de valores (por ejemplo, enteros de 0 a infinito).</p>
-</div>
-</div>
-<div id="variables-aleatorias-continuas" class="section level3 unnumbered">
-<h3>Variables aleatorias continuas</h3>
-<p>Consideremos el ejemplo del dardo sesgado unidimensional que vimos arriba. Para
-este experimento aleatorio, definimos la variable aleatoria <span class="math inline">\(X =\)</span> posición
-del dardo en el intervalo <span class="math inline">\([0,1]\)</span>, y propusimos un modelo donde las probabilidades
-se calculan integrando:</p>
-<p><span class="math display">\[P(X\in [a,b]) = \int_a^b f(x)\, dx\]</span></p>
-<p>En general, para cualquier subconjunto <span class="math inline">\(A\subset [0,1]\)</span> podemos definir
-la integral que defina la función de destribución como:</p>
-<p><span class="math display">\[P(X\in A) = \int_A f(x)\, dx\]</span>
-que se calcula sumando las probabilidades de los intervalos individuales
-que componen <span class="math inline">\(A\)</span></p>
-<div id="ejemplo-5" class="section level4 unnumbered">
-<h4>Ejemplo</h4>
-<p>Si queremos calcular la probabilidad de que el dardo segado caiga en los
-extremos, por ejemplo en <span class="math inline">\([0,0.1]\)</span> o <span class="math inline">\([0.9,1]\)</span>, podemos hacer
-<span class="math display">\[A = [0,0.1]\cup[0.9,1]\]</span>
-y calcular
-<span class="math display">\[P(X\in A) = \int_0^{0.1} f(x)\, dx  + \int_{0.9}^1 f(x)\, dx\]</span></p>
-<p>La <strong>función de distribución acumulada</strong> contiene la misma información que la
-función de distribución y se define como
-<span class="math display">\[P(X \le x)\]</span>
-con la ventaja de que la definición aplica tanto al caso discreto como en el
-caso continuo.</p>
-</div>
-<div id="ejemplo-6" class="section level4 unnumbered">
-<h4>Ejemplo</h4>
-<p>Calculamos la función de distribución acumulada para el ejemplo anterior:</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb170-1" data-line-number="1">X_prob <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">fda =</span> <span class="kw">cumsum</span>(prob))</a>
-<a class="sourceLine" id="cb170-2" data-line-number="2"><span class="co">#&gt; # A tibble: 11 x 4</span></a>
-<a class="sourceLine" id="cb170-3" data-line-number="3"><span class="co">#&gt;        X         prob prob_redondear   fda</span></a>
-<a class="sourceLine" id="cb170-4" data-line-number="4"><span class="co">#&gt;    &lt;int&gt;        &lt;dbl&gt;          &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb170-5" data-line-number="5"><span class="co">#&gt;  1     0 0.162                 0.162 0.162</span></a>
-<a class="sourceLine" id="cb170-6" data-line-number="6"><span class="co">#&gt;  2     1 0.323                 0.323 0.485</span></a>
-<a class="sourceLine" id="cb170-7" data-line-number="7"><span class="co">#&gt;  3     2 0.291                 0.291 0.775</span></a>
-<a class="sourceLine" id="cb170-8" data-line-number="8"><span class="co">#&gt;  4     3 0.155                 0.155 0.930</span></a>
-<a class="sourceLine" id="cb170-9" data-line-number="9"><span class="co">#&gt;  5     4 0.0543                0.054 0.985</span></a>
-<a class="sourceLine" id="cb170-10" data-line-number="10"><span class="co">#&gt;  6     5 0.0130                0.013 0.998</span></a>
-<a class="sourceLine" id="cb170-11" data-line-number="11"><span class="co">#&gt;  7     6 0.00217               0.002 1.000</span></a>
-<a class="sourceLine" id="cb170-12" data-line-number="12"><span class="co">#&gt;  8     7 0.000248              0     1.000</span></a>
-<a class="sourceLine" id="cb170-13" data-line-number="13"><span class="co">#&gt;  9     8 0.0000186             0     1.000</span></a>
-<a class="sourceLine" id="cb170-14" data-line-number="14"><span class="co">#&gt; 10     9 0.000000827           0     1.000</span></a>
-<a class="sourceLine" id="cb170-15" data-line-number="15"><span class="co">#&gt; 11    10 0.0000000165          0     1.000</span></a></code></pre></div>
-<p><strong>Pregunta</strong>: ¿cómo recuperamos la probabilidades de cada valor a
-partir de la función de distribución acumulada?</p>
-</div>
-<div id="esperanza" class="section level4 unnumbered">
-<h4>Esperanza</h4>
-
-<div class="comentario">
-La <strong>esperanza</strong> (valor esperado o media) de una variable aleatoria <span class="math inline">\(X\)</span>,
-es la media de la distribución <span class="math inline">\(X\)</span>, esto es,
-<span class="math display">\[E(X)=\sum_{x\in \Omega_x} x P(X=x)\]</span>
-el promedio de todos los posibles valores de <span class="math inline">\(X\)</span> ponderados por sus probabilidades.
-</div>
-
-<p>Por ejemplo, si <span class="math inline">\(X\)</span> toma únicamente dos posibles valores, <span class="math inline">\(a,b\)</span> con
-probabilidad <span class="math inline">\(P(a)\)</span> y <span class="math inline">\(P(b)\)</span> entonces
-<span class="math display">\[E(X)=aP(a)+bP(b).\]</span></p>
-<p>Ejemplo: Supongamos que <span class="math inline">\(X\)</span> es el valor que se produce cuando tiro un
-dado justo. Entonces,
-<span class="math display">\[E(X)=1\cdot P(X=1) +2\cdot P(X=2) +3\cdot P(X=3) +4\cdot P(X=4) +5\cdot P(X=5) +6\cdot P(X=6) = 3.5\]</span>
-Lo que nos dice que si tiramos el dado muchas veces deberíamos esperar que el promedio de las tiradas sea cercano a 3.5.</p>
-<p><strong>Esperanza como un promedio cuando n es grande</strong>. Si vemos las probabilidades de los valores de <span class="math inline">\(X\)</span> como una aproximación de frecuencias relativas cuando n es grande, entonces <span class="math inline">\(E(X)\)</span> es aproximadamente el valor promedio del valor de <span class="math inline">\(X\)</span> cuando n es grande.</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb171-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10000</span>, <span class="dt">mean =</span> <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb171-2" data-line-number="2"><span class="kw">mean</span>(x)</a>
-<a class="sourceLine" id="cb171-3" data-line-number="3"><span class="co">#&gt; [1] 9.997833</span></a></code></pre></div>
-<!--
-**Esperanza y predicción**. Supongamos que deseamos predecir el valor de una variable aleatoria $X$. ¿Cuál es el mejor predictor de X? Para responder la pregunta es preciso seleccionar un criterio. Es común que el criterio 
-sea minimizar el 
--->
-<p>La esperanza cumple las siguientes reglas:</p>
-<ol style="list-style-type: decimal">
-<li><p><strong>Constantes</strong>. La esperanza de una variable aleatoria constante
-es su valor constante,
-<span class="math display">\[E(c) = c\]</span></p></li>
-<li><p><strong>Indicadoras</strong>. Si <span class="math inline">\(I_A\)</span> es la función indicadora del evento <span class="math inline">\(A\)</span>,
-<span class="math display">\[E(I_A) = P(A)\]</span></p></li>
-<li><p><strong>Funciones</strong>. Típicamente, <span class="math inline">\(E[g(X)]\ne g[E(X)]\)</span>, pero
-<span class="math display">\[E[g(X)] = \sum_{x \in \Omega_X} g(x) P(X=x)\]</span></p></li>
-<li><p><strong>Factores constantes</strong>. Para una constante c,
-<span class="math display">\[E(cX)=cE(X)\]</span></p></li>
-<li><p><strong>Adición</strong>. Para cualquier par de variables aleatorias <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span>,
-<span class="math display">\[E(X+Y) = E(X)+E(Y)\]</span></p></li>
-<li><p><strong>Multiplicación</strong>. Típicamente <span class="math inline">\(E(XY) \ne E(X)E(Y)\)</span>, pero
-si <span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> son independientes, entonces <span class="math display">\[E(XY)=E(X)E(Y)\]</span></p></li>
-</ol>
-<!-- Supongamos que lanzamos una moneda al aire y definimos la variable 
-aleatoria
-$Z$ como el tiempo en segundos que transcurre antes de que la moneda toque el suelo. En este caso el espacio de resultados es inconveniente de describir. Sin
-embargo, el soporte de $Z$ sería $(0, \infty)$, es claro que el conjunto $(0, \infty)$ es demasiado grande, pero veremos que en la práctica a veces es
-conveniente estudiar el soporte extendido. -->
-</div>
-<div id="varianza-y-desviacion-estandar" class="section level4 unnumbered">
-<h4>Varianza y desviación estándar</h4>
-<p>Si intentamos predecir el valor de una variable aleatoria usando su media
-<span class="math inline">\(E(X)=\mu\)</span>, vamos a fallar por una cantidad aleatoria <span class="math inline">\(X-\mu\)</span>. Suele ser
-importante tener una idea de que tan grande será esta desviación. Debido a que
-<span class="math display">\[E(X-\mu) = E(X)-\mu=0\]</span>
-es necesario considerar la diferencia absoluta o la diferencia al cuadrado de
-<span class="math inline">\(X-\mu\)</span> con el fin de tener una idea del tamaño de la desviación sin importar el
-signo de esta.</p>
-<p><strong>Varianza y desviación estándar</strong>. La varianza de <span class="math inline">\(X\)</span>, denotada
-<span class="math inline">\(var(X)=\sigma^2\)</span> es la media de la desviación cuadrada de <span class="math inline">\(X\)</span> respecto a su
-valor esperado <span class="math inline">\(\mu=E(X)\)</span>: <span class="math display">\[\sigma^2(X)=var(X)=E(X-\mu)^2\]</span>
-La desviación estándar de <span class="math inline">\(X\)</span>, es la raíz cuadrada de la varianza de X:
-<span class="math display">\[\sigma(X)=sd(X)=\sqrt{var(X)}\]</span></p>
-<p>Intuitivamente, <span class="math inline">\(sd(X)\)</span> es una medida de la dispersión de la distribución de <span class="math inline">\(X\)</span>
-alrededor de su media. Debido a que la varianza es el valor central de la
-distribución de <span class="math inline">\((X-\mu)^2\)</span>, su raíz cuadrada da una idea del tamaño típico de
-la desviación absoluta <span class="math inline">\(|X-\mu|\)</span>. Notemos que <span class="math inline">\(E(X)\)</span>, <span class="math inline">\(var(X)\)</span> y <span class="math inline">\(sd(X)\)</span> están
-determinados por <span class="math inline">\(X\)</span>, de tal manera que si dos variables aleatorias tienen la
-misma distribución, también tienen la misma media, varianza y desviación
-estándar.</p>
-
-</div>
-</div>
-</div>
-<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="probabilidad-definicion-matematica.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="bootstrap-no-parametrico.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="bootstrap-conteo.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="mas-bootstrap.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -513,7 +368,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2019/edit/master/04_probabilidad.Rmd",
+"link": "https://github.com/tereom/est-computacional-2019/edit/master/98-tareas.Rmd",
 "text": "Edit"
 },
 "history": {
