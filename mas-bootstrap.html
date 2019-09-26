@@ -319,8 +319,9 @@ comparan?</p></li>
 </ul>
 <div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb256-1" data-line-number="1"><span class="kw">library</span>(boot)</a>
 <a class="sourceLine" id="cb256-2" data-line-number="2">sim_exp &lt;-<span class="st"> </span><span class="kw">rexp</span>(<span class="dv">40</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb256-3" data-line-number="3">boot_sim_exp &lt;-<span class="st"> </span><span class="kw">boot</span>(sim_exp, my_mean, <span class="dt">R =</span> <span class="dv">10000</span>)</a>
-<a class="sourceLine" id="cb256-4" data-line-number="4">ints &lt;-<span class="st"> </span><span class="kw">boot.ci</span>(boot_sim_exp, <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">&quot;norm&quot;</span>, <span class="st">&quot;perc&quot;</span>, <span class="st">&quot;bca&quot;</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb256-3" data-line-number="3">my_mean &lt;-<span class="st"> </span><span class="cf">function</span>(x, ind) <span class="kw">mean</span>(x[ind])</a>
+<a class="sourceLine" id="cb256-4" data-line-number="4">boot_sim_exp &lt;-<span class="st"> </span><span class="kw">boot</span>(sim_exp, my_mean, <span class="dt">R =</span> <span class="dv">10000</span>)</a>
+<a class="sourceLine" id="cb256-5" data-line-number="5">ints &lt;-<span class="st"> </span><span class="kw">boot.ci</span>(boot_sim_exp, <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">&quot;norm&quot;</span>, <span class="st">&quot;perc&quot;</span>, <span class="st">&quot;bca&quot;</span>))</a></code></pre></div>
 
 </div>
 <!-- </div> -->

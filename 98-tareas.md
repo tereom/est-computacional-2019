@@ -686,6 +686,7 @@ de confianza para las medias de una exponencial
 ```r
 library(boot)
 sim_exp <- rexp(40, 1/2)
+my_mean <- function(x, ind) mean(x[ind])
 boot_sim_exp <- boot(sim_exp, my_mean, R = 10000)
 ints <- boot.ci(boot_sim_exp, type = c("norm", "perc", "bca"))
 ```

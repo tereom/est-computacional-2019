@@ -295,34 +295,34 @@ columnas numéricas.</p>
 <div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">a =</span> <span class="kw">rnorm</span>(<span class="dv">10</span>), <span class="dt">b =</span> <span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">2</span>), <span class="dt">c =</span> <span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">3</span>), </a>
 <a class="sourceLine" id="cb121-2" data-line-number="2">    <span class="dt">d =</span> <span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">4</span>))</a>
 <a class="sourceLine" id="cb121-3" data-line-number="3">df</a>
-<a class="sourceLine" id="cb121-4" data-line-number="4"><span class="co">#&gt;    id           a          b        c        d</span></a>
-<a class="sourceLine" id="cb121-5" data-line-number="5"><span class="co">#&gt; 1   1 -0.30538320 3.06285540 3.424953 3.874253</span></a>
-<a class="sourceLine" id="cb121-6" data-line-number="6"><span class="co">#&gt; 2   2  1.35251263 1.46259798 3.447932 4.209466</span></a>
-<a class="sourceLine" id="cb121-7" data-line-number="7"><span class="co">#&gt; 3   3 -1.36811647 1.23302372 2.651299 4.998164</span></a>
-<a class="sourceLine" id="cb121-8" data-line-number="8"><span class="co">#&gt; 4   4 -0.09765063 2.44228758 2.010872 5.191997</span></a>
-<a class="sourceLine" id="cb121-9" data-line-number="9"><span class="co">#&gt; 5   5 -0.19198874 2.39765247 2.098473 3.890677</span></a>
-<a class="sourceLine" id="cb121-10" data-line-number="10"><span class="co">#&gt; 6   6 -0.16490813 0.77996889 2.549638 3.891822</span></a>
-<a class="sourceLine" id="cb121-11" data-line-number="11"><span class="co">#&gt; 7   7  2.29470660 2.07111855 4.839239 3.859890</span></a>
-<a class="sourceLine" id="cb121-12" data-line-number="12"><span class="co">#&gt; 8   8 -0.24310573 3.91677849 1.496061 3.453551</span></a>
-<a class="sourceLine" id="cb121-13" data-line-number="13"><span class="co">#&gt; 9   9  0.93498724 0.08050824 2.121374 3.602782</span></a>
-<a class="sourceLine" id="cb121-14" data-line-number="14"><span class="co">#&gt; 10 10  0.91780789 0.43999624 2.720417 4.611714</span></a></code></pre></div>
+<a class="sourceLine" id="cb121-4" data-line-number="4"><span class="co">#&gt;    id          a           b        c        d</span></a>
+<a class="sourceLine" id="cb121-5" data-line-number="5"><span class="co">#&gt; 1   1  1.9765616 -0.05532882 4.243014 4.343046</span></a>
+<a class="sourceLine" id="cb121-6" data-line-number="6"><span class="co">#&gt; 2   2 -0.6778489  0.44661875 2.047138 3.658961</span></a>
+<a class="sourceLine" id="cb121-7" data-line-number="7"><span class="co">#&gt; 3   3  0.0468318  3.05426259 3.712646 1.656477</span></a>
+<a class="sourceLine" id="cb121-8" data-line-number="8"><span class="co">#&gt; 4   4  0.9323369  1.77832716 1.988702 3.825575</span></a>
+<a class="sourceLine" id="cb121-9" data-line-number="9"><span class="co">#&gt; 5   5  0.1923185  1.08502984 4.199279 2.703942</span></a>
+<a class="sourceLine" id="cb121-10" data-line-number="10"><span class="co">#&gt; 6   6 -0.6633869  0.61261131 3.787499 2.735733</span></a>
+<a class="sourceLine" id="cb121-11" data-line-number="11"><span class="co">#&gt; 7   7  1.0636966  3.30119548 1.082582 4.776752</span></a>
+<a class="sourceLine" id="cb121-12" data-line-number="12"><span class="co">#&gt; 8   8 -0.6590706  2.83805330 3.998151 2.685439</span></a>
+<a class="sourceLine" id="cb121-13" data-line-number="13"><span class="co">#&gt; 9   9  1.3587425  3.76514330 2.632233 3.870589</span></a>
+<a class="sourceLine" id="cb121-14" data-line-number="14"><span class="co">#&gt; 10 10  2.4630484  2.82151863 3.943700 4.148602</span></a></code></pre></div>
 <p>Podemos crear el código para cada columna pero esto involucra <em>copy-paste</em> y
 no será muy práctico si aumenta el número de columnas:</p>
 <div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb122-1" data-line-number="1"><span class="kw">mean</span>(df<span class="op">$</span>a)</a>
-<a class="sourceLine" id="cb122-2" data-line-number="2"><span class="co">#&gt; [1] 0.3128861</span></a>
+<a class="sourceLine" id="cb122-2" data-line-number="2"><span class="co">#&gt; [1] 0.603323</span></a>
 <a class="sourceLine" id="cb122-3" data-line-number="3"><span class="kw">mean</span>(df<span class="op">$</span>b)</a>
-<a class="sourceLine" id="cb122-4" data-line-number="4"><span class="co">#&gt; [1] 1.788679</span></a>
+<a class="sourceLine" id="cb122-4" data-line-number="4"><span class="co">#&gt; [1] 1.964743</span></a>
 <a class="sourceLine" id="cb122-5" data-line-number="5"><span class="kw">mean</span>(df<span class="op">$</span>c)</a>
-<a class="sourceLine" id="cb122-6" data-line-number="6"><span class="co">#&gt; [1] 2.736026</span></a>
+<a class="sourceLine" id="cb122-6" data-line-number="6"><span class="co">#&gt; [1] 3.163494</span></a>
 <a class="sourceLine" id="cb122-7" data-line-number="7"><span class="kw">mean</span>(df<span class="op">$</span>d)</a>
-<a class="sourceLine" id="cb122-8" data-line-number="8"><span class="co">#&gt; [1] 4.158431</span></a></code></pre></div>
+<a class="sourceLine" id="cb122-8" data-line-number="8"><span class="co">#&gt; [1] 3.440511</span></a></code></pre></div>
 <p>Con un ciclo <code>for</code> sería:</p>
 <div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1">salida &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="dv">4</span>)  </a>
 <a class="sourceLine" id="cb123-2" data-line-number="2"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>) {            </a>
 <a class="sourceLine" id="cb123-3" data-line-number="3">  salida[[i]] &lt;-<span class="st"> </span><span class="kw">mean</span>(df[[i <span class="op">+</span><span class="st"> </span><span class="dv">1</span>]])      </a>
 <a class="sourceLine" id="cb123-4" data-line-number="4">}</a>
 <a class="sourceLine" id="cb123-5" data-line-number="5">salida</a>
-<a class="sourceLine" id="cb123-6" data-line-number="6"><span class="co">#&gt; [1] 0.3128861 1.7886788 2.7360257 4.1584315</span></a></code></pre></div>
+<a class="sourceLine" id="cb123-6" data-line-number="6"><span class="co">#&gt; [1] 0.603323 1.964743 3.163494 3.440511</span></a></code></pre></div>
 <p>Los ciclos <code>for</code> tienen 3 componentes:</p>
 <ol style="list-style-type: decimal">
 <li><p>La salida: <code>salida &lt;- vector(&quot;double&quot;, 4)</code>. Es importante especificar el
@@ -384,7 +384,7 @@ tabla de datos:</p>
 <a class="sourceLine" id="cb128-4" data-line-number="4">  salida[[i]] &lt;-<span class="st"> </span><span class="kw">mean</span>(df[[i <span class="op">+</span><span class="st"> </span><span class="dv">1</span>]])      </a>
 <a class="sourceLine" id="cb128-5" data-line-number="5">}</a>
 <a class="sourceLine" id="cb128-6" data-line-number="6">salida</a>
-<a class="sourceLine" id="cb128-7" data-line-number="7"><span class="co">#&gt; [1] 0.3128861 1.7886788 2.7360257 4.1584315</span></a></code></pre></div>
+<a class="sourceLine" id="cb128-7" data-line-number="7"><span class="co">#&gt; [1] 0.603323 1.964743 3.163494 3.440511</span></a></code></pre></div>
 <p>Podemos crear una función que calcula la media de las columnas de un
 <code>data.frame</code>:</p>
 <div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb129-1" data-line-number="1">col_media &lt;-<span class="st"> </span><span class="cf">function</span>(df) {</a>
@@ -395,7 +395,7 @@ tabla de datos:</p>
 <a class="sourceLine" id="cb129-6" data-line-number="6">  salida</a>
 <a class="sourceLine" id="cb129-7" data-line-number="7">}</a>
 <a class="sourceLine" id="cb129-8" data-line-number="8"><span class="kw">col_media</span>(df)</a>
-<a class="sourceLine" id="cb129-9" data-line-number="9"><span class="co">#&gt; [1] 5.5000000 0.3128861 1.7886788 2.7360257 4.1584315</span></a>
+<a class="sourceLine" id="cb129-9" data-line-number="9"><span class="co">#&gt; [1] 5.500000 0.603323 1.964743 3.163494 3.440511</span></a>
 <a class="sourceLine" id="cb129-10" data-line-number="10"><span class="kw">col_media</span>(<span class="kw">select</span>(iris, <span class="op">-</span>Species))</a>
 <a class="sourceLine" id="cb129-11" data-line-number="11"><span class="co">#&gt; [1] 5.843333 3.057333 3.758000 1.199333</span></a></code></pre></div>
 <p>Y podemos extender a crear más funciones que describan los datos:</p>
@@ -424,9 +424,9 @@ aplicar:</p>
 <a class="sourceLine" id="cb131-6" data-line-number="6">  salida</a>
 <a class="sourceLine" id="cb131-7" data-line-number="7">}</a>
 <a class="sourceLine" id="cb131-8" data-line-number="8"><span class="kw">col_describe</span>(df, median)</a>
-<a class="sourceLine" id="cb131-9" data-line-number="9"><span class="co">#&gt; [1]  5.5000000 -0.1312794  1.7668583  2.6004685  3.8912491</span></a>
+<a class="sourceLine" id="cb131-9" data-line-number="9"><span class="co">#&gt; [1] 5.5000000 0.5623277 2.2999229 3.7500724 3.7422677</span></a>
 <a class="sourceLine" id="cb131-10" data-line-number="10"><span class="kw">col_describe</span>(df, mean)</a>
-<a class="sourceLine" id="cb131-11" data-line-number="11"><span class="co">#&gt; [1] 5.5000000 0.3128861 1.7886788 2.7360257 4.1584315</span></a></code></pre></div>
+<a class="sourceLine" id="cb131-11" data-line-number="11"><span class="co">#&gt; [1] 5.500000 0.603323 1.964743 3.163494 3.440511</span></a></code></pre></div>
 <p>Ahora utilizaremos esta idea de pasar funciones a funciones para eliminar los
 ciclos <code>for</code>.</p>
 <p>La iteración a través de funciones es muy común en R, hay funciones para hacer
@@ -448,8 +448,8 @@ vector entrada. Cada función especifica en su nombre el tipo de salida:</p>
 vectores) y aplicará las funciones a las columnas del mismo.</p>
 <div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" data-line-number="1"><span class="kw">library</span>(purrr)</a>
 <a class="sourceLine" id="cb132-2" data-line-number="2"><span class="kw">map_dbl</span>(df, mean)</a>
-<a class="sourceLine" id="cb132-3" data-line-number="3"><span class="co">#&gt;        id         a         b         c         d </span></a>
-<a class="sourceLine" id="cb132-4" data-line-number="4"><span class="co">#&gt; 5.5000000 0.3128861 1.7886788 2.7360257 4.1584315</span></a>
+<a class="sourceLine" id="cb132-3" data-line-number="3"><span class="co">#&gt;       id        a        b        c        d </span></a>
+<a class="sourceLine" id="cb132-4" data-line-number="4"><span class="co">#&gt; 5.500000 0.603323 1.964743 3.163494 3.440511</span></a>
 <a class="sourceLine" id="cb132-5" data-line-number="5"><span class="kw">map_dbl</span>(<span class="kw">select</span>(iris, <span class="op">-</span>Species), median)</a>
 <a class="sourceLine" id="cb132-6" data-line-number="6"><span class="co">#&gt; Sepal.Length  Sepal.Width Petal.Length  Petal.Width </span></a>
 <a class="sourceLine" id="cb132-7" data-line-number="7"><span class="co">#&gt;         5.80         3.00         4.35         1.30</span></a></code></pre></div>
