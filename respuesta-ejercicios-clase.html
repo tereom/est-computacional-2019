@@ -56,6 +56,12 @@
 <link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
 <script src="libs/highlight-6.2.0/highlight.js"></script>
 <script src="libs/profvis-binding-0.3.6/profvis.js"></script>
+<script src="libs/plotly-binding-4.9.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.46.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.46.1/plotly-latest.min.js"></script>
 
 
 <style type="text/css">
@@ -243,6 +249,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.5" data-path="bootstrap-en-r.html"><a href="bootstrap-en-r.html"><i class="fa fa-check"></i><b>6.5</b> Bootstrap en R</a></li>
 <li class="chapter" data-level="6.6" data-path="conclusiones-y-observaciones.html"><a href="conclusiones-y-observaciones.html"><i class="fa fa-check"></i><b>6.6</b> Conclusiones y observaciones</a></li>
 </ul></li>
+<li class="chapter" data-level="7" data-path="teoria-basica-de-simulacion.html"><a href="teoria-basica-de-simulacion.html"><i class="fa fa-check"></i><b>7</b> Teoría básica de simulación</a><ul>
+<li class="chapter" data-level="7.1" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html"><i class="fa fa-check"></i><b>7.1</b> Números pseudoaleatorios</a><ul>
+<li class="chapter" data-level="" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html#generadores-congruenciales-y-mersenne-twister"><i class="fa fa-check"></i>Generadores congruenciales y Mersenne-Twister</a></li>
+<li class="chapter" data-level="" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html#pruebas-de-aleatoriedad"><i class="fa fa-check"></i>Pruebas de aleatoriedad</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html"><i class="fa fa-check"></i><b>7.2</b> Variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html#familias-discretas-importantes"><i class="fa fa-check"></i>Familias discretas importantes</a></li>
+<li class="chapter" data-level="" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html#familias-continuas-importantes"><i class="fa fa-check"></i>Familias Continuas importantes</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html"><i class="fa fa-check"></i><b>7.3</b> Simulación de variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#variables-aletaorias-discretas"><i class="fa fa-check"></i>Variables aletaorias discretas</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#aceptacion-y-rechazo"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#variables-aleatorias-continuas-2"><i class="fa fa-check"></i>Variables aleatorias continuas</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#aceptacion-y-rechazo-1"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalacion-y-visualizacion.html"><a href="instalacion-y-visualizacion.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
@@ -283,52 +305,52 @@ calificación de <span class="math inline">\(y=\)</span>esp_3 y la de <span clas
 precisa es esta estimación? Calcula el estimador plug-in y el error estándar
 bootstrap.</li>
 </ul>
-<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb253-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
-<a class="sourceLine" id="cb253-2" data-line-number="2"><span class="co"># universo: creamos datos de ENLACE estado de México</span></a>
-<a class="sourceLine" id="cb253-3" data-line-number="3">enlace &lt;-<span class="st"> </span>enlacep_<span class="dv">2013</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb253-4" data-line-number="4"><span class="st">    </span>janitor<span class="op">::</span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb253-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb253-6" data-line-number="6"><span class="st">    </span><span class="kw">select</span>(id, cve_ent, turno, tipo, <span class="dt">esp_3 =</span> punt_esp_<span class="dv">3</span>, <span class="dt">esp_6 =</span> punt_esp_<span class="dv">6</span>, </a>
-<a class="sourceLine" id="cb253-7" data-line-number="7">        <span class="dt">n_eval_3 =</span> alum_eval_<span class="dv">3</span>, <span class="dt">n_eval_6 =</span> alum_eval_<span class="dv">6</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb253-8" data-line-number="8"><span class="st">    </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb253-9" data-line-number="9"><span class="st">    </span><span class="kw">filter</span>(esp_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, esp_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, cve_ent <span class="op">==</span><span class="st"> &quot;15&quot;</span>)</a>
-<a class="sourceLine" id="cb253-10" data-line-number="10"><span class="kw">glimpse</span>(enlace)</a>
-<a class="sourceLine" id="cb253-11" data-line-number="11"><span class="kw">set.seed</span>(<span class="dv">16021</span>)</a>
-<a class="sourceLine" id="cb253-12" data-line-number="12">n &lt;-<span class="st"> </span><span class="dv">300</span></a>
-<a class="sourceLine" id="cb253-13" data-line-number="13"><span class="co"># muestra</span></a>
-<a class="sourceLine" id="cb253-14" data-line-number="14">enlace_muestra &lt;-<span class="st"> </span><span class="kw">sample_n</span>(enlace, n)</a>
-<a class="sourceLine" id="cb253-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb253-16" data-line-number="16"><span class="co"># estimador plug-in</span></a>
-<a class="sourceLine" id="cb253-17" data-line-number="17">theta_hat &lt;-<span class="st"> </span><span class="kw">cor</span>(enlace_muestra<span class="op">$</span>esp_<span class="dv">3</span>, enlace_muestra<span class="op">$</span>esp_<span class="dv">6</span>)</a>
-<a class="sourceLine" id="cb253-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb253-19" data-line-number="19">boot_reps &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
-<a class="sourceLine" id="cb253-20" data-line-number="20">    muestra_boot &lt;-<span class="st"> </span><span class="kw">sample_frac</span>(enlace_muestra, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb253-21" data-line-number="21">    <span class="kw">cor</span>(muestra_boot<span class="op">$</span>esp_<span class="dv">3</span>, muestra_boot<span class="op">$</span>esp_<span class="dv">6</span>)</a>
-<a class="sourceLine" id="cb253-22" data-line-number="22">}</a>
-<a class="sourceLine" id="cb253-23" data-line-number="23"><span class="co"># error estandar bootstrap</span></a>
-<a class="sourceLine" id="cb253-24" data-line-number="24">replicaciones &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">boot_reps</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a>
-<a class="sourceLine" id="cb253-25" data-line-number="25"><span class="kw">sd</span>(replicaciones)</a></code></pre></div>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb279-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
+<a class="sourceLine" id="cb279-2" data-line-number="2"><span class="co"># universo: creamos datos de ENLACE estado de México</span></a>
+<a class="sourceLine" id="cb279-3" data-line-number="3">enlace &lt;-<span class="st"> </span>enlacep_<span class="dv">2013</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb279-4" data-line-number="4"><span class="st">    </span>janitor<span class="op">::</span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb279-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb279-6" data-line-number="6"><span class="st">    </span><span class="kw">select</span>(id, cve_ent, turno, tipo, <span class="dt">esp_3 =</span> punt_esp_<span class="dv">3</span>, <span class="dt">esp_6 =</span> punt_esp_<span class="dv">6</span>, </a>
+<a class="sourceLine" id="cb279-7" data-line-number="7">        <span class="dt">n_eval_3 =</span> alum_eval_<span class="dv">3</span>, <span class="dt">n_eval_6 =</span> alum_eval_<span class="dv">6</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb279-8" data-line-number="8"><span class="st">    </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb279-9" data-line-number="9"><span class="st">    </span><span class="kw">filter</span>(esp_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, esp_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, cve_ent <span class="op">==</span><span class="st"> &quot;15&quot;</span>)</a>
+<a class="sourceLine" id="cb279-10" data-line-number="10"><span class="kw">glimpse</span>(enlace)</a>
+<a class="sourceLine" id="cb279-11" data-line-number="11"><span class="kw">set.seed</span>(<span class="dv">16021</span>)</a>
+<a class="sourceLine" id="cb279-12" data-line-number="12">n &lt;-<span class="st"> </span><span class="dv">300</span></a>
+<a class="sourceLine" id="cb279-13" data-line-number="13"><span class="co"># muestra</span></a>
+<a class="sourceLine" id="cb279-14" data-line-number="14">enlace_muestra &lt;-<span class="st"> </span><span class="kw">sample_n</span>(enlace, n)</a>
+<a class="sourceLine" id="cb279-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb279-16" data-line-number="16"><span class="co"># estimador plug-in</span></a>
+<a class="sourceLine" id="cb279-17" data-line-number="17">theta_hat &lt;-<span class="st"> </span><span class="kw">cor</span>(enlace_muestra<span class="op">$</span>esp_<span class="dv">3</span>, enlace_muestra<span class="op">$</span>esp_<span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb279-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb279-19" data-line-number="19">boot_reps &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
+<a class="sourceLine" id="cb279-20" data-line-number="20">    muestra_boot &lt;-<span class="st"> </span><span class="kw">sample_frac</span>(enlace_muestra, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb279-21" data-line-number="21">    <span class="kw">cor</span>(muestra_boot<span class="op">$</span>esp_<span class="dv">3</span>, muestra_boot<span class="op">$</span>esp_<span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb279-22" data-line-number="22">}</a>
+<a class="sourceLine" id="cb279-23" data-line-number="23"><span class="co"># error estandar bootstrap</span></a>
+<a class="sourceLine" id="cb279-24" data-line-number="24">replicaciones &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">boot_reps</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a>
+<a class="sourceLine" id="cb279-25" data-line-number="25"><span class="kw">sd</span>(replicaciones)</a></code></pre></div>
 <ul>
 <li>Varianza sesgada con datos spatial.</li>
 </ul>
-<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb254-1" data-line-number="1"><span class="kw">library</span>(bootstrap)</a>
-<a class="sourceLine" id="cb254-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb254-3" data-line-number="3">rep_bootstrap &lt;-<span class="st"> </span><span class="cf">function</span>() {</a>
-<a class="sourceLine" id="cb254-4" data-line-number="4">  boot_sample &lt;-<span class="st"> </span><span class="kw">sample</span>(spatial<span class="op">$</span>A, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb254-5" data-line-number="5">  boot_replication &lt;-<span class="st"> </span><span class="kw">var_sesgada</span>(boot_sample)</a>
-<a class="sourceLine" id="cb254-6" data-line-number="6">}</a>
-<a class="sourceLine" id="cb254-7" data-line-number="7">theta_hat &lt;-<span class="st"> </span><span class="kw">var_sesgada</span>(spatial<span class="op">$</span>A)</a>
-<a class="sourceLine" id="cb254-8" data-line-number="8">reps_boot &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">5000</span>, <span class="kw">rep_bootstrap</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a>
-<a class="sourceLine" id="cb254-9" data-line-number="9"><span class="kw">qplot</span>(reps_boot)</a>
-<a class="sourceLine" id="cb254-10" data-line-number="10">sd_spatial &lt;-<span class="st"> </span><span class="kw">sd</span>(reps_boot)</a>
-<a class="sourceLine" id="cb254-11" data-line-number="11"><span class="co"># Normal</span></a>
-<a class="sourceLine" id="cb254-12" data-line-number="12">theta_hat <span class="op">-</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>sd_spatial</a>
-<a class="sourceLine" id="cb254-13" data-line-number="13">theta_hat <span class="op">+</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>sd_spatial</a>
-<a class="sourceLine" id="cb254-14" data-line-number="14"><span class="co"># t</span></a>
-<a class="sourceLine" id="cb254-15" data-line-number="15">theta_hat <span class="op">+</span><span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.025</span>, <span class="dv">25</span>) <span class="op">*</span><span class="st"> </span>sd_spatial</a>
-<a class="sourceLine" id="cb254-16" data-line-number="16">theta_hat <span class="op">+</span><span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.975</span>, <span class="dv">25</span>) <span class="op">*</span><span class="st"> </span>sd_spatial</a>
-<a class="sourceLine" id="cb254-17" data-line-number="17"><span class="co"># Percentiles</span></a>
-<a class="sourceLine" id="cb254-18" data-line-number="18"><span class="kw">quantile</span>(reps_boot, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb280-1" data-line-number="1"><span class="kw">library</span>(bootstrap)</a>
+<a class="sourceLine" id="cb280-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb280-3" data-line-number="3">rep_bootstrap &lt;-<span class="st"> </span><span class="cf">function</span>() {</a>
+<a class="sourceLine" id="cb280-4" data-line-number="4">  boot_sample &lt;-<span class="st"> </span><span class="kw">sample</span>(spatial<span class="op">$</span>A, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb280-5" data-line-number="5">  boot_replication &lt;-<span class="st"> </span><span class="kw">var_sesgada</span>(boot_sample)</a>
+<a class="sourceLine" id="cb280-6" data-line-number="6">}</a>
+<a class="sourceLine" id="cb280-7" data-line-number="7">theta_hat &lt;-<span class="st"> </span><span class="kw">var_sesgada</span>(spatial<span class="op">$</span>A)</a>
+<a class="sourceLine" id="cb280-8" data-line-number="8">reps_boot &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">5000</span>, <span class="kw">rep_bootstrap</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a>
+<a class="sourceLine" id="cb280-9" data-line-number="9"><span class="kw">qplot</span>(reps_boot)</a>
+<a class="sourceLine" id="cb280-10" data-line-number="10">sd_spatial &lt;-<span class="st"> </span><span class="kw">sd</span>(reps_boot)</a>
+<a class="sourceLine" id="cb280-11" data-line-number="11"><span class="co"># Normal</span></a>
+<a class="sourceLine" id="cb280-12" data-line-number="12">theta_hat <span class="op">-</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>sd_spatial</a>
+<a class="sourceLine" id="cb280-13" data-line-number="13">theta_hat <span class="op">+</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>sd_spatial</a>
+<a class="sourceLine" id="cb280-14" data-line-number="14"><span class="co"># t</span></a>
+<a class="sourceLine" id="cb280-15" data-line-number="15">theta_hat <span class="op">+</span><span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.025</span>, <span class="dv">25</span>) <span class="op">*</span><span class="st"> </span>sd_spatial</a>
+<a class="sourceLine" id="cb280-16" data-line-number="16">theta_hat <span class="op">+</span><span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.975</span>, <span class="dv">25</span>) <span class="op">*</span><span class="st"> </span>sd_spatial</a>
+<a class="sourceLine" id="cb280-17" data-line-number="17"><span class="co"># Percentiles</span></a>
+<a class="sourceLine" id="cb280-18" data-line-number="18"><span class="kw">quantile</span>(reps_boot, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre></div>
 </div>
             </section>
 

@@ -56,6 +56,12 @@
 <link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
 <script src="libs/highlight-6.2.0/highlight.js"></script>
 <script src="libs/profvis-binding-0.3.6/profvis.js"></script>
+<script src="libs/plotly-binding-4.9.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.46.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.46.1/plotly-latest.min.js"></script>
 
 
 <style type="text/css">
@@ -243,6 +249,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.5" data-path="bootstrap-en-r.html"><a href="bootstrap-en-r.html"><i class="fa fa-check"></i><b>6.5</b> Bootstrap en R</a></li>
 <li class="chapter" data-level="6.6" data-path="conclusiones-y-observaciones.html"><a href="conclusiones-y-observaciones.html"><i class="fa fa-check"></i><b>6.6</b> Conclusiones y observaciones</a></li>
 </ul></li>
+<li class="chapter" data-level="7" data-path="teoria-basica-de-simulacion.html"><a href="teoria-basica-de-simulacion.html"><i class="fa fa-check"></i><b>7</b> Teoría básica de simulación</a><ul>
+<li class="chapter" data-level="7.1" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html"><i class="fa fa-check"></i><b>7.1</b> Números pseudoaleatorios</a><ul>
+<li class="chapter" data-level="" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html#generadores-congruenciales-y-mersenne-twister"><i class="fa fa-check"></i>Generadores congruenciales y Mersenne-Twister</a></li>
+<li class="chapter" data-level="" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html#pruebas-de-aleatoriedad"><i class="fa fa-check"></i>Pruebas de aleatoriedad</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html"><i class="fa fa-check"></i><b>7.2</b> Variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html#familias-discretas-importantes"><i class="fa fa-check"></i>Familias discretas importantes</a></li>
+<li class="chapter" data-level="" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html#familias-continuas-importantes"><i class="fa fa-check"></i>Familias Continuas importantes</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html"><i class="fa fa-check"></i><b>7.3</b> Simulación de variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#variables-aletaorias-discretas"><i class="fa fa-check"></i>Variables aletaorias discretas</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#aceptacion-y-rechazo"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#variables-aleatorias-continuas-2"><i class="fa fa-check"></i>Variables aleatorias continuas</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#aceptacion-y-rechazo-1"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalacion-y-visualizacion.html"><a href="instalacion-y-visualizacion.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
@@ -280,18 +302,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ol style="list-style-type: decimal">
 <li>Consideramos la siguiente muestra de los datos de ENLACE:</li>
 </ol>
-<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb255-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
-<a class="sourceLine" id="cb255-2" data-line-number="2"><span class="kw">set.seed</span>(<span class="dv">1983</span>)</a>
-<a class="sourceLine" id="cb255-3" data-line-number="3">enlace_sample &lt;-<span class="st"> </span>enlacep_<span class="dv">2013</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb255-4" data-line-number="4"><span class="st">    </span>janitor<span class="op">::</span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb255-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb255-6" data-line-number="6"><span class="st">    </span><span class="kw">select</span>(id, cve_ent, turno, tipo, <span class="dt">mat_3 =</span> punt_mat_<span class="dv">3</span>, </a>
-<a class="sourceLine" id="cb255-7" data-line-number="7">        <span class="dt">n_eval_3 =</span> alum_eval_<span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb255-8" data-line-number="8"><span class="st">    </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb255-9" data-line-number="9"><span class="st">    </span><span class="kw">filter</span>(mat_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb255-10" data-line-number="10"><span class="st">    </span><span class="kw">group_by</span>(cve_ent) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb255-11" data-line-number="11"><span class="st">    </span><span class="kw">sample_frac</span>(<span class="dt">size =</span> <span class="fl">0.1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb255-12" data-line-number="12"><span class="st">    </span><span class="kw">ungroup</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb281-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
+<a class="sourceLine" id="cb281-2" data-line-number="2"><span class="kw">set.seed</span>(<span class="dv">1983</span>)</a>
+<a class="sourceLine" id="cb281-3" data-line-number="3">enlace_sample &lt;-<span class="st"> </span>enlacep_<span class="dv">2013</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb281-4" data-line-number="4"><span class="st">    </span>janitor<span class="op">::</span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb281-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb281-6" data-line-number="6"><span class="st">    </span><span class="kw">select</span>(id, cve_ent, turno, tipo, <span class="dt">mat_3 =</span> punt_mat_<span class="dv">3</span>, </a>
+<a class="sourceLine" id="cb281-7" data-line-number="7">        <span class="dt">n_eval_3 =</span> alum_eval_<span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb281-8" data-line-number="8"><span class="st">    </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb281-9" data-line-number="9"><span class="st">    </span><span class="kw">filter</span>(mat_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb281-10" data-line-number="10"><span class="st">    </span><span class="kw">group_by</span>(cve_ent) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb281-11" data-line-number="11"><span class="st">    </span><span class="kw">sample_frac</span>(<span class="dt">size =</span> <span class="fl">0.1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb281-12" data-line-number="12"><span class="st">    </span><span class="kw">ungroup</span>()</a></code></pre></div>
 <ul>
 <li><p>Selecciona el subconjunto de datos de Chiapas (clave de entidad 07):</p>
 <ul>
@@ -317,11 +339,11 @@ tabla (para los <span class="math inline">\(BC_a\)</span> usa la función <code>
 <li><p>Repite los pasos anteriores 200 veces y grafica los intervalos, ¿cómo se
 comparan?</p></li>
 </ul>
-<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb256-1" data-line-number="1"><span class="kw">library</span>(boot)</a>
-<a class="sourceLine" id="cb256-2" data-line-number="2">sim_exp &lt;-<span class="st"> </span><span class="kw">rexp</span>(<span class="dv">40</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb256-3" data-line-number="3">my_mean &lt;-<span class="st"> </span><span class="cf">function</span>(x, ind) <span class="kw">mean</span>(x[ind])</a>
-<a class="sourceLine" id="cb256-4" data-line-number="4">boot_sim_exp &lt;-<span class="st"> </span><span class="kw">boot</span>(sim_exp, my_mean, <span class="dt">R =</span> <span class="dv">10000</span>)</a>
-<a class="sourceLine" id="cb256-5" data-line-number="5">ints &lt;-<span class="st"> </span><span class="kw">boot.ci</span>(boot_sim_exp, <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">&quot;norm&quot;</span>, <span class="st">&quot;perc&quot;</span>, <span class="st">&quot;bca&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb282-1" data-line-number="1"><span class="kw">library</span>(boot)</a>
+<a class="sourceLine" id="cb282-2" data-line-number="2">sim_exp &lt;-<span class="st"> </span><span class="kw">rexp</span>(<span class="dv">40</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb282-3" data-line-number="3">my_mean &lt;-<span class="st"> </span><span class="cf">function</span>(x, ind) <span class="kw">mean</span>(x[ind])</a>
+<a class="sourceLine" id="cb282-4" data-line-number="4">boot_sim_exp &lt;-<span class="st"> </span><span class="kw">boot</span>(sim_exp, my_mean, <span class="dt">R =</span> <span class="dv">10000</span>)</a>
+<a class="sourceLine" id="cb282-5" data-line-number="5">ints &lt;-<span class="st"> </span><span class="kw">boot.ci</span>(boot_sim_exp, <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">&quot;norm&quot;</span>, <span class="st">&quot;perc&quot;</span>, <span class="st">&quot;bca&quot;</span>))</a></code></pre></div>
 
 </div>
 <!-- </div> -->

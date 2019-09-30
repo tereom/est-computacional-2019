@@ -56,6 +56,12 @@
 <link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
 <script src="libs/highlight-6.2.0/highlight.js"></script>
 <script src="libs/profvis-binding-0.3.6/profvis.js"></script>
+<script src="libs/plotly-binding-4.9.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.46.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.46.1/plotly-latest.min.js"></script>
 
 
 <style type="text/css">
@@ -243,6 +249,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.5" data-path="bootstrap-en-r.html"><a href="bootstrap-en-r.html"><i class="fa fa-check"></i><b>6.5</b> Bootstrap en R</a></li>
 <li class="chapter" data-level="6.6" data-path="conclusiones-y-observaciones.html"><a href="conclusiones-y-observaciones.html"><i class="fa fa-check"></i><b>6.6</b> Conclusiones y observaciones</a></li>
 </ul></li>
+<li class="chapter" data-level="7" data-path="teoria-basica-de-simulacion.html"><a href="teoria-basica-de-simulacion.html"><i class="fa fa-check"></i><b>7</b> Teoría básica de simulación</a><ul>
+<li class="chapter" data-level="7.1" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html"><i class="fa fa-check"></i><b>7.1</b> Números pseudoaleatorios</a><ul>
+<li class="chapter" data-level="" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html#generadores-congruenciales-y-mersenne-twister"><i class="fa fa-check"></i>Generadores congruenciales y Mersenne-Twister</a></li>
+<li class="chapter" data-level="" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html#pruebas-de-aleatoriedad"><i class="fa fa-check"></i>Pruebas de aleatoriedad</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html"><i class="fa fa-check"></i><b>7.2</b> Variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html#familias-discretas-importantes"><i class="fa fa-check"></i>Familias discretas importantes</a></li>
+<li class="chapter" data-level="" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html#familias-continuas-importantes"><i class="fa fa-check"></i>Familias Continuas importantes</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html"><i class="fa fa-check"></i><b>7.3</b> Simulación de variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#variables-aletaorias-discretas"><i class="fa fa-check"></i>Variables aletaorias discretas</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#aceptacion-y-rechazo"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#variables-aleatorias-continuas-2"><i class="fa fa-check"></i>Variables aleatorias continuas</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#aceptacion-y-rechazo-1"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalacion-y-visualizacion.html"><a href="instalacion-y-visualizacion.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
@@ -304,22 +326,22 @@ casillas que estarán en la muestra.</p></li>
 casillas en el estrato y en <span class="math inline">\(n\)</span> el número de casillas que se seleccionaron en la
 muestra, para cada estrato:</p></li>
 </ul>
-<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb251-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
-<a class="sourceLine" id="cb251-2" data-line-number="2">strata_sample_<span class="dv">2006</span></a>
-<a class="sourceLine" id="cb251-3" data-line-number="3"><span class="co">#&gt; # A tibble: 300 x 3</span></a>
-<a class="sourceLine" id="cb251-4" data-line-number="4"><span class="co">#&gt;    stratum     n     N</span></a>
-<a class="sourceLine" id="cb251-5" data-line-number="5"><span class="co">#&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb251-6" data-line-number="6"><span class="co">#&gt;  1       1    20   369</span></a>
-<a class="sourceLine" id="cb251-7" data-line-number="7"><span class="co">#&gt;  2       2    23   420</span></a>
-<a class="sourceLine" id="cb251-8" data-line-number="8"><span class="co">#&gt;  3       3    24   440</span></a>
-<a class="sourceLine" id="cb251-9" data-line-number="9"><span class="co">#&gt;  4       4    31   570</span></a>
-<a class="sourceLine" id="cb251-10" data-line-number="10"><span class="co">#&gt;  5       5    29   528</span></a>
-<a class="sourceLine" id="cb251-11" data-line-number="11"><span class="co">#&gt;  6       6    37   664</span></a>
-<a class="sourceLine" id="cb251-12" data-line-number="12"><span class="co">#&gt;  7       7    26   474</span></a>
-<a class="sourceLine" id="cb251-13" data-line-number="13"><span class="co">#&gt;  8       8    21   373</span></a>
-<a class="sourceLine" id="cb251-14" data-line-number="14"><span class="co">#&gt;  9       9    25   457</span></a>
-<a class="sourceLine" id="cb251-15" data-line-number="15"><span class="co">#&gt; 10      10    24   430</span></a>
-<a class="sourceLine" id="cb251-16" data-line-number="16"><span class="co">#&gt; # … with 290 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb277-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
+<a class="sourceLine" id="cb277-2" data-line-number="2">strata_sample_<span class="dv">2006</span></a>
+<a class="sourceLine" id="cb277-3" data-line-number="3"><span class="co">#&gt; # A tibble: 300 x 3</span></a>
+<a class="sourceLine" id="cb277-4" data-line-number="4"><span class="co">#&gt;    stratum     n     N</span></a>
+<a class="sourceLine" id="cb277-5" data-line-number="5"><span class="co">#&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb277-6" data-line-number="6"><span class="co">#&gt;  1       1    20   369</span></a>
+<a class="sourceLine" id="cb277-7" data-line-number="7"><span class="co">#&gt;  2       2    23   420</span></a>
+<a class="sourceLine" id="cb277-8" data-line-number="8"><span class="co">#&gt;  3       3    24   440</span></a>
+<a class="sourceLine" id="cb277-9" data-line-number="9"><span class="co">#&gt;  4       4    31   570</span></a>
+<a class="sourceLine" id="cb277-10" data-line-number="10"><span class="co">#&gt;  5       5    29   528</span></a>
+<a class="sourceLine" id="cb277-11" data-line-number="11"><span class="co">#&gt;  6       6    37   664</span></a>
+<a class="sourceLine" id="cb277-12" data-line-number="12"><span class="co">#&gt;  7       7    26   474</span></a>
+<a class="sourceLine" id="cb277-13" data-line-number="13"><span class="co">#&gt;  8       8    21   373</span></a>
+<a class="sourceLine" id="cb277-14" data-line-number="14"><span class="co">#&gt;  9       9    25   457</span></a>
+<a class="sourceLine" id="cb277-15" data-line-number="15"><span class="co">#&gt; 10      10    24   430</span></a>
+<a class="sourceLine" id="cb277-16" data-line-number="16"><span class="co">#&gt; # … with 290 more rows</span></a></code></pre></div>
 <ul>
 <li>La tabla <code>sample_2006</code> en el paquete <code>estcomp</code> (vuelve a instalar de ser
 necesario) contiene para cada casilla:
@@ -331,21 +353,21 @@ número de votos nulos o por candidatos no registrados.</li>
 <li>el total de votos registrado en la casilla: <code>total</code>.</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb252-1" data-line-number="1">sample_<span class="dv">2006</span></a>
-<a class="sourceLine" id="cb252-2" data-line-number="2"><span class="co">#&gt; # A tibble: 7,200 x 10</span></a>
-<a class="sourceLine" id="cb252-3" data-line-number="3"><span class="co">#&gt;    polling_id stratum edo_id pri_pvem   pan panal prd_pt_conv   psd otros</span></a>
-<a class="sourceLine" id="cb252-4" data-line-number="4"><span class="co">#&gt;         &lt;int&gt;   &lt;dbl&gt;  &lt;int&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt;       &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb252-5" data-line-number="5"><span class="co">#&gt;  1      74593     106     16       47    40     0          40     0     9</span></a>
-<a class="sourceLine" id="cb252-6" data-line-number="6"><span class="co">#&gt;  2     109927     194     27      131    10     0         147     1     8</span></a>
-<a class="sourceLine" id="cb252-7" data-line-number="7"><span class="co">#&gt;  3     112039     199     28       51    74     2          57     2     2</span></a>
-<a class="sourceLine" id="cb252-8" data-line-number="8"><span class="co">#&gt;  4      86392     141     20      145    64     2         139     1    14</span></a>
-<a class="sourceLine" id="cb252-9" data-line-number="9"><span class="co">#&gt;  5     101306     176     24       51   160     0          64    14     1</span></a>
-<a class="sourceLine" id="cb252-10" data-line-number="10"><span class="co">#&gt;  6      86044     140     20      150    20     0         166     1    11</span></a>
-<a class="sourceLine" id="cb252-11" data-line-number="11"><span class="co">#&gt;  7      56057      57     15      117   119     2          82     0    24</span></a>
-<a class="sourceLine" id="cb252-12" data-line-number="12"><span class="co">#&gt;  8      84186     128     19      118   205     8          73     9    13</span></a>
-<a class="sourceLine" id="cb252-13" data-line-number="13"><span class="co">#&gt;  9      27778     283      9       26    65     5         249     7     2</span></a>
-<a class="sourceLine" id="cb252-14" data-line-number="14"><span class="co">#&gt; 10      29892     289      9       27    32     0         338    14     7</span></a>
-<a class="sourceLine" id="cb252-15" data-line-number="15"><span class="co">#&gt; # … with 7,190 more rows, and 1 more variable: total &lt;int&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb278-1" data-line-number="1">sample_<span class="dv">2006</span></a>
+<a class="sourceLine" id="cb278-2" data-line-number="2"><span class="co">#&gt; # A tibble: 7,200 x 10</span></a>
+<a class="sourceLine" id="cb278-3" data-line-number="3"><span class="co">#&gt;    polling_id stratum edo_id pri_pvem   pan panal prd_pt_conv   psd otros</span></a>
+<a class="sourceLine" id="cb278-4" data-line-number="4"><span class="co">#&gt;         &lt;int&gt;   &lt;dbl&gt;  &lt;int&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt;       &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb278-5" data-line-number="5"><span class="co">#&gt;  1      74593     106     16       47    40     0          40     0     9</span></a>
+<a class="sourceLine" id="cb278-6" data-line-number="6"><span class="co">#&gt;  2     109927     194     27      131    10     0         147     1     8</span></a>
+<a class="sourceLine" id="cb278-7" data-line-number="7"><span class="co">#&gt;  3     112039     199     28       51    74     2          57     2     2</span></a>
+<a class="sourceLine" id="cb278-8" data-line-number="8"><span class="co">#&gt;  4      86392     141     20      145    64     2         139     1    14</span></a>
+<a class="sourceLine" id="cb278-9" data-line-number="9"><span class="co">#&gt;  5     101306     176     24       51   160     0          64    14     1</span></a>
+<a class="sourceLine" id="cb278-10" data-line-number="10"><span class="co">#&gt;  6      86044     140     20      150    20     0         166     1    11</span></a>
+<a class="sourceLine" id="cb278-11" data-line-number="11"><span class="co">#&gt;  7      56057      57     15      117   119     2          82     0    24</span></a>
+<a class="sourceLine" id="cb278-12" data-line-number="12"><span class="co">#&gt;  8      84186     128     19      118   205     8          73     9    13</span></a>
+<a class="sourceLine" id="cb278-13" data-line-number="13"><span class="co">#&gt;  9      27778     283      9       26    65     5         249     7     2</span></a>
+<a class="sourceLine" id="cb278-14" data-line-number="14"><span class="co">#&gt; 10      29892     289      9       27    32     0         338    14     7</span></a>
+<a class="sourceLine" id="cb278-15" data-line-number="15"><span class="co">#&gt; # … with 7,190 more rows, and 1 more variable: total &lt;int&gt;</span></a></code></pre></div>
 <p>Una de las metodolgías de estimación, que se usa en el conteo rápido, es
 <em>estimador de razón</em> y se contruyen intervalos de 95% de confianza usando el
 método normal con error estándar bootstrap. En este ejercicio debes construir

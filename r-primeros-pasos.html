@@ -56,6 +56,12 @@
 <link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
 <script src="libs/highlight-6.2.0/highlight.js"></script>
 <script src="libs/profvis-binding-0.3.6/profvis.js"></script>
+<script src="libs/plotly-binding-4.9.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.46.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.46.1/plotly-latest.min.js"></script>
 
 
 <style type="text/css">
@@ -243,6 +249,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.5" data-path="bootstrap-en-r.html"><a href="bootstrap-en-r.html"><i class="fa fa-check"></i><b>6.5</b> Bootstrap en R</a></li>
 <li class="chapter" data-level="6.6" data-path="conclusiones-y-observaciones.html"><a href="conclusiones-y-observaciones.html"><i class="fa fa-check"></i><b>6.6</b> Conclusiones y observaciones</a></li>
 </ul></li>
+<li class="chapter" data-level="7" data-path="teoria-basica-de-simulacion.html"><a href="teoria-basica-de-simulacion.html"><i class="fa fa-check"></i><b>7</b> Teoría básica de simulación</a><ul>
+<li class="chapter" data-level="7.1" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html"><i class="fa fa-check"></i><b>7.1</b> Números pseudoaleatorios</a><ul>
+<li class="chapter" data-level="" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html#generadores-congruenciales-y-mersenne-twister"><i class="fa fa-check"></i>Generadores congruenciales y Mersenne-Twister</a></li>
+<li class="chapter" data-level="" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html#pruebas-de-aleatoriedad"><i class="fa fa-check"></i>Pruebas de aleatoriedad</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html"><i class="fa fa-check"></i><b>7.2</b> Variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html#familias-discretas-importantes"><i class="fa fa-check"></i>Familias discretas importantes</a></li>
+<li class="chapter" data-level="" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html#familias-continuas-importantes"><i class="fa fa-check"></i>Familias Continuas importantes</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html"><i class="fa fa-check"></i><b>7.3</b> Simulación de variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#variables-aletaorias-discretas"><i class="fa fa-check"></i>Variables aletaorias discretas</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#aceptacion-y-rechazo"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#variables-aleatorias-continuas-2"><i class="fa fa-check"></i>Variables aleatorias continuas</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#aceptacion-y-rechazo-1"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalacion-y-visualizacion.html"><a href="instalacion-y-visualizacion.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
@@ -347,7 +369,7 @@ paquete <code>readr</code> hacemos:</p>
 <a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt;         comment = comment, n_max = n_max, guess_max = guess_max, </span></a>
 <a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt;         progress = progress)</span></a>
 <a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; }</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; &lt;bytecode: 0x871eed8&gt;</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; &lt;bytecode: 0x876fdf8&gt;</span></a>
 <a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; &lt;environment: namespace:readr&gt;</span></a>
 <a class="sourceLine" id="cb2-17" data-line-number="17"></a>
 <a class="sourceLine" id="cb2-18" data-line-number="18"><span class="kw">library</span>(readr)</a>
@@ -365,7 +387,7 @@ paquete <code>readr</code> hacemos:</p>
 <a class="sourceLine" id="cb2-30" data-line-number="30"><span class="co">#&gt;         comment = comment, n_max = n_max, guess_max = guess_max, </span></a>
 <a class="sourceLine" id="cb2-31" data-line-number="31"><span class="co">#&gt;         progress = progress)</span></a>
 <a class="sourceLine" id="cb2-32" data-line-number="32"><span class="co">#&gt; }</span></a>
-<a class="sourceLine" id="cb2-33" data-line-number="33"><span class="co">#&gt; &lt;bytecode: 0x871eed8&gt;</span></a>
+<a class="sourceLine" id="cb2-33" data-line-number="33"><span class="co">#&gt; &lt;bytecode: 0x876fdf8&gt;</span></a>
 <a class="sourceLine" id="cb2-34" data-line-number="34"><span class="co">#&gt; &lt;environment: namespace:readr&gt;</span></a></code></pre></div>
 <p><code>read_csv</code> es una función que aporta el paquete <code>readr</code>, que a su vez está incluido en el <em>tidyverse</em>.</p>
 <p>El paquete de arriba se instaló de CRAN, pero podemos instalar paquetes que
