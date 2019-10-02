@@ -116,9 +116,7 @@ Referencias: @kruschke, @gelman-bayesian.
 Para encuestas y ejercicios en clase.
 
 
-* [Lista de correos](https://docs.google.com/spreadsheets/d/1ZNdpl-_c495FRb1ZEZ-TpxFDBk5Uai-9Ms-IHgsYq-E/edit?usp=sharing): Suscribete si quieres recibir noticias del curso o una 
-suscripción a [DataCamp](https://www.datacamp.com) (6 meses con acceso a todos
-los recursos de forma gratuita).
+* [Lista de correos](https://docs.google.com/spreadsheets/d/1ZNdpl-_c495FRb1ZEZ-TpxFDBk5Uai-9Ms-IHgsYq-E/edit?usp=sharing): Suscribete si quieres recibir noticias del curso.
 
 ### Noticias {-}
 

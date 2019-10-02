@@ -749,7 +749,9 @@ unpackaged             36   12
 
 La tabla de arriba es poco informativa, buscamos comparar grupos, por ejemplo, 
 queremos investigar si hay diferencias en los patrones de compra (en términos de 
-precio o marca) dependiendo del tipo de té que consumen.
+precio o marca) dependiendo del tipo de té que consumen. En la siguiente tabla
+leemos, por ejemplo, que de los compradores de te suelto (`unpackaged`) el 56%
+de las compras corresponden a té fino (`upscale`).
 
 <table class="table table-striped table-hover table-condensed table-responsive" style="font-size: 15px; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
