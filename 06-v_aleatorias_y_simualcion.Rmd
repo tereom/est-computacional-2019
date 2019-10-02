@@ -391,7 +391,7 @@ intervalo <- c(0, 0.5)
 # 2
 p_intervalo <- 0.5
 # 3 evaluamos u_rand
-gap_u_rand <- data_frame(posicion = 1:length(u_rand), u_rand = u_rand, 
+gap_u_rand <- tibble(posicion = 1:length(u_rand), u_rand = u_rand, 
     en_intervalo = (0.5 < u_rand & u_rand < 1))
     
 posiciones <- gap_u_rand %>% 
@@ -1367,7 +1367,7 @@ beta24 <- function(){
   u1 <- runif(1)
   u2 <- runif(1)
   # 2. Comparar con f(x)/cg(x)
-  while(u2 > 256 / 27 * u1 * (1 - u1) ^ 3){
+  while (u2 > 256 / 27 * u1 * (1 - u1) ^ 3) {
     u1 <- runif(1)
     u2 <- runif(1)
   }
