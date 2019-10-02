@@ -675,7 +675,7 @@ Nos interesa ver qué personas compran té suelto (`unpacked`), y de qué tipo
 (`Tea`). Empezamos por ver las proporciones que compran té según su empaque (en 
 bolsita o suelto):
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
 formatear_tabla <- function(x_tbl, scroll = FALSE){
     tabla <- knitr::kable(x_tbl, type = "html") %>%
         kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
@@ -693,7 +693,7 @@ La tabla de arriba es poco informativa, buscamos comparar grupos, por ejemplo,
 queremos investigar si hay diferencias en los patrones de compra (en términos de 
 precio o marca) dependiendo del tipo de té que consumen.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
 tipo <- tipo %>% select(how, prop_how = `%`)
 tabla_2 <- tea %>% count(how, price) %>% 
   group_by(how) %>% 
@@ -705,7 +705,7 @@ tabla_2 %>% spread(how, prop, fill = 0) %>% formatear_tabla()
 Para facilitar la comparación podemos calcular *perfiles columna*. Comparamos 
 cada una de las columnas con la columna marginal (la tabla de tipo de estilo de té):
 
-```{r, echo=FALSE, message = FALSE}
+```{r, echo=FALSE, message = FALSE, warning=FALSE}
 tabla <- tea %>% 
   count(how, price) %>% 
   group_by(how) %>% 
@@ -715,7 +715,7 @@ tabla <- tea %>%
   mutate(perfil = (prop_price / prom_prop - 1) %>% round(2))  
 ```
 
-```{r, echo = FALSE, message = FALSE}
+```{r, echo = FALSE, message = FALSE, warning=FALSE}
 precio_prom <- tabla %>% 
   distinct(price, prom_prop) %>%
   mutate(promedio = round(prom_prop)) %>% 
@@ -753,7 +753,7 @@ promedio.
 
 También podemos graficar como:
 
-```{r, fig.width = 6, fig.height = 2, echo = FALSE, message = FALSE}
+```{r, fig.width = 6, fig.height = 2, echo = FALSE, message = FALSE, warning=FALSE}
 tabla_ordenada <- tabla %>% 
     ungroup %>% 
     left_join(tabla %>% 
