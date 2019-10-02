@@ -741,14 +741,6 @@ Nos interesa ver qué personas compran té suelto (`unpacked`), y de qué tipo
 bolsita o suelto):
 
 
-```
-#> Warning in kableExtra::kable_styling(., bootstrap_options = c("striped", :
-#> Please specify format in kable. kableExtra can customize either HTML or
-#> LaTeX outputs. See https://haozhu233.github.io/kableExtra/ for details.
-```
-
-
-
 how                     n    %
 -------------------  ----  ---
 tea bag               170   57
