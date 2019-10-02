@@ -633,7 +633,7 @@ ggplot(a, aes(x = reorder(sample, theta), ymin = izq, y = theta, ymax = der)) +
 
 ## EXAMEN PARCIAL {-}
 
-**Entrega:** 7 de octubre antes de las 16:00 horas
+**Entrega:** 7 de octubre antes de las 16:00 horas, por correo electrónico.
 
 **Instrucciones:**
 
@@ -900,7 +900,7 @@ procedimiento(s) de censura de casillas y evalúa la cobertura de los intervalos
 en este(os) escenario(s). Puedes explorar las variables disponibles viendo la
 documentación de los datos (`?election_2006`).
 
-#### 3. Simulación de variables aleatorias {-}
+#### 5. Simulación de variables aleatorias {-}
 
 Recuerda que una variable aleatoria $X$ tiene una distribución geométrica
 con parámetro $p$ si
