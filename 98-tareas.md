@@ -742,28 +742,132 @@ bolsita o suelto):
 
 
 ```
-#> Error in loadNamespace(name): there is no package called 'kableExtra'
+#> Warning in kableExtra::kable_styling(., bootstrap_options = c("striped", :
+#> Please specify format in kable. kableExtra can customize either HTML or
+#> LaTeX outputs. See https://haozhu233.github.io/kableExtra/ for details.
 ```
+
+
+
+how                     n    %
+-------------------  ----  ---
+tea bag               170   57
+tea bag+unpackaged     94   31
+unpackaged             36   12
 
 La tabla de arriba es poco informativa, buscamos comparar grupos, por ejemplo, 
 queremos investigar si hay diferencias en los patrones de compra (en términos de 
 precio o marca) dependiendo del tipo de té que consumen.
 
-
-```
-#> Error in loadNamespace(name): there is no package called 'kableExtra'
-```
+<table class="table table-striped table-hover table-condensed table-responsive" style="font-size: 15px; width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> price </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> tea bag </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> tea bag+unpackaged </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> unpackaged </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> p_branded </td>
+   <td style="text-align:right;"> 41 </td>
+   <td style="text-align:right;"> 21 </td>
+   <td style="text-align:right;"> 14 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> p_cheap </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> p_private label </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> p_unknown </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> p_upscale </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 20 </td>
+   <td style="text-align:right;"> 56 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> p_variable </td>
+   <td style="text-align:right;"> 32 </td>
+   <td style="text-align:right;"> 52 </td>
+   <td style="text-align:right;"> 25 </td>
+  </tr>
+</tbody>
+</table>
 
 Para facilitar la comparación podemos calcular *perfiles columna*. Comparamos 
 cada una de las columnas con la columna marginal (la tabla de tipo de estilo de té):
 
 
 
-
-```
-#> Error in loadNamespace(name): there is no package called 'kableExtra'
-#> Error in eval(expr, envir, enclos): object 'tab_out' not found
-```
+<table class="table table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> price </th>
+   <th style="text-align:left;"> tea bag </th>
+   <th style="text-align:left;"> tea bag+unpackaged </th>
+   <th style="text-align:left;"> unpackaged </th>
+   <th style="text-align:right;"> promedio </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> p_private label </td>
+   <td style="text-align:left;"> <span style="     color: black !important;">0.72</span> </td>
+   <td style="text-align:left;"> <span style="     color: lightgray !important;">-0.22</span> </td>
+   <td style="text-align:left;"> <span style="     color: red !important;">-0.49</span> </td>
+   <td style="text-align:right;"> 5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> p_unknown </td>
+   <td style="text-align:left;"> <span style="     color: black !important;">0.72</span> </td>
+   <td style="text-align:left;"> <span style="     color: red !important;">-0.72</span> </td>
+   <td style="text-align:left;"> <span style="     color: red !important;">-1</span> </td>
+   <td style="text-align:right;"> 4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> p_branded </td>
+   <td style="text-align:left;"> <span style="     color: black !important;">0.62</span> </td>
+   <td style="text-align:left;"> <span style="     color: lightgray !important;">-0.16</span> </td>
+   <td style="text-align:left;"> <span style="     color: red !important;">-0.45</span> </td>
+   <td style="text-align:right;"> 25 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> p_cheap </td>
+   <td style="text-align:left;"> <span style="     color: black !important;">0.3</span> </td>
+   <td style="text-align:left;"> <span style="     color: red !important;">-0.53</span> </td>
+   <td style="text-align:left;"> <span style="     color: lightgray !important;">0.23</span> </td>
+   <td style="text-align:right;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> p_variable </td>
+   <td style="text-align:left;"> <span style="     color: lightgray !important;">-0.12</span> </td>
+   <td style="text-align:left;"> <span style="     color: black !important;">0.44</span> </td>
+   <td style="text-align:left;"> <span style="     color: red !important;">-0.31</span> </td>
+   <td style="text-align:right;"> 36 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> p_upscale </td>
+   <td style="text-align:left;"> <span style="     color: red !important;">-0.71</span> </td>
+   <td style="text-align:left;"> <span style="     color: red !important;">-0.28</span> </td>
+   <td style="text-align:left;"> <span style="     color: black !important;">0.98</span> </td>
+   <td style="text-align:right;"> 28 </td>
+  </tr>
+</tbody>
+</table>
 
 Leemos esta tabla como sigue: por ejemplo, los compradores de té suelto 
 (`unpacked`) compran té fino (`upscale`) a una tasa casi el doble (0.98) que el 
