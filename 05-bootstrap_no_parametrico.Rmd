@@ -1601,7 +1601,7 @@ usar aproximaciones, en la metodología de INEGI proponen una aproximación con
 series de Taylor.
 
 
-```{r, out.width = "400px",echo = FALSE, fig.cap= "Extracto de estimación de errores de muestreo, ENIGH 2018."}
+```{r, out.width = "700px",echo = FALSE, fig.cap= "Extracto de estimación de errores de muestreo, ENIGH 2018."}
 knitr::include_graphics("img/inegi_metodologia_razon.png")
 ```
 
