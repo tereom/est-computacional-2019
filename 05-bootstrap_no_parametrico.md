@@ -143,7 +143,7 @@ ejemplo, podemos estimar el error estándar de $\theta$:
 ```r
 se <- sd(boot_ratio_rates)
 comma(se)
-#> [1] "0.064"
+#> [1] "0.068"
 ```
 
 
@@ -1999,7 +1999,7 @@ series de Taylor.
 
 
 <div class="figure" style="text-align: center">
-<img src="img/inegi_metodologia_razon.png" alt="Extracto de estimación de errores de muestreo, ENIGH 2018." width="400px" />
+<img src="img/inegi_metodologia_razon.png" alt="Extracto de estimación de errores de muestreo, ENIGH 2018." width="700px" />
 <p class="caption">(\#fig:unnamed-chunk-35)Extracto de estimación de errores de muestreo, ENIGH 2018.</p>
 </div>
 

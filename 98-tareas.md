@@ -885,6 +885,8 @@ la última tabla.
 
 #### 2. Cuantificando el error Monte Carlo {-}
 
+OPCIONAL punto extra para discutir en clase
+
 Recordemos que ante la pregunta ¿cuántas muestras bootstrap se necesitan?
 el error que podemos disminuir al aumentar el número de replicaciones es el 
 error de Monte Carlo, y una manera de cuantificarlo es haciendo bootstrap del
