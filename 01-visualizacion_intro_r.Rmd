@@ -834,7 +834,7 @@ anteriores ordenando por la mediana de _prd_pt_mc_.
 para graficar los puntos encima de las cajas de boxplot?
 
 #### Paneles {-}
-Ahora veremos como hacer páneles de gráficas, la idea es hacer varios múltiplos 
+Ahora veremos como hacer gráficas de paneles, la idea es hacer varios múltiplos 
 de una gráfica donde cada múltiplo representa un subconjunto de los datos, es 
 una práctica muy útil para explorar relaciones condicionales.
 
