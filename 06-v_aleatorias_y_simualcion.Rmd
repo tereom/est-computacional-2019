@@ -817,7 +817,7 @@ Algunas porpiedades importantes son:
 
 1. Si $X \sim N(\mu, \sigma^2)$, entonces $Z=(X-\mu)/\sigma \sim N(0,1)$.  
 
-2. Si $Z \sim N(0, 1)$ entonces $X = \mu + \sigma Z \sim N(\mu, sigma^2)$.
+2. Si $Z \sim N(0, 1)$ entonces $X = \mu + \sigma Z \sim N(\mu, \sigma^2)$.
 
 3. Si $X_i \sim N(\mu_i, \sigma_i^2)$, $i=1,...,n$ independientes, entonces:
 $$\sum_{i=1}^n X_i \sim N(\sum_{i=1}^n \mu_i, \sum_{i=1}^n \sigma_i^2)$$
