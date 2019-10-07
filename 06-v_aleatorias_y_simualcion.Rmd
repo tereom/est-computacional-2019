@@ -1027,7 +1027,7 @@ inversión para generar 1000 simulaciones de una variable aleatoria $X$ tal que
 $p_1=0.20, p_2= 0.15, 
 p_3=0.25, p_4=0.40$ donde $p_j=P(X=j)$.
 
-```{r}
+```{r, eval=FALSE, echo=FALSE}
 inv_ej <- function(n = 1000){
     sims_unif <- runif(n)
     sims_x <- case_when( 
@@ -1147,7 +1147,7 @@ de aceptación y rechazo con $q$ la densidad uniforme en $1,...,4$. ¿Cómo se
 compara en velocidad con la función que implementaste usando el método de la 
 transformación inversa?
 
-```{r}
+```{r, eval=FALSE, echo=FALSE}
 sim_acept_rechazo <- function() {
   c <- 0.4 / 0.25
   p_j <- c(0.2, 0.15, 0.25, 0.4)
@@ -1381,7 +1381,7 @@ mean(sims$V1)
 Supongamos que deseamos generar simulaciones de una variable aleatoria con densidad gamma(3/2, 1):
 $$f(x)=\frac{1}{\Gamma(3/2)}x^{1/2}e^{-x}$$
 dado que la variable aleatoria de nuestro interés se concentra en los números positivos, y tiene media $3/2$, es conveniente usar el método de aceptación y rechazo con la variable aleatoria exponencial de la misma media.
-$$g(x)=\frac{2}{3}e^{-x2/3}$$
+$$g(x)=\frac{2}{3}e^{-2x/3}$$
 
 ![](img/manicule2.jpg) Usa el método de aceptación y rechazo para generar 1000 observaciones de una variable aleatoria con distribución gamma(3/2,1).
 
