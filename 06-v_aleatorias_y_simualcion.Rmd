@@ -817,7 +817,7 @@ Algunas porpiedades importantes son:
 
 1. Si $X \sim N(\mu, \sigma^2)$, entonces $Z=(X-\mu)/\sigma \sim N(0,1)$.  
 
-2. Si $Z \sim N(0, 1)$ entonces $X = \mu + \sigma Z \sim N(\mu, sigma^2)$.
+2. Si $Z \sim N(0, 1)$ entonces $X = \mu + \sigma Z \sim N(\mu, \sigma^2)$.
 
 3. Si $X_i \sim N(\mu_i, \sigma_i^2)$, $i=1,...,n$ independientes, entonces:
 $$\sum_{i=1}^n X_i \sim N(\sum_{i=1}^n \mu_i, \sum_{i=1}^n \sigma_i^2)$$
@@ -1027,7 +1027,7 @@ inversión para generar 1000 simulaciones de una variable aleatoria $X$ tal que
 $p_1=0.20, p_2= 0.15, 
 p_3=0.25, p_4=0.40$ donde $p_j=P(X=j)$.
 
-```{r}
+```{r, eval=FALSE, echo=FALSE}
 inv_ej <- function(n = 1000){
     sims_unif <- runif(n)
     sims_x <- case_when( 
@@ -1147,7 +1147,7 @@ de aceptación y rechazo con $q$ la densidad uniforme en $1,...,4$. ¿Cómo se
 compara en velocidad con la función que implementaste usando el método de la 
 transformación inversa?
 
-```{r}
+```{r, eval=FALSE, echo=FALSE}
 sim_acept_rechazo <- function() {
   c <- 0.4 / 0.25
   p_j <- c(0.2, 0.15, 0.25, 0.4)
@@ -1241,7 +1241,8 @@ El algoritmo anterior también provee una manera de generar variables aleatorias
 Poisson. Para esto usamos la relación entre la Poisson y la exponencial:
 
 * Un proceso Poisson con tasa $\lambda$ resulta cuando los tiempos de espera 
-entre eventos sucesivos son exponenciales independientes con parámetro $\beta$,
+entre eventos sucesivos son exponenciales independientes con parámetro 
+$\beta = 1/\lambda$,
 
 * Para este proceso, $N(1)$, el número de eventos en el tiempo 1 se distribuye 
 Poisson con media $1/\beta$. 
@@ -1277,7 +1278,7 @@ $$N = min\{n: U_1\cdot\cdot\cdot U_n < e^{-\lambda}\} - 1$$
 poisson <- function(lambda){
   u <- runif(1)
   N <- 1
-  while(u > exp(-lambda)){
+  while (u > exp(-lambda)) {
     u <- u * runif(1)
     N <- N + 1
   }
@@ -1352,7 +1353,9 @@ aleatoria geométrica con media $c$.
 Usemos el método de aceptación y rechazo para generar observaciones de una 
 variable aleatoria $beta(2,4)$:
 $$f(x)=20x(1-x)^3$$
-La variable aleatoria beta toma valores en el intervalo (0,1) por lo que consideremos $g(x)=1$, para $0<x<1$. Para determinar la menor $c$ tal que $f(x)/g(x)\leq c$ podemos derivar y obtenemos $c = 135/64$,
+La variable aleatoria beta toma valores en el intervalo (0,1) por lo que 
+consideremos $g(x)=1$, para $0<x<1$. Para determinar la menor $c$ tal que 
+$f(x)/g(x)\leq c$ podemos derivar y obtenemos $c = 135/64$,
 $$\frac{f(x)}{g(x)} \leq 20 \cdot \frac{1}{4} \bigg(\frac{3}{4}\bigg)^3 = \frac{135}{64}$$
 
 y 
@@ -1381,15 +1384,20 @@ mean(sims$V1)
 Supongamos que deseamos generar simulaciones de una variable aleatoria con densidad gamma(3/2, 1):
 $$f(x)=\frac{1}{\Gamma(3/2)}x^{1/2}e^{-x}$$
 dado que la variable aleatoria de nuestro interés se concentra en los números positivos, y tiene media $3/2$, es conveniente usar el método de aceptación y rechazo con la variable aleatoria exponencial de la misma media.
-$$g(x)=\frac{2}{3}e^{-x2/3}$$
+$$g(x)=\frac{2}{3}e^{-2x/3}$$
 
 ![](img/manicule2.jpg) Usa el método de aceptación y rechazo para generar 1000 observaciones de una variable aleatoria con distribución gamma(3/2,1).
 
 
 #### Ejemplo: Variable aleatoria normal {-}
-Nuestro objetivo es primero, simular una variable aleatoria normal estándar Z, para ello comencemos notando que el valor absoluto de Z tiene función de densidad:
+
+Nuestro objetivo es primero, simular una variable aleatoria normal estándar Z, 
+para ello comencemos notando que el valor absoluto de Z tiene función de 
+densidad:
 $$f(x)=\frac{2}{\sqrt{2\pi}}e^{-x^2/2}$$
-con soporte en los reales positivos. Generaremos observaciones de la densidad anterior usando el método de aceptación y rechazo con $g$ una densidad exponencial com media 1:
+con soporte en los reales positivos. Generaremos observaciones de la densidad 
+anterior usando el método de aceptación y rechazo con $g$ una densidad 
+exponencial con media 1:
 
 $$g(x)= e^{-x}$$
 
@@ -1423,7 +1431,8 @@ mayor a $(Y_1 - 1)^2/2$, y la diferencia $Y_2 - (Y_1 - 1)^2/2$ se distribuye
 exponencial con parámetro 1. Esto es, cuando aceptamos en el segundo paso no 
 sólo obtenemos $X$ sino que calculando
 $Y_2 - (Y_1 - 1)^2/2$ podemos generar una variable aleatoria exponencial con 
-parámetro 1 independiente de $X$. Esto es relevante pues si estamos generando una
-sucesión de variables aleatorias normales obtendríamos un algoritmo más eficiente.
+parámetro 1 independiente de $X$. Esto es relevante pues si estamos generando 
+una sucesión de variables aleatorias normales obtendríamos un algoritmo más 
+eficiente.
 
 
