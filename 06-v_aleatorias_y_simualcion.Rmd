@@ -1241,7 +1241,8 @@ El algoritmo anterior también provee una manera de generar variables aleatorias
 Poisson. Para esto usamos la relación entre la Poisson y la exponencial:
 
 * Un proceso Poisson con tasa $\lambda$ resulta cuando los tiempos de espera 
-entre eventos sucesivos son exponenciales independientes con parámetro $\beta$,
+entre eventos sucesivos son exponenciales independientes con parámetro 
+$\beta = 1/\lambda$,
 
 * Para este proceso, $N(1)$, el número de eventos en el tiempo 1 se distribuye 
 Poisson con media $1/\beta$. 
@@ -1277,7 +1278,7 @@ $$N = min\{n: U_1\cdot\cdot\cdot U_n < e^{-\lambda}\} - 1$$
 poisson <- function(lambda){
   u <- runif(1)
   N <- 1
-  while(u > exp(-lambda)){
+  while (u > exp(-lambda)) {
     u <- u * runif(1)
     N <- N + 1
   }
@@ -1352,7 +1353,9 @@ aleatoria geométrica con media $c$.
 Usemos el método de aceptación y rechazo para generar observaciones de una 
 variable aleatoria $beta(2,4)$:
 $$f(x)=20x(1-x)^3$$
-La variable aleatoria beta toma valores en el intervalo (0,1) por lo que consideremos $g(x)=1$, para $0<x<1$. Para determinar la menor $c$ tal que $f(x)/g(x)\leq c$ podemos derivar y obtenemos $c = 135/64$,
+La variable aleatoria beta toma valores en el intervalo (0,1) por lo que 
+consideremos $g(x)=1$, para $0<x<1$. Para determinar la menor $c$ tal que 
+$f(x)/g(x)\leq c$ podemos derivar y obtenemos $c = 135/64$,
 $$\frac{f(x)}{g(x)} \leq 20 \cdot \frac{1}{4} \bigg(\frac{3}{4}\bigg)^3 = \frac{135}{64}$$
 
 y 
@@ -1387,9 +1390,14 @@ $$g(x)=\frac{2}{3}e^{-2x/3}$$
 
 
 #### Ejemplo: Variable aleatoria normal {-}
-Nuestro objetivo es primero, simular una variable aleatoria normal estándar Z, para ello comencemos notando que el valor absoluto de Z tiene función de densidad:
+
+Nuestro objetivo es primero, simular una variable aleatoria normal estándar Z, 
+para ello comencemos notando que el valor absoluto de Z tiene función de 
+densidad:
 $$f(x)=\frac{2}{\sqrt{2\pi}}e^{-x^2/2}$$
-con soporte en los reales positivos. Generaremos observaciones de la densidad anterior usando el método de aceptación y rechazo con $g$ una densidad exponencial com media 1:
+con soporte en los reales positivos. Generaremos observaciones de la densidad 
+anterior usando el método de aceptación y rechazo con $g$ una densidad 
+exponencial con media 1:
 
 $$g(x)= e^{-x}$$
 
@@ -1423,7 +1431,8 @@ mayor a $(Y_1 - 1)^2/2$, y la diferencia $Y_2 - (Y_1 - 1)^2/2$ se distribuye
 exponencial con parámetro 1. Esto es, cuando aceptamos en el segundo paso no 
 sólo obtenemos $X$ sino que calculando
 $Y_2 - (Y_1 - 1)^2/2$ podemos generar una variable aleatoria exponencial con 
-parámetro 1 independiente de $X$. Esto es relevante pues si estamos generando una
-sucesión de variables aleatorias normales obtendríamos un algoritmo más eficiente.
+parámetro 1 independiente de $X$. Esto es relevante pues si estamos generando 
+una sucesión de variables aleatorias normales obtendríamos un algoritmo más 
+eficiente.
 
 
