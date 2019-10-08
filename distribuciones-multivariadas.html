@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>8.1 Distribuciones multivariadas | Estadística Computacional</title>
+  <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
+  <meta name="generator" content="bookdown 0.14.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="8.1 Distribuciones multivariadas | Estadística Computacional" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
+  <meta name="github-repo" content="tereom/est-computacional-2019" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="8.1 Distribuciones multivariadas | Estadística Computacional" />
+  
+  <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
+  
+
+<meta name="author" content="María Teresa Ortiz" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="simulación-de-modelos.html"/>
+<link rel="next" href="modelos-gráficos-y-simulación-predictiva.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="libs/d3-3.5.6/d3.min.js"></script>
+<link href="libs/profvis-0.3.6/profvis.css" rel="stylesheet" />
+<script src="libs/profvis-0.3.6/profvis.js"></script>
+<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-6.2.0/highlight.js"></script>
+<script src="libs/profvis-binding-0.3.6/profvis.js"></script>
+<script src="libs/plotly-binding-4.9.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.46.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.46.1/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="css/toc.css" type="text/css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+<link rel="stylesheet" href="css/cajas.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Estadística Computacional</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Información del curso</a><ul>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html"><i class="fa fa-check"></i>Temario</a><ul>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#calificación"><i class="fa fa-check"></i>Calificación</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#software"><i class="fa fa-check"></i>Software</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#otros-recursos"><i class="fa fa-check"></i>Otros recursos</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#noticias"><i class="fa fa-check"></i>Noticias</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="principios-visualización.html"><a href="principios-visualización.html"><i class="fa fa-check"></i><b>1</b> Principios visualización</a><ul>
+<li class="chapter" data-level="1.1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>1.1</b> Introducción</a><ul>
+<li class="chapter" data-level="" data-path="introducción.html"><a href="introducción.html#visualización-de-datos-en-la-estadística"><i class="fa fa-check"></i>Visualización de datos en la estadística</a></li>
+<li class="chapter" data-level="" data-path="introducción.html"><a href="introducción.html#visualización-popular-de-datos"><i class="fa fa-check"></i>Visualización popular de datos</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="teoría-de-visualización-de-datos.html"><a href="teoría-de-visualización-de-datos.html"><i class="fa fa-check"></i><b>1.2</b> Teoría de visualización de datos</a></li>
+<li class="chapter" data-level="1.3" data-path="factor-de-engaño-y-chartjunk.html"><a href="factor-de-engaño-y-chartjunk.html"><i class="fa fa-check"></i><b>1.3</b> Factor de engaño y Chartjunk</a></li>
+<li class="chapter" data-level="1.4" data-path="pequeños-múltiplos-y-densidad-gráfica.html"><a href="pequeños-múltiplos-y-densidad-gráfica.html"><i class="fa fa-check"></i><b>1.4</b> Pequeños múltiplos y densidad gráfica</a></li>
+<li class="chapter" data-level="1.5" data-path="tinta-de-datos.html"><a href="tinta-de-datos.html"><i class="fa fa-check"></i><b>1.5</b> Tinta de datos</a></li>
+<li class="chapter" data-level="1.6" data-path="decoración.html"><a href="decoración.html"><i class="fa fa-check"></i><b>1.6</b> Decoración</a></li>
+<li class="chapter" data-level="1.7" data-path="percepción-de-escala.html"><a href="percepción-de-escala.html"><i class="fa fa-check"></i><b>1.7</b> Percepción de escala</a></li>
+<li class="chapter" data-level="1.8" data-path="ejemplos-gráfica-de-minard.html"><a href="ejemplos-gráfica-de-minard.html"><i class="fa fa-check"></i><b>1.8</b> Ejemplos: gráfica de Minard</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introducción-a-r-y-al-paquete-ggplot2.html"><a href="introducción-a-r-y-al-paquete-ggplot2.html"><i class="fa fa-check"></i><b>2</b> Introducción a R y al paquete ggplot2</a><ul>
+<li class="chapter" data-level="2.1" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html"><i class="fa fa-check"></i><b>2.1</b> R: primeros pasos</a><ul>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#r-en-análisis-de-datos"><i class="fa fa-check"></i>R en análisis de datos</a></li>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#paquetes-y-el-tidyverse"><i class="fa fa-check"></i>Paquetes y el Tidyverse</a></li>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#recursos"><i class="fa fa-check"></i>Recursos</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="visualización-con-ggplot2.html"><a href="visualización-con-ggplot2.html"><i class="fa fa-check"></i><b>2.2</b> Visualización con ggplot2</a><ul>
+<li class="chapter" data-level="" data-path="visualización-con-ggplot2.html"><a href="visualización-con-ggplot2.html#recursos-1"><i class="fa fa-check"></i>Recursos</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="manipulación-y-agrupación-de-datos.html"><a href="manipulación-y-agrupación-de-datos.html"><i class="fa fa-check"></i><b>3</b> Manipulación y agrupación de datos</a><ul>
+<li class="chapter" data-level="3.1" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html"><i class="fa fa-check"></i><b>3.1</b> Transformación de datos</a><ul>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#datos"><i class="fa fa-check"></i>Datos</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#filtrar"><i class="fa fa-check"></i>Filtrar</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#seleccionar"><i class="fa fa-check"></i>Seleccionar</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#ordenar"><i class="fa fa-check"></i>Ordenar</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#mutar"><i class="fa fa-check"></i>Mutar</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#summarise-y-resúmenes-por-grupo"><i class="fa fa-check"></i>Summarise y resúmenes por grupo</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#variables-por-grupo"><i class="fa fa-check"></i>Variables por grupo</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#verbos-de-dos-tablas"><i class="fa fa-check"></i>Verbos de dos tablas</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="datos-limpios.html"><a href="datos-limpios.html"><i class="fa fa-check"></i><b>3.2</b> Datos limpios</a><ul>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#limpieza-bases-de-datos"><i class="fa fa-check"></i>Limpieza bases de datos</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#los-encabezados-de-las-columanas-son-valores"><i class="fa fa-check"></i>Los encabezados de las columanas son valores</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-columna-asociada-a-más-de-una-variable"><i class="fa fa-check"></i>Una columna asociada a más de una variable</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#variables-almacenadas-en-filas-y-columnas"><i class="fa fa-check"></i>Variables almacenadas en filas y columnas</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-misma-unidad-observacional-está-almacenada-en-múltiples-tablas"><i class="fa fa-check"></i>Una misma unidad observacional está almacenada en múltiples tablas</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#otras-consideraciones"><i class="fa fa-check"></i>Otras consideraciones</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#recursos-adicionales"><i class="fa fa-check"></i>Recursos adicionales</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="temas-selectos-de-r.html"><a href="temas-selectos-de-r.html"><i class="fa fa-check"></i><b>4</b> Temas selectos de R</a><ul>
+<li class="chapter" data-level="4.1" data-path="funciones-e-iteración.html"><a href="funciones-e-iteración.html"><i class="fa fa-check"></i><b>4.1</b> Funciones e iteración</a><ul>
+<li class="chapter" data-level="" data-path="funciones-e-iteración.html"><a href="funciones-e-iteración.html#funciones"><i class="fa fa-check"></i>Funciones</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="vectores.html"><a href="vectores.html"><i class="fa fa-check"></i><b>4.2</b> Vectores</a><ul>
+<li class="chapter" data-level="" data-path="vectores.html"><a href="vectores.html#propiedades"><i class="fa fa-check"></i>Propiedades</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="iteración.html"><a href="iteración.html"><i class="fa fa-check"></i><b>4.3</b> Iteración</a><ul>
+<li class="chapter" data-level="" data-path="iteración.html"><a href="iteración.html#ciclos-for"><i class="fa fa-check"></i>Ciclos for</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html"><i class="fa fa-check"></i><b>4.4</b> Rendimiento en R</a><ul>
+<li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#diagnosticar"><i class="fa fa-check"></i>Diagnosticar</a></li>
+<li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#estrategias-para-mejorar-desempeño"><i class="fa fa-check"></i>Estrategias para mejorar desempeño</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="lecturas-y-recursos-recomendados-de-r.html"><a href="lecturas-y-recursos-recomendados-de-r.html"><i class="fa fa-check"></i><b>4.5</b> Lecturas y recursos recomendados de R</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="introducción-a-cálculo-de-probabilidades.html"><a href="introducción-a-cálculo-de-probabilidades.html"><i class="fa fa-check"></i><b>5</b> Introducción a Cálculo de Probabilidades</a><ul>
+<li class="chapter" data-level="5.1" data-path="probabilidad-como-extensión-de-proporción.html"><a href="probabilidad-como-extensión-de-proporción.html"><i class="fa fa-check"></i><b>5.1</b> Probabilidad como extensión de proporción</a></li>
+<li class="chapter" data-level="5.2" data-path="interpretación-frecuentista-de-probabilidad.html"><a href="interpretación-frecuentista-de-probabilidad.html"><i class="fa fa-check"></i><b>5.2</b> Interpretación frecuentista de probabilidad</a><ul>
+<li class="chapter" data-level="" data-path="interpretación-frecuentista-de-probabilidad.html"><a href="interpretación-frecuentista-de-probabilidad.html#resultados-empíricos-acerca-de-frecuencias-relativas"><i class="fa fa-check"></i>Resultados empíricos acerca de frecuencias relativas</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="simulación-para-el-cálculo-de-probabilidades.html"><a href="simulación-para-el-cálculo-de-probabilidades.html"><i class="fa fa-check"></i><b>5.3</b> Simulación para el cálculo de probabilidades</a></li>
+<li class="chapter" data-level="5.4" data-path="modelos-de-probabilidad-definición-general.html"><a href="modelos-de-probabilidad-definición-general.html"><i class="fa fa-check"></i><b>5.4</b> Modelos de probabilidad (definición general)</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="modelos-de-probabilidad-definición-general.html"><a href="modelos-de-probabilidad-definición-general.html#espacios-discretos"><i class="fa fa-check"></i><b>5.4.1</b> Espacios discretos</a></li>
+<li class="chapter" data-level="5.4.2" data-path="modelos-de-probabilidad-definición-general.html"><a href="modelos-de-probabilidad-definición-general.html#espacios-continuos"><i class="fa fa-check"></i><b>5.4.2</b> Espacios continuos</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="probabilidad-definición-matemática.html"><a href="probabilidad-definición-matemática.html"><i class="fa fa-check"></i><b>5.5</b> Probabilidad: definición matemática</a><ul>
+<li class="chapter" data-level="" data-path="probabilidad-definición-matemática.html"><a href="probabilidad-definición-matemática.html#propiedades-de-la-función-de-probabilidad"><i class="fa fa-check"></i>Propiedades de la función de probabilidad:</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html"><i class="fa fa-check"></i><b>5.6</b> Variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html#distribución-de-probabilidad"><i class="fa fa-check"></i>Distribución de probabilidad</a></li>
+<li class="chapter" data-level="" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html#variables-aleatorias-continuas"><i class="fa fa-check"></i>Variables aleatorias continuas</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="bootstrap-no-paramétrico.html"><a href="bootstrap-no-paramétrico.html"><i class="fa fa-check"></i><b>6</b> Bootstrap no paramétrico</a><ul>
+<li class="chapter" data-level="6.1" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html"><i class="fa fa-check"></i><b>6.1</b> El principio del plug-in</a><ul>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#muestras-aleatorias"><i class="fa fa-check"></i>Muestras aleatorias</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#función-de-distribución-empírica"><i class="fa fa-check"></i>Función de distribución empírica</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#parámetros-y-estadísticas"><i class="fa fa-check"></i>Parámetros y estadísticas</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#distribuciones-muestrales-y-errores-estándar"><i class="fa fa-check"></i>Distribuciones muestrales y errores estándar</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="el-estimador-bootstrap-del-error-estándar.html"><a href="el-estimador-bootstrap-del-error-estándar.html"><i class="fa fa-check"></i><b>6.2</b> El estimador bootstrap del error estándar</a><ul>
+<li class="chapter" data-level="" data-path="el-estimador-bootstrap-del-error-estándar.html"><a href="el-estimador-bootstrap-del-error-estándar.html#variación-en-distribuciones-bootstrap"><i class="fa fa-check"></i>Variación en distribuciones bootstrap</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="intervalos-de-confianza.html"><a href="intervalos-de-confianza.html"><i class="fa fa-check"></i><b>6.3</b> Intervalos de confianza</a></li>
+<li class="chapter" data-level="6.4" data-path="más-alla-de-muestras-aleatorias-simples.html"><a href="más-alla-de-muestras-aleatorias-simples.html"><i class="fa fa-check"></i><b>6.4</b> Más alla de muestras aleatorias simples</a></li>
+<li class="chapter" data-level="6.5" data-path="bootstrap-en-r.html"><a href="bootstrap-en-r.html"><i class="fa fa-check"></i><b>6.5</b> Bootstrap en R</a></li>
+<li class="chapter" data-level="6.6" data-path="conclusiones-y-observaciones.html"><a href="conclusiones-y-observaciones.html"><i class="fa fa-check"></i><b>6.6</b> Conclusiones y observaciones</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="teoría-básica-de-simulación.html"><a href="teoría-básica-de-simulación.html"><i class="fa fa-check"></i><b>7</b> Teoría básica de simulación</a><ul>
+<li class="chapter" data-level="7.1" data-path="números-pseudoaleatorios.html"><a href="números-pseudoaleatorios.html"><i class="fa fa-check"></i><b>7.1</b> Números pseudoaleatorios</a><ul>
+<li class="chapter" data-level="" data-path="números-pseudoaleatorios.html"><a href="números-pseudoaleatorios.html#generadores-congruenciales-y-mersenne-twister"><i class="fa fa-check"></i>Generadores congruenciales y Mersenne-Twister</a></li>
+<li class="chapter" data-level="" data-path="números-pseudoaleatorios.html"><a href="números-pseudoaleatorios.html#pruebas-de-aleatoriedad"><i class="fa fa-check"></i>Pruebas de aleatoriedad</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html"><i class="fa fa-check"></i><b>7.2</b> Variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html#familias-discretas-importantes"><i class="fa fa-check"></i>Familias discretas importantes</a></li>
+<li class="chapter" data-level="" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html#familias-continuas-importantes"><i class="fa fa-check"></i>Familias Continuas importantes</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="simulación-de-variables-aleatorias.html"><a href="simulación-de-variables-aleatorias.html"><i class="fa fa-check"></i><b>7.3</b> Simulación de variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias.html"><a href="simulación-de-variables-aleatorias.html#variables-aletaorias-discretas"><i class="fa fa-check"></i>Variables aletaorias discretas</a></li>
+<li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias.html"><a href="simulación-de-variables-aleatorias.html#aceptación-y-rechazo"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
+<li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias.html"><a href="simulación-de-variables-aleatorias.html#variables-aleatorias-continuas-2"><i class="fa fa-check"></i>Variables aleatorias continuas</a></li>
+<li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias.html"><a href="simulación-de-variables-aleatorias.html#aceptación-y-rechazo-1"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="simulación-de-modelos.html"><a href="simulación-de-modelos.html"><i class="fa fa-check"></i><b>8</b> Simulación de modelos</a><ul>
+<li class="chapter" data-level="" data-path="simulación-de-modelos.html"><a href="simulación-de-modelos.html#para-qué-simular-de-un-modelo"><i class="fa fa-check"></i>¿Para qué simular de un modelo?</a></li>
+<li class="chapter" data-level="8.1" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html"><i class="fa fa-check"></i><b>8.1</b> Distribuciones multivariadas</a><ul>
+<li class="chapter" data-level="" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#regla-de-bayes"><i class="fa fa-check"></i>Regla de Bayes</a></li>
+<li class="chapter" data-level="" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#independencia"><i class="fa fa-check"></i>Independencia</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="modelos-gráficos-y-simulación-predictiva.html"><a href="modelos-gráficos-y-simulación-predictiva.html"><i class="fa fa-check"></i><b>8.2</b> Modelos gráficos y simulación predictiva</a></li>
+<li class="chapter" data-level="8.3" data-path="inferencia-visual.html"><a href="inferencia-visual.html"><i class="fa fa-check"></i><b>8.3</b> Inferencia visual</a><ul>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#inferencia"><i class="fa fa-check"></i>Inferencia</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#protocolos-de-inferencia-visual"><i class="fa fa-check"></i>Protocolos de inferencia visual</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#pruebas-de-hipótesis-típicas"><i class="fa fa-check"></i>Pruebas de hipótesis típicas</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#inferencia-visual-1"><i class="fa fa-check"></i>Inferencia visual</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#más-allá-que-permutación"><i class="fa fa-check"></i>Más allá que permutación</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#otras-consideraciones-1"><i class="fa fa-check"></i>Otras consideraciones</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="simulación-para-cálculo-de-tamaño-de-muestrapoder-estadístico.html"><a href="simulación-para-cálculo-de-tamaño-de-muestrapoder-estadístico.html"><i class="fa fa-check"></i><b>8.4</b> Simulación para cálculo de tamaño de muestra/poder estadístico</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
+<li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos-1.html"><a href="transformación-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
+<li class="chapter" data-level="" data-path="unión-de-tablas-y-limpieza-de-datos.html"><a href="unión-de-tablas-y-limpieza-de-datos.html"><i class="fa fa-check"></i>3. Unión de tablas y limpieza de datos</a></li>
+<li class="chapter" data-level="" data-path="programación-funcional-y-distribución-muestral.html"><a href="programación-funcional-y-distribución-muestral.html"><i class="fa fa-check"></i>4. Programación funcional y distribución muestral</a><ul>
+<li class="chapter" data-level="" data-path="programación-funcional-y-distribución-muestral.html"><a href="programación-funcional-y-distribución-muestral.html#solución-bootstrap"><i class="fa fa-check"></i>Solución + bootstrap</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bootstrap-conteo.html"><a href="bootstrap-conteo.html"><i class="fa fa-check"></i>5. Bootstrap conteo</a></li>
+<li class="chapter" data-level="" data-path="respuesta-ejercicios-clase.html"><a href="respuesta-ejercicios-clase.html"><i class="fa fa-check"></i>Respuesta ejercicios clase</a></li>
+<li class="chapter" data-level="" data-path="más-bootstrap.html"><a href="más-bootstrap.html"><i class="fa fa-check"></i>6. Más bootstrap</a></li>
+<li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias-1.html"><a href="simulación-de-variables-aleatorias-1.html"><i class="fa fa-check"></i>7. Simulación de variables aleatorias</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Estadística Computacional</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="distribuciones-multivariadas" class="section level2">
+<h2><span class="header-section-number">8.1</span> Distribuciones multivariadas</h2>
+<p>Hasta ahora hemos estudiado distribuciones univariadas y como simular de ellas,
+sin embargo, es común que un modelo probabilístico involucre más de una variable
+aleatoria por lo que estudiaremos el concepto de distribuciones de probabilidad
+multivariadas.</p>
+<div class="caja">
+<p>La <strong>distribución conjunta</strong> sobre un conjunto de variables aleatorias
+<span class="math inline">\(\{X_1,...,X_n\}\)</span>, que denotamos <span class="math inline">\(p(x_1,...,x_n)\)</span>, asigna probabilidades a todos
+los eventos determinados por el conjunto de variables aleatorias.</p>
+<p>En el caso <strong>discreto bivariado</strong>, dado las variables aleatorias discretas <span class="math inline">\(X\)</span> y
+<span class="math inline">\(Y\)</span>, definimos la función de densidad conjunta como <span class="math inline">\(f(x,y)=P(X=x, Y=y)\)</span>.</p>
+</div>
+<p><strong>Ejemplo.</strong> Consideremos una distribución sobre la población de departamentos
+en renta de Hong Kong, el espacio de resultados es el conjunto de todos los
+departamentos en la población. En muchas ocasiones buscamos resolver preguntas
+que involucran más de una variable aleatoria, en este ejemplo nos interesan:</p>
+<ul>
+<li><p>Renta mensual: toma los valores baja (≤1k), media ((1k,5k]),
+media alta ((5k,12k]) y alta (&gt;12k).</p></li>
+<li><p>Tipo de departamento: toma 3 valores, público, privado u otros.</p></li>
+</ul>
+<p>La distribución conjunta de variables aleatorias discretas se puede representar
+por medio de tablas.</p>
+<div class="mi-tabla">
+<table>
+<thead>
+<tr class="header">
+<th>Renta/Tipo</th>
+<th>público</th>
+<th>privado</th>
+<th>otros</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>baja</strong></td>
+<td>0.17</td>
+<td>0.01</td>
+<td>0.02</td>
+</tr>
+<tr class="even">
+<td><strong>media</strong></td>
+<td>0.44</td>
+<td>0.03</td>
+<td>0.01</td>
+</tr>
+<tr class="odd">
+<td><strong>media alta</strong></td>
+<td>0.09</td>
+<td>0.07</td>
+<td>0.01</td>
+</tr>
+<tr class="even">
+<td><strong>alta</strong></td>
+<td>0</td>
+<td>0.14</td>
+<td>0.10</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="caja">
+<p>En el caso <strong>continuo bivariado</strong>, decimos que la función <span class="math inline">\(p(x,y)\)</span> es una
+función de densidad de probabilidad para las variables aleatorias <span class="math inline">\((X,Y)\)</span> si:
+1. <span class="math inline">\(p(x,y) \geq 0\)</span> para toda <span class="math inline">\((x,y)\)</span>.</p>
+<ol start="2" style="list-style-type: decimal">
+<li><p><span class="math inline">\(\int_{-\infty}^{\infty}p(x,y)dxdy=1\)</span>.</p></li>
+<li>Para cualquier conjunto <span class="math inline">\(A \subset \mathbb{R} \times \mathbb{R}\)</span>,
+<span class="math inline">\(P((X,Y) \in A) = \int\int_A p(x,y)dxdy\)</span>.</li>
+</ol>
+</div>
+<p><strong>Ejemplo.</strong> Sean <span class="math inline">\((X,Y)\)</span> uniformes en el cuadrado unitario, entonces
+<span class="math display">\[
+p(x,y) = \left\{
+  \begin{array}{lr}
+    1,   &amp;  0\leq x \leq 1,0\leq y \leq 1\\
+    0, &amp;  e.o.c.
+  \end{array}
+\right.
+\]</span></p>
+<p>Para encontrar <span class="math inline">\(P(X &lt; \frac{1}{2}, Y&lt;\frac{1}{2})\)</span>, esto es la probailidad del evento
+<span class="math inline">\(A=\{X&lt;1/2, Y&lt;1/2\}\)</span>. La integral de <span class="math inline">\(p\)</span> sobre este subconjunto corresponde,
+en este caso, a calcular el área del conjunto <span class="math inline">\(A\)</span> que es igual a <span class="math inline">\(\frac{1}{4}\)</span>.</p>
+<p>De la distribución conjunta <span class="math inline">\(p(x_1,...,x_n)\)</span> podemos obtener la distribución de
+únciamente una variable aleatoria <span class="math inline">\(X_j\)</span>, donde <span class="math inline">\(X_j \in \{X_1,...,X_n\}\)</span>, la
+llamamos la distribución marginal de <span class="math inline">\(X_j\)</span>.</p>
+<br/>
+<div class="caja">
+<p>Sea <span class="math inline">\(\{X_1,...,X_n\}\)</span> un conjunto de variables aleatorias con distribución
+conjunta <span class="math inline">\(p(x_1,...,x_n)\)</span>, la <strong>distribución marginal</strong> de <span class="math inline">\(X_j\)</span>
+(<span class="math inline">\(j \in \{1,...,n\}\)</span>) se define como,
+<span class="math display">\[p_{X_j}(x_j) = \sum_{x_1,...,x_{j-1},x_{j+1},...,x_n}p(x_1,...,x_n)\mbox{ en el caso discreto,}\]</span>
+<span class="math display">\[p_{X_j}(x_j) = \int_{x_1,...,x_{j-1},x_{j+1},...,x_n}p(x_1,...,x_n)dx_1,...,dx_n\mbox{ en el caso continuo}\]</span></p>
+</div>
+<p><br/></p>
+<p><strong>Ejemplo.</strong> Retomando el problema de los departamentos, ¿Cuál es la
+probabilidad de que un departamento elegido al azar tenga renta baja?</p>
+<!--
+
+Renta/Tipo    |público | privado |otros |p(Renta)  
+--------------|:--------|:---------|:------|:-------  
+**baja**      |0.17    |0.01     |0.02   | **0.2**
+**media**     |0.44    |0.03     |0.01   | **0.48**
+**media alta**|0.09    |0.07     |0.01   | **0.17**
+**alta**      |0       |0.14     |0.10   |**0.15**
+**p(Tipo)**   |**0.7** |**0.25** |**0.5**|**1**  
+-->
+<div id="probabilidad-condicional" class="section level4 unnumbered">
+<h4>Probabilidad condicional</h4>
+<div class="caja">
+<p>Sean <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> dos eventos, con <span class="math inline">\(P(B)&gt;0\)</span>, la probabilidad
+condicional de <span class="math inline">\(A\)</span> dado <span class="math inline">\(B\)</span> es</p>
+<p><span class="math display">\[P(A|B)=\frac{P(AB)}{P(B)}\]</span></p>
+</div>
+<p><strong>Ejemplo.</strong> ¿Cuál es la probabilidad de que un departamento privado tenga
+renta <em>baja</em>? ¿Cómo se compara con la probabilidad de que la renta sea baja
+(desconozco el tipo de departamento)?</p>
+<p>La noción de probabilidad condicional se extiende a distribuciones
+condicionales:</p>
+<div class="caja">
+<p>Sean <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span> dos variables aleatorias con función de densidad conjunta
+<span class="math inline">\(p(x,y)\)</span>, entonces la <strong>función de densidad condicional</strong> de <span class="math inline">\(X\)</span> dado <span class="math inline">\(Y=y\)</span>,
+para toda <span class="math inline">\(y\)</span> tal que <span class="math inline">\(p_Y(y) &gt; 0\)</span>, se define como
+<span class="math display">\[p_{X\vert Y}(x\vert y) = \frac{p(x, y)}{p_Y(y).}\]</span></p>
+</div>
+<p><br/></p>
+<p><strong>Ejemplo.</strong> ¿Cuál es la distribución condicional de <em>renta</em> dado tipo
+<em>privado</em>? Para obtener toda la distribución condicional calculamos los dos casos
+restantes (renta media, media alta y alta).
+<br/></p>
+<p>Vale la pena destacar que una distribución condicional es una distribución de
+probabilidad. En el ejemplo anterior, notemos que cada renglón de la tabla
+probabilidades suman uno, son no negativas y menores que uno.</p>
+</div>
+<div id="probabilidad-total" class="section level4 unnumbered">
+<h4>Probabilidad Total</h4>
+<div class="caja">
+<p>Sean <span class="math inline">\(E\)</span>, <span class="math inline">\(F\)</span> dos eventos entonces,
+<span class="math display">\[P(E) = P(E\vert F)P(F) + P(E\vert F^c)P(F^c).\]</span>
+De manera más general, sean <span class="math inline">\(F_i\)</span> <span class="math inline">\(i = 1,...,n\)</span> eventos mutuamente excluyentes cuya unión es el espacio muestral, entonces
+<span class="math display">\[P(E) = \sum_{i=1}^n P(E\vert F_i)P(F_i).\]</span></p>
+</div>
+<p><strong>Ejemplo.</strong> Supongamos que una aseguradora clasifica a la gente en tres grupos
+de acuerdo a su nivel de riesgo: <em>bajo</em>, <em>medio</em> y <em>alto</em>. De acuerdo a los registros,
+las probabilidades de incurrir en un accidente en un laspo de un año son <span class="math inline">\(0.05\)</span>,
+<span class="math inline">\(0.15\)</span> y <span class="math inline">\(0.30\)</span> respectivamente. Si el <span class="math inline">\(20\%\)</span> de la población se clasifica en riesgo
+bajo, <span class="math inline">\(50\%\)</span> en medio y <span class="math inline">\(30\%\)</span> en alto, ¿qué proporción de la población tiene un
+accidente en un año dado?</p>
+<p>Para variables aleatorias tenemos:</p>
+<div class="caja">
+<p>Sean <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span> dos variables aleatorias, podemos expresar la distribución
+marginal de <span class="math inline">\(X\)</span> como:
+<span class="math display">\[p_X(x) = \sum_{y} p_{X \vert Y}(x\vert y)p_Y(y).\]</span></p>
+</div>
+<p><br/></p>
+<p><img src="img/manicule2.jpg" /> Supongamos que ruedo un dado, si observo un número
+par lanzo una moneda justa
+(la probabilidad de observar águila es la misma que la de observar sol), si el
+dado muestra un número impar lanzo una moneda sesgada en la que la probabilidad
+de observar águila es <span class="math inline">\(0.9\)</span>. Si observo sol, ¿Cuál es la probabilidad de que haya
+lanzado la moneda sesgada?</p>
+<p>El ejercicio anterior introduce la noción de probabilidad inversa: inicialmente
+conozco la probabilidad de observar sol condicional a que la moneda es sesgada
+pero ahora me interesa conocer la probabilidad de que haya lanzado una moneda
+sesgada una vez que observé un sol en el volado.</p>
+</div>
+<div id="regla-de-bayes" class="section level3 unnumbered">
+<h3>Regla de Bayes</h3>
+<p>La regla de Bayes es una consecuencia de la definición de probabilidad
+condicional.</p>
+<div class="caja">
+<p>Sean <span class="math inline">\(F_i\)</span> y <span class="math inline">\(i = 1,...,n\)</span> eventos mutuamente excluyentes cuya unión es el espacio
+muestral, entonces
+<span class="math display">\[P(F_j\vert E) = \frac{P(E\vert F_j)P(F_j)}{\sum_{i=1}^n P(E\vert F_i)P(F_i)}\]</span>
+esta identidad se conoce como la <strong>regla de Bayes</strong>.</p>
+</div>
+<p><strong>Ejemplo.</strong> En el contexto del ejemplo de los seguros ahora nos hacemos la
+siguiente pregunta: si un asegurado tuvo accidentes en 2013, ¿cuál es la
+probabilidad de que clasifique en riesgo bajo?</p>
+<!--
+$$P(B\vert Accidente) = \frac{P(Accidente\vert B)P(B)}{P(Accidente\vert B)P(B) + P(Accidente\vert M)P(M) + P(Accidente\vert A)P(A)}$$
+Notemos que el denominador corresponde a la probabilidad de accidente que calculamos previamente ($P(Accidente) = 0.175$), 
+$$P(B\vert Accidente) = \frac{0.05\cdot 0.20}{0.175} \approx .057$$
+La nueva información implica que actualizemos de $P(B)= 0.20$ a $P(B\vert Accidente)=0.057$.
+-->
+<p><img src="img/manicule2.jpg" /> <a href="http://www.amazon.com/The-Drunkards-Walk-Randomness-Rules/dp/0307275175">La intuición es engañosa</a>:
+En estudios en Alemania y EUA, investigadores
+le pidieron a médicos que estimaran la probabilidad de que una mujer
+asintomática entre los <span class="math inline">\(40\)</span> y <span class="math inline">\(50\)</span> años tuviera cáncer de mama si su mamograma
+era positivo. Se les explicó que el <span class="math inline">\(7\%\)</span> de los mamogramas indican cáncer cuando
+no lo hay (falsos positivos). Adicional mente, se le explicó a los médicos que
+la incidencia de cáncer de mama en ese grupo de edad es <span class="math inline">\(0.8\%\)</span> y la tasa de
+falsos negativos de <span class="math inline">\(10\%\)</span>. En Alemania, un tercio de los médicos determinaron
+que la probabilidad era cercana al <span class="math inline">\(90\%\)</span> y la mediana de las estimaciones fue
+<span class="math inline">\(70\%\)</span>. En EUA <span class="math inline">\(95\)</span> de <span class="math inline">\(100\)</span> médicos estimaron que la probabilidad rondaba el <span class="math inline">\(75\%\)</span>.
+¿Cómo determinas la probabilidad de que una mujer con mamograma positivo tenga
+cáncer?</p>
+<p>Al igual que con probabilidad condicional, la Regla de Bayes tiene una
+definición análoga para variables aleatorias.</p>
+<div class="caja">
+<p>Sean <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span> dos variables aleatorias,
+<span class="math display">\[p_{X\vert Y}(x\vert y) = \frac{p_{Y\vert X}(y\vert x)p_X(x)}{p_Y(y)}.\]</span></p>
+</div>
+<p><img src="img/manicule2.jpg" /> Supongamos ahora que una compañía de
+seguros divide a la gente en dos clases: propensos a accidente (30% de las
+personas) y no propensos a accidente. En un año dado aquellos propensos a
+accidentes sufren un accidente con probabilidad 0.4, mientras que los del otro
+grupo sufren un accidente con probabilidad 0.2. ¿Cuál es la probabilidad de que
+un asegurado tenga un accidente en su segundo año condicional a que sufrió un
+accidente en el primer año?</p>
+<p>Una consecuencia de la regla de Bayes es que cualquier distribución multivariada
+sobre <span class="math inline">\(n\)</span> variables <span class="math inline">\(X_1,X_2,...X_n\)</span> se puede expresar como:</p>
+<div class="caja">
+<p><span class="math display">\[p(x_1,x_2,...x_n) = p_{X_1}(x_1)p_{X_2\vert X_1}(x_2\vert x_1)p_{X_3\vert X_1X_2}(x_3\vert x_1x_2)···p_{X_n\vert X_1...X_{n-1}}(x_n\vert x_1...x_{n-1})\]</span>
+esta igualdad se conoce como <strong>regla de la cadena</strong>.</p>
+</div>
+<p>Nótese que esta regla funciona para cualquier ordenamiento de las variables aleatorias.</p>
+</div>
+<div id="independencia" class="section level3 unnumbered">
+<h3>Independencia</h3>
+<div class="caja">
+<p>Los eventos <span class="math inline">\(E\)</span>, <span class="math inline">\(F\)</span> son independientes sí y solo sí
+<span class="math display">\[P(EF) = P(E)P(F)\]</span></p>
+</div>
+<p>De la definición de independencia se sigue que <span class="math inline">\(P(E\vert F) = P(E)\)</span>. Esto es,
+los eventos <span class="math inline">\(E\)</span> y <span class="math inline">\(F\)</span> son independientes si saber que uno de ellos ocurrió no
+afecta la probabilidad del otro. Utilizaremos la notación <span class="math inline">\(E\perp F\)</span> que se lee “<span class="math inline">\(E\)</span> es independiente de <span class="math inline">\(F\)</span>”.</p>
+<div class="caja">
+<p>Dos variables aleatorias <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span>, son independientes sí y sólo sí
+<span class="math display">\[p(x,y) = p_X(x)p_Y(y)\]</span></p>
+</div>
+<p><br/></p>
+<p>Más aún, <span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> son independientes sí y sólo sí <span class="math inline">\(p(x,y) \propto g(x)h(y)\)</span>,
+por lo que para demostrar independecia podemos omitir las constantes en la
+factorización de las densidades</p>
+<p>Similar a la independencia en eventos, la independencia de variables aleatorias implica que <span class="math inline">\(p_{X\vert Y}(x\vert y) = p_X(x)\)</span>, esto es, <span class="math inline">\(Y = y\)</span> no provee
+información sobre <span class="math inline">\(X\)</span>.</p>
+<p><strong>Ejemplo.</strong> Consideremos la función de densidad conjunta <span class="math inline">\(p(x,y) = \frac{1}{384} x^2y^4e^{-y-(x/2)}\)</span>, <span class="math inline">\(x&gt;0\)</span>, <span class="math inline">\(y&gt;0\)</span>, ¿<span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> son independientes?</p>
+<p>Podemos definir
+<span class="math display">\[
+g(x) = \left\{
+  \begin{array}{lr}
+    x^2e^{-x/2} &amp; : x &gt; 0\\
+    0 &amp; : x \le 0
+  \end{array}
+\right.
+\]</span>
+y
+<span class="math display">\[
+h(y) = \left\{
+  \begin{array}{lr}
+    y^4e^{-y} &amp; : y &gt; 0\\
+    0 &amp; : y \le 0
+  \end{array}
+\right.
+\]</span>
+entonces <span class="math inline">\(p(x,y) \propto g(x)h(y)\)</span>, para toda <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span> <span class="math inline">\(\in \mathbb{R}\)</span> y
+concluímos que <span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> son independientes.</p>
+<p>**Ejemplo.*. Si la densidad conjunta de <span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> está dada por:
+<span class="math display">\[
+p(x, y) = \left\{
+  \begin{array}{lr}
+    2 &amp; : 0 &lt; x &lt; y, 0 &lt; y &lt; 1\\
+    0 &amp; : e.o.c.
+  \end{array}
+\right.
+\]</span></p>
+<p>¿<span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> son independientes?</p>
+<p><strong>Ejercicio</strong>. Recordando el ejemplo de departamentos en Hong Kong, veamos si
+Renta y Tipo son independientes, para esto comparemos <span class="math inline">\(p(renta|tipo)\)</span> y
+<span class="math inline">\(p(renta)\)</span>.</p>
+<div id="independencia-condicional" class="section level4">
+<h4><span class="header-section-number">8.1.0.1</span> Independencia condicional</h4>
+<p>La independencia de eventos o variables aleatorias es poco común en la práctica,
+más frecuente es el caso en que dos eventos son independientes dado un tercer
+evento.</p>
+<p><strong>Ejemplo.</strong> En una competencia de velocidad, cada atleta
+se somete a dos pruebas de dopaje que buscan detectar si el deportista ingirió
+una substania prohibida. La prueba A consiste en un examen de sangre y la prueba
+B en un exámen de orina, cada prueba se realiza en un laboratorio distinto y no
+hay intercambio de información entre los laboratorios. Es razonable pensar
+que los resultados de los dos exámenes no son independientes. Ahora, supongamos
+que sabemos que el atleta consumió la substancia prohibida, en este caso
+podemos argumentar que conocer el resultado de la prueba A no cambia la
+probabilidad de que el atleta salga positivo en la prueba B. Decimos que
+el resultado de la prueba B es condicionalmente independiente del resultado
+de la prueba A dado que el atleta consumió la substancia.</p>
+<div class="caja">
+<p>Sean <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> y <span class="math inline">\(C\)</span>, tres eventos decimos que <span class="math inline">\(A\)</span> es independiente de <span class="math inline">\(B\)</span>
+condicional a <span class="math inline">\(C\)</span> (<span class="math inline">\(A \perp B \vert C\)</span>) si,
+<span class="math display">\[ P(A,B\vert C) = P(A\vert C)P(B\vert C)\]</span></p>
+</div>
+<p>Similar al caso de independencia, <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> son condicionalmente independientes
+dado <span class="math inline">\(C\)</span> sí y solo sí <span class="math inline">\(P(A \vert B,C) = P(A \vert C)\)</span>, esto es, una vez que
+conocemos el valor de <span class="math inline">\(C\)</span>, <span class="math inline">\(B\)</span> no proporciona información adicional sobre <span class="math inline">\(A\)</span>.</p>
+<p><strong>Ejemplo.</strong> Retomemos el ejercicio de asegurados. En la solución de este
+ejercicio utilizamos que <span class="math inline">\(P(A_2|AA_1) = 0.4\)</span> y que <span class="math inline">\(P(A_2|A^cA_1) = 0.2\)</span>, al
+establecer esa igualdad estamos asumiendo que <span class="math inline">\(A_2\)</span> (el asegurado tiene un
+accidente en el año 2) y <span class="math inline">\(A_1\)</span> (el asegurado tiene un accidente en el año 1) son
+eventos condicionalmente independientes dado <span class="math inline">\(A\)</span> (el asegurado es propenso a
+accidentes): <span class="math inline">\(P(A_2|AA_1) = P(A_2|A) = 0.4\)</span> y <span class="math inline">\(P(A_2|A^cA_1) = P(A_2|A^c) = 0.2\)</span>.</p>
+<p><strong>Ejemplo.</strong> Retomemos el ejercicio de asegurados. En la solución de este
+ejercicio utilizamos que <span class="math inline">\(P(A_2|AA_1) = 0.4\)</span> y que <span class="math inline">\(P(A_2|A^cA_1) = 0.2\)</span>, al
+establecer esa igualdad estamos asumiendo que <span class="math inline">\(A_2\)</span> (el asegurado tiene un
+accidente en el año 2) y <span class="math inline">\(A_1\)</span> (el asegurado tiene un accidente en el año 1) son
+eventos condicionalmente independientes dado <span class="math inline">\(A\)</span> (el asegurado es propenso a
+accidentes): <span class="math inline">\(P(A_2|AA_1) = P(A_2|A) = 0.4\)</span> y <span class="math inline">\(P(A_2|A^cA_1) = P(A_2|A^c) = 0.2\)</span>.</p>
+<p>En el caso de variables aleatorias definimos independencia condicional como
+sigue.</p>
+<div class="caja">
+<p>Sean <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span> y <span class="math inline">\(Z\)</span>, tres variables aleatorias decimos que <span class="math inline">\(X\)</span> es independiente
+de <span class="math inline">\(Y\)</span> condicional a <span class="math inline">\(Z\)</span> (<span class="math inline">\(X \perp Y \vert Z\)</span>) si y sólo sí,
+<span class="math display">\[p(x,y\vert z) = p_{X\vert Z}(x\vert z)p_{Y\vert Z}(y\vert z).\]</span></p>
+</div>
+<p>Y tenemos que <span class="math inline">\(X\)</span> es independiente de <span class="math inline">\(Y\)</span> condicional a <span class="math inline">\(Z\)</span> sí y sólo sí,
+<span class="math inline">\(p(x,y,z) \propto g(x,z)h(y,z)\)</span>.</p>
+<p><strong>Ejemplo</strong>. Supongamos que ruedo un dado, si observo un número par realizo dos
+lanzamientos de una moneda justa (la probabilidad de observar águila es la misma
+que la de observar sol), si el dado muestra un número impar realizo dos
+lanzamientos de una moneda sesgada en la que la probabilidad de observar águila
+es 0.9. Denotemos por <span class="math inline">\(Z\)</span> la variable aleatoria asociada a la selección de la
+moneda, <span class="math inline">\(X_1\)</span> la correspondiente al primer lanzamiento y <span class="math inline">\(X_2\)</span> la
+correspondiente al segundo. Entonces, <span class="math inline">\(X_1\)</span> y <span class="math inline">\(X_2\)</span> no son independientes, sin
+embargo, son condicionalmente independientes (<span class="math inline">\(X_1 \perp X_2 \vert Z\)</span>), puesto
+que una vez que se que moneda voy a lanzar el resultado del primer lanzamiento
+no aporta información adicional para el segundo lanzamiento. Calcularemos la distribución conjunta y la distribución condicional de <span class="math inline">\(X_2\)</span> dado <span class="math inline">\(X_1\)</span>.</p>
+<p>La distribución conjunta esta determinada por la siguiente tabla:</p>
+<div class="mi-tabla">
+<table>
+<thead>
+<tr class="header">
+<th>Z</th>
+<th align="left">X1</th>
+<th align="left">X2</th>
+<th align="left">P(Z,X1,X2)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>justa</td>
+<td align="left">a</td>
+<td align="left">a</td>
+<td align="left">0.125</td>
+</tr>
+<tr class="even">
+<td>justa</td>
+<td align="left">a</td>
+<td align="left">s</td>
+<td align="left">0.125</td>
+</tr>
+<tr class="odd">
+<td>justa</td>
+<td align="left">s</td>
+<td align="left">a</td>
+<td align="left">0.125</td>
+</tr>
+<tr class="even">
+<td>justa</td>
+<td align="left">s</td>
+<td align="left">s</td>
+<td align="left">0.125</td>
+</tr>
+<tr class="odd">
+<td>ses</td>
+<td align="left">a</td>
+<td align="left">a</td>
+<td align="left">0.405</td>
+</tr>
+<tr class="even">
+<td>ses</td>
+<td align="left">a</td>
+<td align="left">s</td>
+<td align="left">0.045</td>
+</tr>
+<tr class="odd">
+<td>ses</td>
+<td align="left">s</td>
+<td align="left">a</td>
+<td align="left">0.045</td>
+</tr>
+<tr class="even">
+<td>ses</td>
+<td align="left">s</td>
+<td align="left">s</td>
+<td align="left">0.005</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>La distribución condicional <span class="math inline">\(p(X_2|X_1)\)</span> es,</p>
+<div class="mi-tabla">
+<table>
+<thead>
+<tr class="header">
+<th>X1/X2</th>
+<th>a</th>
+<th>s</th>
+<th>.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>a</strong></td>
+<td>0.757</td>
+<td>0.243</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td><strong>s</strong></td>
+<td>0.567</td>
+<td>0.433</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>y la distribución condicional <span class="math inline">\(p(X_2|X_1,Z)=p(X_2|Z)\)</span> es,</p>
+<div class="mi-tabla">
+<table>
+<thead>
+<tr class="header">
+<th>X1/X2</th>
+<th>Z</th>
+<th>a</th>
+<th>s</th>
+<th>.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>a</strong></td>
+<td>par</td>
+<td>0.5</td>
+<td>0.5</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td><strong>s</strong></td>
+<td>par</td>
+<td>0.5</td>
+<td>0.5</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td><strong>a</strong></td>
+<td>impar</td>
+<td>0.9</td>
+<td>0.1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td><strong>s</strong></td>
+<td>impar</td>
+<td>0.9</td>
+<td>0.1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>En este punto es claro que <span class="math inline">\(X \perp Y \vert Z\)</span> no implica <span class="math inline">\(X \perp Y\)</span>, pues
+como vimos en el ejemplo de las monedas <span class="math inline">\(X_1 \perp X_2 \vert Z\)</span> pero
+<span class="math inline">\(X_1 \not \perp X_2\)</span>. Más aún, <span class="math inline">\(X \perp Y\)</span> tampoco implica <span class="math inline">\(X \perp Y \vert Z\)</span>.</p>
+<div class="caja">
+<p>La independencia condicional tiene importantes consecuencias, por ejemplo, si <span class="math inline">\(X\)</span>
+es independiente de <span class="math inline">\(Y\)</span> dado <span class="math inline">\(Z\)</span> entonces,
+<span class="math display">\[p(x,y,z) = p_Z(z)p_{X\vert Z}(x\vert z)p_{Y\vert Z}(y\vert z).\]</span></p>
+</div>
+<p>Esta expresión de la densidad conjunta es similar a la que obtendríamos usando
+la regla de la cadena; sin embargo, el número de parámetros necesarios bajo esta
+representación es menor lo que facilita la estimación.</p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="simulación-de-modelos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="modelos-gráficos-y-simulación-predictiva.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/tereom/est-computacional-2019/edit/master/07-simulacion_modelos.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

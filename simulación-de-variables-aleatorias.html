@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="variables-aleatorias-1.html"/>
-<link rel="next" href="tareas.html"/>
+<link rel="next" href="simulación-de-modelos.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -49,7 +49,7 @@
 
 
 
-<script src="libs/htmlwidgets-1.5/htmlwidgets.js"></script>
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
 <script src="libs/d3-3.5.6/d3.min.js"></script>
 <link href="libs/profvis-0.3.6/profvis.css" rel="stylesheet" />
 <script src="libs/profvis-0.3.6/profvis.js"></script>
@@ -62,7 +62,6 @@
 <script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
 <link href="libs/plotly-htmlwidgets-css-1.46.1/plotly-htmlwidgets.css" rel="stylesheet" />
 <script src="libs/plotly-main-1.46.1/plotly-latest.min.js"></script>
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
 
 
 <style type="text/css">
@@ -266,6 +265,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias.html"><a href="simulación-de-variables-aleatorias.html#aceptación-y-rechazo-1"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="8" data-path="simulación-de-modelos.html"><a href="simulación-de-modelos.html"><i class="fa fa-check"></i><b>8</b> Simulación de modelos</a><ul>
+<li class="chapter" data-level="" data-path="simulación-de-modelos.html"><a href="simulación-de-modelos.html#para-qué-simular-de-un-modelo"><i class="fa fa-check"></i>¿Para qué simular de un modelo?</a></li>
+<li class="chapter" data-level="8.1" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html"><i class="fa fa-check"></i><b>8.1</b> Distribuciones multivariadas</a><ul>
+<li class="chapter" data-level="" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#regla-de-bayes"><i class="fa fa-check"></i>Regla de Bayes</a></li>
+<li class="chapter" data-level="" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#independencia"><i class="fa fa-check"></i>Independencia</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="modelos-gráficos-y-simulación-predictiva.html"><a href="modelos-gráficos-y-simulación-predictiva.html"><i class="fa fa-check"></i><b>8.2</b> Modelos gráficos y simulación predictiva</a></li>
+<li class="chapter" data-level="8.3" data-path="inferencia-visual.html"><a href="inferencia-visual.html"><i class="fa fa-check"></i><b>8.3</b> Inferencia visual</a><ul>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#inferencia"><i class="fa fa-check"></i>Inferencia</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#protocolos-de-inferencia-visual"><i class="fa fa-check"></i>Protocolos de inferencia visual</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#pruebas-de-hipótesis-típicas"><i class="fa fa-check"></i>Pruebas de hipótesis típicas</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#inferencia-visual-1"><i class="fa fa-check"></i>Inferencia visual</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#más-allá-que-permutación"><i class="fa fa-check"></i>Más allá que permutación</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#otras-consideraciones-1"><i class="fa fa-check"></i>Otras consideraciones</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="simulación-para-cálculo-de-tamaño-de-muestrapoder-estadístico.html"><a href="simulación-para-cálculo-de-tamaño-de-muestrapoder-estadístico.html"><i class="fa fa-check"></i><b>8.4</b> Simulación para cálculo de tamaño de muestra/poder estadístico</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
 <li class="chapter" data-level="" data-path="transformación-de-datos-1.html"><a href="transformación-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
@@ -276,7 +292,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="bootstrap-conteo.html"><a href="bootstrap-conteo.html"><i class="fa fa-check"></i>5. Bootstrap conteo</a></li>
 <li class="chapter" data-level="" data-path="respuesta-ejercicios-clase.html"><a href="respuesta-ejercicios-clase.html"><i class="fa fa-check"></i>Respuesta ejercicios clase</a></li>
 <li class="chapter" data-level="" data-path="más-bootstrap.html"><a href="más-bootstrap.html"><i class="fa fa-check"></i>6. Más bootstrap</a></li>
-<li class="chapter" data-level="" data-path="examen-parcial.html"><a href="examen-parcial.html"><i class="fa fa-check"></i>EXAMEN PARCIAL</a></li>
+<li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias-1.html"><a href="simulación-de-variables-aleatorias-1.html"><i class="fa fa-check"></i>7. Simulación de variables aleatorias</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -355,20 +371,6 @@ es por esto que en ocasiones vale la pena considerar los posibles valores
 <p><img src="img/manicule2.jpg" /> Utiliza la función runif de R y el método de
 inversión para generar 1000 simulaciones de una variable aleatoria <span class="math inline">\(X\)</span> tal que
 <span class="math inline">\(p_1=0.20, p_2= 0.15, p_3=0.25, p_4=0.40\)</span> donde <span class="math inline">\(p_j=P(X=j)\)</span>.</p>
-<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb250-1" data-line-number="1">inv_ej &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">n =</span> <span class="dv">1000</span>){</a>
-<a class="sourceLine" id="cb250-2" data-line-number="2">    sims_unif &lt;-<span class="st"> </span><span class="kw">runif</span>(n)</a>
-<a class="sourceLine" id="cb250-3" data-line-number="3">    sims_x &lt;-<span class="st"> </span><span class="kw">case_when</span>( </a>
-<a class="sourceLine" id="cb250-4" data-line-number="4">        sims_unif <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.2</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, </a>
-<a class="sourceLine" id="cb250-5" data-line-number="5">        sims_unif <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.35</span> <span class="op">~</span><span class="st"> </span><span class="dv">2</span>,</a>
-<a class="sourceLine" id="cb250-6" data-line-number="6">        sims_unif <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.6</span> <span class="op">~</span><span class="st"> </span><span class="dv">3</span>,</a>
-<a class="sourceLine" id="cb250-7" data-line-number="7">        <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span><span class="dv">4</span></a>
-<a class="sourceLine" id="cb250-8" data-line-number="8">        )</a>
-<a class="sourceLine" id="cb250-9" data-line-number="9">}</a>
-<a class="sourceLine" id="cb250-10" data-line-number="10">sims &lt;-<span class="st"> </span><span class="kw">inv_ej</span>()</a>
-<a class="sourceLine" id="cb250-11" data-line-number="11"><span class="dv">100</span> <span class="op">*</span><span class="st"> </span><span class="kw">prop.table</span>(<span class="kw">table</span>(sims))</a>
-<a class="sourceLine" id="cb250-12" data-line-number="12"><span class="co">#&gt; sims</span></a>
-<a class="sourceLine" id="cb250-13" data-line-number="13"><span class="co">#&gt;    1    2    3    4 </span></a>
-<a class="sourceLine" id="cb250-14" data-line-number="14"><span class="co">#&gt; 19.2 15.4 24.7 40.7</span></a></code></pre></div>
 </div>
 <div id="ejemplos-1" class="section level4 unnumbered">
 <h4>Ejemplos</h4>
@@ -377,15 +379,15 @@ uniforme discreta que toma valores <span class="math inline">\(1,...,k\)</span>,
 tenemos que:</p>
 <p><span class="math inline">\(X=j\)</span> si <span class="math inline">\(\frac{j-1}{n} \leq U &lt; \frac{j}{n}\)</span></p>
 <p>Entonces <span class="math inline">\(X=[kU] + 1\)</span>, donde <span class="math inline">\([x]\)</span> representa la parte entera de x.</p>
-<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb251-1" data-line-number="1"><span class="co"># uniforme discreta: donde n es el número de simulaciones y k el número de elementos</span></a>
-<a class="sourceLine" id="cb251-2" data-line-number="2">runifD &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">n =</span> <span class="dv">1</span>, k) <span class="kw">floor</span>(k <span class="op">*</span><span class="st"> </span><span class="kw">runif</span>(n)) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb251-3" data-line-number="3"><span class="co"># veamos un histograma de 1000 simulaciones de una distribución Uniforme</span></a>
-<a class="sourceLine" id="cb251-4" data-line-number="4"><span class="co"># discreta con parámetro k = 20</span></a>
-<a class="sourceLine" id="cb251-5" data-line-number="5">x &lt;-<span class="st"> </span><span class="kw">runifD</span>(<span class="dt">n =</span> <span class="dv">1000</span>, <span class="dt">k =</span> <span class="dv">20</span>)</a>
-<a class="sourceLine" id="cb251-6" data-line-number="6"><span class="kw">qplot</span>(x, <span class="dt">binwidth =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb250-1" data-line-number="1"><span class="co"># uniforme discreta: donde n es el número de simulaciones y k el número de elementos</span></a>
+<a class="sourceLine" id="cb250-2" data-line-number="2">runifD &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">n =</span> <span class="dv">1</span>, k) <span class="kw">floor</span>(k <span class="op">*</span><span class="st"> </span><span class="kw">runif</span>(n)) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb250-3" data-line-number="3"><span class="co"># veamos un histograma de 1000 simulaciones de una distribución Uniforme</span></a>
+<a class="sourceLine" id="cb250-4" data-line-number="4"><span class="co"># discreta con parámetro k = 20</span></a>
+<a class="sourceLine" id="cb250-5" data-line-number="5">x &lt;-<span class="st"> </span><span class="kw">runifD</span>(<span class="dt">n =</span> <span class="dv">1000</span>, <span class="dt">k =</span> <span class="dv">20</span>)</a>
+<a class="sourceLine" id="cb250-6" data-line-number="6"><span class="kw">qplot</span>(x, <span class="dt">binwidth =</span> <span class="dv">1</span>)</a></code></pre></div>
 <p><img src="06-v_aleatorias_y_simualcion_files/figure-html/unnamed-chunk-10-1.png" width="300px" style="display: block; margin: auto;" /></p>
 <p>También podmeos usar la función sample de R:</p>
-<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb252-1" data-line-number="1"><span class="kw">qplot</span>(<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, <span class="dt">size =</span> <span class="dv">1000</span>, <span class="dt">replace=</span> <span class="ot">TRUE</span>), <span class="dt">binwidth =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb251-1" data-line-number="1"><span class="kw">qplot</span>(<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, <span class="dt">size =</span> <span class="dv">1000</span>, <span class="dt">replace=</span> <span class="ot">TRUE</span>), <span class="dt">binwidth =</span> <span class="dv">1</span>)</a></code></pre></div>
 <p><img src="06-v_aleatorias_y_simualcion_files/figure-html/unnamed-chunk-11-1.png" width="300px" style="display: block; margin: auto;" /></p>
 <p><strong>Poisson</strong>: la clave para usar el método de la transformación inversa en este
 ejemplo es notar que:
@@ -405,22 +407,22 @@ para generar una observación sequimos los siguientes pasos:</p>
 </li>
 <li>Volver a 3.</li>
 </ol>
-<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb253-1" data-line-number="1"><span class="co"># Poisson usando Inversión</span></a>
-<a class="sourceLine" id="cb253-2" data-line-number="2">rpoisI &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">lambda =</span> <span class="dv">1</span>){</a>
-<a class="sourceLine" id="cb253-3" data-line-number="3">  U &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb253-4" data-line-number="4">  i &lt;-<span class="st"> </span><span class="dv">0</span></a>
-<a class="sourceLine" id="cb253-5" data-line-number="5">  p &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span>lambda)</a>
-<a class="sourceLine" id="cb253-6" data-line-number="6">  P &lt;-<span class="st"> </span>p</a>
-<a class="sourceLine" id="cb253-7" data-line-number="7">  <span class="cf">while</span>(U <span class="op">&gt;=</span><span class="st"> </span>P){</a>
-<a class="sourceLine" id="cb253-8" data-line-number="8">    p &lt;-<span class="st"> </span>lambda <span class="op">*</span><span class="st"> </span>p <span class="op">/</span><span class="st"> </span>(i <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb253-9" data-line-number="9">    P &lt;-<span class="st"> </span>P <span class="op">+</span><span class="st"> </span>p</a>
-<a class="sourceLine" id="cb253-10" data-line-number="10">    i &lt;-<span class="st"> </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb253-11" data-line-number="11">  }</a>
-<a class="sourceLine" id="cb253-12" data-line-number="12">  i</a>
-<a class="sourceLine" id="cb253-13" data-line-number="13">}</a>
-<a class="sourceLine" id="cb253-14" data-line-number="14">sims_pois &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">rpoisI</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a>
-<a class="sourceLine" id="cb253-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb253-16" data-line-number="16"><span class="kw">qplot</span>(sims_pois, <span class="dt">binwidth =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb252-1" data-line-number="1"><span class="co"># Poisson usando Inversión</span></a>
+<a class="sourceLine" id="cb252-2" data-line-number="2">rpoisI &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">lambda =</span> <span class="dv">1</span>){</a>
+<a class="sourceLine" id="cb252-3" data-line-number="3">  U &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb252-4" data-line-number="4">  i &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb252-5" data-line-number="5">  p &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span>lambda)</a>
+<a class="sourceLine" id="cb252-6" data-line-number="6">  P &lt;-<span class="st"> </span>p</a>
+<a class="sourceLine" id="cb252-7" data-line-number="7">  <span class="cf">while</span>(U <span class="op">&gt;=</span><span class="st"> </span>P){</a>
+<a class="sourceLine" id="cb252-8" data-line-number="8">    p &lt;-<span class="st"> </span>lambda <span class="op">*</span><span class="st"> </span>p <span class="op">/</span><span class="st"> </span>(i <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb252-9" data-line-number="9">    P &lt;-<span class="st"> </span>P <span class="op">+</span><span class="st"> </span>p</a>
+<a class="sourceLine" id="cb252-10" data-line-number="10">    i &lt;-<span class="st"> </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb252-11" data-line-number="11">  }</a>
+<a class="sourceLine" id="cb252-12" data-line-number="12">  i</a>
+<a class="sourceLine" id="cb252-13" data-line-number="13">}</a>
+<a class="sourceLine" id="cb252-14" data-line-number="14">sims_pois &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">rpoisI</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a>
+<a class="sourceLine" id="cb252-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb252-16" data-line-number="16"><span class="kw">qplot</span>(sims_pois, <span class="dt">binwidth =</span> <span class="dv">1</span>)</a></code></pre></div>
 <p><img src="06-v_aleatorias_y_simualcion_files/figure-html/unnamed-chunk-12-1.png" width="300px" style="display: block; margin: auto;" /></p>
 <p>El algoritmo que propusimos verifica de manera sucesiva si el valor es 0, 1, etc.
 por lo que el número de comparaciones necesarias será uno más que el valor de
@@ -469,20 +471,6 @@ variable aleatoria <span class="math inline">\(X\)</span> que toma uno de los va
 de aceptación y rechazo con <span class="math inline">\(q\)</span> la densidad uniforme en <span class="math inline">\(1,...,4\)</span>. ¿Cómo se
 compara en velocidad con la función que implementaste usando el método de la
 transformación inversa?</p>
-<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb254-1" data-line-number="1">sim_acept_rechazo &lt;-<span class="st"> </span><span class="cf">function</span>() {</a>
-<a class="sourceLine" id="cb254-2" data-line-number="2">  c &lt;-<span class="st"> </span><span class="fl">0.4</span> <span class="op">/</span><span class="st"> </span><span class="fl">0.25</span></a>
-<a class="sourceLine" id="cb254-3" data-line-number="3">  p_j &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.15</span>, <span class="fl">0.25</span>, <span class="fl">0.4</span>)</a>
-<a class="sourceLine" id="cb254-4" data-line-number="4">  prop &lt;-<span class="st"> </span><span class="kw">floor</span>(<span class="dv">4</span> <span class="op">*</span><span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb254-5" data-line-number="5">  <span class="cf">while</span>(<span class="kw">runif</span>(<span class="dv">1</span>) <span class="op">&gt;</span><span class="st"> </span>p_j[prop] <span class="op">/</span><span class="st"> </span>(c <span class="op">*</span><span class="st"> </span><span class="fl">0.25</span>)){</a>
-<a class="sourceLine" id="cb254-6" data-line-number="6">      prop &lt;-<span class="st"> </span><span class="kw">floor</span>(<span class="dv">4</span> <span class="op">*</span><span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb254-7" data-line-number="7">  }</a>
-<a class="sourceLine" id="cb254-8" data-line-number="8">  prop</a>
-<a class="sourceLine" id="cb254-9" data-line-number="9">}</a>
-<a class="sourceLine" id="cb254-10" data-line-number="10">sims &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">sim_acept_rechazo</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a>
-<a class="sourceLine" id="cb254-11" data-line-number="11"><span class="dv">100</span> <span class="op">*</span><span class="st"> </span><span class="kw">prop.table</span>(<span class="kw">table</span>(sims))</a>
-<a class="sourceLine" id="cb254-12" data-line-number="12"><span class="co">#&gt; sims</span></a>
-<a class="sourceLine" id="cb254-13" data-line-number="13"><span class="co">#&gt;    1    2    3    4 </span></a>
-<a class="sourceLine" id="cb254-14" data-line-number="14"><span class="co">#&gt; 19.7 14.2 26.3 39.8</span></a></code></pre></div>
 </div>
 <div id="variables-aleatorias-continuas-2" class="section level3 unnumbered">
 <h3>Variables aleatorias continuas</h3>
@@ -502,14 +490,14 @@ continuas:</p>
 </li>
 <li>Definimos <span class="math inline">\(X = F^{-1}(U)\)</span>:</li>
 </ol>
-<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb255-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">data_frame</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span> , <span class="dv">2</span>)), <span class="kw">aes</span>(x)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb255-2" data-line-number="2"><span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">color =</span> <span class="st">&quot;gray&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb255-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">0</span>, <span class="dt">color =</span> <span class="st">&quot;gray&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb255-4" data-line-number="4"><span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> qnorm, <span class="kw">aes</span>(<span class="dt">color =</span> <span class="st">&quot;fq&quot;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb255-5" data-line-number="5"><span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, <span class="kw">aes</span>(<span class="dt">color =</span> <span class="st">&quot;fdp&quot;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb255-6" data-line-number="6"><span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> pnorm, <span class="kw">aes</span>(<span class="dt">color =</span> <span class="st">&quot;fda&quot;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb255-7" data-line-number="7"><span class="st">    </span><span class="kw">coord_fixed</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb255-8" data-line-number="8"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">color =</span> <span class="st">&quot;&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Método de transformación inversa caso Normal&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb253-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">data_frame</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span> , <span class="dv">2</span>)), <span class="kw">aes</span>(x)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb253-2" data-line-number="2"><span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">color =</span> <span class="st">&quot;gray&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb253-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">0</span>, <span class="dt">color =</span> <span class="st">&quot;gray&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb253-4" data-line-number="4"><span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> qnorm, <span class="kw">aes</span>(<span class="dt">color =</span> <span class="st">&quot;fq&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb253-5" data-line-number="5"><span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, <span class="kw">aes</span>(<span class="dt">color =</span> <span class="st">&quot;fdp&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb253-6" data-line-number="6"><span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> pnorm, <span class="kw">aes</span>(<span class="dt">color =</span> <span class="st">&quot;fda&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb253-7" data-line-number="7"><span class="st">    </span><span class="kw">coord_fixed</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb253-8" data-line-number="8"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">color =</span> <span class="st">&quot;&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Método de transformación inversa caso Normal&quot;</span>)</a></code></pre></div>
 <p><img src="06-v_aleatorias_y_simualcion_files/figure-html/inversion_normal-1.png" width="480" style="display: block; margin: auto;" /></p>
 </div>
 <div id="ejemplo-exponencial" class="section level4 unnumbered">
@@ -522,28 +510,29 @@ o
 <span class="math display">\[x = -log(1-u)\]</span></p>
 <p>Vale la pena notar que si <span class="math inline">\(U\)</span> tiene distribución <span class="math inline">\(U(0,1)\)</span>, <span class="math inline">\(1-U\)</span> también
 se distribuye uniforme(0,1).</p>
-<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb256-1" data-line-number="1">simExp &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
-<a class="sourceLine" id="cb256-2" data-line-number="2">  u &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb256-3" data-line-number="3">  x &lt;-<span class="st"> </span><span class="op">-</span><span class="kw">log</span>(u)</a>
-<a class="sourceLine" id="cb256-4" data-line-number="4">}</a></code></pre></div>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb254-1" data-line-number="1">simExp &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
+<a class="sourceLine" id="cb254-2" data-line-number="2">  u &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb254-3" data-line-number="3">  x &lt;-<span class="st"> </span><span class="op">-</span><span class="kw">log</span>(u)</a>
+<a class="sourceLine" id="cb254-4" data-line-number="4">}</a></code></pre></div>
 <p>Notemos que para cualquier constante positiva <span class="math inline">\(c\)</span>, <span class="math inline">\(cX\)</span> tiene distribución
 exponencial con media <span class="math inline">\(c\)</span>, por tanto una variable aleatoria exponencial con
 parámetro <span class="math inline">\(\beta\)</span> se puede generar de la siguiente manera:</p>
 <p><span class="math display">\[X=-\beta log(U)\]</span></p>
-<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb257-1" data-line-number="1">sim_exp_beta &lt;-<span class="st"> </span><span class="cf">function</span>(beta, <span class="dt">n =</span> <span class="dv">1000</span>){</a>
-<a class="sourceLine" id="cb257-2" data-line-number="2">  <span class="op">-</span>beta <span class="op">*</span><span class="st"> </span><span class="kw">log</span>(<span class="kw">runif</span>(n))</a>
-<a class="sourceLine" id="cb257-3" data-line-number="3">}</a>
-<a class="sourceLine" id="cb257-4" data-line-number="4">sims_exp &lt;-<span class="st"> </span><span class="kw">sim_exp_beta</span>(<span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb257-5" data-line-number="5"><span class="kw">mean</span>(sims_exp)</a>
-<a class="sourceLine" id="cb257-6" data-line-number="6"><span class="co">#&gt; [1] 1.9577</span></a>
-<a class="sourceLine" id="cb257-7" data-line-number="7"><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb257-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x =</span> sims_exp, <span class="dt">y =</span> ..density..), <span class="dt">binwidth =</span> <span class="fl">0.7</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb255-1" data-line-number="1">sim_exp_beta &lt;-<span class="st"> </span><span class="cf">function</span>(beta, <span class="dt">n =</span> <span class="dv">1000</span>){</a>
+<a class="sourceLine" id="cb255-2" data-line-number="2">  <span class="op">-</span>beta <span class="op">*</span><span class="st"> </span><span class="kw">log</span>(<span class="kw">runif</span>(n))</a>
+<a class="sourceLine" id="cb255-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb255-4" data-line-number="4">sims_exp &lt;-<span class="st"> </span><span class="kw">sim_exp_beta</span>(<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb255-5" data-line-number="5"><span class="kw">mean</span>(sims_exp)</a>
+<a class="sourceLine" id="cb255-6" data-line-number="6"><span class="co">#&gt; [1] 2.0629</span></a>
+<a class="sourceLine" id="cb255-7" data-line-number="7"><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb255-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x =</span> sims_exp, <span class="dt">y =</span> ..density..), <span class="dt">binwidth =</span> <span class="fl">0.7</span>)</a></code></pre></div>
 <p><img src="06-v_aleatorias_y_simualcion_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>El algoritmo anterior también provee una manera de generar variables aleatorias
 Poisson. Para esto usamos la relación entre la Poisson y la exponencial:</p>
 <ul>
 <li><p>Un proceso Poisson con tasa <span class="math inline">\(\lambda\)</span> resulta cuando los tiempos de espera
-entre eventos sucesivos son exponenciales independientes con parámetro <span class="math inline">\(\beta\)</span>,</p></li>
+entre eventos sucesivos son exponenciales independientes con parámetro
+<span class="math inline">\(\beta = 1/\lambda\)</span>,</p></li>
 <li><p>Para este proceso, <span class="math inline">\(N(1)\)</span>, el número de eventos en el tiempo 1 se distribuye
 Poisson con media <span class="math inline">\(1/\beta\)</span>.</p></li>
 <li><p>Si denotamos por <span class="math inline">\(X_i\)</span> los tiempos entre eventos, el <span class="math inline">\(n\)</span>-ésimo evento
@@ -569,20 +558,20 @@ a partir de una sucesión de números aleatorios, generando números hasta que
 el producto sea menor a <span class="math inline">\(e^{-\lambda}\)</span> y definiendo <span class="math inline">\(X\)</span> como uno menos del
 número de números aleatorios requeridos.</p>
 <p><span class="math display">\[N = min\{n: U_1\cdot\cdot\cdot U_n &lt; e^{-\lambda}\} - 1\]</span></p>
-<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb258-1" data-line-number="1">poisson &lt;-<span class="st"> </span><span class="cf">function</span>(lambda){</a>
-<a class="sourceLine" id="cb258-2" data-line-number="2">  u &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb258-3" data-line-number="3">  N &lt;-<span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb258-4" data-line-number="4">  <span class="cf">while</span>(u <span class="op">&gt;</span><span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span>lambda)){</a>
-<a class="sourceLine" id="cb258-5" data-line-number="5">    u &lt;-<span class="st"> </span>u <span class="op">*</span><span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb258-6" data-line-number="6">    N &lt;-<span class="st"> </span>N <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb258-7" data-line-number="7">  }</a>
-<a class="sourceLine" id="cb258-8" data-line-number="8">  N <span class="op">-</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb258-9" data-line-number="9">}</a>
-<a class="sourceLine" id="cb258-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb258-11" data-line-number="11"><span class="kw">poisson</span>(<span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb258-12" data-line-number="12"><span class="co">#&gt; [1] 12</span></a>
-<a class="sourceLine" id="cb258-13" data-line-number="13"><span class="kw">mean</span>(<span class="kw">rdply</span>(<span class="dv">1000</span>, <span class="kw">poisson</span>(<span class="dv">10</span>))<span class="op">$</span>V1)</a>
-<a class="sourceLine" id="cb258-14" data-line-number="14"><span class="co">#&gt; [1] 10.051</span></a></code></pre></div>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb256-1" data-line-number="1">poisson &lt;-<span class="st"> </span><span class="cf">function</span>(lambda){</a>
+<a class="sourceLine" id="cb256-2" data-line-number="2">  u &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb256-3" data-line-number="3">  N &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb256-4" data-line-number="4">  <span class="cf">while</span> (u <span class="op">&gt;</span><span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span>lambda)) {</a>
+<a class="sourceLine" id="cb256-5" data-line-number="5">    u &lt;-<span class="st"> </span>u <span class="op">*</span><span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb256-6" data-line-number="6">    N &lt;-<span class="st"> </span>N <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb256-7" data-line-number="7">  }</a>
+<a class="sourceLine" id="cb256-8" data-line-number="8">  N <span class="op">-</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb256-9" data-line-number="9">}</a>
+<a class="sourceLine" id="cb256-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb256-11" data-line-number="11"><span class="kw">poisson</span>(<span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb256-12" data-line-number="12"><span class="co">#&gt; [1] 10</span></a>
+<a class="sourceLine" id="cb256-13" data-line-number="13"><span class="kw">mean</span>(<span class="kw">rdply</span>(<span class="dv">1000</span>, <span class="kw">poisson</span>(<span class="dv">10</span>))<span class="op">$</span>V1)</a>
+<a class="sourceLine" id="cb256-14" data-line-number="14"><span class="co">#&gt; [1] 10.073</span></a></code></pre></div>
 </div>
 <div id="ejemplo-gamma" class="section level4 unnumbered">
 <h4>Ejemplo: Gamma</h4>
@@ -599,14 +588,14 @@ de <span class="math inline">\(n\)</span> exponenciales independientes, cada una
 <span class="math display">\[=-\beta log(U_1\cdot\cdot\cdot U_n)\]</span></p>
 <p>donde la identidad <span class="math inline">\(\sum log(x_i) = log(x_1\cdot\cdot\cdot x_n)\)</span> deriva en
 ganancias computacionales.</p>
-<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb259-1" data-line-number="1">gamma_nb &lt;-<span class="st"> </span><span class="cf">function</span>(n, beta){</a>
-<a class="sourceLine" id="cb259-2" data-line-number="2">  <span class="op">-</span>beta <span class="op">*</span><span class="st"> </span><span class="kw">log</span>(<span class="kw">Reduce</span>(<span class="st">`</span><span class="dt">*</span><span class="st">`</span>,<span class="kw">runif</span>(<span class="dv">10</span>)))</a>
-<a class="sourceLine" id="cb259-3" data-line-number="3">}</a>
-<a class="sourceLine" id="cb259-4" data-line-number="4">sims_gamma &lt;-<span class="st"> </span><span class="kw">rdply</span>(<span class="dv">1000</span>, <span class="kw">gamma_nb</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">beta =</span> <span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb259-5" data-line-number="5"><span class="kw">mean</span>(sims_gamma<span class="op">$</span>V1)</a>
-<a class="sourceLine" id="cb259-6" data-line-number="6"><span class="co">#&gt; [1] 19.543</span></a>
-<a class="sourceLine" id="cb259-7" data-line-number="7"><span class="kw">var</span>(sims_gamma<span class="op">$</span>V1)</a>
-<a class="sourceLine" id="cb259-8" data-line-number="8"><span class="co">#&gt; [1] 35.006</span></a></code></pre></div>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb257-1" data-line-number="1">gamma_nb &lt;-<span class="st"> </span><span class="cf">function</span>(n, beta){</a>
+<a class="sourceLine" id="cb257-2" data-line-number="2">  <span class="op">-</span>beta <span class="op">*</span><span class="st"> </span><span class="kw">log</span>(<span class="kw">Reduce</span>(<span class="st">`</span><span class="dt">*</span><span class="st">`</span>,<span class="kw">runif</span>(<span class="dv">10</span>)))</a>
+<a class="sourceLine" id="cb257-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb257-4" data-line-number="4">sims_gamma &lt;-<span class="st"> </span><span class="kw">rdply</span>(<span class="dv">1000</span>, <span class="kw">gamma_nb</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">beta =</span> <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb257-5" data-line-number="5"><span class="kw">mean</span>(sims_gamma<span class="op">$</span>V1)</a>
+<a class="sourceLine" id="cb257-6" data-line-number="6"><span class="co">#&gt; [1] 19.77</span></a>
+<a class="sourceLine" id="cb257-7" data-line-number="7"><span class="kw">var</span>(sims_gamma<span class="op">$</span>V1)</a>
+<a class="sourceLine" id="cb257-8" data-line-number="8"><span class="co">#&gt; [1] 37.19</span></a></code></pre></div>
 </div>
 </div>
 <div id="aceptación-y-rechazo-1" class="section level3 unnumbered">
@@ -646,39 +635,45 @@ aleatoria geométrica con media <span class="math inline">\(c\)</span>.</li>
 <p>Usemos el método de aceptación y rechazo para generar observaciones de una
 variable aleatoria <span class="math inline">\(beta(2,4)\)</span>:
 <span class="math display">\[f(x)=20x(1-x)^3\]</span>
-La variable aleatoria beta toma valores en el intervalo (0,1) por lo que consideremos <span class="math inline">\(g(x)=1\)</span>, para <span class="math inline">\(0&lt;x&lt;1\)</span>. Para determinar la menor <span class="math inline">\(c\)</span> tal que <span class="math inline">\(f(x)/g(x)\leq c\)</span> podemos derivar y obtenemos <span class="math inline">\(c = 135/64\)</span>,
+La variable aleatoria beta toma valores en el intervalo (0,1) por lo que
+consideremos <span class="math inline">\(g(x)=1\)</span>, para <span class="math inline">\(0&lt;x&lt;1\)</span>. Para determinar la menor <span class="math inline">\(c\)</span> tal que
+<span class="math inline">\(f(x)/g(x)\leq c\)</span> podemos derivar y obtenemos <span class="math inline">\(c = 135/64\)</span>,
 <span class="math display">\[\frac{f(x)}{g(x)} \leq 20 \cdot \frac{1}{4} \bigg(\frac{3}{4}\bigg)^3 = \frac{135}{64}\]</span></p>
 <p>y</p>
 <p><span class="math display">\[\frac{f(x)}{cg(x)}=\frac{256}{27}x(1-x)^3\]</span></p>
 <p>por lo que el procedimiento para simular sería el siguiente:</p>
-<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb260-1" data-line-number="1">beta24 &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
-<a class="sourceLine" id="cb260-2" data-line-number="2">  <span class="co"># 1. Generar dos números aleatorios U_1, U_2. </span></a>
-<a class="sourceLine" id="cb260-3" data-line-number="3">  u1 &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb260-4" data-line-number="4">  u2 &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb260-5" data-line-number="5">  <span class="co"># 2. Comparar con f(x)/cg(x)</span></a>
-<a class="sourceLine" id="cb260-6" data-line-number="6">  <span class="cf">while</span> (u2 <span class="op">&gt;</span><span class="st"> </span><span class="dv">256</span> <span class="op">/</span><span class="st"> </span><span class="dv">27</span> <span class="op">*</span><span class="st"> </span>u1 <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>u1) <span class="op">^</span><span class="st"> </span><span class="dv">3</span>) {</a>
-<a class="sourceLine" id="cb260-7" data-line-number="7">    u1 &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb260-8" data-line-number="8">    u2 &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb260-9" data-line-number="9">  }</a>
-<a class="sourceLine" id="cb260-10" data-line-number="10">  u1</a>
-<a class="sourceLine" id="cb260-11" data-line-number="11">}</a>
-<a class="sourceLine" id="cb260-12" data-line-number="12">sims &lt;-<span class="st"> </span><span class="kw">rdply</span>(<span class="dv">1000</span>, beta24)</a>
-<a class="sourceLine" id="cb260-13" data-line-number="13"><span class="kw">mean</span>(sims<span class="op">$</span>V1)</a>
-<a class="sourceLine" id="cb260-14" data-line-number="14"><span class="co">#&gt; [1] 0.33069</span></a></code></pre></div>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb258-1" data-line-number="1">beta24 &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
+<a class="sourceLine" id="cb258-2" data-line-number="2">  <span class="co"># 1. Generar dos números aleatorios U_1, U_2. </span></a>
+<a class="sourceLine" id="cb258-3" data-line-number="3">  u1 &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb258-4" data-line-number="4">  u2 &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb258-5" data-line-number="5">  <span class="co"># 2. Comparar con f(x)/cg(x)</span></a>
+<a class="sourceLine" id="cb258-6" data-line-number="6">  <span class="cf">while</span> (u2 <span class="op">&gt;</span><span class="st"> </span><span class="dv">256</span> <span class="op">/</span><span class="st"> </span><span class="dv">27</span> <span class="op">*</span><span class="st"> </span>u1 <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>u1) <span class="op">^</span><span class="st"> </span><span class="dv">3</span>) {</a>
+<a class="sourceLine" id="cb258-7" data-line-number="7">    u1 &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb258-8" data-line-number="8">    u2 &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb258-9" data-line-number="9">  }</a>
+<a class="sourceLine" id="cb258-10" data-line-number="10">  u1</a>
+<a class="sourceLine" id="cb258-11" data-line-number="11">}</a>
+<a class="sourceLine" id="cb258-12" data-line-number="12">sims &lt;-<span class="st"> </span><span class="kw">rdply</span>(<span class="dv">1000</span>, beta24)</a>
+<a class="sourceLine" id="cb258-13" data-line-number="13"><span class="kw">mean</span>(sims<span class="op">$</span>V1)</a>
+<a class="sourceLine" id="cb258-14" data-line-number="14"><span class="co">#&gt; [1] 0.334</span></a></code></pre></div>
 </div>
 <div id="ejemplo-gamma32-1" class="section level4 unnumbered">
 <h4>Ejemplo: Gamma(3/2, 1)</h4>
 <p>Supongamos que deseamos generar simulaciones de una variable aleatoria con densidad gamma(3/2, 1):
 <span class="math display">\[f(x)=\frac{1}{\Gamma(3/2)}x^{1/2}e^{-x}\]</span>
 dado que la variable aleatoria de nuestro interés se concentra en los números positivos, y tiene media <span class="math inline">\(3/2\)</span>, es conveniente usar el método de aceptación y rechazo con la variable aleatoria exponencial de la misma media.
-<span class="math display">\[g(x)=\frac{2}{3}e^{-x2/3}\]</span></p>
+<span class="math display">\[g(x)=\frac{2}{3}e^{-2x/3}\]</span></p>
 <p><img src="img/manicule2.jpg" /> Usa el método de aceptación y rechazo para generar 1000 observaciones de una variable aleatoria con distribución gamma(3/2,1).</p>
 </div>
 <div id="ejemplo-variable-aleatoria-normal" class="section level4 unnumbered">
 <h4>Ejemplo: Variable aleatoria normal</h4>
-<p>Nuestro objetivo es primero, simular una variable aleatoria normal estándar Z, para ello comencemos notando que el valor absoluto de Z tiene función de densidad:
+<p>Nuestro objetivo es primero, simular una variable aleatoria normal estándar Z,
+para ello comencemos notando que el valor absoluto de Z tiene función de
+densidad:
 <span class="math display">\[f(x)=\frac{2}{\sqrt{2\pi}}e^{-x^2/2}\]</span>
-con soporte en los reales positivos. Generaremos observaciones de la densidad anterior usando el método de aceptación y rechazo con <span class="math inline">\(g\)</span> una densidad exponencial com media 1:</p>
+con soporte en los reales positivos. Generaremos observaciones de la densidad
+anterior usando el método de aceptación y rechazo con <span class="math inline">\(g\)</span> una densidad
+exponencial con media 1:</p>
 <p><span class="math display">\[g(x)= e^{-x}\]</span></p>
 <p>Ahora,
 <span class="math inline">\(\frac{f(x)}{g(x)}=\sqrt{2/\pi}e^{x - x^2/2}\)</span>
@@ -710,8 +705,9 @@ mayor a <span class="math inline">\((Y_1 - 1)^2/2\)</span>, y la diferencia <spa
 exponencial con parámetro 1. Esto es, cuando aceptamos en el segundo paso no
 sólo obtenemos <span class="math inline">\(X\)</span> sino que calculando
 <span class="math inline">\(Y_2 - (Y_1 - 1)^2/2\)</span> podemos generar una variable aleatoria exponencial con
-parámetro 1 independiente de <span class="math inline">\(X\)</span>. Esto es relevante pues si estamos generando una
-sucesión de variables aleatorias normales obtendríamos un algoritmo más eficiente.</p>
+parámetro 1 independiente de <span class="math inline">\(X\)</span>. Esto es relevante pues si estamos generando
+una sucesión de variables aleatorias normales obtendríamos un algoritmo más
+eficiente.</p>
 
 </div>
 </div>
@@ -723,7 +719,7 @@ sucesión de variables aleatorias normales obtendríamos un algoritmo más efici
         </div>
       </div>
 <a href="variables-aleatorias-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="tareas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="simulación-de-modelos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

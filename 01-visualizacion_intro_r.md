@@ -574,7 +574,7 @@ print(read_csv)
 #>         comment = comment, n_max = n_max, guess_max = guess_max, 
 #>         progress = progress)
 #> }
-#> <bytecode: 0xa2b6118>
+#> <bytecode: 0x9ac59a8>
 #> <environment: namespace:readr>
 
 library(readr)
@@ -592,7 +592,7 @@ print(read_csv)
 #>         comment = comment, n_max = n_max, guess_max = guess_max, 
 #>         progress = progress)
 #> }
-#> <bytecode: 0xa2b6118>
+#> <bytecode: 0x9ac59a8>
 #> <environment: namespace:readr>
 ```
 
@@ -850,6 +850,7 @@ anteriores ordenando por la mediana de _prd_pt_mc_.
 para graficar los puntos encima de las cajas de boxplot?
 
 #### Paneles {-}
+
 Ahora veremos como hacer gráficas de paneles, la idea es hacer varios múltiplos 
 de una gráfica donde cada múltiplo representa un subconjunto de los datos, es 
 una práctica muy útil para explorar relaciones condicionales.
