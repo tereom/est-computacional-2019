@@ -669,3 +669,21 @@ distribución normal estándar de la siguiente manera:
 Para generar una variable aleatoria con distribución normal estándar $Z$ 
 simplemente elegimos $X$ o $-X$ con igual probabilidad.
 
+## 8. Distribuciones multivariada y simulación {-}
+
+1. Retomando el ejemplo de asegurados visto en clase, supongamos ahora que una 
+compañía de seguros divide a la gente en dos clases: propensos a accidente 
+(30\% de las personas) y no propensos a accidente. En un año dado aquellos 
+propensos a accidentes sufren un accidente con probabilidad 0.4, mientras que 
+los del otro grupo sufren un accidente con probabilidad 0.2. ¿Cuál es la 
+probabilidad de que un asegurado tenga un accidente en su segundo año 
+condicional a que sufrió un accidente en el primer año?
+
+2. Supongamos que una compañía cambia la tecnología
+usada para producir una cámara, un estudio estima que el ahorro en la producción
+es de \$5 por unidad con un error estándar de \$4. Más aún, una proyección
+estima que el tamaño del mercado (esto es, el número de cámaras que se venderá)
+es de 40,000 con un error estándar de 10,000. Suponiendo que las dos fuentes de
+incertidumbre son independientes, usa simulación de variables aleatorias 
+normales para estimar el total de dinero que ahorrará la compañía, calcula un 
+intervalo de confianza. 
