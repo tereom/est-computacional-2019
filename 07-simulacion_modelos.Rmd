@@ -172,8 +172,8 @@ $$p_X(x) = \sum_{y} p_{X \vert Y}(x\vert y)p_Y(y).$$
 par lanzo una moneda justa 
 (la probabilidad de observar águila es la misma que la de observar sol), si el 
 dado muestra un número impar lanzo una moneda sesgada en la que la probabilidad 
-de observar águila es $0.9$. Si observo sol, ¿Cuál es la probabilidad de que haya 
-lanzado la moneda sesgada?
+de observar águila es $0.9$. Si observo sol, ¿Cuál es la probabilidad de que 
+haya lanzado la moneda sesgada?
 
 El ejercicio anterior introduce la noción de probabilidad inversa: inicialmente 
 conozco la probabilidad de observar sol condicional a que la moneda es sesgada 
@@ -339,15 +339,6 @@ $$ P(A,B\vert C) = P(A\vert C)P(B\vert C)$$
 Similar al caso de independencia, $A$ y $B$ son condicionalmente independientes 
 dado $C$ sí y solo sí $P(A \vert B,C) = P(A \vert C)$, esto es, una vez que
 conocemos el valor de $C$, $B$ no proporciona información adicional sobre $A$. 
-
-**Ejemplo.** Retomemos el ejercicio de asegurados. En la solución de este 
-ejercicio utilizamos que $P(A_2|AA_1) = 0.4$ y que $P(A_2|A^cA_1) = 0.2$, al
-establecer esa igualdad estamos asumiendo que $A_2$ (el asegurado tiene un 
-accidente en el año 2) y $A_1$ (el asegurado tiene un accidente en el año 1) son
-eventos condicionalmente independientes dado $A$ (el asegurado es propenso a
-accidentes): $P(A_2|AA_1) = P(A_2|A) = 0.4$ y $P(A_2|A^cA_1) = P(A_2|A^c) = 0.2$.
-
-
 
 **Ejemplo.** Retomemos el ejercicio de asegurados. En la solución de este 
 ejercicio utilizamos que $P(A_2|AA_1) = 0.4$ y que $P(A_2|A^cA_1) = 0.2$, al
