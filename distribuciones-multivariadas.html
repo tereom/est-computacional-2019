@@ -293,6 +293,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="respuesta-ejercicios-clase.html"><a href="respuesta-ejercicios-clase.html"><i class="fa fa-check"></i>Respuesta ejercicios clase</a></li>
 <li class="chapter" data-level="" data-path="más-bootstrap.html"><a href="más-bootstrap.html"><i class="fa fa-check"></i>6. Más bootstrap</a></li>
 <li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias-1.html"><a href="simulación-de-variables-aleatorias-1.html"><i class="fa fa-check"></i>7. Simulación de variables aleatorias</a></li>
+<li class="chapter" data-level="" data-path="distribuciones-multivariada-y-simulación.html"><a href="distribuciones-multivariada-y-simulación.html"><i class="fa fa-check"></i>8. Distribuciones multivariada y simulación</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -475,8 +476,8 @@ marginal de <span class="math inline">\(X\)</span> como:
 par lanzo una moneda justa
 (la probabilidad de observar águila es la misma que la de observar sol), si el
 dado muestra un número impar lanzo una moneda sesgada en la que la probabilidad
-de observar águila es <span class="math inline">\(0.9\)</span>. Si observo sol, ¿Cuál es la probabilidad de que haya
-lanzado la moneda sesgada?</p>
+de observar águila es <span class="math inline">\(0.9\)</span>. Si observo sol, ¿Cuál es la probabilidad de que
+haya lanzado la moneda sesgada?</p>
 <p>El ejercicio anterior introduce la noción de probabilidad inversa: inicialmente
 conozco la probabilidad de observar sol condicional a que la moneda es sesgada
 pero ahora me interesa conocer la probabilidad de que haya lanzado una moneda
@@ -611,12 +612,6 @@ condicional a <span class="math inline">\(C\)</span> (<span class="math inline">
 <p>Similar al caso de independencia, <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> son condicionalmente independientes
 dado <span class="math inline">\(C\)</span> sí y solo sí <span class="math inline">\(P(A \vert B,C) = P(A \vert C)\)</span>, esto es, una vez que
 conocemos el valor de <span class="math inline">\(C\)</span>, <span class="math inline">\(B\)</span> no proporciona información adicional sobre <span class="math inline">\(A\)</span>.</p>
-<p><strong>Ejemplo.</strong> Retomemos el ejercicio de asegurados. En la solución de este
-ejercicio utilizamos que <span class="math inline">\(P(A_2|AA_1) = 0.4\)</span> y que <span class="math inline">\(P(A_2|A^cA_1) = 0.2\)</span>, al
-establecer esa igualdad estamos asumiendo que <span class="math inline">\(A_2\)</span> (el asegurado tiene un
-accidente en el año 2) y <span class="math inline">\(A_1\)</span> (el asegurado tiene un accidente en el año 1) son
-eventos condicionalmente independientes dado <span class="math inline">\(A\)</span> (el asegurado es propenso a
-accidentes): <span class="math inline">\(P(A_2|AA_1) = P(A_2|A) = 0.4\)</span> y <span class="math inline">\(P(A_2|A^cA_1) = P(A_2|A^c) = 0.2\)</span>.</p>
 <p><strong>Ejemplo.</strong> Retomemos el ejercicio de asegurados. En la solución de este
 ejercicio utilizamos que <span class="math inline">\(P(A_2|AA_1) = 0.4\)</span> y que <span class="math inline">\(P(A_2|A^cA_1) = 0.2\)</span>, al
 establecer esa igualdad estamos asumiendo que <span class="math inline">\(A_2\)</span> (el asegurado tiene un
