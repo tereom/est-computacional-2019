@@ -234,11 +234,10 @@ grupo sufren un accidente con probabilidad 0.2. ¿Cuál es la probabilidad de qu
 un asegurado tenga un accidente en su segundo año condicional a que sufrió un
 accidente en el primer año?
 
-
+<div class="caja">
 Una consecuencia de la regla de Bayes es que cualquier distribución multivariada
 sobre $n$ variables $X_1,X_2,...X_n$ se puede expresar como:
 
-<div class="caja">
 $$p(x_1,x_2,...x_n) = p_{X_1}(x_1)p_{X_2\vert X_1}(x_2\vert x_1)p_{X_3\vert X_1X_2}(x_3\vert x_1x_2)···p_{X_n\vert X_1...X_{n-1}}(x_n\vert x_1...x_{n-1})$$
 esta igualdad se conoce como **regla de la cadena**.
 </div>
@@ -597,7 +596,7 @@ ggplot() + geom_histogram(aes(x = media_alturas), binwidth = 1.2, alpha = 0.7)
 
 ```r
 alt_max <- sims_alturas %>% map_dbl(max)
-qplot(alt_max, geom = "histogram", binwidth = 1.5)
+qplot(alt_max, geom = "histogram", binwidth = 1.5, alpha = 0.7)
 ```
 
 <img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-10-1.png" width="350px" style="display: block; margin: auto;" />
@@ -611,11 +610,12 @@ incertidumbre son independientes, usa simulación de variables aleatorias
 normales para estimar el total de dinero que ahorrará la compañía, calcula un 
 intervalo de confianza. 
 
-#### Ejemplo de simulación de un modelo de regresión 
+#### Ejemplo de simulación de un modelo de regresión {-}
 
-En regresión utilizamos simulación para capturar tanto la incertidumbre en la
-predicción (término de error en el modelo) como la incertidumbre en la inferencia
-(errores estándar de los coeficientes e incertidumbre del error residual). 
+En regresión podemos utilizar simulación para capturar tanto la incertidumbre en 
+la predicción (término de error en el modelo) como la incertidumbre en la 
+inferencia (errores estándar de los coeficientes e incertidumbre del error
+residual). 
 
 Comenzamos con un ejemplo en el que simulamos únicamente **incertidumbre en la 
 predicción**.
@@ -633,9 +633,9 @@ preparatoria (codificado como $1$) o no (codificado como $0$), y
 * $\epsilon_i$ son los error aleatorios, estos son 
 independientes con distribución normal $\epsilon_i \sim N(0, \sigma^2)$. 
 
-Ahora consideremos el problema de simular el puntaje de $50$ niños $30$ con madres
-que terminaron la preparatoria y $20$ cuyas madres no terminaron. Los coeficientes
-que usaremos son:
+Ahora consideremos el problema de simular el puntaje de $50$ niños $30$ con 
+madres que terminaron la preparatoria y $20$ cuyas madres no terminaron. Los 
+coeficientes que usaremos son:
 
 $$\beta_0 = 78$$
 $$\beta_1 = 12$$
@@ -667,11 +667,11 @@ qplot(medias, geom = "histogram", binwidth = 1.5)
 
 <img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-13-1.png" width="350px" style="display: block; margin: auto;" />
 
-Supongamos ahora que nos interesa incorporar que tenemos **incertidumbre en los 
+Supongamos ahora que nos interesa incorporar **incertidumbre en los 
 coeficientes de regresión**, y expresamos nuestra incertidumbre a través de 
 distribuciones de probabilidad, ¿cómo sería el modelo gráfico asociado?
 
-Primero suponemos que $\sigma^2$ tiene una distribución centrada en $20^2$, 
+Primero, suponemos que $\sigma^2$ tiene una distribución centrada en $20^2$, 
 proporcional a una distribución $\chi^2$ con $432$ grados de libertad.
 
 $$
@@ -688,9 +688,9 @@ $$
 \end{eqnarray*}
 $$
 
-Finalmente, simulamos del modelo incorporando tanto la incertidumbre 
+Ahora, simulamos del modelo incorporando tanto la incertidumbre 
 correpondiente a la predicción como la incertidumbre en los coeficientes de 
-regresión.
+regresión, para los coeficientes:
 
 1. Simula $\sigma=20\sqrt{(432)/X}$ donde $X$ es una generación de una
 distribución $\chi^2$ con $432$ grados de libertad.
@@ -707,7 +707,6 @@ simula_parametros <- function(){
     sigma <- 20 * sqrt((432) / rchisq(1, 432))
     # la usamos para simular betas
     beta <- MASS::mvrnorm(1, mu = c(78, 12), 
-        # Sigma = sigma ^ 2 * matrix(c(4.2, -4.2, -4.2, 5.4), nrow = 2))
         Sigma = sigma ^ 2 * matrix(c(0.011, -0.011, -0.011, 0.013), nrow = 2))
     # Simulamos parámetros
     list(sigma = sigma, beta = beta)
@@ -721,7 +720,8 @@ simula_puntajes <- function(beta, sigma, n_hs = 30, n_nhs = 20){
     obs = rnorm(50, vector_mu, sigma)
 }
 
-sims_puntajes <- map(sims_parametros, ~simula_puntajes(beta = .[["beta"]], sigma = .[["sigma"]]))
+sims_puntajes <- map(sims_parametros, ~simula_puntajes(beta = .[["beta"]], 
+  sigma = .[["sigma"]]))
 medias_incert <- sims_puntajes %>% map_dbl(mean)
 
 quantile(medias_incert, c(0.025, 0.975))
@@ -732,7 +732,11 @@ qplot(medias_incert, geom = "histogram", binwidth = 1)
 
 <img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-14-1.png" width="350px" style="display: block; margin: auto;" />
 
-Los parametros se obtuvieron de ajustar el modelo de regresión lineal.
+![](img/manicule2.jpg) Si nos interesara la mediana de los puntajes, ¿qué 
+cambio tendríamos que hacer en el código?
+
+Los parametros se obtuvieron de ajustar el modelo de regresión lineal a un 
+conjunto de 434 observaciones de puntajes de niños.
 
 
 ```r
@@ -747,7 +751,6 @@ usethis::use_zip("https://github.com/tereom/estcomp/raw/master/data-raw/data_sim
 library(foreign)
 kids_iq <- read.dta("data/data_sim/kidiq.dta")
 lm_kid <- lm(kid_score ~ mom_hs, kids_iq)
-V <- vcov(lm_kid) / 20 ^ 2
 summary(lm_kid)
 #> 
 #> Call:
@@ -767,10 +770,16 @@ summary(lm_kid)
 #> Residual standard error: 19.85 on 432 degrees of freedom
 #> Multiple R-squared:  0.05613,	Adjusted R-squared:  0.05394 
 #> F-statistic: 25.69 on 1 and 432 DF,  p-value: 5.957e-07
+summary(lm_kid)$cov.unscaled
+#>             (Intercept)      mom_hs
+#> (Intercept)  0.01075269 -0.01075269
+#> mom_hs      -0.01075269  0.01368524
+summary(lm_kid)$sigma
+#> [1] 19.85253
 ```
 
-Podemos usar simulación para calcular intervalos de confianza para $\beta_0$ y 
-$\beta_1$,
+Podemos usar simulación para calcular intervalos de confianza para 
+$\beta_0$ y $\beta_1$,
 
 
 ```r
@@ -783,8 +792,8 @@ sims_parametros %>% map_dbl(~(.$beta[2])) %>% sd()
 No parece que valga la pena el esfuerzo cuando podemos calcular los intervalos 
 analíticamente, sin embargo con simulación podemos responder fácilmente otras 
 preguntas, por ejemplo, la pregunta inicial: ¿cuál es la media esperada para un 
-conjunto de $50$ niños, $30$ con madres que hicieron preparatoria y $20$ que no? es
-fácil de responder con simulación.
+conjunto de $50$ niños, $30$ con madres que hicieron preparatoria y $20$ que no? 
+es fácil de responder con simulación.
 
 Podríamos usar `predict()` para calcular el estimador puntual de la media en el
 examen para los niños:
@@ -819,12 +828,12 @@ El modelo del que simularemos se construyó usando datos de $1986$ y $1988$.
 
 ```r
 # Los datos están almacenados en 3 archivos correspondientes al año
-paths <- dir("data/data_sim/congress", full.names = TRUE)
+paths <- fs::dir_ls(here::here("data", "data_sim", "congress"))
 paths <- set_names(paths, basename(paths))
 
 # Leemos los datos y recodificamos variables
-congress <- map_dfr(paths, read.table, quote = "\"", 
-  stringsAsFactors = FALSE, .id = "year") %>%
+congress <- map_dfr(paths, read.table, quote = "\"", stringsAsFactors = FALSE, 
+  .id = "year") %>%
   mutate(id = rep(1:435, 3),
          year = parse_number(year),          # año de la elección
          incumbency = ifelse(V3 == -9, NA, V3), # codificar NAs     
@@ -840,26 +849,15 @@ glimpse(congress)
 #> $ dem_share  <dbl> 0.7450362, 0.6738455, 0.6964566, 0.4645901, 0.3910945…
 
 # datos en forma horizontal
-congress_share <- spread(dplyr::select(congress, -incumbency), year, dem_share)
-colnames(congress_share) <- c("id", "share_86", "share_88", "share_90")
-congress_inc <- spread(dplyr::select(congress, -dem_share), year, incumbency)
-colnames(congress_inc) <- c("id", "inc_86", "inc_88", "inc_90")
+congress_w <- pivot_wider(congress, names_from = year, 
+  values_from = c(incumbency, dem_share))
 
 # quitamos NAs
-congress_h <- na.omit(left_join(congress_share, congress_inc))
-#> Joining, by = "id"
-glimpse(congress_h)
-#> Observations: 431
-#> Variables: 7
-#> $ id       <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, …
-#> $ share_86 <dbl> 0.7450362, 0.6738455, 0.6964566, 0.4645901, 0.3910945, …
-#> $ share_88 <dbl> 0.7724427, 0.6361816, 0.6649283, 0.2738342, 0.2636131, …
-#> $ share_90 <dbl> 0.7140294, 0.5970501, 0.5210433, 0.2343770, 0.4774393, …
-#> $ inc_86   <int> 1, 1, 1, -1, 1, -1, 0, -1, -1, 1, 1, 1, 1, 1, 1, 0, 1, …
-#> $ inc_88   <int> 1, 1, 1, -1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1, 1, 1, 1,…
-#> $ inc_90   <int> 1, 1, 0, -1, 0, -1, 0, -1, -1, 1, 1, 1, 1, 1, 1, 1, 1, …
+congress_w <- congress_w %>% 
+  drop_na()
 
-ggplot(congress_h, aes(x = share_86, y = share_88, color = factor(inc_86))) +
+ggplot(congress_w, aes(x = dem_share_1986, y = dem_share_1988, 
+  color = factor(incumbency_1986))) +
     geom_abline(color = "darkgray") +
     geom_point() +
     labs(color = "")
@@ -870,54 +868,67 @@ ggplot(congress_h, aes(x = share_86, y = share_88, color = factor(inc_86))) +
 
 ```r
 # quitamos las elecciones que no se compitieron
-congress_h <- filter(congress_h, share_88 != 1 & share_88 != 0)
+congress_88 <- filter(congress_w, dem_share_1988 != 1 & dem_share_1988 != 0,   
+    incumbency_1988 != 0) %>% 
+    mutate(
+      dem_share_1986 = case_when(dem_share_1986 == 0 ~ 0.25, 
+        dem_share_1986 == 1 ~ 0.75,
+        TRUE ~ dem_share_1986))
 
-fit_88 <- lm(share_88 ~ share_86 + inc_88, data = congress_h)
+fit_88 <- lm(dem_share_1988 ~ dem_share_1986 + incumbency_1988, 
+  data = congress_88)
 summary(fit_88)
 #> 
 #> Call:
-#> lm(formula = share_88 ~ share_86 + inc_88, data = congress_h)
+#> lm(formula = dem_share_1988 ~ dem_share_1986 + incumbency_1988, 
+#>     data = congress_88)
 #> 
 #> Residuals:
 #>       Min        1Q    Median        3Q       Max 
-#> -0.241640 -0.042841 -0.005898  0.052343  0.226273 
+#> -0.170533 -0.035497 -0.000485  0.038853  0.215279 
 #> 
 #> Coefficients:
-#>             Estimate Std. Error t value Pr(>|t|)    
-#> (Intercept) 0.300413   0.015107   19.89   <2e-16 ***
-#> share_86    0.385833   0.027847   13.86   <2e-16 ***
-#> inc_88      0.104263   0.006904   15.10   <2e-16 ***
+#>                 Estimate Std. Error t value Pr(>|t|)    
+#> (Intercept)      0.16729    0.02016   8.298  2.8e-15 ***
+#> dem_share_1986   0.65174    0.03846  16.947  < 2e-16 ***
+#> incumbency_1988  0.06809    0.00754   9.031  < 2e-16 ***
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
-#> Residual standard error: 0.07738 on 351 degrees of freedom
-#> Multiple R-squared:  0.8461,	Adjusted R-squared:  0.8452 
-#> F-statistic: 964.7 on 2 and 351 DF,  p-value: < 2.2e-16
+#> Residual standard error: 0.06749 on 328 degrees of freedom
+#> Multiple R-squared:  0.8865,	Adjusted R-squared:  0.8858 
+#> F-statistic:  1281 on 2 and 328 DF,  p-value: < 2.2e-16
 ```
 
 Simulemos del modelo:
 
 
 ```r
+congress_90 <- filter(congress_w, dem_share_1990 != 1 & dem_share_1990 != 0,
+    incumbency_1990 != 0) %>% 
+    mutate(
+      dem_share_1990 = case_when(dem_share_1988 == 0 ~ 0.25, 
+        dem_share_1988 == 1 ~ 0.75,
+        TRUE ~ dem_share_1988))
 # Matriz X
-X <- cbind(1, congress_h$share_88, congress_h$inc_90)
+X <- cbind(1, congress_w$dem_share_1988, congress_w$incumbency_1990)
+
+df <- df.residual(fit_88)
+s <- summary(fit_88)$sigma
+V <- summary(fit_88)$cov.unscaled
+coef_mod <- summary(fit_88)$coefficients[, 1]
 simula_modelo <- function(){
-    sigma <- 0.08 * sqrt((351) / rchisq(1, 351))
-    beta <- MASS::mvrnorm(1, mu = c(0.30, 0.39, 0.10), 
-        Sigma = sigma ^ 2 * matrix(c(0.04, -0.07, 0.01, -0.07, 0.13, -0.02, 0.01, 
-            -0.02, 0.01), nrow = 3))
+    sigma <- s * sqrt(df / rchisq(1, df))
+    beta <- MASS::mvrnorm(1, mu = coef_mod, Sigma = sigma ^ 2 * V)
     mu <- X %*% beta
-    data_frame(id = 1:358, dem_share = rnorm(358, mu, sigma))
+    tibble(id = 1:length(mu), dem_share = rnorm(length(mu), mu, sigma))
 }
 
-sims_congress <- rerun(2000, simula_modelo()) 
-#> Warning: `data_frame()` is deprecated, use `tibble()`.
-#> This warning is displayed once per session.
-sims_congress <- sims_congress %>% 
-  bind_rows() %>% 
-  mutate(sim = rep(1:2000, each = 358))
+sims_congress <- rerun(1000, simula_modelo()) 
+sims_congress_df <- sims_congress %>% 
+  bind_rows(.id = "sim") 
 
-ggplot(sims_congress, aes(x = reorder(id, dem_share), y = dem_share)) +
+ggplot(sims_congress_df, aes(x = reorder(id, dem_share), y = dem_share)) +
     geom_boxplot() +
     geom_hline(color = "red", yintercept = 0.5)
 ```
@@ -930,20 +941,22 @@ $\sum I(\tilde{y} > 0.5)$
 
 
 ```r
-sims_congress %>%
-  group_by(sim) %>%
-  mutate(wins = sum(dem_share > 0.5)) %>%
-  ungroup() %>%
-  summarise(mean_wins = mean(wins),
-            median_wins = median(wins), 
-            sd_wins = sd(wins))
+sims_congress_df %>%
+    group_by(sim) %>%
+    mutate(wins = sum(dem_share > 0.5)) %>%
+    ungroup() %>%
+    summarise(
+        mean_wins = mean(wins),
+        median_wins = median(wins), 
+        sd_wins = sd(wins)
+      )
 #> # A tibble: 1 x 3
 #>   mean_wins median_wins sd_wins
 #>       <dbl>       <dbl>   <dbl>
-#> 1      202.         202    3.78
-sims_congress %>%
-  group_by(sim) %>%
-  mutate(wins = sum(dem_share > 0.5)) %>%
+#> 1      257.         257    2.97
+sims_congress_df %>%
+    group_by(sim) %>%
+    mutate(wins = sum(dem_share > 0.5)) %>%
     pull(wins) %>% 
     qplot(binwidth = 1)
 ```
@@ -954,8 +967,8 @@ Veamos lo que ocurrió realmente
 
 
 ```r
-sum(congress_h$share_90 > 0.5)
-#> [1] 207
+sum(congress_w$dem_share_1990 > 0.5)
+#> [1] 265
 ```
 
 La función `sim()` del paquete `arm` permite simular de modelos 
@@ -965,20 +978,20 @@ lineales y lineales generalizados.
 ```r
 sim_fit_88 <- arm::sim(fit_88, n.sims = 1000)
 sim_fit_88@coef[1:10, ]
-#>       (Intercept)  share_86     inc_88
-#>  [1,]   0.3170042 0.3578936 0.10779678
-#>  [2,]   0.2999465 0.3769885 0.10566809
-#>  [3,]   0.2878643 0.4078961 0.11090490
-#>  [4,]   0.3023743 0.3788996 0.10776648
-#>  [5,]   0.3022486 0.3772356 0.10864459
-#>  [6,]   0.2969491 0.3881759 0.10420743
-#>  [7,]   0.2828308 0.4226436 0.09778666
-#>  [8,]   0.3066335 0.3677518 0.10945948
-#>  [9,]   0.3046938 0.3717652 0.10773460
-#> [10,]   0.2825262 0.4299435 0.09327988
+#>       (Intercept) dem_share_1986 incumbency_1988
+#>  [1,]   0.1790449      0.6435951      0.06845862
+#>  [2,]   0.1591542      0.6682493      0.07115940
+#>  [3,]   0.1215345      0.7285898      0.05552796
+#>  [4,]   0.2003955      0.5966258      0.07670371
+#>  [5,]   0.1670941      0.6609347      0.06537666
+#>  [6,]   0.1669521      0.6451482      0.06956311
+#>  [7,]   0.1328750      0.7088040      0.06084818
+#>  [8,]   0.1570452      0.6686808      0.06762329
+#>  [9,]   0.1735274      0.6488581      0.06723601
+#> [10,]   0.1976371      0.6030459      0.08171117
 sim_fit_88@sigma[1:10]
-#>  [1] 0.08120596 0.07994287 0.07472831 0.07507744 0.08070951 0.08149541
-#>  [7] 0.07602941 0.07663922 0.08036870 0.07904480
+#>  [1] 0.06857743 0.06694072 0.06671788 0.06556664 0.06812829 0.06757501
+#>  [7] 0.06298298 0.06899185 0.06584510 0.07016688
 ```
 
 ## Inferencia visual
@@ -1018,6 +1031,7 @@ apofenia.
 
 
 ![](img/tasas_cancer_2.png)
+
 Si podemos distinguir los datos hay evidencia estadística rigurosa de
 un patrón espacial en las tasas de mortalidad que se puede detectar en la 
 gráfica.
@@ -1102,7 +1116,7 @@ library(nullabor)
 
 sing_null <- lineup(null_dist('height', dist = 'normal', 
     params = list(mean = 171, sd = 10)), n = 20, singer_g)
-#> decrypt("NH19 joko 7w QWh7k7Ww b3")
+#> decrypt("NH19 joko 7w QWh7k7Ww eA")
 
 ggplot(sing_null, aes(x = gender, y = height)) +
     facet_wrap(~ .sample) +
@@ -1306,7 +1320,7 @@ algunas consideraciones para generar datos nulos.
 Un diagrama de dispersión muestra la relación entre dos variables continuas
 y responde a la pregunta: ¿existe una relación entre $x$ y $y$? Una posible 
 hipótesis nula es que no hay relación entre las variables. Supongamos que 
-queremos usar preubas visuales para esta hipótesis, la función _null\_permute_
+queremos usar pruebas visuales para esta hipótesis, la función _null\_permute_
 del paquete nullabor recibe el nombre de una variable de los datos y la salida
 de la funcción consiste en la variable permutada para obtener los datos nulos.
 
@@ -1384,15 +1398,45 @@ la hipótesis de una relación cuadrática, los conjuntos nulos se crean ajustan
 el modelo, produciendo predicciones y residuales, y sumando los residuales 
 rotados a las predicciones.
 
-En el siguiente ejemplo buscamos usar el protocolo *lineup* para evauar
-el ajuste de un modelo, en este caso no usaremos el paquete `nullabor` sino que
-simularemos directamente del modelo.
+### Otras consideraciones {-}
+
+**Potencia**
+
+* La potencia en una prueba de hipótesis es la probabilidad de rechazar la 
+hipótesis nula cuando esta es falsa.
+
+* En el caso de pruebas visuales la potencia depende de la calidad de la 
+gráfica.
+
+* Se ha estudiado la potencia de las pruebas visuales, @majumder y se ha visto
+con simulación que las pruebas visuales pueden tener potencia comparable a las
+pruebas de hipótesis tradicionales, a veces incluso superándolas.
+
+* El paquete `nullabor` incluye la función `visual_power()` para calcular 
+el poder de una prueba simulada.
+
+**Valor p**
+
+* Si usamos un jurado compuesto por $K$ jueces en lugar de un juez y $k$ de 
+ellos entonces el valor p combinado es $P(X \le k)$ donde $X$ tiene distribución 
+$Binomial(K, 1/20)$. Si todos los jueces identifican los datos el valor p sería
+$0.05^K$
+
+* El paquete `nullabor` tiene una función para calcular el valor p de una 
+prueba dada `pvisual()`.
+
+Las pruebas de hipótesis visuales, no son la única herramienta que se debe usar 
+en el análisis exploratorio o para evaluar un modelo. Sin embargo, las pruebas 
+visuales nos ayudan a explorar relaciones observadas en gráficas controlando por 
+la apofenia, y en general graficar modelos ajustados nos puede ayudar 
+a comprender las implicaciones de un modelo y las fallas del mismo.
+
 
 #### Ejemplo: modelo Poisson con sobreabundancia de ceros {-}
 
 Las ideas detrás de inferencia visual para diagnósticos de modelos son comunes
 en estadística bayesiana, y se pueden extender a la estimación frecuentista 
-usando lo que aprendimos en la sección de simulación de modelos probabilísticos.
+usando lo que aprendimos de simulación de modelos probabilísticos.
 
 Cuando simulamos datos usando el modelo se conoce como simulación de 
 *datos falsos* (*fake data*) o datos replicados y lo que buscamos es comparar 
@@ -1445,8 +1489,9 @@ simularemos del modelo.
 ```r
 X <- model.matrix(~ roach1 + treatment + senior, family = poisson, 
   data = roachdata)
-n <- nrow(X)
+
 simula_modelo <- function(n_sims = 19, ajuste){
+    n <- nrow(X)
     # simulamos los coeficientes del modelo
     betas <- coef(sim(ajuste, n_sims))
     # calculamos ui*exp(Xb)
@@ -1543,6 +1588,7 @@ simula_modelo <- function(n_sims = 19, ajuste){
     betas <- coef(sim(ajuste, n_sims))
     # calculamos ui*exp(Xb)
     y_hat <- roachdata$exposure2 * exp(X %*% t(betas))
+    n <- nrow(X)
     # creamos una lista con las y_hat de cada simulación
     y_hat_list <- split(y_hat, rep(1:ncol(y_hat), each = nrow(y_hat)))
     # simulamos observaciones
@@ -1596,38 +1642,6 @@ ayudar a detectar desajustes y en caso de revelarlos nos da indicios de porque
 falla el modelo.
 
 
-### Otras consideraciones {-}
-
-**Potencia**
-
-* La potencia en una prueba de hipótesis es la probabilidad de rechazar la 
-hipótesis nula cuando esta es falsa.
-
-* En el caso de pruebas visuales la potencia depende de la calidad de la 
-gráfica.
-
-* Se ha estudiado la potencia de las pruebas visuales, @majumder y se ha visto
-con simulación que las pruebas visuales pueden tener potencia comparable a las
-pruebas de hipótesis tradicionales, a veces incluso superándolas.
-
-* El paquete `nullabor` incluye la función `visual_power()` para calcular 
-el poder de una prueba simulada.
-
-**Valor p**
-
-* Si usamos un jurado compuesto por $K$ jueces en lugar de un juez y $k$ de 
-ellos entonces el valor p combinado es $P(X \le k)$ donde $X$ tiene distribución 
-$Binomial(K, 1/20)$. Si todos los jueces identifican los datos el valor p sería
-$0.05^K$
-
-* El paquete `nullabor` tiene una función para calcular el valor p de una 
-prueba dada `pvisual()`.
-
-Las pruebas de hipótesis visuales, no son la única herramienta que se debe usar 
-en el análisis exploratorio o para evaluar un modelo. Sin embargo, las pruebas 
-visuales nos ayudan a explorar relaciones observadas en gráficas controlando por 
-la apofenia, y en general graficar modelos ajustados nos puede ayudar 
-a comprender las implicaciones de un modelo y las fallas del mismo.
 
 ## Simulación para cálculo de tamaño de muestra/poder estadístico
 
@@ -1700,6 +1714,8 @@ sim_p_hat <- function(n, p, n_sims = 1000){
 }
 
 sims_.7 <- map_df(seq(20, 220, 5), ~sim_p_hat(n = ., p = 0.7))
+#> Warning: `data_frame()` is deprecated, use `tibble()`.
+#> This warning is displayed once per session.
 sims_.5 <- map_df(seq(20, 220, 5), ~sim_p_hat(n = ., p = 0.5))
 sims_.9 <- map_df(seq(20, 220, 5), ~sim_p_hat(n = ., p = 0.9))
 sims <- bind_rows(sims_.7, sims_.5, sims_.9)

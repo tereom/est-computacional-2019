@@ -751,3 +751,137 @@ es de 40,000 con un error estándar de 10,000. Suponiendo que las dos fuentes de
 incertidumbre son independientes, usa simulación de variables aleatorias 
 normales para estimar el total de dinero que ahorrará la compañía, calcula un 
 intervalo de confianza. 
+
+## 9. Inferencia visual y simulación e modelos {-}
+
+#### 1. Análisis discriminante {-}
+
+* Existen métodos de clasificación (supervisados o no supervisados) para formar 
+grupos en términos de variables que describen a los individuos. 
+
+* Estos métodos (análisis discriminante, o k-means, por ejemplo), pretenden 
+formar grupos compactos, bien separados entre ellos. Cuando aplicamos el método, 
+obtenemos clasificadores basados en las variables de entrada.
+
+* La pregunta es: __¿los grupos resultantes son producto de patrones que se 
+generalizan a la población, o capitalizaron en variación aleatoria para 
+formarse?__
+
+* Especialmente cuando tenemos muchas mediciones de los individuos, y una muestra relativamente chica, 
+
+* Es relativamente fácil encontrar combinaciones de variables que separan los 
+grupos, aunque estas combinaciones y diferencias están basadas en ruido y no 
+generalizan a la población.
+
+En el siguiente ejemplo, tenemos 4 grupos de avispas (50 individuos en total),
+y para cada individuo se miden expresiones de 42 genes distintos. 
+
+La pregunta es: ¿Podemos separar a los grupos de avispas dependiendo de sus 
+mediciones?
+
+Usaremos análisis discriminante para buscar proyecciones de los datos en 
+dimensión baja de forma que los grupos sean lo más compactos y separados 
+posibles. Para probar qué tan bien funciona este método, podemos seguir el 
+protocolo lineup. 
+
+El siguiente código es como se procedería en análisis discriminante en R usando
+los datos:
+
+
+```r
+data(wasps) # incluídos en nullabor
+
+wasp_lda <- MASS::lda(Group~., data = wasps[,-1])
+wasp_ld <- predict(wasp_lda, dimen = 2)$x
+true <- data.frame(wasp_ld, Group = wasps$Group)
+
+ggplot(true, aes(x = LD1, y = LD2, colour = Group)) + 
+    geom_point() + 
+    theme(aspect.ratio = 1)
+```
+
+Para generar los conjuntos de datos nulos debes permutar lo columna `Group` de 
+la tabla de datos y repetir los pasos de arriba, realiza esto 19 veces y realiza
+una gráfica de páneles en la que escondas los datos verdaderos entre los datos
+nulos, ¿cuál es tu conclusión?
+
+
+#### 2. Simulación de un modelo de regresión {-}
+
+Los datos [beauty](https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/beauty.csv) consisten en evaluaciones de estudiantes a profesores, los 
+estudiantes calificaron belleza y calidad de enseñanza para distintos cursos en 
+la Universidad de Texas. Las evaluaciones de curso se realizaron al final del 
+semestre y tiempo después $6$ estudiantes que no llevaron el curso realizaron los 
+juicios de belleza. 
+
+Ajustamos el siguiente modelo de regresión lineal usando las variables 
+_edad_ (age), _belleza_ (btystdave), _sexo_ (female) e _inglés no es primera 
+lengua_ (nonenglish) para predecir las evaluaciones del curso 
+(courseevaluation).
+
+
+```r
+beauty <- readr::read_csv("https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/beauty.csv")
+fit_score <- lm(courseevaluation ~ age + btystdave + female + nonenglish, 
+    data = beauty)
+```
+
+
+1. La instructora $A$ es una mujer de $50$ años, el inglés es su primera lengua y 
+tiene un puntaje de belleza de $-1$. El instructor B es un hombre de $60$ años, 
+
+su primera lengua es el inglés y tiene un puntaje de belleza de $-0.5$. Simula
+$1000$ generaciones de la evaluación del curso de estos dos instructores. En 
+tus simulaciones debes incorporar la incertidumbre en los parámetros y en la
+predicción. 
+
+Para hacer las simulaciones necesitarás la distribución del vector de 
+coeficientes $\beta$, este es normal con media:
+
+
+```r
+coef(fit_score)
+```
+
+y matriz de varianzas y covarianzas $\sigma^2 V$, donde $V$ es: 
+
+
+```r
+summary(fit_score)$cov.unscaled
+```
+
+y $\sigma$ se calcula como $\sigma=\hat{\sigma}\sqrt{(df)/X}$, donde X es una 
+generación de una distribución $\chi ^2$ con $df$ ($458$) grados de libertad
+$\hat{\sigma}$ es:
+
+
+```r
+summary(fit_score)$sigma
+```
+
+y $df$ (los grados de libertad) se obtienen:
+
+
+```r
+summary(fit_score)$df[2]
+```
+
+Una vez que obtengas una simulación del vector $\beta$ generas simulaciones 
+para los profesores usando el modelo de regresión lineal y las simulaciones
+de los parámetros (también puedes usar la función `sim` del paquete `arm`.
+
++ Realiza un histograma de la diferencia entre la evaluación del curso
+para $A$ y $B$. 
+
++ ¿Cuál es la probabilidad de que $A$ obtenga una calificación mayor?
+
+2. En el inciso anterior obtienes simulaciones de la distribución conjunta
+$p(\tilde{y},\beta,\sigma^2)$ donde $\beta$ es el vector de coeficientes de 
+la regresión lineal. Para este ejercicio nos vamos a enfocar en el coeficiente
+de belleza ($\beta_3$), realiza $6000$ simulaciones del modelo (como en el 
+inciso anterior) y guarda las realizaciones de $\beta_3$. 
+
++ Genera un histograma con las simulaciones de $\beta_3$.
+
++ Calcula la media y desviación estándar de las simulaciones y comparalas con la 
+estimación y desviación estándar del coeficiente obtenidas usando `summary`.

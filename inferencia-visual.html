@@ -294,6 +294,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="más-bootstrap.html"><a href="más-bootstrap.html"><i class="fa fa-check"></i>6. Más bootstrap</a></li>
 <li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias-1.html"><a href="simulación-de-variables-aleatorias-1.html"><i class="fa fa-check"></i>7. Simulación de variables aleatorias</a></li>
 <li class="chapter" data-level="" data-path="distribuciones-multivariada-y-simulación.html"><a href="distribuciones-multivariada-y-simulación.html"><i class="fa fa-check"></i>8. Distribuciones multivariada y simulación</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual-y-simulación-e-modelos.html"><a href="inferencia-visual-y-simulación-e-modelos.html"><i class="fa fa-check"></i>9. Inferencia visual y simulación e modelos</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -338,8 +339,8 @@ con la inferencia que se realiza a partir de dicha evidencia.</p>
 <p>La inferencia visual nos permite descubrir nuevas relaciones, controlando la
 apofenia.</p>
 <p>¿Qué mapa muestra las tasas de mortalidad reales?</p>
-<p><img src="img/tasas_cancer_2.png" />
-Si podemos distinguir los datos hay evidencia estadística rigurosa de
+<p><img src="img/tasas_cancer_2.png" /></p>
+<p>Si podemos distinguir los datos hay evidencia estadística rigurosa de
 un patrón espacial en las tasas de mortalidad que se puede detectar en la
 gráfica.</p>
 </div>
@@ -407,7 +408,7 @@ los datos observados. ¿Captura este modelo las características observadas?</p>
 <a class="sourceLine" id="cb280-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb280-3" data-line-number="3">sing_null &lt;-<span class="st"> </span><span class="kw">lineup</span>(<span class="kw">null_dist</span>(<span class="st">&#39;height&#39;</span>, <span class="dt">dist =</span> <span class="st">&#39;normal&#39;</span>, </a>
 <a class="sourceLine" id="cb280-4" data-line-number="4">    <span class="dt">params =</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="dv">171</span>, <span class="dt">sd =</span> <span class="dv">10</span>)), <span class="dt">n =</span> <span class="dv">20</span>, singer_g)</a>
-<a class="sourceLine" id="cb280-5" data-line-number="5"><span class="co">#&gt; decrypt(&quot;NH19 joko 7w QWh7k7Ww b3&quot;)</span></a>
+<a class="sourceLine" id="cb280-5" data-line-number="5"><span class="co">#&gt; decrypt(&quot;NH19 joko 7w QWh7k7Ww eA&quot;)</span></a>
 <a class="sourceLine" id="cb280-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb280-7" data-line-number="7"><span class="kw">ggplot</span>(sing_null, <span class="kw">aes</span>(<span class="dt">x =</span> gender, <span class="dt">y =</span> height)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb280-8" data-line-number="8"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>.sample) <span class="op">+</span></a>
@@ -578,7 +579,7 @@ algunas consideraciones para generar datos nulos.</p>
 <p>Un diagrama de dispersión muestra la relación entre dos variables continuas
 y responde a la pregunta: ¿existe una relación entre <span class="math inline">\(x\)</span> y <span class="math inline">\(y\)</span>? Una posible
 hipótesis nula es que no hay relación entre las variables. Supongamos que
-queremos usar preubas visuales para esta hipótesis, la función <em>null_permute</em>
+queremos usar pruebas visuales para esta hipótesis, la función <em>null_permute</em>
 del paquete nullabor recibe el nombre de una variable de los datos y la salida
 de la funcción consiste en la variable permutada para obtener los datos nulos.</p>
 <p><img src="img/manicule2.jpg" /> En este ejercicio usarás los datos <code>diamonds</code>,
@@ -643,14 +644,40 @@ punteros de los Lakers en la temporada 2008/2009, los datos se obtuvieron de
 la hipótesis de una relación cuadrática, los conjuntos nulos se crean ajustando
 el modelo, produciendo predicciones y residuales, y sumando los residuales
 rotados a las predicciones.</p>
-<p>En el siguiente ejemplo buscamos usar el protocolo <em>lineup</em> para evauar
-el ajuste de un modelo, en este caso no usaremos el paquete <code>nullabor</code> sino que
-simularemos directamente del modelo.</p>
+</div>
+<div id="otras-consideraciones-1" class="section level3 unnumbered">
+<h3>Otras consideraciones</h3>
+<p><strong>Potencia</strong></p>
+<ul>
+<li><p>La potencia en una prueba de hipótesis es la probabilidad de rechazar la
+hipótesis nula cuando esta es falsa.</p></li>
+<li><p>En el caso de pruebas visuales la potencia depende de la calidad de la
+gráfica.</p></li>
+<li><p>Se ha estudiado la potencia de las pruebas visuales, <span class="citation">Majumder, Hofmann, and Cook (<a href="#ref-majumder">2013</a>)</span> y se ha visto
+con simulación que las pruebas visuales pueden tener potencia comparable a las
+pruebas de hipótesis tradicionales, a veces incluso superándolas.</p></li>
+<li><p>El paquete <code>nullabor</code> incluye la función <code>visual_power()</code> para calcular
+el poder de una prueba simulada.</p></li>
+</ul>
+<p><strong>Valor p</strong></p>
+<ul>
+<li><p>Si usamos un jurado compuesto por <span class="math inline">\(K\)</span> jueces en lugar de un juez y <span class="math inline">\(k\)</span> de
+ellos entonces el valor p combinado es <span class="math inline">\(P(X \le k)\)</span> donde <span class="math inline">\(X\)</span> tiene distribución
+<span class="math inline">\(Binomial(K, 1/20)\)</span>. Si todos los jueces identifican los datos el valor p sería
+<span class="math inline">\(0.05^K\)</span></p></li>
+<li><p>El paquete <code>nullabor</code> tiene una función para calcular el valor p de una
+prueba dada <code>pvisual()</code>.</p></li>
+</ul>
+<p>Las pruebas de hipótesis visuales, no son la única herramienta que se debe usar
+en el análisis exploratorio o para evaluar un modelo. Sin embargo, las pruebas
+visuales nos ayudan a explorar relaciones observadas en gráficas controlando por
+la apofenia, y en general graficar modelos ajustados nos puede ayudar
+a comprender las implicaciones de un modelo y las fallas del mismo.</p>
 <div id="ejemplo-modelo-poisson-con-sobreabundancia-de-ceros" class="section level4 unnumbered">
 <h4>Ejemplo: modelo Poisson con sobreabundancia de ceros</h4>
 <p>Las ideas detrás de inferencia visual para diagnósticos de modelos son comunes
 en estadística bayesiana, y se pueden extender a la estimación frecuentista
-usando lo que aprendimos en la sección de simulación de modelos probabilísticos.</p>
+usando lo que aprendimos de simulación de modelos probabilísticos.</p>
 <p>Cuando simulamos datos usando el modelo se conoce como simulación de
 <em>datos falsos</em> (<em>fake data</em>) o datos replicados y lo que buscamos es comparar
 datos simulados bajo el modelo ajustado con los datos observados. El siguiente
@@ -691,34 +718,35 @@ modelo se ajusta como sigue:</p>
 simularemos del modelo.</p>
 <div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb290-1" data-line-number="1">X &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>roach1 <span class="op">+</span><span class="st"> </span>treatment <span class="op">+</span><span class="st"> </span>senior, <span class="dt">family =</span> poisson, </a>
 <a class="sourceLine" id="cb290-2" data-line-number="2">  <span class="dt">data =</span> roachdata)</a>
-<a class="sourceLine" id="cb290-3" data-line-number="3">n &lt;-<span class="st"> </span><span class="kw">nrow</span>(X)</a>
+<a class="sourceLine" id="cb290-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb290-4" data-line-number="4">simula_modelo &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">n_sims =</span> <span class="dv">19</span>, ajuste){</a>
-<a class="sourceLine" id="cb290-5" data-line-number="5">    <span class="co"># simulamos los coeficientes del modelo</span></a>
-<a class="sourceLine" id="cb290-6" data-line-number="6">    betas &lt;-<span class="st"> </span><span class="kw">coef</span>(<span class="kw">sim</span>(ajuste, n_sims))</a>
-<a class="sourceLine" id="cb290-7" data-line-number="7">    <span class="co"># calculamos ui*exp(Xb)</span></a>
-<a class="sourceLine" id="cb290-8" data-line-number="8">    y_hat &lt;-<span class="st"> </span>roachdata<span class="op">$</span>exposure2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>(X <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(betas))</a>
-<a class="sourceLine" id="cb290-9" data-line-number="9">    <span class="co"># creamos una lista con las y_hat de cada simulación</span></a>
-<a class="sourceLine" id="cb290-10" data-line-number="10">    y_hat_list &lt;-<span class="st"> </span><span class="kw">split</span>(y_hat, <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(y_hat), <span class="dt">each =</span> <span class="kw">nrow</span>(y_hat)))</a>
-<a class="sourceLine" id="cb290-11" data-line-number="11">    <span class="co"># simulamos observaciones</span></a>
-<a class="sourceLine" id="cb290-12" data-line-number="12">    y_sims &lt;-<span class="st"> </span><span class="kw">map_df</span>(y_hat_list, <span class="op">~</span><span class="kw">rpois</span>(n, .))</a>
-<a class="sourceLine" id="cb290-13" data-line-number="13">    y_sims_df &lt;-<span class="st"> </span><span class="kw">bind_cols</span>(<span class="dt">X =</span> <span class="dv">1</span><span class="op">:</span>n, y_sims) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb290-14" data-line-number="14"><span class="st">        </span><span class="kw">gather</span>(sim, y, <span class="op">-</span>X) </a>
-<a class="sourceLine" id="cb290-15" data-line-number="15">    <span class="co"># código para esconder los datos</span></a>
-<a class="sourceLine" id="cb290-16" data-line-number="16">    codigo &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>(n_sims <span class="op">+</span><span class="st"> </span><span class="dv">1</span>), n_sims <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb290-17" data-line-number="17">    sims_datos &lt;-<span class="st"> </span>y_sims_df <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb290-18" data-line-number="18"><span class="st">        </span><span class="kw">bind_rows</span>(dplyr<span class="op">::</span><span class="kw">select</span>(roachdata, X, y)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb290-19" data-line-number="19"><span class="st">        </span><span class="kw">mutate</span>(<span class="dt">sample =</span> <span class="kw">rep</span>(codigo, <span class="dt">each =</span> n))</a>
-<a class="sourceLine" id="cb290-20" data-line-number="20">    <span class="kw">list</span>(<span class="dt">sims_datos =</span> sims_datos, <span class="dt">y_sims_df =</span> y_sims_df,</a>
-<a class="sourceLine" id="cb290-21" data-line-number="21">        <span class="dt">codigo =</span> codigo[n_sims <span class="op">+</span><span class="st"> </span><span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb290-22" data-line-number="22">}</a>
-<a class="sourceLine" id="cb290-23" data-line-number="23"></a>
-<a class="sourceLine" id="cb290-24" data-line-number="24">sim_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">simula_modelo</span>(<span class="dt">n_sims =</span> <span class="dv">9</span>, glm_<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb290-25" data-line-number="25"><span class="kw">ggplot</span>(sim_<span class="dv">1</span><span class="op">$</span>sims_datos, <span class="kw">aes</span>(<span class="dt">x =</span> y)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb290-26" data-line-number="26"><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb290-27" data-line-number="27"><span class="st">    </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">40</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb290-28" data-line-number="28"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>sample, <span class="dt">nrow =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb290-29" data-line-number="29"><span class="co">#&gt; Warning: Removed 306 rows containing non-finite values (stat_bin).</span></a>
-<a class="sourceLine" id="cb290-30" data-line-number="30"><span class="co">#&gt; Warning: Removed 20 rows containing missing values (geom_bar).</span></a></code></pre></div>
+<a class="sourceLine" id="cb290-5" data-line-number="5">    n &lt;-<span class="st"> </span><span class="kw">nrow</span>(X)</a>
+<a class="sourceLine" id="cb290-6" data-line-number="6">    <span class="co"># simulamos los coeficientes del modelo</span></a>
+<a class="sourceLine" id="cb290-7" data-line-number="7">    betas &lt;-<span class="st"> </span><span class="kw">coef</span>(<span class="kw">sim</span>(ajuste, n_sims))</a>
+<a class="sourceLine" id="cb290-8" data-line-number="8">    <span class="co"># calculamos ui*exp(Xb)</span></a>
+<a class="sourceLine" id="cb290-9" data-line-number="9">    y_hat &lt;-<span class="st"> </span>roachdata<span class="op">$</span>exposure2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>(X <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(betas))</a>
+<a class="sourceLine" id="cb290-10" data-line-number="10">    <span class="co"># creamos una lista con las y_hat de cada simulación</span></a>
+<a class="sourceLine" id="cb290-11" data-line-number="11">    y_hat_list &lt;-<span class="st"> </span><span class="kw">split</span>(y_hat, <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(y_hat), <span class="dt">each =</span> <span class="kw">nrow</span>(y_hat)))</a>
+<a class="sourceLine" id="cb290-12" data-line-number="12">    <span class="co"># simulamos observaciones</span></a>
+<a class="sourceLine" id="cb290-13" data-line-number="13">    y_sims &lt;-<span class="st"> </span><span class="kw">map_df</span>(y_hat_list, <span class="op">~</span><span class="kw">rpois</span>(n, .))</a>
+<a class="sourceLine" id="cb290-14" data-line-number="14">    y_sims_df &lt;-<span class="st"> </span><span class="kw">bind_cols</span>(<span class="dt">X =</span> <span class="dv">1</span><span class="op">:</span>n, y_sims) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb290-15" data-line-number="15"><span class="st">        </span><span class="kw">gather</span>(sim, y, <span class="op">-</span>X) </a>
+<a class="sourceLine" id="cb290-16" data-line-number="16">    <span class="co"># código para esconder los datos</span></a>
+<a class="sourceLine" id="cb290-17" data-line-number="17">    codigo &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>(n_sims <span class="op">+</span><span class="st"> </span><span class="dv">1</span>), n_sims <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb290-18" data-line-number="18">    sims_datos &lt;-<span class="st"> </span>y_sims_df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb290-19" data-line-number="19"><span class="st">        </span><span class="kw">bind_rows</span>(dplyr<span class="op">::</span><span class="kw">select</span>(roachdata, X, y)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb290-20" data-line-number="20"><span class="st">        </span><span class="kw">mutate</span>(<span class="dt">sample =</span> <span class="kw">rep</span>(codigo, <span class="dt">each =</span> n))</a>
+<a class="sourceLine" id="cb290-21" data-line-number="21">    <span class="kw">list</span>(<span class="dt">sims_datos =</span> sims_datos, <span class="dt">y_sims_df =</span> y_sims_df,</a>
+<a class="sourceLine" id="cb290-22" data-line-number="22">        <span class="dt">codigo =</span> codigo[n_sims <span class="op">+</span><span class="st"> </span><span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb290-23" data-line-number="23">}</a>
+<a class="sourceLine" id="cb290-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb290-25" data-line-number="25">sim_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">simula_modelo</span>(<span class="dt">n_sims =</span> <span class="dv">9</span>, glm_<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb290-26" data-line-number="26"><span class="kw">ggplot</span>(sim_<span class="dv">1</span><span class="op">$</span>sims_datos, <span class="kw">aes</span>(<span class="dt">x =</span> y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb290-27" data-line-number="27"><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb290-28" data-line-number="28"><span class="st">    </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">40</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb290-29" data-line-number="29"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>sample, <span class="dt">nrow =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb290-30" data-line-number="30"><span class="co">#&gt; Warning: Removed 306 rows containing non-finite values (stat_bin).</span></a>
+<a class="sourceLine" id="cb290-31" data-line-number="31"><span class="co">#&gt; Warning: Removed 20 rows containing missing values (geom_bar).</span></a></code></pre></div>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-38-1.png" width="576" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb291-1" data-line-number="1"><span class="co"># los datos están en sim_1$codigo</span></a></code></pre></div>
 <ul>
@@ -769,25 +797,26 @@ no es congruente con el modelo Poisson que ajustamos.</p>
 <a class="sourceLine" id="cb294-18" data-line-number="18">    betas &lt;-<span class="st"> </span><span class="kw">coef</span>(<span class="kw">sim</span>(ajuste, n_sims))</a>
 <a class="sourceLine" id="cb294-19" data-line-number="19">    <span class="co"># calculamos ui*exp(Xb)</span></a>
 <a class="sourceLine" id="cb294-20" data-line-number="20">    y_hat &lt;-<span class="st"> </span>roachdata<span class="op">$</span>exposure2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>(X <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(betas))</a>
-<a class="sourceLine" id="cb294-21" data-line-number="21">    <span class="co"># creamos una lista con las y_hat de cada simulación</span></a>
-<a class="sourceLine" id="cb294-22" data-line-number="22">    y_hat_list &lt;-<span class="st"> </span><span class="kw">split</span>(y_hat, <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(y_hat), <span class="dt">each =</span> <span class="kw">nrow</span>(y_hat)))</a>
-<a class="sourceLine" id="cb294-23" data-line-number="23">    <span class="co"># simulamos observaciones</span></a>
-<a class="sourceLine" id="cb294-24" data-line-number="24">    y_sims &lt;-<span class="st"> </span><span class="kw">map_df</span>(y_hat_list, <span class="op">~</span><span class="kw">rnegbin</span>(n, ., . <span class="op">/</span><span class="st"> </span>(<span class="fl">65.4</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)))</a>
-<a class="sourceLine" id="cb294-25" data-line-number="25">    y_sims_df &lt;-<span class="st"> </span><span class="kw">bind_cols</span>(<span class="dt">X =</span> <span class="dv">1</span><span class="op">:</span>n, y_sims) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb294-26" data-line-number="26"><span class="st">        </span><span class="kw">gather</span>(sim, y, <span class="op">-</span>X) </a>
-<a class="sourceLine" id="cb294-27" data-line-number="27">    <span class="co"># código para esconder los datos</span></a>
-<a class="sourceLine" id="cb294-28" data-line-number="28">    codigo &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>(n_sims <span class="op">+</span><span class="st"> </span><span class="dv">1</span>), n_sims <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb294-29" data-line-number="29">    sims_datos &lt;-<span class="st"> </span>y_sims_df <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb294-30" data-line-number="30"><span class="st">        </span><span class="kw">bind_rows</span>(dplyr<span class="op">::</span><span class="kw">select</span>(roachdata, X, y)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb294-31" data-line-number="31"><span class="st">        </span><span class="kw">mutate</span>(<span class="dt">sample =</span> <span class="kw">rep</span>(codigo, <span class="dt">each =</span> n))</a>
-<a class="sourceLine" id="cb294-32" data-line-number="32">    <span class="kw">list</span>(<span class="dt">sims_datos =</span> sims_datos, <span class="dt">y_sims_df =</span> y_sims_df, <span class="dt">codigo =</span> codigo[n_sims <span class="op">+</span><span class="st"> </span><span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb294-33" data-line-number="33">}</a>
-<a class="sourceLine" id="cb294-34" data-line-number="34"></a>
-<a class="sourceLine" id="cb294-35" data-line-number="35">sim_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">simula_modelo</span>(<span class="dt">n_sims =</span> <span class="dv">9</span>, glm_<span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb294-36" data-line-number="36"><span class="kw">ggplot</span>(sim_<span class="dv">2</span><span class="op">$</span>sims_datos, <span class="kw">aes</span>(<span class="dt">x =</span> y)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb294-37" data-line-number="37"><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">4</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb294-38" data-line-number="38"><span class="st">    </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">100</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb294-39" data-line-number="39"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>sample, <span class="dt">nrow =</span> <span class="dv">2</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb294-21" data-line-number="21">    n &lt;-<span class="st"> </span><span class="kw">nrow</span>(X)</a>
+<a class="sourceLine" id="cb294-22" data-line-number="22">    <span class="co"># creamos una lista con las y_hat de cada simulación</span></a>
+<a class="sourceLine" id="cb294-23" data-line-number="23">    y_hat_list &lt;-<span class="st"> </span><span class="kw">split</span>(y_hat, <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(y_hat), <span class="dt">each =</span> <span class="kw">nrow</span>(y_hat)))</a>
+<a class="sourceLine" id="cb294-24" data-line-number="24">    <span class="co"># simulamos observaciones</span></a>
+<a class="sourceLine" id="cb294-25" data-line-number="25">    y_sims &lt;-<span class="st"> </span><span class="kw">map_df</span>(y_hat_list, <span class="op">~</span><span class="kw">rnegbin</span>(n, ., . <span class="op">/</span><span class="st"> </span>(<span class="fl">65.4</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)))</a>
+<a class="sourceLine" id="cb294-26" data-line-number="26">    y_sims_df &lt;-<span class="st"> </span><span class="kw">bind_cols</span>(<span class="dt">X =</span> <span class="dv">1</span><span class="op">:</span>n, y_sims) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb294-27" data-line-number="27"><span class="st">        </span><span class="kw">gather</span>(sim, y, <span class="op">-</span>X) </a>
+<a class="sourceLine" id="cb294-28" data-line-number="28">    <span class="co"># código para esconder los datos</span></a>
+<a class="sourceLine" id="cb294-29" data-line-number="29">    codigo &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>(n_sims <span class="op">+</span><span class="st"> </span><span class="dv">1</span>), n_sims <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb294-30" data-line-number="30">    sims_datos &lt;-<span class="st"> </span>y_sims_df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb294-31" data-line-number="31"><span class="st">        </span><span class="kw">bind_rows</span>(dplyr<span class="op">::</span><span class="kw">select</span>(roachdata, X, y)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb294-32" data-line-number="32"><span class="st">        </span><span class="kw">mutate</span>(<span class="dt">sample =</span> <span class="kw">rep</span>(codigo, <span class="dt">each =</span> n))</a>
+<a class="sourceLine" id="cb294-33" data-line-number="33">    <span class="kw">list</span>(<span class="dt">sims_datos =</span> sims_datos, <span class="dt">y_sims_df =</span> y_sims_df, <span class="dt">codigo =</span> codigo[n_sims <span class="op">+</span><span class="st"> </span><span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb294-34" data-line-number="34">}</a>
+<a class="sourceLine" id="cb294-35" data-line-number="35"></a>
+<a class="sourceLine" id="cb294-36" data-line-number="36">sim_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">simula_modelo</span>(<span class="dt">n_sims =</span> <span class="dv">9</span>, glm_<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb294-37" data-line-number="37"><span class="kw">ggplot</span>(sim_<span class="dv">2</span><span class="op">$</span>sims_datos, <span class="kw">aes</span>(<span class="dt">x =</span> y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb294-38" data-line-number="38"><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">4</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb294-39" data-line-number="39"><span class="st">    </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">100</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb294-40" data-line-number="40"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>sample, <span class="dt">nrow =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-41-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>El panel que corresponde a los datos es:</p>
 <div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb295-1" data-line-number="1">sim_<span class="dv">2</span><span class="op">$</span>codigo</a>
@@ -807,35 +836,6 @@ el ajuste de un modelo; sin embargo, es una herramienta útil que nos puede
 ayudar a detectar desajustes y en caso de revelarlos nos da indicios de porque
 falla el modelo.</p>
 </div>
-</div>
-<div id="otras-consideraciones-1" class="section level3 unnumbered">
-<h3>Otras consideraciones</h3>
-<p><strong>Potencia</strong></p>
-<ul>
-<li><p>La potencia en una prueba de hipótesis es la probabilidad de rechazar la
-hipótesis nula cuando esta es falsa.</p></li>
-<li><p>En el caso de pruebas visuales la potencia depende de la calidad de la
-gráfica.</p></li>
-<li><p>Se ha estudiado la potencia de las pruebas visuales, <span class="citation">Majumder, Hofmann, and Cook (<a href="#ref-majumder">2013</a>)</span> y se ha visto
-con simulación que las pruebas visuales pueden tener potencia comparable a las
-pruebas de hipótesis tradicionales, a veces incluso superándolas.</p></li>
-<li><p>El paquete <code>nullabor</code> incluye la función <code>visual_power()</code> para calcular
-el poder de una prueba simulada.</p></li>
-</ul>
-<p><strong>Valor p</strong></p>
-<ul>
-<li><p>Si usamos un jurado compuesto por <span class="math inline">\(K\)</span> jueces en lugar de un juez y <span class="math inline">\(k\)</span> de
-ellos entonces el valor p combinado es <span class="math inline">\(P(X \le k)\)</span> donde <span class="math inline">\(X\)</span> tiene distribución
-<span class="math inline">\(Binomial(K, 1/20)\)</span>. Si todos los jueces identifican los datos el valor p sería
-<span class="math inline">\(0.05^K\)</span></p></li>
-<li><p>El paquete <code>nullabor</code> tiene una función para calcular el valor p de una
-prueba dada <code>pvisual()</code>.</p></li>
-</ul>
-<p>Las pruebas de hipótesis visuales, no son la única herramienta que se debe usar
-en el análisis exploratorio o para evaluar un modelo. Sin embargo, las pruebas
-visuales nos ayudan a explorar relaciones observadas en gráficas controlando por
-la apofenia, y en general graficar modelos ajustados nos puede ayudar
-a comprender las implicaciones de un modelo y las fallas del mismo.</p>
 </div>
 </div>
 <h3>Referencias</h3>

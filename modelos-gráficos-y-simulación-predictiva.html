@@ -294,6 +294,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="más-bootstrap.html"><a href="más-bootstrap.html"><i class="fa fa-check"></i>6. Más bootstrap</a></li>
 <li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias-1.html"><a href="simulación-de-variables-aleatorias-1.html"><i class="fa fa-check"></i>7. Simulación de variables aleatorias</a></li>
 <li class="chapter" data-level="" data-path="distribuciones-multivariada-y-simulación.html"><a href="distribuciones-multivariada-y-simulación.html"><i class="fa fa-check"></i>8. Distribuciones multivariada y simulación</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual-y-simulación-e-modelos.html"><a href="inferencia-visual-y-simulación-e-modelos.html"><i class="fa fa-check"></i>9. Inferencia visual y simulación e modelos</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -440,7 +441,7 @@ asociado? ¿qué podemos decir del promedio de estatura?</p>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-9-1.png" width="350px" style="display: block; margin: auto;" /></p>
 <p>¿Y que podemos decir de la altura máxima?</p>
 <div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb265-1" data-line-number="1">alt_max &lt;-<span class="st"> </span>sims_alturas <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_dbl</span>(max)</a>
-<a class="sourceLine" id="cb265-2" data-line-number="2"><span class="kw">qplot</span>(alt_max, <span class="dt">geom =</span> <span class="st">&quot;histogram&quot;</span>, <span class="dt">binwidth =</span> <span class="fl">1.5</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb265-2" data-line-number="2"><span class="kw">qplot</span>(alt_max, <span class="dt">geom =</span> <span class="st">&quot;histogram&quot;</span>, <span class="dt">binwidth =</span> <span class="fl">1.5</span>, <span class="dt">alpha =</span> <span class="fl">0.7</span>)</a></code></pre></div>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-10-1.png" width="350px" style="display: block; margin: auto;" /></p>
 <p><img src="img/manicule2.jpg" /> Supongamos que una compañía cambia la tecnología
 usada para producir una cámara, un estudio estima que el ahorro en la producción
@@ -451,11 +452,12 @@ incertidumbre son independientes, usa simulación de variables aleatorias
 normales para estimar el total de dinero que ahorrará la compañía, calcula un
 intervalo de confianza.</p>
 </div>
-<div id="ejemplo-de-simulación-de-un-modelo-de-regresión" class="section level4">
-<h4><span class="header-section-number">8.2.0.2</span> Ejemplo de simulación de un modelo de regresión</h4>
-<p>En regresión utilizamos simulación para capturar tanto la incertidumbre en la
-predicción (término de error en el modelo) como la incertidumbre en la inferencia
-(errores estándar de los coeficientes e incertidumbre del error residual).</p>
+<div id="ejemplo-de-simulación-de-un-modelo-de-regresión" class="section level4 unnumbered">
+<h4>Ejemplo de simulación de un modelo de regresión</h4>
+<p>En regresión podemos utilizar simulación para capturar tanto la incertidumbre en
+la predicción (término de error en el modelo) como la incertidumbre en la
+inferencia (errores estándar de los coeficientes e incertidumbre del error
+residual).</p>
 <p>Comenzamos con un ejemplo en el que simulamos únicamente <strong>incertidumbre en la
 predicción</strong>.</p>
 <p>Supongamos que el puntaje de un niño de tres años en una prueba cognitiva esta
@@ -470,9 +472,9 @@ preparatoria (codificado como <span class="math inline">\(1\)</span>) o no (codi
 <li><span class="math inline">\(\epsilon_i\)</span> son los error aleatorios, estos son
 independientes con distribución normal <span class="math inline">\(\epsilon_i \sim N(0, \sigma^2)\)</span>.</li>
 </ul>
-<p>Ahora consideremos el problema de simular el puntaje de <span class="math inline">\(50\)</span> niños <span class="math inline">\(30\)</span> con madres
-que terminaron la preparatoria y <span class="math inline">\(20\)</span> cuyas madres no terminaron. Los coeficientes
-que usaremos son:</p>
+<p>Ahora consideremos el problema de simular el puntaje de <span class="math inline">\(50\)</span> niños <span class="math inline">\(30\)</span> con
+madres que terminaron la preparatoria y <span class="math inline">\(20\)</span> cuyas madres no terminaron. Los
+coeficientes que usaremos son:</p>
 <p><span class="math display">\[\beta_0 = 78\]</span>
 <span class="math display">\[\beta_1 = 12\]</span>
 <span class="math display">\[\sigma = 20\]</span></p>
@@ -489,10 +491,10 @@ que usaremos son:</p>
 <a class="sourceLine" id="cb267-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb267-6" data-line-number="6"><span class="kw">qplot</span>(medias, <span class="dt">geom =</span> <span class="st">&quot;histogram&quot;</span>, <span class="dt">binwidth =</span> <span class="fl">1.5</span>)</a></code></pre></div>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-13-1.png" width="350px" style="display: block; margin: auto;" /></p>
-<p>Supongamos ahora que nos interesa incorporar que tenemos <strong>incertidumbre en los
+<p>Supongamos ahora que nos interesa incorporar <strong>incertidumbre en los
 coeficientes de regresión</strong>, y expresamos nuestra incertidumbre a través de
 distribuciones de probabilidad, ¿cómo sería el modelo gráfico asociado?</p>
-<p>Primero suponemos que <span class="math inline">\(\sigma^2\)</span> tiene una distribución centrada en <span class="math inline">\(20^2\)</span>,
+<p>Primero, suponemos que <span class="math inline">\(\sigma^2\)</span> tiene una distribución centrada en <span class="math inline">\(20^2\)</span>,
 proporcional a una distribución <span class="math inline">\(\chi^2\)</span> con <span class="math inline">\(432\)</span> grados de libertad.</p>
 <p><span class="math display">\[
 \begin{eqnarray*}
@@ -507,9 +509,9 @@ proporcional a una distribución <span class="math inline">\(\chi^2\)</span> con
 \end{array}\right)\right]
 \end{eqnarray*}
 \]</span></p>
-<p>Finalmente, simulamos del modelo incorporando tanto la incertidumbre
+<p>Ahora, simulamos del modelo incorporando tanto la incertidumbre
 correpondiente a la predicción como la incertidumbre en los coeficientes de
-regresión.</p>
+regresión, para los coeficientes:</p>
 <ol style="list-style-type: decimal">
 <li><p>Simula <span class="math inline">\(\sigma=20\sqrt{(432)/X}\)</span> donde <span class="math inline">\(X\)</span> es una generación de una
 distribución <span class="math inline">\(\chi^2\)</span> con <span class="math inline">\(432\)</span> grados de libertad.</p></li>
@@ -522,21 +524,21 @@ normal multivariada con media <span class="math inline">\((77,12)\)</span> y mat
 <a class="sourceLine" id="cb268-3" data-line-number="3">    sigma &lt;-<span class="st"> </span><span class="dv">20</span> <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>((<span class="dv">432</span>) <span class="op">/</span><span class="st"> </span><span class="kw">rchisq</span>(<span class="dv">1</span>, <span class="dv">432</span>))</a>
 <a class="sourceLine" id="cb268-4" data-line-number="4">    <span class="co"># la usamos para simular betas</span></a>
 <a class="sourceLine" id="cb268-5" data-line-number="5">    beta &lt;-<span class="st"> </span>MASS<span class="op">::</span><span class="kw">mvrnorm</span>(<span class="dv">1</span>, <span class="dt">mu =</span> <span class="kw">c</span>(<span class="dv">78</span>, <span class="dv">12</span>), </a>
-<a class="sourceLine" id="cb268-6" data-line-number="6">        <span class="co"># Sigma = sigma ^ 2 * matrix(c(4.2, -4.2, -4.2, 5.4), nrow = 2))</span></a>
-<a class="sourceLine" id="cb268-7" data-line-number="7">        <span class="dt">Sigma =</span> sigma <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="fl">0.011</span>, <span class="fl">-0.011</span>, <span class="fl">-0.011</span>, <span class="fl">0.013</span>), <span class="dt">nrow =</span> <span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb268-8" data-line-number="8">    <span class="co"># Simulamos parámetros</span></a>
-<a class="sourceLine" id="cb268-9" data-line-number="9">    <span class="kw">list</span>(<span class="dt">sigma =</span> sigma, <span class="dt">beta =</span> beta)</a>
-<a class="sourceLine" id="cb268-10" data-line-number="10">}</a>
-<a class="sourceLine" id="cb268-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb268-12" data-line-number="12">sims_parametros &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">10000</span>, <span class="kw">simula_parametros</span>()) </a>
-<a class="sourceLine" id="cb268-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb268-14" data-line-number="14"><span class="co"># simulamos los puntajes</span></a>
-<a class="sourceLine" id="cb268-15" data-line-number="15">simula_puntajes &lt;-<span class="st"> </span><span class="cf">function</span>(beta, sigma, <span class="dt">n_hs =</span> <span class="dv">30</span>, <span class="dt">n_nhs =</span> <span class="dv">20</span>){</a>
-<a class="sourceLine" id="cb268-16" data-line-number="16">    vector_mu &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(beta[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>beta[<span class="dv">2</span>], n_hs), <span class="kw">rep</span>(beta[<span class="dv">1</span>], n_nhs)) <span class="co"># beta_0 + beta_1 X</span></a>
-<a class="sourceLine" id="cb268-17" data-line-number="17">    obs =<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">50</span>, vector_mu, sigma)</a>
-<a class="sourceLine" id="cb268-18" data-line-number="18">}</a>
-<a class="sourceLine" id="cb268-19" data-line-number="19"></a>
-<a class="sourceLine" id="cb268-20" data-line-number="20">sims_puntajes &lt;-<span class="st"> </span><span class="kw">map</span>(sims_parametros, <span class="op">~</span><span class="kw">simula_puntajes</span>(<span class="dt">beta =</span> .[[<span class="st">&quot;beta&quot;</span>]], <span class="dt">sigma =</span> .[[<span class="st">&quot;sigma&quot;</span>]]))</a>
+<a class="sourceLine" id="cb268-6" data-line-number="6">        <span class="dt">Sigma =</span> sigma <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="fl">0.011</span>, <span class="fl">-0.011</span>, <span class="fl">-0.011</span>, <span class="fl">0.013</span>), <span class="dt">nrow =</span> <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb268-7" data-line-number="7">    <span class="co"># Simulamos parámetros</span></a>
+<a class="sourceLine" id="cb268-8" data-line-number="8">    <span class="kw">list</span>(<span class="dt">sigma =</span> sigma, <span class="dt">beta =</span> beta)</a>
+<a class="sourceLine" id="cb268-9" data-line-number="9">}</a>
+<a class="sourceLine" id="cb268-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb268-11" data-line-number="11">sims_parametros &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">10000</span>, <span class="kw">simula_parametros</span>()) </a>
+<a class="sourceLine" id="cb268-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb268-13" data-line-number="13"><span class="co"># simulamos los puntajes</span></a>
+<a class="sourceLine" id="cb268-14" data-line-number="14">simula_puntajes &lt;-<span class="st"> </span><span class="cf">function</span>(beta, sigma, <span class="dt">n_hs =</span> <span class="dv">30</span>, <span class="dt">n_nhs =</span> <span class="dv">20</span>){</a>
+<a class="sourceLine" id="cb268-15" data-line-number="15">    vector_mu &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(beta[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>beta[<span class="dv">2</span>], n_hs), <span class="kw">rep</span>(beta[<span class="dv">1</span>], n_nhs)) <span class="co"># beta_0 + beta_1 X</span></a>
+<a class="sourceLine" id="cb268-16" data-line-number="16">    obs =<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">50</span>, vector_mu, sigma)</a>
+<a class="sourceLine" id="cb268-17" data-line-number="17">}</a>
+<a class="sourceLine" id="cb268-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb268-19" data-line-number="19">sims_puntajes &lt;-<span class="st"> </span><span class="kw">map</span>(sims_parametros, <span class="op">~</span><span class="kw">simula_puntajes</span>(<span class="dt">beta =</span> .[[<span class="st">&quot;beta&quot;</span>]], </a>
+<a class="sourceLine" id="cb268-20" data-line-number="20">  <span class="dt">sigma =</span> .[[<span class="st">&quot;sigma&quot;</span>]]))</a>
 <a class="sourceLine" id="cb268-21" data-line-number="21">medias_incert &lt;-<span class="st"> </span>sims_puntajes <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_dbl</span>(mean)</a>
 <a class="sourceLine" id="cb268-22" data-line-number="22"></a>
 <a class="sourceLine" id="cb268-23" data-line-number="23"><span class="kw">quantile</span>(medias_incert, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a>
@@ -544,7 +546,10 @@ normal multivariada con media <span class="math inline">\((77,12)\)</span> y mat
 <a class="sourceLine" id="cb268-25" data-line-number="25"><span class="co">#&gt; 79.22699 90.89105</span></a>
 <a class="sourceLine" id="cb268-26" data-line-number="26"><span class="kw">qplot</span>(medias_incert, <span class="dt">geom =</span> <span class="st">&quot;histogram&quot;</span>, <span class="dt">binwidth =</span> <span class="dv">1</span>)</a></code></pre></div>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-14-1.png" width="350px" style="display: block; margin: auto;" /></p>
-<p>Los parametros se obtuvieron de ajustar el modelo de regresión lineal.</p>
+<p><img src="img/manicule2.jpg" /> Si nos interesara la mediana de los puntajes, ¿qué
+cambio tendríamos que hacer en el código?</p>
+<p>Los parametros se obtuvieron de ajustar el modelo de regresión lineal a un
+conjunto de 434 observaciones de puntajes de niños.</p>
 <div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb269-1" data-line-number="1"><span class="kw">library</span>(usethis)</a>
 <a class="sourceLine" id="cb269-2" data-line-number="2"><span class="kw">use_directory</span>(<span class="st">&quot;data&quot;</span>) <span class="co"># crea carpeta en caso de que no exista ya</span></a>
 <a class="sourceLine" id="cb269-3" data-line-number="3">usethis<span class="op">::</span><span class="kw">use_zip</span>(<span class="st">&quot;https://github.com/tereom/estcomp/raw/master/data-raw/data_sim.zip&quot;</span>, </a>
@@ -552,28 +557,33 @@ normal multivariada con media <span class="math inline">\((77,12)\)</span> y mat
 <div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb270-1" data-line-number="1"><span class="kw">library</span>(foreign)</a>
 <a class="sourceLine" id="cb270-2" data-line-number="2">kids_iq &lt;-<span class="st"> </span><span class="kw">read.dta</span>(<span class="st">&quot;data/data_sim/kidiq.dta&quot;</span>)</a>
 <a class="sourceLine" id="cb270-3" data-line-number="3">lm_kid &lt;-<span class="st"> </span><span class="kw">lm</span>(kid_score <span class="op">~</span><span class="st"> </span>mom_hs, kids_iq)</a>
-<a class="sourceLine" id="cb270-4" data-line-number="4">V &lt;-<span class="st"> </span><span class="kw">vcov</span>(lm_kid) <span class="op">/</span><span class="st"> </span><span class="dv">20</span> <span class="op">^</span><span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb270-5" data-line-number="5"><span class="kw">summary</span>(lm_kid)</a>
-<a class="sourceLine" id="cb270-6" data-line-number="6"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb270-7" data-line-number="7"><span class="co">#&gt; Call:</span></a>
-<a class="sourceLine" id="cb270-8" data-line-number="8"><span class="co">#&gt; lm(formula = kid_score ~ mom_hs, data = kids_iq)</span></a>
-<a class="sourceLine" id="cb270-9" data-line-number="9"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb270-10" data-line-number="10"><span class="co">#&gt; Residuals:</span></a>
-<a class="sourceLine" id="cb270-11" data-line-number="11"><span class="co">#&gt;    Min     1Q Median     3Q    Max </span></a>
-<a class="sourceLine" id="cb270-12" data-line-number="12"><span class="co">#&gt; -57.55 -13.32   2.68  14.68  58.45 </span></a>
-<a class="sourceLine" id="cb270-13" data-line-number="13"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb270-14" data-line-number="14"><span class="co">#&gt; Coefficients:</span></a>
-<a class="sourceLine" id="cb270-15" data-line-number="15"><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></a>
-<a class="sourceLine" id="cb270-16" data-line-number="16"><span class="co">#&gt; (Intercept)   77.548      2.059  37.670  &lt; 2e-16 ***</span></a>
-<a class="sourceLine" id="cb270-17" data-line-number="17"><span class="co">#&gt; mom_hs        11.771      2.322   5.069 5.96e-07 ***</span></a>
-<a class="sourceLine" id="cb270-18" data-line-number="18"><span class="co">#&gt; ---</span></a>
-<a class="sourceLine" id="cb270-19" data-line-number="19"><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></a>
-<a class="sourceLine" id="cb270-20" data-line-number="20"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb270-21" data-line-number="21"><span class="co">#&gt; Residual standard error: 19.85 on 432 degrees of freedom</span></a>
-<a class="sourceLine" id="cb270-22" data-line-number="22"><span class="co">#&gt; Multiple R-squared:  0.05613,    Adjusted R-squared:  0.05394 </span></a>
-<a class="sourceLine" id="cb270-23" data-line-number="23"><span class="co">#&gt; F-statistic: 25.69 on 1 and 432 DF,  p-value: 5.957e-07</span></a></code></pre></div>
-<p>Podemos usar simulación para calcular intervalos de confianza para <span class="math inline">\(\beta_0\)</span> y
-<span class="math inline">\(\beta_1\)</span>,</p>
+<a class="sourceLine" id="cb270-4" data-line-number="4"><span class="kw">summary</span>(lm_kid)</a>
+<a class="sourceLine" id="cb270-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb270-6" data-line-number="6"><span class="co">#&gt; Call:</span></a>
+<a class="sourceLine" id="cb270-7" data-line-number="7"><span class="co">#&gt; lm(formula = kid_score ~ mom_hs, data = kids_iq)</span></a>
+<a class="sourceLine" id="cb270-8" data-line-number="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb270-9" data-line-number="9"><span class="co">#&gt; Residuals:</span></a>
+<a class="sourceLine" id="cb270-10" data-line-number="10"><span class="co">#&gt;    Min     1Q Median     3Q    Max </span></a>
+<a class="sourceLine" id="cb270-11" data-line-number="11"><span class="co">#&gt; -57.55 -13.32   2.68  14.68  58.45 </span></a>
+<a class="sourceLine" id="cb270-12" data-line-number="12"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb270-13" data-line-number="13"><span class="co">#&gt; Coefficients:</span></a>
+<a class="sourceLine" id="cb270-14" data-line-number="14"><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></a>
+<a class="sourceLine" id="cb270-15" data-line-number="15"><span class="co">#&gt; (Intercept)   77.548      2.059  37.670  &lt; 2e-16 ***</span></a>
+<a class="sourceLine" id="cb270-16" data-line-number="16"><span class="co">#&gt; mom_hs        11.771      2.322   5.069 5.96e-07 ***</span></a>
+<a class="sourceLine" id="cb270-17" data-line-number="17"><span class="co">#&gt; ---</span></a>
+<a class="sourceLine" id="cb270-18" data-line-number="18"><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></a>
+<a class="sourceLine" id="cb270-19" data-line-number="19"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb270-20" data-line-number="20"><span class="co">#&gt; Residual standard error: 19.85 on 432 degrees of freedom</span></a>
+<a class="sourceLine" id="cb270-21" data-line-number="21"><span class="co">#&gt; Multiple R-squared:  0.05613,    Adjusted R-squared:  0.05394 </span></a>
+<a class="sourceLine" id="cb270-22" data-line-number="22"><span class="co">#&gt; F-statistic: 25.69 on 1 and 432 DF,  p-value: 5.957e-07</span></a>
+<a class="sourceLine" id="cb270-23" data-line-number="23"><span class="kw">summary</span>(lm_kid)<span class="op">$</span>cov.unscaled</a>
+<a class="sourceLine" id="cb270-24" data-line-number="24"><span class="co">#&gt;             (Intercept)      mom_hs</span></a>
+<a class="sourceLine" id="cb270-25" data-line-number="25"><span class="co">#&gt; (Intercept)  0.01075269 -0.01075269</span></a>
+<a class="sourceLine" id="cb270-26" data-line-number="26"><span class="co">#&gt; mom_hs      -0.01075269  0.01368524</span></a>
+<a class="sourceLine" id="cb270-27" data-line-number="27"><span class="kw">summary</span>(lm_kid)<span class="op">$</span>sigma</a>
+<a class="sourceLine" id="cb270-28" data-line-number="28"><span class="co">#&gt; [1] 19.85253</span></a></code></pre></div>
+<p>Podemos usar simulación para calcular intervalos de confianza para
+<span class="math inline">\(\beta_0\)</span> y <span class="math inline">\(\beta_1\)</span>,</p>
 <div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb271-1" data-line-number="1">sims_parametros <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_dbl</span>(<span class="op">~</span>(.<span class="op">$</span>beta[<span class="dv">1</span>])) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sd</span>()</a>
 <a class="sourceLine" id="cb271-2" data-line-number="2"><span class="co">#&gt; [1] 2.114737</span></a>
 <a class="sourceLine" id="cb271-3" data-line-number="3">sims_parametros <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_dbl</span>(<span class="op">~</span>(.<span class="op">$</span>beta[<span class="dv">2</span>])) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sd</span>()</a>
@@ -581,8 +591,8 @@ normal multivariada con media <span class="math inline">\((77,12)\)</span> y mat
 <p>No parece que valga la pena el esfuerzo cuando podemos calcular los intervalos
 analíticamente, sin embargo con simulación podemos responder fácilmente otras
 preguntas, por ejemplo, la pregunta inicial: ¿cuál es la media esperada para un
-conjunto de <span class="math inline">\(50\)</span> niños, <span class="math inline">\(30\)</span> con madres que hicieron preparatoria y <span class="math inline">\(20\)</span> que no? es
-fácil de responder con simulación.</p>
+conjunto de <span class="math inline">\(50\)</span> niños, <span class="math inline">\(30\)</span> con madres que hicieron preparatoria y <span class="math inline">\(20\)</span> que no?
+es fácil de responder con simulación.</p>
 <p>Podríamos usar <code>predict()</code> para calcular el estimador puntual de la media en el
 examen para los niños:</p>
 <div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb272-1" data-line-number="1">pred_mi_pob &lt;-<span class="st"> </span><span class="kw">predict</span>(lm_kid, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">mom_hs =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">30</span>), </a>
@@ -594,7 +604,7 @@ combinación lineal de los coeficientes del modelo, pero en muchos casos nuestro
 objetivo es más complicado que coeficientes o combinaciones lineales de estos.</p>
 </div>
 <div id="simulación-de-predicciones-no-lineales" class="section level4">
-<h4><span class="header-section-number">8.2.0.3</span> Simulación de predicciones no lineales</h4>
+<h4><span class="header-section-number">8.2.0.2</span> Simulación de predicciones no lineales</h4>
 <p>Veamos un ejemplo de las elecciones en el congreso de EUA. Tenemos un modelo
 que usaremos para predecir la elección de <span class="math inline">\(1990\)</span> basados en la de <span class="math inline">\(1988\)</span>.</p>
 <p><strong>Explicación del problema</strong>. EUA está dividido en <span class="math inline">\(435\)</span> distritos congresionales,
@@ -605,12 +615,12 @@ votos que recibieron los demócratas y republicanos, esto es, se excluyen los
 votos a otros partidos.</p>
 <p>El modelo del que simularemos se construyó usando datos de <span class="math inline">\(1986\)</span> y <span class="math inline">\(1988\)</span>.</p>
 <div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb273-1" data-line-number="1"><span class="co"># Los datos están almacenados en 3 archivos correspondientes al año</span></a>
-<a class="sourceLine" id="cb273-2" data-line-number="2">paths &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="st">&quot;data/data_sim/congress&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb273-2" data-line-number="2">paths &lt;-<span class="st"> </span>fs<span class="op">::</span><span class="kw">dir_ls</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;data_sim&quot;</span>, <span class="st">&quot;congress&quot;</span>))</a>
 <a class="sourceLine" id="cb273-3" data-line-number="3">paths &lt;-<span class="st"> </span><span class="kw">set_names</span>(paths, <span class="kw">basename</span>(paths))</a>
 <a class="sourceLine" id="cb273-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb273-5" data-line-number="5"><span class="co"># Leemos los datos y recodificamos variables</span></a>
-<a class="sourceLine" id="cb273-6" data-line-number="6">congress &lt;-<span class="st"> </span><span class="kw">map_dfr</span>(paths, read.table, <span class="dt">quote =</span> <span class="st">&quot;</span><span class="ch">\&quot;</span><span class="st">&quot;</span>, </a>
-<a class="sourceLine" id="cb273-7" data-line-number="7">  <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>, <span class="dt">.id =</span> <span class="st">&quot;year&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb273-6" data-line-number="6">congress &lt;-<span class="st"> </span><span class="kw">map_dfr</span>(paths, read.table, <span class="dt">quote =</span> <span class="st">&quot;</span><span class="ch">\&quot;</span><span class="st">&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>, </a>
+<a class="sourceLine" id="cb273-7" data-line-number="7">  <span class="dt">.id =</span> <span class="st">&quot;year&quot;</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb273-8" data-line-number="8"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">435</span>, <span class="dv">3</span>),</a>
 <a class="sourceLine" id="cb273-9" data-line-number="9">         <span class="dt">year =</span> <span class="kw">parse_number</span>(year),          <span class="co"># año de la elección</span></a>
 <a class="sourceLine" id="cb273-10" data-line-number="10">         <span class="dt">incumbency =</span> <span class="kw">ifelse</span>(V3 <span class="op">==</span><span class="st"> </span><span class="dv">-9</span>, <span class="ot">NA</span>, V3), <span class="co"># codificar NAs     </span></a>
@@ -626,117 +636,121 @@ votos a otros partidos.</p>
 <a class="sourceLine" id="cb273-20" data-line-number="20"><span class="co">#&gt; $ dem_share  &lt;dbl&gt; 0.7450362, 0.6738455, 0.6964566, 0.4645901, 0.3910945…</span></a>
 <a class="sourceLine" id="cb273-21" data-line-number="21"></a>
 <a class="sourceLine" id="cb273-22" data-line-number="22"><span class="co"># datos en forma horizontal</span></a>
-<a class="sourceLine" id="cb273-23" data-line-number="23">congress_share &lt;-<span class="st"> </span><span class="kw">spread</span>(dplyr<span class="op">::</span><span class="kw">select</span>(congress, <span class="op">-</span>incumbency), year, dem_share)</a>
-<a class="sourceLine" id="cb273-24" data-line-number="24"><span class="kw">colnames</span>(congress_share) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;share_86&quot;</span>, <span class="st">&quot;share_88&quot;</span>, <span class="st">&quot;share_90&quot;</span>)</a>
-<a class="sourceLine" id="cb273-25" data-line-number="25">congress_inc &lt;-<span class="st"> </span><span class="kw">spread</span>(dplyr<span class="op">::</span><span class="kw">select</span>(congress, <span class="op">-</span>dem_share), year, incumbency)</a>
-<a class="sourceLine" id="cb273-26" data-line-number="26"><span class="kw">colnames</span>(congress_inc) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;inc_86&quot;</span>, <span class="st">&quot;inc_88&quot;</span>, <span class="st">&quot;inc_90&quot;</span>)</a>
-<a class="sourceLine" id="cb273-27" data-line-number="27"></a>
-<a class="sourceLine" id="cb273-28" data-line-number="28"><span class="co"># quitamos NAs</span></a>
-<a class="sourceLine" id="cb273-29" data-line-number="29">congress_h &lt;-<span class="st"> </span><span class="kw">na.omit</span>(<span class="kw">left_join</span>(congress_share, congress_inc))</a>
-<a class="sourceLine" id="cb273-30" data-line-number="30"><span class="co">#&gt; Joining, by = &quot;id&quot;</span></a>
-<a class="sourceLine" id="cb273-31" data-line-number="31"><span class="kw">glimpse</span>(congress_h)</a>
-<a class="sourceLine" id="cb273-32" data-line-number="32"><span class="co">#&gt; Observations: 431</span></a>
-<a class="sourceLine" id="cb273-33" data-line-number="33"><span class="co">#&gt; Variables: 7</span></a>
-<a class="sourceLine" id="cb273-34" data-line-number="34"><span class="co">#&gt; $ id       &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, …</span></a>
-<a class="sourceLine" id="cb273-35" data-line-number="35"><span class="co">#&gt; $ share_86 &lt;dbl&gt; 0.7450362, 0.6738455, 0.6964566, 0.4645901, 0.3910945, …</span></a>
-<a class="sourceLine" id="cb273-36" data-line-number="36"><span class="co">#&gt; $ share_88 &lt;dbl&gt; 0.7724427, 0.6361816, 0.6649283, 0.2738342, 0.2636131, …</span></a>
-<a class="sourceLine" id="cb273-37" data-line-number="37"><span class="co">#&gt; $ share_90 &lt;dbl&gt; 0.7140294, 0.5970501, 0.5210433, 0.2343770, 0.4774393, …</span></a>
-<a class="sourceLine" id="cb273-38" data-line-number="38"><span class="co">#&gt; $ inc_86   &lt;int&gt; 1, 1, 1, -1, 1, -1, 0, -1, -1, 1, 1, 1, 1, 1, 1, 0, 1, …</span></a>
-<a class="sourceLine" id="cb273-39" data-line-number="39"><span class="co">#&gt; $ inc_88   &lt;int&gt; 1, 1, 1, -1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1, 1, 1, 1,…</span></a>
-<a class="sourceLine" id="cb273-40" data-line-number="40"><span class="co">#&gt; $ inc_90   &lt;int&gt; 1, 1, 0, -1, 0, -1, 0, -1, -1, 1, 1, 1, 1, 1, 1, 1, 1, …</span></a>
-<a class="sourceLine" id="cb273-41" data-line-number="41"></a>
-<a class="sourceLine" id="cb273-42" data-line-number="42"><span class="kw">ggplot</span>(congress_h, <span class="kw">aes</span>(<span class="dt">x =</span> share_<span class="dv">86</span>, <span class="dt">y =</span> share_<span class="dv">88</span>, <span class="dt">color =</span> <span class="kw">factor</span>(inc_<span class="dv">86</span>))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb273-43" data-line-number="43"><span class="st">    </span><span class="kw">geom_abline</span>(<span class="dt">color =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb273-44" data-line-number="44"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb273-45" data-line-number="45"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">color =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb273-23" data-line-number="23">congress_w &lt;-<span class="st"> </span><span class="kw">pivot_wider</span>(congress, <span class="dt">names_from =</span> year, </a>
+<a class="sourceLine" id="cb273-24" data-line-number="24">  <span class="dt">values_from =</span> <span class="kw">c</span>(incumbency, dem_share))</a>
+<a class="sourceLine" id="cb273-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb273-26" data-line-number="26"><span class="co"># quitamos NAs</span></a>
+<a class="sourceLine" id="cb273-27" data-line-number="27">congress_w &lt;-<span class="st"> </span>congress_w <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb273-28" data-line-number="28"><span class="st">  </span><span class="kw">drop_na</span>()</a>
+<a class="sourceLine" id="cb273-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb273-30" data-line-number="30"><span class="kw">ggplot</span>(congress_w, <span class="kw">aes</span>(<span class="dt">x =</span> dem_share_<span class="dv">1986</span>, <span class="dt">y =</span> dem_share_<span class="dv">1988</span>, </a>
+<a class="sourceLine" id="cb273-31" data-line-number="31">  <span class="dt">color =</span> <span class="kw">factor</span>(incumbency_<span class="dv">1986</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb273-32" data-line-number="32"><span class="st">    </span><span class="kw">geom_abline</span>(<span class="dt">color =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb273-33" data-line-number="33"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb273-34" data-line-number="34"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">color =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-19-1.png" width="528" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb274-1" data-line-number="1"><span class="co"># quitamos las elecciones que no se compitieron</span></a>
-<a class="sourceLine" id="cb274-2" data-line-number="2">congress_h &lt;-<span class="st"> </span><span class="kw">filter</span>(congress_h, share_<span class="dv">88</span> <span class="op">!=</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>share_<span class="dv">88</span> <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb274-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb274-4" data-line-number="4">fit_<span class="dv">88</span> &lt;-<span class="st"> </span><span class="kw">lm</span>(share_<span class="dv">88</span> <span class="op">~</span><span class="st"> </span>share_<span class="dv">86</span> <span class="op">+</span><span class="st"> </span>inc_<span class="dv">88</span>, <span class="dt">data =</span> congress_h)</a>
-<a class="sourceLine" id="cb274-5" data-line-number="5"><span class="kw">summary</span>(fit_<span class="dv">88</span>)</a>
-<a class="sourceLine" id="cb274-6" data-line-number="6"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb274-7" data-line-number="7"><span class="co">#&gt; Call:</span></a>
-<a class="sourceLine" id="cb274-8" data-line-number="8"><span class="co">#&gt; lm(formula = share_88 ~ share_86 + inc_88, data = congress_h)</span></a>
-<a class="sourceLine" id="cb274-9" data-line-number="9"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb274-10" data-line-number="10"><span class="co">#&gt; Residuals:</span></a>
-<a class="sourceLine" id="cb274-11" data-line-number="11"><span class="co">#&gt;       Min        1Q    Median        3Q       Max </span></a>
-<a class="sourceLine" id="cb274-12" data-line-number="12"><span class="co">#&gt; -0.241640 -0.042841 -0.005898  0.052343  0.226273 </span></a>
-<a class="sourceLine" id="cb274-13" data-line-number="13"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb274-14" data-line-number="14"><span class="co">#&gt; Coefficients:</span></a>
-<a class="sourceLine" id="cb274-15" data-line-number="15"><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></a>
-<a class="sourceLine" id="cb274-16" data-line-number="16"><span class="co">#&gt; (Intercept) 0.300413   0.015107   19.89   &lt;2e-16 ***</span></a>
-<a class="sourceLine" id="cb274-17" data-line-number="17"><span class="co">#&gt; share_86    0.385833   0.027847   13.86   &lt;2e-16 ***</span></a>
-<a class="sourceLine" id="cb274-18" data-line-number="18"><span class="co">#&gt; inc_88      0.104263   0.006904   15.10   &lt;2e-16 ***</span></a>
-<a class="sourceLine" id="cb274-19" data-line-number="19"><span class="co">#&gt; ---</span></a>
-<a class="sourceLine" id="cb274-20" data-line-number="20"><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></a>
-<a class="sourceLine" id="cb274-21" data-line-number="21"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb274-22" data-line-number="22"><span class="co">#&gt; Residual standard error: 0.07738 on 351 degrees of freedom</span></a>
-<a class="sourceLine" id="cb274-23" data-line-number="23"><span class="co">#&gt; Multiple R-squared:  0.8461, Adjusted R-squared:  0.8452 </span></a>
-<a class="sourceLine" id="cb274-24" data-line-number="24"><span class="co">#&gt; F-statistic: 964.7 on 2 and 351 DF,  p-value: &lt; 2.2e-16</span></a></code></pre></div>
+<a class="sourceLine" id="cb274-2" data-line-number="2">congress_<span class="dv">88</span> &lt;-<span class="st"> </span><span class="kw">filter</span>(congress_w, dem_share_<span class="dv">1988</span> <span class="op">!=</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>dem_share_<span class="dv">1988</span> <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>,   </a>
+<a class="sourceLine" id="cb274-3" data-line-number="3">    incumbency_<span class="dv">1988</span> <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb274-4" data-line-number="4"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb274-5" data-line-number="5">      <span class="dt">dem_share_1986 =</span> <span class="kw">case_when</span>(dem_share_<span class="dv">1986</span> <span class="op">==</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.25</span>, </a>
+<a class="sourceLine" id="cb274-6" data-line-number="6">        dem_share_<span class="dv">1986</span> <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.75</span>,</a>
+<a class="sourceLine" id="cb274-7" data-line-number="7">        <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span>dem_share_<span class="dv">1986</span>))</a>
+<a class="sourceLine" id="cb274-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb274-9" data-line-number="9">fit_<span class="dv">88</span> &lt;-<span class="st"> </span><span class="kw">lm</span>(dem_share_<span class="dv">1988</span> <span class="op">~</span><span class="st"> </span>dem_share_<span class="dv">1986</span> <span class="op">+</span><span class="st"> </span>incumbency_<span class="dv">1988</span>, </a>
+<a class="sourceLine" id="cb274-10" data-line-number="10">  <span class="dt">data =</span> congress_<span class="dv">88</span>)</a>
+<a class="sourceLine" id="cb274-11" data-line-number="11"><span class="kw">summary</span>(fit_<span class="dv">88</span>)</a>
+<a class="sourceLine" id="cb274-12" data-line-number="12"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb274-13" data-line-number="13"><span class="co">#&gt; Call:</span></a>
+<a class="sourceLine" id="cb274-14" data-line-number="14"><span class="co">#&gt; lm(formula = dem_share_1988 ~ dem_share_1986 + incumbency_1988, </span></a>
+<a class="sourceLine" id="cb274-15" data-line-number="15"><span class="co">#&gt;     data = congress_88)</span></a>
+<a class="sourceLine" id="cb274-16" data-line-number="16"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb274-17" data-line-number="17"><span class="co">#&gt; Residuals:</span></a>
+<a class="sourceLine" id="cb274-18" data-line-number="18"><span class="co">#&gt;       Min        1Q    Median        3Q       Max </span></a>
+<a class="sourceLine" id="cb274-19" data-line-number="19"><span class="co">#&gt; -0.170533 -0.035497 -0.000485  0.038853  0.215279 </span></a>
+<a class="sourceLine" id="cb274-20" data-line-number="20"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb274-21" data-line-number="21"><span class="co">#&gt; Coefficients:</span></a>
+<a class="sourceLine" id="cb274-22" data-line-number="22"><span class="co">#&gt;                 Estimate Std. Error t value Pr(&gt;|t|)    </span></a>
+<a class="sourceLine" id="cb274-23" data-line-number="23"><span class="co">#&gt; (Intercept)      0.16729    0.02016   8.298  2.8e-15 ***</span></a>
+<a class="sourceLine" id="cb274-24" data-line-number="24"><span class="co">#&gt; dem_share_1986   0.65174    0.03846  16.947  &lt; 2e-16 ***</span></a>
+<a class="sourceLine" id="cb274-25" data-line-number="25"><span class="co">#&gt; incumbency_1988  0.06809    0.00754   9.031  &lt; 2e-16 ***</span></a>
+<a class="sourceLine" id="cb274-26" data-line-number="26"><span class="co">#&gt; ---</span></a>
+<a class="sourceLine" id="cb274-27" data-line-number="27"><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></a>
+<a class="sourceLine" id="cb274-28" data-line-number="28"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb274-29" data-line-number="29"><span class="co">#&gt; Residual standard error: 0.06749 on 328 degrees of freedom</span></a>
+<a class="sourceLine" id="cb274-30" data-line-number="30"><span class="co">#&gt; Multiple R-squared:  0.8865, Adjusted R-squared:  0.8858 </span></a>
+<a class="sourceLine" id="cb274-31" data-line-number="31"><span class="co">#&gt; F-statistic:  1281 on 2 and 328 DF,  p-value: &lt; 2.2e-16</span></a></code></pre></div>
 <p>Simulemos del modelo:</p>
-<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb275-1" data-line-number="1"><span class="co"># Matriz X</span></a>
-<a class="sourceLine" id="cb275-2" data-line-number="2">X &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, congress_h<span class="op">$</span>share_<span class="dv">88</span>, congress_h<span class="op">$</span>inc_<span class="dv">90</span>)</a>
-<a class="sourceLine" id="cb275-3" data-line-number="3">simula_modelo &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
-<a class="sourceLine" id="cb275-4" data-line-number="4">    sigma &lt;-<span class="st"> </span><span class="fl">0.08</span> <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>((<span class="dv">351</span>) <span class="op">/</span><span class="st"> </span><span class="kw">rchisq</span>(<span class="dv">1</span>, <span class="dv">351</span>))</a>
-<a class="sourceLine" id="cb275-5" data-line-number="5">    beta &lt;-<span class="st"> </span>MASS<span class="op">::</span><span class="kw">mvrnorm</span>(<span class="dv">1</span>, <span class="dt">mu =</span> <span class="kw">c</span>(<span class="fl">0.30</span>, <span class="fl">0.39</span>, <span class="fl">0.10</span>), </a>
-<a class="sourceLine" id="cb275-6" data-line-number="6">        <span class="dt">Sigma =</span> sigma <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="fl">0.04</span>, <span class="fl">-0.07</span>, <span class="fl">0.01</span>, <span class="fl">-0.07</span>, <span class="fl">0.13</span>, <span class="fl">-0.02</span>, <span class="fl">0.01</span>, </a>
-<a class="sourceLine" id="cb275-7" data-line-number="7">            <span class="fl">-0.02</span>, <span class="fl">0.01</span>), <span class="dt">nrow =</span> <span class="dv">3</span>))</a>
-<a class="sourceLine" id="cb275-8" data-line-number="8">    mu &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>beta</a>
-<a class="sourceLine" id="cb275-9" data-line-number="9">    <span class="kw">data_frame</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">358</span>, <span class="dt">dem_share =</span> <span class="kw">rnorm</span>(<span class="dv">358</span>, mu, sigma))</a>
-<a class="sourceLine" id="cb275-10" data-line-number="10">}</a>
-<a class="sourceLine" id="cb275-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb275-12" data-line-number="12">sims_congress &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">2000</span>, <span class="kw">simula_modelo</span>()) </a>
-<a class="sourceLine" id="cb275-13" data-line-number="13"><span class="co">#&gt; Warning: `data_frame()` is deprecated, use `tibble()`.</span></a>
-<a class="sourceLine" id="cb275-14" data-line-number="14"><span class="co">#&gt; This warning is displayed once per session.</span></a>
-<a class="sourceLine" id="cb275-15" data-line-number="15">sims_congress &lt;-<span class="st"> </span>sims_congress <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb275-16" data-line-number="16"><span class="st">  </span><span class="kw">bind_rows</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb275-17" data-line-number="17"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">sim =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2000</span>, <span class="dt">each =</span> <span class="dv">358</span>))</a>
-<a class="sourceLine" id="cb275-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb275-19" data-line-number="19"><span class="kw">ggplot</span>(sims_congress, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(id, dem_share), <span class="dt">y =</span> dem_share)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb275-20" data-line-number="20"><span class="st">    </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb275-21" data-line-number="21"><span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">yintercept =</span> <span class="fl">0.5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb275-1" data-line-number="1">congress_<span class="dv">90</span> &lt;-<span class="st"> </span><span class="kw">filter</span>(congress_w, dem_share_<span class="dv">1990</span> <span class="op">!=</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>dem_share_<span class="dv">1990</span> <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb275-2" data-line-number="2">    incumbency_<span class="dv">1990</span> <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb275-3" data-line-number="3"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb275-4" data-line-number="4">      <span class="dt">dem_share_1990 =</span> <span class="kw">case_when</span>(dem_share_<span class="dv">1988</span> <span class="op">==</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.25</span>, </a>
+<a class="sourceLine" id="cb275-5" data-line-number="5">        dem_share_<span class="dv">1988</span> <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.75</span>,</a>
+<a class="sourceLine" id="cb275-6" data-line-number="6">        <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span>dem_share_<span class="dv">1988</span>))</a>
+<a class="sourceLine" id="cb275-7" data-line-number="7"><span class="co"># Matriz X</span></a>
+<a class="sourceLine" id="cb275-8" data-line-number="8">X &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, congress_w<span class="op">$</span>dem_share_<span class="dv">1988</span>, congress_w<span class="op">$</span>incumbency_<span class="dv">1990</span>)</a>
+<a class="sourceLine" id="cb275-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb275-10" data-line-number="10">df &lt;-<span class="st"> </span><span class="kw">df.residual</span>(fit_<span class="dv">88</span>)</a>
+<a class="sourceLine" id="cb275-11" data-line-number="11">s &lt;-<span class="st"> </span><span class="kw">summary</span>(fit_<span class="dv">88</span>)<span class="op">$</span>sigma</a>
+<a class="sourceLine" id="cb275-12" data-line-number="12">V &lt;-<span class="st"> </span><span class="kw">summary</span>(fit_<span class="dv">88</span>)<span class="op">$</span>cov.unscaled</a>
+<a class="sourceLine" id="cb275-13" data-line-number="13">coef_mod &lt;-<span class="st"> </span><span class="kw">summary</span>(fit_<span class="dv">88</span>)<span class="op">$</span>coefficients[, <span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb275-14" data-line-number="14">simula_modelo &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
+<a class="sourceLine" id="cb275-15" data-line-number="15">    sigma &lt;-<span class="st"> </span>s <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(df <span class="op">/</span><span class="st"> </span><span class="kw">rchisq</span>(<span class="dv">1</span>, df))</a>
+<a class="sourceLine" id="cb275-16" data-line-number="16">    beta &lt;-<span class="st"> </span>MASS<span class="op">::</span><span class="kw">mvrnorm</span>(<span class="dv">1</span>, <span class="dt">mu =</span> coef_mod, <span class="dt">Sigma =</span> sigma <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>V)</a>
+<a class="sourceLine" id="cb275-17" data-line-number="17">    mu &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>beta</a>
+<a class="sourceLine" id="cb275-18" data-line-number="18">    <span class="kw">tibble</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(mu), <span class="dt">dem_share =</span> <span class="kw">rnorm</span>(<span class="kw">length</span>(mu), mu, sigma))</a>
+<a class="sourceLine" id="cb275-19" data-line-number="19">}</a>
+<a class="sourceLine" id="cb275-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb275-21" data-line-number="21">sims_congress &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">simula_modelo</span>()) </a>
+<a class="sourceLine" id="cb275-22" data-line-number="22">sims_congress_df &lt;-<span class="st"> </span>sims_congress <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb275-23" data-line-number="23"><span class="st">  </span><span class="kw">bind_rows</span>(<span class="dt">.id =</span> <span class="st">&quot;sim&quot;</span>) </a>
+<a class="sourceLine" id="cb275-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb275-25" data-line-number="25"><span class="kw">ggplot</span>(sims_congress_df, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(id, dem_share), <span class="dt">y =</span> dem_share)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb275-26" data-line-number="26"><span class="st">    </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb275-27" data-line-number="27"><span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">yintercept =</span> <span class="fl">0.5</span>)</a></code></pre></div>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-21-1.png" width="864" style="display: block; margin: auto;" /></p>
 <p>Podemos preguntarnos cuántas elecciones ganaron los demócratas en <span class="math inline">\(1990\)</span>:
 <span class="math inline">\(\sum I(\tilde{y} &gt; 0.5)\)</span></p>
-<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb276-1" data-line-number="1">sims_congress <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb276-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(sim) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb276-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">wins =</span> <span class="kw">sum</span>(dem_share <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb276-4" data-line-number="4"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb276-5" data-line-number="5"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_wins =</span> <span class="kw">mean</span>(wins),</a>
-<a class="sourceLine" id="cb276-6" data-line-number="6">            <span class="dt">median_wins =</span> <span class="kw">median</span>(wins), </a>
-<a class="sourceLine" id="cb276-7" data-line-number="7">            <span class="dt">sd_wins =</span> <span class="kw">sd</span>(wins))</a>
-<a class="sourceLine" id="cb276-8" data-line-number="8"><span class="co">#&gt; # A tibble: 1 x 3</span></a>
-<a class="sourceLine" id="cb276-9" data-line-number="9"><span class="co">#&gt;   mean_wins median_wins sd_wins</span></a>
-<a class="sourceLine" id="cb276-10" data-line-number="10"><span class="co">#&gt;       &lt;dbl&gt;       &lt;dbl&gt;   &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb276-11" data-line-number="11"><span class="co">#&gt; 1      202.         202    3.78</span></a>
-<a class="sourceLine" id="cb276-12" data-line-number="12">sims_congress <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb276-13" data-line-number="13"><span class="st">  </span><span class="kw">group_by</span>(sim) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb276-14" data-line-number="14"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">wins =</span> <span class="kw">sum</span>(dem_share <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb276-15" data-line-number="15"><span class="st">    </span><span class="kw">pull</span>(wins) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb276-16" data-line-number="16"><span class="st">    </span><span class="kw">qplot</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb276-1" data-line-number="1">sims_congress_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb276-2" data-line-number="2"><span class="st">    </span><span class="kw">group_by</span>(sim) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb276-3" data-line-number="3"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">wins =</span> <span class="kw">sum</span>(dem_share <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb276-4" data-line-number="4"><span class="st">    </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb276-5" data-line-number="5"><span class="st">    </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb276-6" data-line-number="6">        <span class="dt">mean_wins =</span> <span class="kw">mean</span>(wins),</a>
+<a class="sourceLine" id="cb276-7" data-line-number="7">        <span class="dt">median_wins =</span> <span class="kw">median</span>(wins), </a>
+<a class="sourceLine" id="cb276-8" data-line-number="8">        <span class="dt">sd_wins =</span> <span class="kw">sd</span>(wins)</a>
+<a class="sourceLine" id="cb276-9" data-line-number="9">      )</a>
+<a class="sourceLine" id="cb276-10" data-line-number="10"><span class="co">#&gt; # A tibble: 1 x 3</span></a>
+<a class="sourceLine" id="cb276-11" data-line-number="11"><span class="co">#&gt;   mean_wins median_wins sd_wins</span></a>
+<a class="sourceLine" id="cb276-12" data-line-number="12"><span class="co">#&gt;       &lt;dbl&gt;       &lt;dbl&gt;   &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb276-13" data-line-number="13"><span class="co">#&gt; 1      257.         257    2.97</span></a>
+<a class="sourceLine" id="cb276-14" data-line-number="14">sims_congress_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb276-15" data-line-number="15"><span class="st">    </span><span class="kw">group_by</span>(sim) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb276-16" data-line-number="16"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">wins =</span> <span class="kw">sum</span>(dem_share <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb276-17" data-line-number="17"><span class="st">    </span><span class="kw">pull</span>(wins) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb276-18" data-line-number="18"><span class="st">    </span><span class="kw">qplot</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>)</a></code></pre></div>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Veamos lo que ocurrió realmente</p>
-<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb277-1" data-line-number="1"><span class="kw">sum</span>(congress_h<span class="op">$</span>share_<span class="dv">90</span> <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb277-2" data-line-number="2"><span class="co">#&gt; [1] 207</span></a></code></pre></div>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb277-1" data-line-number="1"><span class="kw">sum</span>(congress_w<span class="op">$</span>dem_share_<span class="dv">1990</span> <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb277-2" data-line-number="2"><span class="co">#&gt; [1] 265</span></a></code></pre></div>
 <p>La función <code>sim()</code> del paquete <code>arm</code> permite simular de modelos
 lineales y lineales generalizados.</p>
 <div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb278-1" data-line-number="1">sim_fit_<span class="dv">88</span> &lt;-<span class="st"> </span>arm<span class="op">::</span><span class="kw">sim</span>(fit_<span class="dv">88</span>, <span class="dt">n.sims =</span> <span class="dv">1000</span>)</a>
 <a class="sourceLine" id="cb278-2" data-line-number="2">sim_fit_<span class="dv">88</span><span class="op">@</span>coef[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, ]</a>
-<a class="sourceLine" id="cb278-3" data-line-number="3"><span class="co">#&gt;       (Intercept)  share_86     inc_88</span></a>
-<a class="sourceLine" id="cb278-4" data-line-number="4"><span class="co">#&gt;  [1,]   0.3170042 0.3578936 0.10779678</span></a>
-<a class="sourceLine" id="cb278-5" data-line-number="5"><span class="co">#&gt;  [2,]   0.2999465 0.3769885 0.10566809</span></a>
-<a class="sourceLine" id="cb278-6" data-line-number="6"><span class="co">#&gt;  [3,]   0.2878643 0.4078961 0.11090490</span></a>
-<a class="sourceLine" id="cb278-7" data-line-number="7"><span class="co">#&gt;  [4,]   0.3023743 0.3788996 0.10776648</span></a>
-<a class="sourceLine" id="cb278-8" data-line-number="8"><span class="co">#&gt;  [5,]   0.3022486 0.3772356 0.10864459</span></a>
-<a class="sourceLine" id="cb278-9" data-line-number="9"><span class="co">#&gt;  [6,]   0.2969491 0.3881759 0.10420743</span></a>
-<a class="sourceLine" id="cb278-10" data-line-number="10"><span class="co">#&gt;  [7,]   0.2828308 0.4226436 0.09778666</span></a>
-<a class="sourceLine" id="cb278-11" data-line-number="11"><span class="co">#&gt;  [8,]   0.3066335 0.3677518 0.10945948</span></a>
-<a class="sourceLine" id="cb278-12" data-line-number="12"><span class="co">#&gt;  [9,]   0.3046938 0.3717652 0.10773460</span></a>
-<a class="sourceLine" id="cb278-13" data-line-number="13"><span class="co">#&gt; [10,]   0.2825262 0.4299435 0.09327988</span></a>
+<a class="sourceLine" id="cb278-3" data-line-number="3"><span class="co">#&gt;       (Intercept) dem_share_1986 incumbency_1988</span></a>
+<a class="sourceLine" id="cb278-4" data-line-number="4"><span class="co">#&gt;  [1,]   0.1790449      0.6435951      0.06845862</span></a>
+<a class="sourceLine" id="cb278-5" data-line-number="5"><span class="co">#&gt;  [2,]   0.1591542      0.6682493      0.07115940</span></a>
+<a class="sourceLine" id="cb278-6" data-line-number="6"><span class="co">#&gt;  [3,]   0.1215345      0.7285898      0.05552796</span></a>
+<a class="sourceLine" id="cb278-7" data-line-number="7"><span class="co">#&gt;  [4,]   0.2003955      0.5966258      0.07670371</span></a>
+<a class="sourceLine" id="cb278-8" data-line-number="8"><span class="co">#&gt;  [5,]   0.1670941      0.6609347      0.06537666</span></a>
+<a class="sourceLine" id="cb278-9" data-line-number="9"><span class="co">#&gt;  [6,]   0.1669521      0.6451482      0.06956311</span></a>
+<a class="sourceLine" id="cb278-10" data-line-number="10"><span class="co">#&gt;  [7,]   0.1328750      0.7088040      0.06084818</span></a>
+<a class="sourceLine" id="cb278-11" data-line-number="11"><span class="co">#&gt;  [8,]   0.1570452      0.6686808      0.06762329</span></a>
+<a class="sourceLine" id="cb278-12" data-line-number="12"><span class="co">#&gt;  [9,]   0.1735274      0.6488581      0.06723601</span></a>
+<a class="sourceLine" id="cb278-13" data-line-number="13"><span class="co">#&gt; [10,]   0.1976371      0.6030459      0.08171117</span></a>
 <a class="sourceLine" id="cb278-14" data-line-number="14">sim_fit_<span class="dv">88</span><span class="op">@</span>sigma[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a>
-<a class="sourceLine" id="cb278-15" data-line-number="15"><span class="co">#&gt;  [1] 0.08120596 0.07994287 0.07472831 0.07507744 0.08070951 0.08149541</span></a>
-<a class="sourceLine" id="cb278-16" data-line-number="16"><span class="co">#&gt;  [7] 0.07602941 0.07663922 0.08036870 0.07904480</span></a></code></pre></div>
+<a class="sourceLine" id="cb278-15" data-line-number="15"><span class="co">#&gt;  [1] 0.06857743 0.06694072 0.06671788 0.06556664 0.06812829 0.06757501</span></a>
+<a class="sourceLine" id="cb278-16" data-line-number="16"><span class="co">#&gt;  [7] 0.06298298 0.06899185 0.06584510 0.07016688</span></a></code></pre></div>
 </div>
 </div>
 <h3>Referencias</h3>
