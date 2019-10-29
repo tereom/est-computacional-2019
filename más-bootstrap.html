@@ -280,7 +280,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#más-allá-que-permutación"><i class="fa fa-check"></i>Más allá que permutación</a></li>
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#otras-consideraciones-1"><i class="fa fa-check"></i>Otras consideraciones</a></li>
 </ul></li>
-<li class="chapter" data-level="8.4" data-path="simulación-para-cálculo-de-tamaño-de-muestrapoder-estadístico.html"><a href="simulación-para-cálculo-de-tamaño-de-muestrapoder-estadístico.html"><i class="fa fa-check"></i><b>8.4</b> Simulación para cálculo de tamaño de muestra/poder estadístico</a></li>
+<li class="chapter" data-level="8.4" data-path="tamaño-de-muestrapoder-estadístico.html"><a href="tamaño-de-muestrapoder-estadístico.html"><i class="fa fa-check"></i><b>8.4</b> Tamaño de muestra/poder estadístico</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="inferencia-paramétrica.html"><a href="inferencia-paramétrica.html"><i class="fa fa-check"></i><b>9</b> Inferencia paramétrica</a><ul>
+<li class="chapter" data-level="9.1" data-path="máxima-verosimilitud.html"><a href="máxima-verosimilitud.html"><i class="fa fa-check"></i><b>9.1</b> Máxima verosimilitud</a><ul>
+<li class="chapter" data-level="" data-path="máxima-verosimilitud.html"><a href="máxima-verosimilitud.html#propiedades-de-los-estimadores-de-máxima-verosimilitud"><i class="fa fa-check"></i>Propiedades de los estimadores de máxima verosimilitud</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="bootstrap-paramétrico.html"><a href="bootstrap-paramétrico.html"><i class="fa fa-check"></i><b>9.2</b> Bootstrap paramétrico</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -295,6 +301,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias-1.html"><a href="simulación-de-variables-aleatorias-1.html"><i class="fa fa-check"></i>7. Simulación de variables aleatorias</a></li>
 <li class="chapter" data-level="" data-path="distribuciones-multivariada-y-simulación.html"><a href="distribuciones-multivariada-y-simulación.html"><i class="fa fa-check"></i>8. Distribuciones multivariada y simulación</a></li>
 <li class="chapter" data-level="" data-path="inferencia-visual-y-simulación-e-modelos.html"><a href="inferencia-visual-y-simulación-e-modelos.html"><i class="fa fa-check"></i>9. Inferencia visual y simulación e modelos</a></li>
+<li class="chapter" data-level="" data-path="simulación-muestra-y-bootstrap-paramétrico.html"><a href="simulación-muestra-y-bootstrap-paramétrico.html"><i class="fa fa-check"></i>10. Simulación muestra y bootstrap paramétrico</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -322,18 +329,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ol style="list-style-type: decimal">
 <li>Consideramos la siguiente muestra de los datos de ENLACE:</li>
 </ol>
-<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb324-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
-<a class="sourceLine" id="cb324-2" data-line-number="2"><span class="kw">set.seed</span>(<span class="dv">1983</span>)</a>
-<a class="sourceLine" id="cb324-3" data-line-number="3">enlace_sample &lt;-<span class="st"> </span>enlacep_<span class="dv">2013</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb324-4" data-line-number="4"><span class="st">    </span>janitor<span class="op">::</span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb324-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb324-6" data-line-number="6"><span class="st">    </span><span class="kw">select</span>(id, cve_ent, turno, tipo, <span class="dt">mat_3 =</span> punt_mat_<span class="dv">3</span>, </a>
-<a class="sourceLine" id="cb324-7" data-line-number="7">        <span class="dt">n_eval_3 =</span> alum_eval_<span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb324-8" data-line-number="8"><span class="st">    </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb324-9" data-line-number="9"><span class="st">    </span><span class="kw">filter</span>(mat_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb324-10" data-line-number="10"><span class="st">    </span><span class="kw">group_by</span>(cve_ent) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb324-11" data-line-number="11"><span class="st">    </span><span class="kw">sample_frac</span>(<span class="dt">size =</span> <span class="fl">0.1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb324-12" data-line-number="12"><span class="st">    </span><span class="kw">ungroup</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb341-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
+<a class="sourceLine" id="cb341-2" data-line-number="2"><span class="kw">set.seed</span>(<span class="dv">1983</span>)</a>
+<a class="sourceLine" id="cb341-3" data-line-number="3">enlace_sample &lt;-<span class="st"> </span>enlacep_<span class="dv">2013</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb341-4" data-line-number="4"><span class="st">    </span>janitor<span class="op">::</span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb341-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb341-6" data-line-number="6"><span class="st">    </span><span class="kw">select</span>(id, cve_ent, turno, tipo, <span class="dt">mat_3 =</span> punt_mat_<span class="dv">3</span>, </a>
+<a class="sourceLine" id="cb341-7" data-line-number="7">        <span class="dt">n_eval_3 =</span> alum_eval_<span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb341-8" data-line-number="8"><span class="st">    </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb341-9" data-line-number="9"><span class="st">    </span><span class="kw">filter</span>(mat_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb341-10" data-line-number="10"><span class="st">    </span><span class="kw">group_by</span>(cve_ent) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb341-11" data-line-number="11"><span class="st">    </span><span class="kw">sample_frac</span>(<span class="dt">size =</span> <span class="fl">0.1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb341-12" data-line-number="12"><span class="st">    </span><span class="kw">ungroup</span>()</a></code></pre></div>
 <ul>
 <li><p>Selecciona el subconjunto de datos de Chiapas (clave de entidad 07):</p>
 <ul>
@@ -359,11 +366,11 @@ tabla (para los <span class="math inline">\(BC_a\)</span> usa la función <code>
 <li><p>Repite los pasos anteriores 200 veces y grafica los intervalos, ¿cómo se
 comparan?</p></li>
 </ul>
-<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb325-1" data-line-number="1"><span class="kw">library</span>(boot)</a>
-<a class="sourceLine" id="cb325-2" data-line-number="2">sim_exp &lt;-<span class="st"> </span><span class="kw">rexp</span>(<span class="dv">40</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb325-3" data-line-number="3">my_mean &lt;-<span class="st"> </span><span class="cf">function</span>(x, ind) <span class="kw">mean</span>(x[ind])</a>
-<a class="sourceLine" id="cb325-4" data-line-number="4">boot_sim_exp &lt;-<span class="st"> </span><span class="kw">boot</span>(sim_exp, my_mean, <span class="dt">R =</span> <span class="dv">10000</span>)</a>
-<a class="sourceLine" id="cb325-5" data-line-number="5">ints &lt;-<span class="st"> </span><span class="kw">boot.ci</span>(boot_sim_exp, <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">&quot;norm&quot;</span>, <span class="st">&quot;perc&quot;</span>, <span class="st">&quot;bca&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb342-1" data-line-number="1"><span class="kw">library</span>(boot)</a>
+<a class="sourceLine" id="cb342-2" data-line-number="2">sim_exp &lt;-<span class="st"> </span><span class="kw">rexp</span>(<span class="dv">40</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb342-3" data-line-number="3">my_mean &lt;-<span class="st"> </span><span class="cf">function</span>(x, ind) <span class="kw">mean</span>(x[ind])</a>
+<a class="sourceLine" id="cb342-4" data-line-number="4">boot_sim_exp &lt;-<span class="st"> </span><span class="kw">boot</span>(sim_exp, my_mean, <span class="dt">R =</span> <span class="dv">10000</span>)</a>
+<a class="sourceLine" id="cb342-5" data-line-number="5">ints &lt;-<span class="st"> </span><span class="kw">boot.ci</span>(boot_sim_exp, <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">&quot;norm&quot;</span>, <span class="st">&quot;perc&quot;</span>, <span class="st">&quot;bca&quot;</span>))</a></code></pre></div>
 </div>
             </section>
 

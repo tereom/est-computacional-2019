@@ -446,6 +446,7 @@ Veamos como usar las gráficas para simular de modelos probabilísticos. Los
 siguientes ejemplos están escritos con base en @gelman-hill.
 
 #### Ejemplo de simulación discreta predictiva {-}
+
 La probabilidad de que un bebé sea niña o niño es $48.8\%$ y $51.2\%$
 respectivamente. Supongamos que hay 400 nacimientos en un hospital en un año 
 dado. ¿Cuántas niñas nacerán? 
@@ -662,7 +663,7 @@ quantile(medias, c(0.025, 0.975))
 #>     2.5%    97.5% 
 #> 79.66242 90.82172
 
-qplot(medias, geom = "histogram", binwidth = 1.5)
+qplot(medias, geom = "histogram", binwidth = 1.5, alpha = 0.7)
 ```
 
 <img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-13-1.png" width="350px" style="display: block; margin: auto;" />
@@ -727,7 +728,7 @@ medias_incert <- sims_puntajes %>% map_dbl(mean)
 quantile(medias_incert, c(0.025, 0.975))
 #>     2.5%    97.5% 
 #> 79.22699 90.89105
-qplot(medias_incert, geom = "histogram", binwidth = 1)
+qplot(medias_incert, geom = "histogram", binwidth = 1, alpha = 0.7)
 ```
 
 <img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-14-1.png" width="350px" style="display: block; margin: auto;" />
@@ -958,7 +959,7 @@ sims_congress_df %>%
     group_by(sim) %>%
     mutate(wins = sum(dem_share > 0.5)) %>%
     pull(wins) %>% 
-    qplot(binwidth = 1)
+    qplot(binwidth = 1, alpha = 0.7)
 ```
 
 <img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" />
@@ -1174,7 +1175,7 @@ Y rechazamos si $t$ es menor/mayor al valor crítico $t^*$.
 
 
 ```r
-t_star <- qt(0.025, n_f + n_m -2)
+t_star <- qt(0.025, n_f + n_m - 2)
 t_star
 #> [1] -1.970198
 ```
@@ -1186,7 +1187,7 @@ t_star
 nulos <- data.frame(t = rt(10000, 233))
 ggplot(nulos, aes(x = t)) +
     geom_histogram(color = "darkgray", fill = "darkgray") +
-    geom_vline(xintercept = c(t_star, -t_star), color = "red", 
+    geom_vline(xintercept = c(t_star, - t_star), color = "red", 
         alpha = 0.5) 
 #> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
@@ -1600,7 +1601,8 @@ simula_modelo <- function(n_sims = 19, ajuste){
     sims_datos <- y_sims_df %>% 
         bind_rows(dplyr::select(roachdata, X, y)) %>% 
         mutate(sample = rep(codigo, each = n))
-    list(sims_datos = sims_datos, y_sims_df = y_sims_df, codigo = codigo[n_sims + 1])
+    list(sims_datos = sims_datos, y_sims_df = y_sims_df, 
+        codigo = codigo[n_sims + 1])
 }
 
 sim_2 <- simula_modelo(n_sims = 9, glm_2)
@@ -1643,7 +1645,7 @@ falla el modelo.
 
 
 
-## Simulación para cálculo de tamaño de muestra/poder estadístico
+## Tamaño de muestra/poder estadístico
 
 Cuando se esta diseñando un estudio se determina la precisión en las inferencias 
 que se desea, y esto (junto con algunos supuestos de la población) determina el 
@@ -1656,7 +1658,6 @@ confianza que resultará). Por ejemplo, en encuestas electorales es típico
 reportar *los resultados de esta encuesta más menos $3$ puntos porcentuales tienen 
 un nivel del $95\%$ de confianza*, ¿cúantas personas se debe entrevistar para 
 lograr esto?
-
 
 2. Se determina la probabilidad de que un estadístico determinado sea 
 *estadísticamente significativo*. Por ejemplo, cuando se hacen ensayos clínicos
@@ -1672,12 +1673,16 @@ dejan de aplicar o se vuelven muy complejas, de manera que suele ser conveniente
 recurrir a simulación. Veremos dos ejemplos que se tomaron de @gelman-hill.
 
 #### Tamaño de muestra para un error estándar determinado {-}
+
 Supongamos que queremos estimar el porcentaje de la población que 
-apoya la pena de muerte. Sospechamos que la proporción es $60\%$, imaginemos
+desaprueba la legalización del aborto en México (ante una pregunta particular). 
+Sospechamos que la proporción es $60\%$, imaginemos
 que queremos una precisión (error estándar) de a lo más $0.05$, o $5$ puntos 
 porcentuales. Bajo muestreo aleatorio simple, para una muestra de tamaño $n$, 
 el error estándar de la proporción $p$ es 
+
 $$\sqrt{p(1-p)/n}$$
+
 Sustituyendo nuestra expectativa $p = 0.60$ llegamos a que el error estándar 
 sería $0.49/\sqrt{n}$, de tal manera que si queremos $se(p) \le 0.05$ 
 necesitamos $n>96$, en el caso de proporciones es fácil determinar el tamaño de 
@@ -1687,7 +1692,8 @@ muestra de manera conservadora pues basta con suponer $p = 0.5$.
 ```r
 se_fun_n <- function(n, p) sqrt(p * (1 - p) / n)
 
-xy <- data.frame(x = 20:220, y = seq(0, 1, 0.005))
+xy <- tibble(x = 20:220, y = seq(0, 1, 0.005))
+
 ggplot(xy, aes(x = x, y = y)) +
     stat_function(fun = se_fun_n, args = list(p = 0.7), aes(color = "p=0.7")) +
     stat_function(fun = se_fun_n, args = list(p = 0.9), aes(color = "p=0.9")) +
@@ -1710,14 +1716,12 @@ obtendríamos con simulación.
 sim_p_hat <- function(n, p, n_sims = 1000){
     sim_muestra <- rbinom(n_sims, size = n, prob = p)
     se_p_hat <- sd(sim_muestra / n)
-    data_frame(n = n, se_p_hat = se_p_hat, p = p)
+    tibble(n = n, se_p_hat = se_p_hat, p = p)
 }
 
-sims_.7 <- map_df(seq(20, 220, 5), ~sim_p_hat(n = ., p = 0.7))
-#> Warning: `data_frame()` is deprecated, use `tibble()`.
-#> This warning is displayed once per session.
-sims_.5 <- map_df(seq(20, 220, 5), ~sim_p_hat(n = ., p = 0.5))
-sims_.9 <- map_df(seq(20, 220, 5), ~sim_p_hat(n = ., p = 0.9))
+sims_.7 <- map_df(seq(20, 220, 5), sim_p_hat, p = 0.7)
+sims_.5 <- map_df(seq(20, 220, 5), sim_p_hat, p = 0.5)
+sims_.9 <- map_df(seq(20, 220, 5), sim_p_hat, p = 0.9)
 sims <- bind_rows(sims_.7, sims_.5, sims_.9)
 
 ggplot(sims, aes(x = n, y = se_p_hat, color = factor(p), group = p)) +
@@ -1736,8 +1740,8 @@ ggplot(sims, aes(x = n, y = se_p_hat, color = factor(p), group = p)) +
 #### Tamaño de muestra determinado para obtener significancia estadística con una probabilidad determinada {-}
 
 Supongamos que nuestro objetivo es demostrar que más de la mitad de la población 
-apoya la pena de muerte, esto es $p>0.5$, nuevamente tenemos la hipótesis que el 
-verdadero valor es $p=0.6$. 
+desaprueba la legalización del anorto, esto es $p>0.5$, nuevamente tenemos la 
+hipótesis que el verdadero valor es $p=0.6$. 
 
 Una prueba de potencia típica tiene un poder de $80$%, es decir nos gustaría 
 seleccionar $n$ tal que el $80\%$ de los intervalos construidos con $95\%$ de 
@@ -1745,9 +1749,9 @@ confianza no incluyan $0.5$. Para encontrar la $n$ tal que el $80\%$ de las
 estimaciones estén al menos, $1.96$ errores estándar por encima de $0.5$ 
 necesitamos que:
 
-$$0.5 + 1.96 se \geq 0.6 - 0.84 se$$
+$$0.5 + 1.96 se \leq 0.6 - 0.84 se$$
 
-Sustituyendo $se = 0.5/\sqrt(n)$ obtenemos $n=196$
+Sustituyendo $se = 0.5/\sqrt{n}$ obtenemos $n=196$
 
 Y simulando sería
 
@@ -1755,26 +1759,46 @@ Y simulando sería
 ```r
 sim_potencia <- function(n, p, n_sims = 1000){
     sim_muestra <- rbinom(n_sims, size = n, prob = p)
-    se_p_hat <- sd(sim_muestra / n)
-    acepta <- (sim_muestra / n - 1.96 * se_p_hat) > 0.5
-    data_frame(n = n, potencia = mean(acepta))
+    p_hat <- sim_muestra / n
+    se_p_hat <- sqrt(p_hat * (1 - p_hat) / n)
+    acepta <- (p_hat - 1.96 * se_p_hat) > 0.5
+    tibble(n = n, p = p, potencia = mean(acepta))
 }
-sims <- map_df(c(2, 10, 50, 80, 100, 150, 200, 300, 500), 
-    ~sim_potencia(n = ., p = 0.6))
+
+casos_sim <- expand.grid(n = c(5, 10, 50, 80, 100, 150, 200, 300, 500), 
+    p = c(0.6, 0.7, 0.8))
+
+sims <- map2_df(casos_sim$n, casos_sim$p, ~sim_potencia(n = .x, p = .y))
 
 ggplot(sims) +
-    geom_line(aes(x = n, y = potencia)) +
-    geom_hline(yintercept = 0.8, color = "red", alpha = 0.5)
+    geom_line(aes(x = n, y = potencia, color = factor(p), group = p)) +
+    geom_hline(yintercept = 0.8, color = "red", size = 0.7, 
+        linetype = "longdash")
 ```
 
 <img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-46-1.png" width="350px" style="display: block; margin: auto;" />
 
+#### Respuestas continuas {-}
+
+En el caso de variables respuesta continuas la dificultad adicional está en 
+que debemos fijar además del tamaño hipotético del efecto la desviación estándar
+poblacional. 
+
+Como ejemplo, supongamos que se implementará un experimento en el que se añadirá
+un suplemento de zinc en la dieta de niños VIH positivos en el Sudáfrica, esto 
+porque en otras poblaciones se ha visto que agregar zinc y otros micronutrientes
+reduce la ocurrencia de diarrea que a su vez está asociado a problemas del 
+sistema inmune y que alenta el avance del VIH. Comenzamos con el problema de una
+muestra, ¿qué tamaño de muestra necesitamos para alacanzar una 
+precisión dada?
+
+#### Calculo de poder en modelo multinivel {-}
 
 Veamos un ejemplo más interesante, en donde usamos simulación de un modelo 
-probabilístico. Tenemos medidas del sistema inmune 
-(porcentaje de CD4 transformado con raíz cuadrada) de niños VIH positivos a lo 
-largo de un periodo de $2$ años. Las series de tiempo se ajustan de manera 
-razonable con un modelo de intercepto y pendiente variable:
+probabilístico. Tenemos medidas del sistema inmune (porcentaje de CD4 
+transformado con raíz cuadrada) de niños VIH positivos a lo largo de un periodo 
+de $2$ años. Las series de tiempo se ajustan de manera razonable con un modelo 
+de intercepto y pendiente variable:
 
 $$y_i \sim N(\alpha_{j[i]} + \beta_{j[i]}t_i, \sigma^2_y)$$
 
@@ -1784,7 +1808,19 @@ donde $i$ indexa las mediciones tomadas al tiempo $i$ en el individuo $j[i]$.
 ```r
 # preparación de los datos
 library(lme4)
-allvar <- read.csv("data/data_sim/allvar.csv")
+allvar <- read_csv("data/data_sim/allvar.csv")
+#> Parsed with column specification:
+#> cols(
+#>   VISIT = col_double(),
+#>   newpid = col_double(),
+#>   VDATE = col_character(),
+#>   CD4PCT = col_double(),
+#>   arv = col_double(),
+#>   visage = col_double(),
+#>   treatmnt = col_double(),
+#>   CD4CNT = col_double(),
+#>   baseage = col_double()
+#> )
 cd4 <- allvar %>% 
     filter(treatmnt == 1, !is.na(CD4PCT), baseage > 1, baseage < 5) %>% 
     mutate(
@@ -1810,20 +1846,32 @@ Veamos un ajuste usando la función `lmer()` del paquete `lme4`.
 
 ```r
 fit_cd4 <- lmer(formula = y ~ time + (1 + time | person), cd4)
-fit_cd4
+summary(fit_cd4)
 #> Linear mixed model fit by REML ['lmerMod']
 #> Formula: y ~ time + (1 + time | person)
 #>    Data: cd4
-#> REML criterion at convergence: 1096.093
+#> 
+#> REML criterion at convergence: 1096.1
+#> 
+#> Scaled residuals: 
+#>     Min      1Q  Median      3Q     Max 
+#> -4.4621 -0.4354  0.0504  0.3597  3.4620 
+#> 
 #> Random effects:
-#>  Groups   Name        Std.Dev. Corr
-#>  person   (Intercept) 1.3289       
-#>           time        0.6796   0.15
-#>  Residual             0.7480       
+#>  Groups   Name        Variance Std.Dev. Corr
+#>  person   (Intercept) 1.7659   1.3289       
+#>           time        0.4619   0.6796   0.15
+#>  Residual             0.5595   0.7480       
 #> Number of obs: 369, groups:  person, 83
-#> Fixed Effects:
-#> (Intercept)         time  
-#>      4.8460      -0.4683
+#> 
+#> Fixed effects:
+#>             Estimate Std. Error t value
+#> (Intercept)   4.8460     0.1597  30.349
+#> time         -0.4683     0.1276  -3.671
+#> 
+#> Correlation of Fixed Effects:
+#>      (Intr)
+#> time -0.146
 ```
 
 
@@ -1890,29 +1938,29 @@ modelo gráfico asociado?
 ```r
 # cd4_sim simula del modelo con los supuestos que fijamos arriba
 #   podemos variar los valores de los parámetros para cambiar el escenario
-cd4_sim <- function (J, K, mu.a.true = 4.8, g.0.true = -0.5, g.1.true = 0.5, 
+cd4_sim <- function(J, K, mu.a.true = 4.8, g.0.true = -0.5, g.1.true = 0.5, 
     sigma.y.true = 0.7, sigma.a.true = 1.3, sigma.b.true = 0.7){
     time <- rep(seq(0, 1, length = K), J) # K mediciones en el año
-    person <- rep (1:J, each = K)        # ids
+    person <- rep(1:J, each = K)        # ids
     treatment <- sample(rep(0:1, J/2))
     treatment1 <- treatment[person]
     # parámetros a nivel persona
     a.true <- rnorm(J, mu.a.true, sigma.a.true)
     b.true <- rnorm(J, g.0.true + g.1.true * treatment, sigma.b.true)
-    y <- rnorm (J * K, a.true[person] + b.true[person] * time, sigma.y.true)
-    return (data.frame(y, time, person, treatment1))
+    y <- rnorm(J * K, a.true[person] + b.true[person] * time, sigma.y.true)
+    data.frame(y, time, person, treatment1)
 }
 
 # calcular si el parámetro es significativo para una generación de simulación
-cd4_signif <- function (J, K){
+cd4_signif <- function(J, K){
     fake <- cd4_sim(J, K)
-    lme_power <- lmer (y ~ time + time:treatment1 + (1 + time | person), data = fake)
+    lme_power <- lmer(y ~ time + time:treatment1 + (1 + time | person), data = fake)
     theta_hat <- fixef(lme_power)["time:treatment1"]
     theta_se <- summary(lme_power)$coefficients["time:treatment1", "Std. Error"]
     theta_hat - 1.96 * theta_se > 0
 }
 
-# repetir la simulación de cd4 n_sims veces y calcular el porcntaje de las
+# repetir la simulación de cd4 n_sims veces y calcular el porcentaje de las
 #   muestras en que es significativo el parámetro (el poder)
 cd4_power <- function(n_sims, J, K){
     rerun(n_sims, cd4_signif(J, K = 7)) %>% flatten_dbl() %>% mean()
@@ -1921,157 +1969,6 @@ cd4_power <- function(n_sims, J, K){
 # calculamos el poder para distintos tamaños de muestra, con 7 mediciones al año
 potencias <- map_df(c(8, 16, 60, 100, 150, 200, 225, 250, 300, 400), 
     ~data_frame(n = ., p = cd4_power(n_sims = 500, J = ., K = 7)))
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
-#> boundary (singular) fit: see ?isSingular
 
 ggplot(potencias, aes(x = n, y = p)) +
     geom_hline(yintercept = 0.8, color = "red", alpha = 0.5) +
@@ -2081,8 +1978,8 @@ ggplot(potencias, aes(x = n, y = p)) +
 <img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-50-1.png" width="350px" style="display: block; margin: auto;" />
 
 Notemos que la función `cd4_rep()` regresa la proporción de las simulaciones en 
-las que el resultado es estadísticamente significativo, est es, la potencia
-calculada con simulaicón, para un estudio con $J$ niños medidos en $K$ 
+las que el resultado es estadísticamente significativo, esto es, la potencia
+calculada con simulación, para un estudio con $J$ niños medidos en $K$ 
 intervalos igualmente espaciados.
 
 Notemos también que en el límite, cuando $J \to 0$ el poder es $0.025$, esto es, 
@@ -2093,8 +1990,7 @@ por encima de cero.
 Una ventaja de usar simulación para calcular potencia es que nos permite 
 flexibilidad, por ejemplo, es fácil calcular para más escenarios:
 
-![](img/mainucule2.png) ¿qué ocurriría si solo puedo medir $3$ veces al año?
-
+![](img/manicule2.jpg) ¿qué ocurriría si solo puedo medir $3$ veces al año?
 
 * Se sabe que es común que algunos participantes abandonen el estudio, o no 
 asistan a todas las mediciones, con simulación es fácil incorporar faltantes.

@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="distribuciones-multivariada-y-simulación.html"/>
-<link rel="next" href="referencias.html"/>
+<link rel="next" href="simulación-muestra-y-bootstrap-paramétrico.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -280,7 +280,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#más-allá-que-permutación"><i class="fa fa-check"></i>Más allá que permutación</a></li>
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#otras-consideraciones-1"><i class="fa fa-check"></i>Otras consideraciones</a></li>
 </ul></li>
-<li class="chapter" data-level="8.4" data-path="simulación-para-cálculo-de-tamaño-de-muestrapoder-estadístico.html"><a href="simulación-para-cálculo-de-tamaño-de-muestrapoder-estadístico.html"><i class="fa fa-check"></i><b>8.4</b> Simulación para cálculo de tamaño de muestra/poder estadístico</a></li>
+<li class="chapter" data-level="8.4" data-path="tamaño-de-muestrapoder-estadístico.html"><a href="tamaño-de-muestrapoder-estadístico.html"><i class="fa fa-check"></i><b>8.4</b> Tamaño de muestra/poder estadístico</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="inferencia-paramétrica.html"><a href="inferencia-paramétrica.html"><i class="fa fa-check"></i><b>9</b> Inferencia paramétrica</a><ul>
+<li class="chapter" data-level="9.1" data-path="máxima-verosimilitud.html"><a href="máxima-verosimilitud.html"><i class="fa fa-check"></i><b>9.1</b> Máxima verosimilitud</a><ul>
+<li class="chapter" data-level="" data-path="máxima-verosimilitud.html"><a href="máxima-verosimilitud.html#propiedades-de-los-estimadores-de-máxima-verosimilitud"><i class="fa fa-check"></i>Propiedades de los estimadores de máxima verosimilitud</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="bootstrap-paramétrico.html"><a href="bootstrap-paramétrico.html"><i class="fa fa-check"></i><b>9.2</b> Bootstrap paramétrico</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -295,6 +301,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias-1.html"><a href="simulación-de-variables-aleatorias-1.html"><i class="fa fa-check"></i>7. Simulación de variables aleatorias</a></li>
 <li class="chapter" data-level="" data-path="distribuciones-multivariada-y-simulación.html"><a href="distribuciones-multivariada-y-simulación.html"><i class="fa fa-check"></i>8. Distribuciones multivariada y simulación</a></li>
 <li class="chapter" data-level="" data-path="inferencia-visual-y-simulación-e-modelos.html"><a href="inferencia-visual-y-simulación-e-modelos.html"><i class="fa fa-check"></i>9. Inferencia visual y simulación e modelos</a></li>
+<li class="chapter" data-level="" data-path="simulación-muestra-y-bootstrap-paramétrico.html"><a href="simulación-muestra-y-bootstrap-paramétrico.html"><i class="fa fa-check"></i>10. Simulación muestra y bootstrap paramétrico</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -345,15 +352,15 @@ posibles. Para probar qué tan bien funciona este método, podemos seguir el
 protocolo lineup.</p>
 <p>El siguiente código es como se procedería en análisis discriminante en R usando
 los datos:</p>
-<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb326-1" data-line-number="1"><span class="kw">data</span>(wasps) <span class="co"># incluídos en nullabor</span></a>
-<a class="sourceLine" id="cb326-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb326-3" data-line-number="3">wasp_lda &lt;-<span class="st"> </span>MASS<span class="op">::</span><span class="kw">lda</span>(Group<span class="op">~</span>., <span class="dt">data =</span> wasps[,<span class="op">-</span><span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb326-4" data-line-number="4">wasp_ld &lt;-<span class="st"> </span><span class="kw">predict</span>(wasp_lda, <span class="dt">dimen =</span> <span class="dv">2</span>)<span class="op">$</span>x</a>
-<a class="sourceLine" id="cb326-5" data-line-number="5">true &lt;-<span class="st"> </span><span class="kw">data.frame</span>(wasp_ld, <span class="dt">Group =</span> wasps<span class="op">$</span>Group)</a>
-<a class="sourceLine" id="cb326-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb326-7" data-line-number="7"><span class="kw">ggplot</span>(true, <span class="kw">aes</span>(<span class="dt">x =</span> LD1, <span class="dt">y =</span> LD2, <span class="dt">colour =</span> Group)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb326-8" data-line-number="8"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb326-9" data-line-number="9"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">aspect.ratio =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb343-1" data-line-number="1"><span class="kw">data</span>(wasps) <span class="co"># incluídos en nullabor</span></a>
+<a class="sourceLine" id="cb343-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb343-3" data-line-number="3">wasp_lda &lt;-<span class="st"> </span>MASS<span class="op">::</span><span class="kw">lda</span>(Group<span class="op">~</span>., <span class="dt">data =</span> wasps[,<span class="op">-</span><span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb343-4" data-line-number="4">wasp_ld &lt;-<span class="st"> </span><span class="kw">predict</span>(wasp_lda, <span class="dt">dimen =</span> <span class="dv">2</span>)<span class="op">$</span>x</a>
+<a class="sourceLine" id="cb343-5" data-line-number="5">true &lt;-<span class="st"> </span><span class="kw">data.frame</span>(wasp_ld, <span class="dt">Group =</span> wasps<span class="op">$</span>Group)</a>
+<a class="sourceLine" id="cb343-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb343-7" data-line-number="7"><span class="kw">ggplot</span>(true, <span class="kw">aes</span>(<span class="dt">x =</span> LD1, <span class="dt">y =</span> LD2, <span class="dt">colour =</span> Group)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb343-8" data-line-number="8"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb343-9" data-line-number="9"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">aspect.ratio =</span> <span class="dv">1</span>)</a></code></pre></div>
 <p>Para generar los conjuntos de datos nulos debes permutar lo columna <code>Group</code> de
 la tabla de datos y repetir los pasos de arriba, realiza esto 19 veces y realiza
 una gráfica de páneles en la que escondas los datos verdaderos entre los datos
@@ -370,9 +377,9 @@ juicios de belleza.</p>
 <em>edad</em> (age), <em>belleza</em> (btystdave), <em>sexo</em> (female) e <em>inglés no es primera
 lengua</em> (nonenglish) para predecir las evaluaciones del curso
 (courseevaluation).</p>
-<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb327-1" data-line-number="1">beauty &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/beauty.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb327-2" data-line-number="2">fit_score &lt;-<span class="st"> </span><span class="kw">lm</span>(courseevaluation <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>btystdave <span class="op">+</span><span class="st"> </span>female <span class="op">+</span><span class="st"> </span>nonenglish, </a>
-<a class="sourceLine" id="cb327-3" data-line-number="3">    <span class="dt">data =</span> beauty)</a></code></pre></div>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb344-1" data-line-number="1">beauty &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/beauty.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb344-2" data-line-number="2">fit_score &lt;-<span class="st"> </span><span class="kw">lm</span>(courseevaluation <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>btystdave <span class="op">+</span><span class="st"> </span>female <span class="op">+</span><span class="st"> </span>nonenglish, </a>
+<a class="sourceLine" id="cb344-3" data-line-number="3">    <span class="dt">data =</span> beauty)</a></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>La instructora <span class="math inline">\(A\)</span> es una mujer de <span class="math inline">\(50\)</span> años, el inglés es su primera lengua y
 tiene un puntaje de belleza de <span class="math inline">\(-1\)</span>. El instructor B es un hombre de <span class="math inline">\(60\)</span> años,</li>
@@ -383,15 +390,15 @@ tus simulaciones debes incorporar la incertidumbre en los parámetros y en la
 predicción.</p>
 <p>Para hacer las simulaciones necesitarás la distribución del vector de
 coeficientes <span class="math inline">\(\beta\)</span>, este es normal con media:</p>
-<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb328-1" data-line-number="1"><span class="kw">coef</span>(fit_score)</a></code></pre></div>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb345-1" data-line-number="1"><span class="kw">coef</span>(fit_score)</a></code></pre></div>
 <p>y matriz de varianzas y covarianzas <span class="math inline">\(\sigma^2 V\)</span>, donde <span class="math inline">\(V\)</span> es:</p>
-<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb329-1" data-line-number="1"><span class="kw">summary</span>(fit_score)<span class="op">$</span>cov.unscaled</a></code></pre></div>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb346-1" data-line-number="1"><span class="kw">summary</span>(fit_score)<span class="op">$</span>cov.unscaled</a></code></pre></div>
 <p>y <span class="math inline">\(\sigma\)</span> se calcula como <span class="math inline">\(\sigma=\hat{\sigma}\sqrt{(df)/X}\)</span>, donde X es una
 generación de una distribución <span class="math inline">\(\chi ^2\)</span> con <span class="math inline">\(df\)</span> (<span class="math inline">\(458\)</span>) grados de libertad
 <span class="math inline">\(\hat{\sigma}\)</span> es:</p>
-<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb330-1" data-line-number="1"><span class="kw">summary</span>(fit_score)<span class="op">$</span>sigma</a></code></pre></div>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb347-1" data-line-number="1"><span class="kw">summary</span>(fit_score)<span class="op">$</span>sigma</a></code></pre></div>
 <p>y <span class="math inline">\(df\)</span> (los grados de libertad) se obtienen:</p>
-<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb331-1" data-line-number="1"><span class="kw">summary</span>(fit_score)<span class="op">$</span>df[<span class="dv">2</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb348-1" data-line-number="1"><span class="kw">summary</span>(fit_score)<span class="op">$</span>df[<span class="dv">2</span>]</a></code></pre></div>
 <p>Una vez que obtengas una simulación del vector <span class="math inline">\(\beta\)</span> generas simulaciones
 para los profesores usando el modelo de regresión lineal y las simulaciones
 de los parámetros (también puedes usar la función <code>sim</code> del paquete <code>arm</code>.</p>
@@ -412,17 +419,15 @@ inciso anterior) y guarda las realizaciones de <span class="math inline">\(\beta
 <li><p>Calcula la media y desviación estándar de las simulaciones y comparalas con la
 estimación y desviación estándar del coeficiente obtenidas usando <code>summary</code>.</p></li>
 </ul>
-
 </div>
 </div>
-<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
 <a href="distribuciones-multivariada-y-simulación.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="simulación-muestra-y-bootstrap-paramétrico.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

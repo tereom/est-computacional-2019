@@ -280,7 +280,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#más-allá-que-permutación"><i class="fa fa-check"></i>Más allá que permutación</a></li>
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#otras-consideraciones-1"><i class="fa fa-check"></i>Otras consideraciones</a></li>
 </ul></li>
-<li class="chapter" data-level="8.4" data-path="simulación-para-cálculo-de-tamaño-de-muestrapoder-estadístico.html"><a href="simulación-para-cálculo-de-tamaño-de-muestrapoder-estadístico.html"><i class="fa fa-check"></i><b>8.4</b> Simulación para cálculo de tamaño de muestra/poder estadístico</a></li>
+<li class="chapter" data-level="8.4" data-path="tamaño-de-muestrapoder-estadístico.html"><a href="tamaño-de-muestrapoder-estadístico.html"><i class="fa fa-check"></i><b>8.4</b> Tamaño de muestra/poder estadístico</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="inferencia-paramétrica.html"><a href="inferencia-paramétrica.html"><i class="fa fa-check"></i><b>9</b> Inferencia paramétrica</a><ul>
+<li class="chapter" data-level="9.1" data-path="máxima-verosimilitud.html"><a href="máxima-verosimilitud.html"><i class="fa fa-check"></i><b>9.1</b> Máxima verosimilitud</a><ul>
+<li class="chapter" data-level="" data-path="máxima-verosimilitud.html"><a href="máxima-verosimilitud.html#propiedades-de-los-estimadores-de-máxima-verosimilitud"><i class="fa fa-check"></i>Propiedades de los estimadores de máxima verosimilitud</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="bootstrap-paramétrico.html"><a href="bootstrap-paramétrico.html"><i class="fa fa-check"></i><b>9.2</b> Bootstrap paramétrico</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -295,6 +301,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias-1.html"><a href="simulación-de-variables-aleatorias-1.html"><i class="fa fa-check"></i>7. Simulación de variables aleatorias</a></li>
 <li class="chapter" data-level="" data-path="distribuciones-multivariada-y-simulación.html"><a href="distribuciones-multivariada-y-simulación.html"><i class="fa fa-check"></i>8. Distribuciones multivariada y simulación</a></li>
 <li class="chapter" data-level="" data-path="inferencia-visual-y-simulación-e-modelos.html"><a href="inferencia-visual-y-simulación-e-modelos.html"><i class="fa fa-check"></i>9. Inferencia visual y simulación e modelos</a></li>
+<li class="chapter" data-level="" data-path="simulación-muestra-y-bootstrap-paramétrico.html"><a href="simulación-muestra-y-bootstrap-paramétrico.html"><i class="fa fa-check"></i>10. Simulación muestra y bootstrap paramétrico</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -389,7 +396,7 @@ paquete <code>readr</code> hacemos:</p>
 <a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt;         comment = comment, n_max = n_max, guess_max = guess_max, </span></a>
 <a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt;         progress = progress)</span></a>
 <a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; }</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; &lt;bytecode: 0x9e05e88&gt;</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; &lt;bytecode: 0xa1bc100&gt;</span></a>
 <a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; &lt;environment: namespace:readr&gt;</span></a>
 <a class="sourceLine" id="cb2-17" data-line-number="17"></a>
 <a class="sourceLine" id="cb2-18" data-line-number="18"><span class="kw">library</span>(readr)</a>
@@ -407,7 +414,7 @@ paquete <code>readr</code> hacemos:</p>
 <a class="sourceLine" id="cb2-30" data-line-number="30"><span class="co">#&gt;         comment = comment, n_max = n_max, guess_max = guess_max, </span></a>
 <a class="sourceLine" id="cb2-31" data-line-number="31"><span class="co">#&gt;         progress = progress)</span></a>
 <a class="sourceLine" id="cb2-32" data-line-number="32"><span class="co">#&gt; }</span></a>
-<a class="sourceLine" id="cb2-33" data-line-number="33"><span class="co">#&gt; &lt;bytecode: 0x9e05e88&gt;</span></a>
+<a class="sourceLine" id="cb2-33" data-line-number="33"><span class="co">#&gt; &lt;bytecode: 0xa1bc100&gt;</span></a>
 <a class="sourceLine" id="cb2-34" data-line-number="34"><span class="co">#&gt; &lt;environment: namespace:readr&gt;</span></a></code></pre></div>
 <p><code>read_csv</code> es una función que aporta el paquete <code>readr</code>, que a su vez está incluido en el <em>tidyverse</em>.</p>
 <p>El paquete de arriba se instaló de CRAN, pero podemos instalar paquetes que
