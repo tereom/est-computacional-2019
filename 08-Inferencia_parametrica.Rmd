@@ -258,12 +258,17 @@ pues nos permite calcular errores estándar cuando no hay fórmulas analíticas.
 ## Bootstrap paramétrico
 
 El método bootstrap se puede utilizar para el cálculo de errores 
-estándar y de intervalos de confianza en un modelo paramétrico. Recordemos que
+estándar y de intervalos de confianza en un modelo paramétrico. 
+
+* Recordemos que
 en _bootstrap no paramétrico_ obteníamos muestras $X_1^*,...,X_n^*$
-de la distribución empírica $P_n$. En el caso de **bootstrap paramétrico** 
+de la distribución empírica $P_n$. 
+
+* En el caso de **bootstrap paramétrico** 
 las muestras se obtienen de $p(x,\hat{\theta})$ donde $\hat{\theta}$ es una
 estimación de ${\theta}$ (esta se puede obtener por máxima verosimilitud).
-Es así, que la diferencia entre la versión no paramétrica y la paramétrica
+
+* Es así, que la diferencia entre la versión no paramétrica y la paramétrica
 es como construimos la distribución de la que vamos a seleccionar muestras.
 
 **Ejemplo**. Sea $X_1,...,X_n$ i.i.d. con $X_i \sim N(\mu, \sigma^2)$. Sea 
