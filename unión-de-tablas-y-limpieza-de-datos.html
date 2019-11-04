@@ -288,6 +288,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="bootstrap-paramétrico.html"><a href="bootstrap-paramétrico.html"><i class="fa fa-check"></i><b>9.2</b> Bootstrap paramétrico</a></li>
 </ul></li>
+<li class="chapter" data-level="10" data-path="análisis-bayesiano.html"><a href="análisis-bayesiano.html"><i class="fa fa-check"></i><b>10</b> Análisis bayesiano</a><ul>
+<li class="chapter" data-level="10.1" data-path="probabilidad-subjetiva.html"><a href="probabilidad-subjetiva.html"><i class="fa fa-check"></i><b>10.1</b> Probabilidad subjetiva</a></li>
+<li class="chapter" data-level="10.2" data-path="regla-de-bayes-e-inferencia-bayesiana.html"><a href="regla-de-bayes-e-inferencia-bayesiana.html"><i class="fa fa-check"></i><b>10.2</b> Regla de Bayes e inferencia bayesiana</a><ul>
+<li class="chapter" data-level="" data-path="regla-de-bayes-e-inferencia-bayesiana.html"><a href="regla-de-bayes-e-inferencia-bayesiana.html#regla-de-bayes-en-modelos-y-datos"><i class="fa fa-check"></i>Regla de Bayes en modelos y datos</a></li>
+<li class="chapter" data-level="" data-path="regla-de-bayes-e-inferencia-bayesiana.html"><a href="regla-de-bayes-e-inferencia-bayesiana.html#objetivos-de-la-inferencia"><i class="fa fa-check"></i>Objetivos de la inferencia</a></li>
+<li class="chapter" data-level="" data-path="regla-de-bayes-e-inferencia-bayesiana.html"><a href="regla-de-bayes-e-inferencia-bayesiana.html#cálculo-de-la-distribución-posterior"><i class="fa fa-check"></i>Cálculo de la distribución posterior</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="distribuciones-conjugadas.html"><a href="distribuciones-conjugadas.html"><i class="fa fa-check"></i><b>10.3</b> Distribuciones conjugadas</a><ul>
+<li class="chapter" data-level="" data-path="distribuciones-conjugadas.html"><a href="distribuciones-conjugadas.html#ejemplo-bernoulli"><i class="fa fa-check"></i>Ejemplo: Bernoulli</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="aproximación-por-cuadrícula.html"><a href="aproximación-por-cuadrícula.html"><i class="fa fa-check"></i><b>10.4</b> Aproximación por cuadrícula</a></li>
+<li class="chapter" data-level="10.5" data-path="mcmc.html"><a href="mcmc.html"><i class="fa fa-check"></i><b>10.5</b> MCMC</a><ul>
+<li class="chapter" data-level="" data-path="mcmc.html"><a href="mcmc.html#introducción-metrópolis"><i class="fa fa-check"></i>Introducción Metrópolis</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="metrópolis.html"><a href="metrópolis.html"><i class="fa fa-check"></i><b>10.6</b> Metrópolis</a><ul>
+<li class="chapter" data-level="" data-path="metrópolis.html"><a href="metrópolis.html#inferencia-de-dos-proporciones-binomiales"><i class="fa fa-check"></i>Inferencia de dos proporciones binomiales</a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a><ul>
+<li class="chapter" data-level="" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#conclusiones-y-observaciones-metrópolis-y-gibbs"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
 <li class="chapter" data-level="" data-path="transformación-de-datos-1.html"><a href="transformación-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
@@ -333,24 +354,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>¿Están limpios los datos? en caso de que no
 ¿qué principio no cumplen?</li>
 </ol>
-<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb325-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
-<a class="sourceLine" id="cb325-2" data-line-number="2">df_marital</a>
-<a class="sourceLine" id="cb325-3" data-line-number="3"><span class="co">#&gt; # A tibble: 29,484 x 14</span></a>
-<a class="sourceLine" id="cb325-4" data-line-number="4"><span class="co">#&gt;    state_code municipio_code region state_name state_abbr municipio_name</span></a>
-<a class="sourceLine" id="cb325-5" data-line-number="5"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;         </span></a>
-<a class="sourceLine" id="cb325-6" data-line-number="6"><span class="co">#&gt;  1 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb325-7" data-line-number="7"><span class="co">#&gt;  2 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb325-8" data-line-number="8"><span class="co">#&gt;  3 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb325-9" data-line-number="9"><span class="co">#&gt;  4 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb325-10" data-line-number="10"><span class="co">#&gt;  5 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb325-11" data-line-number="11"><span class="co">#&gt;  6 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb325-12" data-line-number="12"><span class="co">#&gt;  7 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb325-13" data-line-number="13"><span class="co">#&gt;  8 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb325-14" data-line-number="14"><span class="co">#&gt;  9 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb325-15" data-line-number="15"><span class="co">#&gt; 10 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
-<a class="sourceLine" id="cb325-16" data-line-number="16"><span class="co">#&gt; # … with 29,474 more rows, and 8 more variables: sex &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb325-17" data-line-number="17"><span class="co">#&gt; #   age_group &lt;chr&gt;, pop &lt;dbl&gt;, single &lt;dbl&gt;, married &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb325-18" data-line-number="18"><span class="co">#&gt; #   living_w_partner &lt;dbl&gt;, separated &lt;dbl&gt;, other &lt;dbl&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb366-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
+<a class="sourceLine" id="cb366-2" data-line-number="2">df_marital</a>
+<a class="sourceLine" id="cb366-3" data-line-number="3"><span class="co">#&gt; # A tibble: 29,484 x 14</span></a>
+<a class="sourceLine" id="cb366-4" data-line-number="4"><span class="co">#&gt;    state_code municipio_code region state_name state_abbr municipio_name</span></a>
+<a class="sourceLine" id="cb366-5" data-line-number="5"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;         </span></a>
+<a class="sourceLine" id="cb366-6" data-line-number="6"><span class="co">#&gt;  1 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb366-7" data-line-number="7"><span class="co">#&gt;  2 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb366-8" data-line-number="8"><span class="co">#&gt;  3 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb366-9" data-line-number="9"><span class="co">#&gt;  4 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb366-10" data-line-number="10"><span class="co">#&gt;  5 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb366-11" data-line-number="11"><span class="co">#&gt;  6 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb366-12" data-line-number="12"><span class="co">#&gt;  7 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb366-13" data-line-number="13"><span class="co">#&gt;  8 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb366-14" data-line-number="14"><span class="co">#&gt;  9 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb366-15" data-line-number="15"><span class="co">#&gt; 10 01         001            01001  Aguascali… AGS        Aguascalientes</span></a>
+<a class="sourceLine" id="cb366-16" data-line-number="16"><span class="co">#&gt; # … with 29,474 more rows, and 8 more variables: sex &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb366-17" data-line-number="17"><span class="co">#&gt; #   age_group &lt;chr&gt;, pop &lt;dbl&gt;, single &lt;dbl&gt;, married &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb366-18" data-line-number="18"><span class="co">#&gt; #   living_w_partner &lt;dbl&gt;, separated &lt;dbl&gt;, other &lt;dbl&gt;</span></a></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li><p>Limpia los datos y muestra las primeras y últimas líneas (usa <code>head()</code> y
 <code>tail()</code>).</p></li>

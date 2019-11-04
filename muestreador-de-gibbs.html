@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>10.7 Muestreador de Gibbs | Estadística Computacional</title>
+  <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
+  <meta name="generator" content="bookdown 0.14.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="10.7 Muestreador de Gibbs | Estadística Computacional" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
+  <meta name="github-repo" content="tereom/est-computacional-2019" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="10.7 Muestreador de Gibbs | Estadística Computacional" />
+  
+  <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
+  
+
+<meta name="author" content="María Teresa Ortiz" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="metrópolis.html"/>
+<link rel="next" href="tareas.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="libs/d3-3.5.6/d3.min.js"></script>
+<link href="libs/profvis-0.3.6/profvis.css" rel="stylesheet" />
+<script src="libs/profvis-0.3.6/profvis.js"></script>
+<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-6.2.0/highlight.js"></script>
+<script src="libs/profvis-binding-0.3.6/profvis.js"></script>
+<script src="libs/plotly-binding-4.9.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.46.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.46.1/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="css/toc.css" type="text/css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+<link rel="stylesheet" href="css/cajas.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Estadística Computacional</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Información del curso</a><ul>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html"><i class="fa fa-check"></i>Temario</a><ul>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#calificación"><i class="fa fa-check"></i>Calificación</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#software"><i class="fa fa-check"></i>Software</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#otros-recursos"><i class="fa fa-check"></i>Otros recursos</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#noticias"><i class="fa fa-check"></i>Noticias</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="principios-visualización.html"><a href="principios-visualización.html"><i class="fa fa-check"></i><b>1</b> Principios visualización</a><ul>
+<li class="chapter" data-level="1.1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>1.1</b> Introducción</a><ul>
+<li class="chapter" data-level="" data-path="introducción.html"><a href="introducción.html#visualización-de-datos-en-la-estadística"><i class="fa fa-check"></i>Visualización de datos en la estadística</a></li>
+<li class="chapter" data-level="" data-path="introducción.html"><a href="introducción.html#visualización-popular-de-datos"><i class="fa fa-check"></i>Visualización popular de datos</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="teoría-de-visualización-de-datos.html"><a href="teoría-de-visualización-de-datos.html"><i class="fa fa-check"></i><b>1.2</b> Teoría de visualización de datos</a></li>
+<li class="chapter" data-level="1.3" data-path="factor-de-engaño-y-chartjunk.html"><a href="factor-de-engaño-y-chartjunk.html"><i class="fa fa-check"></i><b>1.3</b> Factor de engaño y Chartjunk</a></li>
+<li class="chapter" data-level="1.4" data-path="pequeños-múltiplos-y-densidad-gráfica.html"><a href="pequeños-múltiplos-y-densidad-gráfica.html"><i class="fa fa-check"></i><b>1.4</b> Pequeños múltiplos y densidad gráfica</a></li>
+<li class="chapter" data-level="1.5" data-path="tinta-de-datos.html"><a href="tinta-de-datos.html"><i class="fa fa-check"></i><b>1.5</b> Tinta de datos</a></li>
+<li class="chapter" data-level="1.6" data-path="decoración.html"><a href="decoración.html"><i class="fa fa-check"></i><b>1.6</b> Decoración</a></li>
+<li class="chapter" data-level="1.7" data-path="percepción-de-escala.html"><a href="percepción-de-escala.html"><i class="fa fa-check"></i><b>1.7</b> Percepción de escala</a></li>
+<li class="chapter" data-level="1.8" data-path="ejemplos-gráfica-de-minard.html"><a href="ejemplos-gráfica-de-minard.html"><i class="fa fa-check"></i><b>1.8</b> Ejemplos: gráfica de Minard</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introducción-a-r-y-al-paquete-ggplot2.html"><a href="introducción-a-r-y-al-paquete-ggplot2.html"><i class="fa fa-check"></i><b>2</b> Introducción a R y al paquete ggplot2</a><ul>
+<li class="chapter" data-level="2.1" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html"><i class="fa fa-check"></i><b>2.1</b> R: primeros pasos</a><ul>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#r-en-análisis-de-datos"><i class="fa fa-check"></i>R en análisis de datos</a></li>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#paquetes-y-el-tidyverse"><i class="fa fa-check"></i>Paquetes y el Tidyverse</a></li>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#recursos"><i class="fa fa-check"></i>Recursos</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="visualización-con-ggplot2.html"><a href="visualización-con-ggplot2.html"><i class="fa fa-check"></i><b>2.2</b> Visualización con ggplot2</a><ul>
+<li class="chapter" data-level="" data-path="visualización-con-ggplot2.html"><a href="visualización-con-ggplot2.html#recursos-1"><i class="fa fa-check"></i>Recursos</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="manipulación-y-agrupación-de-datos.html"><a href="manipulación-y-agrupación-de-datos.html"><i class="fa fa-check"></i><b>3</b> Manipulación y agrupación de datos</a><ul>
+<li class="chapter" data-level="3.1" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html"><i class="fa fa-check"></i><b>3.1</b> Transformación de datos</a><ul>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#datos"><i class="fa fa-check"></i>Datos</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#filtrar"><i class="fa fa-check"></i>Filtrar</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#seleccionar"><i class="fa fa-check"></i>Seleccionar</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#ordenar"><i class="fa fa-check"></i>Ordenar</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#mutar"><i class="fa fa-check"></i>Mutar</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#summarise-y-resúmenes-por-grupo"><i class="fa fa-check"></i>Summarise y resúmenes por grupo</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#variables-por-grupo"><i class="fa fa-check"></i>Variables por grupo</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#verbos-de-dos-tablas"><i class="fa fa-check"></i>Verbos de dos tablas</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="datos-limpios.html"><a href="datos-limpios.html"><i class="fa fa-check"></i><b>3.2</b> Datos limpios</a><ul>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#limpieza-bases-de-datos"><i class="fa fa-check"></i>Limpieza bases de datos</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#los-encabezados-de-las-columanas-son-valores"><i class="fa fa-check"></i>Los encabezados de las columanas son valores</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-columna-asociada-a-más-de-una-variable"><i class="fa fa-check"></i>Una columna asociada a más de una variable</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#variables-almacenadas-en-filas-y-columnas"><i class="fa fa-check"></i>Variables almacenadas en filas y columnas</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-misma-unidad-observacional-está-almacenada-en-múltiples-tablas"><i class="fa fa-check"></i>Una misma unidad observacional está almacenada en múltiples tablas</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#otras-consideraciones"><i class="fa fa-check"></i>Otras consideraciones</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#recursos-adicionales"><i class="fa fa-check"></i>Recursos adicionales</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="temas-selectos-de-r.html"><a href="temas-selectos-de-r.html"><i class="fa fa-check"></i><b>4</b> Temas selectos de R</a><ul>
+<li class="chapter" data-level="4.1" data-path="funciones-e-iteración.html"><a href="funciones-e-iteración.html"><i class="fa fa-check"></i><b>4.1</b> Funciones e iteración</a><ul>
+<li class="chapter" data-level="" data-path="funciones-e-iteración.html"><a href="funciones-e-iteración.html#funciones"><i class="fa fa-check"></i>Funciones</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="vectores.html"><a href="vectores.html"><i class="fa fa-check"></i><b>4.2</b> Vectores</a><ul>
+<li class="chapter" data-level="" data-path="vectores.html"><a href="vectores.html#propiedades"><i class="fa fa-check"></i>Propiedades</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="iteración.html"><a href="iteración.html"><i class="fa fa-check"></i><b>4.3</b> Iteración</a><ul>
+<li class="chapter" data-level="" data-path="iteración.html"><a href="iteración.html#ciclos-for"><i class="fa fa-check"></i>Ciclos for</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html"><i class="fa fa-check"></i><b>4.4</b> Rendimiento en R</a><ul>
+<li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#diagnosticar"><i class="fa fa-check"></i>Diagnosticar</a></li>
+<li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#estrategias-para-mejorar-desempeño"><i class="fa fa-check"></i>Estrategias para mejorar desempeño</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="lecturas-y-recursos-recomendados-de-r.html"><a href="lecturas-y-recursos-recomendados-de-r.html"><i class="fa fa-check"></i><b>4.5</b> Lecturas y recursos recomendados de R</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="introducción-a-cálculo-de-probabilidades.html"><a href="introducción-a-cálculo-de-probabilidades.html"><i class="fa fa-check"></i><b>5</b> Introducción a Cálculo de Probabilidades</a><ul>
+<li class="chapter" data-level="5.1" data-path="probabilidad-como-extensión-de-proporción.html"><a href="probabilidad-como-extensión-de-proporción.html"><i class="fa fa-check"></i><b>5.1</b> Probabilidad como extensión de proporción</a></li>
+<li class="chapter" data-level="5.2" data-path="interpretación-frecuentista-de-probabilidad.html"><a href="interpretación-frecuentista-de-probabilidad.html"><i class="fa fa-check"></i><b>5.2</b> Interpretación frecuentista de probabilidad</a><ul>
+<li class="chapter" data-level="" data-path="interpretación-frecuentista-de-probabilidad.html"><a href="interpretación-frecuentista-de-probabilidad.html#resultados-empíricos-acerca-de-frecuencias-relativas"><i class="fa fa-check"></i>Resultados empíricos acerca de frecuencias relativas</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="simulación-para-el-cálculo-de-probabilidades.html"><a href="simulación-para-el-cálculo-de-probabilidades.html"><i class="fa fa-check"></i><b>5.3</b> Simulación para el cálculo de probabilidades</a></li>
+<li class="chapter" data-level="5.4" data-path="modelos-de-probabilidad-definición-general.html"><a href="modelos-de-probabilidad-definición-general.html"><i class="fa fa-check"></i><b>5.4</b> Modelos de probabilidad (definición general)</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="modelos-de-probabilidad-definición-general.html"><a href="modelos-de-probabilidad-definición-general.html#espacios-discretos"><i class="fa fa-check"></i><b>5.4.1</b> Espacios discretos</a></li>
+<li class="chapter" data-level="5.4.2" data-path="modelos-de-probabilidad-definición-general.html"><a href="modelos-de-probabilidad-definición-general.html#espacios-continuos"><i class="fa fa-check"></i><b>5.4.2</b> Espacios continuos</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="probabilidad-definición-matemática.html"><a href="probabilidad-definición-matemática.html"><i class="fa fa-check"></i><b>5.5</b> Probabilidad: definición matemática</a><ul>
+<li class="chapter" data-level="" data-path="probabilidad-definición-matemática.html"><a href="probabilidad-definición-matemática.html#propiedades-de-la-función-de-probabilidad"><i class="fa fa-check"></i>Propiedades de la función de probabilidad:</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html"><i class="fa fa-check"></i><b>5.6</b> Variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html#distribución-de-probabilidad"><i class="fa fa-check"></i>Distribución de probabilidad</a></li>
+<li class="chapter" data-level="" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html#variables-aleatorias-continuas"><i class="fa fa-check"></i>Variables aleatorias continuas</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="bootstrap-no-paramétrico.html"><a href="bootstrap-no-paramétrico.html"><i class="fa fa-check"></i><b>6</b> Bootstrap no paramétrico</a><ul>
+<li class="chapter" data-level="6.1" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html"><i class="fa fa-check"></i><b>6.1</b> El principio del plug-in</a><ul>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#muestras-aleatorias"><i class="fa fa-check"></i>Muestras aleatorias</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#función-de-distribución-empírica"><i class="fa fa-check"></i>Función de distribución empírica</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#parámetros-y-estadísticas"><i class="fa fa-check"></i>Parámetros y estadísticas</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#distribuciones-muestrales-y-errores-estándar"><i class="fa fa-check"></i>Distribuciones muestrales y errores estándar</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="el-estimador-bootstrap-del-error-estándar.html"><a href="el-estimador-bootstrap-del-error-estándar.html"><i class="fa fa-check"></i><b>6.2</b> El estimador bootstrap del error estándar</a><ul>
+<li class="chapter" data-level="" data-path="el-estimador-bootstrap-del-error-estándar.html"><a href="el-estimador-bootstrap-del-error-estándar.html#variación-en-distribuciones-bootstrap"><i class="fa fa-check"></i>Variación en distribuciones bootstrap</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="intervalos-de-confianza.html"><a href="intervalos-de-confianza.html"><i class="fa fa-check"></i><b>6.3</b> Intervalos de confianza</a></li>
+<li class="chapter" data-level="6.4" data-path="más-alla-de-muestras-aleatorias-simples.html"><a href="más-alla-de-muestras-aleatorias-simples.html"><i class="fa fa-check"></i><b>6.4</b> Más alla de muestras aleatorias simples</a></li>
+<li class="chapter" data-level="6.5" data-path="bootstrap-en-r.html"><a href="bootstrap-en-r.html"><i class="fa fa-check"></i><b>6.5</b> Bootstrap en R</a></li>
+<li class="chapter" data-level="6.6" data-path="conclusiones-y-observaciones.html"><a href="conclusiones-y-observaciones.html"><i class="fa fa-check"></i><b>6.6</b> Conclusiones y observaciones</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="teoría-básica-de-simulación.html"><a href="teoría-básica-de-simulación.html"><i class="fa fa-check"></i><b>7</b> Teoría básica de simulación</a><ul>
+<li class="chapter" data-level="7.1" data-path="números-pseudoaleatorios.html"><a href="números-pseudoaleatorios.html"><i class="fa fa-check"></i><b>7.1</b> Números pseudoaleatorios</a><ul>
+<li class="chapter" data-level="" data-path="números-pseudoaleatorios.html"><a href="números-pseudoaleatorios.html#generadores-congruenciales-y-mersenne-twister"><i class="fa fa-check"></i>Generadores congruenciales y Mersenne-Twister</a></li>
+<li class="chapter" data-level="" data-path="números-pseudoaleatorios.html"><a href="números-pseudoaleatorios.html#pruebas-de-aleatoriedad"><i class="fa fa-check"></i>Pruebas de aleatoriedad</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html"><i class="fa fa-check"></i><b>7.2</b> Variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html#familias-discretas-importantes"><i class="fa fa-check"></i>Familias discretas importantes</a></li>
+<li class="chapter" data-level="" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html#familias-continuas-importantes"><i class="fa fa-check"></i>Familias Continuas importantes</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="simulación-de-variables-aleatorias.html"><a href="simulación-de-variables-aleatorias.html"><i class="fa fa-check"></i><b>7.3</b> Simulación de variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias.html"><a href="simulación-de-variables-aleatorias.html#variables-aletaorias-discretas"><i class="fa fa-check"></i>Variables aletaorias discretas</a></li>
+<li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias.html"><a href="simulación-de-variables-aleatorias.html#aceptación-y-rechazo"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
+<li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias.html"><a href="simulación-de-variables-aleatorias.html#variables-aleatorias-continuas-2"><i class="fa fa-check"></i>Variables aleatorias continuas</a></li>
+<li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias.html"><a href="simulación-de-variables-aleatorias.html#aceptación-y-rechazo-1"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="simulación-de-modelos.html"><a href="simulación-de-modelos.html"><i class="fa fa-check"></i><b>8</b> Simulación de modelos</a><ul>
+<li class="chapter" data-level="" data-path="simulación-de-modelos.html"><a href="simulación-de-modelos.html#para-qué-simular-de-un-modelo"><i class="fa fa-check"></i>¿Para qué simular de un modelo?</a></li>
+<li class="chapter" data-level="8.1" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html"><i class="fa fa-check"></i><b>8.1</b> Distribuciones multivariadas</a><ul>
+<li class="chapter" data-level="" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#regla-de-bayes"><i class="fa fa-check"></i>Regla de Bayes</a></li>
+<li class="chapter" data-level="" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#independencia"><i class="fa fa-check"></i>Independencia</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="modelos-gráficos-y-simulación-predictiva.html"><a href="modelos-gráficos-y-simulación-predictiva.html"><i class="fa fa-check"></i><b>8.2</b> Modelos gráficos y simulación predictiva</a></li>
+<li class="chapter" data-level="8.3" data-path="inferencia-visual.html"><a href="inferencia-visual.html"><i class="fa fa-check"></i><b>8.3</b> Inferencia visual</a><ul>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#inferencia"><i class="fa fa-check"></i>Inferencia</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#protocolos-de-inferencia-visual"><i class="fa fa-check"></i>Protocolos de inferencia visual</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#pruebas-de-hipótesis-típicas"><i class="fa fa-check"></i>Pruebas de hipótesis típicas</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#inferencia-visual-1"><i class="fa fa-check"></i>Inferencia visual</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#más-allá-que-permutación"><i class="fa fa-check"></i>Más allá que permutación</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#otras-consideraciones-1"><i class="fa fa-check"></i>Otras consideraciones</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="tamaño-de-muestrapoder-estadístico.html"><a href="tamaño-de-muestrapoder-estadístico.html"><i class="fa fa-check"></i><b>8.4</b> Tamaño de muestra/poder estadístico</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="inferencia-paramétrica.html"><a href="inferencia-paramétrica.html"><i class="fa fa-check"></i><b>9</b> Inferencia paramétrica</a><ul>
+<li class="chapter" data-level="9.1" data-path="máxima-verosimilitud.html"><a href="máxima-verosimilitud.html"><i class="fa fa-check"></i><b>9.1</b> Máxima verosimilitud</a><ul>
+<li class="chapter" data-level="" data-path="máxima-verosimilitud.html"><a href="máxima-verosimilitud.html#propiedades-de-los-estimadores-de-máxima-verosimilitud"><i class="fa fa-check"></i>Propiedades de los estimadores de máxima verosimilitud</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="bootstrap-paramétrico.html"><a href="bootstrap-paramétrico.html"><i class="fa fa-check"></i><b>9.2</b> Bootstrap paramétrico</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="análisis-bayesiano.html"><a href="análisis-bayesiano.html"><i class="fa fa-check"></i><b>10</b> Análisis bayesiano</a><ul>
+<li class="chapter" data-level="10.1" data-path="probabilidad-subjetiva.html"><a href="probabilidad-subjetiva.html"><i class="fa fa-check"></i><b>10.1</b> Probabilidad subjetiva</a></li>
+<li class="chapter" data-level="10.2" data-path="regla-de-bayes-e-inferencia-bayesiana.html"><a href="regla-de-bayes-e-inferencia-bayesiana.html"><i class="fa fa-check"></i><b>10.2</b> Regla de Bayes e inferencia bayesiana</a><ul>
+<li class="chapter" data-level="" data-path="regla-de-bayes-e-inferencia-bayesiana.html"><a href="regla-de-bayes-e-inferencia-bayesiana.html#regla-de-bayes-en-modelos-y-datos"><i class="fa fa-check"></i>Regla de Bayes en modelos y datos</a></li>
+<li class="chapter" data-level="" data-path="regla-de-bayes-e-inferencia-bayesiana.html"><a href="regla-de-bayes-e-inferencia-bayesiana.html#objetivos-de-la-inferencia"><i class="fa fa-check"></i>Objetivos de la inferencia</a></li>
+<li class="chapter" data-level="" data-path="regla-de-bayes-e-inferencia-bayesiana.html"><a href="regla-de-bayes-e-inferencia-bayesiana.html#cálculo-de-la-distribución-posterior"><i class="fa fa-check"></i>Cálculo de la distribución posterior</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="distribuciones-conjugadas.html"><a href="distribuciones-conjugadas.html"><i class="fa fa-check"></i><b>10.3</b> Distribuciones conjugadas</a><ul>
+<li class="chapter" data-level="" data-path="distribuciones-conjugadas.html"><a href="distribuciones-conjugadas.html#ejemplo-bernoulli"><i class="fa fa-check"></i>Ejemplo: Bernoulli</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="aproximación-por-cuadrícula.html"><a href="aproximación-por-cuadrícula.html"><i class="fa fa-check"></i><b>10.4</b> Aproximación por cuadrícula</a></li>
+<li class="chapter" data-level="10.5" data-path="mcmc.html"><a href="mcmc.html"><i class="fa fa-check"></i><b>10.5</b> MCMC</a><ul>
+<li class="chapter" data-level="" data-path="mcmc.html"><a href="mcmc.html#introducción-metrópolis"><i class="fa fa-check"></i>Introducción Metrópolis</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="metrópolis.html"><a href="metrópolis.html"><i class="fa fa-check"></i><b>10.6</b> Metrópolis</a><ul>
+<li class="chapter" data-level="" data-path="metrópolis.html"><a href="metrópolis.html#inferencia-de-dos-proporciones-binomiales"><i class="fa fa-check"></i>Inferencia de dos proporciones binomiales</a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a><ul>
+<li class="chapter" data-level="" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#conclusiones-y-observaciones-metrópolis-y-gibbs"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
+<li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos-1.html"><a href="transformación-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
+<li class="chapter" data-level="" data-path="unión-de-tablas-y-limpieza-de-datos.html"><a href="unión-de-tablas-y-limpieza-de-datos.html"><i class="fa fa-check"></i>3. Unión de tablas y limpieza de datos</a></li>
+<li class="chapter" data-level="" data-path="programación-funcional-y-distribución-muestral.html"><a href="programación-funcional-y-distribución-muestral.html"><i class="fa fa-check"></i>4. Programación funcional y distribución muestral</a><ul>
+<li class="chapter" data-level="" data-path="programación-funcional-y-distribución-muestral.html"><a href="programación-funcional-y-distribución-muestral.html#solución-bootstrap"><i class="fa fa-check"></i>Solución + bootstrap</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bootstrap-conteo.html"><a href="bootstrap-conteo.html"><i class="fa fa-check"></i>5. Bootstrap conteo</a></li>
+<li class="chapter" data-level="" data-path="respuesta-ejercicios-clase.html"><a href="respuesta-ejercicios-clase.html"><i class="fa fa-check"></i>Respuesta ejercicios clase</a></li>
+<li class="chapter" data-level="" data-path="más-bootstrap.html"><a href="más-bootstrap.html"><i class="fa fa-check"></i>6. Más bootstrap</a></li>
+<li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias-1.html"><a href="simulación-de-variables-aleatorias-1.html"><i class="fa fa-check"></i>7. Simulación de variables aleatorias</a></li>
+<li class="chapter" data-level="" data-path="distribuciones-multivariada-y-simulación.html"><a href="distribuciones-multivariada-y-simulación.html"><i class="fa fa-check"></i>8. Distribuciones multivariada y simulación</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual-y-simulación-e-modelos.html"><a href="inferencia-visual-y-simulación-e-modelos.html"><i class="fa fa-check"></i>9. Inferencia visual y simulación e modelos</a></li>
+<li class="chapter" data-level="" data-path="simulación-muestra-y-bootstrap-paramétrico.html"><a href="simulación-muestra-y-bootstrap-paramétrico.html"><i class="fa fa-check"></i>10. Simulación muestra y bootstrap paramétrico</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Estadística Computacional</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="muestreador-de-gibbs" class="section level2">
+<h2><span class="header-section-number">10.7</span> Muestreador de Gibbs</h2>
+<p>El algoritmo de Metrópolis es muy general y se puede aplicar a una gran variedad
+de problemas. Sin embargo, afinar los parámetros de la distribución propuesta
+para que el algoritmo funcione correctamente puede ser complicado. Por otra
+parte, el muestredor de Gibbs no necesita de una distribución propuesta.</p>
+<p><strong>Para implementar un muestreador de Gibbs se necesita ser capaz de generar
+muestras de la distribución posterior condicional a cada uno de los
+parámetros individuales.</strong> Esto es, el muestreador de Gibbs permite generar
+muestras de la posterior:
+<span class="math display">\[p(\theta_1,...,\theta_p|x)\]</span>
+siempre y cuando podamos generar valores de todas las distribuciones
+condicionales:
+<span class="math display">\[p(\theta_k,|\theta_1,...,\theta_{k-1},\theta_{k+1},...,\theta_p,x)\]</span></p>
+<p>El proceso del muestreador de Gibbs es una caminata aleatoria a lo largo del
+espacio de parámetros. La caminata inicia en un punto arbitrario y en cada
+tiempo el siguiente paso depende únicamente de la posición actual. Por tanto
+el muestredor de Gibbs es un proceso cadena de Markov vía Monte Carlo. La
+diferencia entre Gibbs y Metrópolis radica en como se deciden los pasos.</p>
+<div class="caja">
+<p><strong>Muestreador Gibbs</strong></p>
+<p>En cada punto de la caminata se selecciona uno de los
+componentes del vector de parámetros (típicamente se cicla en orden):</p>
+<ol style="list-style-type: decimal">
+<li><p>Supongamos que se selecciona el parámetro <span class="math inline">\(\theta_k\)</span>, entonces obtenemos un
+nuevo valor para este parámetro generando una simulación de la distribución
+condicional
+<span class="math display">\[p(\theta_k,|\theta_1,...,\theta_{k-1},\theta_{k+1},...,\theta_p,x)\]</span></p></li>
+<li><p>El nuevo valor <span class="math inline">\(\theta_k\)</span> junto con los valores que aun no cambian
+<span class="math inline">\(\theta_1,...,\theta_{k-1},\theta_{k+1},...,\theta_p\)</span> constituyen la nueva
+posición en la caminata aleatoria.</p></li>
+<li><p>Seleccionamos una nueva componente (<span class="math inline">\(\theta_{k+1}\)</span>) y repetimos el proceso.</p></li>
+</ol>
+</div>
+<p>El muestreador de Gibbs es útil cuando no podemos determinar de manera analítica
+la distribución conjunta y no se puede simular directamente de ella, pero si
+podemos determinar todas las distribuciones condicionales y simular de ellas.</p>
+<p>Ejemplificaremos el muestreador de Gibbs con el ejemplo de las proporciones, a
+pesar de no ser necesario en este caso.</p>
+<p>Comenzamos identificando las distribuciones condicionales posteriores para cada
+parámetro:</p>
+<p><span class="math display">\[p(\theta_1|\theta_2,x) = p(\theta_1,\theta_2|x) / p(\theta_2|x)\]</span>
+<span class="math display">\[= \frac{p(\theta_1,\theta_2|x)} {\int p(\theta_1,\theta_2|x) d\theta_1}\]</span></p>
+<p>Usando iniciales <span class="math inline">\(beta(a_1, b_1)\)</span> y <span class="math inline">\(beta(a_2,b_2)\)</span>, obtenemos:</p>
+<p><span class="math display">\[p(\theta_1|\theta_2,x) = \frac{beta(\theta_1|z_1 + a_1, N_1 - z_1 + b_1) beta(\theta_2|z_2 + a_2, N_2 - z_2 + b_2)}{\int beta(\theta_1|z_1 + a_1, N_1 - z_1 + b_1) beta(\theta_2|z_2 + a_2, N_2 - z_2 + b_2) d\theta_1}\]</span>
+<span class="math display">\[= \frac{beta(\theta_1|z_1 + a_1, N_1 - z_1 + b_1) beta(\theta_2|z_2 + a_2, N_2 - z_2 + b_2)}{beta(\theta_2|z_2 + a_2, N_2 - z_2 + b_2)}\]</span>
+<span class="math display">\[=beta(\theta_1|z_1 + a_1, N_1 - z_1 + b_1)\]</span></p>
+<p>Debido a que la posterior es el producto de dos distribuciones Beta
+independientes es claro que <span class="math inline">\(p(\theta_1|\theta_2,x)=p(\theta_1|x)\)</span>.</p>
+<p>Una vez que determinamos las distribuciones condicionales, simplemente hay que
+encontrar una manera de obtener muestras de estas, en R podemos usar la
+función <span class="math inline">\(rbeta\)</span>.</p>
+<p><img src="img/pasos_gibbs.png" width="600px"/></p>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb352-1" data-line-number="1">pasos &lt;-<span class="st"> </span><span class="dv">12000</span></a>
+<a class="sourceLine" id="cb352-2" data-line-number="2">camino &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">nrow =</span> pasos, <span class="dt">ncol =</span> <span class="dv">2</span>) <span class="co"># vector que guardará las simulaciones</span></a>
+<a class="sourceLine" id="cb352-3" data-line-number="3">camino[<span class="dv">1</span>, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="fl">0.1</span> <span class="co"># valor inicial</span></a>
+<a class="sourceLine" id="cb352-4" data-line-number="4">camino[<span class="dv">1</span>, <span class="dv">2</span>] &lt;-<span class="st"> </span><span class="fl">0.1</span></a>
+<a class="sourceLine" id="cb352-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb352-6" data-line-number="6"><span class="co"># Generamos la caminata aleatoria</span></a>
+<a class="sourceLine" id="cb352-7" data-line-number="7"><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>pasos){</a>
+<a class="sourceLine" id="cb352-8" data-line-number="8">  <span class="cf">if</span>(j <span class="op">%%</span><span class="st"> </span><span class="dv">2</span>){</a>
+<a class="sourceLine" id="cb352-9" data-line-number="9">    camino[j, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">rbeta</span>(<span class="dv">1</span>, z_<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>a_<span class="dv">1</span>, N_<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>z_<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>b_<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb352-10" data-line-number="10">    camino[j, <span class="dv">2</span>] &lt;-<span class="st"> </span>camino[j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb352-11" data-line-number="11">  }</a>
+<a class="sourceLine" id="cb352-12" data-line-number="12">  <span class="cf">else</span>{</a>
+<a class="sourceLine" id="cb352-13" data-line-number="13">    camino[j, <span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw">rbeta</span>(<span class="dv">1</span>, z_<span class="dv">2</span> <span class="op">+</span><span class="st"> </span>a_<span class="dv">2</span>, N_<span class="dv">2</span> <span class="op">-</span><span class="st"> </span>z_<span class="dv">2</span> <span class="op">+</span><span class="st"> </span>b_<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb352-14" data-line-number="14">    camino[j, <span class="dv">1</span>] &lt;-<span class="st"> </span>camino[j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb352-15" data-line-number="15">  }</a>
+<a class="sourceLine" id="cb352-16" data-line-number="16">}</a>
+<a class="sourceLine" id="cb352-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb352-18" data-line-number="18">caminata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">pasos =</span> <span class="dv">1</span><span class="op">:</span>pasos, <span class="dt">theta_1 =</span> camino[, <span class="dv">1</span>], </a>
+<a class="sourceLine" id="cb352-19" data-line-number="19">  <span class="dt">theta_2 =</span> camino[, <span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb352-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb352-21" data-line-number="21"><span class="kw">ggplot</span>(caminata[<span class="dv">1</span><span class="op">:</span><span class="dv">2000</span>, ], <span class="kw">aes</span>(<span class="dt">x =</span> theta_<span class="dv">1</span>, <span class="dt">y =</span> theta_<span class="dv">2</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb352-22" data-line-number="22"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="fl">0.8</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb352-23" data-line-number="23"><span class="st">    </span><span class="kw">geom_path</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb352-24" data-line-number="24"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta[<span class="dv">1</span>]), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb352-25" data-line-number="25"><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="kw">expression</span>(theta[<span class="dv">2</span>]), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb352-26" data-line-number="26"><span class="st">    </span><span class="kw">coord_fixed</span>()</a></code></pre></div>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-34-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb353-1" data-line-number="1">caminata_g &lt;-<span class="st"> </span><span class="kw">filter</span>(caminata, pasos <span class="op">%%</span><span class="st"> </span><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb353-2" data-line-number="2"><span class="st">  </span><span class="kw">gather</span>(parametro, val, theta_<span class="dv">1</span>, theta_<span class="dv">2</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb353-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">pasos =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6000</span>, <span class="dv">2</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb353-4" data-line-number="4"><span class="st">  </span><span class="kw">arrange</span>(pasos)</a>
+<a class="sourceLine" id="cb353-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb353-6" data-line-number="6"><span class="kw">ggplot</span>(caminata_g[<span class="dv">1</span><span class="op">:</span><span class="dv">2000</span>, ], <span class="kw">aes</span>(<span class="dt">x =</span> pasos, <span class="dt">y =</span> val)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb353-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_path</span>(<span class="dt">alpha =</span> <span class="fl">0.3</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb353-8" data-line-number="8"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>parametro, <span class="dt">ncol =</span> <span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb353-9" data-line-number="9"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;&quot;</span>, <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</a></code></pre></div>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-35-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>Si comparamos los resultados del muestreador de Gibbs con los de Metrópolis
+notamos que las estimaciones son muy cercanas</p>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb354-1" data-line-number="1"><span class="co"># Metropolis</span></a>
+<a class="sourceLine" id="cb354-2" data-line-number="2">caminata_m <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb354-3" data-line-number="3"><span class="st">  </span><span class="kw">filter</span>(pasos <span class="op">&gt;</span><span class="st"> </span><span class="dv">1000</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># eliminamos el calentamiento</span></a>
+<a class="sourceLine" id="cb354-4" data-line-number="4"><span class="st">  </span><span class="kw">group_by</span>(parametro) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb354-5" data-line-number="5"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb354-6" data-line-number="6">    <span class="dt">media =</span> <span class="kw">mean</span>(val),</a>
+<a class="sourceLine" id="cb354-7" data-line-number="7">    <span class="dt">mediana =</span> <span class="kw">median</span>(val),</a>
+<a class="sourceLine" id="cb354-8" data-line-number="8">    <span class="dt">std =</span> <span class="kw">sd</span>(val)</a>
+<a class="sourceLine" id="cb354-9" data-line-number="9">    )</a>
+<a class="sourceLine" id="cb354-10" data-line-number="10"><span class="co">#&gt; # A tibble: 2 x 4</span></a>
+<a class="sourceLine" id="cb354-11" data-line-number="11"><span class="co">#&gt;   parametro media mediana   std</span></a>
+<a class="sourceLine" id="cb354-12" data-line-number="12"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb354-13" data-line-number="13"><span class="co">#&gt; 1 theta_1   0.614   0.620 0.127</span></a>
+<a class="sourceLine" id="cb354-14" data-line-number="14"><span class="co">#&gt; 2 theta_2   0.378   0.370 0.134</span></a>
+<a class="sourceLine" id="cb354-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb354-16" data-line-number="16"><span class="co"># Gibbs</span></a>
+<a class="sourceLine" id="cb354-17" data-line-number="17">caminata_g <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb354-18" data-line-number="18"><span class="st">  </span><span class="kw">filter</span>(pasos <span class="op">&gt;</span><span class="st"> </span><span class="dv">1000</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb354-19" data-line-number="19"><span class="st">  </span><span class="kw">group_by</span>(parametro) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb354-20" data-line-number="20"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb354-21" data-line-number="21">    <span class="dt">media =</span> <span class="kw">mean</span>(val),</a>
+<a class="sourceLine" id="cb354-22" data-line-number="22">    <span class="dt">mediana =</span> <span class="kw">median</span>(val),</a>
+<a class="sourceLine" id="cb354-23" data-line-number="23">    <span class="dt">std =</span> <span class="kw">sd</span>(val)</a>
+<a class="sourceLine" id="cb354-24" data-line-number="24">    )</a>
+<a class="sourceLine" id="cb354-25" data-line-number="25"><span class="co">#&gt; # A tibble: 2 x 4</span></a>
+<a class="sourceLine" id="cb354-26" data-line-number="26"><span class="co">#&gt;   parametro media mediana   std</span></a>
+<a class="sourceLine" id="cb354-27" data-line-number="27"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb354-28" data-line-number="28"><span class="co">#&gt; 1 theta_1   0.614   0.621 0.129</span></a>
+<a class="sourceLine" id="cb354-29" data-line-number="29"><span class="co">#&gt; 2 theta_2   0.384   0.378 0.129</span></a></code></pre></div>
+<p>También podemos comparar los sesgos de las dos monedas, esta es una pregunta
+más interesante.</p>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb355-1" data-line-number="1">caminata &lt;-<span class="st"> </span>caminata <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb355-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dif =</span> theta_<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta_<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb355-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb355-4" data-line-number="4"><span class="kw">ggplot</span>(caminata, <span class="kw">aes</span>(<span class="dt">x =</span> dif)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb355-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">fill =</span> <span class="st">&quot;gray&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb355-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">0</span>, <span class="dt">alpha =</span> <span class="fl">0.8</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</a>
+<a class="sourceLine" id="cb355-7" data-line-number="7"><span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></a></code></pre></div>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-37-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>La principal ventaja del muestreador de Gibbs sobre el algoritmo de Metrópolis
+es que no hay necesidad de seleccionar una distribución propuesta y no hay que
+lidiar con lo ineficiente de rechazar valores. A cambio, debemos ser capaces
+de derivar las probabilidades condicionales de cada parámetro y de generar
+muestras de estas.</p>
+<div id="ejemplo-normal" class="section level4 unnumbered">
+<h4>Ejemplo: Normal</h4>
+<p>Retomemos el caso de observaciones normales, supongamos que tengo una muestra
+<span class="math inline">\(x_1,...,x_N\)</span> de observaciones independientes e identicamente distribuidas,
+con <span class="math inline">\(x_i \sim N(\mu, \sigma^2)\)</span>, veremos el caso de media desconocida, varianza
+desconocida y de ambas desconocidas.</p>
+<p><strong>Normal con media desconocida</strong>. Supongamos que <span class="math inline">\(\sigma^2\)</span> es conocida, por lo
+que nuestro parámetro de interés es únicamente <span class="math inline">\(\mu\)</span> entonces si describo mi
+conocimiento inicial de <span class="math inline">\(\mu\)</span> a través de una distribución normal:
+<span class="math display">\[\mu \sim N(m, \tau^2)\]</span>
+resulta en una distribución posterior:
+<span class="math display">\[\mu|x \sim N\bigg(\frac{\sigma^2}{\sigma^2 + N\tau^2}m + \frac{N\tau^2}{\sigma^2 + N \tau^2}\bar{x}, \frac{\sigma^2 \tau^2}{\sigma^2 + N\tau^2}\bigg)\]</span></p>
+<p><strong>Normal con varianza desconocida</strong>. Supongamos que <span class="math inline">\(\mu\)</span> es conocida, por lo
+que nuestro parámetro de interés es únicamente <span class="math inline">\(\sigma^2\)</span>. En este caso una
+distribución conveniente para describir nuestro conocimiento inicial es
+la distribución <em>Gamma Inversa</em>.</p>
+<p>La distribución Gamma Inversa es una distribución continua con dos parámetros
+y que toma valores en los positivos. Como su nombre lo indica, esta distribución
+corresponde al recírpoco de una variable cuya distribución es Gamma, recordemos
+que si <span class="math inline">\(x\sim Gamma(\alpha, \beta)\)</span> entonces:</p>
+<p><span class="math display">\[p(x)=\frac{1}{\beta^{\alpha}\Gamma(\alpha)}x^{\alpha-1}e^{-x/\beta}\]</span></p>
+<p>donde <span class="math inline">\(x&gt;0\)</span>. Ahora si <span class="math inline">\(y\)</span> es la variable aleatoria recírpoco de <span class="math inline">\(x\)</span> entonces:</p>
+<p><span class="math display">\[p(y)=\frac{\beta^\alpha}{\Gamma(\alpha)}y^{-\alpha - 1} exp{-\beta/y}\]</span></p>
+<p>con media
+<span class="math display">\[\frac{\beta}{\alpha-1}\]</span>
+y varianza
+<span class="math display">\[\frac{\beta^2}{(\alpha-1)^2(\alpha-2)}.\]</span></p>
+<p>Debido a la relación entre las distribuciones Gamma y Gamma Inversa, podemos
+utilizar la función rgamma de R para generar valores con distribución gamma
+inversa.</p>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb356-1" data-line-number="1"><span class="co"># 1. simulamos valores porvenientes de una distribución gamma</span></a>
+<a class="sourceLine" id="cb356-2" data-line-number="2">x_gamma &lt;-<span class="st"> </span><span class="kw">rgamma</span>(<span class="dv">2000</span>, <span class="dt">shape =</span> <span class="dv">5</span>, <span class="dt">rate =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb356-3" data-line-number="3"><span class="co"># 2. invertimos los valores simulados</span></a>
+<a class="sourceLine" id="cb356-4" data-line-number="4">x_igamma &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>x_gamma</a>
+<a class="sourceLine" id="cb356-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb356-6" data-line-number="6"><span class="co"># También podemos usar las funciones de MCMCpack</span></a>
+<a class="sourceLine" id="cb356-7" data-line-number="7"><span class="kw">library</span>(MCMCpack)</a>
+<a class="sourceLine" id="cb356-8" data-line-number="8">x_igamma &lt;-<span class="st"> </span><span class="kw">data.frame</span>(x_igamma)</a>
+<a class="sourceLine" id="cb356-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb356-10" data-line-number="10"><span class="kw">ggplot</span>(x_igamma, <span class="kw">aes</span>(<span class="dt">x =</span> x_igamma)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb356-11" data-line-number="11"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">binwidth =</span> <span class="fl">0.05</span>, <span class="dt">fill =</span> <span class="st">&quot;gray&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb356-12" data-line-number="12"><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dinvgamma, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">shape =</span> <span class="dv">5</span>, <span class="dt">scale =</span> <span class="dv">1</span>), </a>
+<a class="sourceLine" id="cb356-13" data-line-number="13">    <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)  </a></code></pre></div>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-38-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>Volviendo al problema de inferir acerca del parámetros <span class="math inline">\(\sigma^2\)</span>, si resumimos
+nuestro conocimiento inicial a través de una distribución Gamma Inversa tenemos
+<span class="math display">\[p(\sigma^2)=\frac{\beta^\alpha}{\Gamma(\alpha)}\frac{1}{(\sigma^2)^{\alpha + 1}} e^{-\beta/\sigma^2}\]</span></p>
+<p>la verosimiltud:
+<span class="math display">\[p(x|\mu, \sigma^2)=\frac{1}{(2\pi\sigma^2)^{N/2}}exp\left(-\frac{1}{2\sigma^2}\sum_{j=1}^{N}(x_j-\mu)^2\right)\]</span></p>
+<p>y calculamos la posterior:</p>
+<p><span class="math display">\[p(\sigma^2) \propto p(x|\mu,\sigma^2)p(\sigma^2)\]</span></p>
+<p>obtenemos que <span class="math inline">\(\sigma^2|x \sim GI(N/2+\alpha, \beta + 1/2 \sum(x_i - \mu)^2)\)</span>.</p>
+<p>Por tanto tenemos que la inicial Gamma con verosimilitud Normal es una familia
+conjugada.</p>
+</div>
+<div id="ejemplo-normal-con-media-y-varianza-desconocidas" class="section level4 unnumbered">
+<h4>Ejemplo: Normal con media y varianza desconocidas</h4>
+<p>Sea <span class="math inline">\(\theta=(\mu, \sigma^2)\)</span> especificamos la siguiente inicial para <span class="math inline">\(\theta\)</span>:
+<span class="math display">\[p(\theta) = N(\mu|m, \tau^2)\cdot IG(\sigma^2|\alpha, \beta)\]</span>
+suponemos hiperparámetros <span class="math inline">\(m,\tau^2, \alpha, \beta\)</span> conocidos. Entonces, la
+distribución posterior es:
+<span class="math display">\[ p(\theta|x) \propto p(x|\theta) p(\theta)\]</span>
+<span class="math display">\[= \frac{1}{(\sigma^2)^{N/2}}
+  exp\bigg(-\frac{1}{2\sigma^2}\sum_{i=1}^N (x_i-\mu)^2 \bigg)
+  exp\bigg(-\frac{1}{2\tau^2}(\mu-m)^2)\bigg) 
+  \frac{1}{(\sigma^2)^{\alpha +1}}
+  exp\bigg(-\frac{\beta}{\sigma^2}\bigg)\]</span></p>
+<p>en esta última distribución no reconocemos el núcleo de niguna distribución
+conocida (existe una distribución <a href="https://en.wikipedia.org/wiki/Normal-inverse-gamma_distribution">normal-gamma inversa</a>)
+pero si nos concenteramos únicamente en los términos que involucran
+a <span class="math inline">\(\mu\)</span> tenemos:</p>
+<p><span class="math display">\[exp\left(-\frac{1}{2}\left( \mu^2 \left( \frac{N}{\sigma^2} + 
+\frac{1}{\tau^2} \right) 
+- 2\mu\left(\frac{\sum_{i= 1}^n x_i}{\sigma^2} + \frac{m}{\tau^2}\right) \right)\right)\]</span></p>
+<p>esta expresión depende de <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\sigma^2\)</span>, sin embargo condicional a <span class="math inline">\(\sigma^2\)</span> observamos el núcleo de una distribución normal,</p>
+<p><span class="math display">\[\mu|\sigma^2,x \sim N\left(\frac{n\tau^2}{n\tau^2 + \sigma^2}\bar{x} +  \frac{\sigma^2}{N\tau^2 + \sigma^2}m, \frac{\tau^2\sigma^2}{n\tau^2 + \sigma^2} \right)\]</span>
+Si nos fijamos únicamente en los tárminos que involucran a <span class="math inline">\(\sigma^2\)</span> tenemos:</p>
+<p><span class="math display">\[\frac{1}{(\sigma^2)^{N/2+\alpha+1}}exp\left(- \frac{1}{\sigma^2}
+\left(\sum_{i=1}^N \frac{(x_i-\mu)^2}{2} + \beta \right) \right)\]</span></p>
+<p>y tenemos</p>
+<p><span class="math display">\[\sigma^2|\mu,x \sim GI\left(\frac{N}{2} + \alpha, \sum_{i=1}^n \frac{(x_i-\mu)^2}{2} + \beta \right)\]</span>
+Obtenemos así las densidades condicionales completas <span class="math inline">\(p(\mu|\sigma^2, x)\)</span> y
+<span class="math inline">\(p(\sigma^2|\mu, x)\)</span> cuyas distribuciones conocemos y de las cuales podemos
+simular.</p>
+<p>Implementaremos un muestreador de Gibbs.</p>
+<p>Comenzamos definiendo las distrbuciones iniciales:</p>
+<ul>
+<li><p><span class="math inline">\(\mu \sim N(1.5, 16)\)</span>, esto es <span class="math inline">\(m = 1.5\)</span> y <span class="math inline">\(\tau^2 = 16\)</span>.</p></li>
+<li><p><span class="math inline">\(\sigma^2 \sim GI(3, 3)\)</span>, esto es <span class="math inline">\(\alpha = \beta = 3\)</span>.</p></li>
+</ul>
+<p>Ahora supongamos que observamos <span class="math inline">\(20\)</span> realizaciones provenientes de la distribución
+de interés:</p>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb357-1" data-line-number="1">N &lt;-<span class="st"> </span><span class="dv">50</span> <span class="co"># Observamos 20 realizaciones</span></a>
+<a class="sourceLine" id="cb357-2" data-line-number="2"><span class="kw">set.seed</span>(<span class="dv">122</span>)</a>
+<a class="sourceLine" id="cb357-3" data-line-number="3">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(N, <span class="dv">2</span>, <span class="dv">2</span>) </a>
+<a class="sourceLine" id="cb357-4" data-line-number="4">x</a>
+<a class="sourceLine" id="cb357-5" data-line-number="5"><span class="co">#&gt;  [1]  4.62140176  0.24829384  2.39904749  2.93190885 -1.60411353</span></a>
+<a class="sourceLine" id="cb357-6" data-line-number="6"><span class="co">#&gt;  [6]  4.89748691  2.59770769  2.72362329 -0.01388084  1.48600171</span></a>
+<a class="sourceLine" id="cb357-7" data-line-number="7"><span class="co">#&gt; [11]  1.73574244  0.31673052  2.54850449 -2.92518071 -2.30679198</span></a>
+<a class="sourceLine" id="cb357-8" data-line-number="8"><span class="co">#&gt; [16]  4.31835150  3.37948021  3.76050265  0.11325957  3.43814572</span></a>
+<a class="sourceLine" id="cb357-9" data-line-number="9"><span class="co">#&gt; [21]  0.92434912  0.95470268 -0.10584378  2.20303449  5.72700211</span></a>
+<a class="sourceLine" id="cb357-10" data-line-number="10"><span class="co">#&gt; [26]  1.96078181 -0.15661507  2.34520855  3.06610819  5.90452895</span></a>
+<a class="sourceLine" id="cb357-11" data-line-number="11"><span class="co">#&gt; [31]  4.82270939  3.20273052  0.17200480  5.16085186  1.06016874</span></a>
+<a class="sourceLine" id="cb357-12" data-line-number="12"><span class="co">#&gt; [36]  5.20367778  2.74547989  2.06775571  2.20820677 -2.03674850</span></a>
+<a class="sourceLine" id="cb357-13" data-line-number="13"><span class="co">#&gt; [41]  0.68398061 -1.21700489 -0.68818260  1.60665220  4.75132535</span></a>
+<a class="sourceLine" id="cb357-14" data-line-number="14"><span class="co">#&gt; [46]  2.34663000  1.12144484 -1.19064581  0.51144488  5.63041621</span></a></code></pre></div>
+<p>Escribimos el muestreador de Gibbs.</p>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb358-1" data-line-number="1">m &lt;-<span class="st"> </span><span class="fl">1.5</span>; tau2 &lt;-<span class="st"> </span><span class="dv">16</span>; alpha &lt;-<span class="st"> </span><span class="dv">3</span>; beta &lt;-<span class="st"> </span><span class="dv">3</span> <span class="co"># parámetros de iniciales</span></a>
+<a class="sourceLine" id="cb358-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb358-3" data-line-number="3">pasos &lt;-<span class="st"> </span><span class="dv">20000</span></a>
+<a class="sourceLine" id="cb358-4" data-line-number="4">camino &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">nrow =</span> pasos <span class="op">+</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">ncol =</span> <span class="dv">2</span>) <span class="co"># vector guardará las simulaciones</span></a>
+<a class="sourceLine" id="cb358-5" data-line-number="5">camino[<span class="dv">1</span>, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">0</span> <span class="co"># valor inicial media</span></a>
+<a class="sourceLine" id="cb358-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb358-7" data-line-number="7"><span class="co"># Generamos la caminata aleatoria</span></a>
+<a class="sourceLine" id="cb358-8" data-line-number="8"><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>(pasos <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)){</a>
+<a class="sourceLine" id="cb358-9" data-line-number="9">  <span class="co"># sigma^2</span></a>
+<a class="sourceLine" id="cb358-10" data-line-number="10">  mu &lt;-<span class="st"> </span>camino[j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb358-11" data-line-number="11">  a &lt;-<span class="st"> </span>N <span class="op">/</span><span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>alpha</a>
+<a class="sourceLine" id="cb358-12" data-line-number="12">  b &lt;-<span class="st"> </span><span class="kw">sum</span>((x  <span class="op">-</span><span class="st"> </span>mu) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>beta</a>
+<a class="sourceLine" id="cb358-13" data-line-number="13">  camino[j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dv">2</span>] &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span><span class="kw">rgamma</span>(<span class="dv">1</span>, <span class="dt">shape =</span> a, <span class="dt">rate =</span> b) <span class="co"># Actualizar sigma2</span></a>
+<a class="sourceLine" id="cb358-14" data-line-number="14">  </a>
+<a class="sourceLine" id="cb358-15" data-line-number="15">  <span class="co"># mu</span></a>
+<a class="sourceLine" id="cb358-16" data-line-number="16">  sigma2 &lt;-<span class="st"> </span>camino[j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb358-17" data-line-number="17">  media &lt;-<span class="st"> </span>(N <span class="op">*</span><span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">mean</span>(x) <span class="op">+</span><span class="st"> </span>sigma2 <span class="op">*</span><span class="st"> </span>m) <span class="op">/</span><span class="st"> </span>(N <span class="op">*</span><span class="st"> </span>tau2 <span class="op">+</span><span class="st"> </span>sigma2)</a>
+<a class="sourceLine" id="cb358-18" data-line-number="18">  var &lt;-<span class="st"> </span>sigma2 <span class="op">*</span><span class="st"> </span>tau2 <span class="op">/</span><span class="st"> </span>(N <span class="op">*</span><span class="st"> </span>tau2 <span class="op">+</span><span class="st"> </span>sigma2)</a>
+<a class="sourceLine" id="cb358-19" data-line-number="19">  camino[j, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>, media, <span class="dt">sd =</span> <span class="kw">sqrt</span>(var)) <span class="co"># actualizar mu</span></a>
+<a class="sourceLine" id="cb358-20" data-line-number="20">}</a>
+<a class="sourceLine" id="cb358-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb358-22" data-line-number="22">caminata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">pasos =</span> <span class="dv">1</span><span class="op">:</span>pasos, <span class="dt">mu =</span> camino[<span class="dv">1</span><span class="op">:</span>pasos, <span class="dv">1</span>], </a>
+<a class="sourceLine" id="cb358-23" data-line-number="23">  <span class="dt">sigma2 =</span> camino[<span class="dv">1</span><span class="op">:</span>pasos, <span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb358-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb358-25" data-line-number="25">caminata_g &lt;-<span class="st"> </span>caminata <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb358-26" data-line-number="26"><span class="st">  </span><span class="kw">gather</span>(parametro, val, mu, sigma2) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb358-27" data-line-number="27"><span class="st">  </span><span class="kw">arrange</span>(pasos)</a>
+<a class="sourceLine" id="cb358-28" data-line-number="28"></a>
+<a class="sourceLine" id="cb358-29" data-line-number="29"><span class="kw">ggplot</span>(<span class="kw">filter</span>(caminata_g, pasos <span class="op">&gt;</span><span class="st"> </span><span class="dv">15000</span>), <span class="kw">aes</span>(<span class="dt">x =</span> pasos, <span class="dt">y =</span> val)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb358-30" data-line-number="30"><span class="st">  </span><span class="kw">geom_path</span>(<span class="dt">alpha =</span> <span class="fl">0.3</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb358-31" data-line-number="31"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>parametro, <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb358-32" data-line-number="32"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;&quot;</span>)</a></code></pre></div>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-40-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb359-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">filter</span>(caminata_g, pasos <span class="op">&gt;</span><span class="st"> </span><span class="dv">5000</span>), <span class="kw">aes</span>(<span class="dt">x =</span> val)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb359-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">fill =</span> <span class="st">&quot;gray&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb359-3" data-line-number="3"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>parametro, <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) </a>
+<a class="sourceLine" id="cb359-4" data-line-number="4"><span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></a></code></pre></div>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-41-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>Algunos resúmenes de la posterior:</p>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb360-1" data-line-number="1">caminata_g <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb360-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(pasos <span class="op">&gt;</span><span class="st"> </span><span class="dv">1000</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># eliminamos la etapa de calentamiento</span></a>
+<a class="sourceLine" id="cb360-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(parametro) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb360-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb360-5" data-line-number="5">    <span class="kw">mean</span>(val), </a>
+<a class="sourceLine" id="cb360-6" data-line-number="6">    <span class="kw">sd</span>(val), </a>
+<a class="sourceLine" id="cb360-7" data-line-number="7">    <span class="kw">median</span>(val)</a>
+<a class="sourceLine" id="cb360-8" data-line-number="8">    )</a>
+<a class="sourceLine" id="cb360-9" data-line-number="9"><span class="co">#&gt; # A tibble: 2 x 4</span></a>
+<a class="sourceLine" id="cb360-10" data-line-number="10"><span class="co">#&gt;   parametro `mean(val)` `sd(val)` `median(val)`</span></a>
+<a class="sourceLine" id="cb360-11" data-line-number="11"><span class="co">#&gt;   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb360-12" data-line-number="12"><span class="co">#&gt; 1 mu               1.91     0.305          1.91</span></a>
+<a class="sourceLine" id="cb360-13" data-line-number="13"><span class="co">#&gt; 2 sigma2           4.74     0.933          4.62</span></a></code></pre></div>
+<p><strong>Predicción</strong>. Para predecir el valor de una realización futura <span class="math inline">\(y\)</span> recordemos
+que:</p>
+<p><span class="math display">\[p(y) =\int p(y|\theta)p(\theta|x)d\theta\]</span></p>
+<p>Por tanto podemos aproximar la distribución predictiva posterior como:</p>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb361-1" data-line-number="1">caminata_f &lt;-<span class="st"> </span><span class="kw">filter</span>(caminata, pasos <span class="op">&gt;</span><span class="st"> </span><span class="dv">5000</span>)</a>
+<a class="sourceLine" id="cb361-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb361-3" data-line-number="3">caminata_f<span class="op">$</span>y_sims &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(caminata_f), caminata_f<span class="op">$</span>mu, caminata_f<span class="op">$</span>sigma2)</a>
+<a class="sourceLine" id="cb361-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb361-5" data-line-number="5"><span class="kw">ggplot</span>(caminata_f, <span class="kw">aes</span>(<span class="dt">x =</span> y_sims)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb361-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">fill =</span> <span class="st">&quot;gray&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb361-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(y_sims)), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</a>
+<a class="sourceLine" id="cb361-8" data-line-number="8"><span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></a></code></pre></div>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-43-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="img/manicule2.jpg" /> ¿Cuál es la probabilidad de que una
+observación futura sea mayor a <span class="math inline">\(8\)</span>?</p>
+<p>En estadística bayesiana es común parametrizar la distribución Normal en
+términos de precisión (el inverso de la varianza). Si parametrizamos de esta
+manera <span class="math inline">\(\nu = 1/\sigma^2\)</span> podemos repetir el proceso anterior con la
+diferencia de utilizar la distribución Gamma en lugar de Gamma inversa.</p>
+</div>
+<div id="conclusiones-y-observaciones-metrópolis-y-gibbs" class="section level3 unnumbered">
+<h3>Conclusiones y observaciones Metrópolis y Gibbs</h3>
+<ul>
+<li><p>Una generalización del algoritmo de Metrópolis es Metrópolis-Hastings.</p>
+El algoritmo de Metropolis es como sigue:
+<ol style="list-style-type: decimal">
+<li>Generamos un punto inicial tal que <span class="math inline">\(p(\theta)&gt;0\)</span>.</li>
+<li>Para <span class="math inline">\(t = 1,2,...\)</span>
+<ul>
+<li>Se propone un nuevo valor <span class="math inline">\(\theta_{propuesto}\)</span> con una distribución
+propuesta <span class="math inline">\(g(\theta_{propuesta}|\theta_{actual})\)</span> es común que <span class="math inline">\(g(\theta_{propuesta}|\theta_{actual})\)</span> sea una normal centrada en
+<span class="math inline">\(\theta_{actual}\)</span>.</li>
+</ul></li>
+<li>Calculamos
+<span class="math display">\[p_{mover}=min\bigg( \frac{p(\theta_{propuesta})}{p(\theta_{actual})},1\bigg)\]</span>
+y aceptamos <span class="math display">\[\theta_{propuesta}\]</span> con probabilidad <span class="math inline">\(p_{mover}\)</span>. Es así que el algorito requiere que podamos calcular el cociente en <span class="math inline">\(p_{mover}\)</span>
+para todo <span class="math inline">\(\theta_{actual}\)</span> y <span class="math inline">\(\theta_{propuesta}\)</span>, así como simular de la
+distribución propuesta <span class="math inline">\(g(\theta_{propuesta}|\theta_{actual})\)</span>, adicionalmente
+debemos poder generar valores uniformes para decidir si aceptar/rechazar.
+En el caso de <strong>Metropolis</strong> un requerimiento adicional es que la distribución
+propuesta <span class="math inline">\(g(\theta_{a}|\theta_b)\)</span> debe ser simétrica, es decir <span class="math inline">\(g(\theta_{a}|\theta_b) = g(\theta_{b}|\theta_a)\)</span> para todo <span class="math inline">\(\theta_{a}\)</span>,
+<span class="math inline">\(\theta_{b}\)</span>.</li>
+</ol>
+<p><strong>Metropolis-Hastings</strong> generaliza Metropolis, eliminando la restricción de
+simetría en la distribución propuesta <span class="math inline">\(g(\theta_{a}|\theta_b)\)</span>, sin embargo para corregir por
+esta asimetría debemos calcular <span class="math inline">\(p_{mover}\)</span> como sigue:
+<span class="math display">\[p_{mover}=min\bigg( \frac{p(\theta_{propuesta})/g(\theta_{propuesta}|\theta_{actual})}{p(\theta_{actual})/g(\theta_{actual}|\theta_{propuesta})},1\bigg)\]</span>
+La generalización de Metrópolis-Hastings puede resultar en algoritmos más
+veloces.</p></li>
+<li><p>Se puede ver Gibbs como una generalización de Metropolis, cuando estamos
+actualizando un componente de los parámetros, la distribución propuesta es
+la distribución posterior para ese parámetro, por tanto siempre es aceptado.</p></li>
+<li><p>En el caso de modelos complicados se utilizan combinaciones de Gibbs y
+Metropolis. Cuando se consideran estos dos algoritmos Gibbs es un método más
+simple y es la primera opción para modelos condicionalmente conjugados. Sí solo
+podemos simular de un subconjunto de las distribuciones condicionales
+posteriores, entonces podemos usar Gibbs siempre que se pueda y Metropolis
+unidimensional para el resto, o de manera más general separamos en bloques, un
+bloque se actualiza con Gibbs y otro con Metrópolis.</p></li>
+<li><p>El algoritmo de Gibbs puede <em>atorarse</em> cuando hay correlación alta entre los
+parámetros, reparametrizar puede ayudar, o se pueden usar otros algoritmos que
+veremos más adelante.</p></li>
+</ul>
+
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="metrópolis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="tareas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/tereom/est-computacional-2019/edit/master/09-analisis_bayesiano.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

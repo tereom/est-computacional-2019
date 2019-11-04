@@ -288,6 +288,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="bootstrap-paramétrico.html"><a href="bootstrap-paramétrico.html"><i class="fa fa-check"></i><b>9.2</b> Bootstrap paramétrico</a></li>
 </ul></li>
+<li class="chapter" data-level="10" data-path="análisis-bayesiano.html"><a href="análisis-bayesiano.html"><i class="fa fa-check"></i><b>10</b> Análisis bayesiano</a><ul>
+<li class="chapter" data-level="10.1" data-path="probabilidad-subjetiva.html"><a href="probabilidad-subjetiva.html"><i class="fa fa-check"></i><b>10.1</b> Probabilidad subjetiva</a></li>
+<li class="chapter" data-level="10.2" data-path="regla-de-bayes-e-inferencia-bayesiana.html"><a href="regla-de-bayes-e-inferencia-bayesiana.html"><i class="fa fa-check"></i><b>10.2</b> Regla de Bayes e inferencia bayesiana</a><ul>
+<li class="chapter" data-level="" data-path="regla-de-bayes-e-inferencia-bayesiana.html"><a href="regla-de-bayes-e-inferencia-bayesiana.html#regla-de-bayes-en-modelos-y-datos"><i class="fa fa-check"></i>Regla de Bayes en modelos y datos</a></li>
+<li class="chapter" data-level="" data-path="regla-de-bayes-e-inferencia-bayesiana.html"><a href="regla-de-bayes-e-inferencia-bayesiana.html#objetivos-de-la-inferencia"><i class="fa fa-check"></i>Objetivos de la inferencia</a></li>
+<li class="chapter" data-level="" data-path="regla-de-bayes-e-inferencia-bayesiana.html"><a href="regla-de-bayes-e-inferencia-bayesiana.html#cálculo-de-la-distribución-posterior"><i class="fa fa-check"></i>Cálculo de la distribución posterior</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="distribuciones-conjugadas.html"><a href="distribuciones-conjugadas.html"><i class="fa fa-check"></i><b>10.3</b> Distribuciones conjugadas</a><ul>
+<li class="chapter" data-level="" data-path="distribuciones-conjugadas.html"><a href="distribuciones-conjugadas.html#ejemplo-bernoulli"><i class="fa fa-check"></i>Ejemplo: Bernoulli</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="aproximación-por-cuadrícula.html"><a href="aproximación-por-cuadrícula.html"><i class="fa fa-check"></i><b>10.4</b> Aproximación por cuadrícula</a></li>
+<li class="chapter" data-level="10.5" data-path="mcmc.html"><a href="mcmc.html"><i class="fa fa-check"></i><b>10.5</b> MCMC</a><ul>
+<li class="chapter" data-level="" data-path="mcmc.html"><a href="mcmc.html#introducción-metrópolis"><i class="fa fa-check"></i>Introducción Metrópolis</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="metrópolis.html"><a href="metrópolis.html"><i class="fa fa-check"></i><b>10.6</b> Metrópolis</a><ul>
+<li class="chapter" data-level="" data-path="metrópolis.html"><a href="metrópolis.html#inferencia-de-dos-proporciones-binomiales"><i class="fa fa-check"></i>Inferencia de dos proporciones binomiales</a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a><ul>
+<li class="chapter" data-level="" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#conclusiones-y-observaciones-metrópolis-y-gibbs"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
 <li class="chapter" data-level="" data-path="transformación-de-datos-1.html"><a href="transformación-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
@@ -352,15 +373,15 @@ posibles. Para probar qué tan bien funciona este método, podemos seguir el
 protocolo lineup.</p>
 <p>El siguiente código es como se procedería en análisis discriminante en R usando
 los datos:</p>
-<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb343-1" data-line-number="1"><span class="kw">data</span>(wasps) <span class="co"># incluídos en nullabor</span></a>
-<a class="sourceLine" id="cb343-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb343-3" data-line-number="3">wasp_lda &lt;-<span class="st"> </span>MASS<span class="op">::</span><span class="kw">lda</span>(Group<span class="op">~</span>., <span class="dt">data =</span> wasps[,<span class="op">-</span><span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb343-4" data-line-number="4">wasp_ld &lt;-<span class="st"> </span><span class="kw">predict</span>(wasp_lda, <span class="dt">dimen =</span> <span class="dv">2</span>)<span class="op">$</span>x</a>
-<a class="sourceLine" id="cb343-5" data-line-number="5">true &lt;-<span class="st"> </span><span class="kw">data.frame</span>(wasp_ld, <span class="dt">Group =</span> wasps<span class="op">$</span>Group)</a>
-<a class="sourceLine" id="cb343-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb343-7" data-line-number="7"><span class="kw">ggplot</span>(true, <span class="kw">aes</span>(<span class="dt">x =</span> LD1, <span class="dt">y =</span> LD2, <span class="dt">colour =</span> Group)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb343-8" data-line-number="8"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb343-9" data-line-number="9"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">aspect.ratio =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb384-1" data-line-number="1"><span class="kw">data</span>(wasps) <span class="co"># incluídos en nullabor</span></a>
+<a class="sourceLine" id="cb384-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb384-3" data-line-number="3">wasp_lda &lt;-<span class="st"> </span>MASS<span class="op">::</span><span class="kw">lda</span>(Group<span class="op">~</span>., <span class="dt">data =</span> wasps[,<span class="op">-</span><span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb384-4" data-line-number="4">wasp_ld &lt;-<span class="st"> </span><span class="kw">predict</span>(wasp_lda, <span class="dt">dimen =</span> <span class="dv">2</span>)<span class="op">$</span>x</a>
+<a class="sourceLine" id="cb384-5" data-line-number="5">true &lt;-<span class="st"> </span><span class="kw">data.frame</span>(wasp_ld, <span class="dt">Group =</span> wasps<span class="op">$</span>Group)</a>
+<a class="sourceLine" id="cb384-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb384-7" data-line-number="7"><span class="kw">ggplot</span>(true, <span class="kw">aes</span>(<span class="dt">x =</span> LD1, <span class="dt">y =</span> LD2, <span class="dt">colour =</span> Group)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb384-8" data-line-number="8"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb384-9" data-line-number="9"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">aspect.ratio =</span> <span class="dv">1</span>)</a></code></pre></div>
 <p>Para generar los conjuntos de datos nulos debes permutar lo columna <code>Group</code> de
 la tabla de datos y repetir los pasos de arriba, realiza esto 19 veces y realiza
 una gráfica de páneles en la que escondas los datos verdaderos entre los datos
@@ -377,9 +398,9 @@ juicios de belleza.</p>
 <em>edad</em> (age), <em>belleza</em> (btystdave), <em>sexo</em> (female) e <em>inglés no es primera
 lengua</em> (nonenglish) para predecir las evaluaciones del curso
 (courseevaluation).</p>
-<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb344-1" data-line-number="1">beauty &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/beauty.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb344-2" data-line-number="2">fit_score &lt;-<span class="st"> </span><span class="kw">lm</span>(courseevaluation <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>btystdave <span class="op">+</span><span class="st"> </span>female <span class="op">+</span><span class="st"> </span>nonenglish, </a>
-<a class="sourceLine" id="cb344-3" data-line-number="3">    <span class="dt">data =</span> beauty)</a></code></pre></div>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb385-1" data-line-number="1">beauty &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/beauty.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb385-2" data-line-number="2">fit_score &lt;-<span class="st"> </span><span class="kw">lm</span>(courseevaluation <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>btystdave <span class="op">+</span><span class="st"> </span>female <span class="op">+</span><span class="st"> </span>nonenglish, </a>
+<a class="sourceLine" id="cb385-3" data-line-number="3">    <span class="dt">data =</span> beauty)</a></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>La instructora <span class="math inline">\(A\)</span> es una mujer de <span class="math inline">\(50\)</span> años, el inglés es su primera lengua y
 tiene un puntaje de belleza de <span class="math inline">\(-1\)</span>. El instructor B es un hombre de <span class="math inline">\(60\)</span> años,</li>
@@ -390,15 +411,15 @@ tus simulaciones debes incorporar la incertidumbre en los parámetros y en la
 predicción.</p>
 <p>Para hacer las simulaciones necesitarás la distribución del vector de
 coeficientes <span class="math inline">\(\beta\)</span>, este es normal con media:</p>
-<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb345-1" data-line-number="1"><span class="kw">coef</span>(fit_score)</a></code></pre></div>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb386-1" data-line-number="1"><span class="kw">coef</span>(fit_score)</a></code></pre></div>
 <p>y matriz de varianzas y covarianzas <span class="math inline">\(\sigma^2 V\)</span>, donde <span class="math inline">\(V\)</span> es:</p>
-<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb346-1" data-line-number="1"><span class="kw">summary</span>(fit_score)<span class="op">$</span>cov.unscaled</a></code></pre></div>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb387-1" data-line-number="1"><span class="kw">summary</span>(fit_score)<span class="op">$</span>cov.unscaled</a></code></pre></div>
 <p>y <span class="math inline">\(\sigma\)</span> se calcula como <span class="math inline">\(\sigma=\hat{\sigma}\sqrt{(df)/X}\)</span>, donde X es una
 generación de una distribución <span class="math inline">\(\chi ^2\)</span> con <span class="math inline">\(df\)</span> (<span class="math inline">\(458\)</span>) grados de libertad
 <span class="math inline">\(\hat{\sigma}\)</span> es:</p>
-<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb347-1" data-line-number="1"><span class="kw">summary</span>(fit_score)<span class="op">$</span>sigma</a></code></pre></div>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb388-1" data-line-number="1"><span class="kw">summary</span>(fit_score)<span class="op">$</span>sigma</a></code></pre></div>
 <p>y <span class="math inline">\(df\)</span> (los grados de libertad) se obtienen:</p>
-<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb348-1" data-line-number="1"><span class="kw">summary</span>(fit_score)<span class="op">$</span>df[<span class="dv">2</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb389-1" data-line-number="1"><span class="kw">summary</span>(fit_score)<span class="op">$</span>df[<span class="dv">2</span>]</a></code></pre></div>
 <p>Una vez que obtengas una simulación del vector <span class="math inline">\(\beta\)</span> generas simulaciones
 para los profesores usando el modelo de regresión lineal y las simulaciones
 de los parámetros (también puedes usar la función <code>sim</code> del paquete <code>arm</code>.</p>

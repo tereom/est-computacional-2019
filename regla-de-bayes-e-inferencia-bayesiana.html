@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>10.2 Regla de Bayes e inferencia bayesiana | Estadística Computacional</title>
+  <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
+  <meta name="generator" content="bookdown 0.14.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="10.2 Regla de Bayes e inferencia bayesiana | Estadística Computacional" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
+  <meta name="github-repo" content="tereom/est-computacional-2019" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="10.2 Regla de Bayes e inferencia bayesiana | Estadística Computacional" />
+  
+  <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
+  
+
+<meta name="author" content="María Teresa Ortiz" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="probabilidad-subjetiva.html"/>
+<link rel="next" href="distribuciones-conjugadas.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="libs/d3-3.5.6/d3.min.js"></script>
+<link href="libs/profvis-0.3.6/profvis.css" rel="stylesheet" />
+<script src="libs/profvis-0.3.6/profvis.js"></script>
+<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-6.2.0/highlight.js"></script>
+<script src="libs/profvis-binding-0.3.6/profvis.js"></script>
+<script src="libs/plotly-binding-4.9.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.46.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.46.1/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="css/toc.css" type="text/css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+<link rel="stylesheet" href="css/cajas.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Estadística Computacional</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Información del curso</a><ul>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html"><i class="fa fa-check"></i>Temario</a><ul>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#calificación"><i class="fa fa-check"></i>Calificación</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#software"><i class="fa fa-check"></i>Software</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#otros-recursos"><i class="fa fa-check"></i>Otros recursos</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#noticias"><i class="fa fa-check"></i>Noticias</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="principios-visualización.html"><a href="principios-visualización.html"><i class="fa fa-check"></i><b>1</b> Principios visualización</a><ul>
+<li class="chapter" data-level="1.1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>1.1</b> Introducción</a><ul>
+<li class="chapter" data-level="" data-path="introducción.html"><a href="introducción.html#visualización-de-datos-en-la-estadística"><i class="fa fa-check"></i>Visualización de datos en la estadística</a></li>
+<li class="chapter" data-level="" data-path="introducción.html"><a href="introducción.html#visualización-popular-de-datos"><i class="fa fa-check"></i>Visualización popular de datos</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="teoría-de-visualización-de-datos.html"><a href="teoría-de-visualización-de-datos.html"><i class="fa fa-check"></i><b>1.2</b> Teoría de visualización de datos</a></li>
+<li class="chapter" data-level="1.3" data-path="factor-de-engaño-y-chartjunk.html"><a href="factor-de-engaño-y-chartjunk.html"><i class="fa fa-check"></i><b>1.3</b> Factor de engaño y Chartjunk</a></li>
+<li class="chapter" data-level="1.4" data-path="pequeños-múltiplos-y-densidad-gráfica.html"><a href="pequeños-múltiplos-y-densidad-gráfica.html"><i class="fa fa-check"></i><b>1.4</b> Pequeños múltiplos y densidad gráfica</a></li>
+<li class="chapter" data-level="1.5" data-path="tinta-de-datos.html"><a href="tinta-de-datos.html"><i class="fa fa-check"></i><b>1.5</b> Tinta de datos</a></li>
+<li class="chapter" data-level="1.6" data-path="decoración.html"><a href="decoración.html"><i class="fa fa-check"></i><b>1.6</b> Decoración</a></li>
+<li class="chapter" data-level="1.7" data-path="percepción-de-escala.html"><a href="percepción-de-escala.html"><i class="fa fa-check"></i><b>1.7</b> Percepción de escala</a></li>
+<li class="chapter" data-level="1.8" data-path="ejemplos-gráfica-de-minard.html"><a href="ejemplos-gráfica-de-minard.html"><i class="fa fa-check"></i><b>1.8</b> Ejemplos: gráfica de Minard</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introducción-a-r-y-al-paquete-ggplot2.html"><a href="introducción-a-r-y-al-paquete-ggplot2.html"><i class="fa fa-check"></i><b>2</b> Introducción a R y al paquete ggplot2</a><ul>
+<li class="chapter" data-level="2.1" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html"><i class="fa fa-check"></i><b>2.1</b> R: primeros pasos</a><ul>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#r-en-análisis-de-datos"><i class="fa fa-check"></i>R en análisis de datos</a></li>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#paquetes-y-el-tidyverse"><i class="fa fa-check"></i>Paquetes y el Tidyverse</a></li>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#recursos"><i class="fa fa-check"></i>Recursos</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="visualización-con-ggplot2.html"><a href="visualización-con-ggplot2.html"><i class="fa fa-check"></i><b>2.2</b> Visualización con ggplot2</a><ul>
+<li class="chapter" data-level="" data-path="visualización-con-ggplot2.html"><a href="visualización-con-ggplot2.html#recursos-1"><i class="fa fa-check"></i>Recursos</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="manipulación-y-agrupación-de-datos.html"><a href="manipulación-y-agrupación-de-datos.html"><i class="fa fa-check"></i><b>3</b> Manipulación y agrupación de datos</a><ul>
+<li class="chapter" data-level="3.1" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html"><i class="fa fa-check"></i><b>3.1</b> Transformación de datos</a><ul>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#datos"><i class="fa fa-check"></i>Datos</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#filtrar"><i class="fa fa-check"></i>Filtrar</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#seleccionar"><i class="fa fa-check"></i>Seleccionar</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#ordenar"><i class="fa fa-check"></i>Ordenar</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#mutar"><i class="fa fa-check"></i>Mutar</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#summarise-y-resúmenes-por-grupo"><i class="fa fa-check"></i>Summarise y resúmenes por grupo</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#variables-por-grupo"><i class="fa fa-check"></i>Variables por grupo</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos.html"><a href="transformación-de-datos.html#verbos-de-dos-tablas"><i class="fa fa-check"></i>Verbos de dos tablas</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="datos-limpios.html"><a href="datos-limpios.html"><i class="fa fa-check"></i><b>3.2</b> Datos limpios</a><ul>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#limpieza-bases-de-datos"><i class="fa fa-check"></i>Limpieza bases de datos</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#los-encabezados-de-las-columanas-son-valores"><i class="fa fa-check"></i>Los encabezados de las columanas son valores</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-columna-asociada-a-más-de-una-variable"><i class="fa fa-check"></i>Una columna asociada a más de una variable</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#variables-almacenadas-en-filas-y-columnas"><i class="fa fa-check"></i>Variables almacenadas en filas y columnas</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-misma-unidad-observacional-está-almacenada-en-múltiples-tablas"><i class="fa fa-check"></i>Una misma unidad observacional está almacenada en múltiples tablas</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#otras-consideraciones"><i class="fa fa-check"></i>Otras consideraciones</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#recursos-adicionales"><i class="fa fa-check"></i>Recursos adicionales</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="temas-selectos-de-r.html"><a href="temas-selectos-de-r.html"><i class="fa fa-check"></i><b>4</b> Temas selectos de R</a><ul>
+<li class="chapter" data-level="4.1" data-path="funciones-e-iteración.html"><a href="funciones-e-iteración.html"><i class="fa fa-check"></i><b>4.1</b> Funciones e iteración</a><ul>
+<li class="chapter" data-level="" data-path="funciones-e-iteración.html"><a href="funciones-e-iteración.html#funciones"><i class="fa fa-check"></i>Funciones</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="vectores.html"><a href="vectores.html"><i class="fa fa-check"></i><b>4.2</b> Vectores</a><ul>
+<li class="chapter" data-level="" data-path="vectores.html"><a href="vectores.html#propiedades"><i class="fa fa-check"></i>Propiedades</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="iteración.html"><a href="iteración.html"><i class="fa fa-check"></i><b>4.3</b> Iteración</a><ul>
+<li class="chapter" data-level="" data-path="iteración.html"><a href="iteración.html#ciclos-for"><i class="fa fa-check"></i>Ciclos for</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html"><i class="fa fa-check"></i><b>4.4</b> Rendimiento en R</a><ul>
+<li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#diagnosticar"><i class="fa fa-check"></i>Diagnosticar</a></li>
+<li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#estrategias-para-mejorar-desempeño"><i class="fa fa-check"></i>Estrategias para mejorar desempeño</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="lecturas-y-recursos-recomendados-de-r.html"><a href="lecturas-y-recursos-recomendados-de-r.html"><i class="fa fa-check"></i><b>4.5</b> Lecturas y recursos recomendados de R</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="introducción-a-cálculo-de-probabilidades.html"><a href="introducción-a-cálculo-de-probabilidades.html"><i class="fa fa-check"></i><b>5</b> Introducción a Cálculo de Probabilidades</a><ul>
+<li class="chapter" data-level="5.1" data-path="probabilidad-como-extensión-de-proporción.html"><a href="probabilidad-como-extensión-de-proporción.html"><i class="fa fa-check"></i><b>5.1</b> Probabilidad como extensión de proporción</a></li>
+<li class="chapter" data-level="5.2" data-path="interpretación-frecuentista-de-probabilidad.html"><a href="interpretación-frecuentista-de-probabilidad.html"><i class="fa fa-check"></i><b>5.2</b> Interpretación frecuentista de probabilidad</a><ul>
+<li class="chapter" data-level="" data-path="interpretación-frecuentista-de-probabilidad.html"><a href="interpretación-frecuentista-de-probabilidad.html#resultados-empíricos-acerca-de-frecuencias-relativas"><i class="fa fa-check"></i>Resultados empíricos acerca de frecuencias relativas</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="simulación-para-el-cálculo-de-probabilidades.html"><a href="simulación-para-el-cálculo-de-probabilidades.html"><i class="fa fa-check"></i><b>5.3</b> Simulación para el cálculo de probabilidades</a></li>
+<li class="chapter" data-level="5.4" data-path="modelos-de-probabilidad-definición-general.html"><a href="modelos-de-probabilidad-definición-general.html"><i class="fa fa-check"></i><b>5.4</b> Modelos de probabilidad (definición general)</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="modelos-de-probabilidad-definición-general.html"><a href="modelos-de-probabilidad-definición-general.html#espacios-discretos"><i class="fa fa-check"></i><b>5.4.1</b> Espacios discretos</a></li>
+<li class="chapter" data-level="5.4.2" data-path="modelos-de-probabilidad-definición-general.html"><a href="modelos-de-probabilidad-definición-general.html#espacios-continuos"><i class="fa fa-check"></i><b>5.4.2</b> Espacios continuos</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="probabilidad-definición-matemática.html"><a href="probabilidad-definición-matemática.html"><i class="fa fa-check"></i><b>5.5</b> Probabilidad: definición matemática</a><ul>
+<li class="chapter" data-level="" data-path="probabilidad-definición-matemática.html"><a href="probabilidad-definición-matemática.html#propiedades-de-la-función-de-probabilidad"><i class="fa fa-check"></i>Propiedades de la función de probabilidad:</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html"><i class="fa fa-check"></i><b>5.6</b> Variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html#distribución-de-probabilidad"><i class="fa fa-check"></i>Distribución de probabilidad</a></li>
+<li class="chapter" data-level="" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html#variables-aleatorias-continuas"><i class="fa fa-check"></i>Variables aleatorias continuas</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="bootstrap-no-paramétrico.html"><a href="bootstrap-no-paramétrico.html"><i class="fa fa-check"></i><b>6</b> Bootstrap no paramétrico</a><ul>
+<li class="chapter" data-level="6.1" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html"><i class="fa fa-check"></i><b>6.1</b> El principio del plug-in</a><ul>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#muestras-aleatorias"><i class="fa fa-check"></i>Muestras aleatorias</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#función-de-distribución-empírica"><i class="fa fa-check"></i>Función de distribución empírica</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#parámetros-y-estadísticas"><i class="fa fa-check"></i>Parámetros y estadísticas</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#distribuciones-muestrales-y-errores-estándar"><i class="fa fa-check"></i>Distribuciones muestrales y errores estándar</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="el-estimador-bootstrap-del-error-estándar.html"><a href="el-estimador-bootstrap-del-error-estándar.html"><i class="fa fa-check"></i><b>6.2</b> El estimador bootstrap del error estándar</a><ul>
+<li class="chapter" data-level="" data-path="el-estimador-bootstrap-del-error-estándar.html"><a href="el-estimador-bootstrap-del-error-estándar.html#variación-en-distribuciones-bootstrap"><i class="fa fa-check"></i>Variación en distribuciones bootstrap</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="intervalos-de-confianza.html"><a href="intervalos-de-confianza.html"><i class="fa fa-check"></i><b>6.3</b> Intervalos de confianza</a></li>
+<li class="chapter" data-level="6.4" data-path="más-alla-de-muestras-aleatorias-simples.html"><a href="más-alla-de-muestras-aleatorias-simples.html"><i class="fa fa-check"></i><b>6.4</b> Más alla de muestras aleatorias simples</a></li>
+<li class="chapter" data-level="6.5" data-path="bootstrap-en-r.html"><a href="bootstrap-en-r.html"><i class="fa fa-check"></i><b>6.5</b> Bootstrap en R</a></li>
+<li class="chapter" data-level="6.6" data-path="conclusiones-y-observaciones.html"><a href="conclusiones-y-observaciones.html"><i class="fa fa-check"></i><b>6.6</b> Conclusiones y observaciones</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="teoría-básica-de-simulación.html"><a href="teoría-básica-de-simulación.html"><i class="fa fa-check"></i><b>7</b> Teoría básica de simulación</a><ul>
+<li class="chapter" data-level="7.1" data-path="números-pseudoaleatorios.html"><a href="números-pseudoaleatorios.html"><i class="fa fa-check"></i><b>7.1</b> Números pseudoaleatorios</a><ul>
+<li class="chapter" data-level="" data-path="números-pseudoaleatorios.html"><a href="números-pseudoaleatorios.html#generadores-congruenciales-y-mersenne-twister"><i class="fa fa-check"></i>Generadores congruenciales y Mersenne-Twister</a></li>
+<li class="chapter" data-level="" data-path="números-pseudoaleatorios.html"><a href="números-pseudoaleatorios.html#pruebas-de-aleatoriedad"><i class="fa fa-check"></i>Pruebas de aleatoriedad</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html"><i class="fa fa-check"></i><b>7.2</b> Variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html#familias-discretas-importantes"><i class="fa fa-check"></i>Familias discretas importantes</a></li>
+<li class="chapter" data-level="" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html#familias-continuas-importantes"><i class="fa fa-check"></i>Familias Continuas importantes</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="simulación-de-variables-aleatorias.html"><a href="simulación-de-variables-aleatorias.html"><i class="fa fa-check"></i><b>7.3</b> Simulación de variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias.html"><a href="simulación-de-variables-aleatorias.html#variables-aletaorias-discretas"><i class="fa fa-check"></i>Variables aletaorias discretas</a></li>
+<li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias.html"><a href="simulación-de-variables-aleatorias.html#aceptación-y-rechazo"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
+<li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias.html"><a href="simulación-de-variables-aleatorias.html#variables-aleatorias-continuas-2"><i class="fa fa-check"></i>Variables aleatorias continuas</a></li>
+<li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias.html"><a href="simulación-de-variables-aleatorias.html#aceptación-y-rechazo-1"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="simulación-de-modelos.html"><a href="simulación-de-modelos.html"><i class="fa fa-check"></i><b>8</b> Simulación de modelos</a><ul>
+<li class="chapter" data-level="" data-path="simulación-de-modelos.html"><a href="simulación-de-modelos.html#para-qué-simular-de-un-modelo"><i class="fa fa-check"></i>¿Para qué simular de un modelo?</a></li>
+<li class="chapter" data-level="8.1" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html"><i class="fa fa-check"></i><b>8.1</b> Distribuciones multivariadas</a><ul>
+<li class="chapter" data-level="" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#regla-de-bayes"><i class="fa fa-check"></i>Regla de Bayes</a></li>
+<li class="chapter" data-level="" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#independencia"><i class="fa fa-check"></i>Independencia</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="modelos-gráficos-y-simulación-predictiva.html"><a href="modelos-gráficos-y-simulación-predictiva.html"><i class="fa fa-check"></i><b>8.2</b> Modelos gráficos y simulación predictiva</a></li>
+<li class="chapter" data-level="8.3" data-path="inferencia-visual.html"><a href="inferencia-visual.html"><i class="fa fa-check"></i><b>8.3</b> Inferencia visual</a><ul>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#inferencia"><i class="fa fa-check"></i>Inferencia</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#protocolos-de-inferencia-visual"><i class="fa fa-check"></i>Protocolos de inferencia visual</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#pruebas-de-hipótesis-típicas"><i class="fa fa-check"></i>Pruebas de hipótesis típicas</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#inferencia-visual-1"><i class="fa fa-check"></i>Inferencia visual</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#más-allá-que-permutación"><i class="fa fa-check"></i>Más allá que permutación</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#otras-consideraciones-1"><i class="fa fa-check"></i>Otras consideraciones</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="tamaño-de-muestrapoder-estadístico.html"><a href="tamaño-de-muestrapoder-estadístico.html"><i class="fa fa-check"></i><b>8.4</b> Tamaño de muestra/poder estadístico</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="inferencia-paramétrica.html"><a href="inferencia-paramétrica.html"><i class="fa fa-check"></i><b>9</b> Inferencia paramétrica</a><ul>
+<li class="chapter" data-level="9.1" data-path="máxima-verosimilitud.html"><a href="máxima-verosimilitud.html"><i class="fa fa-check"></i><b>9.1</b> Máxima verosimilitud</a><ul>
+<li class="chapter" data-level="" data-path="máxima-verosimilitud.html"><a href="máxima-verosimilitud.html#propiedades-de-los-estimadores-de-máxima-verosimilitud"><i class="fa fa-check"></i>Propiedades de los estimadores de máxima verosimilitud</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="bootstrap-paramétrico.html"><a href="bootstrap-paramétrico.html"><i class="fa fa-check"></i><b>9.2</b> Bootstrap paramétrico</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="análisis-bayesiano.html"><a href="análisis-bayesiano.html"><i class="fa fa-check"></i><b>10</b> Análisis bayesiano</a><ul>
+<li class="chapter" data-level="10.1" data-path="probabilidad-subjetiva.html"><a href="probabilidad-subjetiva.html"><i class="fa fa-check"></i><b>10.1</b> Probabilidad subjetiva</a></li>
+<li class="chapter" data-level="10.2" data-path="regla-de-bayes-e-inferencia-bayesiana.html"><a href="regla-de-bayes-e-inferencia-bayesiana.html"><i class="fa fa-check"></i><b>10.2</b> Regla de Bayes e inferencia bayesiana</a><ul>
+<li class="chapter" data-level="" data-path="regla-de-bayes-e-inferencia-bayesiana.html"><a href="regla-de-bayes-e-inferencia-bayesiana.html#regla-de-bayes-en-modelos-y-datos"><i class="fa fa-check"></i>Regla de Bayes en modelos y datos</a></li>
+<li class="chapter" data-level="" data-path="regla-de-bayes-e-inferencia-bayesiana.html"><a href="regla-de-bayes-e-inferencia-bayesiana.html#objetivos-de-la-inferencia"><i class="fa fa-check"></i>Objetivos de la inferencia</a></li>
+<li class="chapter" data-level="" data-path="regla-de-bayes-e-inferencia-bayesiana.html"><a href="regla-de-bayes-e-inferencia-bayesiana.html#cálculo-de-la-distribución-posterior"><i class="fa fa-check"></i>Cálculo de la distribución posterior</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="distribuciones-conjugadas.html"><a href="distribuciones-conjugadas.html"><i class="fa fa-check"></i><b>10.3</b> Distribuciones conjugadas</a><ul>
+<li class="chapter" data-level="" data-path="distribuciones-conjugadas.html"><a href="distribuciones-conjugadas.html#ejemplo-bernoulli"><i class="fa fa-check"></i>Ejemplo: Bernoulli</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="aproximación-por-cuadrícula.html"><a href="aproximación-por-cuadrícula.html"><i class="fa fa-check"></i><b>10.4</b> Aproximación por cuadrícula</a></li>
+<li class="chapter" data-level="10.5" data-path="mcmc.html"><a href="mcmc.html"><i class="fa fa-check"></i><b>10.5</b> MCMC</a><ul>
+<li class="chapter" data-level="" data-path="mcmc.html"><a href="mcmc.html#introducción-metrópolis"><i class="fa fa-check"></i>Introducción Metrópolis</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="metrópolis.html"><a href="metrópolis.html"><i class="fa fa-check"></i><b>10.6</b> Metrópolis</a><ul>
+<li class="chapter" data-level="" data-path="metrópolis.html"><a href="metrópolis.html#inferencia-de-dos-proporciones-binomiales"><i class="fa fa-check"></i>Inferencia de dos proporciones binomiales</a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a><ul>
+<li class="chapter" data-level="" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#conclusiones-y-observaciones-metrópolis-y-gibbs"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
+<li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
+<li class="chapter" data-level="" data-path="transformación-de-datos-1.html"><a href="transformación-de-datos-1.html"><i class="fa fa-check"></i>2. Transformación de datos</a></li>
+<li class="chapter" data-level="" data-path="unión-de-tablas-y-limpieza-de-datos.html"><a href="unión-de-tablas-y-limpieza-de-datos.html"><i class="fa fa-check"></i>3. Unión de tablas y limpieza de datos</a></li>
+<li class="chapter" data-level="" data-path="programación-funcional-y-distribución-muestral.html"><a href="programación-funcional-y-distribución-muestral.html"><i class="fa fa-check"></i>4. Programación funcional y distribución muestral</a><ul>
+<li class="chapter" data-level="" data-path="programación-funcional-y-distribución-muestral.html"><a href="programación-funcional-y-distribución-muestral.html#solución-bootstrap"><i class="fa fa-check"></i>Solución + bootstrap</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bootstrap-conteo.html"><a href="bootstrap-conteo.html"><i class="fa fa-check"></i>5. Bootstrap conteo</a></li>
+<li class="chapter" data-level="" data-path="respuesta-ejercicios-clase.html"><a href="respuesta-ejercicios-clase.html"><i class="fa fa-check"></i>Respuesta ejercicios clase</a></li>
+<li class="chapter" data-level="" data-path="más-bootstrap.html"><a href="más-bootstrap.html"><i class="fa fa-check"></i>6. Más bootstrap</a></li>
+<li class="chapter" data-level="" data-path="simulación-de-variables-aleatorias-1.html"><a href="simulación-de-variables-aleatorias-1.html"><i class="fa fa-check"></i>7. Simulación de variables aleatorias</a></li>
+<li class="chapter" data-level="" data-path="distribuciones-multivariada-y-simulación.html"><a href="distribuciones-multivariada-y-simulación.html"><i class="fa fa-check"></i>8. Distribuciones multivariada y simulación</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual-y-simulación-e-modelos.html"><a href="inferencia-visual-y-simulación-e-modelos.html"><i class="fa fa-check"></i>9. Inferencia visual y simulación e modelos</a></li>
+<li class="chapter" data-level="" data-path="simulación-muestra-y-bootstrap-paramétrico.html"><a href="simulación-muestra-y-bootstrap-paramétrico.html"><i class="fa fa-check"></i>10. Simulación muestra y bootstrap paramétrico</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Estadística Computacional</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="regla-de-bayes-e-inferencia-bayesiana" class="section level2">
+<h2><span class="header-section-number">10.2</span> Regla de Bayes e inferencia bayesiana</h2>
+<p>Thomas Bayes (<span class="math inline">\(1702-1761\)</span>) fue un matemático y ministro de la iglesia
+presbiteriana, en <span class="math inline">\(1764\)</span> se publicó su famoso teorema.</p>
+<p>Una aplicación crucial de la regla de Bayes es determinar la probabilidad de un
+modelo dado un conjunto de datos. Lo que el modelo determina es la probabilidad
+de los datos condicional a valores particulares de los parámetros y a la
+estructura del modelo. Por su parte usamos la regla de Bayes para ir de la
+probabilidad de los datos, dado el modelo, a la probabilidad del modelo, dados
+los datos.</p>
+<div id="ejemplo-lanzamientos-de-monedas" class="section level4 unnumbered">
+<h4>Ejemplo: Lanzamientos de monedas</h4>
+<p>Comencemos recordando la regla de Bayes usando dos variables aleatorias
+discretas. Lanzamos una moneda <span class="math inline">\(3\)</span> veces, sea <span class="math inline">\(X\)</span> la variable aleatoria
+correspondiente al número de Águilas observadas y <span class="math inline">\(Y\)</span> registra el número de
+cambios entre águilas y soles.</p>
+<ul>
+<li><p>Escribe la distribución conjunta de las variables, y las distribuciones
+marginales.</p></li>
+<li><p>Considera la probabilidad de observar un cambio condicional a que observamos
+un águila y compara con la probabilidad de observar un águila condicional a
+que observamos un cambio.</p></li>
+</ul>
+<p>Para entender probabilidad condicional podemos pensar en restringir nuestra
+atención a una única fila o columna de la tabla. Supongamos que alguien lanza
+una moneda <span class="math inline">\(3\)</span> veces y nos informa que
+la secuencia contiene exactamente un cambio. Dada esta información podemos
+restringir nuestra atención a la fila correspondiente a un solo cambio. Sabemos
+que ocurrió uno de los eventos de esa fila. Las probabilidades relativas
+de los eventos de esa fila no han cambiado pero sabemos que la probabilidad
+total debe sumar uno, por lo que simplemente normalizamos dividiendo entre
+<span class="math inline">\(p(C=1)\)</span>. En este ejemplo vemos que cuando no sabemos nada acerca del número de
+cambios, todo lo que sabemos de número de águilas está contenido en la
+distribución marginal de <span class="math inline">\(X\)</span>, por otro lado, si sabemos que hubo un cambio
+entonces sabemos que estamos en los escenarios de la fila correspondiente a un
+cambio, y calculamos estas probabilidades condicionales. Es así que nos movemos
+de creencias iniciales (marginal) acerca de <span class="math inline">\(X\)</span> a creecnias posteriores
+(condicional).</p>
+</div>
+<div id="regla-de-bayes-en-modelos-y-datos" class="section level3 unnumbered">
+<h3>Regla de Bayes en modelos y datos</h3>
+<p>Una de las aplicaciones más importantes de la regla de Bayes es cuando las
+variables fila y columna son datos y parámetros del modelo respectivamente.</p>
+<p>Un modelo especifica la probabilidad de valores particulares dado la estructura
+del modelo y valores de los parámetros. Por ejemplo en un modelo de lanzamientos
+de monedas tenemos
+<span class="math display">\[p(x = A|\theta)=\theta\]</span>,</p>
+<p><span class="math display">\[p(x = S|\theta)= 1- \theta\]</span></p>
+<p>De manera general, el modelo especifica:</p>
+<p><span class="math display">\[p(\text{datos}|\text{valores de parámetros y estructura del modelo})\]</span></p>
+<p>y usamos la regla de Bayes para convertir la expresión anterior a lo que
+nos interesa de verdad, que es, que tanta certidumbre tenemos del modelo
+condicional a los datos:</p>
+<p><span class="math display">\[p(\text{valores de parámetros y estructura del modelo} | \text{datos})\]</span></p>
+<p>Una vez que observamos los datos, usamos la regla de Bayes para determinar
+o actualizar nuestras creencias de posibles parámetros y modelos.</p>
+<p>Entonces:</p>
+<div class="caja">
+<ul>
+<li><p>Cuantificamos la información (o incertidumbre) acerca del parámetro
+desconocido <span class="math inline">\(\theta\)</span> mediante distribuciones de probabilidad.</p></li>
+<li><p>Antes de observar datos <span class="math inline">\(x\)</span>, cuantificamos la información de <span class="math inline">\(\theta\)</span> externa
+a <span class="math inline">\(x\)</span> en una <strong>distribución a priori</strong>:</p></li>
+</ul>
+<p><span class="math display">\[p(\theta),\]</span>
+esto es, la distribución a priori resume nuestras creencias acerca del parámetro
+ajenas a los datos. Por
+otra parte, cuantificamos la información de <span class="math inline">\(\theta\)</span> asociada a <span class="math inline">\(x\)</span> mediante la
+<strong>distribución de verosimilitud</strong></p>
+<p><span class="math display">\[p(x|\theta)\]</span></p>
+<ul>
+<li>Combinamos la información a priori y la información que provee <span class="math inline">\(x\)</span> mediante el
+<strong>teorema de Bayes</strong> obteniendo así la <strong>distribución posterior</strong></li>
+</ul>
+<p><span class="math display">\[p(\theta|x) \propto p(x|\theta)p(\theta).\]</span></p>
+<ul>
+<li>Las inferencias se obtienen de resúmenes de la distribución posterior.</li>
+</ul>
+</div>
+<div id="ejemplo-ingesta-calórica-en-estudiantes" class="section level4 unnumbered">
+<h4>Ejemplo: Ingesta calórica en estudiantes</h4>
+<p>Supongamos que nos interesa aprender los hábitos alimenticios de los estudiantes
+universitarios en México, y escuchamos que de acuerdo a investigaciones se
+recomienda que un adulto promedio ingiera <span class="math inline">\(2500\)</span> kcal. Es así que buscamos conocer
+que proporción de los estudiantes siguen esta recomendación, para ello
+tomaremos una muestra aleatoria de estudiantes del ITAM. Denotemos por <span class="math inline">\(\theta\)</span>
+la proporción de estudiantes que ingieren en un día <span class="math inline">\(2500\)</span> kcal o más. El valor
+de <span class="math inline">\(\theta\)</span> es desconocido, y desde el punto de vista bayesiano cuando tenemos
+incertidumbre de algo (puede ser un parámetro o una predicción) lo vemos como
+una variable aleatoria y por tanto tiene asociada una distribución de
+probabilidad que actualizaremos conforme obtenemos información (observamos
+datos).</p>
+<p>Recordemos que la distribución <span class="math inline">\(p(\theta)\)</span> se conoce como la distribución
+<em>a priori</em> y representa nuestras creencias de los posibles valores que puede
+tomar el parámetro. Supongamos que tras leer artículos y entrevistar
+especialistas consideramos los posibles valores de <span class="math inline">\(\theta\)</span> y les asigmanos
+pesos:</p>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb321-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb321-2" data-line-number="2">theta &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>, <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb321-3" data-line-number="3">pesos.prior &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">5.2</span>, <span class="dv">8</span>, <span class="fl">7.2</span>, <span class="fl">4.6</span>, <span class="fl">2.1</span>, <span class="fl">0.7</span>, <span class="fl">0.1</span>, <span class="dv">0</span>, <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb321-4" data-line-number="4">prior &lt;-<span class="st"> </span>pesos.prior<span class="op">/</span><span class="kw">sum</span>(pesos.prior) </a>
+<a class="sourceLine" id="cb321-5" data-line-number="5">prior_df &lt;-<span class="st"> </span><span class="kw">data_frame</span>(theta, <span class="dt">prior =</span> <span class="kw">round</span>(prior, <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb321-6" data-line-number="6">prior_df</a>
+<a class="sourceLine" id="cb321-7" data-line-number="7"><span class="co">#&gt; # A tibble: 10 x 2</span></a>
+<a class="sourceLine" id="cb321-8" data-line-number="8"><span class="co">#&gt;    theta prior</span></a>
+<a class="sourceLine" id="cb321-9" data-line-number="9"><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb321-10" data-line-number="10"><span class="co">#&gt;  1  0.05 0.035</span></a>
+<a class="sourceLine" id="cb321-11" data-line-number="11"><span class="co">#&gt;  2  0.15 0.18 </span></a>
+<a class="sourceLine" id="cb321-12" data-line-number="12"><span class="co">#&gt;  3  0.25 0.277</span></a>
+<a class="sourceLine" id="cb321-13" data-line-number="13"><span class="co">#&gt;  4  0.35 0.249</span></a>
+<a class="sourceLine" id="cb321-14" data-line-number="14"><span class="co">#&gt;  5  0.45 0.159</span></a>
+<a class="sourceLine" id="cb321-15" data-line-number="15"><span class="co">#&gt;  6  0.55 0.073</span></a>
+<a class="sourceLine" id="cb321-16" data-line-number="16"><span class="co">#&gt;  7  0.65 0.024</span></a>
+<a class="sourceLine" id="cb321-17" data-line-number="17"><span class="co">#&gt;  8  0.75 0.003</span></a>
+<a class="sourceLine" id="cb321-18" data-line-number="18"><span class="co">#&gt;  9  0.85 0    </span></a>
+<a class="sourceLine" id="cb321-19" data-line-number="19"><span class="co">#&gt; 10  0.95 0</span></a></code></pre></div>
+<p>Una vez que cuantificamos nuestro conocimiento (o la falta de este) sobre los
+posibles valores que puede tomar <span class="math inline">\(\theta\)</span> especificamos la verosimilitud y la
+distribución conjunta <span class="math inline">\(p(x, \theta)\)</span>, donde <span class="math inline">\(x = (x_1,...,x_N)\)</span> veamos
+la distribución de un estudiante en particular:
+<span class="math display">\[p(x_i|\theta) \sim Bernoulli(\theta),\]</span>
+para <span class="math inline">\(i=1,...,N\)</span>, es decir, condicional a <span class="math inline">\(\theta\)</span> la probabilidad de que un
+estudiante ingiera más de <span class="math inline">\(2500\)</span> calorías es <span class="math inline">\(\theta\)</span> y la función de
+verosimilitud <span class="math inline">\(p(x_1,...,x_N|\theta) = \mathcal{L}(\theta)\)</span>:</p>
+<p><span class="math display">\[p(x_1,...,x_N|\theta) = \prod_{n=1}^N p(x_n|\theta)\]</span>
+<span class="math display">\[= \theta^z(1 - \theta)^{N-z}\]</span></p>
+<p>donde <span class="math inline">\(z\)</span> denota el número de estudiantes que ingirió al menos <span class="math inline">\(2500\)</span> kcal y <span class="math inline">\(N-z\)</span>
+el número de estudiantes que ingirió menos de <span class="math inline">\(2500\)</span> kcal.</p>
+<p>Ahora calculamos la distribución posterior de <span class="math inline">\(\theta\)</span>
+usando la regla de Bayes:</p>
+<p><span class="math display">\[p(\theta|x) = \frac{p(x_1,...,x_N,\theta)}{p(x)}\]</span>
+<span class="math display">\[\propto  p(\theta)\mathcal{L}(\theta)\]</span></p>
+<p>Vemos que la distribución posterior es proporcional al producto de la
+verosimilitud y la distribución inicial, el denominador <span class="math inline">\(p(x)\)</span> no depende de
+<span class="math inline">\(\theta\)</span> por lo que es constante (como función de <span class="math inline">\(\theta\)</span>) y esta ahí para
+normalizar la distribución posterior asegurando que tengamos una distribución
+de probabilidad.</p>
+</div>
+<div id="inicial-discreta" class="section level4 unnumbered">
+<h4>Inicial discreta</h4>
+<p>Volviendo a nuestro ejemplo, usamos la inicial discreta que discutimos (tabla
+de pesos normalizados) y supongamos que tomamos una muestra de <span class="math inline">\(30\)</span> alumnos de
+los cuales <span class="math inline">\(z=11\)</span> ingieren al menos <span class="math inline">\(2500\)</span> kcal, calculemos la distribución
+posterior de <span class="math inline">\(\theta\)</span>, usando que</p>
+<p><span class="math display">\[\mathcal{L}(\theta) = \theta^{z}(1-\theta)^{N-z}\]</span>
+con <span class="math inline">\(0&lt;\theta&lt;1\)</span></p>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb322-1" data-line-number="1"><span class="kw">library</span>(LearnBayes)</a>
+<a class="sourceLine" id="cb322-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb322-3" data-line-number="3">N &lt;-<span class="st"> </span><span class="dv">30</span> <span class="co"># estudiantes</span></a>
+<a class="sourceLine" id="cb322-4" data-line-number="4">z &lt;-<span class="st"> </span><span class="dv">11</span> <span class="co"># éxitos</span></a>
+<a class="sourceLine" id="cb322-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb322-6" data-line-number="6"><span class="co"># Verosimilitud</span></a>
+<a class="sourceLine" id="cb322-7" data-line-number="7">Like &lt;-<span class="st"> </span>theta <span class="op">^</span><span class="st"> </span>z <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta) <span class="op">^</span><span class="st"> </span>(N <span class="op">-</span><span class="st"> </span>z)</a>
+<a class="sourceLine" id="cb322-8" data-line-number="8">product &lt;-<span class="st"> </span>Like <span class="op">*</span><span class="st"> </span>prior</a>
+<a class="sourceLine" id="cb322-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb322-10" data-line-number="10"><span class="co"># Distribución posterior (normalizamos)</span></a>
+<a class="sourceLine" id="cb322-11" data-line-number="11">post &lt;-<span class="st"> </span>product <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(product)</a>
+<a class="sourceLine" id="cb322-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb322-13" data-line-number="13">dists &lt;-<span class="st"> </span><span class="kw">bind_cols</span>(prior_df, <span class="dt">post =</span> post)</a>
+<a class="sourceLine" id="cb322-14" data-line-number="14"><span class="kw">round</span>(dists, <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb322-15" data-line-number="15"><span class="co">#&gt; # A tibble: 10 x 3</span></a>
+<a class="sourceLine" id="cb322-16" data-line-number="16"><span class="co">#&gt;    theta prior  post</span></a>
+<a class="sourceLine" id="cb322-17" data-line-number="17"><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb322-18" data-line-number="18"><span class="co">#&gt;  1  0.05 0.035 0    </span></a>
+<a class="sourceLine" id="cb322-19" data-line-number="19"><span class="co">#&gt;  2  0.15 0.18  0.006</span></a>
+<a class="sourceLine" id="cb322-20" data-line-number="20"><span class="co">#&gt;  3  0.25 0.277 0.22 </span></a>
+<a class="sourceLine" id="cb322-21" data-line-number="21"><span class="co">#&gt;  4  0.35 0.249 0.529</span></a>
+<a class="sourceLine" id="cb322-22" data-line-number="22"><span class="co">#&gt;  5  0.45 0.159 0.224</span></a>
+<a class="sourceLine" id="cb322-23" data-line-number="23"><span class="co">#&gt;  6  0.55 0.073 0.021</span></a>
+<a class="sourceLine" id="cb322-24" data-line-number="24"><span class="co">#&gt;  7  0.65 0.024 0    </span></a>
+<a class="sourceLine" id="cb322-25" data-line-number="25"><span class="co">#&gt;  8  0.75 0.003 0    </span></a>
+<a class="sourceLine" id="cb322-26" data-line-number="26"><span class="co">#&gt;  9  0.85 0     0    </span></a>
+<a class="sourceLine" id="cb322-27" data-line-number="27"><span class="co">#&gt; 10  0.95 0     0</span></a>
+<a class="sourceLine" id="cb322-28" data-line-number="28"></a>
+<a class="sourceLine" id="cb322-29" data-line-number="29"><span class="co"># También podemos usar la función pdisc</span></a>
+<a class="sourceLine" id="cb322-30" data-line-number="30"><span class="kw">pdisc</span>(<span class="dt">p =</span> theta, <span class="dt">prior =</span> prior, <span class="dt">data =</span> <span class="kw">c</span>(z, N <span class="op">-</span><span class="st"> </span>z)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb322-31" data-line-number="31"><span class="co">#&gt;  [1] 0.000 0.006 0.220 0.529 0.224 0.021 0.000 0.000 0.000 0.000</span></a>
+<a class="sourceLine" id="cb322-32" data-line-number="32"></a>
+<a class="sourceLine" id="cb322-33" data-line-number="33"><span class="co"># Alargamos los datos para graficar</span></a>
+<a class="sourceLine" id="cb322-34" data-line-number="34">dists_l &lt;-<span class="st"> </span>dists <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb322-35" data-line-number="35"><span class="st">  </span><span class="kw">gather</span>(dist, val, prior<span class="op">:</span>post) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb322-36" data-line-number="36"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dist =</span> <span class="kw">factor</span>(dist, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;prior&quot;</span>, <span class="st">&quot;post&quot;</span>)))</a>
+<a class="sourceLine" id="cb322-37" data-line-number="37"></a>
+<a class="sourceLine" id="cb322-38" data-line-number="38"><span class="kw">ggplot</span>(dists_l, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> val)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb322-39" data-line-number="39"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb322-40" data-line-number="40"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>dist) <span class="op">+</span></a>
+<a class="sourceLine" id="cb322-41" data-line-number="41"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(theta), <span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(theta))) </a></code></pre></div>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-3-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="img/manicule2.jpg" /> ¿Cómo se ve la distribución posterior si tomamos
+una muestra de tamaño <span class="math inline">\(90\)</span> donde observamos la misma proporción de éxitos.
+Realiza los cálculos y graficala como un panel adicional de la gráfica
+anterior.</p>
+<ul>
+<li>¿Cómo definirías la distribución inicial si no tuvieras conocimiento de los
+artículos y expertos?</li>
+</ul>
+</div>
+<div id="evidencia" class="section level4 unnumbered">
+<h4>Evidencia</h4>
+<p>Ahora, en el teorema de Bayes también encontramos el término <span class="math inline">\(p(x)\)</span> que
+denominamos la <strong>evidencia</strong>, también se conoce como verosimilitud
+marginal o inicial predictiva.
+<span class="math display">\[p(\theta|x)=\frac{p(x|\theta)p(\theta)}{p(x)}\]</span></p>
+<p>La evidencia es la probabilidad de los datos de acuerdo al modelo y se calcula
+sumando a lo largo de todos los posibles valores de los parámetros y ponderando
+por nuestra certidumbre en esos valores de los parámetros.</p>
+<p>Es importante notar que hablamos de valores de los parámetros <span class="math inline">\(\theta\)</span>
+únicamente en el contexto de un modelo particular pues este el que da sentido a
+los parámetros. Podemos hacer evidente el modelo en la notación,</p>
+<p><span class="math display">\[p(\theta|x,M)=\frac{p(x|\theta,M)p(\theta|M)}{p(x|M)}\]</span></p>
+<p>en este contexto la evidencia se define como:</p>
+<p><span class="math display">\[p(x|M)=\int p(x|\theta,M)p(\theta|M)d\theta\]</span></p>
+<p>La notación anterior es conveniente sobre todo cuando estamos considerando
+más de un modelo y queremos usar los datos para determinar la certeza que
+tenemos en cada modelo. Supongamos que tenemos dos modelos <span class="math inline">\(M_1\)</span> y <span class="math inline">\(M_2\)</span>,
+entonces podemos calcular el cociente de <span class="math inline">\(p(M_1|x)\)</span> y <span class="math inline">\(p(M_2|x)\)</span> obteniendo:</p>
+<p><span class="math display">\[\frac{p(M_1|x)}{p(M_2|x)} = \frac{p(x|M_1) \cdot p(M_1)}{p(x|M_2)\cdot p(M_2)}\]</span></p>
+<p>El cociente de evidencia <span class="math inline">\(\frac{p(x|M_1)}{p(x|M_2)}\)</span> se conoce como <strong>factor de
+Bayes</strong>, y <span class="math inline">\(p(M_i)\)</span> describe nuestras creencias iniciales en cada modelo.</p>
+</div>
+<div id="invarianza-en-el-orden-de-los-datos" class="section level4 unnumbered">
+<h4>Invarianza en el orden de los datos</h4>
+<p>Vimos que la regla de Bayes nos permite pasar del conocimiento inicial
+<span class="math inline">\(p(\theta)\)</span> al posterior <span class="math inline">\(p(\theta|x)\)</span> conforme recopilamos datos. Supongamos
+ahora que observamos
+más datos, los denotamos <span class="math inline">\(x&#39;\)</span>, podemos volver a actualizar nuestras creencias
+pasando de <span class="math inline">\(p(\theta|x)\)</span> a <span class="math inline">\(p(\theta|x,x&#39;)\)</span>. Entonces podemos preguntarnos si
+nuestro conocimiento posterior cambia si actualizamos de acuerdo a <span class="math inline">\(x\)</span> primero
+y después <span class="math inline">\(x&#39;\)</span> o vice-versa. La respuesta es que si <span class="math inline">\(p(x|\theta)\)</span> y
+<span class="math inline">\(p(x&#39;|\theta)\)</span> son <em>iid</em> entonces el orden en que actualizamos nuestro
+conocimiento no afecta la distribución posterior.</p>
+<p>La <strong>invarianza al orden</strong> tiene sentido intuitivamente: Si la función de
+verosimilitud no depende del tiempo o del ordenamineto de los datos, entonces
+la posterior tampoco tiene porque depender del ordenamiento de los datos.</p>
+<!--
+#### Pasos de un análisis de datos bayesiano
+
+Como vimos en los ejemplos, en general un análisis de datos bayesiano sigue los
+siguientes pasos:
+
+1. Identificar los datos releventes a nuestra pregunta de investigación, el tipo 
+de datos que vamos a describir, que variables se van a predecir, que variables 
+
+2. Definir el modelo descriptivo para los datos. La forma matemática y los 
+parámetros deben ser apropiados para los objetivos del análisis.
+
+3. Especificar la distribución inicial de los parámetros.
+
+4. Utilizar inferencia bayesiana para reubicar la credibilidad a lo largo de 
+los posibles valores de los parámetros.
+
+5. Verificar que la distribución posterior replique los datos de manera 
+razonable, de no ser el caso considerar otros modelos descriptivos para los datos.
+
+En el caso de un volado, los datos consisten en águilas y soles, y para el 
+modelo descriptivo necesitamos una expresión del función de verosimilitud:
+
+$p(x|\theta)=\theta^x(1-\theta)^{1-x}$
+
+esto es, $x$ tiene una distribución $Bernoulli(\theta)$.
+
+El siguiente paso es determinar la distribución inicial sobre el espacio de
+parámetros, como ejemplo, supongamos que solo hay $3$ valores de $\theta$ que consideramos $\theat \in \{(0.25, 0.5, 0.75)\}$, y asignamos las probabilidades
+$p(\theta = 0.25) = 0.25$, $p(\theta = 0.5) = 0.5$ y $p(\theta = 0.75) = 0.25$
+
+
+```r
+theta <- c(0.25, 0.5, 0.75)
+prior <- data_frame(theta, p = c(0.25, 0.5, 0.25))
+```
+
+El siguiente paso es recolectar los datos y utilizar la regla de Bayes para 
+reubicar nuestras creencias a lo largo de los posibles valores. Supongamos 
+que observamos un único volado y resulta en águila.
+
+-->
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb323-1" data-line-number="1">Like &lt;-<span class="st"> </span>theta <span class="op">^</span><span class="st"> </span><span class="dv">1</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta) <span class="op">^</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb323-2" data-line-number="2">product &lt;-<span class="st"> </span>Like <span class="op">*</span><span class="st"> </span>prior<span class="op">$</span>p</a>
+<a class="sourceLine" id="cb323-3" data-line-number="3">post &lt;-<span class="st"> </span>product <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(product)</a>
+<a class="sourceLine" id="cb323-4" data-line-number="4">post</a>
+<a class="sourceLine" id="cb323-5" data-line-number="5"><span class="co">#&gt; [1] 0.125 0.500 0.375</span></a></code></pre></div>
+</div>
+</div>
+<div id="objetivos-de-la-inferencia" class="section level3 unnumbered">
+<h3>Objetivos de la inferencia</h3>
+<p>Los tres objetivos de la inferencia son: estimación de parámetros, predicción
+de valores y comparación de modelos.</p>
+<ol style="list-style-type: decimal">
+<li>La <strong>estimación de parámetros</strong> implica determinar hasta que punto creemos en
+cada posible valor del parámetro. En estadística bayesiana la estimación se
+realiza con la distribución posterior sobre los valores
+de los parámetros <span class="math inline">\(\theta\)</span>.<br />
+La siguiente gráfica ejemplifica un experimento Bernoulli, con dos posibles
+iniciales, los datos observados son <span class="math inline">\(N=20\)</span> lanzamientos de moneda que resultan
+en <span class="math inline">\(12\)</span> éxitos o águilas.</li>
+</ol>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-6-1.png" width="700.8" style="display: block; margin: auto;" /><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-6-2.png" width="700.8" style="display: block; margin: auto;" /></p>
+<ol start="2" style="list-style-type: decimal">
+<li><strong>Predicción</strong> de valores. Usando nuestro conocimiento actual nos interesa
+predecir la probabilidad de datos futuros. La probabilidad predictiva de un
+dato <span class="math inline">\(y\)</span> (no observado) se determina promediando las probabilidades predictivas
+de los datos a lo largo de todos los posibles valores de los parámetros y
+ponderados por la creencia en los valores de los parámetros. Cuando solo
+contamos con nuestro conocimiento incial tendríamos:
+<span class="math display">\[p(y) =\int p(y|\theta)p(\theta)d\theta\]</span>
+Notese que la ecuación anterior coincide con la correspondiente a la evidencia,
+con la diferencia de que la evidencia se refiere a un valor observado y en
+esta ecuación estamos calculando la probabilidad de cualquier valor <span class="math inline">\(y\)</span>.<br />
+Una vez que obserbamos datos tenemos la distribución predictiva posterior:
+<span class="math display">\[p(y|x) =\int p(y|\theta)p(\theta|x)d\theta\]</span>
+Por ejemplo podemos usar las creencias iniciales del modelo <span class="math inline">\(1\)</span>, que propusimos
+arriba para calcular la probabilidad predictiva de observar águila:</li>
+</ol>
+<p><span class="math display">\[p(y=S) = \sum_{\theta}p(y=A|\theta)p(\theta) = 0.5\]</span></p>
+<p>Vale la pena destacar que las prediciones son probabilidades de cada posible
+valor condicional a nuestro modelo de creencias actuales. Si nos interesa
+predecir un valor particular en lugar de una distribución a lo largo de todos
+los posibles valores podemos usar la media de la distribución predictiva. Por
+tanto el valor a predecir sería:</p>
+<p><span class="math display">\[p(y)=\int y p(y) dy\]</span></p>
+<p>La integral anterior únicamente tiene sentido si <span class="math inline">\(y\)</span> es una variable continua.
+Si <span class="math inline">\(y\)</span> es nominal, como el resultado de un volado, entonces podemos usar el
+valor más probable.</p>
+<!--
+![](img/manicule2.jpg) Calcula las probabilidades predictivas usando 
+la distribución posterior de cada modelo. ¿Cuál sería tu predicción?
+-->
+<ol start="3" style="list-style-type: decimal">
+<li><strong>Comparación de modelos</strong>, una caracterítica conveniente de la comparación
+de modelos en estadística bayesiana es que la complejidad del modelo se toma
+en cuenta de manera automática.</li>
+</ol>
+<p>Recordemos los dos modelos discretos, en el primero supusimos que el parámetro
+<span class="math inline">\(\theta\)</span> únicamente puede tomar uno de <span class="math inline">\(3\)</span> valores <span class="math inline">\((0.25, 0.5, 0.75)\)</span>, esta
+restricción dió lugar a un modelo simple. Por su parte, el modelo <span class="math inline">\(2\)</span> es más
+complejo y permite muchos más valores de <span class="math inline">\(\theta\)</span> (<span class="math inline">\(51\)</span>). La forma de la
+distribución inicial es triangular en ambos casos y el valor de mayor
+probabilidad inicial es <span class="math inline">\(\theta = 0.50\)</span> y reflejamos que creemos que es menos
+factible que el valor se encuentre en los extremos.</p>
+<p>Podemos calcular el factor de Bayes para distintos datos observados:</p>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb324-1" data-line-number="1"><span class="co"># Modelo 1, 3 posibles valores</span></a>
+<a class="sourceLine" id="cb324-2" data-line-number="2">p_M1 &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">theta =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>), <span class="dt">prior =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.25</span>), </a>
+<a class="sourceLine" id="cb324-3" data-line-number="3">  <span class="dt">modelo =</span><span class="st">&quot;M1&quot;</span>)</a>
+<a class="sourceLine" id="cb324-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb324-5" data-line-number="5"><span class="co"># Modelo 2, Creamos una inicial que puede tomar más valores</span></a>
+<a class="sourceLine" id="cb324-6" data-line-number="6">p &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">24</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb324-7" data-line-number="7">p2 &lt;-<span class="st"> </span><span class="kw">c</span>(p, <span class="dv">24</span>, <span class="kw">sort</span>(p, <span class="dt">decreasing =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb324-8" data-line-number="8">p_M2 &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">theta =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.02</span>), <span class="dt">prior =</span> p2 <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(p2), </a>
+<a class="sourceLine" id="cb324-9" data-line-number="9">  <span class="dt">modelo =</span> <span class="st">&quot;M2&quot;</span>)</a>
+<a class="sourceLine" id="cb324-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb324-11" data-line-number="11">N &lt;-<span class="st"> </span><span class="dv">20</span> <span class="co"># estudiantes</span></a>
+<a class="sourceLine" id="cb324-12" data-line-number="12">z &lt;-<span class="st"> </span><span class="dv">12</span> <span class="co"># éxitos</span></a>
+<a class="sourceLine" id="cb324-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb324-14" data-line-number="14">dists_h &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(p_M1, p_M2) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># base de datos horizontal</span></a>
+<a class="sourceLine" id="cb324-15" data-line-number="15"><span class="st">    </span><span class="kw">group_by</span>(modelo) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb324-16" data-line-number="16"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb324-17" data-line-number="17">        <span class="dt">Like =</span> theta <span class="op">^</span><span class="st"> </span>z <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta) <span class="op">^</span><span class="st"> </span>(N <span class="op">-</span><span class="st"> </span>z), <span class="co"># verosimilitud </span></a>
+<a class="sourceLine" id="cb324-18" data-line-number="18">        <span class="dt">posterior =</span> (Like <span class="op">*</span><span class="st"> </span>prior) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(Like <span class="op">*</span><span class="st"> </span>prior)</a>
+<a class="sourceLine" id="cb324-19" data-line-number="19">      ) </a>
+<a class="sourceLine" id="cb324-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb324-21" data-line-number="21">dists &lt;-<span class="st"> </span>dists_h <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># base de datos larga</span></a>
+<a class="sourceLine" id="cb324-22" data-line-number="22"><span class="st">    </span><span class="kw">gather</span>(dist, valor, prior, Like, posterior) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb324-23" data-line-number="23"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">dist =</span> <span class="kw">factor</span>(dist, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;prior&quot;</span>, <span class="st">&quot;Like&quot;</span>, <span class="st">&quot;posterior&quot;</span>)))</a>
+<a class="sourceLine" id="cb324-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb324-25" data-line-number="25">factorBayes &lt;-<span class="st"> </span><span class="cf">function</span>(N, z){</a>
+<a class="sourceLine" id="cb324-26" data-line-number="26">  evidencia &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(p_M1, p_M2) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># base de datos horizontal</span></a>
+<a class="sourceLine" id="cb324-27" data-line-number="27"><span class="st">    </span><span class="kw">group_by</span>(modelo) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb324-28" data-line-number="28"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb324-29" data-line-number="29">      <span class="dt">Like =</span> theta <span class="op">^</span><span class="st"> </span>z <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta) <span class="op">^</span><span class="st"> </span>(N <span class="op">-</span><span class="st"> </span>z), <span class="co"># verosimilitud </span></a>
+<a class="sourceLine" id="cb324-30" data-line-number="30">      <span class="dt">posterior =</span> (Like <span class="op">*</span><span class="st"> </span>prior) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(Like <span class="op">*</span><span class="st"> </span>prior)</a>
+<a class="sourceLine" id="cb324-31" data-line-number="31">    ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb324-32" data-line-number="32"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">evidencia =</span> <span class="kw">sum</span>(prior <span class="op">*</span><span class="st"> </span>Like))</a>
+<a class="sourceLine" id="cb324-33" data-line-number="33">  <span class="kw">print</span>(evidencia)</a>
+<a class="sourceLine" id="cb324-34" data-line-number="34">  <span class="kw">return</span>(evidencia[<span class="dv">1</span>, <span class="dv">2</span>] <span class="op">/</span><span class="st"> </span>evidencia[<span class="dv">2</span>, <span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb324-35" data-line-number="35">}</a>
+<a class="sourceLine" id="cb324-36" data-line-number="36"></a>
+<a class="sourceLine" id="cb324-37" data-line-number="37"><span class="kw">factorBayes</span>(<span class="dv">50</span>, <span class="dv">25</span>)</a>
+<a class="sourceLine" id="cb324-38" data-line-number="38"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
+<a class="sourceLine" id="cb324-39" data-line-number="39"><span class="co">#&gt;   modelo evidencia</span></a>
+<a class="sourceLine" id="cb324-40" data-line-number="40"><span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb324-41" data-line-number="41"><span class="co">#&gt; 1 M1      4.44e-16</span></a>
+<a class="sourceLine" id="cb324-42" data-line-number="42"><span class="co">#&gt; 2 M2      2.75e-16</span></a>
+<a class="sourceLine" id="cb324-43" data-line-number="43"><span class="co">#&gt;   evidencia</span></a>
+<a class="sourceLine" id="cb324-44" data-line-number="44"><span class="co">#&gt; 1    1.6142</span></a>
+<a class="sourceLine" id="cb324-45" data-line-number="45"><span class="kw">factorBayes</span>(<span class="dv">100</span>, <span class="dv">75</span>)</a>
+<a class="sourceLine" id="cb324-46" data-line-number="46"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
+<a class="sourceLine" id="cb324-47" data-line-number="47"><span class="co">#&gt;   modelo evidencia</span></a>
+<a class="sourceLine" id="cb324-48" data-line-number="48"><span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb324-49" data-line-number="49"><span class="co">#&gt; 1 M1      9.46e-26</span></a>
+<a class="sourceLine" id="cb324-50" data-line-number="50"><span class="co">#&gt; 2 M2      4.17e-26</span></a>
+<a class="sourceLine" id="cb324-51" data-line-number="51"><span class="co">#&gt;   evidencia</span></a>
+<a class="sourceLine" id="cb324-52" data-line-number="52"><span class="co">#&gt; 1  2.269739</span></a>
+<a class="sourceLine" id="cb324-53" data-line-number="53"><span class="kw">factorBayes</span>(<span class="dv">100</span>, <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb324-54" data-line-number="54"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
+<a class="sourceLine" id="cb324-55" data-line-number="55"><span class="co">#&gt;   modelo evidencia</span></a>
+<a class="sourceLine" id="cb324-56" data-line-number="56"><span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb324-57" data-line-number="57"><span class="co">#&gt; 1 M1      1.36e-18</span></a>
+<a class="sourceLine" id="cb324-58" data-line-number="58"><span class="co">#&gt; 2 M2      2.47e-16</span></a>
+<a class="sourceLine" id="cb324-59" data-line-number="59"><span class="co">#&gt;     evidencia</span></a>
+<a class="sourceLine" id="cb324-60" data-line-number="60"><span class="co">#&gt; 1 0.005494554</span></a>
+<a class="sourceLine" id="cb324-61" data-line-number="61"><span class="kw">factorBayes</span>(<span class="dv">40</span>, <span class="dv">38</span>)</a>
+<a class="sourceLine" id="cb324-62" data-line-number="62"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
+<a class="sourceLine" id="cb324-63" data-line-number="63"><span class="co">#&gt;   modelo   evidencia</span></a>
+<a class="sourceLine" id="cb324-64" data-line-number="64"><span class="co">#&gt;   &lt;chr&gt;        &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb324-65" data-line-number="65"><span class="co">#&gt; 1 M1     0.000000279</span></a>
+<a class="sourceLine" id="cb324-66" data-line-number="66"><span class="co">#&gt; 2 M2     0.00000895</span></a>
+<a class="sourceLine" id="cb324-67" data-line-number="67"><span class="co">#&gt;    evidencia</span></a>
+<a class="sourceLine" id="cb324-68" data-line-number="68"><span class="co">#&gt; 1 0.03120138</span></a></code></pre></div>
+<p>¿Cómo explicarías los resultados anteriores?</p>
+<!-- $\theta$ 
+puede tomar más valores, entonces si en una sucesión de volados observamos 
+$10\%$ de águilas, el modelo simple no cuenta con un valor de $\theta$ cercano al 
+resultado observado, pero el modelo complejo si. Por otra parte, para valores
+de $\theta$ que se encuentran en ambos modelos la probabilidad inicial de esos 
+valores es mayor en el caso del modelo simple. Por lo tanto si los datos 
+observados resultan en valores de $\theta$ congruentes con el modelo simple, 
+creeríamos en el modelo simple más que en el modelo más complicado.
+-->
+<p>La evidencia de un modelo <span class="math inline">\(p(x|M)\)</span> no dice mucho por si misma, si no que es mas
+relevante en el contexto del <strong>factor de Bayes</strong> (la evidencia relativa de dos
+modelos). Es importante recordar que la comparación de modelos nos habla
+únicamente de la evidencia relativa de un modelo; sin embargo, puede que
+ninguno de los modelos que estamos considerando sean adecuados para nuestros
+datos, por lo que más adelante estudiaremos maneras de evaluar un modelo.</p>
+</div>
+<div id="cálculo-de-la-distribución-posterior" class="section level3 unnumbered">
+<h3>Cálculo de la distribución posterior</h3>
+<p>En la inferencia Bayesiana se requiere calcular el denominador de la fórmula
+de Bayes <span class="math inline">\(p(x)\)</span>, es común que esto requiera que se calcule una integral
+complicada; sin embargo, hay algunas maneras de evitar esto,</p>
+<ol style="list-style-type: decimal">
+<li><p>El camino tradicional consiste en usar funciones de verosimilitud con
+dsitribuciones iniciales conjugadas. Cuando una distribución inicial es
+conjugada de la verosimilitud resulta en una distribución posterior con la
+misma forma funcional que la distribución inicial.</p></li>
+<li><p>Otra alternativa es aproximar la integral numericamente. Cuando el espacio de
+parámetros es de dimensión chica, se puede cubrir con una cuadrícula de
+puntos y la integral se puede calcular sumando a través de dicha cuadrícula.
+Sin embargo cuando el espacio de parámetros aumenta de dimensión el número de
+puntos necesarios para la aproximación crece demasiado y hay que recurrir a otas
+técnicas.</p></li>
+<li><p>Se ha desarrollado una clase de métodos de simulación para poder calcular
+la distribución posterior, estos se conocen como cadenas de Markov via Monte
+Carlo (MCMC por sus siglas en inglés). El desarrollo de los métodos MCMC es lo
+que ha propiciado el desarrollo de la estadística bayesiana en años recientes.</p></li>
+</ol>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="probabilidad-subjetiva.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="distribuciones-conjugadas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/tereom/est-computacional-2019/edit/master/09-analisis_bayesiano.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
