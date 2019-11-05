@@ -2,6 +2,6 @@ Package: placeholder
 Type: Book
 Title: Does not matter.
 Version: 0.0.1
-Imports: tidyverse, bookdown, knitr, plotly, gapminder, Hmisc, babynames, datasauRus, lattice, microbenchmark, parallel, profvis, janitor, devtools, viridis, scales, rgdal, gridExtra, here, profvis, Lahman, usethis, ACSWR, bnlearn, bootstrap, boot, ggm, survey, srvyr, rsample, pryr, tourr, FactoMineR, kableExtra, nullabor, lme4, foreign, arm, fda
+Imports: tidyverse, bookdown, knitr, plotly, gapminder, Hmisc, babynames, datasauRus, lattice, microbenchmark, parallel, profvis, janitor, devtools, viridis, scales, rgdal, gridExtra, here, profvis, Lahman, usethis, ACSWR, bnlearn, bootstrap, boot, ggm, survey, srvyr, rsample, pryr, tourr, FactoMineR, kableExtra, nullabor, lme4, foreign, arm, fda, expm, LearnBayes, MCMCpack
 Remotes: rstudio/bookdown
 RoxygenNote: 6.1.1
