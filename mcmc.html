@@ -323,6 +323,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="distribuciones-multivariada-y-simulación.html"><a href="distribuciones-multivariada-y-simulación.html"><i class="fa fa-check"></i>8. Distribuciones multivariada y simulación</a></li>
 <li class="chapter" data-level="" data-path="inferencia-visual-y-simulación-e-modelos.html"><a href="inferencia-visual-y-simulación-e-modelos.html"><i class="fa fa-check"></i>9. Inferencia visual y simulación e modelos</a></li>
 <li class="chapter" data-level="" data-path="simulación-muestra-y-bootstrap-paramétrico.html"><a href="simulación-muestra-y-bootstrap-paramétrico.html"><i class="fa fa-check"></i>10. Simulación muestra y bootstrap paramétrico</a></li>
+<li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>11-Familias conjugadas</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -415,7 +416,7 @@ la isla.</p>
 <a class="sourceLine" id="cb333-23" data-line-number="23">  camino[j] &lt;-<span class="st"> </span><span class="kw">caminaIsla</span>(camino[j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>])</a>
 <a class="sourceLine" id="cb333-24" data-line-number="24">}</a>
 <a class="sourceLine" id="cb333-25" data-line-number="25"></a>
-<a class="sourceLine" id="cb333-26" data-line-number="26">caminata &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">pasos =</span> <span class="dv">1</span><span class="op">:</span>pasos, <span class="dt">isla =</span> camino)</a>
+<a class="sourceLine" id="cb333-26" data-line-number="26">caminata &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">pasos =</span> <span class="dv">1</span><span class="op">:</span>pasos, <span class="dt">isla =</span> camino)</a>
 <a class="sourceLine" id="cb333-27" data-line-number="27"></a>
 <a class="sourceLine" id="cb333-28" data-line-number="28">plot_caminata &lt;-<span class="st"> </span><span class="kw">ggplot</span>(caminata[<span class="dv">1</span><span class="op">:</span><span class="st"> </span><span class="dv">1000</span>, ], <span class="kw">aes</span>(<span class="dt">x =</span> pasos, <span class="dt">y =</span> isla)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb333-29" data-line-number="29"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="fl">0.8</span>) <span class="op">+</span></a>

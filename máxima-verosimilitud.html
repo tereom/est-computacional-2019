@@ -323,6 +323,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="distribuciones-multivariada-y-simulación.html"><a href="distribuciones-multivariada-y-simulación.html"><i class="fa fa-check"></i>8. Distribuciones multivariada y simulación</a></li>
 <li class="chapter" data-level="" data-path="inferencia-visual-y-simulación-e-modelos.html"><a href="inferencia-visual-y-simulación-e-modelos.html"><i class="fa fa-check"></i>9. Inferencia visual y simulación e modelos</a></li>
 <li class="chapter" data-level="" data-path="simulación-muestra-y-bootstrap-paramétrico.html"><a href="simulación-muestra-y-bootstrap-paramétrico.html"><i class="fa fa-check"></i>10. Simulación muestra y bootstrap paramétrico</a></li>
+<li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>11-Familias conjugadas</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -474,9 +475,9 @@ veremos a que nos referimos con <span class="math inline">\(I(\theta)^{-1}\)</sp
 <a class="sourceLine" id="cb306-8" data-line-number="8"></a>
 <a class="sourceLine" id="cb306-9" data-line-number="9"><span class="co"># aprox normal con media theta y error estándar </span></a>
 <a class="sourceLine" id="cb306-10" data-line-number="10"><span class="kw">mean</span>(sigma_hats)</a>
-<a class="sourceLine" id="cb306-11" data-line-number="11"><span class="co">#&gt; [1] 4.186485</span></a>
+<a class="sourceLine" id="cb306-11" data-line-number="11"><span class="co">#&gt; [1] 4.171583</span></a>
 <a class="sourceLine" id="cb306-12" data-line-number="12"><span class="kw">sd</span>(sigma_hats)</a>
-<a class="sourceLine" id="cb306-13" data-line-number="13"><span class="co">#&gt; [1] 1.550414</span></a>
+<a class="sourceLine" id="cb306-13" data-line-number="13"><span class="co">#&gt; [1] 1.444019</span></a>
 <a class="sourceLine" id="cb306-14" data-line-number="14"></a>
 <a class="sourceLine" id="cb306-15" data-line-number="15"><span class="kw">ggplot</span>(<span class="kw">data_frame</span>(sigma_hats), <span class="kw">aes</span>(<span class="dt">sample =</span> sigma_hats)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb306-16" data-line-number="16"><span class="st">    </span><span class="kw">stat_qq</span>() <span class="op">+</span></a>

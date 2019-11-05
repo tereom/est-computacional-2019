@@ -323,6 +323,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="distribuciones-multivariada-y-simulación.html"><a href="distribuciones-multivariada-y-simulación.html"><i class="fa fa-check"></i>8. Distribuciones multivariada y simulación</a></li>
 <li class="chapter" data-level="" data-path="inferencia-visual-y-simulación-e-modelos.html"><a href="inferencia-visual-y-simulación-e-modelos.html"><i class="fa fa-check"></i>9. Inferencia visual y simulación e modelos</a></li>
 <li class="chapter" data-level="" data-path="simulación-muestra-y-bootstrap-paramétrico.html"><a href="simulación-muestra-y-bootstrap-paramétrico.html"><i class="fa fa-check"></i>10. Simulación muestra y bootstrap paramétrico</a></li>
+<li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>11-Familias conjugadas</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -349,42 +350,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">10.3</span> Distribuciones conjugadas</h2>
 <div id="ejemplo-bernoulli" class="section level3 unnumbered">
 <h3>Ejemplo: Bernoulli</h3>
-<p>Comenzaremos con el modelo Beta-Binomial. Recordemos que si <span class="math inline">\(X\)</span> en un experimento
-con dos posibles resultados, <span class="math inline">\(X\)</span> se distribuye Bernoulli y la función de
-probabilidad esta definida por:</p>
+<p>Comenzaremos con el modelo Beta-Binomial. Recordemos que si <span class="math inline">\(X\)</span> en un
+experimento con dos posibles resultados, <span class="math inline">\(X\)</span> se distribuye Bernoulli y la
+función de probabilidad esta definida por:</p>
 <p><span class="math display">\[p(x|\theta)=\theta^x(1-\theta)^{1-x}\]</span></p>
-<p>Ahora, si lanzamos una moneda <span class="math inline">\(N\)</span> veces tenemos un conjunto de datos
+<p>si lanzamos una moneda <span class="math inline">\(N\)</span> veces tenemos un conjunto de datos
 <span class="math inline">\(\{x_1,...,x_N\}\)</span>, suponemos que los lanzamientos son independientes por lo
 que la probabilidad de observar el conjunto de <span class="math inline">\(N\)</span> lanzamientos es el
 producto de las probabilidades para cada observación:</p>
 <p><span class="math display">\[p(x_1,...,x_N|\theta) = \prod_{n=1}^N p(x_n|\theta)\]</span>
 <span class="math display">\[= \theta^z(1 - \theta)^{N-z}\]</span></p>
 <p>donde <span class="math inline">\(z\)</span> denota el número de éxitos (águilas).</p>
-<p>Ahora, en principio para describir nuestras creencias iniciales podríamos usar
-cualquier función de densidad con soporte en <span class="math inline">\([0, 1]\)</span>, sin embargo, sería
-conveniente que el producto <span class="math inline">\(p(x|\theta)p(\theta)\)</span> (el numerador de la fórmula
-de Bayes)
-resulte en una función con la misma forma que <span class="math inline">\(p(\theta)\)</span>. Cuando este es el
-caso, las creencias inicial y posterior se describen con la misma distribución.
-Esto es conveninte pues si obtenemos nueva información podemos actualizar
+<p>Ahora,</p>
+<ul>
+<li><p>en principio para describir nuestras creencias iniciales podríamos usar
+cualquier función de densidad con soporte en <span class="math inline">\([0, 1]\)</span>,</p></li>
+<li><p>sin embargo, sería conveniente que el producto <span class="math inline">\(p(x|\theta)p(\theta)\)</span> (el numerador de la fórmula de Bayes) resulte en una función con la misma forma que
+<span class="math inline">\(p(\theta)\)</span>.</p></li>
+<li><p>Cuando este es el caso, las creencias inicial y posterior se describen con la
+misma distribución.</p></li>
+<li><p>Esto es conveninte pues si obtenemos nueva información podemos actualizar
 nuestro conocimiento de manera inmediata, conservando la forma de las
-distribuciones.</p>
+distribuciones.</p></li>
+</ul>
 <div class="caja">
 <p>Cuando las funciones <span class="math inline">\(p(x|\theta)\)</span> y <span class="math inline">\(p(\theta)\)</span> se combinan de tal manera
 que la distribución posterior pertenece a la misma familia (tiene la misma
 forma) que la distribución inicial, entonces decimos que <span class="math inline">\(p(\theta)\)</span> es
 <strong>conjugada</strong> para <span class="math inline">\(p(x|\theta)\)</span>.</p>
 </div>
-<p><br/>
-Vale la pena notar que la inicial es conjugada únicamente respecto a una
+<p>Vale la pena notar que la inicial es conjugada únicamente respecto a una
 función de verosimilitud particular.</p>
 <p>Una distribución conjugada para <span class="math inline">\(p(x|\theta) = \theta^z(1 - \theta)^{N-z}\)</span> es
 una <span class="math inline">\(Beta(a, b)\)</span>
 <span class="math display">\[p(\theta) = \frac {\theta^{a-1}(1-\theta)^{b-1}}{B(a,b)}\]</span></p>
 <p>Para describir nuestro conocimiento inicial podemos explorar la media y
-desviación estándar de la distribución beta, la media es
-<span class="math display">\[\bar{\theta} = a/(a+b)\]</span>
-por lo que si <span class="math inline">\(a=b\)</span> la media es <span class="math inline">\(0.5\)</span> y conforme
+desviación estándar de la distribución beta, la media es</p>
+<p><span class="math display">\[\bar{\theta} = a/(a+b)\]</span></p>
+<p>por lo que si <span class="math inline">\(a=b\)</span> la media es <span class="math inline">\(0.5\)</span> y conforme
 aumenta <span class="math inline">\(a\)</span> en relación a <span class="math inline">\(b\)</span> aumenta la media. La desviación estándar es</p>
 <p><span class="math display">\[\sqrt{\bar{\theta}(1-\bar{\theta})/(a+b+1)}\]</span></p>
 <p>Una manera de seleccionar los parámetros <span class="math inline">\(a\)</span> y <span class="math inline">\(b\)</span> es pensar en la
@@ -426,7 +429,7 @@ valores numéricos como la media.</p>
 <a class="sourceLine" id="cb325-6" data-line-number="6"><span class="co">#&gt;     combine</span></a>
 <a class="sourceLine" id="cb325-7" data-line-number="7"></a>
 <a class="sourceLine" id="cb325-8" data-line-number="8">N =<span class="st"> </span><span class="dv">14</span>; z =<span class="st"> </span><span class="dv">11</span>; a =<span class="st"> </span><span class="dv">1</span>; b =<span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb325-9" data-line-number="9">base &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">data_frame</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)), <span class="kw">aes</span>(x)) </a>
+<a class="sourceLine" id="cb325-9" data-line-number="9">base &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)), <span class="kw">aes</span>(x)) </a>
 <a class="sourceLine" id="cb325-10" data-line-number="10"></a>
 <a class="sourceLine" id="cb325-11" data-line-number="11">p1 &lt;-<span class="st"> </span>base <span class="op">+</span></a>
 <a class="sourceLine" id="cb325-12" data-line-number="12"><span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dbeta, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">shape1 =</span> a, <span class="dt">shape2 =</span> b), </a>

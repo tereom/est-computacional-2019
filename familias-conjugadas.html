@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>7. Simulación de variables aleatorias | Estadística Computacional</title>
+  <title>11-Familias conjugadas | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   <meta name="generator" content="bookdown 0.14.1 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="7. Simulación de variables aleatorias | Estadística Computacional" />
+  <meta property="og:title" content="11-Familias conjugadas | Estadística Computacional" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="tereom/est-computacional-2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="7. Simulación de variables aleatorias | Estadística Computacional" />
+  <meta name="twitter:title" content="11-Familias conjugadas | Estadística Computacional" />
   
   <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="más-bootstrap.html"/>
-<link rel="next" href="distribuciones-multivariada-y-simulación.html"/>
+<link rel="prev" href="simulación-muestra-y-bootstrap-paramétrico.html"/>
+<link rel="next" href="referencias.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -346,51 +346,60 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="simulación-de-variables-aleatorias-1" class="section level2 unnumbered">
-<h2>7. Simulación de variables aleatorias</h2>
-<div id="simulación-de-una-gamma" class="section level4 unnumbered">
-<h4>Simulación de una Gamma</h4>
-<p>Usa el método de aceptación y rechazo para generar 1000 observaciones de una
-variable aleatoria con distribución gamma(3/2,1).</p>
-</div>
-<div id="simulación-de-una-normal" class="section level4 unnumbered">
-<h4>Simulación de una Normal</h4>
-<p>Implementa el algoritmo de simulación de una variable aleatoria normal
-estándar visto en clase (simula 1000 observaciones de una normal estándar):</p>
-<p>Nuestro objetivo es primero, simular una variable aleatoria normal estándar Z,
-para ello comencemos notando que el valor absoluto de Z tiene función de
-densidad:
-<span class="math display">\[f(x)=\frac{2}{\sqrt{2\pi}}e^{-x^2/2}\]</span>
-con soporte en los reales positivos. Generaremos observaciones de la densidad
-anterior usando el método de aceptación y rechazo con <span class="math inline">\(g\)</span> una densidad
-exponencial con media 1:</p>
-<p><span class="math display">\[g(x)= e^{-x}\]</span></p>
-<p>Ahora,
-<span class="math inline">\(\frac{f(x)}{g(x)}=\sqrt{2/\pi}e^{x - x^2/2}\)</span>
-y por tanto el máximo valor de <span class="math inline">\(f(x)/g(x)\)</span> ocurre en el valor <span class="math inline">\(x\)</span> que maximiza
-<span class="math inline">\(x - x^2/2\)</span>, esto ocurre en <span class="math inline">\(x=1\)</span>, y podemos tomar <span class="math inline">\(c=\sqrt{2e/\pi}\)</span>,
-<span class="math display">\[\frac{f(x)}{cg(x)}=exp\bigg\{x - \frac{x^2}{2}-{1}{2}\bigg\}\]</span>
-<span class="math display">\[=exp\bigg\{\frac{(x-1)^2}{2}\bigg\}\]</span></p>
-<p>y por tanto podemos generar el valor absoluto de una variable aleatoria con
-distribución normal estándar de la siguiente manera:</p>
-<ol style="list-style-type: decimal">
-<li>Genera <span class="math inline">\(Y\)</span> una variable aleatoria exponencial con tasa 1.<br />
-</li>
-<li>Genera un número aleatorio <span class="math inline">\(U\)</span>.<br />
-</li>
-<li>Si <span class="math inline">\(U \leq exp\{-(Y-1)^2/2\}\)</span> define <span class="math inline">\(X=Y\)</span>, en otro caso vuelve a 1.</li>
+<div id="familias-conjugadas" class="section level2 unnumbered">
+<h2>11-Familias conjugadas</h2>
+<div id="modelo-beta-binomial" class="section level4 unnumbered">
+<h4>1. Modelo Beta-Binomial</h4>
+<p>Una compañía farmacéutica afirma que su nueva medicina incrementa la
+probabilidad de concebir un niño (sexo masculino), pero aún no publican
+estudios. Supón que conduces un experimento en el cual <span class="math inline">\(50\)</span> parejas se
+seleccionan de manera aleatoria de la población, toman la medicina y conciben.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Quieres estimar la probabilidad de concebir un niño para parejas que
+toman la medicina. ¿Cuál es una inicial apropiada? No tiene que estar centrada
+en <span class="math inline">\(0.5\)</span> pues esta corresponde a personas que no toman la medicina, y la inicial
+debe reflejar tu incertidumbre sobre el efecto de la droga.</p></li>
+<li><p>Usando tu inicial de a) grafica la posterior y decide si es creíble que las
+parejas que toman la medicina tienen una probabilidad de <span class="math inline">\(0.5\)</span> de concebir un
+niño.</p></li>
+<li><p>Supón que la farmacéutica asevera que la probabilidad de concebir un niño
+cuando se toma la medicina es cercana al <span class="math inline">\(60\%\)</span> con alta certeza. Representa
+esta postura con una distribución inicial <span class="math inline">\(Beta(60,40)\)</span>. Comparala con la
+inicial de un escéptico que afirma que la medicina no hace diferencia,
+representa esta creencia con una inicial <span class="math inline">\(Beta(50,50)\)</span>. ¿Cómo se compara la
+probabilidad posterior de concebir un niño (usando las distintas iniciales)?</p></li>
 </ol>
-<p>Para generar una variable aleatoria con distribución normal estándar <span class="math inline">\(Z\)</span>
-simplemente elegimos <span class="math inline">\(X\)</span> o <span class="math inline">\(-X\)</span> con igual probabilidad.</p>
+</div>
+<div id="otra-familia-conjugada" class="section level4 unnumbered">
+<h4>2. Otra familia conjugada</h4>
+<p>Supongamos que nos interesa analizar el IQ de una muestra de estudiantes del
+ITAM y suponemos que el IQ de un estudiante tiene una distribución normal
+<span class="math inline">\(x \sim N(\theta, \sigma^2)\)</span> <strong>con <span class="math inline">\(\sigma ^ 2\)</span> conocida.</strong>
+Considera que observamos el IQ de un estudiante <span class="math inline">\(x\)</span>.
+La verosimilitud del modelo es:</p>
+<p><span class="math display">\[p(x|\theta)=\frac{1}{\sqrt{2\pi\sigma^2}}exp\left(-\frac{1}{2\sigma^2}(x-\theta)^2\right)\]</span></p>
+<p>Realizaremos un análisis bayesiano por lo que hace falta establer una
+distribución inicial, elegimos <span class="math inline">\(p(\theta)\)</span> que se distribuya <span class="math inline">\(N(\mu, \tau^2)\)</span>
+donde elegimos los parámetros <span class="math inline">\(\mu, \tau\)</span> que mejor describan nuestras creencias
+iniciales, por ejemplo si tengo mucha certeza de que el <span class="math inline">\(IQ\)</span> promedio se ubica
+en <span class="math inline">\(150\)</span>, elegiría <span class="math inline">\(\mu=150\)</span> y una desviación estándar chica por ejemplo
+<span class="math inline">\(\tau = 5\)</span>. Entonces la distribución inicial es:</p>
+<p><span class="math display">\[p(\theta)=\frac{1}{\sqrt{2\pi\tau^2}}exp\left(-\frac{1}{2\tau^2}(\theta-\mu)^2\right)\]</span></p>
+<p>Calcula la distribución posterior <span class="math inline">\(p(\theta|x) \propto p(x|\theta)p(\theta)\)</span>,
+usando la inicial y verosimilitud que definimos arriba. Una vez que realices la
+multiplicación debes identificar el núcleo de una distribución Normal,</p>
+<p>¿cuáles son sus parámetros (media y varianza)?</p>
+
 </div>
 </div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="más-bootstrap.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="distribuciones-multivariada-y-simulación.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="simulación-muestra-y-bootstrap-paramétrico.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

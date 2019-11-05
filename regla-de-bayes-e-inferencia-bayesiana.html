@@ -323,6 +323,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="distribuciones-multivariada-y-simulación.html"><a href="distribuciones-multivariada-y-simulación.html"><i class="fa fa-check"></i>8. Distribuciones multivariada y simulación</a></li>
 <li class="chapter" data-level="" data-path="inferencia-visual-y-simulación-e-modelos.html"><a href="inferencia-visual-y-simulación-e-modelos.html"><i class="fa fa-check"></i>9. Inferencia visual y simulación e modelos</a></li>
 <li class="chapter" data-level="" data-path="simulación-muestra-y-bootstrap-paramétrico.html"><a href="simulación-muestra-y-bootstrap-paramétrico.html"><i class="fa fa-check"></i>10. Simulación muestra y bootstrap paramétrico</a></li>
+<li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>11-Familias conjugadas</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -369,20 +370,23 @@ un águila y compara con la probabilidad de observar un águila condicional a
 que observamos un cambio.</p></li>
 </ul>
 <p>Para entender probabilidad condicional podemos pensar en restringir nuestra
-atención a una única fila o columna de la tabla. Supongamos que alguien lanza
-una moneda <span class="math inline">\(3\)</span> veces y nos informa que
+atención a una única fila o columna de la tabla.</p>
+<p><strong>Ejemplo.</strong> Supongamos que alguien lanza una moneda <span class="math inline">\(3\)</span> veces y nos informa que
 la secuencia contiene exactamente un cambio. Dada esta información podemos
 restringir nuestra atención a la fila correspondiente a un solo cambio. Sabemos
-que ocurrió uno de los eventos de esa fila. Las probabilidades relativas
-de los eventos de esa fila no han cambiado pero sabemos que la probabilidad
-total debe sumar uno, por lo que simplemente normalizamos dividiendo entre
-<span class="math inline">\(p(C=1)\)</span>. En este ejemplo vemos que cuando no sabemos nada acerca del número de
+que ocurrió uno de los eventos de esa fila.</p>
+<ul>
+<li><p>Las probabilidades relativas de los eventos de esa fila no han cambiado pero
+sabemos que la probabilidad total debe sumar uno, por lo que simplemente
+normalizamos dividiendo entre <span class="math inline">\(p(C=1)\)</span>.</p></li>
+<li><p>En este ejemplo, vemos que cuando no sabemos nada acerca del número de
 cambios, todo lo que sabemos de número de águilas está contenido en la
 distribución marginal de <span class="math inline">\(X\)</span>, por otro lado, si sabemos que hubo un cambio
 entonces sabemos que estamos en los escenarios de la fila correspondiente a un
-cambio, y calculamos estas probabilidades condicionales. Es así que nos movemos
-de creencias iniciales (marginal) acerca de <span class="math inline">\(X\)</span> a creecnias posteriores
-(condicional).</p>
+cambio, y calculamos estas probabilidades condicionales.</p></li>
+<li><p>Es así que nos movemos de creencias iniciales (marginal) acerca de <span class="math inline">\(X\)</span> a
+creecnias posteriores (condicional).</p></li>
+</ul>
 </div>
 <div id="regla-de-bayes-en-modelos-y-datos" class="section level3 unnumbered">
 <h3>Regla de Bayes en modelos y datos</h3>
@@ -390,8 +394,8 @@ de creencias iniciales (marginal) acerca de <span class="math inline">\(X\)</spa
 variables fila y columna son datos y parámetros del modelo respectivamente.</p>
 <p>Un modelo especifica la probabilidad de valores particulares dado la estructura
 del modelo y valores de los parámetros. Por ejemplo en un modelo de lanzamientos
-de monedas tenemos
-<span class="math display">\[p(x = A|\theta)=\theta\]</span>,</p>
+de monedas tenemos</p>
+<p><span class="math display">\[p(x = A|\theta)=\theta\]</span>,</p>
 <p><span class="math display">\[p(x = S|\theta)= 1- \theta\]</span></p>
 <p>De manera general, el modelo especifica:</p>
 <p><span class="math display">\[p(\text{datos}|\text{valores de parámetros y estructura del modelo})\]</span></p>
@@ -428,25 +432,29 @@ otra parte, cuantificamos la información de <span class="math inline">\(\theta\
 <h4>Ejemplo: Ingesta calórica en estudiantes</h4>
 <p>Supongamos que nos interesa aprender los hábitos alimenticios de los estudiantes
 universitarios en México, y escuchamos que de acuerdo a investigaciones se
-recomienda que un adulto promedio ingiera <span class="math inline">\(2500\)</span> kcal. Es así que buscamos conocer
-que proporción de los estudiantes siguen esta recomendación, para ello
-tomaremos una muestra aleatoria de estudiantes del ITAM. Denotemos por <span class="math inline">\(\theta\)</span>
-la proporción de estudiantes que ingieren en un día <span class="math inline">\(2500\)</span> kcal o más. El valor
-de <span class="math inline">\(\theta\)</span> es desconocido, y desde el punto de vista bayesiano cuando tenemos
-incertidumbre de algo (puede ser un parámetro o una predicción) lo vemos como
-una variable aleatoria y por tanto tiene asociada una distribución de
-probabilidad que actualizaremos conforme obtenemos información (observamos
-datos).</p>
-<p>Recordemos que la distribución <span class="math inline">\(p(\theta)\)</span> se conoce como la distribución
+recomienda que un adulto promedio ingiera <span class="math inline">\(2500\)</span> kcal. Es así que <strong>buscamos
+conocer que proporción de los estudiantes siguen esta recomendación</strong>, para ello
+tomaremos una muestra aleatoria de estudiantes del ITAM.</p>
+<ul>
+<li>Denotemos por <span class="math inline">\(\theta\)</span> la proporción de estudiantes que ingieren en un día
+<span class="math inline">\(2500\)</span> kcal o más. El valor de <span class="math inline">\(\theta\)</span> es desconocido, y desde el punto de
+vista bayesiano cuando tenemos incertidumbre de algo (puede ser un parámetro o
+una predicción) lo vemos como una variable aleatoria y por tanto tiene asociada
+una distribución de probabilidad que actualizaremos conforme obtenemos
+información (observamos datos).</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>Recordemos que la distribución <span class="math inline">\(p(\theta)\)</span> se conoce como la distribución
 <em>a priori</em> y representa nuestras creencias de los posibles valores que puede
 tomar el parámetro. Supongamos que tras leer artículos y entrevistar
 especialistas consideramos los posibles valores de <span class="math inline">\(\theta\)</span> y les asigmanos
-pesos:</p>
+pesos:</li>
+</ol>
 <div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb321-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
 <a class="sourceLine" id="cb321-2" data-line-number="2">theta &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>, <span class="fl">0.1</span>)</a>
 <a class="sourceLine" id="cb321-3" data-line-number="3">pesos.prior &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">5.2</span>, <span class="dv">8</span>, <span class="fl">7.2</span>, <span class="fl">4.6</span>, <span class="fl">2.1</span>, <span class="fl">0.7</span>, <span class="fl">0.1</span>, <span class="dv">0</span>, <span class="dv">0</span>)</a>
 <a class="sourceLine" id="cb321-4" data-line-number="4">prior &lt;-<span class="st"> </span>pesos.prior<span class="op">/</span><span class="kw">sum</span>(pesos.prior) </a>
-<a class="sourceLine" id="cb321-5" data-line-number="5">prior_df &lt;-<span class="st"> </span><span class="kw">data_frame</span>(theta, <span class="dt">prior =</span> <span class="kw">round</span>(prior, <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb321-5" data-line-number="5">prior_df &lt;-<span class="st"> </span><span class="kw">tibble</span>(theta, <span class="dt">prior =</span> <span class="kw">round</span>(prior, <span class="dv">3</span>))</a>
 <a class="sourceLine" id="cb321-6" data-line-number="6">prior_df</a>
 <a class="sourceLine" id="cb321-7" data-line-number="7"><span class="co">#&gt; # A tibble: 10 x 2</span></a>
 <a class="sourceLine" id="cb321-8" data-line-number="8"><span class="co">#&gt;    theta prior</span></a>
@@ -461,20 +469,24 @@ pesos:</p>
 <a class="sourceLine" id="cb321-17" data-line-number="17"><span class="co">#&gt;  8  0.75 0.003</span></a>
 <a class="sourceLine" id="cb321-18" data-line-number="18"><span class="co">#&gt;  9  0.85 0    </span></a>
 <a class="sourceLine" id="cb321-19" data-line-number="19"><span class="co">#&gt; 10  0.95 0</span></a></code></pre></div>
-<p>Una vez que cuantificamos nuestro conocimiento (o la falta de este) sobre los
+<ol start="2" style="list-style-type: decimal">
+<li>Una vez que cuantificamos nuestro conocimiento (o la falta de este) sobre los
 posibles valores que puede tomar <span class="math inline">\(\theta\)</span> especificamos la verosimilitud y la
 distribución conjunta <span class="math inline">\(p(x, \theta)\)</span>, donde <span class="math inline">\(x = (x_1,...,x_N)\)</span> veamos
 la distribución de un estudiante en particular:
 <span class="math display">\[p(x_i|\theta) \sim Bernoulli(\theta),\]</span>
 para <span class="math inline">\(i=1,...,N\)</span>, es decir, condicional a <span class="math inline">\(\theta\)</span> la probabilidad de que un
 estudiante ingiera más de <span class="math inline">\(2500\)</span> calorías es <span class="math inline">\(\theta\)</span> y la función de
-verosimilitud <span class="math inline">\(p(x_1,...,x_N|\theta) = \mathcal{L}(\theta)\)</span>:</p>
+verosimilitud <span class="math inline">\(p(x_1,...,x_N|\theta) = \mathcal{L}(\theta)\)</span>:</li>
+</ol>
 <p><span class="math display">\[p(x_1,...,x_N|\theta) = \prod_{n=1}^N p(x_n|\theta)\]</span>
 <span class="math display">\[= \theta^z(1 - \theta)^{N-z}\]</span></p>
-<p>donde <span class="math inline">\(z\)</span> denota el número de estudiantes que ingirió al menos <span class="math inline">\(2500\)</span> kcal y <span class="math inline">\(N-z\)</span>
-el número de estudiantes que ingirió menos de <span class="math inline">\(2500\)</span> kcal.</p>
-<p>Ahora calculamos la distribución posterior de <span class="math inline">\(\theta\)</span>
-usando la regla de Bayes:</p>
+<p>donde <span class="math inline">\(z\)</span> denota el número de estudiantes que ingirió al menos <span class="math inline">\(2500\)</span> kcal y
+<span class="math inline">\(N-z\)</span> el número de estudiantes que ingirió menos de <span class="math inline">\(2500\)</span> kcal.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Ahora calculamos la <strong>distribución posterior</strong> de <span class="math inline">\(\theta\)</span> usando la regla de
+Bayes:</li>
+</ol>
 <p><span class="math display">\[p(\theta|x) = \frac{p(x_1,...,x_N,\theta)}{p(x)}\]</span>
 <span class="math display">\[\propto  p(\theta)\mathcal{L}(\theta)\]</span></p>
 <p>Vemos que la distribución posterior es proporcional al producto de la
@@ -533,8 +545,7 @@ con <span class="math inline">\(0&lt;\theta&lt;1\)</span></p>
 <a class="sourceLine" id="cb322-40" data-line-number="40"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>dist) <span class="op">+</span></a>
 <a class="sourceLine" id="cb322-41" data-line-number="41"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(theta), <span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(theta))) </a></code></pre></div>
 <p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-3-1.png" width="480" style="display: block; margin: auto;" /></p>
-<p><img src="img/manicule2.jpg" /> ¿Cómo se ve la distribución posterior si tomamos
-una muestra de tamaño <span class="math inline">\(90\)</span> donde observamos la misma proporción de éxitos.
+<p><img src="img/manicule2.jpg" /> ¿Cómo se ve la distribución posterior si tomamos una muestra de tamaño <span class="math inline">\(90\)</span> donde observamos la misma proporción de éxitos.
 Realiza los cálculos y graficala como un panel adicional de la gráfica
 anterior.</p>
 <ul>
@@ -546,8 +557,7 @@ artículos y expertos?</li>
 <h4>Evidencia</h4>
 <p>Ahora, en el teorema de Bayes también encontramos el término <span class="math inline">\(p(x)\)</span> que
 denominamos la <strong>evidencia</strong>, también se conoce como verosimilitud
-marginal o inicial predictiva.
-<span class="math display">\[p(\theta|x)=\frac{p(x|\theta)p(\theta)}{p(x)}\]</span></p>
+marginal.</p>
 <p>La evidencia es la probabilidad de los datos de acuerdo al modelo y se calcula
 sumando a lo largo de todos los posibles valores de los parámetros y ponderando
 por nuestra certidumbre en esos valores de los parámetros.</p>
@@ -564,6 +574,8 @@ entonces podemos calcular el cociente de <span class="math inline">\(p(M_1|x)\)<
 <p><span class="math display">\[\frac{p(M_1|x)}{p(M_2|x)} = \frac{p(x|M_1) \cdot p(M_1)}{p(x|M_2)\cdot p(M_2)}\]</span></p>
 <p>El cociente de evidencia <span class="math inline">\(\frac{p(x|M_1)}{p(x|M_2)}\)</span> se conoce como <strong>factor de
 Bayes</strong>, y <span class="math inline">\(p(M_i)\)</span> describe nuestras creencias iniciales en cada modelo.</p>
+<p>La evidencia y el factor de Bayes no son muy usados en la práctica pero los
+vemos por su valor conceptual.</p>
 </div>
 <div id="invarianza-en-el-orden-de-los-datos" class="section level4 unnumbered">
 <h4>Invarianza en el orden de los datos</h4>
@@ -613,7 +625,7 @@ $p(\theta = 0.25) = 0.25$, $p(\theta = 0.5) = 0.5$ y $p(\theta = 0.75) = 0.25$
 
 ```r
 theta <- c(0.25, 0.5, 0.75)
-prior <- data_frame(theta, p = c(0.25, 0.5, 0.25))
+prior <- tibble(theta, p = c(0.25, 0.5, 0.25))
 ```
 
 El siguiente paso es recolectar los datos y utilizar la regla de Bayes para 
@@ -645,16 +657,16 @@ en <span class="math inline">\(12\)</span> éxitos o águilas.</li>
 <ol start="2" style="list-style-type: decimal">
 <li><strong>Predicción</strong> de valores. Usando nuestro conocimiento actual nos interesa
 predecir la probabilidad de datos futuros. La probabilidad predictiva de un
-dato <span class="math inline">\(y\)</span> (no observado) se determina promediando las probabilidades predictivas
+dato <span class="math inline">\(\tilde{y}\)</span> (no observado) se determina promediando las probabilidades predictivas
 de los datos a lo largo de todos los posibles valores de los parámetros y
 ponderados por la creencia en los valores de los parámetros. Cuando solo
 contamos con nuestro conocimiento incial tendríamos:
-<span class="math display">\[p(y) =\int p(y|\theta)p(\theta)d\theta\]</span>
+<span class="math display">\[p(\tilde{y}) =\int p(y|\theta)p(\theta)d\theta\]</span>
 Notese que la ecuación anterior coincide con la correspondiente a la evidencia,
 con la diferencia de que la evidencia se refiere a un valor observado y en
 esta ecuación estamos calculando la probabilidad de cualquier valor <span class="math inline">\(y\)</span>.<br />
-Una vez que obserbamos datos tenemos la distribución predictiva posterior:
-<span class="math display">\[p(y|x) =\int p(y|\theta)p(\theta|x)d\theta\]</span>
+Una vez que observamos datos tenemos la distribución predictiva posterior:
+<span class="math display">\[p(\tilde{y}|x) =\int p(y|\theta)p(\theta|x)d\theta\]</span>
 Por ejemplo podemos usar las creencias iniciales del modelo <span class="math inline">\(1\)</span>, que propusimos
 arriba para calcular la probabilidad predictiva de observar águila:</li>
 </ol>
@@ -673,9 +685,9 @@ valor más probable.</p>
 la distribución posterior de cada modelo. ¿Cuál sería tu predicción?
 -->
 <ol start="3" style="list-style-type: decimal">
-<li><strong>Comparación de modelos</strong>, una caracterítica conveniente de la comparación
-de modelos en estadística bayesiana es que la complejidad del modelo se toma
-en cuenta de manera automática.</li>
+<li><strong>Comparación de modelos</strong>, cuando comparamos modelos usando el factor de
+Bayes, una caracterítica conveniente en estadística bayesiana es que la
+complejidad del modelo se toma en cuenta de manera automática.</li>
 </ol>
 <p>Recordemos los dos modelos discretos, en el primero supusimos que el parámetro
 <span class="math inline">\(\theta\)</span> únicamente puede tomar uno de <span class="math inline">\(3\)</span> valores <span class="math inline">\((0.25, 0.5, 0.75)\)</span>, esta
@@ -686,13 +698,13 @@ probabilidad inicial es <span class="math inline">\(\theta = 0.50\)</span> y ref
 factible que el valor se encuentre en los extremos.</p>
 <p>Podemos calcular el factor de Bayes para distintos datos observados:</p>
 <div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb324-1" data-line-number="1"><span class="co"># Modelo 1, 3 posibles valores</span></a>
-<a class="sourceLine" id="cb324-2" data-line-number="2">p_M1 &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">theta =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>), <span class="dt">prior =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.25</span>), </a>
-<a class="sourceLine" id="cb324-3" data-line-number="3">  <span class="dt">modelo =</span><span class="st">&quot;M1&quot;</span>)</a>
+<a class="sourceLine" id="cb324-2" data-line-number="2">p_M1 &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">theta =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>), <span class="dt">prior =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.25</span>), </a>
+<a class="sourceLine" id="cb324-3" data-line-number="3">  <span class="dt">modelo =</span> <span class="st">&quot;M1&quot;</span>)</a>
 <a class="sourceLine" id="cb324-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb324-5" data-line-number="5"><span class="co"># Modelo 2, Creamos una inicial que puede tomar más valores</span></a>
 <a class="sourceLine" id="cb324-6" data-line-number="6">p &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">24</span>, <span class="dv">1</span>)</a>
 <a class="sourceLine" id="cb324-7" data-line-number="7">p2 &lt;-<span class="st"> </span><span class="kw">c</span>(p, <span class="dv">24</span>, <span class="kw">sort</span>(p, <span class="dt">decreasing =</span> <span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb324-8" data-line-number="8">p_M2 &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">theta =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.02</span>), <span class="dt">prior =</span> p2 <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(p2), </a>
+<a class="sourceLine" id="cb324-8" data-line-number="8">p_M2 &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">theta =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.02</span>), <span class="dt">prior =</span> p2 <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(p2), </a>
 <a class="sourceLine" id="cb324-9" data-line-number="9">  <span class="dt">modelo =</span> <span class="st">&quot;M2&quot;</span>)</a>
 <a class="sourceLine" id="cb324-10" data-line-number="10"></a>
 <a class="sourceLine" id="cb324-11" data-line-number="11">N &lt;-<span class="st"> </span><span class="dv">20</span> <span class="co"># estudiantes</span></a>
@@ -763,12 +775,13 @@ valores es mayor en el caso del modelo simple. Por lo tanto si los datos
 observados resultan en valores de $\theta$ congruentes con el modelo simple, 
 creeríamos en el modelo simple más que en el modelo más complicado.
 -->
-<p>La evidencia de un modelo <span class="math inline">\(p(x|M)\)</span> no dice mucho por si misma, si no que es mas
+<p>La evidencia de un modelo <span class="math inline">\(p(x|M)\)</span> no dice mucho por si misma, es más
 relevante en el contexto del <strong>factor de Bayes</strong> (la evidencia relativa de dos
 modelos). Es importante recordar que la comparación de modelos nos habla
 únicamente de la evidencia relativa de un modelo; sin embargo, puede que
 ninguno de los modelos que estamos considerando sean adecuados para nuestros
-datos, por lo que más adelante estudiaremos maneras de evaluar un modelo.</p>
+datos, por lo que más adelante <strong>estudiaremos otras maneras de evaluar un
+modelo</strong>.</p>
 </div>
 <div id="cálculo-de-la-distribución-posterior" class="section level3 unnumbered">
 <h3>Cálculo de la distribución posterior</h3>

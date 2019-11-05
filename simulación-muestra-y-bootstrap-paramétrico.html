@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="inferencia-visual-y-simulación-e-modelos.html"/>
-<link rel="next" href="referencias.html"/>
+<link rel="next" href="familias-conjugadas.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -323,6 +323,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="distribuciones-multivariada-y-simulación.html"><a href="distribuciones-multivariada-y-simulación.html"><i class="fa fa-check"></i>8. Distribuciones multivariada y simulación</a></li>
 <li class="chapter" data-level="" data-path="inferencia-visual-y-simulación-e-modelos.html"><a href="inferencia-visual-y-simulación-e-modelos.html"><i class="fa fa-check"></i>9. Inferencia visual y simulación e modelos</a></li>
 <li class="chapter" data-level="" data-path="simulación-muestra-y-bootstrap-paramétrico.html"><a href="simulación-muestra-y-bootstrap-paramétrico.html"><i class="fa fa-check"></i>10. Simulación muestra y bootstrap paramétrico</a></li>
+<li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>11-Familias conjugadas</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -372,6 +373,9 @@ cumplir el objetivo al menor costo?</p></li>
 <p>Los costos del levantamiento son:
 + <span class="math inline">\(50\)</span> pesos por encuesta.
 + <span class="math inline">\(500\)</span> pesos por conglomerado</p>
+</div>
+<div id="solución" class="section level4 unnumbered">
+<h4>Solución</h4>
 <div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb390-1" data-line-number="1">muestreo &lt;-<span class="st"> </span><span class="cf">function</span>(J, <span class="dt">n_total =</span> <span class="dv">1000</span>) {</a>
 <a class="sourceLine" id="cb390-2" data-line-number="2">    n_cong &lt;-<span class="st"> </span><span class="kw">floor</span>(n_total <span class="op">/</span><span class="st"> </span>J)</a>
 <a class="sourceLine" id="cb390-3" data-line-number="3">    medias &lt;-<span class="st"> </span><span class="kw">rnorm</span>(J, <span class="fl">0.5</span>, <span class="fl">0.1</span>)</a>
@@ -384,32 +388,48 @@ cumplir el objetivo al menor costo?</p></li>
 <a class="sourceLine" id="cb390-10" data-line-number="10">}</a>
 <a class="sourceLine" id="cb390-11" data-line-number="11"></a>
 <a class="sourceLine" id="cb390-12" data-line-number="12">errores &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">J =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb390-13" data-line-number="13"><span class="st">    </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb390-14" data-line-number="14">        <span class="dt">sims =</span> <span class="kw">map</span>(J, <span class="op">~</span>(<span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">muestreo</span>(.)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>())), </a>
-<a class="sourceLine" id="cb390-15" data-line-number="15">        <span class="dt">error_est =</span> <span class="kw">map_dbl</span>(sims, sd) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb390-16" data-line-number="16">            )</a>
-<a class="sourceLine" id="cb390-17" data-line-number="17">errores</a>
-<a class="sourceLine" id="cb390-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb390-19" data-line-number="19">tamano_muestra &lt;-<span class="st"> </span><span class="cf">function</span>(J) {</a>
-<a class="sourceLine" id="cb390-20" data-line-number="20">    n_total &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="dv">100</span>, J)</a>
-<a class="sourceLine" id="cb390-21" data-line-number="21">    ee &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">muestreo</span>(<span class="dt">J =</span> J, <span class="dt">n_total =</span> n_total)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb390-22" data-line-number="22"><span class="st">        </span><span class="kw">flatten_dbl</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sd</span>()</a>
-<a class="sourceLine" id="cb390-23" data-line-number="23">    <span class="cf">while</span>(ee <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.02</span>){</a>
-<a class="sourceLine" id="cb390-24" data-line-number="24">        n_total =<span class="st"> </span>n_total <span class="op">+</span><span class="st"> </span><span class="dv">20</span></a>
-<a class="sourceLine" id="cb390-25" data-line-number="25">        ee &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">500</span>, <span class="kw">muestreo</span>(<span class="dt">J =</span> J, <span class="dt">n_total =</span> n_total)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb390-26" data-line-number="26"><span class="st">            </span><span class="kw">flatten_dbl</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb390-27" data-line-number="27"><span class="st">            </span><span class="kw">sd</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb390-28" data-line-number="28"><span class="st">            </span><span class="kw">round</span>(<span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb390-29" data-line-number="29">        }</a>
-<a class="sourceLine" id="cb390-30" data-line-number="30">    <span class="kw">list</span>(<span class="dt">ee =</span> ee, <span class="dt">n_total =</span> n_total, <span class="dt">costo =</span> <span class="dv">500</span> <span class="op">*</span><span class="st"> </span>J <span class="op">+</span><span class="st"> </span><span class="dv">50</span> <span class="op">*</span><span class="st"> </span>n_total)</a>
-<a class="sourceLine" id="cb390-31" data-line-number="31">}</a>
-<a class="sourceLine" id="cb390-32" data-line-number="32">tamanos &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">150</span>)</a>
-<a class="sourceLine" id="cb390-33" data-line-number="33">costos &lt;-<span class="st"> </span><span class="kw">map_df</span>(tamanos, tamano_muestra)</a>
-<a class="sourceLine" id="cb390-34" data-line-number="34">costos<span class="op">$</span>J &lt;-<span class="st"> </span>tamanos</a>
-<a class="sourceLine" id="cb390-35" data-line-number="35">costos</a>
-<a class="sourceLine" id="cb390-36" data-line-number="36"><span class="kw">ggplot</span>(costos, <span class="kw">aes</span>(<span class="dt">x =</span> J, <span class="dt">y =</span> costo <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb390-37" data-line-number="37"><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_y_log10</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_minimal</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb390-38" data-line-number="38"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;miles de pesos&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Costos&quot;</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb390-13" data-line-number="13"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">sims =</span> <span class="kw">map</span>(J, <span class="op">~</span>(<span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">muestreo</span>(.)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb390-14" data-line-number="14"><span class="st">        </span><span class="kw">flatten_dbl</span>())), </a>
+<a class="sourceLine" id="cb390-15" data-line-number="15">        <span class="dt">error_est =</span> <span class="kw">map_dbl</span>(sims, sd) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb390-16" data-line-number="16">errores</a>
+<a class="sourceLine" id="cb390-17" data-line-number="17"><span class="co">#&gt; # A tibble: 4 x 3</span></a>
+<a class="sourceLine" id="cb390-18" data-line-number="18"><span class="co">#&gt;       J sims          error_est</span></a>
+<a class="sourceLine" id="cb390-19" data-line-number="19"><span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;            &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb390-20" data-line-number="20"><span class="co">#&gt; 1     1 &lt;dbl [1,000]&gt;     0.098</span></a>
+<a class="sourceLine" id="cb390-21" data-line-number="21"><span class="co">#&gt; 2    10 &lt;dbl [1,000]&gt;     0.035</span></a>
+<a class="sourceLine" id="cb390-22" data-line-number="22"><span class="co">#&gt; 3   100 &lt;dbl [1,000]&gt;     0.02 </span></a>
+<a class="sourceLine" id="cb390-23" data-line-number="23"><span class="co">#&gt; 4  1000 &lt;dbl [1,000]&gt;     0.016</span></a>
+<a class="sourceLine" id="cb390-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb390-25" data-line-number="25">tamano_muestra &lt;-<span class="st"> </span><span class="cf">function</span>(J) {</a>
+<a class="sourceLine" id="cb390-26" data-line-number="26">    n_total &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="dv">100</span>, J)</a>
+<a class="sourceLine" id="cb390-27" data-line-number="27">    ee &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">500</span>, <span class="kw">muestreo</span>(<span class="dt">J =</span> J, <span class="dt">n_total =</span> n_total)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb390-28" data-line-number="28"><span class="st">        </span><span class="kw">flatten_dbl</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sd</span>()</a>
+<a class="sourceLine" id="cb390-29" data-line-number="29">    <span class="cf">while</span>(ee <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.02</span>){</a>
+<a class="sourceLine" id="cb390-30" data-line-number="30">        n_total =<span class="st"> </span>n_total <span class="op">+</span><span class="st"> </span><span class="dv">20</span></a>
+<a class="sourceLine" id="cb390-31" data-line-number="31">        ee &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">500</span>, <span class="kw">muestreo</span>(<span class="dt">J =</span> J, <span class="dt">n_total =</span> n_total)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb390-32" data-line-number="32"><span class="st">            </span><span class="kw">flatten_dbl</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb390-33" data-line-number="33"><span class="st">            </span><span class="kw">sd</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb390-34" data-line-number="34"><span class="st">            </span><span class="kw">round</span>(<span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb390-35" data-line-number="35">        }</a>
+<a class="sourceLine" id="cb390-36" data-line-number="36">    <span class="kw">list</span>(<span class="dt">ee =</span> ee, <span class="dt">n_total =</span> n_total, <span class="dt">costo =</span> <span class="dv">500</span> <span class="op">*</span><span class="st"> </span>J <span class="op">+</span><span class="st"> </span><span class="dv">50</span> <span class="op">*</span><span class="st"> </span>n_total)</a>
+<a class="sourceLine" id="cb390-37" data-line-number="37">}</a>
+<a class="sourceLine" id="cb390-38" data-line-number="38">tamanos &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">150</span>)</a>
+<a class="sourceLine" id="cb390-39" data-line-number="39">costos &lt;-<span class="st"> </span><span class="kw">map_df</span>(tamanos, tamano_muestra)</a>
+<a class="sourceLine" id="cb390-40" data-line-number="40">costos<span class="op">$</span>J &lt;-<span class="st"> </span>tamanos</a>
+<a class="sourceLine" id="cb390-41" data-line-number="41">costos</a>
+<a class="sourceLine" id="cb390-42" data-line-number="42"><span class="co">#&gt; # A tibble: 6 x 4</span></a>
+<a class="sourceLine" id="cb390-43" data-line-number="43"><span class="co">#&gt;      ee n_total   costo     J</span></a>
+<a class="sourceLine" id="cb390-44" data-line-number="44"><span class="co">#&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb390-45" data-line-number="45"><span class="co">#&gt; 1 0.02    23000 1160000    20</span></a>
+<a class="sourceLine" id="cb390-46" data-line-number="46"><span class="co">#&gt; 2 0.02     1900  110000    30</span></a>
+<a class="sourceLine" id="cb390-47" data-line-number="47"><span class="co">#&gt; 3 0.02     1100   75000    40</span></a>
+<a class="sourceLine" id="cb390-48" data-line-number="48"><span class="co">#&gt; 4 0.02      940   72000    50</span></a>
+<a class="sourceLine" id="cb390-49" data-line-number="49"><span class="co">#&gt; 5 0.02      580   79000   100</span></a>
+<a class="sourceLine" id="cb390-50" data-line-number="50"><span class="co">#&gt; 6 0.019     550  102500   150</span></a>
+<a class="sourceLine" id="cb390-51" data-line-number="51"><span class="kw">ggplot</span>(costos, <span class="kw">aes</span>(<span class="dt">x =</span> J, <span class="dt">y =</span> costo <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb390-52" data-line-number="52"><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_y_log10</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_minimal</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb390-53" data-line-number="53"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;miles de pesos&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Costos&quot;</span>)</a></code></pre></div>
+<p><img src="98-tareas_files/figure-html/unnamed-chunk-32-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="bootstrap-paramétrico-1" class="section level4 unnumbered">
 <h4>Bootstrap paramétrico</h4>
@@ -429,17 +449,15 @@ Comparalos con la verdadera distribución de <span class="math inline">\(\hat{\t
 vía simulación). ¿Cuál es la aproximación más cercana a la verdadera
 distribución?</p></li>
 </ul>
-
 </div>
 </div>
-<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
 <a href="inferencia-visual-y-simulación-e-modelos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="familias-conjugadas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
