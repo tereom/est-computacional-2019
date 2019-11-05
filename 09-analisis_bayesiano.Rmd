@@ -144,20 +144,25 @@ un águila y compara con la probabilidad de observar un águila condicional a
 que observamos un cambio.
 
 Para entender probabilidad condicional podemos pensar en restringir nuestra 
-atención a una única fila o columna de la tabla. Supongamos que alguien lanza 
-una moneda $3$ veces y nos informa que 
+atención a una única fila o columna de la tabla. 
+
+**Ejemplo.** Supongamos que alguien lanza una moneda $3$ veces y nos informa que 
 la secuencia contiene  exactamente un cambio. Dada esta información podemos
 restringir nuestra atención a la fila correspondiente a un solo cambio. Sabemos
-que ocurrió uno de los eventos de esa fila. Las probabilidades relativas
-de los eventos de esa fila no han cambiado pero sabemos que la probabilidad 
-total debe sumar uno, por lo que simplemente normalizamos dividiendo entre
-$p(C=1)$. En este ejemplo vemos que cuando no sabemos nada acerca del número de 
-cambios, todo lo que sabemos de número de águilas está contenido en la 
+que ocurrió uno de los eventos de esa fila. 
+
+* Las probabilidades relativas de los eventos de esa fila no han cambiado pero
+sabemos que la probabilidad total debe sumar uno, por lo que simplemente
+normalizamos dividiendo entre $p(C=1)$. 
+
+* En este ejemplo, vemos que cuando no sabemos nada acerca del número de 
+cambios, todo lo que sabemos de número de águilas está contenido en la
 distribución marginal de $X$, por otro lado, si sabemos que hubo un cambio 
 entonces sabemos que estamos en los escenarios de la fila correspondiente a un 
-cambio, y calculamos estas probabilidades condicionales. Es así que nos movemos 
-de creencias iniciales (marginal) acerca de $X$ a creecnias posteriores 
-(condicional).
+cambio, y calculamos estas probabilidades condicionales. 
+
+* Es así que nos movemos de creencias iniciales (marginal) acerca de $X$ a
+creecnias posteriores (condicional).
 
 ### Regla de Bayes en modelos y datos {-}
 
@@ -167,6 +172,7 @@ variables fila y columna son datos y parámetros del modelo respectivamente.
 Un modelo especifica la probabilidad de valores particulares dado la estructura
 del modelo y valores de los parámetros. Por ejemplo en un modelo de lanzamientos
 de monedas tenemos 
+
 $$p(x = A|\theta)=\theta$$,
 
 $$p(x = S|\theta)= 1- \theta$$ 
@@ -214,17 +220,18 @@ $$p(\theta|x) \propto p(x|\theta)p(\theta).$$
 
 Supongamos que nos interesa aprender los hábitos alimenticios de los estudiantes
 universitarios en México, y escuchamos que de acuerdo a investigaciones se
-recomienda que un adulto promedio ingiera $2500$ kcal. Es así que buscamos conocer
-que proporción de los estudiantes siguen esta recomendación, para ello 
-tomaremos una muestra aleatoria de estudiantes del ITAM. Denotemos por $\theta$ 
-la proporción de estudiantes que ingieren en un día $2500$ kcal o más. El valor 
-de $\theta$ es desconocido, y desde el punto de vista bayesiano cuando tenemos 
-incertidumbre de algo (puede ser un parámetro o una predicción) lo vemos como 
-una variable aleatoria y por tanto tiene asociada una distribución de 
-probabilidad que actualizaremos conforme obtenemos información (observamos 
-datos).
+recomienda que un adulto promedio ingiera $2500$ kcal. Es así que **buscamos
+conocer que proporción de los estudiantes siguen esta recomendación**, para ello
+tomaremos una muestra aleatoria de estudiantes del ITAM. 
 
-Recordemos que la distribución $p(\theta)$ se conoce como la distribución 
+* Denotemos por $\theta$ la proporción de estudiantes que ingieren en un día
+$2500$ kcal o más. El valor de $\theta$ es desconocido, y desde el punto de 
+vista bayesiano cuando tenemos incertidumbre de algo (puede ser un parámetro o
+una predicción) lo vemos como una variable aleatoria y por tanto tiene asociada
+una distribución de probabilidad que actualizaremos conforme obtenemos 
+información (observamos datos).
+
+1. Recordemos que la distribución $p(\theta)$ se conoce como la distribución 
 _a priori_ y representa nuestras creencias de los posibles valores que puede 
 tomar el parámetro. Supongamos que tras leer artículos y entrevistar
 especialistas consideramos los posibles valores de $\theta$ y les asigmanos 
@@ -235,11 +242,11 @@ library(tidyverse)
 theta <- seq(0.05, 0.95, 0.1)
 pesos.prior <- c(1, 5.2, 8, 7.2, 4.6, 2.1, 0.7, 0.1, 0, 0)
 prior <- pesos.prior/sum(pesos.prior) 
-prior_df <- data_frame(theta, prior = round(prior, 3))
+prior_df <- tibble(theta, prior = round(prior, 3))
 prior_df
 ```
 
-Una vez que cuantificamos nuestro conocimiento (o la falta de este) sobre los 
+2. Una vez que cuantificamos nuestro conocimiento (o la falta de este) sobre los 
 posibles valores que puede tomar $\theta$ especificamos la verosimilitud y la 
 distribución conjunta $p(x, \theta)$, donde $x = (x_1,...,x_N)$ veamos
 la distribución de un estudiante en particular:
@@ -251,11 +258,11 @@ verosimilitud $p(x_1,...,x_N|\theta) = \mathcal{L}(\theta)$:
 $$p(x_1,...,x_N|\theta) = \prod_{n=1}^N p(x_n|\theta)$$
 $$= \theta^z(1 - \theta)^{N-z}$$
 
-donde $z$ denota el número de estudiantes que ingirió al menos $2500$ kcal y $N-z$ 
-el número de estudiantes que ingirió menos de $2500$ kcal. 
+donde $z$ denota el número de estudiantes que ingirió al menos $2500$ kcal y 
+$N-z$ el número de estudiantes que ingirió menos de $2500$ kcal. 
 
-Ahora calculamos la distribución posterior de $\theta$ 
-usando la regla de Bayes:
+3. Ahora calculamos la __distribución posterior__ de $\theta$ usando la regla de
+Bayes:
 
 $$p(\theta|x) = \frac{p(x_1,...,x_N,\theta)}{p(x)}$$
 $$\propto  p(\theta)\mathcal{L}(\theta)$$
@@ -267,6 +274,7 @@ normalizar la distribución posterior asegurando que tengamos una distribución
 de probabilidad.
 
 #### Inicial discreta {-}
+
 Volviendo a nuestro ejemplo, usamos la inicial discreta que discutimos (tabla 
 de pesos normalizados) y supongamos que tomamos una muestra de $30$ alumnos de 
 los cuales $z=11$ ingieren al menos $2500$ kcal, calculemos la distribución 
@@ -305,19 +313,19 @@ ggplot(dists_l, aes(x = theta, y = val)) +
   labs(x = expression(theta), y = expression(p(theta))) 
 ```
 
-![](img/manicule2.jpg) ¿Cómo se ve la distribución posterior si tomamos 
-una muestra de tamaño $90$ donde observamos la misma proporción de éxitos. 
+![](img/manicule2.jpg) ¿Cómo se ve la distribución posterior si tomamos una muestra de tamaño $90$ donde observamos la misma proporción de éxitos. 
 Realiza los cálculos y graficala como un panel adicional de la gráfica 
 anterior.
 
 * ¿Cómo definirías la distribución inicial si no tuvieras conocimiento de los
 artículos y expertos?
 
+
 #### Evidencia {-}
+
 Ahora, en el teorema de Bayes también encontramos el término $p(x)$ que 
 denominamos la __evidencia__, también se conoce como verosimilitud
-marginal o inicial predictiva. 
-$$p(\theta|x)=\frac{p(x|\theta)p(\theta)}{p(x)}$$
+marginal. 
 
 La evidencia es la probabilidad de los datos de acuerdo al modelo y se calcula
 sumando a lo largo de todos los posibles valores de los parámetros y ponderando
@@ -342,6 +350,9 @@ $$\frac{p(M_1|x)}{p(M_2|x)} = \frac{p(x|M_1) \cdot p(M_1)}{p(x|M_2)\cdot p(M_2)}
 
 El cociente de evidencia $\frac{p(x|M_1)}{p(x|M_2)}$ se conoce como __factor de
 Bayes__, y $p(M_i)$ describe nuestras creencias iniciales en cada modelo.
+
+La evidencia y el factor de Bayes no son muy usados en la práctica pero los 
+vemos por su valor conceptual.
 
 
 #### Invarianza en el orden de los datos {-}
@@ -393,7 +404,7 @@ $p(\theta = 0.25) = 0.25$, $p(\theta = 0.5) = 0.5$ y $p(\theta = 0.75) = 0.25$
 
 ```{r}
 theta <- c(0.25, 0.5, 0.75)
-prior <- data_frame(theta, p = c(0.25, 0.5, 0.25))
+prior <- tibble(theta, p = c(0.25, 0.5, 0.25))
 ```
 
 El siguiente paso es recolectar los datos y utilizar la regla de Bayes para 
@@ -411,6 +422,7 @@ post
 ```
 
 ### Objetivos de la inferencia {-}
+
 Los tres objetivos de la inferencia son: estimación de parámetros, predicción
 de valores y comparación de modelos.
 
@@ -424,13 +436,13 @@ en $12$ éxitos o águilas.
 
 ```{r, fig.height=2.8, fig.width=7.3, results="hold", echo = FALSE}
 # Modelo 1, 3 posibles valores
-p_M1 <- data_frame(theta = c(0.25, 0.5, 0.75), prior = c(0.25, 0.5, 0.25), 
-  modelo ="M1")
+p_M1 <- tibble(theta = c(0.25, 0.5, 0.75), prior = c(0.25, 0.5, 0.25), 
+    modelo = "M1")
 
 # Modelo 2, Creamos una inicial que puede tomar más valores
 p <- seq(0, 24, 1)
 p2 <- c(p, 24, sort(p, decreasing = TRUE))
-p_M2 <- data_frame(theta = seq(0, 1, 0.02), prior = p2 / sum(p2), 
+p_M2 <- tibble(theta = seq(0, 1, 0.02), prior = p2 / sum(p2), 
   modelo = "M2")
 
 N <- 20 # estudiantes
@@ -463,16 +475,16 @@ ggplot(filter(dists, modelo == "M2"), aes(x = theta, y = valor)) +
 
 2. **Predicción** de valores. Usando nuestro conocimiento actual nos interesa
 predecir la probabilidad de datos futuros. La probabilidad predictiva de un 
-dato $y$ (no observado) se determina promediando las probabilidades predictivas 
+dato $\tilde{y}$ (no observado) se determina promediando las probabilidades predictivas 
 de los datos a lo largo de todos los posibles valores de los parámetros y 
 ponderados por la creencia en los valores de los parámetros. Cuando solo 
 contamos con nuestro conocimiento incial tendríamos:
-$$p(y) =\int p(y|\theta)p(\theta)d\theta$$
+$$p(\tilde{y}) =\int p(y|\theta)p(\theta)d\theta$$
 Notese que la ecuación anterior coincide con la correspondiente a la evidencia, 
 con la diferencia de que la evidencia se refiere a un valor observado y en 
 esta ecuación estamos calculando la probabilidad de cualquier valor $y$.  
-Una vez que obserbamos datos tenemos la distribución predictiva posterior:
-$$p(y|x) =\int p(y|\theta)p(\theta|x)d\theta$$
+Una vez que observamos datos tenemos la distribución predictiva posterior:
+$$p(\tilde{y}|x) =\int p(y|\theta)p(\theta|x)d\theta$$
 Por ejemplo podemos usar las creencias iniciales del modelo $1$, que propusimos 
 arriba para calcular la probabilidad predictiva de observar águila:
 
@@ -505,9 +517,9 @@ dists_h %>%
   summarise(A = sum(theta * prior))
 ```
 
-3. **Comparación de modelos**, una caracterítica conveniente de la comparación 
-de modelos en estadística bayesiana es que la complejidad del modelo se toma
-en cuenta de manera automática. 
+3. **Comparación de modelos**, cuando comparamos modelos usando el factor de 
+Bayes, una caracterítica conveniente en estadística bayesiana es que la
+complejidad del modelo se toma en cuenta de manera automática. 
 
 Recordemos los dos modelos discretos, en el primero supusimos que el parámetro
 $\theta$ únicamente puede tomar uno de $3$ valores $(0.25, 0.5, 0.75)$, esta 
@@ -521,13 +533,13 @@ Podemos calcular el factor de Bayes para distintos datos observados:
 
 ```{r}
 # Modelo 1, 3 posibles valores
-p_M1 <- data_frame(theta = c(0.25, 0.5, 0.75), prior = c(0.25, 0.5, 0.25), 
-  modelo ="M1")
+p_M1 <- tibble(theta = c(0.25, 0.5, 0.75), prior = c(0.25, 0.5, 0.25), 
+  modelo = "M1")
 
 # Modelo 2, Creamos una inicial que puede tomar más valores
 p <- seq(0, 24, 1)
 p2 <- c(p, 24, sort(p, decreasing = TRUE))
-p_M2 <- data_frame(theta = seq(0, 1, 0.02), prior = p2 / sum(p2), 
+p_M2 <- tibble(theta = seq(0, 1, 0.02), prior = p2 / sum(p2), 
   modelo = "M2")
 
 N <- 20 # estudiantes
@@ -575,12 +587,13 @@ observados resultan en valores de $\theta$ congruentes con el modelo simple,
 creeríamos en el modelo simple más que en el modelo más complicado.
 -->
 
-La evidencia de un modelo $p(x|M)$ no dice mucho por si misma, si no que es mas
+La evidencia de un modelo $p(x|M)$ no dice mucho por si misma, es más
 relevante en el contexto del **factor de Bayes** (la evidencia relativa de dos 
 modelos). Es importante recordar que la comparación de modelos nos habla 
 únicamente de la evidencia relativa de un modelo; sin embargo, puede que
 ninguno de los modelos que estamos considerando sean adecuados para nuestros
-datos, por lo que más adelante estudiaremos maneras de evaluar un modelo.
+datos, por lo que más adelante **estudiaremos otras maneras de evaluar un 
+modelo**. 
 
 
 ### Cálculo de la distribución posterior {-}
@@ -611,13 +624,13 @@ que ha propiciado el desarrollo de la estadística bayesiana en años recientes.
 
 ### Ejemplo: Bernoulli {-}
 
-Comenzaremos con el modelo Beta-Binomial. Recordemos que si $X$ en un experimento 
-con dos posibles resultados, $X$ se distribuye Bernoulli y la función de 
-probabilidad esta definida por:
+Comenzaremos con el modelo Beta-Binomial. Recordemos que si $X$ en un 
+experimento con dos posibles resultados, $X$ se distribuye Bernoulli y la 
+función de probabilidad esta definida por:
 
 $$p(x|\theta)=\theta^x(1-\theta)^{1-x}$$
 
-Ahora, si lanzamos una moneda $N$ veces tenemos un conjunto de datos 
+si lanzamos una moneda $N$ veces tenemos un conjunto de datos 
 $\{x_1,...,x_N\}$, suponemos que los lanzamientos son independientes por lo 
 que la probabilidad de observar el conjunto de $N$ lanzamientos es el 
 producto de las probabilidades para cada observación:
@@ -627,13 +640,18 @@ $$= \theta^z(1 - \theta)^{N-z}$$
 
 donde $z$ denota el número de éxitos (águilas).
 
-Ahora, en principio para describir nuestras creencias iniciales podríamos usar
-cualquier función de densidad con soporte en $[0, 1]$, sin embargo, sería
-conveniente que el producto $p(x|\theta)p(\theta)$ (el numerador de la fórmula 
-de Bayes)
-resulte en una función con la misma forma que $p(\theta)$. Cuando este es el 
-caso, las creencias inicial y posterior se describen con la misma distribución.
-Esto es conveninte pues si obtenemos nueva información podemos actualizar 
+Ahora, 
+
+* en principio para describir nuestras creencias iniciales podríamos usar
+cualquier función de densidad con soporte en $[0, 1]$, 
+
+* sin embargo, sería conveniente que el producto $p(x|\theta)p(\theta)$ (el numerador de la fórmula de Bayes) resulte en una función con la misma forma que
+$p(\theta)$. 
+
+* Cuando este es el caso, las creencias inicial y posterior se describen con la
+misma distribución.
+
+* Esto es conveninte pues si obtenemos nueva información podemos actualizar 
 nuestro conocimiento de manera inmediata, conservando la forma de las 
 distribuciones.
 
@@ -644,7 +662,6 @@ forma) que la distribución inicial, entonces decimos que $p(\theta)$ es
 **conjugada** para $p(x|\theta)$. 
 </div>
 
-<br/>
 Vale la pena notar que la inicial es conjugada únicamente respecto a una 
 función de verosimilitud particular.
 
@@ -654,7 +671,9 @@ $$p(\theta) = \frac {\theta^{a-1}(1-\theta)^{b-1}}{B(a,b)}$$
 
 Para describir nuestro conocimiento inicial podemos explorar la media y 
 desviación estándar de la distribución beta, la media es 
+
 $$\bar{\theta} = a/(a+b)$$
+
 por lo que si $a=b$ la media es $0.5$ y conforme 
 aumenta $a$ en relación a $b$ aumenta la media. La desviación estándar es
 
@@ -705,7 +724,7 @@ valores numéricos como la media.
 library(gridExtra)
 
 N = 14; z = 11; a = 1; b = 1
-base <- ggplot(data_frame(x = c(0, 1)), aes(x)) 
+base <- ggplot(tibble(x = c(0, 1)), aes(x)) 
 
 p1 <- base +
     stat_function(fun = dbeta, args = list(shape1 = a, shape2 = b), 
@@ -1008,7 +1027,7 @@ for(j in 2:pasos){
   camino[j] <- caminaIsla(camino[j - 1])
 }
 
-caminata <- data_frame(pasos = 1:pasos, isla = camino)
+caminata <- tibble(pasos = 1:pasos, isla = camino)
 
 plot_caminata <- ggplot(caminata[1: 1000, ], aes(x = pasos, y = isla)) +
   geom_point(size = 0.8) +
