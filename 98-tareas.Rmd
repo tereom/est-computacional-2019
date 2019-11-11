@@ -916,6 +916,7 @@ Una compañía farmacéutica afirma que su nueva medicina incrementa la
 probabilidad de concebir un niño (sexo masculino), pero aún no publican 
 estudios. Supón que conduces un experimento en el cual $50$ parejas se 
 seleccionan de manera aleatoria de la población, toman la medicina y conciben.
+Nacen 30 niños y 20 niñas.
 
 a) Quieres estimar la probabilidad de concebir un niño para parejas que 
 toman la medicina. ¿Cuál es una inicial apropiada? No tiene que estar centrada
