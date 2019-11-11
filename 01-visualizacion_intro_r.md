@@ -1,7 +1,4 @@
 
-
-
-
 # Principios visualización
 
 > "The simple graph has brought more information to the data analyst’s mind 
@@ -18,7 +15,7 @@ encontramos rápidamente que los conjuntos de datos son muy distintos.
 
 <div style= "float:left;top:-10px;width:500px;">
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" />
 
 </div>
 
@@ -328,7 +325,7 @@ de radiación solar y niveles de ozono. Podemos ver que si incluimos
 una variable adicional (velocidad del viento) podemos entender más
 acerca de la relación de radiación solar y niveles de ozono:
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-10-1.png" width="576" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-8-1.png" width="576" style="display: block; margin: auto;" />
 
 
 ## Tinta de datos
@@ -575,7 +572,7 @@ print(read_csv)
 #>         comment = comment, n_max = n_max, guess_max = guess_max, 
 #>         progress = progress)
 #> }
-#> <bytecode: 0x9775138>
+#> <bytecode: 0xa746bc8>
 #> <environment: namespace:readr>
 
 library(readr)
@@ -593,7 +590,7 @@ print(read_csv)
 #>         comment = comment, n_max = n_max, guess_max = guess_max, 
 #>         progress = progress)
 #> }
-#> <bytecode: 0x9775138>
+#> <bytecode: 0xa746bc8>
 #> <environment: namespace:readr>
 ```
 
@@ -794,7 +791,7 @@ ggplot(election_sub_2012, aes(x = reorder(state_abbr, prd_pt_mc),
     geom_point(size = 0.8)
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-16-1.png" width="576" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-14-1.png" width="576" style="display: block; margin: auto;" />
 
 Podemos probar otros geoms.
 
@@ -826,7 +823,7 @@ ggplot(election_sub_2012, aes(x = reorder(state_abbr, prd_pt_mc),
     geom_boxplot()
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-17-1.png" width="576" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-15-1.png" width="576" style="display: block; margin: auto;" />
 
 Y mejorar presentación:
 
@@ -841,7 +838,7 @@ ggplot(election_sub_2012, aes(x = reorder(state_abbr, prd_pt_mc),
         subtitle = "PRD-PT-MC", x = "estado", y = "total de votos")
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-18-1.png" width="576" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-16-1.png" width="576" style="display: block; margin: auto;" />
 
 
 ![](img/manicule2.jpg) Lee la ayuda de _reorder_ y repite las gráficas 
@@ -868,7 +865,7 @@ ggplot(election_sub_2012, aes(x = reorder(state_abbr, pri_pvem_pct, median),
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-19-1.png" width="624" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-17-1.png" width="624" style="display: block; margin: auto;" />
 
 Podemos eliminar los NA. Veremos la función `filter()` en la próxima sesión.
 
@@ -881,7 +878,7 @@ ggplot(filter(election_sub_2012, !is.na(section_type)),
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-20-1.png" width="768" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-18-1.png" width="768" style="display: block; margin: auto;" />
 
 También podemos hacer una cuadrícula de $2$ dimensiones usando 
 `facet\_grid(filas~columnas)`
@@ -905,7 +902,7 @@ ggplot(election_region_2012, aes(x = reorder(party, prop_votes),
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-21-1.png" width="480" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-19-1.png" width="480" style="display: block; margin: auto;" />
 
 Los páneles pueden ser muy útiles para entender relaciones en nuestros datos. En 
 la siguiente gráfica es difícil entender si existe una relación entre radiación
@@ -919,7 +916,7 @@ ggplot(airquality, aes(x = Solar.R, y = Ozone)) +
 #> Warning: Removed 42 rows containing missing values (geom_point).
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-22-1.png" width="384" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-20-1.png" width="384" style="display: block; margin: auto;" />
 
 Veamos que ocurre si realizamos páneles separando por velocidad del viento.
 
@@ -932,7 +929,7 @@ ggplot(airquality, aes(x = Solar.R, y = Ozone)) +
   facet_wrap(~ Wind.cat)
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" />
 
 Podemos agregar un suavizador (loess) para ver mejor la relación de las 
 variables en cada panel.
@@ -945,7 +942,7 @@ ggplot(airquality, aes(x = Solar.R, y = Ozone)) +
   geom_smooth(method = "lm")
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" />
 
 Como vimos en el caso de los resultados electorales por región, en ocasiones es 
 necesario realizar transformaciones u obtener subconjuntos de los datos para 
@@ -975,7 +972,7 @@ ggplot(babynames_John, aes(x = year, y = prop)) +
   geom_line()
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-26-1.png" width="480" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-24-1.png" width="480" style="display: block; margin: auto;" />
 
 
 ```r
@@ -983,7 +980,7 @@ ggplot(babynames_John, aes(x = year, y = prop, color = sex)) +
   geom_line()
 ```
 
-<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-27-1.png" width="480" style="display: block; margin: auto;" />
+<img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-25-1.png" width="480" style="display: block; margin: auto;" />
 
 La preparación de los datos es un aspecto muy importante del análisis y suele 
 ser la fase que lleva más tiempo. Es por ello que el siguiente tema se enfocará 

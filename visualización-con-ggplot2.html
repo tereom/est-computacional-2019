@@ -56,12 +56,12 @@
 <link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
 <script src="libs/highlight-6.2.0/highlight.js"></script>
 <script src="libs/profvis-binding-0.3.6/profvis.js"></script>
-<script src="libs/plotly-binding-4.9.0/plotly.js"></script>
+<script src="libs/plotly-binding-4.9.1/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
 <link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
 <script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
-<link href="libs/plotly-htmlwidgets-css-1.46.1/plotly-htmlwidgets.css" rel="stylesheet" />
-<script src="libs/plotly-main-1.46.1/plotly-latest.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.49.4/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.49.4/plotly-latest.min.js"></script>
 
 
 <style type="text/css">
@@ -473,7 +473,7 @@ escalamiento para algunos atributos son (los escalamientos se pueden modificar):
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(state_abbr, prd_pt_mc), </a>
 <a class="sourceLine" id="cb13-2" data-line-number="2">    <span class="dt">y =</span> prd_pt_mc)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb13-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="fl">0.8</span>)</a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-16-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-14-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Podemos probar otros geoms.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(state_abbr, prd_pt_mc), </a>
 <a class="sourceLine" id="cb14-2" data-line-number="2">    <span class="dt">y =</span> prd_pt_mc)) <span class="op">+</span></a>
@@ -489,7 +489,7 @@ escalamiento para algunos atributos son (los escalamientos se pueden modificar):
 <a class="sourceLine" id="cb16-2" data-line-number="2">    <span class="dt">y =</span> prd_pt_mc)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb16-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">size =</span> <span class="fl">0.8</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb16-4" data-line-number="4"><span class="st">    </span><span class="kw">geom_boxplot</span>()</a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-17-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-15-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Y mejorar presentación:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">ggplot</span>(election_sub_<span class="dv">2012</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(state_abbr, prd_pt_mc), </a>
 <a class="sourceLine" id="cb17-2" data-line-number="2">    <span class="dt">y =</span> prd_pt_mc)) <span class="op">+</span></a>
@@ -498,7 +498,7 @@ escalamiento para algunos atributos son (los escalamientos se pueden modificar):
 <a class="sourceLine" id="cb17-5" data-line-number="5"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">hjust =</span> <span class="dv">1</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb17-6" data-line-number="6"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Votos por casilla y estado&quot;</span>, </a>
 <a class="sourceLine" id="cb17-7" data-line-number="7">        <span class="dt">subtitle =</span> <span class="st">&quot;PRD-PT-MC&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;estado&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;total de votos&quot;</span>)</a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-18-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-16-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p><img src="img/manicule2.jpg" /> Lee la ayuda de <em>reorder</em> y repite las gráficas
 anteriores ordenando por la mediana de <em>prd_pt_mc</em>.</p>
 <ul>
@@ -518,14 +518,14 @@ de acuerdo a las categorías de una sola variable</p>
 <a class="sourceLine" id="cb18-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb18-4" data-line-number="4"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>section_type) <span class="op">+</span></a>
 <a class="sourceLine" id="cb18-5" data-line-number="5"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-19-1.png" width="624" style="display: block; margin: auto;" /></p>
+<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-17-1.png" width="624" style="display: block; margin: auto;" /></p>
 <p>Podemos eliminar los NA. Veremos la función <code>filter()</code> en la próxima sesión.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">filter</span>(election_sub_<span class="dv">2012</span>, <span class="op">!</span><span class="kw">is.na</span>(section_type)), </a>
 <a class="sourceLine" id="cb19-2" data-line-number="2">    <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(state_abbr, pri_pvem_pct, median), <span class="dt">y =</span> pri_pvem_pct)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb19-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb19-4" data-line-number="4"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>section_type) <span class="op">+</span></a>
 <a class="sourceLine" id="cb19-5" data-line-number="5"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-20-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-18-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>También podemos hacer una cuadrícula de <span class="math inline">\(2\)</span> dimensiones usando
 <code>facet\_grid(filas~columnas)</code></p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="co"># Veremos como manipular datos en las próximas clases</span></a>
@@ -543,7 +543,7 @@ de acuerdo a las categorías de una sola variable</p>
 <a class="sourceLine" id="cb20-13" data-line-number="13"><span class="st">    </span><span class="kw">geom_col</span>(<span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb20-14" data-line-number="14"><span class="st">    </span><span class="kw">facet_grid</span>(region <span class="op">~</span><span class="st"> </span>section_type) <span class="op">+</span></a>
 <a class="sourceLine" id="cb20-15" data-line-number="15"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">hjust =</span> <span class="dv">1</span>)) </a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-21-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-19-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>Los páneles pueden ser muy útiles para entender relaciones en nuestros datos. En
 la siguiente gráfica es difícil entender si existe una relación entre radiación
 solar y ozono.</p>
@@ -551,21 +551,21 @@ solar y ozono.</p>
 <a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb21-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>() </a>
 <a class="sourceLine" id="cb21-4" data-line-number="4"><span class="co">#&gt; Warning: Removed 42 rows containing missing values (geom_point).</span></a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-22-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-20-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>Veamos que ocurre si realizamos páneles separando por velocidad del viento.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">library</span>(Hmisc)</a>
 <a class="sourceLine" id="cb22-2" data-line-number="2">airquality<span class="op">$</span>Wind.cat &lt;-<span class="st"> </span><span class="kw">cut2</span>(airquality<span class="op">$</span>Wind, <span class="dt">g =</span> <span class="dv">3</span>) </a>
 <a class="sourceLine" id="cb22-3" data-line-number="3"><span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb22-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb22-5" data-line-number="5"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Wind.cat)</a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Podemos agregar un suavizador (loess) para ver mejor la relación de las
 variables en cada panel.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb23-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb23-3" data-line-number="3"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Wind.cat) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb23-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Como vimos en el caso de los resultados electorales por región, en ocasiones es
 necesario realizar transformaciones u obtener subconjuntos de los datos para
 poder responder preguntas de nuestro interés.</p>
@@ -584,10 +584,10 @@ generar un subconjunto de la base de datos. ¿Qué ocurre en la siguiente gráfi
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">babynames_John &lt;-<span class="st"> </span><span class="kw">filter</span>(babynames, name <span class="op">==</span><span class="st"> &quot;Teresa&quot;</span>)</a>
 <a class="sourceLine" id="cb25-2" data-line-number="2"><span class="kw">ggplot</span>(babynames_John, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> prop)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb25-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_line</span>()</a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-26-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-24-1.png" width="480" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">ggplot</span>(babynames_John, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> prop, <span class="dt">color =</span> sex)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb26-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_line</span>()</a></code></pre></div>
-<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-27-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-25-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>La preparación de los datos es un aspecto muy importante del análisis y suele
 ser la fase que lleva más tiempo. Es por ello que el siguiente tema se enfocará
 en herramientas para hacer transformaciones de manera eficiente.</p>
