@@ -572,7 +572,7 @@ print(read_csv)
 #>         comment = comment, n_max = n_max, guess_max = guess_max, 
 #>         progress = progress)
 #> }
-#> <bytecode: 0xa746bc8>
+#> <bytecode: 0x84f47e8>
 #> <environment: namespace:readr>
 
 library(readr)
@@ -590,7 +590,7 @@ print(read_csv)
 #>         comment = comment, n_max = n_max, guess_max = guess_max, 
 #>         progress = progress)
 #> }
-#> <bytecode: 0xa746bc8>
+#> <bytecode: 0x84f47e8>
 #> <environment: namespace:readr>
 ```
 
