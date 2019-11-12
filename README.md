@@ -1,7 +1,7 @@
 
 [![Build Status](https://travis-ci.org/tereom/est-computacional-2019.svg?branch=master)](https://travis-ci.org/tereom/est-computacional-2019)
 
-Class notes in Spanish for the computational statistics class (the notes build [this](https://tereom.github.io/est-computacional-2019/) bookdown) for master students in Data Science.
+Class notes in Spanish for the computational statistics class for master students in Data Science, the code in this repository builds [this](https://tereom.github.io/est-computacional-2019/) bookdown.
 
 ## Estadística computacional
 
