@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>6.1 El principio del plug-in | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
-  <meta name="generator" content="bookdown 0.14.1 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.15.1 and GitBook 2.6.7" />
 
   <meta property="og:title" content="6.1 El principio del plug-in | Estadística Computacional" />
   <meta property="og:type" content="book" />
@@ -153,8 +153,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#calificación"><i class="fa fa-check"></i>Calificación</a></li>
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#software"><i class="fa fa-check"></i>Software</a></li>
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#otros-recursos"><i class="fa fa-check"></i>Otros recursos</a></li>
-<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#noticias"><i class="fa fa-check"></i>Noticias</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="noticias.html"><a href="noticias.html"><i class="fa fa-check"></i>Noticias</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="principios-visualización.html"><a href="principios-visualización.html"><i class="fa fa-check"></i><b>1</b> Principios visualización</a><ul>
 <li class="chapter" data-level="1.1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>1.1</b> Introducción</a><ul>
@@ -305,9 +305,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.6" data-path="metrópolis.html"><a href="metrópolis.html"><i class="fa fa-check"></i><b>10.6</b> Metrópolis</a><ul>
 <li class="chapter" data-level="" data-path="metrópolis.html"><a href="metrópolis.html#inferencia-de-dos-proporciones-binomiales"><i class="fa fa-check"></i>Inferencia de dos proporciones binomiales</a></li>
 </ul></li>
-<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a><ul>
-<li class="chapter" data-level="" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#conclusiones-y-observaciones-metrópolis-y-gibbs"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
-</ul></li>
+<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a></li>
+<li class="chapter" data-level="" data-path="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><a href="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -324,6 +323,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="inferencia-visual-y-simulación-e-modelos.html"><a href="inferencia-visual-y-simulación-e-modelos.html"><i class="fa fa-check"></i>9. Inferencia visual y simulación e modelos</a></li>
 <li class="chapter" data-level="" data-path="simulación-muestra-y-bootstrap-paramétrico.html"><a href="simulación-muestra-y-bootstrap-paramétrico.html"><i class="fa fa-check"></i>10. Simulación muestra y bootstrap paramétrico</a></li>
 <li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>11-Familias conjugadas</a></li>
+<li class="chapter" data-level="" data-path="metropolis-1.html"><a href="metropolis-1.html"><i class="fa fa-check"></i>12-Metropolis</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -410,14 +410,14 @@ del Estado de México, de un universo de 7,518 escuelas,</p>
 <a class="sourceLine" id="cb176-10" data-line-number="10"><span class="kw">glimpse</span>(enlace)</a>
 <a class="sourceLine" id="cb176-11" data-line-number="11"><span class="co">#&gt; Observations: 7,518</span></a>
 <a class="sourceLine" id="cb176-12" data-line-number="12"><span class="co">#&gt; Variables: 8</span></a>
-<a class="sourceLine" id="cb176-13" data-line-number="13"><span class="co">#&gt; $ id       &lt;int&gt; 38570, 38571, 38572, 38573, 38574, 38575, 38576, 38577,…</span></a>
-<a class="sourceLine" id="cb176-14" data-line-number="14"><span class="co">#&gt; $ cve_ent  &lt;chr&gt; &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;…</span></a>
-<a class="sourceLine" id="cb176-15" data-line-number="15"><span class="co">#&gt; $ turno    &lt;chr&gt; &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTI…</span></a>
-<a class="sourceLine" id="cb176-16" data-line-number="16"><span class="co">#&gt; $ tipo     &lt;chr&gt; &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGE…</span></a>
-<a class="sourceLine" id="cb176-17" data-line-number="17"><span class="co">#&gt; $ esp_3    &lt;dbl&gt; 550, 485, 462, 646, 508, 502, 570, 441, 597, 648, 535, …</span></a>
-<a class="sourceLine" id="cb176-18" data-line-number="18"><span class="co">#&gt; $ esp_6    &lt;dbl&gt; 483, 490, 385, 613, 452, 500, 454, 427, 582, 614, 443, …</span></a>
-<a class="sourceLine" id="cb176-19" data-line-number="19"><span class="co">#&gt; $ n_eval_3 &lt;dbl&gt; 13, 17, 9, 33, 26, 10, 65, 82, 132, 16, 16, 6, 10, 27, …</span></a>
-<a class="sourceLine" id="cb176-20" data-line-number="20"><span class="co">#&gt; $ n_eval_6 &lt;dbl&gt; 19, 18, 9, 26, 35, 13, 49, 78, 110, 18, 9, 2, 12, 34, 9…</span></a>
+<a class="sourceLine" id="cb176-13" data-line-number="13"><span class="co">#&gt; $ id       &lt;int&gt; 38570, 38571, 38572, 38573, 38574, 38575, 38576, 38577, 3857…</span></a>
+<a class="sourceLine" id="cb176-14" data-line-number="14"><span class="co">#&gt; $ cve_ent  &lt;chr&gt; &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, …</span></a>
+<a class="sourceLine" id="cb176-15" data-line-number="15"><span class="co">#&gt; $ turno    &lt;chr&gt; &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, …</span></a>
+<a class="sourceLine" id="cb176-16" data-line-number="16"><span class="co">#&gt; $ tipo     &lt;chr&gt; &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, …</span></a>
+<a class="sourceLine" id="cb176-17" data-line-number="17"><span class="co">#&gt; $ esp_3    &lt;dbl&gt; 550, 485, 462, 646, 508, 502, 570, 441, 597, 648, 535, 430, …</span></a>
+<a class="sourceLine" id="cb176-18" data-line-number="18"><span class="co">#&gt; $ esp_6    &lt;dbl&gt; 483, 490, 385, 613, 452, 500, 454, 427, 582, 614, 443, 562, …</span></a>
+<a class="sourceLine" id="cb176-19" data-line-number="19"><span class="co">#&gt; $ n_eval_3 &lt;dbl&gt; 13, 17, 9, 33, 26, 10, 65, 82, 132, 16, 16, 6, 10, 27, 10, 1…</span></a>
+<a class="sourceLine" id="cb176-20" data-line-number="20"><span class="co">#&gt; $ n_eval_6 &lt;dbl&gt; 19, 18, 9, 26, 35, 13, 49, 78, 110, 18, 9, 2, 12, 34, 9, 6, …</span></a>
 <a class="sourceLine" id="cb176-21" data-line-number="21"><span class="kw">set.seed</span>(<span class="dv">16021</span>)</a>
 <a class="sourceLine" id="cb176-22" data-line-number="22">n &lt;-<span class="st"> </span><span class="dv">300</span></a>
 <a class="sourceLine" id="cb176-23" data-line-number="23"><span class="co"># muestra</span></a>
@@ -751,6 +751,7 @@ distribución empírica a falta de la distribución poblacional.</p></li>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
+"github": false,
 "facebook": true,
 "twitter": true,
 "linkedin": false,
@@ -769,6 +770,10 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>6.5 Bootstrap en R | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
-  <meta name="generator" content="bookdown 0.14.1 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.15.1 and GitBook 2.6.7" />
 
   <meta property="og:title" content="6.5 Bootstrap en R | Estadística Computacional" />
   <meta property="og:type" content="book" />
@@ -153,8 +153,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#calificación"><i class="fa fa-check"></i>Calificación</a></li>
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#software"><i class="fa fa-check"></i>Software</a></li>
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#otros-recursos"><i class="fa fa-check"></i>Otros recursos</a></li>
-<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#noticias"><i class="fa fa-check"></i>Noticias</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="noticias.html"><a href="noticias.html"><i class="fa fa-check"></i>Noticias</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="principios-visualización.html"><a href="principios-visualización.html"><i class="fa fa-check"></i><b>1</b> Principios visualización</a><ul>
 <li class="chapter" data-level="1.1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>1.1</b> Introducción</a><ul>
@@ -305,9 +305,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.6" data-path="metrópolis.html"><a href="metrópolis.html"><i class="fa fa-check"></i><b>10.6</b> Metrópolis</a><ul>
 <li class="chapter" data-level="" data-path="metrópolis.html"><a href="metrópolis.html#inferencia-de-dos-proporciones-binomiales"><i class="fa fa-check"></i>Inferencia de dos proporciones binomiales</a></li>
 </ul></li>
-<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a><ul>
-<li class="chapter" data-level="" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#conclusiones-y-observaciones-metrópolis-y-gibbs"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
-</ul></li>
+<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a></li>
+<li class="chapter" data-level="" data-path="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><a href="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -324,6 +323,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="inferencia-visual-y-simulación-e-modelos.html"><a href="inferencia-visual-y-simulación-e-modelos.html"><i class="fa fa-check"></i>9. Inferencia visual y simulación e modelos</a></li>
 <li class="chapter" data-level="" data-path="simulación-muestra-y-bootstrap-paramétrico.html"><a href="simulación-muestra-y-bootstrap-paramétrico.html"><i class="fa fa-check"></i>10. Simulación muestra y bootstrap paramétrico</a></li>
 <li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>11-Familias conjugadas</a></li>
+<li class="chapter" data-level="" data-path="metropolis-1.html"><a href="metropolis-1.html"><i class="fa fa-check"></i>12-Metropolis</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -363,23 +363,23 @@ identificador del número y tipo de muestra.</li>
 <a class="sourceLine" id="cb230-3" data-line-number="3">muestra_computos &lt;-<span class="st"> </span><span class="kw">sample_n</span>(election_<span class="dv">2012</span>, <span class="dv">10000</span>)</a>
 <a class="sourceLine" id="cb230-4" data-line-number="4">muestra_computos</a>
 <a class="sourceLine" id="cb230-5" data-line-number="5"><span class="co">#&gt; # A tibble: 10,000 x 23</span></a>
-<a class="sourceLine" id="cb230-6" data-line-number="6"><span class="co">#&gt;    state_code state_name state_abbr district_loc_17 district_fed_17</span></a>
-<a class="sourceLine" id="cb230-7" data-line-number="7"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;                &lt;int&gt;           &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb230-8" data-line-number="8"><span class="co">#&gt;  1 27         Tabasco    TAB                      5               5</span></a>
-<a class="sourceLine" id="cb230-9" data-line-number="9"><span class="co">#&gt;  2 15         México     MEX                     32              24</span></a>
-<a class="sourceLine" id="cb230-10" data-line-number="10"><span class="co">#&gt;  3 09         Ciudad de… CDMX                    20              17</span></a>
-<a class="sourceLine" id="cb230-11" data-line-number="11"><span class="co">#&gt;  4 21         Puebla     PUE                     16              12</span></a>
-<a class="sourceLine" id="cb230-12" data-line-number="12"><span class="co">#&gt;  5 12         Guerrero   GRO                     17               1</span></a>
-<a class="sourceLine" id="cb230-13" data-line-number="13"><span class="co">#&gt;  6 30         Veracruz   VER                      8               7</span></a>
-<a class="sourceLine" id="cb230-14" data-line-number="14"><span class="co">#&gt;  7 11         Guanajuato GTO                     18               7</span></a>
-<a class="sourceLine" id="cb230-15" data-line-number="15"><span class="co">#&gt;  8 12         Guerrero   GRO                      4               4</span></a>
-<a class="sourceLine" id="cb230-16" data-line-number="16"><span class="co">#&gt;  9 30         Veracruz   VER                     25              19</span></a>
-<a class="sourceLine" id="cb230-17" data-line-number="17"><span class="co">#&gt; 10 15         México     MEX                     29              15</span></a>
-<a class="sourceLine" id="cb230-18" data-line-number="18"><span class="co">#&gt; # … with 9,990 more rows, and 18 more variables: polling_id &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb230-19" data-line-number="19"><span class="co">#&gt; #   section &lt;int&gt;, region &lt;chr&gt;, polling_type &lt;chr&gt;, section_type &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb230-20" data-line-number="20"><span class="co">#&gt; #   pri_pvem &lt;int&gt;, pan &lt;int&gt;, panal &lt;int&gt;, prd_pt_mc &lt;int&gt;, otros &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb230-21" data-line-number="21"><span class="co">#&gt; #   total &lt;int&gt;, nominal_list &lt;int&gt;, pri_pvem_pct &lt;dbl&gt;, pan_pct &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb230-22" data-line-number="22"><span class="co">#&gt; #   panal_pct &lt;dbl&gt;, prd_pt_mc_pct &lt;dbl&gt;, otros_pct &lt;dbl&gt;, winner &lt;chr&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb230-6" data-line-number="6"><span class="co">#&gt;    state_code state_name state_abbr district_loc_17 district_fed_17 polling_id</span></a>
+<a class="sourceLine" id="cb230-7" data-line-number="7"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;                &lt;int&gt;           &lt;int&gt;      &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb230-8" data-line-number="8"><span class="co">#&gt;  1 27         Tabasco    TAB                      5               5     120510</span></a>
+<a class="sourceLine" id="cb230-9" data-line-number="9"><span class="co">#&gt;  2 15         México     MEX                     32              24      70680</span></a>
+<a class="sourceLine" id="cb230-10" data-line-number="10"><span class="co">#&gt;  3 09         Ciudad de… CDMX                    20              17      29697</span></a>
+<a class="sourceLine" id="cb230-11" data-line-number="11"><span class="co">#&gt;  4 21         Puebla     PUE                     16              12     102052</span></a>
+<a class="sourceLine" id="cb230-12" data-line-number="12"><span class="co">#&gt;  5 12         Guerrero   GRO                     17               1      43875</span></a>
+<a class="sourceLine" id="cb230-13" data-line-number="13"><span class="co">#&gt;  6 30         Veracruz   VER                      8               7     131313</span></a>
+<a class="sourceLine" id="cb230-14" data-line-number="14"><span class="co">#&gt;  7 11         Guanajuato GTO                     18               7      42010</span></a>
+<a class="sourceLine" id="cb230-15" data-line-number="15"><span class="co">#&gt;  8 12         Guerrero   GRO                      4               4      45915</span></a>
+<a class="sourceLine" id="cb230-16" data-line-number="16"><span class="co">#&gt;  9 30         Veracruz   VER                     25              19     137278</span></a>
+<a class="sourceLine" id="cb230-17" data-line-number="17"><span class="co">#&gt; 10 15         México     MEX                     29              15      66959</span></a>
+<a class="sourceLine" id="cb230-18" data-line-number="18"><span class="co">#&gt; # … with 9,990 more rows, and 17 more variables: section &lt;int&gt;, region &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb230-19" data-line-number="19"><span class="co">#&gt; #   polling_type &lt;chr&gt;, section_type &lt;chr&gt;, pri_pvem &lt;int&gt;, pan &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb230-20" data-line-number="20"><span class="co">#&gt; #   panal &lt;int&gt;, prd_pt_mc &lt;int&gt;, otros &lt;int&gt;, total &lt;int&gt;, nominal_list &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb230-21" data-line-number="21"><span class="co">#&gt; #   pri_pvem_pct &lt;dbl&gt;, pan_pct &lt;dbl&gt;, panal_pct &lt;dbl&gt;, prd_pt_mc_pct &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb230-22" data-line-number="22"><span class="co">#&gt; #   otros_pct &lt;dbl&gt;, winner &lt;chr&gt;</span></a></code></pre></div>
 <p>Generamos 100 muestras bootstrap, y la función nos regresa un arreglo con 100
 renglones, cada uno corresponde a una muestra bootstrap.</p>
 <div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb231-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">839287482</span>)</a>
@@ -410,23 +410,23 @@ muestra bootstrap contiene 10000-3647=6353.</p>
 <code>as.data.frame()</code></p>
 <div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb233-1" data-line-number="1"><span class="kw">as.data.frame</span>(first_computos_boot)</a>
 <a class="sourceLine" id="cb233-2" data-line-number="2"><span class="co">#&gt; # A tibble: 10,000 x 23</span></a>
-<a class="sourceLine" id="cb233-3" data-line-number="3"><span class="co">#&gt;    state_code state_name state_abbr district_loc_17 district_fed_17</span></a>
-<a class="sourceLine" id="cb233-4" data-line-number="4"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;                &lt;int&gt;           &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb233-5" data-line-number="5"><span class="co">#&gt;  1 01         Aguascali… AGS                     18               3</span></a>
-<a class="sourceLine" id="cb233-6" data-line-number="6"><span class="co">#&gt;  2 15         México     MEX                     17              18</span></a>
-<a class="sourceLine" id="cb233-7" data-line-number="7"><span class="co">#&gt;  3 02         Baja Cali… BC                      10               6</span></a>
-<a class="sourceLine" id="cb233-8" data-line-number="8"><span class="co">#&gt;  4 16         Michoacán  MICH                     8               2</span></a>
-<a class="sourceLine" id="cb233-9" data-line-number="9"><span class="co">#&gt;  5 09         Ciudad de… CDMX                     7               9</span></a>
-<a class="sourceLine" id="cb233-10" data-line-number="10"><span class="co">#&gt;  6 05         Coahuila   COAH                    15               7</span></a>
-<a class="sourceLine" id="cb233-11" data-line-number="11"><span class="co">#&gt;  7 26         Sonora     SON                     20               7</span></a>
-<a class="sourceLine" id="cb233-12" data-line-number="12"><span class="co">#&gt;  8 09         Ciudad de… CDMX                     4               2</span></a>
-<a class="sourceLine" id="cb233-13" data-line-number="13"><span class="co">#&gt;  9 30         Veracruz   VER                     14              12</span></a>
-<a class="sourceLine" id="cb233-14" data-line-number="14"><span class="co">#&gt; 10 30         Veracruz   VER                     24              19</span></a>
-<a class="sourceLine" id="cb233-15" data-line-number="15"><span class="co">#&gt; # … with 9,990 more rows, and 18 more variables: polling_id &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb233-16" data-line-number="16"><span class="co">#&gt; #   section &lt;int&gt;, region &lt;chr&gt;, polling_type &lt;chr&gt;, section_type &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb233-17" data-line-number="17"><span class="co">#&gt; #   pri_pvem &lt;int&gt;, pan &lt;int&gt;, panal &lt;int&gt;, prd_pt_mc &lt;int&gt;, otros &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb233-18" data-line-number="18"><span class="co">#&gt; #   total &lt;int&gt;, nominal_list &lt;int&gt;, pri_pvem_pct &lt;dbl&gt;, pan_pct &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb233-19" data-line-number="19"><span class="co">#&gt; #   panal_pct &lt;dbl&gt;, prd_pt_mc_pct &lt;dbl&gt;, otros_pct &lt;dbl&gt;, winner &lt;chr&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb233-3" data-line-number="3"><span class="co">#&gt;    state_code state_name state_abbr district_loc_17 district_fed_17 polling_id</span></a>
+<a class="sourceLine" id="cb233-4" data-line-number="4"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;                &lt;int&gt;           &lt;int&gt;      &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb233-5" data-line-number="5"><span class="co">#&gt;  1 01         Aguascali… AGS                     18               3       1308</span></a>
+<a class="sourceLine" id="cb233-6" data-line-number="6"><span class="co">#&gt;  2 15         México     MEX                     17              18      68217</span></a>
+<a class="sourceLine" id="cb233-7" data-line-number="7"><span class="co">#&gt;  3 02         Baja Cali… BC                      10               6       4504</span></a>
+<a class="sourceLine" id="cb233-8" data-line-number="8"><span class="co">#&gt;  4 16         Michoacán  MICH                     8               2      78876</span></a>
+<a class="sourceLine" id="cb233-9" data-line-number="9"><span class="co">#&gt;  5 09         Ciudad de… CDMX                     7               9      24951</span></a>
+<a class="sourceLine" id="cb233-10" data-line-number="10"><span class="co">#&gt;  6 05         Coahuila   COAH                    15               7      10402</span></a>
+<a class="sourceLine" id="cb233-11" data-line-number="11"><span class="co">#&gt;  7 26         Sonora     SON                     20               7     119582</span></a>
+<a class="sourceLine" id="cb233-12" data-line-number="12"><span class="co">#&gt;  8 09         Ciudad de… CDMX                     4               2      23677</span></a>
+<a class="sourceLine" id="cb233-13" data-line-number="13"><span class="co">#&gt;  9 30         Veracruz   VER                     14              12     133755</span></a>
+<a class="sourceLine" id="cb233-14" data-line-number="14"><span class="co">#&gt; 10 30         Veracruz   VER                     24              19     136925</span></a>
+<a class="sourceLine" id="cb233-15" data-line-number="15"><span class="co">#&gt; # … with 9,990 more rows, and 17 more variables: section &lt;int&gt;, region &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb233-16" data-line-number="16"><span class="co">#&gt; #   polling_type &lt;chr&gt;, section_type &lt;chr&gt;, pri_pvem &lt;int&gt;, pan &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb233-17" data-line-number="17"><span class="co">#&gt; #   panal &lt;int&gt;, prd_pt_mc &lt;int&gt;, otros &lt;int&gt;, total &lt;int&gt;, nominal_list &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb233-18" data-line-number="18"><span class="co">#&gt; #   pri_pvem_pct &lt;dbl&gt;, pan_pct &lt;dbl&gt;, panal_pct &lt;dbl&gt;, prd_pt_mc_pct &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb233-19" data-line-number="19"><span class="co">#&gt; #   otros_pct &lt;dbl&gt;, winner &lt;chr&gt;</span></a></code></pre></div>
 <p>Una de las principales ventajas de usar este paquete es que es eficiente en
 el uso de memoria.</p>
 <div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb234-1" data-line-number="1"><span class="kw">library</span>(pryr)</a>
@@ -497,6 +497,7 @@ de funciones para calcular replicaciones y construir intervalos de confianza:
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
+"github": false,
 "facebook": true,
 "twitter": true,
 "linkedin": false,
@@ -515,6 +516,10 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

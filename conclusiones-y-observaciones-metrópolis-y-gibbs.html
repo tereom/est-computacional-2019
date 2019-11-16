@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>11-Familias conjugadas | Estadística Computacional</title>
+  <title>Conclusiones y observaciones Metrópolis y Gibbs | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   <meta name="generator" content="bookdown 0.15.1 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="11-Familias conjugadas | Estadística Computacional" />
+  <meta property="og:title" content="Conclusiones y observaciones Metrópolis y Gibbs | Estadística Computacional" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="tereom/est-computacional-2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="11-Familias conjugadas | Estadística Computacional" />
+  <meta name="twitter:title" content="Conclusiones y observaciones Metrópolis y Gibbs | Estadística Computacional" />
   
   <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="simulación-muestra-y-bootstrap-paramétrico.html"/>
-<link rel="next" href="metropolis-1.html"/>
+<link rel="prev" href="muestreador-de-gibbs.html"/>
+<link rel="next" href="tareas.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -346,59 +346,60 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="familias-conjugadas" class="section level2 unnumbered">
-<h2>11-Familias conjugadas</h2>
-<div id="modelo-beta-binomial" class="section level4 unnumbered">
-<h4>1. Modelo Beta-Binomial</h4>
-<p>Una compañía farmacéutica afirma que su nueva medicina incrementa la
-probabilidad de concebir un niño (sexo masculino), pero aún no publican
-estudios. Supón que conduces un experimento en el cual <span class="math inline">\(50\)</span> parejas se
-seleccionan de manera aleatoria de la población, toman la medicina y conciben.
-Nacen 30 niños y 20 niñas.</p>
-<ol style="list-style-type: lower-alpha">
-<li><p>Quieres estimar la probabilidad de concebir un niño para parejas que
-toman la medicina. ¿Cuál es una inicial apropiada? No tiene que estar centrada
-en <span class="math inline">\(0.5\)</span> pues esta corresponde a personas que no toman la medicina, y la inicial
-debe reflejar tu incertidumbre sobre el efecto de la droga.</p></li>
-<li><p>Usando tu inicial de a) grafica la posterior y decide si es creíble que las
-parejas que toman la medicina tienen una probabilidad de <span class="math inline">\(0.5\)</span> de concebir un
-niño.</p></li>
-<li><p>Supón que la farmacéutica asevera que la probabilidad de concebir un niño
-cuando se toma la medicina es cercana al <span class="math inline">\(60\%\)</span> con alta certeza. Representa
-esta postura con una distribución inicial <span class="math inline">\(Beta(60,40)\)</span>. Comparala con la
-inicial de un escéptico que afirma que la medicina no hace diferencia,
-representa esta creencia con una inicial <span class="math inline">\(Beta(50,50)\)</span>. ¿Cómo se compara la
-probabilidad posterior de concebir un niño (usando las distintas iniciales)?</p></li>
+<div id="conclusiones-y-observaciones-metrópolis-y-gibbs" class="section level2 unnumbered">
+<h2>Conclusiones y observaciones Metrópolis y Gibbs</h2>
+<ul>
+<li><p>Una generalización del algoritmo de Metrópolis es Metrópolis-Hastings.</p>
+El algoritmo de Metropolis es como sigue:
+<ol style="list-style-type: decimal">
+<li>Generamos un punto inicial tal que <span class="math inline">\(p(\theta)&gt;0\)</span>.</li>
+<li>Para <span class="math inline">\(t = 1,2,...\)</span>
+<ul>
+<li>Se propone un nuevo valor <span class="math inline">\(\theta_{propuesto}\)</span> con una distribución
+propuesta <span class="math inline">\(g(\theta_{propuesta}|\theta_{actual})\)</span> es común que <span class="math inline">\(g(\theta_{propuesta}|\theta_{actual})\)</span> sea una normal centrada en
+<span class="math inline">\(\theta_{actual}\)</span>.</li>
+</ul></li>
+<li>Calculamos
+<span class="math display">\[p_{mover}=min\bigg( \frac{p(\theta_{propuesta})}{p(\theta_{actual})},1\bigg)\]</span>
+y aceptamos <span class="math display">\[\theta_{propuesta}\]</span> con probabilidad <span class="math inline">\(p_{mover}\)</span>. Es así que el algorito requiere que podamos calcular el cociente en <span class="math inline">\(p_{mover}\)</span>
+para todo <span class="math inline">\(\theta_{actual}\)</span> y <span class="math inline">\(\theta_{propuesta}\)</span>, así como simular de la
+distribución propuesta <span class="math inline">\(g(\theta_{propuesta}|\theta_{actual})\)</span>, adicionalmente
+debemos poder generar valores uniformes para decidir si aceptar/rechazar.
+En el caso de <strong>Metropolis</strong> un requerimiento adicional es que la distribución
+propuesta <span class="math inline">\(g(\theta_{a}|\theta_b)\)</span> debe ser simétrica, es decir
+<span class="math inline">\(g(\theta_{a}|\theta_b) = g(\theta_{b}|\theta_a)\)</span> para todo <span class="math inline">\(\theta_{a}\)</span>,
+<span class="math inline">\(\theta_{b}\)</span>.</li>
 </ol>
+<p><strong>Metropolis-Hastings</strong> generaliza Metropolis, eliminando la restricción de
+simetría en la distribución propuesta <span class="math inline">\(g(\theta_{a}|\theta_b)\)</span>, sin embargo para corregir por
+esta asimetría debemos calcular <span class="math inline">\(p_{mover}\)</span> como sigue:
+<span class="math display">\[p_{mover}=min\bigg\{ \frac{p(\theta_{propuesta})/g(\theta_{propuesta}|\theta_{actual})}{p(\theta_{actual})/g(\theta_{actual}|\theta_{propuesta})},1\bigg\}\]</span>
+La generalización de Metrópolis-Hastings puede resultar en algoritmos más
+veloces.</p></li>
+<li><p>Se puede ver Gibbs como una generalización de Metropolis, cuando estamos
+actualizando un componente de los parámetros, la distribución propuesta es
+la distribución posterior para ese parámetro, por tanto siempre es aceptado.</p></li>
+<li><p>En el caso de modelos complicados se utilizan combinaciones de Gibbs y
+Metropolis. Cuando se consideran estos dos algoritmos Gibbs es un método más
+simple y es la primera opción para modelos condicionalmente conjugados. Sí solo
+podemos simular de un subconjunto de las distribuciones condicionales
+posteriores, entonces podemos usar Gibbs siempre que se pueda y Metropolis
+unidimensional para el resto, o de manera más general separamos en bloques, un
+bloque se actualiza con Gibbs y otro con Metrópolis.</p></li>
+<li><p>El algoritmo de Gibbs puede <em>atorarse</em> cuando hay correlación alta entre los
+parámetros, reparametrizar puede ayudar, o se pueden usar otros algoritmos que
+veremos más adelante.</p></li>
+</ul>
+
 </div>
-<div id="otra-familia-conjugada" class="section level4 unnumbered">
-<h4>2. Otra familia conjugada</h4>
-<p>Supongamos que nos interesa analizar el IQ de una muestra de estudiantes del
-ITAM y suponemos que el IQ de un estudiante tiene una distribución normal
-<span class="math inline">\(x \sim N(\theta, \sigma^2)\)</span> <strong>con <span class="math inline">\(\sigma ^ 2\)</span> conocida.</strong>
-Considera que observamos el IQ de un estudiante <span class="math inline">\(x\)</span>.
-La verosimilitud del modelo es:</p>
-<p><span class="math display">\[p(x|\theta)=\frac{1}{\sqrt{2\pi\sigma^2}}exp\left(-\frac{1}{2\sigma^2}(x-\theta)^2\right)\]</span></p>
-<p>Realizaremos un análisis bayesiano por lo que hace falta establer una
-distribución inicial, elegimos <span class="math inline">\(p(\theta)\)</span> que se distribuya <span class="math inline">\(N(\mu, \tau^2)\)</span>
-donde elegimos los parámetros <span class="math inline">\(\mu, \tau\)</span> que mejor describan nuestras creencias
-iniciales, por ejemplo si tengo mucha certeza de que el <span class="math inline">\(IQ\)</span> promedio se ubica
-en <span class="math inline">\(150\)</span>, elegiría <span class="math inline">\(\mu=150\)</span> y una desviación estándar chica por ejemplo
-<span class="math inline">\(\tau = 5\)</span>. Entonces la distribución inicial es:</p>
-<p><span class="math display">\[p(\theta)=\frac{1}{\sqrt{2\pi\tau^2}}exp\left(-\frac{1}{2\tau^2}(\theta-\mu)^2\right)\]</span></p>
-<p>Calcula la distribución posterior <span class="math inline">\(p(\theta|x) \propto p(x|\theta)p(\theta)\)</span>,
-usando la inicial y verosimilitud que definimos arriba. Una vez que realices la
-multiplicación debes identificar el núcleo de una distribución Normal,</p>
-<p>¿cuáles son sus parámetros (media y varianza)?</p>
-</div>
-</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="simulación-muestra-y-bootstrap-paramétrico.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="metropolis-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="muestreador-de-gibbs.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="tareas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -429,7 +430,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2019/edit/master/98-tareas.Rmd",
+"link": "https://github.com/tereom/est-computacional-2019/edit/master/09-analisis_bayesiano.Rmd",
 "text": "Edit"
 },
 "history": {

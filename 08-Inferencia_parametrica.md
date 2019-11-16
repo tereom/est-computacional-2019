@@ -165,9 +165,9 @@ sigma_hats <- rerun(1000, sim_sigma_hat(n = 5, mu_sim = 10, sigma_sim = 5)) %>%
 
 # aprox normal con media theta y error estándar 
 mean(sigma_hats)
-#> [1] 4.214649
+#> [1] 4.240843
 sd(sigma_hats)
-#> [1] 1.554756
+#> [1] 1.548612
 
 ggplot(data_frame(sigma_hats), aes(sample = sigma_hats)) +
     stat_qq() +
@@ -342,7 +342,7 @@ thetaBoot <- function(){
 # Paso 4: Repetimos B = 2000 veces y estimamos el error estándar
 sims_boot <- rerun(3000, thetaBoot()) %>% flatten_dbl()
 sqrt(1 / 2999 * sum((sims_boot - sigma_hat/mu_hat) ^ 2))
-#> [1] 0.03294018
+#> [1] 0.03483328
 ```
 
 Comparamos con el método delta: 
@@ -351,7 +351,7 @@ $$\hat{se}=\frac{1}{\sqrt{n}}\bigg(\frac{1}{\hat{\mu}^4} + \frac{\hat{\sigma}^2}
 
 ```r
 1 / sqrt(n) * (1 / mu_hat ^ 4 + sigma_hat ^ 2 / (2 * mu_hat ^ 2)) ^ (1 / 2)
-#> [1] 0.02617555
+#> [1] 0.02704301
 ```
 
 ![](img/manicule2.jpg) Supongamos que observamos $70$ realizaciones de 
@@ -532,8 +532,7 @@ y con esto obtenemos: $\hat{\mu}(x) = \sum_{j=1}^7 \hat{\beta_j} h_j(x)$
 ```r
 beta_hat <- as.vector(solve(t(H) %*% H) %*% t(H) %*% toy$y)
 beta_hat
-#> [1] -0.8580413  1.1694904  1.2203256 -4.7069161  9.1974688 -8.5999809
-#> [7] -1.5685756
+#> [1] -0.8580413  1.1694904  1.2203256 -4.7069161  9.1974688 -8.5999809 -1.5685756
 
 # creamos una función que calcula mu(x)
 mu <- function(x, betas){

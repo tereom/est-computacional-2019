@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>11-Familias conjugadas | Estadística Computacional</title>
+  <title>12-Metropolis | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   <meta name="generator" content="bookdown 0.15.1 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="11-Familias conjugadas | Estadística Computacional" />
+  <meta property="og:title" content="12-Metropolis | Estadística Computacional" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="tereom/est-computacional-2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="11-Familias conjugadas | Estadística Computacional" />
+  <meta name="twitter:title" content="12-Metropolis | Estadística Computacional" />
   
   <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="simulación-muestra-y-bootstrap-paramétrico.html"/>
-<link rel="next" href="metropolis-1.html"/>
+<link rel="prev" href="familias-conjugadas.html"/>
+<link rel="next" href="referencias.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -346,59 +346,87 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="familias-conjugadas" class="section level2 unnumbered">
-<h2>11-Familias conjugadas</h2>
-<div id="modelo-beta-binomial" class="section level4 unnumbered">
-<h4>1. Modelo Beta-Binomial</h4>
-<p>Una compañía farmacéutica afirma que su nueva medicina incrementa la
-probabilidad de concebir un niño (sexo masculino), pero aún no publican
-estudios. Supón que conduces un experimento en el cual <span class="math inline">\(50\)</span> parejas se
-seleccionan de manera aleatoria de la población, toman la medicina y conciben.
-Nacen 30 niños y 20 niñas.</p>
+<div id="metropolis-1" class="section level2 unnumbered">
+<h2>12-Metropolis</h2>
+<p>Regresamos al ejercicio de IQ de la tarea anterior, en ésta hiciste cálculos
+para el caso de una sola observación. En este ejercicio consideramos el caso en
+que observamos una muestra <span class="math inline">\(x=\{x_1,...,x_N\}\)</span>, y utilizaremos Metrópolis
+para obtener una muestra de la distribución posterior.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Quieres estimar la probabilidad de concebir un niño para parejas que
-toman la medicina. ¿Cuál es una inicial apropiada? No tiene que estar centrada
-en <span class="math inline">\(0.5\)</span> pues esta corresponde a personas que no toman la medicina, y la inicial
-debe reflejar tu incertidumbre sobre el efecto de la droga.</p></li>
-<li><p>Usando tu inicial de a) grafica la posterior y decide si es creíble que las
-parejas que toman la medicina tienen una probabilidad de <span class="math inline">\(0.5\)</span> de concebir un
-niño.</p></li>
-<li><p>Supón que la farmacéutica asevera que la probabilidad de concebir un niño
-cuando se toma la medicina es cercana al <span class="math inline">\(60\%\)</span> con alta certeza. Representa
-esta postura con una distribución inicial <span class="math inline">\(Beta(60,40)\)</span>. Comparala con la
-inicial de un escéptico que afirma que la medicina no hace diferencia,
-representa esta creencia con una inicial <span class="math inline">\(Beta(50,50)\)</span>. ¿Cómo se compara la
-probabilidad posterior de concebir un niño (usando las distintas iniciales)?</p></li>
+<li>Crea una función <span class="math inline">\(prior\)</span> que reciba los parámetros <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\tau\)</span> que definen
+tus creencias del parámetro desconocido <span class="math inline">\(\theta\)</span> y devuelva <span class="math inline">\(p(\theta)\)</span>, donde
+<span class="math inline">\(p(\theta)\)</span> tiene distriución <span class="math inline">\(N(\mu, \sigma^2)\)</span></li>
 </ol>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb391-1" data-line-number="1">prior &lt;-<span class="st"> </span><span class="cf">function</span>(mu, tau{</a>
+<a class="sourceLine" id="cb391-2" data-line-number="2">  <span class="cf">function</span>(theta){</a>
+<a class="sourceLine" id="cb391-3" data-line-number="3">    ... <span class="co"># llena esta parte</span></a>
+<a class="sourceLine" id="cb391-4" data-line-number="4">  }</a>
+<a class="sourceLine" id="cb391-5" data-line-number="5">}</a></code></pre></div>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Utiliza la función que acabas de escribir para definir una distribución
+inicial con parámetros <span class="math inline">\(\mu = 150\)</span> y <span class="math inline">\(\tau = 15\)</span>, llámala <em>mi_prior</em>.</li>
+</ol>
+<p>Ya que tenemos la distribución inicial debemos escribir la verosimilitud, en
+este caso la verosimilitud es:</p>
+<p><span class="math display">\[p(x|\theta, \sigma^2)=\frac{1}{(2\pi\sigma^2)^{N/2}}exp\left(-\frac{1}{2\sigma^2}\sum_{j=1}^{N}(x_j-\theta)^2\right)\]</span>
+<span class="math display">\[=\frac{1}{(2\pi\sigma^2)^{N/2}}exp\left(-\frac{1}{2\sigma^2}\bigg(\sum_{j=1}^{N}x_j^2-2\theta\sum_{j=1}^{N} x_j + N\theta^2 \bigg) \right)\]</span></p>
+<p>Recuerda que estamos suponiendo varianza conocida, supongamos que la
+desviación estándar es <span class="math inline">\(\sigma=20\)</span>.</p>
+<p><span class="math display">\[p(x|\theta)=\frac{1}{(2\pi (20^2))^{N/2}}exp\left(-\frac{1}{2 (20^2)}\bigg(\sum_{j=1}^{N}x_j^2-2\theta\sum_{j=1}^{N} x_j + N\theta^2 \bigg) \right)\]</span></p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Crea una función <span class="math inline">\(likeNorm\)</span> en R que reciba la desviación estándar, la suma
+de los valores observados <span class="math inline">\(\sum x_i\)</span>, la suma de los valores al cuadrado
+<span class="math inline">\(\sum x_i^2\)</span> y el número de observaciones <span class="math inline">\(N\)</span> la función devolverá la
+función de verosimilitud (es decir va a regresar una función que depende
+únicamente de <span class="math inline">\(\theta\)</span>).</li>
+</ol>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb392-1" data-line-number="1"><span class="co"># S: sum x_i, S2: sum x_i^2, N: número obs.</span></a>
+<a class="sourceLine" id="cb392-2" data-line-number="2">likeNorm &lt;-<span class="st"> </span><span class="cf">function</span>(S, S2, N){</a>
+<a class="sourceLine" id="cb392-3" data-line-number="3">  <span class="cf">function</span>(theta){</a>
+<a class="sourceLine" id="cb392-4" data-line-number="4">    ...  <span class="co"># llena esta parte</span></a>
+<a class="sourceLine" id="cb392-5" data-line-number="5">  }</a>
+<a class="sourceLine" id="cb392-6" data-line-number="6">}</a></code></pre></div>
+<ol start="4" style="list-style-type: lower-alpha">
+<li><p>Supongamos que aplicamos un test de IQ a 100 alumnos y observamos que la suma
+de los puntajes es 13300, es decir <span class="math inline">\(\sum x_i=13,000\)</span> y <span class="math inline">\(\sum x_i^2=1,700,000\)</span>.
+Utiliza la función que acabas de escribir para definir la función de
+verosimilitud condicional a los datos observados, llámala <em>mi_like</em>.</p></li>
+<li><p>La distribución posterior no normalizada es simplemente el producto de
+la inicial y la posterior:</p></li>
+</ol>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb393-1" data-line-number="1">postRelProb &lt;-<span class="st"> </span><span class="cf">function</span>(theta){</a>
+<a class="sourceLine" id="cb393-2" data-line-number="2">  <span class="kw">mi_like</span>(theta) <span class="op">*</span><span class="st"> </span><span class="kw">mi_prior</span>(theta)</a>
+<a class="sourceLine" id="cb393-3" data-line-number="3">}</a></code></pre></div>
+<p>Utiliza Metropolis para obtener una muestra de valores representativos de la
+distribución posterior de <span class="math inline">\(\theta\)</span>. Para proponer los saltos utiliza una
+Normal(0, 5).</p>
+<ol start="6" style="list-style-type: lower-alpha">
+<li><p>Grafica los valores de la cadena para cada paso.</p></li>
+<li><p>Elimina los valores correspondientes a la etapa de calentamiento y realiza
+un histograma de la distribución posterior.</p></li>
+<li><p>Si calcularas la posterior de manera analítica obtendrías que <span class="math inline">\(p(x|\theta)\)</span>
+es normal con media:
+<span class="math display">\[\frac{\sigma^2}{\sigma^2 + N\tau^2}\mu + \frac{N\tau^2}{\sigma^2 + N \tau^2}\bar{x}\]</span>
+y varianza
+<span class="math display">\[\frac{\sigma^2 \tau^2}{\sigma^2 + N\tau^2}\]</span></p></li>
+</ol>
+<p>donde <span class="math inline">\(\bar{x}=1/N\sum_{i=1}^N x_i\)</span> es la media de los valores observados.
+Realiza simulaciones de la distribución posterior calculada de manera analítica
+y comparalas con el histograma de los valores generados con Metropolis.</p>
+<ol style="list-style-type: lower-roman">
+<li>¿Cómo utilizarías los parámetros <span class="math inline">\(\mu, \tau^2\)</span> para describir un escenario
+donde sabes poco del verdadero valor de la media <span class="math inline">\(\theta\)</span>?</li>
+</ol>
+
 </div>
-<div id="otra-familia-conjugada" class="section level4 unnumbered">
-<h4>2. Otra familia conjugada</h4>
-<p>Supongamos que nos interesa analizar el IQ de una muestra de estudiantes del
-ITAM y suponemos que el IQ de un estudiante tiene una distribución normal
-<span class="math inline">\(x \sim N(\theta, \sigma^2)\)</span> <strong>con <span class="math inline">\(\sigma ^ 2\)</span> conocida.</strong>
-Considera que observamos el IQ de un estudiante <span class="math inline">\(x\)</span>.
-La verosimilitud del modelo es:</p>
-<p><span class="math display">\[p(x|\theta)=\frac{1}{\sqrt{2\pi\sigma^2}}exp\left(-\frac{1}{2\sigma^2}(x-\theta)^2\right)\]</span></p>
-<p>Realizaremos un análisis bayesiano por lo que hace falta establer una
-distribución inicial, elegimos <span class="math inline">\(p(\theta)\)</span> que se distribuya <span class="math inline">\(N(\mu, \tau^2)\)</span>
-donde elegimos los parámetros <span class="math inline">\(\mu, \tau\)</span> que mejor describan nuestras creencias
-iniciales, por ejemplo si tengo mucha certeza de que el <span class="math inline">\(IQ\)</span> promedio se ubica
-en <span class="math inline">\(150\)</span>, elegiría <span class="math inline">\(\mu=150\)</span> y una desviación estándar chica por ejemplo
-<span class="math inline">\(\tau = 5\)</span>. Entonces la distribución inicial es:</p>
-<p><span class="math display">\[p(\theta)=\frac{1}{\sqrt{2\pi\tau^2}}exp\left(-\frac{1}{2\tau^2}(\theta-\mu)^2\right)\]</span></p>
-<p>Calcula la distribución posterior <span class="math inline">\(p(\theta|x) \propto p(x|\theta)p(\theta)\)</span>,
-usando la inicial y verosimilitud que definimos arriba. Una vez que realices la
-multiplicación debes identificar el núcleo de una distribución Normal,</p>
-<p>¿cuáles son sus parámetros (media y varianza)?</p>
-</div>
-</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="simulación-muestra-y-bootstrap-paramétrico.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="metropolis-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="familias-conjugadas.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

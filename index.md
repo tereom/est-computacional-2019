@@ -57,7 +57,6 @@ Referencias: @tufte06, @cleveland93, @r4ds, @advr.
 -   Bootstrap
     -   Cálculo de errores estándar e intervalos de confianza.
     -   Estructuras de datos complejos.
--   Introducción a modelos probabilísticos.
 
 Referencias: @ross, @efron, @chihara.
 
@@ -75,7 +74,7 @@ Referencias: @ross, @efron, @chihara.
     -   Simulación (e.g. ANOVA, regresión simple).
 -   Inferencia paramétrica y remuestreo
     -   Modelos paramétricos.
-    -   Bootsrap paramétrico.
+    -   Máxima verosimilitud y bootstrap paramétrico.
 -   Inferencia de gráficas
 
  Referencias: @gelman-hill.
@@ -86,10 +85,9 @@ Referencias: @ross, @efron, @chihara.
 -   Métodos diretos
     -   Familias conjugadas.
     -   Aproximación por cuadrícula.
-    -   Aceptación y rechazo.
 -   MCMC
     -   Cadenas de Markov.
-    -   Metropolis-Hastings.
+    -   Metropolis.
     -   Muestreador de Gibbs.
     -   Monte Carlo Hamiltoniano.
     -   Diagnósticos de convergencia.
@@ -118,7 +116,7 @@ Para encuestas y ejercicios en clase.
 
 * [Lista de correos](https://docs.google.com/spreadsheets/d/1ZNdpl-_c495FRb1ZEZ-TpxFDBk5Uai-9Ms-IHgsYq-E/edit?usp=sharing): Suscribete si quieres recibir noticias del curso.
 
-### Noticias {-}
+## Noticias {-}
 
 Los dos premios más importantes en estadística se entregaron en 2019 a Hadley
 Whickham y a Bradley Efron, gran parte de nuestro curso se desarrolla 
@@ -135,7 +133,7 @@ parte del curso, ganó en 2019 el reconocido premio [COPSS](https://en.wikipedia
     a una gran audiencia; y por realzar el importante papel de la estadística
     entre los científicos de datos." (2019 Presidents' Award)*
 
-* [Bradley Efron](https://statprize.org/index.cfm) creador del bootsrtap, que
+* [Bradley Efron](https://statprize.org/index.cfm) creador del bootstrap, que
 estudiaremos como segunda sección del curso, fue seleccionado en 2018 para
 recibir el *premio internacional en estadística* como reconocimiento al
 *bootstrap*, un método que desarrolló en 1977 para calcular incertidumbre en

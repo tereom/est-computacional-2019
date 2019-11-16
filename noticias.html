@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>11-Familias conjugadas | Estadística Computacional</title>
+  <title>Noticias | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   <meta name="generator" content="bookdown 0.15.1 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="11-Familias conjugadas | Estadística Computacional" />
+  <meta property="og:title" content="Noticias | Estadística Computacional" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="tereom/est-computacional-2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="11-Familias conjugadas | Estadística Computacional" />
+  <meta name="twitter:title" content="Noticias | Estadística Computacional" />
   
   <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="simulación-muestra-y-bootstrap-paramétrico.html"/>
-<link rel="next" href="metropolis-1.html"/>
+<link rel="prev" href="temario.html"/>
+<link rel="next" href="principios-visualización.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -346,59 +346,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="familias-conjugadas" class="section level2 unnumbered">
-<h2>11-Familias conjugadas</h2>
-<div id="modelo-beta-binomial" class="section level4 unnumbered">
-<h4>1. Modelo Beta-Binomial</h4>
-<p>Una compañía farmacéutica afirma que su nueva medicina incrementa la
-probabilidad de concebir un niño (sexo masculino), pero aún no publican
-estudios. Supón que conduces un experimento en el cual <span class="math inline">\(50\)</span> parejas se
-seleccionan de manera aleatoria de la población, toman la medicina y conciben.
-Nacen 30 niños y 20 niñas.</p>
-<ol style="list-style-type: lower-alpha">
-<li><p>Quieres estimar la probabilidad de concebir un niño para parejas que
-toman la medicina. ¿Cuál es una inicial apropiada? No tiene que estar centrada
-en <span class="math inline">\(0.5\)</span> pues esta corresponde a personas que no toman la medicina, y la inicial
-debe reflejar tu incertidumbre sobre el efecto de la droga.</p></li>
-<li><p>Usando tu inicial de a) grafica la posterior y decide si es creíble que las
-parejas que toman la medicina tienen una probabilidad de <span class="math inline">\(0.5\)</span> de concebir un
-niño.</p></li>
-<li><p>Supón que la farmacéutica asevera que la probabilidad de concebir un niño
-cuando se toma la medicina es cercana al <span class="math inline">\(60\%\)</span> con alta certeza. Representa
-esta postura con una distribución inicial <span class="math inline">\(Beta(60,40)\)</span>. Comparala con la
-inicial de un escéptico que afirma que la medicina no hace diferencia,
-representa esta creencia con una inicial <span class="math inline">\(Beta(50,50)\)</span>. ¿Cómo se compara la
-probabilidad posterior de concebir un niño (usando las distintas iniciales)?</p></li>
-</ol>
+<div id="noticias" class="section level2 unnumbered">
+<h2>Noticias</h2>
+<p>Los dos premios más importantes en estadística se entregaron en 2019 a Hadley
+Whickham y a Bradley Efron, gran parte de nuestro curso se desarrolla
+en torno a las contribuciones de estos dos estadísticos:</p>
+<ul>
+<li><p><a href="https://community.amstat.org/copss/awards/presidents">Hadley Wickham</a>
+cuyos paquetes, libros y artículos son los recursos esenciales para la primera
+parte del curso, ganó en 2019 el reconocido premio <a href="https://en.wikipedia.org/wiki/COPSS_Presidents%27_Award">COPSS</a>:</p>
+<p><em>“Por la importancia de su trabajo en el computo estadístico, visualización,
+gráficas y análisis de datos; por desarrollar e implementar una extensa
+ifraestructura computacional para el análisis de datos a través del
+<em>software</em> R; por hacer el pensamiento estadístico y el cómputo accesible
+a una gran audiencia; y por realzar el importante papel de la estadística
+entre los científicos de datos.” (2019 Presidents’ Award)</em></p></li>
+<li><p><a href="https://statprize.org/index.cfm">Bradley Efron</a> creador del bootstrap, que
+estudiaremos como segunda sección del curso, fue seleccionado en 2018 para
+recibir el <em>premio internacional en estadística</em> como reconocimiento al
+<em>bootstrap</em>, un método que desarrolló en 1977 para calcular incertidumbre en
+resultados científicos y que ha tenido un impacto extraordinario en muchos
+ámbitos.</p>
+<p><em>“A pesar de que la estadística no ofrece una píldora mágica para la
+investigación científica cuantitativa, el bootstrap es el mejor analgésico
+jamás producido” (Xiao-Li Meng, proff. at Harvard University.)</em></p></li>
+</ul>
+
 </div>
-<div id="otra-familia-conjugada" class="section level4 unnumbered">
-<h4>2. Otra familia conjugada</h4>
-<p>Supongamos que nos interesa analizar el IQ de una muestra de estudiantes del
-ITAM y suponemos que el IQ de un estudiante tiene una distribución normal
-<span class="math inline">\(x \sim N(\theta, \sigma^2)\)</span> <strong>con <span class="math inline">\(\sigma ^ 2\)</span> conocida.</strong>
-Considera que observamos el IQ de un estudiante <span class="math inline">\(x\)</span>.
-La verosimilitud del modelo es:</p>
-<p><span class="math display">\[p(x|\theta)=\frac{1}{\sqrt{2\pi\sigma^2}}exp\left(-\frac{1}{2\sigma^2}(x-\theta)^2\right)\]</span></p>
-<p>Realizaremos un análisis bayesiano por lo que hace falta establer una
-distribución inicial, elegimos <span class="math inline">\(p(\theta)\)</span> que se distribuya <span class="math inline">\(N(\mu, \tau^2)\)</span>
-donde elegimos los parámetros <span class="math inline">\(\mu, \tau\)</span> que mejor describan nuestras creencias
-iniciales, por ejemplo si tengo mucha certeza de que el <span class="math inline">\(IQ\)</span> promedio se ubica
-en <span class="math inline">\(150\)</span>, elegiría <span class="math inline">\(\mu=150\)</span> y una desviación estándar chica por ejemplo
-<span class="math inline">\(\tau = 5\)</span>. Entonces la distribución inicial es:</p>
-<p><span class="math display">\[p(\theta)=\frac{1}{\sqrt{2\pi\tau^2}}exp\left(-\frac{1}{2\tau^2}(\theta-\mu)^2\right)\]</span></p>
-<p>Calcula la distribución posterior <span class="math inline">\(p(\theta|x) \propto p(x|\theta)p(\theta)\)</span>,
-usando la inicial y verosimilitud que definimos arriba. Una vez que realices la
-multiplicación debes identificar el núcleo de una distribución Normal,</p>
-<p>¿cuáles son sus parámetros (media y varianza)?</p>
-</div>
-</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="simulación-muestra-y-bootstrap-paramétrico.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="metropolis-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="temario.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="principios-visualización.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -429,7 +411,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2019/edit/master/98-tareas.Rmd",
+"link": "https://github.com/tereom/est-computacional-2019/edit/master/index.Rmd",
 "text": "Edit"
 },
 "history": {

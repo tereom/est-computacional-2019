@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>6.4 Más alla de muestras aleatorias simples | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
-  <meta name="generator" content="bookdown 0.14.1 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.15.1 and GitBook 2.6.7" />
 
   <meta property="og:title" content="6.4 Más alla de muestras aleatorias simples | Estadística Computacional" />
   <meta property="og:type" content="book" />
@@ -153,8 +153,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#calificación"><i class="fa fa-check"></i>Calificación</a></li>
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#software"><i class="fa fa-check"></i>Software</a></li>
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#otros-recursos"><i class="fa fa-check"></i>Otros recursos</a></li>
-<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#noticias"><i class="fa fa-check"></i>Noticias</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="noticias.html"><a href="noticias.html"><i class="fa fa-check"></i>Noticias</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="principios-visualización.html"><a href="principios-visualización.html"><i class="fa fa-check"></i><b>1</b> Principios visualización</a><ul>
 <li class="chapter" data-level="1.1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>1.1</b> Introducción</a><ul>
@@ -305,9 +305,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.6" data-path="metrópolis.html"><a href="metrópolis.html"><i class="fa fa-check"></i><b>10.6</b> Metrópolis</a><ul>
 <li class="chapter" data-level="" data-path="metrópolis.html"><a href="metrópolis.html#inferencia-de-dos-proporciones-binomiales"><i class="fa fa-check"></i>Inferencia de dos proporciones binomiales</a></li>
 </ul></li>
-<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a><ul>
-<li class="chapter" data-level="" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#conclusiones-y-observaciones-metrópolis-y-gibbs"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
-</ul></li>
+<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a></li>
+<li class="chapter" data-level="" data-path="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><a href="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -324,6 +323,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="inferencia-visual-y-simulación-e-modelos.html"><a href="inferencia-visual-y-simulación-e-modelos.html"><i class="fa fa-check"></i>9. Inferencia visual y simulación e modelos</a></li>
 <li class="chapter" data-level="" data-path="simulación-muestra-y-bootstrap-paramétrico.html"><a href="simulación-muestra-y-bootstrap-paramétrico.html"><i class="fa fa-check"></i>10. Simulación muestra y bootstrap paramétrico</a></li>
 <li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>11-Familias conjugadas</a></li>
+<li class="chapter" data-level="" data-path="metropolis-1.html"><a href="metropolis-1.html"><i class="fa fa-check"></i>12-Metropolis</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -414,132 +414,132 @@ población de INEGI.</p></li>
 <a class="sourceLine" id="cb221-7" data-line-number="7"><span class="kw">glimpse</span>(concentrado_hogar)</a>
 <a class="sourceLine" id="cb221-8" data-line-number="8"><span class="co">#&gt; Observations: 74,647</span></a>
 <a class="sourceLine" id="cb221-9" data-line-number="9"><span class="co">#&gt; Variables: 126</span></a>
-<a class="sourceLine" id="cb221-10" data-line-number="10"><span class="co">#&gt; $ folioviv   &lt;dbl&gt; 100013601, 100013602, 100013603, 100013604, 100013606…</span></a>
-<a class="sourceLine" id="cb221-11" data-line-number="11"><span class="co">#&gt; $ foliohog   &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…</span></a>
-<a class="sourceLine" id="cb221-12" data-line-number="12"><span class="co">#&gt; $ ubica_geo  &lt;dbl&gt; 1001, 1001, 1001, 1001, 1001, 1001, 1001, 1001, 1001,…</span></a>
-<a class="sourceLine" id="cb221-13" data-line-number="13"><span class="co">#&gt; $ tam_loc    &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…</span></a>
-<a class="sourceLine" id="cb221-14" data-line-number="14"><span class="co">#&gt; $ est_socio  &lt;dbl&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,…</span></a>
-<a class="sourceLine" id="cb221-15" data-line-number="15"><span class="co">#&gt; $ est_dis    &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,…</span></a>
-<a class="sourceLine" id="cb221-16" data-line-number="16"><span class="co">#&gt; $ upm        &lt;dbl&gt; 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4,…</span></a>
-<a class="sourceLine" id="cb221-17" data-line-number="17"><span class="co">#&gt; $ factor     &lt;dbl&gt; 175, 175, 175, 175, 175, 189, 189, 189, 189, 186, 186…</span></a>
-<a class="sourceLine" id="cb221-18" data-line-number="18"><span class="co">#&gt; $ clase_hog  &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 1, 2, 2, 3, 2, 1, 2, 2, 2, 2, 3, 1,…</span></a>
-<a class="sourceLine" id="cb221-19" data-line-number="19"><span class="co">#&gt; $ sexo_jefe  &lt;dbl&gt; 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1,…</span></a>
-<a class="sourceLine" id="cb221-20" data-line-number="20"><span class="co">#&gt; $ edad_jefe  &lt;dbl&gt; 74, 48, 39, 70, 51, 41, 57, 53, 30, 69, 76, 77, 70, 2…</span></a>
-<a class="sourceLine" id="cb221-21" data-line-number="21"><span class="co">#&gt; $ educa_jefe &lt;dbl&gt; 4, 11, 10, 8, 4, 11, 9, 11, 6, 4, 3, 4, 6, 6, 9, 7, 6…</span></a>
-<a class="sourceLine" id="cb221-22" data-line-number="22"><span class="co">#&gt; $ tot_integ  &lt;dbl&gt; 3, 5, 2, 2, 4, 4, 1, 2, 3, 4, 2, 1, 2, 4, 4, 2, 5, 1,…</span></a>
-<a class="sourceLine" id="cb221-23" data-line-number="23"><span class="co">#&gt; $ hombres    &lt;dbl&gt; 2, 2, 1, 1, 1, 2, 0, 1, 2, 4, 0, 1, 1, 2, 3, 1, 2, 1,…</span></a>
-<a class="sourceLine" id="cb221-24" data-line-number="24"><span class="co">#&gt; $ mujeres    &lt;dbl&gt; 1, 3, 1, 1, 3, 2, 1, 1, 1, 0, 2, 0, 1, 2, 1, 1, 3, 0,…</span></a>
-<a class="sourceLine" id="cb221-25" data-line-number="25"><span class="co">#&gt; $ mayores    &lt;dbl&gt; 3, 5, 2, 2, 3, 4, 1, 2, 2, 3, 2, 1, 2, 2, 4, 2, 5, 1,…</span></a>
-<a class="sourceLine" id="cb221-26" data-line-number="26"><span class="co">#&gt; $ menores    &lt;dbl&gt; 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 2, 0, 0, 0, 0,…</span></a>
-<a class="sourceLine" id="cb221-27" data-line-number="27"><span class="co">#&gt; $ p12_64     &lt;dbl&gt; 1, 5, 2, 1, 3, 4, 1, 2, 2, 2, 1, 0, 0, 2, 2, 0, 5, 1,…</span></a>
-<a class="sourceLine" id="cb221-28" data-line-number="28"><span class="co">#&gt; $ p65mas     &lt;dbl&gt; 2, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 2, 0, 2, 2, 0, 0,…</span></a>
-<a class="sourceLine" id="cb221-29" data-line-number="29"><span class="co">#&gt; $ ocupados   &lt;dbl&gt; 2, 2, 2, 0, 2, 2, 1, 2, 2, 2, 1, 1, 1, 1, 2, 0, 4, 1,…</span></a>
-<a class="sourceLine" id="cb221-30" data-line-number="30"><span class="co">#&gt; $ percep_ing &lt;dbl&gt; 3, 5, 2, 2, 2, 2, 1, 2, 2, 4, 2, 1, 2, 1, 4, 2, 4, 1,…</span></a>
-<a class="sourceLine" id="cb221-31" data-line-number="31"><span class="co">#&gt; $ perc_ocupa &lt;dbl&gt; 2, 2, 2, 0, 2, 2, 1, 2, 2, 2, 1, 1, 1, 1, 2, 0, 4, 1,…</span></a>
-<a class="sourceLine" id="cb221-32" data-line-number="32"><span class="co">#&gt; $ ing_cor    &lt;dbl&gt; 76403.70, 42987.73, 580697.74, 46252.71, 53837.09, 23…</span></a>
-<a class="sourceLine" id="cb221-33" data-line-number="33"><span class="co">#&gt; $ ingtrab    &lt;dbl&gt; 53114.74, 15235.06, 141885.21, 0.00, 43229.49, 129836…</span></a>
-<a class="sourceLine" id="cb221-34" data-line-number="34"><span class="co">#&gt; $ trabajo    &lt;dbl&gt; 53114.74, 0.00, 141885.21, 0.00, 8852.45, 129836.03, …</span></a>
-<a class="sourceLine" id="cb221-35" data-line-number="35"><span class="co">#&gt; $ sueldos    &lt;dbl&gt; 53114.74, 0.00, 133770.48, 0.00, 8852.45, 95901.63, 2…</span></a>
-<a class="sourceLine" id="cb221-36" data-line-number="36"><span class="co">#&gt; $ horas_extr &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00,…</span></a>
-<a class="sourceLine" id="cb221-37" data-line-number="37"><span class="co">#&gt; $ comisiones &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 22131.14, 0.00, 0.00, 0…</span></a>
-<a class="sourceLine" id="cb221-38" data-line-number="38"><span class="co">#&gt; $ aguinaldo  &lt;dbl&gt; 0.00, 0.00, 3934.42, 0.00, 0.00, 11803.26, 0.00, 2213…</span></a>
-<a class="sourceLine" id="cb221-39" data-line-number="39"><span class="co">#&gt; $ indemtrab  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></a>
-<a class="sourceLine" id="cb221-40" data-line-number="40"><span class="co">#&gt; $ otra_rem   &lt;dbl&gt; 0.00, 0.00, 4180.31, 0.00, 0.00, 0.00, 0.00, 0.00, 0.…</span></a>
-<a class="sourceLine" id="cb221-41" data-line-number="41"><span class="co">#&gt; $ remu_espec &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00,…</span></a>
-<a class="sourceLine" id="cb221-42" data-line-number="42"><span class="co">#&gt; $ negocio    &lt;dbl&gt; 0.00, 13759.66, 0.00, 0.00, 34377.04, 0.00, 0.00, 0.0…</span></a>
-<a class="sourceLine" id="cb221-43" data-line-number="43"><span class="co">#&gt; $ noagrop    &lt;dbl&gt; 0.00, 13759.66, 0.00, 0.00, 34377.04, 0.00, 0.00, 0.0…</span></a>
-<a class="sourceLine" id="cb221-44" data-line-number="44"><span class="co">#&gt; $ industria  &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00,…</span></a>
-<a class="sourceLine" id="cb221-45" data-line-number="45"><span class="co">#&gt; $ comercio   &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 34377.04, 0.00, 0.00, 0.00, 0…</span></a>
-<a class="sourceLine" id="cb221-46" data-line-number="46"><span class="co">#&gt; $ servicios  &lt;dbl&gt; 0.00, 13759.66, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
-<a class="sourceLine" id="cb221-47" data-line-number="47"><span class="co">#&gt; $ agrope     &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></a>
-<a class="sourceLine" id="cb221-48" data-line-number="48"><span class="co">#&gt; $ agricolas  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></a>
-<a class="sourceLine" id="cb221-49" data-line-number="49"><span class="co">#&gt; $ pecuarios  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></a>
-<a class="sourceLine" id="cb221-50" data-line-number="50"><span class="co">#&gt; $ reproducc  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></a>
-<a class="sourceLine" id="cb221-51" data-line-number="51"><span class="co">#&gt; $ pesca      &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></a>
-<a class="sourceLine" id="cb221-52" data-line-number="52"><span class="co">#&gt; $ otros_trab &lt;dbl&gt; 0.0, 1475.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, …</span></a>
-<a class="sourceLine" id="cb221-53" data-line-number="53"><span class="co">#&gt; $ rentas     &lt;dbl&gt; 0.00, 0.00, 29508.19, 0.00, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
-<a class="sourceLine" id="cb221-54" data-line-number="54"><span class="co">#&gt; $ utilidad   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></a>
-<a class="sourceLine" id="cb221-55" data-line-number="55"><span class="co">#&gt; $ arrenda    &lt;dbl&gt; 0.00, 0.00, 29508.19, 0.00, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
-<a class="sourceLine" id="cb221-56" data-line-number="56"><span class="co">#&gt; $ transfer   &lt;dbl&gt; 11288.96, 3752.67, 391304.34, 34252.71, 107.60, 89906…</span></a>
-<a class="sourceLine" id="cb221-57" data-line-number="57"><span class="co">#&gt; $ jubilacion &lt;dbl&gt; 9147.54, 0.00, 0.00, 23606.55, 0.00, 23606.55, 0.00, …</span></a>
-<a class="sourceLine" id="cb221-58" data-line-number="58"><span class="co">#&gt; $ becas      &lt;dbl&gt; 0.0, 491.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0…</span></a>
-<a class="sourceLine" id="cb221-59" data-line-number="59"><span class="co">#&gt; $ donativos  &lt;dbl&gt; 0.00, 147.54, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.0…</span></a>
-<a class="sourceLine" id="cb221-60" data-line-number="60"><span class="co">#&gt; $ remesas    &lt;dbl&gt; 0.00, 98.36, 0.00, 5901.63, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
-<a class="sourceLine" id="cb221-61" data-line-number="61"><span class="co">#&gt; $ bene_gob   &lt;dbl&gt; 1622.95, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.…</span></a>
-<a class="sourceLine" id="cb221-62" data-line-number="62"><span class="co">#&gt; $ transf_hog &lt;dbl&gt; 0.00, 3014.97, 0.00, 0.00, 107.60, 61714.26, 0.00, 0.…</span></a>
-<a class="sourceLine" id="cb221-63" data-line-number="63"><span class="co">#&gt; $ trans_inst &lt;dbl&gt; 518.47, 0.00, 391304.34, 4744.53, 0.00, 4585.70, 0.00…</span></a>
-<a class="sourceLine" id="cb221-64" data-line-number="64"><span class="co">#&gt; $ estim_alqu &lt;dbl&gt; 12000.00, 24000.00, 18000.00, 12000.00, 10500.00, 180…</span></a>
-<a class="sourceLine" id="cb221-65" data-line-number="65"><span class="co">#&gt; $ otros_ing  &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00,…</span></a>
-<a class="sourceLine" id="cb221-66" data-line-number="66"><span class="co">#&gt; $ gasto_mon  &lt;dbl&gt; 18551.47, 55470.99, 103106.89, 19340.06, 13605.03, 33…</span></a>
-<a class="sourceLine" id="cb221-67" data-line-number="67"><span class="co">#&gt; $ alimentos  &lt;dbl&gt; 5618.47, 20930.29, 37594.06, 2892.84, 7367.09, 0.00, …</span></a>
-<a class="sourceLine" id="cb221-68" data-line-number="68"><span class="co">#&gt; $ ali_dentro &lt;dbl&gt; 4075.63, 8587.46, 25251.25, 2892.84, 4795.67, 0.00, 8…</span></a>
-<a class="sourceLine" id="cb221-69" data-line-number="69"><span class="co">#&gt; $ cereales   &lt;dbl&gt; 964.25, 2689.65, 3728.53, 385.71, 257.14, 0.00, 437.1…</span></a>
-<a class="sourceLine" id="cb221-70" data-line-number="70"><span class="co">#&gt; $ carnes     &lt;dbl&gt; 0.00, 1401.41, 2828.56, 2121.42, 2931.41, 0.00, 1787.…</span></a>
-<a class="sourceLine" id="cb221-71" data-line-number="71"><span class="co">#&gt; $ pescado    &lt;dbl&gt; 745.71, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.0…</span></a>
-<a class="sourceLine" id="cb221-72" data-line-number="72"><span class="co">#&gt; $ leche      &lt;dbl&gt; 0.00, 443.55, 4345.70, 0.00, 0.00, 0.00, 2841.41, 149…</span></a>
-<a class="sourceLine" id="cb221-73" data-line-number="73"><span class="co">#&gt; $ huevo      &lt;dbl&gt; 719.98, 0.00, 411.42, 0.00, 0.00, 0.00, 308.57, 629.9…</span></a>
-<a class="sourceLine" id="cb221-74" data-line-number="74"><span class="co">#&gt; $ aceites    &lt;dbl&gt; 0.00, 0.00, 1928.57, 0.00, 0.00, 0.00, 0.00, 0.00, 0.…</span></a>
-<a class="sourceLine" id="cb221-75" data-line-number="75"><span class="co">#&gt; $ tuberculo  &lt;dbl&gt; 0.00, 257.14, 385.71, 0.00, 128.57, 0.00, 231.42, 411…</span></a>
-<a class="sourceLine" id="cb221-76" data-line-number="76"><span class="co">#&gt; $ verduras   &lt;dbl&gt; 745.70, 1893.29, 2635.66, 0.00, 835.70, 0.00, 861.38,…</span></a>
-<a class="sourceLine" id="cb221-77" data-line-number="77"><span class="co">#&gt; $ frutas     &lt;dbl&gt; 0.00, 533.16, 1864.27, 0.00, 0.00, 0.00, 244.27, 809.…</span></a>
-<a class="sourceLine" id="cb221-78" data-line-number="78"><span class="co">#&gt; $ azucar     &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 257.14, 0.00, 0.0…</span></a>
-<a class="sourceLine" id="cb221-79" data-line-number="79"><span class="co">#&gt; $ cafe       &lt;dbl&gt; 0.00, 462.85, 1414.28, 0.00, 0.00, 0.00, 964.28, 0.00…</span></a>
-<a class="sourceLine" id="cb221-80" data-line-number="80"><span class="co">#&gt; $ especias   &lt;dbl&gt; 0.00, 167.14, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.0…</span></a>
-<a class="sourceLine" id="cb221-81" data-line-number="81"><span class="co">#&gt; $ otros_alim &lt;dbl&gt; 0.00, 392.13, 2545.71, 385.71, 514.28, 0.00, 0.00, 26…</span></a>
-<a class="sourceLine" id="cb221-82" data-line-number="82"><span class="co">#&gt; $ bebidas    &lt;dbl&gt; 899.99, 347.14, 3162.84, 0.00, 128.57, 0.00, 411.42, …</span></a>
-<a class="sourceLine" id="cb221-83" data-line-number="83"><span class="co">#&gt; $ ali_fuera  &lt;dbl&gt; 771.42, 12342.83, 12342.81, 0.00, 2571.42, 0.00, 1928…</span></a>
-<a class="sourceLine" id="cb221-84" data-line-number="84"><span class="co">#&gt; $ tabaco     &lt;dbl&gt; 771.42, 0.00, 0.00, 0.00, 0.00, 0.00, 1182.84, 0.00, …</span></a>
-<a class="sourceLine" id="cb221-85" data-line-number="85"><span class="co">#&gt; $ vesti_calz &lt;dbl&gt; 0.00, 401.06, 2015.21, 97.82, 0.00, 0.00, 0.00, 1565.…</span></a>
-<a class="sourceLine" id="cb221-86" data-line-number="86"><span class="co">#&gt; $ vestido    &lt;dbl&gt; 0.00, 224.98, 2015.21, 97.82, 0.00, 0.00, 0.00, 293.4…</span></a>
-<a class="sourceLine" id="cb221-87" data-line-number="87"><span class="co">#&gt; $ calzado    &lt;dbl&gt; 0.00, 176.08, 0.00, 0.00, 0.00, 0.00, 0.00, 1271.73, …</span></a>
-<a class="sourceLine" id="cb221-88" data-line-number="88"><span class="co">#&gt; $ vivienda   &lt;dbl&gt; 3912.00, 2495.00, 4475.00, 1458.00, 300.00, 2801.00, …</span></a>
-<a class="sourceLine" id="cb221-89" data-line-number="89"><span class="co">#&gt; $ alquiler   &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 3900.…</span></a>
-<a class="sourceLine" id="cb221-90" data-line-number="90"><span class="co">#&gt; $ pred_cons  &lt;dbl&gt; 0.00, 1250.00, 1250.00, 0.00, 0.00, 140.00, 250.00, 0…</span></a>
-<a class="sourceLine" id="cb221-91" data-line-number="91"><span class="co">#&gt; $ agua       &lt;dbl&gt; 312.00, 750.00, 750.00, 600.00, 0.00, 741.00, 630.00,…</span></a>
-<a class="sourceLine" id="cb221-92" data-line-number="92"><span class="co">#&gt; $ energia    &lt;dbl&gt; 3600.00, 495.00, 2475.00, 858.00, 300.00, 1920.00, 35…</span></a>
-<a class="sourceLine" id="cb221-93" data-line-number="93"><span class="co">#&gt; $ limpieza   &lt;dbl&gt; 522.00, 412.16, 3318.26, 5514.00, 3300.00, 5682.00, 2…</span></a>
-<a class="sourceLine" id="cb221-94" data-line-number="94"><span class="co">#&gt; $ cuidados   &lt;dbl&gt; 522.00, 375.00, 2340.00, 5514.00, 3300.00, 5682.00, 2…</span></a>
-<a class="sourceLine" id="cb221-95" data-line-number="95"><span class="co">#&gt; $ utensilios &lt;dbl&gt; 0.00, 37.16, 978.26, 0.00, 0.00, 0.00, 195.65, 391.30…</span></a>
-<a class="sourceLine" id="cb221-96" data-line-number="96"><span class="co">#&gt; $ enseres    &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 5901.63, 0.…</span></a>
-<a class="sourceLine" id="cb221-97" data-line-number="97"><span class="co">#&gt; $ salud      &lt;dbl&gt; 0.00, 1348.99, 28858.68, 322.82, 56.73, 0.00, 4695.64…</span></a>
-<a class="sourceLine" id="cb221-98" data-line-number="98"><span class="co">#&gt; $ atenc_ambu &lt;dbl&gt; 0.00, 1007.59, 28858.68, 0.00, 56.73, 0.00, 4695.64, …</span></a>
-<a class="sourceLine" id="cb221-99" data-line-number="99"><span class="co">#&gt; $ hospital   &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00,…</span></a>
-<a class="sourceLine" id="cb221-100" data-line-number="100"><span class="co">#&gt; $ medicinas  &lt;dbl&gt; 0.00, 341.40, 0.00, 322.82, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
-<a class="sourceLine" id="cb221-101" data-line-number="101"><span class="co">#&gt; $ transporte &lt;dbl&gt; 8400.00, 7628.56, 12325.68, 7350.00, 600.00, 18235.70…</span></a>
-<a class="sourceLine" id="cb221-102" data-line-number="102"><span class="co">#&gt; $ publico    &lt;dbl&gt; 0.00, 578.56, 4255.68, 0.00, 0.00, 1285.70, 0.00, 0.0…</span></a>
-<a class="sourceLine" id="cb221-103" data-line-number="103"><span class="co">#&gt; $ foraneo    &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 590.16, 0.00, 0.0…</span></a>
-<a class="sourceLine" id="cb221-104" data-line-number="104"><span class="co">#&gt; $ adqui_vehi &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00,…</span></a>
-<a class="sourceLine" id="cb221-105" data-line-number="105"><span class="co">#&gt; $ mantenim   &lt;dbl&gt; 7200.00, 3600.00, 4500.00, 6000.00, 0.00, 13200.00, 4…</span></a>
-<a class="sourceLine" id="cb221-106" data-line-number="106"><span class="co">#&gt; $ refaccion  &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 2213.11, 0.00, 0.…</span></a>
-<a class="sourceLine" id="cb221-107" data-line-number="107"><span class="co">#&gt; $ combus     &lt;dbl&gt; 7200.00, 3600.00, 4500.00, 6000.00, 0.00, 13200.00, 2…</span></a>
-<a class="sourceLine" id="cb221-108" data-line-number="108"><span class="co">#&gt; $ comunica   &lt;dbl&gt; 1200.00, 3450.00, 3570.00, 1350.00, 600.00, 3750.00, …</span></a>
-<a class="sourceLine" id="cb221-109" data-line-number="109"><span class="co">#&gt; $ educa_espa &lt;dbl&gt; 0.00, 17567.05, 0.00, 639.34, 0.00, 1800.00, 627.00, …</span></a>
-<a class="sourceLine" id="cb221-110" data-line-number="110"><span class="co">#&gt; $ educacion  &lt;dbl&gt; 0.00, 8547.39, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.…</span></a>
-<a class="sourceLine" id="cb221-111" data-line-number="111"><span class="co">#&gt; $ esparci    &lt;dbl&gt; 0.00, 167.21, 0.00, 639.34, 0.00, 1800.00, 627.00, 36…</span></a>
-<a class="sourceLine" id="cb221-112" data-line-number="112"><span class="co">#&gt; $ paq_turist &lt;dbl&gt; 0.00, 8852.45, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.…</span></a>
-<a class="sourceLine" id="cb221-113" data-line-number="113"><span class="co">#&gt; $ personales &lt;dbl&gt; 99.00, 4663.29, 8520.00, 1065.24, 1686.13, 5109.00, 3…</span></a>
-<a class="sourceLine" id="cb221-114" data-line-number="114"><span class="co">#&gt; $ cuida_pers &lt;dbl&gt; 99.00, 1497.00, 8520.00, 180.00, 1647.00, 4509.00, 15…</span></a>
-<a class="sourceLine" id="cb221-115" data-line-number="115"><span class="co">#&gt; $ acces_pers &lt;dbl&gt; 0.00, 166.29, 0.00, 0.00, 39.13, 0.00, 0.00, 0.00, 0.…</span></a>
-<a class="sourceLine" id="cb221-116" data-line-number="116"><span class="co">#&gt; $ otros_gas  &lt;dbl&gt; 0.00, 3000.00, 0.00, 885.24, 0.00, 600.00, 1835.65, 0…</span></a>
-<a class="sourceLine" id="cb221-117" data-line-number="117"><span class="co">#&gt; $ transf_gas &lt;dbl&gt; 0.00, 24.59, 6000.00, 0.00, 295.08, 0.00, 491.80, 236…</span></a>
-<a class="sourceLine" id="cb221-118" data-line-number="118"><span class="co">#&gt; $ percep_tot &lt;dbl&gt; 0.00, 6073.09, 3857.14, 1380.55, 0.00, 1928.57, 489.1…</span></a>
-<a class="sourceLine" id="cb221-119" data-line-number="119"><span class="co">#&gt; $ retiro_inv &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></a>
-<a class="sourceLine" id="cb221-120" data-line-number="120"><span class="co">#&gt; $ prestamos  &lt;dbl&gt; 0.00, 7.37, 0.00, 737.70, 0.00, 0.00, 0.00, 0.00, 491…</span></a>
-<a class="sourceLine" id="cb221-121" data-line-number="121"><span class="co">#&gt; $ otras_perc &lt;dbl&gt; 0.00, 462.28, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.0…</span></a>
-<a class="sourceLine" id="cb221-122" data-line-number="122"><span class="co">#&gt; $ ero_nm_viv &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></a>
-<a class="sourceLine" id="cb221-123" data-line-number="123"><span class="co">#&gt; $ ero_nm_hog &lt;dbl&gt; 0.00, 5603.44, 3857.14, 642.85, 0.00, 1928.57, 489.13…</span></a>
-<a class="sourceLine" id="cb221-124" data-line-number="124"><span class="co">#&gt; $ erogac_tot &lt;dbl&gt; 0.00, 9009.82, 81147.53, 0.00, 0.00, 14754.09, 0.00, …</span></a>
-<a class="sourceLine" id="cb221-125" data-line-number="125"><span class="co">#&gt; $ cuota_viv  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 12000, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
-<a class="sourceLine" id="cb221-126" data-line-number="126"><span class="co">#&gt; $ mater_serv &lt;dbl&gt; 0.00, 147.54, 0.00, 0.00, 0.00, 0.00, 0.00, 7868.85, …</span></a>
-<a class="sourceLine" id="cb221-127" data-line-number="127"><span class="co">#&gt; $ material   &lt;dbl&gt; 0.00, 147.54, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.0…</span></a>
-<a class="sourceLine" id="cb221-128" data-line-number="128"><span class="co">#&gt; $ servicio   &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 7868.85, 0.…</span></a>
-<a class="sourceLine" id="cb221-129" data-line-number="129"><span class="co">#&gt; $ deposito   &lt;dbl&gt; 0.00, 9.83, 66393.44, 0.00, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
-<a class="sourceLine" id="cb221-130" data-line-number="130"><span class="co">#&gt; $ prest_terc &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00,…</span></a>
-<a class="sourceLine" id="cb221-131" data-line-number="131"><span class="co">#&gt; $ pago_tarje &lt;dbl&gt; 0.00, 8852.45, 0.00, 0.00, 0.00, 14754.09, 0.00, 0.00…</span></a>
-<a class="sourceLine" id="cb221-132" data-line-number="132"><span class="co">#&gt; $ deudas     &lt;dbl&gt; 0.00, 0.00, 14754.09, 0.00, 0.00, 0.00, 0.00, 38360.6…</span></a>
-<a class="sourceLine" id="cb221-133" data-line-number="133"><span class="co">#&gt; $ balance    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></a>
-<a class="sourceLine" id="cb221-134" data-line-number="134"><span class="co">#&gt; $ otras_erog &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00,…</span></a>
-<a class="sourceLine" id="cb221-135" data-line-number="135"><span class="co">#&gt; $ smg        &lt;dbl&gt; 7952.4, 7952.4, 7952.4, 7952.4, 7952.4, 7952.4, 7952.…</span></a>
+<a class="sourceLine" id="cb221-10" data-line-number="10"><span class="co">#&gt; $ folioviv   &lt;dbl&gt; 100013601, 100013602, 100013603, 100013604, 100013606, 100…</span></a>
+<a class="sourceLine" id="cb221-11" data-line-number="11"><span class="co">#&gt; $ foliohog   &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></a>
+<a class="sourceLine" id="cb221-12" data-line-number="12"><span class="co">#&gt; $ ubica_geo  &lt;dbl&gt; 1001, 1001, 1001, 1001, 1001, 1001, 1001, 1001, 1001, 1001…</span></a>
+<a class="sourceLine" id="cb221-13" data-line-number="13"><span class="co">#&gt; $ tam_loc    &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></a>
+<a class="sourceLine" id="cb221-14" data-line-number="14"><span class="co">#&gt; $ est_socio  &lt;dbl&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3…</span></a>
+<a class="sourceLine" id="cb221-15" data-line-number="15"><span class="co">#&gt; $ est_dis    &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2…</span></a>
+<a class="sourceLine" id="cb221-16" data-line-number="16"><span class="co">#&gt; $ upm        &lt;dbl&gt; 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5…</span></a>
+<a class="sourceLine" id="cb221-17" data-line-number="17"><span class="co">#&gt; $ factor     &lt;dbl&gt; 175, 175, 175, 175, 175, 189, 189, 189, 189, 186, 186, 186…</span></a>
+<a class="sourceLine" id="cb221-18" data-line-number="18"><span class="co">#&gt; $ clase_hog  &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 1, 2, 2, 3, 2, 1, 2, 2, 2, 2, 3, 1, 3, 2…</span></a>
+<a class="sourceLine" id="cb221-19" data-line-number="19"><span class="co">#&gt; $ sexo_jefe  &lt;dbl&gt; 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></a>
+<a class="sourceLine" id="cb221-20" data-line-number="20"><span class="co">#&gt; $ edad_jefe  &lt;dbl&gt; 74, 48, 39, 70, 51, 41, 57, 53, 30, 69, 76, 77, 70, 29, 68…</span></a>
+<a class="sourceLine" id="cb221-21" data-line-number="21"><span class="co">#&gt; $ educa_jefe &lt;dbl&gt; 4, 11, 10, 8, 4, 11, 9, 11, 6, 4, 3, 4, 6, 6, 9, 7, 6, 8, …</span></a>
+<a class="sourceLine" id="cb221-22" data-line-number="22"><span class="co">#&gt; $ tot_integ  &lt;dbl&gt; 3, 5, 2, 2, 4, 4, 1, 2, 3, 4, 2, 1, 2, 4, 4, 2, 5, 1, 4, 3…</span></a>
+<a class="sourceLine" id="cb221-23" data-line-number="23"><span class="co">#&gt; $ hombres    &lt;dbl&gt; 2, 2, 1, 1, 1, 2, 0, 1, 2, 4, 0, 1, 1, 2, 3, 1, 2, 1, 2, 1…</span></a>
+<a class="sourceLine" id="cb221-24" data-line-number="24"><span class="co">#&gt; $ mujeres    &lt;dbl&gt; 1, 3, 1, 1, 3, 2, 1, 1, 1, 0, 2, 0, 1, 2, 1, 1, 3, 0, 2, 2…</span></a>
+<a class="sourceLine" id="cb221-25" data-line-number="25"><span class="co">#&gt; $ mayores    &lt;dbl&gt; 3, 5, 2, 2, 3, 4, 1, 2, 2, 3, 2, 1, 2, 2, 4, 2, 5, 1, 3, 3…</span></a>
+<a class="sourceLine" id="cb221-26" data-line-number="26"><span class="co">#&gt; $ menores    &lt;dbl&gt; 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 2, 0, 0, 0, 0, 1, 0…</span></a>
+<a class="sourceLine" id="cb221-27" data-line-number="27"><span class="co">#&gt; $ p12_64     &lt;dbl&gt; 1, 5, 2, 1, 3, 4, 1, 2, 2, 2, 1, 0, 0, 2, 2, 0, 5, 1, 3, 2…</span></a>
+<a class="sourceLine" id="cb221-28" data-line-number="28"><span class="co">#&gt; $ p65mas     &lt;dbl&gt; 2, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 2, 0, 2, 2, 0, 0, 0, 1…</span></a>
+<a class="sourceLine" id="cb221-29" data-line-number="29"><span class="co">#&gt; $ ocupados   &lt;dbl&gt; 2, 2, 2, 0, 2, 2, 1, 2, 2, 2, 1, 1, 1, 1, 2, 0, 4, 1, 2, 2…</span></a>
+<a class="sourceLine" id="cb221-30" data-line-number="30"><span class="co">#&gt; $ percep_ing &lt;dbl&gt; 3, 5, 2, 2, 2, 2, 1, 2, 2, 4, 2, 1, 2, 1, 4, 2, 4, 1, 2, 3…</span></a>
+<a class="sourceLine" id="cb221-31" data-line-number="31"><span class="co">#&gt; $ perc_ocupa &lt;dbl&gt; 2, 2, 2, 0, 2, 2, 1, 2, 2, 2, 1, 1, 1, 1, 2, 0, 4, 1, 2, 2…</span></a>
+<a class="sourceLine" id="cb221-32" data-line-number="32"><span class="co">#&gt; $ ing_cor    &lt;dbl&gt; 76403.70, 42987.73, 580697.74, 46252.71, 53837.09, 237742.…</span></a>
+<a class="sourceLine" id="cb221-33" data-line-number="33"><span class="co">#&gt; $ ingtrab    &lt;dbl&gt; 53114.74, 15235.06, 141885.21, 0.00, 43229.49, 129836.03, …</span></a>
+<a class="sourceLine" id="cb221-34" data-line-number="34"><span class="co">#&gt; $ trabajo    &lt;dbl&gt; 53114.74, 0.00, 141885.21, 0.00, 8852.45, 129836.03, 23606…</span></a>
+<a class="sourceLine" id="cb221-35" data-line-number="35"><span class="co">#&gt; $ sueldos    &lt;dbl&gt; 53114.74, 0.00, 133770.48, 0.00, 8852.45, 95901.63, 23606.…</span></a>
+<a class="sourceLine" id="cb221-36" data-line-number="36"><span class="co">#&gt; $ horas_extr &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
+<a class="sourceLine" id="cb221-37" data-line-number="37"><span class="co">#&gt; $ comisiones &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 22131.14, 0.00, 0.00, 0.00, …</span></a>
+<a class="sourceLine" id="cb221-38" data-line-number="38"><span class="co">#&gt; $ aguinaldo  &lt;dbl&gt; 0.00, 0.00, 3934.42, 0.00, 0.00, 11803.26, 0.00, 22131.14,…</span></a>
+<a class="sourceLine" id="cb221-39" data-line-number="39"><span class="co">#&gt; $ indemtrab  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
+<a class="sourceLine" id="cb221-40" data-line-number="40"><span class="co">#&gt; $ otra_rem   &lt;dbl&gt; 0.00, 0.00, 4180.31, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
+<a class="sourceLine" id="cb221-41" data-line-number="41"><span class="co">#&gt; $ remu_espec &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
+<a class="sourceLine" id="cb221-42" data-line-number="42"><span class="co">#&gt; $ negocio    &lt;dbl&gt; 0.00, 13759.66, 0.00, 0.00, 34377.04, 0.00, 0.00, 0.00, 0.…</span></a>
+<a class="sourceLine" id="cb221-43" data-line-number="43"><span class="co">#&gt; $ noagrop    &lt;dbl&gt; 0.00, 13759.66, 0.00, 0.00, 34377.04, 0.00, 0.00, 0.00, 0.…</span></a>
+<a class="sourceLine" id="cb221-44" data-line-number="44"><span class="co">#&gt; $ industria  &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
+<a class="sourceLine" id="cb221-45" data-line-number="45"><span class="co">#&gt; $ comercio   &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 34377.04, 0.00, 0.00, 0.00, 0.00, …</span></a>
+<a class="sourceLine" id="cb221-46" data-line-number="46"><span class="co">#&gt; $ servicios  &lt;dbl&gt; 0.00, 13759.66, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, …</span></a>
+<a class="sourceLine" id="cb221-47" data-line-number="47"><span class="co">#&gt; $ agrope     &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
+<a class="sourceLine" id="cb221-48" data-line-number="48"><span class="co">#&gt; $ agricolas  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
+<a class="sourceLine" id="cb221-49" data-line-number="49"><span class="co">#&gt; $ pecuarios  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
+<a class="sourceLine" id="cb221-50" data-line-number="50"><span class="co">#&gt; $ reproducc  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
+<a class="sourceLine" id="cb221-51" data-line-number="51"><span class="co">#&gt; $ pesca      &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
+<a class="sourceLine" id="cb221-52" data-line-number="52"><span class="co">#&gt; $ otros_trab &lt;dbl&gt; 0.0, 1475.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, …</span></a>
+<a class="sourceLine" id="cb221-53" data-line-number="53"><span class="co">#&gt; $ rentas     &lt;dbl&gt; 0.00, 0.00, 29508.19, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, …</span></a>
+<a class="sourceLine" id="cb221-54" data-line-number="54"><span class="co">#&gt; $ utilidad   &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
+<a class="sourceLine" id="cb221-55" data-line-number="55"><span class="co">#&gt; $ arrenda    &lt;dbl&gt; 0.00, 0.00, 29508.19, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, …</span></a>
+<a class="sourceLine" id="cb221-56" data-line-number="56"><span class="co">#&gt; $ transfer   &lt;dbl&gt; 11288.96, 3752.67, 391304.34, 34252.71, 107.60, 89906.51, …</span></a>
+<a class="sourceLine" id="cb221-57" data-line-number="57"><span class="co">#&gt; $ jubilacion &lt;dbl&gt; 9147.54, 0.00, 0.00, 23606.55, 0.00, 23606.55, 0.00, 0.00,…</span></a>
+<a class="sourceLine" id="cb221-58" data-line-number="58"><span class="co">#&gt; $ becas      &lt;dbl&gt; 0.0, 491.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0…</span></a>
+<a class="sourceLine" id="cb221-59" data-line-number="59"><span class="co">#&gt; $ donativos  &lt;dbl&gt; 0.00, 147.54, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 23…</span></a>
+<a class="sourceLine" id="cb221-60" data-line-number="60"><span class="co">#&gt; $ remesas    &lt;dbl&gt; 0.00, 98.36, 0.00, 5901.63, 0.00, 0.00, 0.00, 0.00, 0.00, …</span></a>
+<a class="sourceLine" id="cb221-61" data-line-number="61"><span class="co">#&gt; $ bene_gob   &lt;dbl&gt; 1622.95, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
+<a class="sourceLine" id="cb221-62" data-line-number="62"><span class="co">#&gt; $ transf_hog &lt;dbl&gt; 0.00, 3014.97, 0.00, 0.00, 107.60, 61714.26, 0.00, 0.00, 0…</span></a>
+<a class="sourceLine" id="cb221-63" data-line-number="63"><span class="co">#&gt; $ trans_inst &lt;dbl&gt; 518.47, 0.00, 391304.34, 4744.53, 0.00, 4585.70, 0.00, 0.0…</span></a>
+<a class="sourceLine" id="cb221-64" data-line-number="64"><span class="co">#&gt; $ estim_alqu &lt;dbl&gt; 12000.00, 24000.00, 18000.00, 12000.00, 10500.00, 18000.00…</span></a>
+<a class="sourceLine" id="cb221-65" data-line-number="65"><span class="co">#&gt; $ otros_ing  &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
+<a class="sourceLine" id="cb221-66" data-line-number="66"><span class="co">#&gt; $ gasto_mon  &lt;dbl&gt; 18551.47, 55470.99, 103106.89, 19340.06, 13605.03, 33627.7…</span></a>
+<a class="sourceLine" id="cb221-67" data-line-number="67"><span class="co">#&gt; $ alimentos  &lt;dbl&gt; 5618.47, 20930.29, 37594.06, 2892.84, 7367.09, 0.00, 11455…</span></a>
+<a class="sourceLine" id="cb221-68" data-line-number="68"><span class="co">#&gt; $ ali_dentro &lt;dbl&gt; 4075.63, 8587.46, 25251.25, 2892.84, 4795.67, 0.00, 8344.1…</span></a>
+<a class="sourceLine" id="cb221-69" data-line-number="69"><span class="co">#&gt; $ cereales   &lt;dbl&gt; 964.25, 2689.65, 3728.53, 385.71, 257.14, 0.00, 437.13, 10…</span></a>
+<a class="sourceLine" id="cb221-70" data-line-number="70"><span class="co">#&gt; $ carnes     &lt;dbl&gt; 0.00, 1401.41, 2828.56, 2121.42, 2931.41, 0.00, 1787.13, 3…</span></a>
+<a class="sourceLine" id="cb221-71" data-line-number="71"><span class="co">#&gt; $ pescado    &lt;dbl&gt; 745.71, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.…</span></a>
+<a class="sourceLine" id="cb221-72" data-line-number="72"><span class="co">#&gt; $ leche      &lt;dbl&gt; 0.00, 443.55, 4345.70, 0.00, 0.00, 0.00, 2841.41, 1491.40,…</span></a>
+<a class="sourceLine" id="cb221-73" data-line-number="73"><span class="co">#&gt; $ huevo      &lt;dbl&gt; 719.98, 0.00, 411.42, 0.00, 0.00, 0.00, 308.57, 629.99, 30…</span></a>
+<a class="sourceLine" id="cb221-74" data-line-number="74"><span class="co">#&gt; $ aceites    &lt;dbl&gt; 0.00, 0.00, 1928.57, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
+<a class="sourceLine" id="cb221-75" data-line-number="75"><span class="co">#&gt; $ tuberculo  &lt;dbl&gt; 0.00, 257.14, 385.71, 0.00, 128.57, 0.00, 231.42, 411.42, …</span></a>
+<a class="sourceLine" id="cb221-76" data-line-number="76"><span class="co">#&gt; $ verduras   &lt;dbl&gt; 745.70, 1893.29, 2635.66, 0.00, 835.70, 0.00, 861.38, 1028…</span></a>
+<a class="sourceLine" id="cb221-77" data-line-number="77"><span class="co">#&gt; $ frutas     &lt;dbl&gt; 0.00, 533.16, 1864.27, 0.00, 0.00, 0.00, 244.27, 809.98, 0…</span></a>
+<a class="sourceLine" id="cb221-78" data-line-number="78"><span class="co">#&gt; $ azucar     &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 257.14, 0.00, 0.00, 0.…</span></a>
+<a class="sourceLine" id="cb221-79" data-line-number="79"><span class="co">#&gt; $ cafe       &lt;dbl&gt; 0.00, 462.85, 1414.28, 0.00, 0.00, 0.00, 964.28, 0.00, 0.0…</span></a>
+<a class="sourceLine" id="cb221-80" data-line-number="80"><span class="co">#&gt; $ especias   &lt;dbl&gt; 0.00, 167.14, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.…</span></a>
+<a class="sourceLine" id="cb221-81" data-line-number="81"><span class="co">#&gt; $ otros_alim &lt;dbl&gt; 0.00, 392.13, 2545.71, 385.71, 514.28, 0.00, 0.00, 2699.99…</span></a>
+<a class="sourceLine" id="cb221-82" data-line-number="82"><span class="co">#&gt; $ bebidas    &lt;dbl&gt; 899.99, 347.14, 3162.84, 0.00, 128.57, 0.00, 411.42, 385.7…</span></a>
+<a class="sourceLine" id="cb221-83" data-line-number="83"><span class="co">#&gt; $ ali_fuera  &lt;dbl&gt; 771.42, 12342.83, 12342.81, 0.00, 2571.42, 0.00, 1928.57, …</span></a>
+<a class="sourceLine" id="cb221-84" data-line-number="84"><span class="co">#&gt; $ tabaco     &lt;dbl&gt; 771.42, 0.00, 0.00, 0.00, 0.00, 0.00, 1182.84, 0.00, 0.00,…</span></a>
+<a class="sourceLine" id="cb221-85" data-line-number="85"><span class="co">#&gt; $ vesti_calz &lt;dbl&gt; 0.00, 401.06, 2015.21, 97.82, 0.00, 0.00, 0.00, 1565.20, 5…</span></a>
+<a class="sourceLine" id="cb221-86" data-line-number="86"><span class="co">#&gt; $ vestido    &lt;dbl&gt; 0.00, 224.98, 2015.21, 97.82, 0.00, 0.00, 0.00, 293.47, 53…</span></a>
+<a class="sourceLine" id="cb221-87" data-line-number="87"><span class="co">#&gt; $ calzado    &lt;dbl&gt; 0.00, 176.08, 0.00, 0.00, 0.00, 0.00, 0.00, 1271.73, 0.00,…</span></a>
+<a class="sourceLine" id="cb221-88" data-line-number="88"><span class="co">#&gt; $ vivienda   &lt;dbl&gt; 3912.00, 2495.00, 4475.00, 1458.00, 300.00, 2801.00, 4405.…</span></a>
+<a class="sourceLine" id="cb221-89" data-line-number="89"><span class="co">#&gt; $ alquiler   &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 3900.00, 1…</span></a>
+<a class="sourceLine" id="cb221-90" data-line-number="90"><span class="co">#&gt; $ pred_cons  &lt;dbl&gt; 0.00, 1250.00, 1250.00, 0.00, 0.00, 140.00, 250.00, 0.00, …</span></a>
+<a class="sourceLine" id="cb221-91" data-line-number="91"><span class="co">#&gt; $ agua       &lt;dbl&gt; 312.00, 750.00, 750.00, 600.00, 0.00, 741.00, 630.00, 690.…</span></a>
+<a class="sourceLine" id="cb221-92" data-line-number="92"><span class="co">#&gt; $ energia    &lt;dbl&gt; 3600.00, 495.00, 2475.00, 858.00, 300.00, 1920.00, 3525.00…</span></a>
+<a class="sourceLine" id="cb221-93" data-line-number="93"><span class="co">#&gt; $ limpieza   &lt;dbl&gt; 522.00, 412.16, 3318.26, 5514.00, 3300.00, 5682.00, 2496.6…</span></a>
+<a class="sourceLine" id="cb221-94" data-line-number="94"><span class="co">#&gt; $ cuidados   &lt;dbl&gt; 522.00, 375.00, 2340.00, 5514.00, 3300.00, 5682.00, 2301.0…</span></a>
+<a class="sourceLine" id="cb221-95" data-line-number="95"><span class="co">#&gt; $ utensilios &lt;dbl&gt; 0.00, 37.16, 978.26, 0.00, 0.00, 0.00, 195.65, 391.30, 0.0…</span></a>
+<a class="sourceLine" id="cb221-96" data-line-number="96"><span class="co">#&gt; $ enseres    &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 5901.63, 0.00, 0…</span></a>
+<a class="sourceLine" id="cb221-97" data-line-number="97"><span class="co">#&gt; $ salud      &lt;dbl&gt; 0.00, 1348.99, 28858.68, 322.82, 56.73, 0.00, 4695.64, 0.0…</span></a>
+<a class="sourceLine" id="cb221-98" data-line-number="98"><span class="co">#&gt; $ atenc_ambu &lt;dbl&gt; 0.00, 1007.59, 28858.68, 0.00, 56.73, 0.00, 4695.64, 0.00,…</span></a>
+<a class="sourceLine" id="cb221-99" data-line-number="99"><span class="co">#&gt; $ hospital   &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 8217…</span></a>
+<a class="sourceLine" id="cb221-100" data-line-number="100"><span class="co">#&gt; $ medicinas  &lt;dbl&gt; 0.00, 341.40, 0.00, 322.82, 0.00, 0.00, 0.00, 0.00, 0.00, …</span></a>
+<a class="sourceLine" id="cb221-101" data-line-number="101"><span class="co">#&gt; $ transporte &lt;dbl&gt; 8400.00, 7628.56, 12325.68, 7350.00, 600.00, 18235.70, 580…</span></a>
+<a class="sourceLine" id="cb221-102" data-line-number="102"><span class="co">#&gt; $ publico    &lt;dbl&gt; 0.00, 578.56, 4255.68, 0.00, 0.00, 1285.70, 0.00, 0.00, 0.…</span></a>
+<a class="sourceLine" id="cb221-103" data-line-number="103"><span class="co">#&gt; $ foraneo    &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 590.16, 0.00, 0.00, 70…</span></a>
+<a class="sourceLine" id="cb221-104" data-line-number="104"><span class="co">#&gt; $ adqui_vehi &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
+<a class="sourceLine" id="cb221-105" data-line-number="105"><span class="co">#&gt; $ mantenim   &lt;dbl&gt; 7200.00, 3600.00, 4500.00, 6000.00, 0.00, 13200.00, 4253.1…</span></a>
+<a class="sourceLine" id="cb221-106" data-line-number="106"><span class="co">#&gt; $ refaccion  &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 2213.11, 0.00, 0.00, 0…</span></a>
+<a class="sourceLine" id="cb221-107" data-line-number="107"><span class="co">#&gt; $ combus     &lt;dbl&gt; 7200.00, 3600.00, 4500.00, 6000.00, 0.00, 13200.00, 2040.0…</span></a>
+<a class="sourceLine" id="cb221-108" data-line-number="108"><span class="co">#&gt; $ comunica   &lt;dbl&gt; 1200.00, 3450.00, 3570.00, 1350.00, 600.00, 3750.00, 960.0…</span></a>
+<a class="sourceLine" id="cb221-109" data-line-number="109"><span class="co">#&gt; $ educa_espa &lt;dbl&gt; 0.00, 17567.05, 0.00, 639.34, 0.00, 1800.00, 627.00, 3600.…</span></a>
+<a class="sourceLine" id="cb221-110" data-line-number="110"><span class="co">#&gt; $ educacion  &lt;dbl&gt; 0.00, 8547.39, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
+<a class="sourceLine" id="cb221-111" data-line-number="111"><span class="co">#&gt; $ esparci    &lt;dbl&gt; 0.00, 167.21, 0.00, 639.34, 0.00, 1800.00, 627.00, 3600.00…</span></a>
+<a class="sourceLine" id="cb221-112" data-line-number="112"><span class="co">#&gt; $ paq_turist &lt;dbl&gt; 0.00, 8852.45, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
+<a class="sourceLine" id="cb221-113" data-line-number="113"><span class="co">#&gt; $ personales &lt;dbl&gt; 99.00, 4663.29, 8520.00, 1065.24, 1686.13, 5109.00, 3335.6…</span></a>
+<a class="sourceLine" id="cb221-114" data-line-number="114"><span class="co">#&gt; $ cuida_pers &lt;dbl&gt; 99.00, 1497.00, 8520.00, 180.00, 1647.00, 4509.00, 1500.00…</span></a>
+<a class="sourceLine" id="cb221-115" data-line-number="115"><span class="co">#&gt; $ acces_pers &lt;dbl&gt; 0.00, 166.29, 0.00, 0.00, 39.13, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
+<a class="sourceLine" id="cb221-116" data-line-number="116"><span class="co">#&gt; $ otros_gas  &lt;dbl&gt; 0.00, 3000.00, 0.00, 885.24, 0.00, 600.00, 1835.65, 0.00, …</span></a>
+<a class="sourceLine" id="cb221-117" data-line-number="117"><span class="co">#&gt; $ transf_gas &lt;dbl&gt; 0.00, 24.59, 6000.00, 0.00, 295.08, 0.00, 491.80, 23606.55…</span></a>
+<a class="sourceLine" id="cb221-118" data-line-number="118"><span class="co">#&gt; $ percep_tot &lt;dbl&gt; 0.00, 6073.09, 3857.14, 1380.55, 0.00, 1928.57, 489.13, 20…</span></a>
+<a class="sourceLine" id="cb221-119" data-line-number="119"><span class="co">#&gt; $ retiro_inv &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
+<a class="sourceLine" id="cb221-120" data-line-number="120"><span class="co">#&gt; $ prestamos  &lt;dbl&gt; 0.00, 7.37, 0.00, 737.70, 0.00, 0.00, 0.00, 0.00, 491.80, …</span></a>
+<a class="sourceLine" id="cb221-121" data-line-number="121"><span class="co">#&gt; $ otras_perc &lt;dbl&gt; 0.00, 462.28, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.…</span></a>
+<a class="sourceLine" id="cb221-122" data-line-number="122"><span class="co">#&gt; $ ero_nm_viv &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
+<a class="sourceLine" id="cb221-123" data-line-number="123"><span class="co">#&gt; $ ero_nm_hog &lt;dbl&gt; 0.00, 5603.44, 3857.14, 642.85, 0.00, 1928.57, 489.13, 205…</span></a>
+<a class="sourceLine" id="cb221-124" data-line-number="124"><span class="co">#&gt; $ erogac_tot &lt;dbl&gt; 0.00, 9009.82, 81147.53, 0.00, 0.00, 14754.09, 0.00, 58229…</span></a>
+<a class="sourceLine" id="cb221-125" data-line-number="125"><span class="co">#&gt; $ cuota_viv  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 12000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</span></a>
+<a class="sourceLine" id="cb221-126" data-line-number="126"><span class="co">#&gt; $ mater_serv &lt;dbl&gt; 0.00, 147.54, 0.00, 0.00, 0.00, 0.00, 0.00, 7868.85, 0.00,…</span></a>
+<a class="sourceLine" id="cb221-127" data-line-number="127"><span class="co">#&gt; $ material   &lt;dbl&gt; 0.00, 147.54, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.…</span></a>
+<a class="sourceLine" id="cb221-128" data-line-number="128"><span class="co">#&gt; $ servicio   &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 7868.85, 0.00, 0…</span></a>
+<a class="sourceLine" id="cb221-129" data-line-number="129"><span class="co">#&gt; $ deposito   &lt;dbl&gt; 0.00, 9.83, 66393.44, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, …</span></a>
+<a class="sourceLine" id="cb221-130" data-line-number="130"><span class="co">#&gt; $ prest_terc &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
+<a class="sourceLine" id="cb221-131" data-line-number="131"><span class="co">#&gt; $ pago_tarje &lt;dbl&gt; 0.00, 8852.45, 0.00, 0.00, 0.00, 14754.09, 0.00, 0.00, 0.0…</span></a>
+<a class="sourceLine" id="cb221-132" data-line-number="132"><span class="co">#&gt; $ deudas     &lt;dbl&gt; 0.00, 0.00, 14754.09, 0.00, 0.00, 0.00, 0.00, 38360.65, 0.…</span></a>
+<a class="sourceLine" id="cb221-133" data-line-number="133"><span class="co">#&gt; $ balance    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
+<a class="sourceLine" id="cb221-134" data-line-number="134"><span class="co">#&gt; $ otras_erog &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
+<a class="sourceLine" id="cb221-135" data-line-number="135"><span class="co">#&gt; $ smg        &lt;dbl&gt; 7952.4, 7952.4, 7952.4, 7952.4, 7952.4, 7952.4, 7952.4, 79…</span></a>
 <a class="sourceLine" id="cb221-136" data-line-number="136"></a>
 <a class="sourceLine" id="cb221-137" data-line-number="137"><span class="co"># seleccionar variable de ingreso corriente</span></a>
 <a class="sourceLine" id="cb221-138" data-line-number="138">hogar &lt;-<span class="st"> </span>concentrado_hogar <span class="op">%&gt;%</span><span class="st"> </span></a>
@@ -804,6 +804,7 @@ la muestra se seleccionó sin reemplazo.</p></li>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
+"github": false,
 "facebook": true,
 "twitter": true,
 "linkedin": false,
@@ -822,6 +823,10 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>9.2 Bootstrap paramétrico | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
-  <meta name="generator" content="bookdown 0.14.1 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.15.1 and GitBook 2.6.7" />
 
   <meta property="og:title" content="9.2 Bootstrap paramétrico | Estadística Computacional" />
   <meta property="og:type" content="book" />
@@ -153,8 +153,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#calificación"><i class="fa fa-check"></i>Calificación</a></li>
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#software"><i class="fa fa-check"></i>Software</a></li>
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#otros-recursos"><i class="fa fa-check"></i>Otros recursos</a></li>
-<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#noticias"><i class="fa fa-check"></i>Noticias</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="noticias.html"><a href="noticias.html"><i class="fa fa-check"></i>Noticias</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="principios-visualización.html"><a href="principios-visualización.html"><i class="fa fa-check"></i><b>1</b> Principios visualización</a><ul>
 <li class="chapter" data-level="1.1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>1.1</b> Introducción</a><ul>
@@ -305,9 +305,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.6" data-path="metrópolis.html"><a href="metrópolis.html"><i class="fa fa-check"></i><b>10.6</b> Metrópolis</a><ul>
 <li class="chapter" data-level="" data-path="metrópolis.html"><a href="metrópolis.html#inferencia-de-dos-proporciones-binomiales"><i class="fa fa-check"></i>Inferencia de dos proporciones binomiales</a></li>
 </ul></li>
-<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a><ul>
-<li class="chapter" data-level="" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#conclusiones-y-observaciones-metrópolis-y-gibbs"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
-</ul></li>
+<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a></li>
+<li class="chapter" data-level="" data-path="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><a href="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -324,6 +323,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="inferencia-visual-y-simulación-e-modelos.html"><a href="inferencia-visual-y-simulación-e-modelos.html"><i class="fa fa-check"></i>9. Inferencia visual y simulación e modelos</a></li>
 <li class="chapter" data-level="" data-path="simulación-muestra-y-bootstrap-paramétrico.html"><a href="simulación-muestra-y-bootstrap-paramétrico.html"><i class="fa fa-check"></i>10. Simulación muestra y bootstrap paramétrico</a></li>
 <li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>11-Familias conjugadas</a></li>
+<li class="chapter" data-level="" data-path="metropolis-1.html"><a href="metropolis-1.html"><i class="fa fa-check"></i>12-Metropolis</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -395,11 +395,11 @@ coeficiente de variación. Estima <span class="math inline">\(\theta\)</span> y 
 <a class="sourceLine" id="cb308-18" data-line-number="18"><span class="co"># Paso 4: Repetimos B = 2000 veces y estimamos el error estándar</span></a>
 <a class="sourceLine" id="cb308-19" data-line-number="19">sims_boot &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">3000</span>, <span class="kw">thetaBoot</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a>
 <a class="sourceLine" id="cb308-20" data-line-number="20"><span class="kw">sqrt</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">2999</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((sims_boot <span class="op">-</span><span class="st"> </span>sigma_hat<span class="op">/</span>mu_hat) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb308-21" data-line-number="21"><span class="co">#&gt; [1] 0.03294018</span></a></code></pre></div>
+<a class="sourceLine" id="cb308-21" data-line-number="21"><span class="co">#&gt; [1] 0.03483328</span></a></code></pre></div>
 <p>Comparamos con el método delta:
 <span class="math display">\[\hat{se}=\frac{1}{\sqrt{n}}\bigg(\frac{1}{\hat{\mu}^4} + \frac{\hat{\sigma}^2}{2\hat{\mu}^2}\bigg)^{1/2}\]</span></p>
 <div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb309-1" data-line-number="1"><span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(n) <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span>mu_hat <span class="op">^</span><span class="st"> </span><span class="dv">4</span> <span class="op">+</span><span class="st"> </span>sigma_hat <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>mu_hat <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)) <span class="op">^</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb309-2" data-line-number="2"><span class="co">#&gt; [1] 0.02617555</span></a></code></pre></div>
+<a class="sourceLine" id="cb309-2" data-line-number="2"><span class="co">#&gt; [1] 0.02704301</span></a></code></pre></div>
 <p><img src="img/manicule2.jpg" /> Supongamos que observamos <span class="math inline">\(70\)</span> realizaciones de
 una Bernoulli, de tal manera que observamos <span class="math inline">\(20\)</span> éxitos, calcula un intervalo de
 confianza usando bootstrap y comparalo con el correspondiente usando la
@@ -532,18 +532,17 @@ error cuadrático) esta dado por:
 <p>y con esto obtenemos: <span class="math inline">\(\hat{\mu}(x) = \sum_{j=1}^7 \hat{\beta_j} h_j(x)\)</span></p>
 <div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb315-1" data-line-number="1">beta_hat &lt;-<span class="st"> </span><span class="kw">as.vector</span>(<span class="kw">solve</span>(<span class="kw">t</span>(H) <span class="op">%*%</span><span class="st"> </span>H) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(H) <span class="op">%*%</span><span class="st"> </span>toy<span class="op">$</span>y)</a>
 <a class="sourceLine" id="cb315-2" data-line-number="2">beta_hat</a>
-<a class="sourceLine" id="cb315-3" data-line-number="3"><span class="co">#&gt; [1] -0.8580413  1.1694904  1.2203256 -4.7069161  9.1974688 -8.5999809</span></a>
-<a class="sourceLine" id="cb315-4" data-line-number="4"><span class="co">#&gt; [7] -1.5685756</span></a>
-<a class="sourceLine" id="cb315-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb315-6" data-line-number="6"><span class="co"># creamos una función que calcula mu(x)</span></a>
-<a class="sourceLine" id="cb315-7" data-line-number="7">mu &lt;-<span class="st"> </span><span class="cf">function</span>(x, betas){</a>
-<a class="sourceLine" id="cb315-8" data-line-number="8">    <span class="kw">as.numeric</span>(betas <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(<span class="kw">eval.basis</span>(x, base)))</a>
-<a class="sourceLine" id="cb315-9" data-line-number="9">}</a>
-<a class="sourceLine" id="cb315-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb315-11" data-line-number="11"><span class="kw">ggplot</span>(toy, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb315-12" data-line-number="12"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.8</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb315-13" data-line-number="13"><span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> mu, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">betas =</span> beta_hat), <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb315-14" data-line-number="14"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;B-splines&quot;</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb315-3" data-line-number="3"><span class="co">#&gt; [1] -0.8580413  1.1694904  1.2203256 -4.7069161  9.1974688 -8.5999809 -1.5685756</span></a>
+<a class="sourceLine" id="cb315-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb315-5" data-line-number="5"><span class="co"># creamos una función que calcula mu(x)</span></a>
+<a class="sourceLine" id="cb315-6" data-line-number="6">mu &lt;-<span class="st"> </span><span class="cf">function</span>(x, betas){</a>
+<a class="sourceLine" id="cb315-7" data-line-number="7">    <span class="kw">as.numeric</span>(betas <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(<span class="kw">eval.basis</span>(x, base)))</a>
+<a class="sourceLine" id="cb315-8" data-line-number="8">}</a>
+<a class="sourceLine" id="cb315-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb315-10" data-line-number="10"><span class="kw">ggplot</span>(toy, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb315-11" data-line-number="11"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.8</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb315-12" data-line-number="12"><span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> mu, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">betas =</span> beta_hat), <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb315-13" data-line-number="13"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;B-splines&quot;</span>)</a></code></pre></div>
 <p><img src="08-Inferencia_parametrica_files/figure-html/unnamed-chunk-14-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p><strong>Bootstrap no paramétrico</strong>. Usemos bootstrap para calcular errores estándar,
 para esto tomamos muestras con reemplazo de los pares <span class="math inline">\(z_i = (x_i,y_i)\)</span>, para
@@ -725,6 +724,7 @@ distribución?</p></li>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
+"github": false,
 "facebook": true,
 "twitter": true,
 "linkedin": false,
@@ -743,6 +743,10 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

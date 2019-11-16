@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4. Programación funcional y distribución muestral | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
-  <meta name="generator" content="bookdown 0.14.1 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.15.1 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4. Programación funcional y distribución muestral | Estadística Computacional" />
   <meta property="og:type" content="book" />
@@ -153,8 +153,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#calificación"><i class="fa fa-check"></i>Calificación</a></li>
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#software"><i class="fa fa-check"></i>Software</a></li>
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#otros-recursos"><i class="fa fa-check"></i>Otros recursos</a></li>
-<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#noticias"><i class="fa fa-check"></i>Noticias</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="noticias.html"><a href="noticias.html"><i class="fa fa-check"></i>Noticias</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="principios-visualización.html"><a href="principios-visualización.html"><i class="fa fa-check"></i><b>1</b> Principios visualización</a><ul>
 <li class="chapter" data-level="1.1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>1.1</b> Introducción</a><ul>
@@ -305,9 +305,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.6" data-path="metrópolis.html"><a href="metrópolis.html"><i class="fa fa-check"></i><b>10.6</b> Metrópolis</a><ul>
 <li class="chapter" data-level="" data-path="metrópolis.html"><a href="metrópolis.html#inferencia-de-dos-proporciones-binomiales"><i class="fa fa-check"></i>Inferencia de dos proporciones binomiales</a></li>
 </ul></li>
-<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a><ul>
-<li class="chapter" data-level="" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#conclusiones-y-observaciones-metrópolis-y-gibbs"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
-</ul></li>
+<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a></li>
+<li class="chapter" data-level="" data-path="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><a href="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -324,6 +323,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="inferencia-visual-y-simulación-e-modelos.html"><a href="inferencia-visual-y-simulación-e-modelos.html"><i class="fa fa-check"></i>9. Inferencia visual y simulación e modelos</a></li>
 <li class="chapter" data-level="" data-path="simulación-muestra-y-bootstrap-paramétrico.html"><a href="simulación-muestra-y-bootstrap-paramétrico.html"><i class="fa fa-check"></i>10. Simulación muestra y bootstrap paramétrico</a></li>
 <li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>11-Familias conjugadas</a></li>
+<li class="chapter" data-level="" data-path="metropolis-1.html"><a href="metropolis-1.html"><i class="fa fa-check"></i>12-Metropolis</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -543,8 +543,7 @@ paso:</p>
 <a class="sourceLine" id="cb375-13" data-line-number="13"><span class="co">#&gt; 2     100 &lt;dbl [1…   553.             6.54 &lt;list [10,00… &lt;dbl [10,0…</span></a>
 <a class="sourceLine" id="cb375-14" data-line-number="14"><span class="co">#&gt; 3    1000 &lt;dbl [1…   552.             1.90 &lt;list [10,00… &lt;dbl [10,0…</span></a>
 <a class="sourceLine" id="cb375-15" data-line-number="15"><span class="co">#&gt; # … with 5 more variables: e_estandar_aprox &lt;dbl&gt;, e_estandar_pob &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb375-16" data-line-number="16"><span class="co">#&gt; #   sims_muestras_boot &lt;list&gt;, sims_medias_boot &lt;list&gt;,</span></a>
-<a class="sourceLine" id="cb375-17" data-line-number="17"><span class="co">#&gt; #   e_estandar_boot &lt;dbl&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb375-16" data-line-number="16"><span class="co">#&gt; #   sims_muestras_boot &lt;list&gt;, sims_medias_boot &lt;list&gt;, e_estandar_boot &lt;dbl&gt;</span></a></code></pre></div>
 <p>Graficamos los histogramas de la distribución bootstrap para cada muestra.</p>
 <div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb376-1" data-line-number="1">sims_medias_boot &lt;-<span class="st"> </span>muestras_sims_est_boot <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb376-2" data-line-number="2"><span class="st">    </span><span class="kw">select</span>(tamanos, sims_medias_boot) <span class="op">%&gt;%</span><span class="st"> </span></a>
@@ -560,11 +559,11 @@ paso:</p>
 <a class="sourceLine" id="cb377-2" data-line-number="2"><span class="st">    </span><span class="kw">select</span>(tamanos, e_estandar_boot, e_estandar_plug_in, e_estandar_aprox, </a>
 <a class="sourceLine" id="cb377-3" data-line-number="3">        e_estandar_pob)</a>
 <a class="sourceLine" id="cb377-4" data-line-number="4"><span class="co">#&gt; # A tibble: 3 x 5</span></a>
-<a class="sourceLine" id="cb377-5" data-line-number="5"><span class="co">#&gt;   tamanos e_estandar_boot e_estandar_plug_… e_estandar_aprox e_estandar_pob</span></a>
-<a class="sourceLine" id="cb377-6" data-line-number="6"><span class="co">#&gt;     &lt;dbl&gt;           &lt;dbl&gt;             &lt;dbl&gt;            &lt;dbl&gt;          &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb377-7" data-line-number="7"><span class="co">#&gt; 1      10           19.3              19.3             18.9           18.7 </span></a>
-<a class="sourceLine" id="cb377-8" data-line-number="8"><span class="co">#&gt; 2     100            6.53              6.54             5.92           5.93</span></a>
-<a class="sourceLine" id="cb377-9" data-line-number="9"><span class="co">#&gt; 3    1000            1.89              1.90             1.87           1.87</span></a></code></pre></div>
+<a class="sourceLine" id="cb377-5" data-line-number="5"><span class="co">#&gt;   tamanos e_estandar_boot e_estandar_plug_in e_estandar_aprox e_estandar_pob</span></a>
+<a class="sourceLine" id="cb377-6" data-line-number="6"><span class="co">#&gt;     &lt;dbl&gt;           &lt;dbl&gt;              &lt;dbl&gt;            &lt;dbl&gt;          &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb377-7" data-line-number="7"><span class="co">#&gt; 1      10           19.3               19.3             18.9           18.7 </span></a>
+<a class="sourceLine" id="cb377-8" data-line-number="8"><span class="co">#&gt; 2     100            6.53               6.54             5.92           5.93</span></a>
+<a class="sourceLine" id="cb377-9" data-line-number="9"><span class="co">#&gt; 3    1000            1.89               1.90             1.87           1.87</span></a></code></pre></div>
 <p>Observamos que el estimador bootstrap del error estándar es muy similar al
 estimador plug-in del error estándar, esto es esperado pues se calcularon con la
 misma muestra y el error estándar <em>bootstrap</em> converge al <em>plug-in</em> conforme
@@ -593,6 +592,7 @@ incrementamos el número de muestras <em>bootstrap</em>.</p>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
+"github": false,
 "facebook": true,
 "twitter": true,
 "linkedin": false,
@@ -611,6 +611,10 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

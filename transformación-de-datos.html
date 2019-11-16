@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3.1 Transformación de datos | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
-  <meta name="generator" content="bookdown 0.14.1 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.15.1 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3.1 Transformación de datos | Estadística Computacional" />
   <meta property="og:type" content="book" />
@@ -153,8 +153,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#calificación"><i class="fa fa-check"></i>Calificación</a></li>
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#software"><i class="fa fa-check"></i>Software</a></li>
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#otros-recursos"><i class="fa fa-check"></i>Otros recursos</a></li>
-<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#noticias"><i class="fa fa-check"></i>Noticias</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="noticias.html"><a href="noticias.html"><i class="fa fa-check"></i>Noticias</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="principios-visualización.html"><a href="principios-visualización.html"><i class="fa fa-check"></i><b>1</b> Principios visualización</a><ul>
 <li class="chapter" data-level="1.1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>1.1</b> Introducción</a><ul>
@@ -305,9 +305,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.6" data-path="metrópolis.html"><a href="metrópolis.html"><i class="fa fa-check"></i><b>10.6</b> Metrópolis</a><ul>
 <li class="chapter" data-level="" data-path="metrópolis.html"><a href="metrópolis.html#inferencia-de-dos-proporciones-binomiales"><i class="fa fa-check"></i>Inferencia de dos proporciones binomiales</a></li>
 </ul></li>
-<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a><ul>
-<li class="chapter" data-level="" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#conclusiones-y-observaciones-metrópolis-y-gibbs"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
-</ul></li>
+<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a></li>
+<li class="chapter" data-level="" data-path="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><a href="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -324,6 +323,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="inferencia-visual-y-simulación-e-modelos.html"><a href="inferencia-visual-y-simulación-e-modelos.html"><i class="fa fa-check"></i>9. Inferencia visual y simulación e modelos</a></li>
 <li class="chapter" data-level="" data-path="simulación-muestra-y-bootstrap-paramétrico.html"><a href="simulación-muestra-y-bootstrap-paramétrico.html"><i class="fa fa-check"></i>10. Simulación muestra y bootstrap paramétrico</a></li>
 <li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>11-Familias conjugadas</a></li>
+<li class="chapter" data-level="" data-path="metropolis-1.html"><a href="metropolis-1.html"><i class="fa fa-check"></i>12-Metropolis</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -383,43 +383,43 @@ del repositorio de GitHub y se cargan con la función <code>load()</code>.</p>
 <a class="sourceLine" id="cb29-2" data-line-number="2"><span class="kw">glimpse</span>(df_mxmunicipio)</a>
 <a class="sourceLine" id="cb29-3" data-line-number="3"><span class="co">#&gt; Observations: 2,457</span></a>
 <a class="sourceLine" id="cb29-4" data-line-number="4"><span class="co">#&gt; Variables: 18</span></a>
-<a class="sourceLine" id="cb29-5" data-line-number="5"><span class="co">#&gt; $ state_code          &lt;chr&gt; &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;0…</span></a>
-<a class="sourceLine" id="cb29-6" data-line-number="6"><span class="co">#&gt; $ municipio_code      &lt;chr&gt; &quot;001&quot;, &quot;002&quot;, &quot;003&quot;, &quot;004&quot;, &quot;005&quot;, &quot;006&quot;, &quot;0…</span></a>
-<a class="sourceLine" id="cb29-7" data-line-number="7"><span class="co">#&gt; $ region              &lt;chr&gt; &quot;01001&quot;, &quot;01002&quot;, &quot;01003&quot;, &quot;01004&quot;, &quot;01005&quot;,…</span></a>
-<a class="sourceLine" id="cb29-8" data-line-number="8"><span class="co">#&gt; $ state_name          &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguasca…</span></a>
-<a class="sourceLine" id="cb29-9" data-line-number="9"><span class="co">#&gt; $ state_name_official &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguasca…</span></a>
-<a class="sourceLine" id="cb29-10" data-line-number="10"><span class="co">#&gt; $ state_abbr          &lt;chr&gt; &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;A…</span></a>
-<a class="sourceLine" id="cb29-11" data-line-number="11"><span class="co">#&gt; $ state_abbr_official &lt;chr&gt; &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags…</span></a>
-<a class="sourceLine" id="cb29-12" data-line-number="12"><span class="co">#&gt; $ municipio_name      &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Asientos&quot;, &quot;Calvillo&quot;, &quot;C…</span></a>
-<a class="sourceLine" id="cb29-13" data-line-number="13"><span class="co">#&gt; $ pop                 &lt;int&gt; 877190, 46464, 56048, 15577, 120405, 46473, …</span></a>
-<a class="sourceLine" id="cb29-14" data-line-number="14"><span class="co">#&gt; $ pop_male            &lt;int&gt; 425731, 22745, 27298, 7552, 60135, 22490, 26…</span></a>
-<a class="sourceLine" id="cb29-15" data-line-number="15"><span class="co">#&gt; $ pop_female          &lt;int&gt; 451459, 23719, 28750, 8025, 60270, 23983, 27…</span></a>
-<a class="sourceLine" id="cb29-16" data-line-number="16"><span class="co">#&gt; $ afromexican         &lt;dbl&gt; 532, 3, 10, 0, 32, 3, 13, 13, 4, 0, 43, 1139…</span></a>
-<a class="sourceLine" id="cb29-17" data-line-number="17"><span class="co">#&gt; $ part_afromexican    &lt;dbl&gt; 2791, 130, 167, 67, 219, 74, 578, 37, 59, 60…</span></a>
-<a class="sourceLine" id="cb29-18" data-line-number="18"><span class="co">#&gt; $ indigenous          &lt;dbl&gt; 104125, 1691, 7358, 2213, 8679, 6232, 6714, …</span></a>
-<a class="sourceLine" id="cb29-19" data-line-number="19"><span class="co">#&gt; $ part_indigenous     &lt;dbl&gt; 14209, 92, 2223, 191, 649, 251, 247, 84, 76,…</span></a>
-<a class="sourceLine" id="cb29-20" data-line-number="20"><span class="co">#&gt; $ metro_area          &lt;chr&gt; &quot;Aguascalientes&quot;, NA, NA, NA, &quot;Aguascaliente…</span></a>
-<a class="sourceLine" id="cb29-21" data-line-number="21"><span class="co">#&gt; $ long                &lt;dbl&gt; -102.29605, -102.08928, -102.71875, -102.300…</span></a>
-<a class="sourceLine" id="cb29-22" data-line-number="22"><span class="co">#&gt; $ lat                 &lt;dbl&gt; 21.87982, 22.23832, 21.84691, 22.36641, 21.9…</span></a>
+<a class="sourceLine" id="cb29-5" data-line-number="5"><span class="co">#&gt; $ state_code          &lt;chr&gt; &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;…</span></a>
+<a class="sourceLine" id="cb29-6" data-line-number="6"><span class="co">#&gt; $ municipio_code      &lt;chr&gt; &quot;001&quot;, &quot;002&quot;, &quot;003&quot;, &quot;004&quot;, &quot;005&quot;, &quot;006&quot;, &quot;007&quot;, …</span></a>
+<a class="sourceLine" id="cb29-7" data-line-number="7"><span class="co">#&gt; $ region              &lt;chr&gt; &quot;01001&quot;, &quot;01002&quot;, &quot;01003&quot;, &quot;01004&quot;, &quot;01005&quot;, &quot;010…</span></a>
+<a class="sourceLine" id="cb29-8" data-line-number="8"><span class="co">#&gt; $ state_name          &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalient…</span></a>
+<a class="sourceLine" id="cb29-9" data-line-number="9"><span class="co">#&gt; $ state_name_official &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalient…</span></a>
+<a class="sourceLine" id="cb29-10" data-line-number="10"><span class="co">#&gt; $ state_abbr          &lt;chr&gt; &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, …</span></a>
+<a class="sourceLine" id="cb29-11" data-line-number="11"><span class="co">#&gt; $ state_abbr_official &lt;chr&gt; &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;…</span></a>
+<a class="sourceLine" id="cb29-12" data-line-number="12"><span class="co">#&gt; $ municipio_name      &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Asientos&quot;, &quot;Calvillo&quot;, &quot;Cosío&quot;…</span></a>
+<a class="sourceLine" id="cb29-13" data-line-number="13"><span class="co">#&gt; $ pop                 &lt;int&gt; 877190, 46464, 56048, 15577, 120405, 46473, 53866…</span></a>
+<a class="sourceLine" id="cb29-14" data-line-number="14"><span class="co">#&gt; $ pop_male            &lt;int&gt; 425731, 22745, 27298, 7552, 60135, 22490, 26693, …</span></a>
+<a class="sourceLine" id="cb29-15" data-line-number="15"><span class="co">#&gt; $ pop_female          &lt;int&gt; 451459, 23719, 28750, 8025, 60270, 23983, 27173, …</span></a>
+<a class="sourceLine" id="cb29-16" data-line-number="16"><span class="co">#&gt; $ afromexican         &lt;dbl&gt; 532, 3, 10, 0, 32, 3, 13, 13, 4, 0, 43, 1139, 351…</span></a>
+<a class="sourceLine" id="cb29-17" data-line-number="17"><span class="co">#&gt; $ part_afromexican    &lt;dbl&gt; 2791, 130, 167, 67, 219, 74, 578, 37, 59, 60, 377…</span></a>
+<a class="sourceLine" id="cb29-18" data-line-number="18"><span class="co">#&gt; $ indigenous          &lt;dbl&gt; 104125, 1691, 7358, 2213, 8679, 6232, 6714, 1733,…</span></a>
+<a class="sourceLine" id="cb29-19" data-line-number="19"><span class="co">#&gt; $ part_indigenous     &lt;dbl&gt; 14209, 92, 2223, 191, 649, 251, 247, 84, 76, 244,…</span></a>
+<a class="sourceLine" id="cb29-20" data-line-number="20"><span class="co">#&gt; $ metro_area          &lt;chr&gt; &quot;Aguascalientes&quot;, NA, NA, NA, &quot;Aguascalientes&quot;, N…</span></a>
+<a class="sourceLine" id="cb29-21" data-line-number="21"><span class="co">#&gt; $ long                &lt;dbl&gt; -102.29605, -102.08928, -102.71875, -102.30004, -…</span></a>
+<a class="sourceLine" id="cb29-22" data-line-number="22"><span class="co">#&gt; $ lat                 &lt;dbl&gt; 21.87982, 22.23832, 21.84691, 22.36641, 21.96127,…</span></a>
 <a class="sourceLine" id="cb29-23" data-line-number="23"><span class="kw">glimpse</span>(df_edu)</a>
 <a class="sourceLine" id="cb29-24" data-line-number="24"><span class="co">#&gt; Observations: 7,371</span></a>
 <a class="sourceLine" id="cb29-25" data-line-number="25"><span class="co">#&gt; Variables: 16</span></a>
-<a class="sourceLine" id="cb29-26" data-line-number="26"><span class="co">#&gt; $ state_code     &lt;chr&gt; &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;…</span></a>
-<a class="sourceLine" id="cb29-27" data-line-number="27"><span class="co">#&gt; $ municipio_code &lt;chr&gt; &quot;001&quot;, &quot;001&quot;, &quot;001&quot;, &quot;002&quot;, &quot;002&quot;, &quot;002&quot;, &quot;003&quot;, …</span></a>
-<a class="sourceLine" id="cb29-28" data-line-number="28"><span class="co">#&gt; $ region         &lt;chr&gt; &quot;01001&quot;, &quot;01001&quot;, &quot;01001&quot;, &quot;01002&quot;, &quot;01002&quot;, &quot;010…</span></a>
-<a class="sourceLine" id="cb29-29" data-line-number="29"><span class="co">#&gt; $ state_name     &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalient…</span></a>
-<a class="sourceLine" id="cb29-30" data-line-number="30"><span class="co">#&gt; $ state_abbr     &lt;chr&gt; &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, …</span></a>
-<a class="sourceLine" id="cb29-31" data-line-number="31"><span class="co">#&gt; $ municipio_name &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalient…</span></a>
-<a class="sourceLine" id="cb29-32" data-line-number="32"><span class="co">#&gt; $ sex            &lt;chr&gt; &quot;Total&quot;, &quot;Hombres&quot;, &quot;Mujeres&quot;, &quot;Total&quot;, &quot;Hombres&quot;…</span></a>
-<a class="sourceLine" id="cb29-33" data-line-number="33"><span class="co">#&gt; $ pop_15         &lt;dbl&gt; 631064, 301714, 329350, 31013, 14991, 16022, 3867…</span></a>
-<a class="sourceLine" id="cb29-34" data-line-number="34"><span class="co">#&gt; $ no_school      &lt;dbl&gt; 2.662329, 2.355211, 2.943677, 4.011221, 4.389300,…</span></a>
-<a class="sourceLine" id="cb29-35" data-line-number="35"><span class="co">#&gt; $ preschool      &lt;dbl&gt; 0.17335801, 0.17466873, 0.17215728, 0.25795634, 0…</span></a>
-<a class="sourceLine" id="cb29-36" data-line-number="36"><span class="co">#&gt; $ elementary     &lt;dbl&gt; 20.15247, 18.60073, 21.57401, 33.77938, 35.48129,…</span></a>
-<a class="sourceLine" id="cb29-37" data-line-number="37"><span class="co">#&gt; $ secondary      &lt;dbl&gt; 29.31145, 30.37976, 28.33278, 39.21259, 37.45581,…</span></a>
-<a class="sourceLine" id="cb29-38" data-line-number="38"><span class="co">#&gt; $ highschool     &lt;dbl&gt; 23.31824, 22.84912, 23.74799, 16.07068, 15.67607,…</span></a>
-<a class="sourceLine" id="cb29-39" data-line-number="39"><span class="co">#&gt; $ higher_edu     &lt;dbl&gt; 24.291989, 25.560299, 23.130105, 6.355399, 6.3571…</span></a>
-<a class="sourceLine" id="cb29-40" data-line-number="40"><span class="co">#&gt; $ other          &lt;dbl&gt; 0.09016518, 0.08020841, 0.09928647, 0.31277206, 0…</span></a>
-<a class="sourceLine" id="cb29-41" data-line-number="41"><span class="co">#&gt; $ schoolyrs      &lt;dbl&gt; 10.211152, 10.380144, 10.056383, 7.854005, 7.6920…</span></a></code></pre></div>
+<a class="sourceLine" id="cb29-26" data-line-number="26"><span class="co">#&gt; $ state_code     &lt;chr&gt; &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, …</span></a>
+<a class="sourceLine" id="cb29-27" data-line-number="27"><span class="co">#&gt; $ municipio_code &lt;chr&gt; &quot;001&quot;, &quot;001&quot;, &quot;001&quot;, &quot;002&quot;, &quot;002&quot;, &quot;002&quot;, &quot;003&quot;, &quot;003&quot;…</span></a>
+<a class="sourceLine" id="cb29-28" data-line-number="28"><span class="co">#&gt; $ region         &lt;chr&gt; &quot;01001&quot;, &quot;01001&quot;, &quot;01001&quot;, &quot;01002&quot;, &quot;01002&quot;, &quot;01002&quot;, …</span></a>
+<a class="sourceLine" id="cb29-29" data-line-number="29"><span class="co">#&gt; $ state_name     &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, …</span></a>
+<a class="sourceLine" id="cb29-30" data-line-number="30"><span class="co">#&gt; $ state_abbr     &lt;chr&gt; &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;…</span></a>
+<a class="sourceLine" id="cb29-31" data-line-number="31"><span class="co">#&gt; $ municipio_name &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, …</span></a>
+<a class="sourceLine" id="cb29-32" data-line-number="32"><span class="co">#&gt; $ sex            &lt;chr&gt; &quot;Total&quot;, &quot;Hombres&quot;, &quot;Mujeres&quot;, &quot;Total&quot;, &quot;Hombres&quot;, &quot;Mu…</span></a>
+<a class="sourceLine" id="cb29-33" data-line-number="33"><span class="co">#&gt; $ pop_15         &lt;dbl&gt; 631064, 301714, 329350, 31013, 14991, 16022, 38678, 18…</span></a>
+<a class="sourceLine" id="cb29-34" data-line-number="34"><span class="co">#&gt; $ no_school      &lt;dbl&gt; 2.662329, 2.355211, 2.943677, 4.011221, 4.389300, 3.65…</span></a>
+<a class="sourceLine" id="cb29-35" data-line-number="35"><span class="co">#&gt; $ preschool      &lt;dbl&gt; 0.17335801, 0.17466873, 0.17215728, 0.25795634, 0.2935…</span></a>
+<a class="sourceLine" id="cb29-36" data-line-number="36"><span class="co">#&gt; $ elementary     &lt;dbl&gt; 20.15247, 18.60073, 21.57401, 33.77938, 35.48129, 32.1…</span></a>
+<a class="sourceLine" id="cb29-37" data-line-number="37"><span class="co">#&gt; $ secondary      &lt;dbl&gt; 29.31145, 30.37976, 28.33278, 39.21259, 37.45581, 40.8…</span></a>
+<a class="sourceLine" id="cb29-38" data-line-number="38"><span class="co">#&gt; $ highschool     &lt;dbl&gt; 23.31824, 22.84912, 23.74799, 16.07068, 15.67607, 16.4…</span></a>
+<a class="sourceLine" id="cb29-39" data-line-number="39"><span class="co">#&gt; $ higher_edu     &lt;dbl&gt; 24.291989, 25.560299, 23.130105, 6.355399, 6.357148, 6…</span></a>
+<a class="sourceLine" id="cb29-40" data-line-number="40"><span class="co">#&gt; $ other          &lt;dbl&gt; 0.09016518, 0.08020841, 0.09928647, 0.31277206, 0.3468…</span></a>
+<a class="sourceLine" id="cb29-41" data-line-number="41"><span class="co">#&gt; $ schoolyrs      &lt;dbl&gt; 10.211152, 10.380144, 10.056383, 7.854005, 7.692086, 8…</span></a></code></pre></div>
 </div>
 <div id="filtrar" class="section level3 unnumbered">
 <h3>Filtrar</h3>
@@ -504,19 +504,19 @@ se expresan como <code>NA</code>, para seleccionar los registros con faltante en
 variable <code>schoolyrs</code> de los datos <code>df_edu</code> resulta natural escribir:</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">filter</span>(df_edu, schoolyrs <span class="op">==</span><span class="st"> </span><span class="ot">NA</span>)</a>
 <a class="sourceLine" id="cb37-2" data-line-number="2"><span class="co">#&gt; # A tibble: 0 x 16</span></a>
-<a class="sourceLine" id="cb37-3" data-line-number="3"><span class="co">#&gt; # … with 16 variables: state_code &lt;chr&gt;, municipio_code &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb37-4" data-line-number="4"><span class="co">#&gt; #   region &lt;chr&gt;, state_name &lt;chr&gt;, state_abbr &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb37-5" data-line-number="5"><span class="co">#&gt; #   municipio_name &lt;chr&gt;, sex &lt;chr&gt;, pop_15 &lt;dbl&gt;, no_school &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb37-6" data-line-number="6"><span class="co">#&gt; #   preschool &lt;dbl&gt;, elementary &lt;dbl&gt;, secondary &lt;dbl&gt;, highschool &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb37-7" data-line-number="7"><span class="co">#&gt; #   higher_edu &lt;dbl&gt;, other &lt;dbl&gt;, schoolyrs &lt;dbl&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb37-3" data-line-number="3"><span class="co">#&gt; # … with 16 variables: state_code &lt;chr&gt;, municipio_code &lt;chr&gt;, region &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb37-4" data-line-number="4"><span class="co">#&gt; #   state_name &lt;chr&gt;, state_abbr &lt;chr&gt;, municipio_name &lt;chr&gt;, sex &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb37-5" data-line-number="5"><span class="co">#&gt; #   pop_15 &lt;dbl&gt;, no_school &lt;dbl&gt;, preschool &lt;dbl&gt;, elementary &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb37-6" data-line-number="6"><span class="co">#&gt; #   secondary &lt;dbl&gt;, highschool &lt;dbl&gt;, higher_edu &lt;dbl&gt;, other &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb37-7" data-line-number="7"><span class="co">#&gt; #   schoolyrs &lt;dbl&gt;</span></a></code></pre></div>
 <p>Y para eliminarlos</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">filter</span>(df_edu, schoolyrs <span class="op">!=</span><span class="st"> </span><span class="ot">NA</span>)</a>
 <a class="sourceLine" id="cb38-2" data-line-number="2"><span class="co">#&gt; # A tibble: 0 x 16</span></a>
-<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="co">#&gt; # … with 16 variables: state_code &lt;chr&gt;, municipio_code &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb38-4" data-line-number="4"><span class="co">#&gt; #   region &lt;chr&gt;, state_name &lt;chr&gt;, state_abbr &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb38-5" data-line-number="5"><span class="co">#&gt; #   municipio_name &lt;chr&gt;, sex &lt;chr&gt;, pop_15 &lt;dbl&gt;, no_school &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb38-6" data-line-number="6"><span class="co">#&gt; #   preschool &lt;dbl&gt;, elementary &lt;dbl&gt;, secondary &lt;dbl&gt;, highschool &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb38-7" data-line-number="7"><span class="co">#&gt; #   higher_edu &lt;dbl&gt;, other &lt;dbl&gt;, schoolyrs &lt;dbl&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="co">#&gt; # … with 16 variables: state_code &lt;chr&gt;, municipio_code &lt;chr&gt;, region &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb38-4" data-line-number="4"><span class="co">#&gt; #   state_name &lt;chr&gt;, state_abbr &lt;chr&gt;, municipio_name &lt;chr&gt;, sex &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb38-5" data-line-number="5"><span class="co">#&gt; #   pop_15 &lt;dbl&gt;, no_school &lt;dbl&gt;, preschool &lt;dbl&gt;, elementary &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb38-6" data-line-number="6"><span class="co">#&gt; #   secondary &lt;dbl&gt;, highschool &lt;dbl&gt;, higher_edu &lt;dbl&gt;, other &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb38-7" data-line-number="7"><span class="co">#&gt; #   schoolyrs &lt;dbl&gt;</span></a></code></pre></div>
 <p>en ambos casos nos devuelve una tabla vacía!</p>
 <p>El problema resulta de usar los operadores <code>==</code> y <code>!=</code>, pensemos ¿qué regresan
 las siguientes expresiones?</p>
@@ -945,43 +945,43 @@ adecuado? ¿de qué tamaño serán los datos finales?</p>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">glimpse</span>(df_edu)</a>
 <a class="sourceLine" id="cb58-2" data-line-number="2"><span class="co">#&gt; Observations: 7,371</span></a>
 <a class="sourceLine" id="cb58-3" data-line-number="3"><span class="co">#&gt; Variables: 16</span></a>
-<a class="sourceLine" id="cb58-4" data-line-number="4"><span class="co">#&gt; $ state_code     &lt;chr&gt; &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;…</span></a>
-<a class="sourceLine" id="cb58-5" data-line-number="5"><span class="co">#&gt; $ municipio_code &lt;chr&gt; &quot;001&quot;, &quot;001&quot;, &quot;001&quot;, &quot;002&quot;, &quot;002&quot;, &quot;002&quot;, &quot;003&quot;, …</span></a>
-<a class="sourceLine" id="cb58-6" data-line-number="6"><span class="co">#&gt; $ region         &lt;chr&gt; &quot;01001&quot;, &quot;01001&quot;, &quot;01001&quot;, &quot;01002&quot;, &quot;01002&quot;, &quot;010…</span></a>
-<a class="sourceLine" id="cb58-7" data-line-number="7"><span class="co">#&gt; $ state_name     &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalient…</span></a>
-<a class="sourceLine" id="cb58-8" data-line-number="8"><span class="co">#&gt; $ state_abbr     &lt;chr&gt; &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, …</span></a>
-<a class="sourceLine" id="cb58-9" data-line-number="9"><span class="co">#&gt; $ municipio_name &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalient…</span></a>
-<a class="sourceLine" id="cb58-10" data-line-number="10"><span class="co">#&gt; $ sex            &lt;chr&gt; &quot;Total&quot;, &quot;Hombres&quot;, &quot;Mujeres&quot;, &quot;Total&quot;, &quot;Hombres&quot;…</span></a>
-<a class="sourceLine" id="cb58-11" data-line-number="11"><span class="co">#&gt; $ pop_15         &lt;dbl&gt; 631064, 301714, 329350, 31013, 14991, 16022, 3867…</span></a>
-<a class="sourceLine" id="cb58-12" data-line-number="12"><span class="co">#&gt; $ no_school      &lt;dbl&gt; 2.662329, 2.355211, 2.943677, 4.011221, 4.389300,…</span></a>
-<a class="sourceLine" id="cb58-13" data-line-number="13"><span class="co">#&gt; $ preschool      &lt;dbl&gt; 0.17335801, 0.17466873, 0.17215728, 0.25795634, 0…</span></a>
-<a class="sourceLine" id="cb58-14" data-line-number="14"><span class="co">#&gt; $ elementary     &lt;dbl&gt; 20.15247, 18.60073, 21.57401, 33.77938, 35.48129,…</span></a>
-<a class="sourceLine" id="cb58-15" data-line-number="15"><span class="co">#&gt; $ secondary      &lt;dbl&gt; 29.31145, 30.37976, 28.33278, 39.21259, 37.45581,…</span></a>
-<a class="sourceLine" id="cb58-16" data-line-number="16"><span class="co">#&gt; $ highschool     &lt;dbl&gt; 23.31824, 22.84912, 23.74799, 16.07068, 15.67607,…</span></a>
-<a class="sourceLine" id="cb58-17" data-line-number="17"><span class="co">#&gt; $ higher_edu     &lt;dbl&gt; 24.291989, 25.560299, 23.130105, 6.355399, 6.3571…</span></a>
-<a class="sourceLine" id="cb58-18" data-line-number="18"><span class="co">#&gt; $ other          &lt;dbl&gt; 0.09016518, 0.08020841, 0.09928647, 0.31277206, 0…</span></a>
-<a class="sourceLine" id="cb58-19" data-line-number="19"><span class="co">#&gt; $ schoolyrs      &lt;dbl&gt; 10.211152, 10.380144, 10.056383, 7.854005, 7.6920…</span></a>
+<a class="sourceLine" id="cb58-4" data-line-number="4"><span class="co">#&gt; $ state_code     &lt;chr&gt; &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, …</span></a>
+<a class="sourceLine" id="cb58-5" data-line-number="5"><span class="co">#&gt; $ municipio_code &lt;chr&gt; &quot;001&quot;, &quot;001&quot;, &quot;001&quot;, &quot;002&quot;, &quot;002&quot;, &quot;002&quot;, &quot;003&quot;, &quot;003&quot;…</span></a>
+<a class="sourceLine" id="cb58-6" data-line-number="6"><span class="co">#&gt; $ region         &lt;chr&gt; &quot;01001&quot;, &quot;01001&quot;, &quot;01001&quot;, &quot;01002&quot;, &quot;01002&quot;, &quot;01002&quot;, …</span></a>
+<a class="sourceLine" id="cb58-7" data-line-number="7"><span class="co">#&gt; $ state_name     &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, …</span></a>
+<a class="sourceLine" id="cb58-8" data-line-number="8"><span class="co">#&gt; $ state_abbr     &lt;chr&gt; &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;…</span></a>
+<a class="sourceLine" id="cb58-9" data-line-number="9"><span class="co">#&gt; $ municipio_name &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, …</span></a>
+<a class="sourceLine" id="cb58-10" data-line-number="10"><span class="co">#&gt; $ sex            &lt;chr&gt; &quot;Total&quot;, &quot;Hombres&quot;, &quot;Mujeres&quot;, &quot;Total&quot;, &quot;Hombres&quot;, &quot;Mu…</span></a>
+<a class="sourceLine" id="cb58-11" data-line-number="11"><span class="co">#&gt; $ pop_15         &lt;dbl&gt; 631064, 301714, 329350, 31013, 14991, 16022, 38678, 18…</span></a>
+<a class="sourceLine" id="cb58-12" data-line-number="12"><span class="co">#&gt; $ no_school      &lt;dbl&gt; 2.662329, 2.355211, 2.943677, 4.011221, 4.389300, 3.65…</span></a>
+<a class="sourceLine" id="cb58-13" data-line-number="13"><span class="co">#&gt; $ preschool      &lt;dbl&gt; 0.17335801, 0.17466873, 0.17215728, 0.25795634, 0.2935…</span></a>
+<a class="sourceLine" id="cb58-14" data-line-number="14"><span class="co">#&gt; $ elementary     &lt;dbl&gt; 20.15247, 18.60073, 21.57401, 33.77938, 35.48129, 32.1…</span></a>
+<a class="sourceLine" id="cb58-15" data-line-number="15"><span class="co">#&gt; $ secondary      &lt;dbl&gt; 29.31145, 30.37976, 28.33278, 39.21259, 37.45581, 40.8…</span></a>
+<a class="sourceLine" id="cb58-16" data-line-number="16"><span class="co">#&gt; $ highschool     &lt;dbl&gt; 23.31824, 22.84912, 23.74799, 16.07068, 15.67607, 16.4…</span></a>
+<a class="sourceLine" id="cb58-17" data-line-number="17"><span class="co">#&gt; $ higher_edu     &lt;dbl&gt; 24.291989, 25.560299, 23.130105, 6.355399, 6.357148, 6…</span></a>
+<a class="sourceLine" id="cb58-18" data-line-number="18"><span class="co">#&gt; $ other          &lt;dbl&gt; 0.09016518, 0.08020841, 0.09928647, 0.31277206, 0.3468…</span></a>
+<a class="sourceLine" id="cb58-19" data-line-number="19"><span class="co">#&gt; $ schoolyrs      &lt;dbl&gt; 10.211152, 10.380144, 10.056383, 7.854005, 7.692086, 8…</span></a>
 <a class="sourceLine" id="cb58-20" data-line-number="20"><span class="kw">glimpse</span>(df_mxmunicipio)</a>
 <a class="sourceLine" id="cb58-21" data-line-number="21"><span class="co">#&gt; Observations: 2,457</span></a>
 <a class="sourceLine" id="cb58-22" data-line-number="22"><span class="co">#&gt; Variables: 18</span></a>
-<a class="sourceLine" id="cb58-23" data-line-number="23"><span class="co">#&gt; $ state_code          &lt;chr&gt; &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;0…</span></a>
-<a class="sourceLine" id="cb58-24" data-line-number="24"><span class="co">#&gt; $ municipio_code      &lt;chr&gt; &quot;001&quot;, &quot;002&quot;, &quot;003&quot;, &quot;004&quot;, &quot;005&quot;, &quot;006&quot;, &quot;0…</span></a>
-<a class="sourceLine" id="cb58-25" data-line-number="25"><span class="co">#&gt; $ region              &lt;chr&gt; &quot;01001&quot;, &quot;01002&quot;, &quot;01003&quot;, &quot;01004&quot;, &quot;01005&quot;,…</span></a>
-<a class="sourceLine" id="cb58-26" data-line-number="26"><span class="co">#&gt; $ state_name          &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguasca…</span></a>
-<a class="sourceLine" id="cb58-27" data-line-number="27"><span class="co">#&gt; $ state_name_official &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguasca…</span></a>
-<a class="sourceLine" id="cb58-28" data-line-number="28"><span class="co">#&gt; $ state_abbr          &lt;chr&gt; &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;A…</span></a>
-<a class="sourceLine" id="cb58-29" data-line-number="29"><span class="co">#&gt; $ state_abbr_official &lt;chr&gt; &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags…</span></a>
-<a class="sourceLine" id="cb58-30" data-line-number="30"><span class="co">#&gt; $ municipio_name      &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Asientos&quot;, &quot;Calvillo&quot;, &quot;C…</span></a>
-<a class="sourceLine" id="cb58-31" data-line-number="31"><span class="co">#&gt; $ pop                 &lt;int&gt; 877190, 46464, 56048, 15577, 120405, 46473, …</span></a>
-<a class="sourceLine" id="cb58-32" data-line-number="32"><span class="co">#&gt; $ pop_male            &lt;int&gt; 425731, 22745, 27298, 7552, 60135, 22490, 26…</span></a>
-<a class="sourceLine" id="cb58-33" data-line-number="33"><span class="co">#&gt; $ pop_female          &lt;int&gt; 451459, 23719, 28750, 8025, 60270, 23983, 27…</span></a>
-<a class="sourceLine" id="cb58-34" data-line-number="34"><span class="co">#&gt; $ afromexican         &lt;dbl&gt; 532, 3, 10, 0, 32, 3, 13, 13, 4, 0, 43, 1139…</span></a>
-<a class="sourceLine" id="cb58-35" data-line-number="35"><span class="co">#&gt; $ part_afromexican    &lt;dbl&gt; 2791, 130, 167, 67, 219, 74, 578, 37, 59, 60…</span></a>
-<a class="sourceLine" id="cb58-36" data-line-number="36"><span class="co">#&gt; $ indigenous          &lt;dbl&gt; 104125, 1691, 7358, 2213, 8679, 6232, 6714, …</span></a>
-<a class="sourceLine" id="cb58-37" data-line-number="37"><span class="co">#&gt; $ part_indigenous     &lt;dbl&gt; 14209, 92, 2223, 191, 649, 251, 247, 84, 76,…</span></a>
-<a class="sourceLine" id="cb58-38" data-line-number="38"><span class="co">#&gt; $ metro_area          &lt;chr&gt; &quot;Aguascalientes&quot;, NA, NA, NA, &quot;Aguascaliente…</span></a>
-<a class="sourceLine" id="cb58-39" data-line-number="39"><span class="co">#&gt; $ long                &lt;dbl&gt; -102.29605, -102.08928, -102.71875, -102.300…</span></a>
-<a class="sourceLine" id="cb58-40" data-line-number="40"><span class="co">#&gt; $ lat                 &lt;dbl&gt; 21.87982, 22.23832, 21.84691, 22.36641, 21.9…</span></a></code></pre></div>
+<a class="sourceLine" id="cb58-23" data-line-number="23"><span class="co">#&gt; $ state_code          &lt;chr&gt; &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;…</span></a>
+<a class="sourceLine" id="cb58-24" data-line-number="24"><span class="co">#&gt; $ municipio_code      &lt;chr&gt; &quot;001&quot;, &quot;002&quot;, &quot;003&quot;, &quot;004&quot;, &quot;005&quot;, &quot;006&quot;, &quot;007&quot;, …</span></a>
+<a class="sourceLine" id="cb58-25" data-line-number="25"><span class="co">#&gt; $ region              &lt;chr&gt; &quot;01001&quot;, &quot;01002&quot;, &quot;01003&quot;, &quot;01004&quot;, &quot;01005&quot;, &quot;010…</span></a>
+<a class="sourceLine" id="cb58-26" data-line-number="26"><span class="co">#&gt; $ state_name          &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalient…</span></a>
+<a class="sourceLine" id="cb58-27" data-line-number="27"><span class="co">#&gt; $ state_name_official &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalient…</span></a>
+<a class="sourceLine" id="cb58-28" data-line-number="28"><span class="co">#&gt; $ state_abbr          &lt;chr&gt; &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, …</span></a>
+<a class="sourceLine" id="cb58-29" data-line-number="29"><span class="co">#&gt; $ state_abbr_official &lt;chr&gt; &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;…</span></a>
+<a class="sourceLine" id="cb58-30" data-line-number="30"><span class="co">#&gt; $ municipio_name      &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Asientos&quot;, &quot;Calvillo&quot;, &quot;Cosío&quot;…</span></a>
+<a class="sourceLine" id="cb58-31" data-line-number="31"><span class="co">#&gt; $ pop                 &lt;int&gt; 877190, 46464, 56048, 15577, 120405, 46473, 53866…</span></a>
+<a class="sourceLine" id="cb58-32" data-line-number="32"><span class="co">#&gt; $ pop_male            &lt;int&gt; 425731, 22745, 27298, 7552, 60135, 22490, 26693, …</span></a>
+<a class="sourceLine" id="cb58-33" data-line-number="33"><span class="co">#&gt; $ pop_female          &lt;int&gt; 451459, 23719, 28750, 8025, 60270, 23983, 27173, …</span></a>
+<a class="sourceLine" id="cb58-34" data-line-number="34"><span class="co">#&gt; $ afromexican         &lt;dbl&gt; 532, 3, 10, 0, 32, 3, 13, 13, 4, 0, 43, 1139, 351…</span></a>
+<a class="sourceLine" id="cb58-35" data-line-number="35"><span class="co">#&gt; $ part_afromexican    &lt;dbl&gt; 2791, 130, 167, 67, 219, 74, 578, 37, 59, 60, 377…</span></a>
+<a class="sourceLine" id="cb58-36" data-line-number="36"><span class="co">#&gt; $ indigenous          &lt;dbl&gt; 104125, 1691, 7358, 2213, 8679, 6232, 6714, 1733,…</span></a>
+<a class="sourceLine" id="cb58-37" data-line-number="37"><span class="co">#&gt; $ part_indigenous     &lt;dbl&gt; 14209, 92, 2223, 191, 649, 251, 247, 84, 76, 244,…</span></a>
+<a class="sourceLine" id="cb58-38" data-line-number="38"><span class="co">#&gt; $ metro_area          &lt;chr&gt; &quot;Aguascalientes&quot;, NA, NA, NA, &quot;Aguascalientes&quot;, N…</span></a>
+<a class="sourceLine" id="cb58-39" data-line-number="39"><span class="co">#&gt; $ long                &lt;dbl&gt; -102.29605, -102.08928, -102.71875, -102.30004, -…</span></a>
+<a class="sourceLine" id="cb58-40" data-line-number="40"><span class="co">#&gt; $ lat                 &lt;dbl&gt; 21.87982, 22.23832, 21.84691, 22.36641, 21.96127,…</span></a></code></pre></div>
 <p>Si queremos un mapa del ganador de las elecciones por estado debemos unir los
 datos de elecciones con datos geográficos, estos estan incluídos en <code>mxmaps</code>,
 son <code>mxstate.map</code>.</p>
@@ -1072,6 +1072,7 @@ de la población casada a total (mayores de 12 años).</p>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
+"github": false,
 "facebook": true,
 "twitter": true,
 "linkedin": false,
@@ -1090,6 +1091,10 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

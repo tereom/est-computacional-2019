@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>10.7 Muestreador de Gibbs | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
-  <meta name="generator" content="bookdown 0.14.1 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.15.1 and GitBook 2.6.7" />
 
   <meta property="og:title" content="10.7 Muestreador de Gibbs | Estadística Computacional" />
   <meta property="og:type" content="book" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="metrópolis.html"/>
-<link rel="next" href="tareas.html"/>
+<link rel="next" href="conclusiones-y-observaciones-metrópolis-y-gibbs.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -153,8 +153,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#calificación"><i class="fa fa-check"></i>Calificación</a></li>
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#software"><i class="fa fa-check"></i>Software</a></li>
 <li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#otros-recursos"><i class="fa fa-check"></i>Otros recursos</a></li>
-<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#noticias"><i class="fa fa-check"></i>Noticias</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="noticias.html"><a href="noticias.html"><i class="fa fa-check"></i>Noticias</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="principios-visualización.html"><a href="principios-visualización.html"><i class="fa fa-check"></i><b>1</b> Principios visualización</a><ul>
 <li class="chapter" data-level="1.1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>1.1</b> Introducción</a><ul>
@@ -305,9 +305,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.6" data-path="metrópolis.html"><a href="metrópolis.html"><i class="fa fa-check"></i><b>10.6</b> Metrópolis</a><ul>
 <li class="chapter" data-level="" data-path="metrópolis.html"><a href="metrópolis.html#inferencia-de-dos-proporciones-binomiales"><i class="fa fa-check"></i>Inferencia de dos proporciones binomiales</a></li>
 </ul></li>
-<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a><ul>
-<li class="chapter" data-level="" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#conclusiones-y-observaciones-metrópolis-y-gibbs"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
-</ul></li>
+<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a></li>
+<li class="chapter" data-level="" data-path="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><a href="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -324,6 +323,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="inferencia-visual-y-simulación-e-modelos.html"><a href="inferencia-visual-y-simulación-e-modelos.html"><i class="fa fa-check"></i>9. Inferencia visual y simulación e modelos</a></li>
 <li class="chapter" data-level="" data-path="simulación-muestra-y-bootstrap-paramétrico.html"><a href="simulación-muestra-y-bootstrap-paramétrico.html"><i class="fa fa-check"></i>10. Simulación muestra y bootstrap paramétrico</a></li>
 <li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>11-Familias conjugadas</a></li>
+<li class="chapter" data-level="" data-path="metropolis-1.html"><a href="metropolis-1.html"><i class="fa fa-check"></i>12-Metropolis</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -578,16 +578,15 @@ de interés:</p>
 <a class="sourceLine" id="cb357-2" data-line-number="2"><span class="kw">set.seed</span>(<span class="dv">122</span>)</a>
 <a class="sourceLine" id="cb357-3" data-line-number="3">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(N, <span class="dv">2</span>, <span class="dv">2</span>) </a>
 <a class="sourceLine" id="cb357-4" data-line-number="4">x</a>
-<a class="sourceLine" id="cb357-5" data-line-number="5"><span class="co">#&gt;  [1]  4.62140176  0.24829384  2.39904749  2.93190885 -1.60411353</span></a>
-<a class="sourceLine" id="cb357-6" data-line-number="6"><span class="co">#&gt;  [6]  4.89748691  2.59770769  2.72362329 -0.01388084  1.48600171</span></a>
-<a class="sourceLine" id="cb357-7" data-line-number="7"><span class="co">#&gt; [11]  1.73574244  0.31673052  2.54850449 -2.92518071 -2.30679198</span></a>
-<a class="sourceLine" id="cb357-8" data-line-number="8"><span class="co">#&gt; [16]  4.31835150  3.37948021  3.76050265  0.11325957  3.43814572</span></a>
-<a class="sourceLine" id="cb357-9" data-line-number="9"><span class="co">#&gt; [21]  0.92434912  0.95470268 -0.10584378  2.20303449  5.72700211</span></a>
-<a class="sourceLine" id="cb357-10" data-line-number="10"><span class="co">#&gt; [26]  1.96078181 -0.15661507  2.34520855  3.06610819  5.90452895</span></a>
-<a class="sourceLine" id="cb357-11" data-line-number="11"><span class="co">#&gt; [31]  4.82270939  3.20273052  0.17200480  5.16085186  1.06016874</span></a>
-<a class="sourceLine" id="cb357-12" data-line-number="12"><span class="co">#&gt; [36]  5.20367778  2.74547989  2.06775571  2.20820677 -2.03674850</span></a>
-<a class="sourceLine" id="cb357-13" data-line-number="13"><span class="co">#&gt; [41]  0.68398061 -1.21700489 -0.68818260  1.60665220  4.75132535</span></a>
-<a class="sourceLine" id="cb357-14" data-line-number="14"><span class="co">#&gt; [46]  2.34663000  1.12144484 -1.19064581  0.51144488  5.63041621</span></a></code></pre></div>
+<a class="sourceLine" id="cb357-5" data-line-number="5"><span class="co">#&gt;  [1]  4.62140176  0.24829384  2.39904749  2.93190885 -1.60411353  4.89748691</span></a>
+<a class="sourceLine" id="cb357-6" data-line-number="6"><span class="co">#&gt;  [7]  2.59770769  2.72362329 -0.01388084  1.48600171  1.73574244  0.31673052</span></a>
+<a class="sourceLine" id="cb357-7" data-line-number="7"><span class="co">#&gt; [13]  2.54850449 -2.92518071 -2.30679198  4.31835150  3.37948021  3.76050265</span></a>
+<a class="sourceLine" id="cb357-8" data-line-number="8"><span class="co">#&gt; [19]  0.11325957  3.43814572  0.92434912  0.95470268 -0.10584378  2.20303449</span></a>
+<a class="sourceLine" id="cb357-9" data-line-number="9"><span class="co">#&gt; [25]  5.72700211  1.96078181 -0.15661507  2.34520855  3.06610819  5.90452895</span></a>
+<a class="sourceLine" id="cb357-10" data-line-number="10"><span class="co">#&gt; [31]  4.82270939  3.20273052  0.17200480  5.16085186  1.06016874  5.20367778</span></a>
+<a class="sourceLine" id="cb357-11" data-line-number="11"><span class="co">#&gt; [37]  2.74547989  2.06775571  2.20820677 -2.03674850  0.68398061 -1.21700489</span></a>
+<a class="sourceLine" id="cb357-12" data-line-number="12"><span class="co">#&gt; [43] -0.68818260  1.60665220  4.75132535  2.34663000  1.12144484 -1.19064581</span></a>
+<a class="sourceLine" id="cb357-13" data-line-number="13"><span class="co">#&gt; [49]  0.51144488  5.63041621</span></a></code></pre></div>
 <p>Escribimos el muestreador de Gibbs.</p>
 <div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb358-1" data-line-number="1">m &lt;-<span class="st"> </span><span class="fl">1.5</span>; tau2 &lt;-<span class="st"> </span><span class="dv">16</span>; alpha &lt;-<span class="st"> </span><span class="dv">3</span>; beta &lt;-<span class="st"> </span><span class="dv">3</span> <span class="co"># parámetros de iniciales</span></a>
 <a class="sourceLine" id="cb358-2" data-line-number="2"></a>
@@ -661,60 +660,14 @@ términos de precisión (el inverso de la varianza). Si parametrizamos de esta
 manera <span class="math inline">\(\nu = 1/\sigma^2\)</span> podemos repetir el proceso anterior con la
 diferencia de utilizar la distribución Gamma en lugar de Gamma inversa.</p>
 </div>
-<div id="conclusiones-y-observaciones-metrópolis-y-gibbs" class="section level3 unnumbered">
-<h3>Conclusiones y observaciones Metrópolis y Gibbs</h3>
-<ul>
-<li><p>Una generalización del algoritmo de Metrópolis es Metrópolis-Hastings.</p>
-El algoritmo de Metropolis es como sigue:
-<ol style="list-style-type: decimal">
-<li>Generamos un punto inicial tal que <span class="math inline">\(p(\theta)&gt;0\)</span>.</li>
-<li>Para <span class="math inline">\(t = 1,2,...\)</span>
-<ul>
-<li>Se propone un nuevo valor <span class="math inline">\(\theta_{propuesto}\)</span> con una distribución
-propuesta <span class="math inline">\(g(\theta_{propuesta}|\theta_{actual})\)</span> es común que <span class="math inline">\(g(\theta_{propuesta}|\theta_{actual})\)</span> sea una normal centrada en
-<span class="math inline">\(\theta_{actual}\)</span>.</li>
-</ul></li>
-<li>Calculamos
-<span class="math display">\[p_{mover}=min\bigg( \frac{p(\theta_{propuesta})}{p(\theta_{actual})},1\bigg)\]</span>
-y aceptamos <span class="math display">\[\theta_{propuesta}\]</span> con probabilidad <span class="math inline">\(p_{mover}\)</span>. Es así que el algorito requiere que podamos calcular el cociente en <span class="math inline">\(p_{mover}\)</span>
-para todo <span class="math inline">\(\theta_{actual}\)</span> y <span class="math inline">\(\theta_{propuesta}\)</span>, así como simular de la
-distribución propuesta <span class="math inline">\(g(\theta_{propuesta}|\theta_{actual})\)</span>, adicionalmente
-debemos poder generar valores uniformes para decidir si aceptar/rechazar.
-En el caso de <strong>Metropolis</strong> un requerimiento adicional es que la distribución
-propuesta <span class="math inline">\(g(\theta_{a}|\theta_b)\)</span> debe ser simétrica, es decir <span class="math inline">\(g(\theta_{a}|\theta_b) = g(\theta_{b}|\theta_a)\)</span> para todo <span class="math inline">\(\theta_{a}\)</span>,
-<span class="math inline">\(\theta_{b}\)</span>.</li>
-</ol>
-<p><strong>Metropolis-Hastings</strong> generaliza Metropolis, eliminando la restricción de
-simetría en la distribución propuesta <span class="math inline">\(g(\theta_{a}|\theta_b)\)</span>, sin embargo para corregir por
-esta asimetría debemos calcular <span class="math inline">\(p_{mover}\)</span> como sigue:
-<span class="math display">\[p_{mover}=min\bigg( \frac{p(\theta_{propuesta})/g(\theta_{propuesta}|\theta_{actual})}{p(\theta_{actual})/g(\theta_{actual}|\theta_{propuesta})},1\bigg)\]</span>
-La generalización de Metrópolis-Hastings puede resultar en algoritmos más
-veloces.</p></li>
-<li><p>Se puede ver Gibbs como una generalización de Metropolis, cuando estamos
-actualizando un componente de los parámetros, la distribución propuesta es
-la distribución posterior para ese parámetro, por tanto siempre es aceptado.</p></li>
-<li><p>En el caso de modelos complicados se utilizan combinaciones de Gibbs y
-Metropolis. Cuando se consideran estos dos algoritmos Gibbs es un método más
-simple y es la primera opción para modelos condicionalmente conjugados. Sí solo
-podemos simular de un subconjunto de las distribuciones condicionales
-posteriores, entonces podemos usar Gibbs siempre que se pueda y Metropolis
-unidimensional para el resto, o de manera más general separamos en bloques, un
-bloque se actualiza con Gibbs y otro con Metrópolis.</p></li>
-<li><p>El algoritmo de Gibbs puede <em>atorarse</em> cuando hay correlación alta entre los
-parámetros, reparametrizar puede ayudar, o se pueden usar otros algoritmos que
-veremos más adelante.</p></li>
-</ul>
-
 </div>
-</div>
-<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
 <a href="metrópolis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="tareas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="conclusiones-y-observaciones-metrópolis-y-gibbs.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -730,6 +683,7 @@ veremos más adelante.</p></li>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
+"github": false,
 "facebook": true,
 "twitter": true,
 "linkedin": false,
@@ -748,6 +702,10 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

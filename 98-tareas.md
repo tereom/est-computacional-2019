@@ -155,21 +155,21 @@ Trabajaremos con los datos `df_marital`,
 library(estcomp)
 df_marital
 #> # A tibble: 29,484 x 14
-#>    state_code municipio_code region state_name state_abbr municipio_name
-#>    <chr>      <chr>          <chr>  <chr>      <chr>      <chr>         
-#>  1 01         001            01001  Aguascali… AGS        Aguascalientes
-#>  2 01         001            01001  Aguascali… AGS        Aguascalientes
-#>  3 01         001            01001  Aguascali… AGS        Aguascalientes
-#>  4 01         001            01001  Aguascali… AGS        Aguascalientes
-#>  5 01         001            01001  Aguascali… AGS        Aguascalientes
-#>  6 01         001            01001  Aguascali… AGS        Aguascalientes
-#>  7 01         001            01001  Aguascali… AGS        Aguascalientes
-#>  8 01         001            01001  Aguascali… AGS        Aguascalientes
-#>  9 01         001            01001  Aguascali… AGS        Aguascalientes
-#> 10 01         001            01001  Aguascali… AGS        Aguascalientes
-#> # … with 29,474 more rows, and 8 more variables: sex <chr>,
-#> #   age_group <chr>, pop <dbl>, single <dbl>, married <dbl>,
-#> #   living_w_partner <dbl>, separated <dbl>, other <dbl>
+#>    state_code municipio_code region state_name state_abbr municipio_name sex  
+#>    <chr>      <chr>          <chr>  <chr>      <chr>      <chr>          <chr>
+#>  1 01         001            01001  Aguascali… AGS        Aguascalientes Total
+#>  2 01         001            01001  Aguascali… AGS        Aguascalientes Total
+#>  3 01         001            01001  Aguascali… AGS        Aguascalientes Total
+#>  4 01         001            01001  Aguascali… AGS        Aguascalientes Total
+#>  5 01         001            01001  Aguascali… AGS        Aguascalientes Homb…
+#>  6 01         001            01001  Aguascali… AGS        Aguascalientes Homb…
+#>  7 01         001            01001  Aguascali… AGS        Aguascalientes Homb…
+#>  8 01         001            01001  Aguascali… AGS        Aguascalientes Homb…
+#>  9 01         001            01001  Aguascali… AGS        Aguascalientes Muje…
+#> 10 01         001            01001  Aguascali… AGS        Aguascalientes Muje…
+#> # … with 29,474 more rows, and 7 more variables: age_group <chr>, pop <dbl>,
+#> #   single <dbl>, married <dbl>, living_w_partner <dbl>, separated <dbl>,
+#> #   other <dbl>
 ```
 
 2. Limpia los datos y muestra las primeras y últimas líneas (usa `head()` y 
@@ -408,8 +408,7 @@ muestras_sims_est_boot
 #> 2     100 <dbl [1…   553.             6.54 <list [10,00… <dbl [10,0…
 #> 3    1000 <dbl [1…   552.             1.90 <list [10,00… <dbl [10,0…
 #> # … with 5 more variables: e_estandar_aprox <dbl>, e_estandar_pob <dbl>,
-#> #   sims_muestras_boot <list>, sims_medias_boot <list>,
-#> #   e_estandar_boot <dbl>
+#> #   sims_muestras_boot <list>, sims_medias_boot <list>, e_estandar_boot <dbl>
 ```
 
 Graficamos los histogramas de la distribución bootstrap para cada muestra.
@@ -436,11 +435,11 @@ muestras_sims_est_boot %>%
     select(tamanos, e_estandar_boot, e_estandar_plug_in, e_estandar_aprox, 
         e_estandar_pob)
 #> # A tibble: 3 x 5
-#>   tamanos e_estandar_boot e_estandar_plug_… e_estandar_aprox e_estandar_pob
-#>     <dbl>           <dbl>             <dbl>            <dbl>          <dbl>
-#> 1      10           19.3              19.3             18.9           18.7 
-#> 2     100            6.53              6.54             5.92           5.93
-#> 3    1000            1.89              1.90             1.87           1.87
+#>   tamanos e_estandar_boot e_estandar_plug_in e_estandar_aprox e_estandar_pob
+#>     <dbl>           <dbl>              <dbl>            <dbl>          <dbl>
+#> 1      10           19.3               19.3             18.9           18.7 
+#> 2     100            6.53               6.54             5.92           5.93
+#> 3    1000            1.89               1.90             1.87           1.87
 ```
 
 Observamos que el estimador bootstrap del error estándar es muy similar al 
@@ -517,19 +516,19 @@ necesario) contiene para cada casilla:
 ```r
 sample_2006
 #> # A tibble: 7,200 x 11
-#>    polling_id stratum edo_id rural pri_pvem   pan panal prd_pt_conv   psd
-#>         <int>   <dbl>  <int> <dbl>    <int> <int> <int>       <int> <int>
-#>  1      74593     106     16     1       47    40     0          40     0
-#>  2     109927     194     27     0      131    10     0         147     1
-#>  3     112039     199     28     0       51    74     2          57     2
-#>  4      86392     141     20     1      145    64     2         139     1
-#>  5     101306     176     24     0       51   160     0          64    14
-#>  6      86044     140     20     1      150    20     0         166     1
-#>  7      56057      57     15     1      117   119     2          82     0
-#>  8      84186     128     19     0      118   205     8          73     9
-#>  9      27778     283      9     0       26    65     5         249     7
-#> 10      29892     289      9     0       27    32     0         338    14
-#> # … with 7,190 more rows, and 2 more variables: otros <int>, total <int>
+#>    polling_id stratum edo_id rural pri_pvem   pan panal prd_pt_conv   psd otros
+#>         <int>   <dbl>  <int> <dbl>    <int> <int> <int>       <int> <int> <int>
+#>  1      74593     106     16     1       47    40     0          40     0     9
+#>  2     109927     194     27     0      131    10     0         147     1     8
+#>  3     112039     199     28     0       51    74     2          57     2     2
+#>  4      86392     141     20     1      145    64     2         139     1    14
+#>  5     101306     176     24     0       51   160     0          64    14     1
+#>  6      86044     140     20     1      150    20     0         166     1    11
+#>  7      56057      57     15     1      117   119     2          82     0    24
+#>  8      84186     128     19     0      118   205     8          73     9    13
+#>  9      27778     283      9     0       26    65     5         249     7     2
+#> 10      29892     289      9     0       27    32     0         338    14     7
+#> # … with 7,190 more rows, and 1 more variable: total <int>
 ```
 
 Una de las metodolgías de estimación, que se usa en el conteo rápido, es 
@@ -1047,3 +1046,91 @@ usando la inicial y verosimilitud que definimos arriba. Una vez que realices la
 multiplicación debes identificar el núcleo de una distribución Normal, 
 
 ¿cuáles son sus parámetros (media y varianza)?
+
+## 12-Metropolis {-}
+
+Regresamos al ejercicio de IQ de la tarea anterior, en ésta hiciste cálculos 
+para el caso de una sola observación. En este ejercicio consideramos el caso en 
+que observamos una muestra $x=\{x_1,...,x_N\}$, y utilizaremos Metrópolis 
+para obtener una muestra de la distribución posterior.
+
+a) Crea una función $prior$ que reciba los parámetros $\mu$ y $\tau$ que definen 
+tus creencias del parámetro desconocido $\theta$ y devuelva $p(\theta)$, donde 
+$p(\theta)$ tiene distriución $N(\mu, \sigma^2)$
+
+
+```r
+prior <- function(mu, tau{
+  function(theta){
+    ... # llena esta parte
+  }
+}
+```
+
+b) Utiliza la función que acabas de escribir para definir una distribución 
+inicial con parámetros $\mu = 150$ y $\tau = 15$, llámala _mi\_prior_.
+
+
+Ya que tenemos la distribución inicial debemos escribir la verosimilitud, en 
+este caso la verosimilitud es:
+
+$$p(x|\theta, \sigma^2)=\frac{1}{(2\pi\sigma^2)^{N/2}}exp\left(-\frac{1}{2\sigma^2}\sum_{j=1}^{N}(x_j-\theta)^2\right)$$
+$$=\frac{1}{(2\pi\sigma^2)^{N/2}}exp\left(-\frac{1}{2\sigma^2}\bigg(\sum_{j=1}^{N}x_j^2-2\theta\sum_{j=1}^{N} x_j + N\theta^2 \bigg) \right)$$
+
+Recuerda que estamos suponiendo varianza conocida, supongamos que la 
+desviación estándar es $\sigma=20$.
+
+$$p(x|\theta)=\frac{1}{(2\pi (20^2))^{N/2}}exp\left(-\frac{1}{2 (20^2)}\bigg(\sum_{j=1}^{N}x_j^2-2\theta\sum_{j=1}^{N} x_j + N\theta^2 \bigg) \right)$$
+
+c) Crea una función $likeNorm$ en R que reciba la desviación estándar, la suma 
+de los valores observados $\sum x_i$,  la suma de los valores al cuadrado 
+$\sum x_i^2$ y el número de observaciones $N$ la función devolverá la 
+función de verosimilitud  (es decir va a regresar una función que depende 
+únicamente de $\theta$).
+
+
+```r
+# S: sum x_i, S2: sum x_i^2, N: número obs.
+likeNorm <- function(S, S2, N){
+  function(theta){
+    ...  # llena esta parte
+  }
+}
+```
+
+d) Supongamos que aplicamos un test de IQ a 100 alumnos y observamos que la suma
+de los puntajes es 13300, es decir $\sum x_i=13,000$ y $\sum x_i^2=1,700,000$.
+Utiliza la función que acabas de escribir para definir la función de 
+verosimilitud condicional a los datos observados, llámala _mi\_like_.
+
+e) La distribución posterior no normalizada es simplemente el producto de 
+la inicial y la posterior:
+
+
+```r
+postRelProb <- function(theta){
+  mi_like(theta) * mi_prior(theta)
+}
+```
+
+Utiliza Metropolis para obtener una muestra de valores representativos de la
+distribución posterior de $\theta$. Para proponer los saltos utiliza una 
+Normal(0, 5).
+
+f) Grafica los valores de la cadena para cada paso.
+
+g)  Elimina los valores correspondientes a la etapa de calentamiento y realiza
+un histograma de la distribución posterior.
+
+h)  Si calcularas la posterior de manera analítica obtendrías que $p(x|\theta)$
+es normal con media:
+$$\frac{\sigma^2}{\sigma^2 + N\tau^2}\mu + \frac{N\tau^2}{\sigma^2 + N \tau^2}\bar{x}$$
+y varianza
+$$\frac{\sigma^2 \tau^2}{\sigma^2 + N\tau^2}$$
+
+donde $\bar{x}=1/N\sum_{i=1}^N x_i$ es la media de los valores observados.
+Realiza simulaciones de la distribución posterior calculada de manera analítica
+y comparalas con el histograma de los valores generados con Metropolis.
+
+i) ¿Cómo utilizarías los parámetros $\mu, \tau^2$ para describir un escenario 
+donde sabes poco del verdadero valor de la media $\theta$?
