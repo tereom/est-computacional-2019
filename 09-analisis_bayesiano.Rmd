@@ -980,7 +980,7 @@ estudiando el concepto de caminata aleatoria. Supongamos que un vendedor de
 transporta a una de las $2$ islas vecinas.
 
 * El vendedor ignora la distribución de la población en las islas y el número 
-total de islasx; sin embargo, 
+total de islas; sin embargo, 
 una vez que se encuentra en una isla puede investigar la población de la misma y 
 también  de la isla a la que se propone viajar después. 
 
@@ -1960,7 +1960,7 @@ términos de precisión (el inverso de la varianza). Si parametrizamos de esta
 manera $\nu = 1/\sigma^2$ podemos repetir el proceso anterior con la
 diferencia de utilizar la distribución Gamma en lugar de Gamma inversa.
 
-### Conclusiones y observaciones Metrópolis y Gibbs {-}
+## Conclusiones y observaciones Metrópolis y Gibbs {-}
 
 * Una generalización del algoritmo de Metrópolis es Metrópolis-Hastings. 
 
@@ -1977,13 +1977,14 @@ diferencia de utilizar la distribución Gamma en lugar de Gamma inversa.
     distribución propuesta $g(\theta_{propuesta}|\theta_{actual})$, adicionalmente
     debemos poder generar valores uniformes para decidir si aceptar/rechazar.
     En el caso de **Metropolis** un requerimiento adicional es que la distribución
-    propuesta $g(\theta_{a}|\theta_b)$ debe ser simétrica, es decir $g(\theta_{a}|\theta_b) = g(\theta_{b}|\theta_a)$ para todo $\theta_{a}$, 
+    propuesta $g(\theta_{a}|\theta_b)$ debe ser simétrica, es decir 
+    $g(\theta_{a}|\theta_b) = g(\theta_{b}|\theta_a)$ para todo $\theta_{a}$, 
     $\theta_{b}$.
     
     **Metropolis-Hastings** generaliza Metropolis, eliminando la restricción de 
 simetría en la distribución propuesta $g(\theta_{a}|\theta_b)$, sin embargo para corregir por
 esta asimetría debemos calcular $p_{mover}$ como sigue:
-$$p_{mover}=min\bigg( \frac{p(\theta_{propuesta})/g(\theta_{propuesta}|\theta_{actual})}{p(\theta_{actual})/g(\theta_{actual}|\theta_{propuesta})},1\bigg)$$
+$$p_{mover}=min\bigg\{ \frac{p(\theta_{propuesta})/g(\theta_{propuesta}|\theta_{actual})}{p(\theta_{actual})/g(\theta_{actual}|\theta_{propuesta})},1\bigg\}$$
 La generalización de Metrópolis-Hastings puede resultar en algoritmos más 
 veloces.
 
