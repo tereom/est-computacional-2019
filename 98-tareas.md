@@ -1049,7 +1049,10 @@ multiplicación debes identificar el núcleo de una distribución Normal,
 
 ## 12-Metropolis {-}
 
-Regresamos al ejercicio de IQ de la tarea anterior, en ésta hiciste cálculos 
+1. Sigue las instrucciones de [aquí](http://mc-stan.org/users/interfaces/rstan.html).http://mc-stan.org/users/interfaces/rstan.html 
+para instalar Stan, lo usaremos la próxima clase.
+ 
+2. Regresamos al ejercicio de IQ de la tarea anterior, en ésta hiciste cálculos 
 para el caso de una sola observación. En este ejercicio consideramos el caso en 
 que observamos una muestra $x=\{x_1,...,x_N\}$, y utilizaremos Metrópolis 
 para obtener una muestra de la distribución posterior.
