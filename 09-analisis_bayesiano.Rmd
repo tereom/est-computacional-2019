@@ -1501,6 +1501,7 @@ pl_post
 ```
 
 #### Metrópolis {-}
+
 Al igual que en el caso univariado escribimos la verosimilitud y la distribución
 inicial:
 
@@ -1549,12 +1550,12 @@ caminaAleat2 <- function(theta){ # theta: valor actual
 	salto_prop <- MASS::mvrnorm(n = 1 , mu = rep(0, 2), 
     Sigma = matrix(c(0.08, 0, 0, 0.08), byrow = TRUE, nrow = 2)) # salto propuesto
   theta_prop <- theta + salto_prop # theta propuesta
-  if(all(theta_prop < 0) | all(theta_prop > 1)){ # salir del dominio
+  if (all(theta_prop < 0) | all(theta_prop > 1)) { # salir del dominio
     return(theta)
   }
   u <- runif(1) 
   p_move = min(postRelProb2(theta_prop) / postRelProb2(theta), 1) # prob mover
-  if(p_move  > u){
+  if (p_move  > u) {
     return(theta_prop) # aceptar valor propuesto
   }
   else{
@@ -1569,7 +1570,7 @@ camino <- matrix(0, nrow = pasos, ncol = 2) # vector que guardará las simulacio
 camino[1, ] <- c(0.1, 0.8) # valor inicial
 
 # Generamos la caminata aleatoria
-for (j in 2:pasos){
+for (j in 2:pasos) {
   camino[j, ] <- caminaAleat2(camino[j - 1, ])
 }
 
@@ -1590,7 +1591,7 @@ caminata_m <- caminata %>%
   gather(parametro, val, theta_1, theta_2) %>%
   arrange(pasos)
 
-ggplot(caminata_m[1:2000, ], aes (x = pasos, y = val)) +
+ggplot(caminata_m[1:2000, ], aes(x = pasos, y = val)) +
   geom_path(alpha = 0.5) +
   facet_wrap(~parametro, ncol = 1) +
   scale_y_continuous("", limits = c(0, 1))
@@ -1674,8 +1675,8 @@ camino[1, 1] <- 0.1 # valor inicial
 camino[1, 2] <- 0.1
 
 # Generamos la caminata aleatoria
-for (j in 2:pasos){
-  if(j %% 2){
+for (j in 2:pasos) {
+  if (j %% 2) {
     camino[j, 1] <- rbeta(1, z_1 + a_1, N_1 - z_1 + b_1)
     camino[j, 2] <- camino[j - 1, 2]
   }
@@ -1887,7 +1888,7 @@ camino <- matrix(0, nrow = pasos + 1, ncol = 2) # vector guardará las simulacio
 camino[1, 1] <- 0 # valor inicial media
 
 # Generamos la caminata aleatoria
-for (j in 2:(pasos + 1)){
+for (j in 2:(pasos + 1)) {
   # sigma^2
   mu <- camino[j - 1, 1]
   a <- N / 2 + alpha
@@ -1912,8 +1913,14 @@ ggplot(filter(caminata_g, pasos > 15000), aes(x = pasos, y = val)) +
   geom_path(alpha = 0.3) +
   facet_wrap(~parametro, ncol = 1, scales = "free") +
   scale_y_continuous("")
-
 ```
+
+En la gráfica de arriba podemos ver que se actualiza un parámetro a la vez, por
+lo que cada paso de la caminata aleatoria es paralelo al eje de uno de los 
+parámetros. Una alternativa es conservar únicamente ciclos completos de la 
+caminata, esto es lo que hace JAGS y otros programas que implementan Gibbs, sin
+embargo ambas cadenas (cadanas completas y conservando únicamente ciclos 
+completos) convergen a la misma distribución posterior.
 
 ```{r, fig.width = 4}
 ggplot(filter(caminata_g, pasos > 5000), aes(x = val)) +
@@ -1988,9 +1995,15 @@ $$p_{mover}=min\bigg\{ \frac{p(\theta_{propuesta})/g(\theta_{propuesta}|\theta_{
 La generalización de Metrópolis-Hastings puede resultar en algoritmos más 
 veloces.
 
-* Se puede ver Gibbs como una generalización de Metropolis, cuando estamos 
-actualizando un componente de los parámetros, la distribución propuesta es
-la distribución posterior para ese parámetro, por tanto siempre es aceptado.
+* Se puede ver Gibbs como una generalización de Metropolis-Hastings, cuando 
+estamos actualizando un componente de los parámetros, la distribución propuesta 
+es la distribución posterior para ese parámetro, por tanto siempre es aceptado.
+
+* Comparado con Metrópolis Gibbs tiene la ventaja de que no se necesita afinar
+los parámetros de una distribución propuesta (o seleccionar siquiera una 
+distribución propuesta). Además que no hay pérdida de simulaciones debido a 
+rechazo. Por su parte, la desventaja debemos conocer las distribuciones 
+condicionales y poder simular de ellas.
 
 * En el caso de modelos complicados se utilizan combinaciones de Gibbs y 
 Metropolis. Cuando se consideran estos dos algoritmos Gibbs es un método más 
@@ -2003,3 +2016,532 @@ bloque se actualiza con Gibbs y otro con Metrópolis.
 * El algoritmo de Gibbs puede *atorarse* cuando hay correlación alta entre los 
 parámetros, reparametrizar puede ayudar, o se pueden usar otros algoritmos que 
 veremos más adelante.
+
+* [JAGS](http://mcmc-jags.sourceforge.net) (Just Another Gibbs Sampler), WinBUGS
+y OpenBUGS son programas que implementan métodos MCMC para generar simulaciones 
+de distribuciones posteriores. Los paquetes `rjags` y `R2jags` permiten ajustar 
+modelos en JAGS desde R. Es muy fácil utilizar estos programas pues uno 
+simplemente debe especificar las distribuciones iniciales, la verosimilitud y 
+los datos observados. Para aprender a usar JAGS se puede revisar la sección 
+correspondiente en las [notas de 2018](https://tereom.github.io/est-computacional-2018/jags.html),
+ahora nos concentraremos en el uso de Stan.
+
+## HMC y Stan
+
+> It appears to be quite a general principle that, whenever there is a 
+randomized way of doinf something, then there is a nonrandomized way that 
+delivers better performance but requires more thought. -E.T. Jaynes
+
+Stan es un programa para generar muestras de una distribución posterior de los 
+parámetros de un modelo, el nombre del programa hace referencia a [Stanislaw Ulam (1904-1984)](https://en.wikipedia.org/wiki/Stanislaw_Ulam) que fue pionero en 
+los métodos de Monte Carlo. A diferencia de JAGS y BUGS, los pasos de la cadena 
+de Markov se generan con un método llamado *Monte Carlo Hamiltoniano* (HMC). HMC 
+es computacionalmente más costoso que Metropolis o Gibbs, sin embargo, sus 
+propuestas suelen ser más eficientes, y por consiguiente no necesita muestras
+tan grandes. En particular cuando se ajustan modelos grandes y complejos (por 
+ejemplo, con variables con correlación alta) HMC supera a otros.
+
+### Muestreo HMC {-}
+
+El uso de HMC en estadística es reciente, sin embargo, gracias a Stan se ha 
+expandido rápidamente tanto en academia como industria. Desafortunadamente, la
+teoría de HMC está desarrollada en términos de geometría diferencial, lo que 
+hace que su construcción formal requiera de matemáticas avanzadas. En estas 
+notas se presentan las ideas detrás de HMC siguiendo @kruschke, una referencia 
+con mayor detalle es @betancourt2017 y para el uso de Stan vale la pena tener 
+siempre a la mano el [manual](https://mc-stan.org/docs/2_21/reference-manual/index.html).
+
+Stan genera muestras de la posterior usando una variación del algoritmo de 
+Metrópolis. Recordemos como funciona el algoritmo de Metrópolis que vimos en 
+clase:
+
+1. Tenemos una distribución objetivo $p(\theta)$ de la cual buscamos generar
+muestras. Debemos ser capaces de calcular el valor de $p(\theta)$ para cualquier
+valor candidato $\theta$. La distribución objetivo $p(\theta)$ no tiene que 
+estar normalizada, típicamente $p(\theta)$ es la distribución posterior de 
+$\theta$ no normalizada, es decir, es el producto de la verosimilitud y la 
+inicial.
+
+2. La muestra de la distribución objetivo se genera mediante una caminata
+aleatoria a través del espacio de parámetros. 
+    + La caminata inicia en un lugar arbitrario (definido por el usuario). El 
+    punto inicial debe ser tal que $p(\theta)>0$. 
+    + La caminata avanza en cada tiempo proponiendo un movimiento a una
+    nueva posición y después decidiendo si se acepta o no el valor propuesto. Las
+distribuciones propuesta pueden tener muchas formas, el objetivo es que la 
+distribución propuesta explore el espacio de parámetros de manera eficiente.
+
+3. Una vez que tenemos un valor propuesto decidimos si aceptar calculando:
+
+$$p_{mover}=min\bigg( \frac{p(\theta_{propuesta})}{p(\theta_{actual})},1\bigg)$$
+
+Y al final obtenemos valores representativos de la distribución objetivo 
+$\{\theta_1,...,\theta_n\}$.
+
+Notemos que en la versión de Metrópolis que estudiamos, la forma de la 
+distribución propuesta está centrada de manera simétrica en la posición actual. 
+Es decir, en un espacio paramétrico multidimensional, la distribución propuesta 
+podría ser una Normal multivariada, con la matriz de varianzas y covarianzas 
+seleccionada para mejorar la eficiencia en la aplicación particular.
+La normal multivariada siempre esta centrada en la posición actual y siempre 
+tiene la misma forma, sin importar en que sección del espacio paramétrico 
+estemos ubicados. Esto puede llevar a ineficiencias, por ejemplo, si nos 
+ubicamos en las colas de la distribución posterior el paso propuesto con la 
+misma probabilidad nos aleja o acerca de la moda de la posterior. Otro ejemplo 
+es si la distriución posterior se curva a lo largo del espacio paramétrico, una 
+distribución propuesta (de forma fija) puede ser eficiente para una parte de la 
+posterior y poco eficiente para otra parte de la misma.
+
+Por su parte HMC, usa una distribución propuesta que cambia dependiendo de la 
+posición actual. HMC utiliza el gradiente de la posterior y *envuelve* la 
+distribución propuesta hacia el gradiente, como se ve en la siguiente figura.
+
+```{r, out.width = "500px"}
+knitr::include_graphics("img/hmc_proposals.png")
+```
+
+HMC genera un movimiento propuesta de manera análoga a rodar una canica en la 
+distribución posterior volteada (también conocida como potencial). El potencial 
+es el negativo del logaritmo de la densidad posterior, en las regiones donde la 
+posterior es alta el potencial es bajo, y en las la regiones donde la posterior 
+es plana el potencial es alto.
+
+La propuesta se genera dando un golpecito la canica en una dirección aleatoria y 
+dejándola rodar cierto tiempo. En el caso del ejemplo de un solo parámetro la 
+dirección del golpecito inicial es hacia la izquierda o derecha, y la magnitud 
+se genera de manera aleatoria muestreando de una distrubución Gaussiana de media 
+cero. El golpecito impone un momento inicial a la canica, y al terminar el 
+tiempo se propone al algoritmo de Metrópilis la posición final de la canica. Es 
+fácil imaginar que la posición propuesta tenderá a estar en regiones de mayor 
+probabilidad posterior.
+
+La última fila de la figura de arriba nos muestra un histograma de los pasos 
+propuestos, notemos que no está centrado en la posición actual sino que hay una 
+inclinación hacia la moda de la posterior.
+
+Para distribuciones posteriores de dimensión alta con valles diagonales o 
+curveados, la dinámica de HMC generará valores propuesta mucho más prometedores 
+que una distribución propuesta simétrica (como la versión de Metrópolis que 
+implementamos) y mejores que un muestreador de Gibbs que puede *atorarse* en 
+paredes diagonales.
+
+Es así que para pasar del algoritmo de Metrópolis que estudiamos a HMC se 
+modifica la probabilidad de aceptación para tener en cuenta no sola la denisdad 
+posterior relativa, sino también el *momento* (denotado por $\phi$) en las 
+posiciones actual y propuesta. 
+
+$$p_{aceptar}=min\bigg\{\frac{p(\theta_{propuesta}|x)p(\phi_{propuesta})}{p(\theta_{actual}|x)p(\phi_{actual})}, 1 \bigg\}$$
+
+En un sistema continuo ideal la suma de la energía potencial y cinética (que 
+corresponden a $-log(p(\theta|x))$ y $-log(p(\phi))$) es constante y por tanto 
+aceptaríamos todas las propuestas. Sin embargo, en la práctica las dinámicas 
+continuas se dicretizan a intervalos en el tiempo y los cálculos son solo 
+aproximados conllevando a que se rechacen algunas propuestas.
+
+Si los pasos discretizados son pequeños entonces la aproximación será buena pero 
+se necesitarán más pasos para alejarse de una posición dada, y lo contrario si 
+los pasos son muy grandes. Por tanto se debe ajustar el tamaño del paso 
+($\varepsilon$) y el número de pasos. La duración de la trayectoria es el producto del 
+tamaño del paso y el número de pasos. Es usual buscar una tasa de aceptación 
+alrededor del $65\%$, moviendo el tamaño de epsilon y compensando con el número de 
+pasos.
+
+Es así que el tamaño del paso controla la suavidad de la trayectoria. También es 
+importante ajustar el número de pasos (es decir la duración del movimiento) pues 
+no queremos alejarnos demasiado o rodar de regreso a la posición actual. La 
+siguiente figura muestra varias trayectorias y notamos que muchas rebotan al 
+lugar inicial. 
+
+
+```{r, out.width = "500px"}
+knitr::include_graphics("img/hmc_proposals_2.png")
+```
+
+Para evitar las ineficiencias de dar vueltas en U, Stan incorpora un algoritmo 
+que generaliza la nación de vueltas en U a espacios de dimensión alta, y así 
+estima cuando parar las trayectorias antes de que reboten hacia la posición 
+inical. El algoritmo se llama *No U-turn Sampler* (NUTS).
+
+Adicional a ajustar el tamaño del paso y número de pasos debemos ajustar la 
+desviación estándar del momento inicial. Si la desviación estandar del momento 
+es grande también lo será la desviación estándar de las propuestas. Nuevamente, 
+lo más eficiente será una desviación estándar ni muy grande ni muy chica. En 
+Stan la desviación estándar del momento se establece de manera adaptativa para 
+que coincida con la desviación estándar de la posterior.
+
+
+```{r, out.width = "500px"}
+knitr::include_graphics("img/hmc_proposals_3.png")
+```
+
+Por último, para calcular la trayectoria propuesta debemos ser capaces de 
+calcular el gradiente de la densidad posterior en cualquier valor de los 
+parámetros. Para realizar esto de manera eficiente en espacios de dimensión alta 
+se debe derivar analíticamente, en el caso de modelos complejos las fórmulas se 
+derivan usando algoritmos avanzados.
+
+El paper [A Conceptual Introduction to Hamiltonian Monte Carlo](https://arxiv.org/pdf/1701.02434.pdf) de Michael Betancourt explica 
+conceptos e intuición detrás de HMC, y el porqué es apropiado en problemas de
+alta dimensión. 
+
+#### Stan {-}
+
+Para instalar Stan sigue las instrucciones de [aquí](http://mc-stan.org/users/interfaces/rstan.html). 
+Nosotros usaremos el paquete `rstan`, @R-rstan.
+
+```{r, message=FALSE, eval = FALSE}
+library(rstan)
+
+# opcional para correr en paralelo
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+```
+
+En Stan los programas se organizan mediante secuencias de bloques, cada uno 
+de estos bloques inicia con declaración de variables y después le siguen 
+enunciados.
+
+El siguiente esqueleto ejemplifica los bloques disponibles, sin embargo, veremos
+que no siempre se utilizan todos los bloques.
+
+```
+functions {
+  // ... function declarations and definitions ...
+}
+data {
+  // ... declarations ...
+}
+transformed data {
+   // ... declarations ... statements ...
+}
+parameters {
+   // ... declarations ...
+}
+transformed parameters {
+   // ... declarations ... statements ...
+}
+model {
+   // ... declarations ... statements ...
+}
+generated quantities {
+   // ... declarations ... statements ...
+}
+```
+
+
+Comenzamos con el ejemplo sencillo de estimar el sesgo de una moneda. El primer 
+paso es especificar el modelo en el lenguaje de Stan. Lo podemos guardar en un 
+archivo de texto separado o simplemente asignarlo a una variable en R.
+
+```{r}
+modelo_bernoulli.stan <- 
+'   
+data {
+    int<lower=0> N;
+    int y[N]; 
+}
+parameters {
+    real<lower=0,upper=1> theta;
+} 
+model {
+    theta ~ beta(1,1) ;
+    y ~ bernoulli(theta) ;
+}
+
+'
+# notemos que los modelos de Stan deben terminar con una línea en blanco
+cat(file = "stan_files/modelo_bernoulli.stan", modelo_bernoulli.stan)
+```
+
+Notemos que Stan permite operaciones vectorizadas, por lo que podemos 
+poner:
+  
+    y ~ bernoulli(theta) ;
+    
+sin necesidad de hacer el ciclo `for`:
+
+    for ( i in 1:N ) {
+        y[i] ~ dbern(theta)
+    }
+    
+Una vez que especificamos el modelo lo siguiente es traducir el modelo a código 
+de C++ y compilarlo.
+
+```{r, warning=FALSE, message=FALSE, results='hide', eval = TRUE}
+stan_cpp <- stan_model("stan_files/modelo_bernoulli.stan")
+stan_cpp <- stan_model(model_code = modelo_bernoulli.stan)
+```
+
+En el paso de compilación Stan está calculando los gradientes para las dinámicas 
+Hamiltonianas.
+
+Ahora cargamos los datos.
+
+```{r}
+N = 50 ; z = 10 ; y = c(rep(1, z), rep(0, N - z))
+
+set.seed(8979)
+data_list <- list(y = y, N = N )
+stan_fit <- sampling(object= stan_cpp, data = data_list,
+  chains = 3 , iter = 1000 , warmup = 200, thin = 1 )
+summary_stan_fit <- summary(stan_fit)
+```
+
+```{r, echo=FALSE, eval=FALSE}
+# readr::write_rds(stan_fit, "results/stan_fit.rds")
+stan_fit <- readr::write_rds(stan_fit, "results/stan_fit.rds")
+summary_stan_fit <- summary(stan_fit)
+```
+
+```{r}
+summary_stan_fit$summary
+```
+
+
+Otro camino es compilar y correr las cadenas de manera simultanea con la función
+`stan()`.
+
+```{r, warning=FALSE, message=FALSE, results='hide', eval=TRUE}
+stan_fit_2 <- stan(file = 'stan_files/modelo_bernoulli.stan', data = data_list, 
+    iter = 1000, chains = 4)
+```
+
+```{r, fig.height = 3.5}
+traceplot(stan_fit)
+```
+
+### Ejemplo normal {-}
+
+Recordemos el ejemplo normal con media y varianza desconocidas. 
+
+1. Escribimos el modelo en Stan:
+
+```{r}
+modelo_normal.stan <-
+'
+data {
+    int<lower=0> N;
+    vector[N] y; 
+}
+parameters {
+    real mu;
+    real<lower=0> sigma2;
+} 
+model {
+    y ~ normal(mu, sqrt(sigma2));
+    mu ~ normal(1.5, 4);
+    sigma2 ~ inv_gamma(3, 3);
+}
+
+'
+
+cat(file = "stan_files/modelo_normal.stan", modelo_normal.stan)
+```
+
+```{r, warning=FALSE, message=FALSE, results='hide', eval = FALSE}
+stan_norm_cpp <- stan_model("stan_files/modelo_normal.stan")
+```
+
+
+el ciclo `for` indica que cada dato observado $x_i$ proviene de una distribución
+Normal con media $\mu$ y varinza $1 / \nu$ (precisión $\nu$). Afuera del ciclo
+escribimos las distribuciones iniciales, $\nu \sim Gamma(3, 3)$, esto es 
+$\sigma^2 \sim GI(3, 3)$ y $\mu$ se distribuye Normal con media $\mu = 1.5$ y 
+varianza $\tau^2 = 16$.
+
+El modelo ya esta especificado, pero aun falta indicar los valores de las variables
+en el modelo, para esto definimos los valores en R y después los mandamos a 
+JAGS.
+
+```{r, fig.width=4.5, fig.height=3.5, message=FALSE}
+N <- 50 # Observamos 20 realizaciones
+set.seed(122)
+y <- rnorm(N, 2, 2) 
+
+data_list <- list(y = y, N = N )
+norm_fit <- sampling(object = stan_norm_cpp, data = data_list,
+  chains = 3 , iter = 1000 , warmup = 500)
+summary_norm_fit <- summary(norm_fit)
+```
+
+```{r, echo=FALSE}
+# readr::write_rds(norm_fit, "results/norm_fit.rds")
+norm_fit <- readr::write_rds(norm_fit, "results/norm_fit.rds")
+summary_norm_fit <- summary(norm_fit)
+```
+
+```{r}
+summary_norm_fit$summary
+```
+
+Podemos realizar graficas de las cadenas con más detalle, y facilmente, usando
+el paquete `bayesplot`.
+
+```{r, fig.height=3.5}
+library(bayesplot, verbose = FALSE)
+
+norm_posterior_inc_warmup <- extract(norm_fit, inc_warmup = TRUE, 
+  permuted = FALSE)
+
+color_scheme_set("mix-blue-pink")
+mcmc_trace(norm_posterior_inc_warmup,  pars = c("mu", "sigma2"), n_warmup = 300,
+  facet_args = list(nrow = 2, labeller = label_parsed)) + 
+  facet_text(size = 15)
+```
+
+Y podemos graficar la distribución posterior de los parámetros, con intervalos
+de probabilidad.
+
+```{r, fig.width=7, fig.height=4, eval = FALSE}
+norm_posterior <- as.array(norm_fit)
+
+mcmc_areas(norm_posterior, pars = c("mu", "sigma2"), prob = 0.8, 
+  point_est = "median", adjust = 1.4) 
+```
+
+
+![](img/manicule2.jpg) Realiza un histograma de la distribución predictiva 
+posterior. Construye un intervalo de $95\%$ de probabilidad para una predicción.
+Tip: usa la función `extract()` para extraer las simulaciones del objeto
+`stanfit`.
+
+```{r}
+```
+
+Otros recursos:
+
+* [Stan Manual](https://mc-stan.org/docs/2_21/reference-manual/index.html).
+
+* [Stan User's Guide](https://mc-stan.org/docs/2_21/stan-users-guide/index.html)
+
+## Diagnósticos generales
+
+Cuando generamos una muestra de la distribución posterior usando MCMC, sin 
+importar el método (Metrópolis, Gibbs, HMC), buscamos que:
+
+1. Los valores simulados sean representativos de la distribución posterior, esto 
+implica que no deben estar influenciados por el valor inicial (arbitrario) y 
+deben explorar todo el rango de la posterior.
+
+2. Debemos tener suficientes simulaciones de tal manera que las estimaciones 
+sean precisas y estables.
+
+3. Queremos tener un método eficiente para generar las simulaciones.
+
+En la práctica intentamos cumplir lo más posible estos objetivos, pues aunque en
+principio los métodos MCMC garantizan que cadena infinitamente largas lograran 
+una representación perfecta, siempre debemos tener un criterio para cortar la 
+cadena y evaluar la calidad de las simulaciones.
+
+#### Representatividad {-}
+
+Para determinar la convergencia de la cadena es conveniente realizar más de una 
+cadena, buscamos ver si realmente se ha olvidado el estado inicial y revisar 
+que algunas cadenas no hayan quedado *atoradas* en regiones inusuales del espacio
+de parámetros.
+
+```{r, fig.height=3.5, fig.width=4.5}
+set.seed(337687)
+norm_fit_1 <- sampling(object = stan_norm_cpp, data = data_list,
+  chains = 3 , iter = 50 , warmup = 25)
+
+norm_posterior_inc_warmup <- extract(norm_fit_1, inc_warmup = TRUE, 
+  permuted = FALSE)
+
+mcmc_trace(norm_posterior_inc_warmup,  pars = c("mu", "sigma2"), n_warmup = 10,
+  facet_args = list(nrow = 2, labeller = label_parsed)) + 
+  facet_text(size = 15)
+```
+
+La gráfica anterior nos puede ayudar a determinar si elegimos un periodo de 
+calentamiento adecuado o si alguna cadena está alejada del resto.
+
+Además de realizar gráficas podemos usar la medida de convergencia $\hat{R}$ 
+que la función `rstan()` calcula por omisión:
+
+```{r}
+norm_fit_1
+```
+
+La medida $\hat{R}$ se conoce como el **factor de reducción potencial de 
+escala** o *diagnóstico de convergencia de Gelman-Rubin*, esta es una estimación 
+de la posible reducción en la longitud de un intervalo de confianza si las 
+simulaciones continuran infinitamente. $\hat{R}$ es aproximadamente la raíz 
+cuadrada de la varianza de todas las 
+cadenas juntas dividida entre la varianza dentro de cada cadena. Si $\hat{R}$ es
+mucho mayor a 1 esto indica que las cadenas no se han mezclado bien. Una regla
+usual es iterar hasta alcanzar un valor $\hat{R} \leq 1.1$ para todos los 
+parámetros.
+
+$$\hat{R} = \sqrt{\frac{\hat{d}+3}{\hat{d}+1}\frac{\hat{V}}{W}}$$
+
+donde $B$ es la varianza entre las cadenas, $W$ es la varianza dentro de las cadenas 
+
+$$B = \frac{N}{M-1}\sum_m (\hat{\theta_m} - \hat{\theta})^2$$
+$$W = \frac{1}{M}\sum_m \hat{\sigma_m}^2$$
+Y $\hat{V}$ es una estimación del varianza de posteriro de $\theta$:
+
+$$\hat{V} = \frac{N-1}{N}W + \frac{M+1}{MN}B$$
+
+#### Precisión {-}
+
+Una vez que tenemos una muestra representativa de la distribución posterior, 
+nuestro objetivo es asegurarnos de que la muestra es lo suficientemente grande 
+para producir estimaciones estables y precisas de la distribución.
+
+Para ello usaremos otra salida de la función jags: `n.eff` que es el 
+**tamaño efectivo de muestra**, si las simulaciones fueran independientes 
+`n.eff` sería el número total de simulaciones; sin embargo, las simulaciones de
+MCMC suelen estar correlacionadas, el tamaño efectivo nos dice que tamaño de 
+muestra de observaciones independientes nos daría la misma información que las
+simulaciones de la cadena.
+
+$$NEM = \frac{N}{1+2\sum_{k=1}^\infty ACF(k)} $$
+
+
+Usualmente nos gustaría obtener un tamaño efectivo de al menos $100$.
+
+
+```{r}
+norm_fit
+```
+
+#### Eficiencia {-}
+
+Hay varias maneras para mejorar la eficiencia de un proceso MCMC:
+
+* Paralelizar, no disminuimos el número de pasos en las simulaciones pero 
+podemos disminuir el tiempo que tarda en correr.
+
+* Cambiar la parametrización del modelo o transformar los datos. 
+
+* Adelgazar la muestra: esto nos puede ayudar a disminuir el uso de memoria, 
+consiste en guardar únicamente los $k$-ésimos pasos de la cadena y resulta
+en cadenas con menos autocorrelación (en el caso de la función `sampling()` el
+adelgazamiento está controlado por el parámetro `thin`).
+
+### Recomendaciones generales {-}
+
+@gelman-hill recomienda los siguientes pasos cuando uno esta simulando de la
+posterior:
+
+1. Cuando definimos un modelo por primera vez establecemos un valor bajo para 
+_iter_. La razón es que la mayor parte de las veces los 
+modelos no funcionan a la primera por lo que sería pérdida de tiempo dejarlo 
+correr mucho tiempo antes de descubrir el problema.
+
+2. Si las simulaciones no han alcanzado convergencia aumentamos las iteraciones 
+a $500$ ó $1000$ de tal forma que las corridas tarden segundos o unos cuantos 
+minutos.
+
+3. Si tarda más que unos cuantos minutos (para problemas del tamaño que 
+veremos en la clase) y aún así no alcanza convergencia entonces _juega_ un poco 
+con el modelo (por ejemplo intenta transformaciones lineales), para JAGS Gelman 
+sugiere más técnicas para acelerar la convergencia en el capitulo $19$ del libro 
+*Data Analysis Using Regression and Multilevel/Hierarchical models*. En el 
+caso de Stan veremos ejemplos de reparametrización, y se puede leer más en 
+la [guía](https://mc-stan.org/docs/2_21/stan-users-guide/reparameterization-section.html).
+
+4. Otra técnica conveniente cuando se trabaja con bases de datos grandes 
+(sobretodo para la parte exploratoria) es trabajar con un subconjunto de los 
+datos, quizá la mitad o una quinta parte.
