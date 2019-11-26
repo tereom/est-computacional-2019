@@ -2,6 +2,35 @@ language: r
 cache: packages
 pandoc_version: 2.1.3
 
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      r: release
+      r_binary_packages:
+        - devtools
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+    - os: linux
+      dist: trusty
+      r: devel
+      r_binary_packages:
+        - devtools
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+
 addons:
     apt:
         packages:
@@ -29,6 +58,9 @@ r_github_packages:
 
 before_install:
   - R -e 'install.packages("rgdal", repos=c("http://R-Forge.R-project.org", "http://cran.rstudio.com"))'
+    - mkdir -p ~/.R/
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then echo "CXX14 = g++-7 -fPIC" >> ~/.R/Makevars; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then echo "CXX14FLAGS = -mtune=native -march=native -Wno-unused-variable -Wno-unused-function -Wno-unused-local-typedefs -Wno-ignored-attributes -Wno-deprecated-declarations -Wno-attributes -O3" >> ~/.R/Makevars; fi
 before_script:
     - chmod +x ./_build.sh
     - chmod +x ./_deploy.sh
