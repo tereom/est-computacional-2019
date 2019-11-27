@@ -1174,7 +1174,7 @@ $$\kappa \sim Gamma(S_{\kappa}, R_{\kappa})$$
 1. Si piensas en este problema como un lanzamiento de monedas, ¿a qué 
 corresponden las monedas y los lanzamientos?
 
-2. Los datos en el archivo `rabbits.csv` contienen las observaciones de los 
+2. Los datos en el archivo [rabbits.csv](https://raw.githubusercontent.com/tereom/est-computacional-2019/master/data/rabbits.csv) contienen las observaciones de los 
 71 experimentos, cada renglón corresponde a una observación. 
     + Utiliza Stan para ajustar un modelo jerárquico como el descrito 
     arriba y usando una inicial $Beta(1, 1)$ y una $Gamma(1, 0.1)$ para $\mu$ y
