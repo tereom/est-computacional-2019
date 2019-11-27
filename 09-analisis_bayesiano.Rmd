@@ -2409,7 +2409,8 @@ norm_fit
 Podemos realizar graficas de las cadenas con más detalle (y con facilidad),
 usando el paquete `bayesplot`.
 
-```{r, message=FALSE, fig.height=3.5}
+
+```{r, nessage=FALSE, fig.height=3.5}
 library(bayesplot)
 
 norm_posterior_inc_warmup <- extract(norm_fit, inc_warmup = TRUE, 
