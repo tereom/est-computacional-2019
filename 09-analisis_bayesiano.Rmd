@@ -888,7 +888,7 @@ plot2 <- base +
 plot3 <- base +
     stat_function(fun = dbeta, args = list(shape1 = 12, shape2 = 4)) + # posterior
     labs(x = "", y = "", title = "posterior")
-grid.arrange(plot1, plot2, plot3, ncol=3)
+grid.arrange(plot1, plot2, plot3, ncol = 3)
 ```
 
 
@@ -1005,42 +1005,42 @@ la isla.
 islas <- data.frame(islas = 1:10, pob = 1:10)
 
 caminaIsla <- function(i){ # i: isla actual
-  u <- runif(1) # volado
-  v <- ifelse(u < 0.5, i - 1, i + 1)  # isla vecina (índice)
-  if(v < 1 | v > 10){ # si estas en los extremos y el volado indica salir
-    return(i)
-  }
-  u2 <- runif(1)
-  p_move = min(islas$pob[v] / islas$pob[i], 1)
-  if(p_move  > u2){
-    return(v) # isla destino
-  }
-  else{
-    return(i) # me quedo en la misma isla
-  }
+    u <- runif(1) # volado
+    v <- ifelse(u < 0.5, i - 1, i + 1)  # isla vecina (índice)
+    if (v < 1 | v > 10) { # si estas en los extremos y el volado indica salir
+      return(i)
+    }
+    u2 <- runif(1)
+    p_move = min(islas$pob[v] / islas$pob[i], 1)
+    if (p_move  > u2) {
+        return(v) # isla destino
+    }
+    else {
+      return(i) # me quedo en la misma isla
+    }
 }
 
 pasos <- 100000
 camino <- numeric(pasos)
 camino[1] <- sample(1:10, 1) # isla inicial
-for(j in 2:pasos){
-  camino[j] <- caminaIsla(camino[j - 1])
+for (j in 2:pasos) {
+    camino[j] <- caminaIsla(camino[j - 1])
 }
 
 caminata <- tibble(pasos = 1:pasos, isla = camino)
 
-plot_caminata <- ggplot(caminata[1: 1000, ], aes(x = pasos, y = isla)) +
-  geom_point(size = 0.8) +
-  geom_path(alpha = 0.5) +
-  coord_flip() + 
-  labs(title = "Caminata aleatoria") +
-  scale_y_continuous(expression(theta), breaks = 1:10) +
-  scale_x_continuous("Tiempo")
+plot_caminata <- ggplot(caminata[1:1000, ], aes(x = pasos, y = isla)) +
+    geom_point(size = 0.8) +
+    geom_path(alpha = 0.5) +
+    coord_flip() + 
+    labs(title = "Caminata aleatoria") +
+    scale_y_continuous(expression(theta), breaks = 1:10) +
+    scale_x_continuous("Tiempo")
 
 plot_dist <- ggplot(caminata, aes(x = isla)) +
-  geom_histogram() +
-  scale_x_continuous(expression(theta), breaks = 1:10) +
-  labs(title = "Distribución objetivo", 
+    geom_histogram() +
+    scale_x_continuous(expression(theta), breaks = 1:10) +
+    labs(title = "Distribución objetivo", 
        y = expression(P(theta)))
 
 grid.arrange(plot_caminata, plot_dist, ncol = 1, heights = c(4, 2))
@@ -1067,13 +1067,13 @@ dicha isla.
 t <- c(1:10, 20, 50, 100, 200, 1000, 5000)
 
 plots_list <- lapply(t, function(i){
-  ggplot(caminata[1:i, ], aes(x = isla)) +
-    geom_histogram() +
-    labs(y = "", x = "", title = paste("t = ", i, sep = "")) +
-    scale_x_continuous(expression(theta), breaks = 1:10, limits = c(0, 11))
+    ggplot(caminata[1:i, ], aes(x = isla)) +
+        geom_histogram() +
+        labs(y = "", x = "", title = paste("t = ", i, sep = "")) +
+        scale_x_continuous(expression(theta), breaks = 1:10, limits = c(0, 11))
 })
 
-args.list <- c(plots_list,list(nrow=4,ncol=4))
+args.list <- c(plots_list,list(nrow = 4, ncol = 4))
 invoke(grid.arrange, args.list)
 ```
 
@@ -1124,20 +1124,20 @@ distribución objetivo, entonces el algoritmo preserva las probabilidades.
 library(expm)
 
 transMat <- function(P){ # recibe vector de probabilidades (o población)
-  T <- matrix(0, 10, 10)
-  n <- length(P - 1) # número de estados
-  for(j in 2:n - 1){ # llenamos por fila
-    T[j, j - 1] <- 0.5 * min(P[j - 1] / P[j], 1)
-    T[j, j] <- 0.5 * (1 - min(P[j - 1] / P[j], 1)) + 
-               0.5 * (1 - min(P[j + 1] / P[j], 1))
-    T[j, j + 1] <- 0.5 * min(P[j + 1] / P[j], 1)
-  }
-  # faltan los casos j = 1 y j = n
-  T[1, 1] <- 0.5 + 0.5 * (1 - min(P[2] / P[1], 1))
-  T[1, 2] <- 0.5 * min(P[2] / P[1], 1)
-  T[n, n] <- 0.5 + 0.5 * (1 - min(P[n - 1] / P[n], 1))
-  T[n, n - 1] <- 0.5 * min(P[n - 1] / P[n], 1)
-  T
+    T <- matrix(0, 10, 10)
+    n <- length(P - 1) # número de estados
+    for (j in 2:n - 1) { # llenamos por fila
+        T[j, j - 1] <- 0.5 * min(P[j - 1] / P[j], 1)
+        T[j, j] <- 0.5 * (1 - min(P[j - 1] / P[j], 1)) + 
+                   0.5 * (1 - min(P[j + 1] / P[j], 1))
+        T[j, j + 1] <- 0.5 * min(P[j + 1] / P[j], 1)
+    }
+    # faltan los casos j = 1 y j = n
+    T[1, 1] <- 0.5 + 0.5 * (1 - min(P[2] / P[1], 1))
+    T[1, 2] <- 0.5 * min(P[2] / P[1], 1)
+    T[n, n] <- 0.5 + 0.5 * (1 - min(P[n - 1] / P[n], 1))
+    T[n, n - 1] <- 0.5 * min(P[n - 1] / P[n], 1)
+    T
 }
 
 T <- transMat(islas$pob)
@@ -1151,9 +1151,9 @@ expT_long <- expT %>%
     mutate(theta = parse_number(theta))
 
 ggplot(expT_long, aes(x = theta, y = P)) +
-  geom_bar(stat = "identity", fill = "darkgray") + 
-  facet_wrap(~ t) +
-  scale_x_continuous(expression(theta), breaks = 1:10, limits = c(0, 11))
+    geom_bar(stat = "identity", fill = "darkgray") + 
+    facet_wrap(~ t) +
+    scale_x_continuous(expression(theta), breaks = 1:10, limits = c(0, 11))
 ```
 
 El segundo punto es que el proceso converge a la distribución objetivo. 
@@ -1162,20 +1162,20 @@ se alcanza la distribución objetivo.
 
 ```{r, warning=FALSE, message=FALSE, fig.width=8, fig.height=7.5}
 inicioP <- function(i){
-  w <- rep(0, 10)
-  w[i] <- 1
-  t <- c(1, 10, 50, 100)
-  expT <- map_df(t, ~data.frame(t = ., inicio = i, w %*% (T %^% .))) %>%
-    gather(theta, P, -t, -inicio) %>% 
-    mutate(theta = parse_number(theta))
-  expT
+    w <- rep(0, 10)
+    w[i] <- 1
+    t <- c(1, 10, 50, 100)
+    expT <- map_df(t, ~data.frame(t = ., inicio = i, w %*% (T %^% .))) %>%
+        gather(theta, P, -t, -inicio) %>% 
+        mutate(theta = parse_number(theta))
+    expT
 }
 
 expT <- map_df(c(1, 3, 5, 9), inicioP)
 ggplot(expT, aes(x = as.numeric(theta), y = P)) +
-  geom_bar(stat = "identity", fill = "darkgray") + 
-  facet_grid(inicio ~ t) +
-  scale_x_continuous(expression(theta), breaks = 1:10, limits = c(0, 11))
+    geom_bar(stat = "identity", fill = "darkgray") + 
+    facet_grid(inicio ~ t) +
+    scale_x_continuous(expression(theta), breaks = 1:10, limits = c(0, 11))
 
 ```
 
@@ -1233,7 +1233,7 @@ beta y podemos usar función dbeta de R:
 dbeta(0.4, 2, 2)
 # Definimos la distribución inicial
 prior <- function(a = 1, b = 1){
-  function(theta) dbeta(theta, a, b)
+    function(theta) dbeta(theta, a, b)
 }
 ```
 
@@ -1246,9 +1246,9 @@ y en R:
 ```{r}
 # Verosimilitid binomial
 likeBern <- function(z, N){
-  function(theta){
-    theta ^ z * (1 - theta) ^ (N - z)
-  }
+    function(theta){
+        theta ^ z * (1 - theta) ^ (N - z)
+    }
 }
 
 ```
@@ -1260,7 +1260,7 @@ distribución objetivo en el algoritmo de Metrópolis.
 ```{r}
 # posterior no normalizada
 postRelProb <- function(theta){
-  mi_like(theta) * mi_prior(theta)
+    mi_like(theta) * mi_prior(theta)
 }
 ```
 
@@ -1279,19 +1279,19 @@ mi_like <- likeBern(z, N) # verosimilitud de los datos observados
 
 # para cada paso decidimos el movimiento de acuerdo a la siguiente función
 caminaAleat <- function(theta){ # theta: valor actual
-  salto_prop <- rnorm(1, 0, sd = 0.1) # salto propuesto
-  theta_prop <- theta + salto_prop # theta propuesta
-  if(theta_prop < 0 | theta_prop > 1){ # si el salto implica salir del dominio
-    return(theta)
-  }
-  u <- runif(1) 
-  p_move <-  min(postRelProb(theta_prop) / postRelProb(theta), 1) # prob mover
-  if(p_move  > u){
-    return(theta_prop) # aceptar valor propuesto
-  }
-  else{
-    return(theta) # rechazar
-  }
+    salto_prop <- rnorm(1, 0, sd = 0.1) # salto propuesto
+    theta_prop <- theta + salto_prop # theta propuesta
+    if (theta_prop < 0 | theta_prop > 1) { # si el salto implica salir del dominio
+      return(theta)
+    }
+    u <- runif(1) 
+    p_move <-  min(postRelProb(theta_prop) / postRelProb(theta), 1) # prob mover
+    if (p_move  > u) {
+        return(theta_prop) # aceptar valor propuesto
+    }
+    else{
+        return(theta) # rechazar
+    }
 }
 
 set.seed(47405)
@@ -1302,7 +1302,7 @@ camino[1] <- 0.1 # valor inicial
 
 # Generamos la caminata aleatoria
 for (j in 2:pasos){
-  camino[j] <- caminaAleat(camino[j - 1])
+    camino[j] <- caminaAleat(camino[j - 1])
 }
 
 caminata <- data.frame(pasos = 1:pasos, theta = camino)
@@ -1967,7 +1967,7 @@ términos de precisión (el inverso de la varianza). Si parametrizamos de esta
 manera $\nu = 1/\sigma^2$ podemos repetir el proceso anterior con la
 diferencia de utilizar la distribución Gamma en lugar de Gamma inversa.
 
-## Conclusiones y observaciones Metrópolis y Gibbs {-}
+### Conclusiones y observaciones Metrópolis y Gibbs {-}
 
 * Una generalización del algoritmo de Metrópolis es Metrópolis-Hastings. 
 
@@ -2184,12 +2184,12 @@ El paper [A Conceptual Introduction to Hamiltonian Monte Carlo](https://arxiv.or
 conceptos e intuición detrás de HMC, y el porqué es apropiado en problemas de
 alta dimensión. 
 
-#### Stan {-}
+### Stan {-}
 
 Para instalar Stan sigue las instrucciones de [aquí](http://mc-stan.org/users/interfaces/rstan.html). 
 Nosotros usaremos el paquete `rstan`, @R-rstan.
 
-```{r, message=FALSE, eval = FALSE}
+```{r, message=FALSE}
 library(rstan)
 
 # opcional para correr en paralelo
@@ -2250,7 +2250,7 @@ model {
 
 '
 # notemos que los modelos de Stan deben terminar con una línea en blanco
-cat(file = "stan_files/modelo_bernoulli.stan", modelo_bernoulli.stan)
+cat(modelo_bernoulli.stan, file = "stan_files/modelo_bernoulli.stan")
 ```
 
 Notemos que Stan permite operaciones vectorizadas, por lo que podemos 
@@ -2265,54 +2265,63 @@ sin necesidad de hacer el ciclo `for`:
     }
     
 Una vez que especificamos el modelo lo siguiente es traducir el modelo a código 
-de C++ y compilarlo.
+de C++ y compilarlo. Para esto usamos la función `stan_model()` que puede 
+recibir el archivo de texto con la especificación del modelo.
 
 ```{r, warning=FALSE, message=FALSE, results='hide', eval = TRUE}
 stan_cpp <- stan_model("stan_files/modelo_bernoulli.stan")
+```
+
+O el objeto de R, 
+
+```{r, eval = FALSE}
 stan_cpp <- stan_model(model_code = modelo_bernoulli.stan)
 ```
 
-En el paso de compilación Stan está calculando los gradientes para las dinámicas 
-Hamiltonianas.
 
-Ahora cargamos los datos.
+El paso de compilación puede tardar, pues Stan está calculando los gradientes 
+para las dinámicas Hamiltonianas.
+
+Ahora cargamos los datos y usamos la función `sampling` para obtener las 
+simulaciones de la distribución posterior.
 
 ```{r}
 N = 50 ; z = 10 ; y = c(rep(1, z), rep(0, N - z))
 
 set.seed(8979)
 data_list <- list(y = y, N = N )
-stan_fit <- sampling(object= stan_cpp, data = data_list,
-  chains = 3 , iter = 1000 , warmup = 200, thin = 1 )
-summary_stan_fit <- summary(stan_fit)
+stan_fit <- sampling(object = stan_cpp, data = data_list, chains = 3 , 
+    iter = 1000 , warmup = 200, thin = 1 )
 ```
 
-```{r, echo=FALSE, eval=FALSE}
-# readr::write_rds(stan_fit, "results/stan_fit.rds")
-stan_fit <- readr::write_rds(stan_fit, "results/stan_fit.rds")
-summary_stan_fit <- summary(stan_fit)
-```
+La función `summary()` nos da resúmenes de la distribución posterior de los 
+parámetros combinando las simulaciones de todas las cadenas y por cadena.
 
 ```{r}
-summary_stan_fit$summary
+stan_fit
 ```
 
-
-Otro camino es compilar y correr las cadenas de manera simultanea con la función
-`stan()`.
+Una alternativa a usar las funciones `stan_model()` y `sampling()`, es compilar
+y correr las cadenas de manera simultanea con la función `stan()`.
 
 ```{r, warning=FALSE, message=FALSE, results='hide', eval=TRUE}
 stan_fit_2 <- stan(file = 'stan_files/modelo_bernoulli.stan', data = data_list, 
-    iter = 1000, chains = 4)
+    chains = 3, iter = 1000 , warmup = 200, thin = 1)
 ```
+
+Podemos graficar las cadenas con la función `traceplot()`, esta gráfica nos 
+permire inspecconar la conducta del muestreador y evaluar si las cadenas se han
+mezclado y olvidado el valor inicial.
 
 ```{r, fig.height = 3.5}
 traceplot(stan_fit)
 ```
 
-### Ejemplo normal {-}
+#### Ejemplo normal {-}
 
-Recordemos el ejemplo normal con media y varianza desconocidas. 
+Recordemos ahora el ejemplo normal con media y varianza desconocidas, para este
+problema escribimos un muestreador de Gibbs, y ahora veremos como lo haríamos
+con Stan y compararemos los resultados. 
 
 1. Escribimos el modelo en Stan:
 
@@ -2335,23 +2344,27 @@ model {
 
 '
 
-cat(file = "stan_files/modelo_normal.stan", modelo_normal.stan)
+cat(modelo_normal.stan, file = "stan_files/modelo_normal.stan")
 ```
 
-```{r, warning=FALSE, message=FALSE, results='hide', eval = FALSE}
+Especificamos la verosimilitud normal con media $\mu$ y varianza $\sigma^2$, 
+notemos que en Stan los parámetros son la media y desviación estándar.
+
+    y ~ normal(mu, sqrt(sigma2));
+
+Y al igual que en el ejemplo del muestreador de Gibbs usaremos iniciales Normal
+para $\mu$ y Gamma inversa para $\sigma^2$.
+
+    mu ~ normal(1.5, 4);
+    sigma2 ~ inv_gamma(3, 3);
+
+Pasamos al paso de compilación:
+
+```{r, warning=FALSE, message=FALSE}
 stan_norm_cpp <- stan_model("stan_files/modelo_normal.stan")
 ```
 
-
-el ciclo `for` indica que cada dato observado $x_i$ proviene de una distribución
-Normal con media $\mu$ y varinza $1 / \nu$ (precisión $\nu$). Afuera del ciclo
-escribimos las distribuciones iniciales, $\nu \sim Gamma(3, 3)$, esto es 
-$\sigma^2 \sim GI(3, 3)$ y $\mu$ se distribuye Normal con media $\mu = 1.5$ y 
-varianza $\tau^2 = 16$.
-
-El modelo ya esta especificado, pero aun falta indicar los valores de las variables
-en el modelo, para esto definimos los valores en R y después los mandamos a 
-JAGS.
+El modelo ya esta especificado, pero aun falta indicar los datos observados.
 
 ```{r, fig.width=4.5, fig.height=3.5, message=FALSE}
 N <- 50 # Observamos 20 realizaciones
@@ -2361,21 +2374,16 @@ y <- rnorm(N, 2, 2)
 data_list <- list(y = y, N = N )
 norm_fit <- sampling(object = stan_norm_cpp, data = data_list,
   chains = 3 , iter = 1000 , warmup = 500)
-summary_norm_fit <- summary(norm_fit)
 ```
 
-```{r, echo=FALSE}
-# readr::write_rds(norm_fit, "results/norm_fit.rds")
-norm_fit <- readr::write_rds(norm_fit, "results/norm_fit.rds")
-summary_norm_fit <- summary(norm_fit)
-```
+Y podemos ver intervalos de la distribución posterior de los parámetros.
 
 ```{r}
-summary_norm_fit$summary
+norm_fit
 ```
 
-Podemos realizar graficas de las cadenas con más detalle, y facilmente, usando
-el paquete `bayesplot`.
+Podemos realizar graficas de las cadenas con más detalle (y con facilidad),
+usando el paquete `bayesplot`.
 
 ```{r, fig.height=3.5}
 library(bayesplot, verbose = FALSE)
@@ -2383,7 +2391,7 @@ library(bayesplot, verbose = FALSE)
 norm_posterior_inc_warmup <- extract(norm_fit, inc_warmup = TRUE, 
   permuted = FALSE)
 
-color_scheme_set("mix-blue-pink")
+color_scheme_set("viridis")
 mcmc_trace(norm_posterior_inc_warmup,  pars = c("mu", "sigma2"), n_warmup = 300,
   facet_args = list(nrow = 2, labeller = label_parsed)) + 
   facet_text(size = 15)
@@ -2392,11 +2400,11 @@ mcmc_trace(norm_posterior_inc_warmup,  pars = c("mu", "sigma2"), n_warmup = 300,
 Y podemos graficar la distribución posterior de los parámetros, con intervalos
 de probabilidad.
 
-```{r, fig.width=7, fig.height=4, eval = FALSE}
+```{r, fig.width=7, fig.height=4, eval = TRUE}
 norm_posterior <- as.array(norm_fit)
 
 mcmc_areas(norm_posterior, pars = c("mu", "sigma2"), prob = 0.8, 
-  point_est = "median", adjust = 1.4) 
+    point_est = "median", adjust = 1.4) 
 ```
 
 
@@ -2404,15 +2412,6 @@ mcmc_areas(norm_posterior, pars = c("mu", "sigma2"), prob = 0.8,
 posterior. Construye un intervalo de $95\%$ de probabilidad para una predicción.
 Tip: usa la función `extract()` para extraer las simulaciones del objeto
 `stanfit`.
-
-```{r}
-```
-
-Otros recursos:
-
-* [Stan Manual](https://mc-stan.org/docs/2_21/reference-manual/index.html).
-
-* [Stan User's Guide](https://mc-stan.org/docs/2_21/stan-users-guide/index.html)
 
 ## Diagnósticos generales
 
@@ -2442,13 +2441,14 @@ de parámetros.
 
 ```{r, fig.height=3.5, fig.width=4.5}
 set.seed(337687)
+
 norm_fit_1 <- sampling(object = stan_norm_cpp, data = data_list,
-  chains = 3 , iter = 50 , warmup = 25)
+  chains = 3 , iter = 40 , warmup = 20)
 
 norm_posterior_inc_warmup <- extract(norm_fit_1, inc_warmup = TRUE, 
   permuted = FALSE)
 
-mcmc_trace(norm_posterior_inc_warmup,  pars = c("mu", "sigma2"), n_warmup = 10,
+mcmc_trace(norm_posterior_inc_warmup,  pars = c("mu", "sigma2"), n_warmup = 20,
   facet_args = list(nrow = 2, labeller = label_parsed)) + 
   facet_text(size = 15)
 ```
@@ -2545,3 +2545,73 @@ la [guía](https://mc-stan.org/docs/2_21/stan-users-guide/reparameterization-sec
 4. Otra técnica conveniente cuando se trabaja con bases de datos grandes 
 (sobretodo para la parte exploratoria) es trabajar con un subconjunto de los 
 datos, quizá la mitad o una quinta parte.
+
+
+### Iniciales
+
+Las siguientes recomendaciones de iniciales son de los desarrolladores de Stan, 
+puedes leer más en https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations.
+
+Podemos clasificar las iniciales en 5 niveles de acuerdo a que tan informativas 
+son:
+
+1. Iniciales planas: usualmente impropias.
+2. Muy vagas pero propias: $N(0, (1e6) ^ 2)$.
+3. Iniciales genéricas muy debilmente informativas: $Normal(0, 10^2)$.
+4. Iniciales genéricas debilmente informativas: $Normal(0, 1)$.
+5. Iniciales específicas e informativas: $Normal(0.4, 0.2^2)$
+
+Cuando se usa Stan tenemos los siguientes principios generales:
+
+* En Stan no importa usar conjugadas (cuando se usan muestreadores de Gibbs 
+puede ser conveniente usar conjugadas, aquí no).
+
+* No interesan: invarianza, Jeffreys o entropía.
+
+* Las iniciales debilmente informativas deben contener suficiente información 
+para regularizar: las iniciales deben dejar fuera valores de los parámetros que 
+no sean razonables, pero no dejar fuera valores que podrían tener sentido.
+
+* Se prefieren las iniciales debilmente informativas sobre las informativas, 
+esto es porque las consecuencias de *perder precisión* por elegir una inicial 
+muy débil (comparado con la verdadera distribución poblacional de los parámetros
+o comparado con conocimiento experto) es menos importante que la ganancia en 
+robustez que se deriva de incluir parte del espacio paramétrico que pueda ser
+relevante.
+
+* Cuando se usen distribuciones iniciales informativas se debe ser explícito en 
+porque se tomaron las decisiones.
+
+* No utilices iniciales uniformes, o en general no restrinjas el espacio 
+paramétrico, a menos que las fronteras representen restricciones verdaderas (por
+ejemplo parámetros de escala restringidos a los positivos, o correlaciones entre 
+el -1 y el 1). Algunos ejemplos:
+    + Si crees que un parámetro se ubica entre el cero y el un, en lugar de usar
+    Uniforme(0,1), intenta Normal(0.5, 0.5).
+    + Un parámetro de escala esta restringido a ser positivo y quieres una 
+    inicial vaga, propones Uniforme(0,100) (o Uniforme(0,1000), es mejor no 
+    especificar inicial, que en Stan equivale a una inicial uniforme no 
+    informativa, o usar una Esxponencial con valor esperado 10, o una 
+    media-normal(0,10).
+
+### Recursos de Stan y paquetes con R:
+
+* [Stan Manual](https://mc-stan.org/docs/2_21/reference-manual/index.html).
+
+* [Stan User's Guide](https://mc-stan.org/docs/2_21/stan-users-guide/index.html).
+
+* El paquete [rstanarm](https://cran.r-project.org/web/packages/rstanarm/vignettes/rstanarm.html), 
+@R-rstanarm, facilita el uso de Stan desde R, cuenta con funciones para llevar a 
+cabo estimación Bayesiana sin necesidad de escribir código en el *lenguaje de Stan*, 
+de acuerdo a los autores el objetivo del paquete es  que la estimación bayesiana 
+sea rutina para los modelos de regresión más comunes.
+
+* El paquete [bayesplot](bayesplot), @R-bayesplot, cuenta con funciones para 
+graficar estimaciones de los parámetros, realizar diagnósticos visuales de las 
+cadenas (convergencia), y analizar el ajuste del modelo (graficando de la 
+predictiva posterior).
+
+* El paquete [shinystan](http://mc-stan.org/users/interfaces/shinystan), 
+@R-shinysta, contiene
+resumenes gráficos y numéricos de parámetros de un modelo y de diagnósticos de
+convergencia.
