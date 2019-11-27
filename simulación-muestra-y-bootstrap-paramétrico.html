@@ -280,7 +280,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#más-allá-que-permutación"><i class="fa fa-check"></i>Más allá que permutación</a></li>
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#otras-consideraciones-1"><i class="fa fa-check"></i>Otras consideraciones</a></li>
 </ul></li>
-<li class="chapter" data-level="8.4" data-path="tamaño-de-muestrapoder-estadístico.html"><a href="tamaño-de-muestrapoder-estadístico.html"><i class="fa fa-check"></i><b>8.4</b> Tamaño de muestra/poder estadístico</a></li>
+<li class="chapter" data-level="8.4" data-path="tamaño-de-muestracalculos-de-potencia.html"><a href="tamaño-de-muestracalculos-de-potencia.html"><i class="fa fa-check"></i><b>8.4</b> Tamaño de muestra/calculos de potencia</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="inferencia-paramétrica.html"><a href="inferencia-paramétrica.html"><i class="fa fa-check"></i><b>9</b> Inferencia paramétrica</a><ul>
 <li class="chapter" data-level="9.1" data-path="máxima-verosimilitud.html"><a href="máxima-verosimilitud.html"><i class="fa fa-check"></i><b>9.1</b> Máxima verosimilitud</a><ul>
@@ -305,8 +305,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.6" data-path="metrópolis.html"><a href="metrópolis.html"><i class="fa fa-check"></i><b>10.6</b> Metrópolis</a><ul>
 <li class="chapter" data-level="" data-path="metrópolis.html"><a href="metrópolis.html#inferencia-de-dos-proporciones-binomiales"><i class="fa fa-check"></i>Inferencia de dos proporciones binomiales</a></li>
 </ul></li>
-<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a></li>
-<li class="chapter" data-level="" data-path="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><a href="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
+<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a><ul>
+<li class="chapter" data-level="" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#conclusiones-y-observaciones-metrópolis-y-gibbs"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
+</ul></li>
+<li class="chapter" data-level="10.8" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html"><i class="fa fa-check"></i><b>10.8</b> HMC y Stan</a><ul>
+<li class="chapter" data-level="" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#muestreo-hmc"><i class="fa fa-check"></i>Muestreo HMC</a></li>
+<li class="chapter" data-level="" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#stan"><i class="fa fa-check"></i>Stan</a></li>
+</ul></li>
+<li class="chapter" data-level="10.9" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html"><i class="fa fa-check"></i><b>10.9</b> Diagnósticos generales</a><ul>
+<li class="chapter" data-level="" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recomendaciones-generales"><i class="fa fa-check"></i>Recomendaciones generales</a></li>
+<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales</a></li>
+<li class="chapter" data-level="10.9.2" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.9.2</b> Recursos de Stan y paquetes con R:</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -376,59 +386,59 @@ cumplir el objetivo al menor costo?</p></li>
 </div>
 <div id="solución" class="section level4 unnumbered">
 <h4>Solución</h4>
-<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb390-1" data-line-number="1">muestreo &lt;-<span class="st"> </span><span class="cf">function</span>(J, <span class="dt">n_total =</span> <span class="dv">1000</span>) {</a>
-<a class="sourceLine" id="cb390-2" data-line-number="2">    n_cong &lt;-<span class="st"> </span><span class="kw">floor</span>(n_total <span class="op">/</span><span class="st"> </span>J)</a>
-<a class="sourceLine" id="cb390-3" data-line-number="3">    medias &lt;-<span class="st"> </span><span class="kw">rnorm</span>(J, <span class="fl">0.5</span>, <span class="fl">0.1</span>)</a>
-<a class="sourceLine" id="cb390-4" data-line-number="4">    medias &lt;-<span class="st"> </span><span class="kw">case_when</span>(</a>
-<a class="sourceLine" id="cb390-5" data-line-number="5">        medias <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="dv">0</span>, </a>
-<a class="sourceLine" id="cb390-6" data-line-number="6">        medias <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb390-7" data-line-number="7">        <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span>medias)</a>
-<a class="sourceLine" id="cb390-8" data-line-number="8">    resp &lt;-<span class="st"> </span><span class="kw">rbinom</span>(J, n_cong, medias)</a>
-<a class="sourceLine" id="cb390-9" data-line-number="9">    <span class="kw">sum</span>(resp) <span class="op">/</span><span class="st"> </span>n_total</a>
-<a class="sourceLine" id="cb390-10" data-line-number="10">}</a>
-<a class="sourceLine" id="cb390-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb390-12" data-line-number="12">errores &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">J =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb390-13" data-line-number="13"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">sims =</span> <span class="kw">map</span>(J, <span class="op">~</span>(<span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">muestreo</span>(.)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb390-14" data-line-number="14"><span class="st">        </span><span class="kw">flatten_dbl</span>())), </a>
-<a class="sourceLine" id="cb390-15" data-line-number="15">        <span class="dt">error_est =</span> <span class="kw">map_dbl</span>(sims, sd) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">3</span>))</a>
-<a class="sourceLine" id="cb390-16" data-line-number="16">errores</a>
-<a class="sourceLine" id="cb390-17" data-line-number="17"><span class="co">#&gt; # A tibble: 4 x 3</span></a>
-<a class="sourceLine" id="cb390-18" data-line-number="18"><span class="co">#&gt;       J sims          error_est</span></a>
-<a class="sourceLine" id="cb390-19" data-line-number="19"><span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;            &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb390-20" data-line-number="20"><span class="co">#&gt; 1     1 &lt;dbl [1,000]&gt;     0.098</span></a>
-<a class="sourceLine" id="cb390-21" data-line-number="21"><span class="co">#&gt; 2    10 &lt;dbl [1,000]&gt;     0.035</span></a>
-<a class="sourceLine" id="cb390-22" data-line-number="22"><span class="co">#&gt; 3   100 &lt;dbl [1,000]&gt;     0.02 </span></a>
-<a class="sourceLine" id="cb390-23" data-line-number="23"><span class="co">#&gt; 4  1000 &lt;dbl [1,000]&gt;     0.016</span></a>
-<a class="sourceLine" id="cb390-24" data-line-number="24"></a>
-<a class="sourceLine" id="cb390-25" data-line-number="25">tamano_muestra &lt;-<span class="st"> </span><span class="cf">function</span>(J) {</a>
-<a class="sourceLine" id="cb390-26" data-line-number="26">    n_total &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="dv">100</span>, J)</a>
-<a class="sourceLine" id="cb390-27" data-line-number="27">    ee &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">500</span>, <span class="kw">muestreo</span>(<span class="dt">J =</span> J, <span class="dt">n_total =</span> n_total)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb390-28" data-line-number="28"><span class="st">        </span><span class="kw">flatten_dbl</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sd</span>()</a>
-<a class="sourceLine" id="cb390-29" data-line-number="29">    <span class="cf">while</span>(ee <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.02</span>){</a>
-<a class="sourceLine" id="cb390-30" data-line-number="30">        n_total =<span class="st"> </span>n_total <span class="op">+</span><span class="st"> </span><span class="dv">20</span></a>
-<a class="sourceLine" id="cb390-31" data-line-number="31">        ee &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">500</span>, <span class="kw">muestreo</span>(<span class="dt">J =</span> J, <span class="dt">n_total =</span> n_total)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb390-32" data-line-number="32"><span class="st">            </span><span class="kw">flatten_dbl</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb390-33" data-line-number="33"><span class="st">            </span><span class="kw">sd</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb390-34" data-line-number="34"><span class="st">            </span><span class="kw">round</span>(<span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb390-35" data-line-number="35">        }</a>
-<a class="sourceLine" id="cb390-36" data-line-number="36">    <span class="kw">list</span>(<span class="dt">ee =</span> ee, <span class="dt">n_total =</span> n_total, <span class="dt">costo =</span> <span class="dv">500</span> <span class="op">*</span><span class="st"> </span>J <span class="op">+</span><span class="st"> </span><span class="dv">50</span> <span class="op">*</span><span class="st"> </span>n_total)</a>
-<a class="sourceLine" id="cb390-37" data-line-number="37">}</a>
-<a class="sourceLine" id="cb390-38" data-line-number="38">tamanos &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">150</span>)</a>
-<a class="sourceLine" id="cb390-39" data-line-number="39">costos &lt;-<span class="st"> </span><span class="kw">map_df</span>(tamanos, tamano_muestra)</a>
-<a class="sourceLine" id="cb390-40" data-line-number="40">costos<span class="op">$</span>J &lt;-<span class="st"> </span>tamanos</a>
-<a class="sourceLine" id="cb390-41" data-line-number="41">costos</a>
-<a class="sourceLine" id="cb390-42" data-line-number="42"><span class="co">#&gt; # A tibble: 6 x 4</span></a>
-<a class="sourceLine" id="cb390-43" data-line-number="43"><span class="co">#&gt;      ee n_total   costo     J</span></a>
-<a class="sourceLine" id="cb390-44" data-line-number="44"><span class="co">#&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb390-45" data-line-number="45"><span class="co">#&gt; 1 0.02    23000 1160000    20</span></a>
-<a class="sourceLine" id="cb390-46" data-line-number="46"><span class="co">#&gt; 2 0.02     1900  110000    30</span></a>
-<a class="sourceLine" id="cb390-47" data-line-number="47"><span class="co">#&gt; 3 0.02     1100   75000    40</span></a>
-<a class="sourceLine" id="cb390-48" data-line-number="48"><span class="co">#&gt; 4 0.02      940   72000    50</span></a>
-<a class="sourceLine" id="cb390-49" data-line-number="49"><span class="co">#&gt; 5 0.02      580   79000   100</span></a>
-<a class="sourceLine" id="cb390-50" data-line-number="50"><span class="co">#&gt; 6 0.019     550  102500   150</span></a>
-<a class="sourceLine" id="cb390-51" data-line-number="51"><span class="kw">ggplot</span>(costos, <span class="kw">aes</span>(<span class="dt">x =</span> J, <span class="dt">y =</span> costo <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb390-52" data-line-number="52"><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_y_log10</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_minimal</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb390-53" data-line-number="53"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;miles de pesos&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Costos&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb416-1" data-line-number="1">muestreo &lt;-<span class="st"> </span><span class="cf">function</span>(J, <span class="dt">n_total =</span> <span class="dv">1000</span>) {</a>
+<a class="sourceLine" id="cb416-2" data-line-number="2">    n_cong &lt;-<span class="st"> </span><span class="kw">floor</span>(n_total <span class="op">/</span><span class="st"> </span>J)</a>
+<a class="sourceLine" id="cb416-3" data-line-number="3">    medias &lt;-<span class="st"> </span><span class="kw">rnorm</span>(J, <span class="fl">0.5</span>, <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb416-4" data-line-number="4">    medias &lt;-<span class="st"> </span><span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb416-5" data-line-number="5">        medias <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="dv">0</span>, </a>
+<a class="sourceLine" id="cb416-6" data-line-number="6">        medias <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb416-7" data-line-number="7">        <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span>medias)</a>
+<a class="sourceLine" id="cb416-8" data-line-number="8">    resp &lt;-<span class="st"> </span><span class="kw">rbinom</span>(J, n_cong, medias)</a>
+<a class="sourceLine" id="cb416-9" data-line-number="9">    <span class="kw">sum</span>(resp) <span class="op">/</span><span class="st"> </span>n_total</a>
+<a class="sourceLine" id="cb416-10" data-line-number="10">}</a>
+<a class="sourceLine" id="cb416-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb416-12" data-line-number="12">errores &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">J =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb416-13" data-line-number="13"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">sims =</span> <span class="kw">map</span>(J, <span class="op">~</span>(<span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">muestreo</span>(.)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb416-14" data-line-number="14"><span class="st">        </span><span class="kw">flatten_dbl</span>())), </a>
+<a class="sourceLine" id="cb416-15" data-line-number="15">        <span class="dt">error_est =</span> <span class="kw">map_dbl</span>(sims, sd) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb416-16" data-line-number="16">errores</a>
+<a class="sourceLine" id="cb416-17" data-line-number="17"><span class="co">#&gt; # A tibble: 4 x 3</span></a>
+<a class="sourceLine" id="cb416-18" data-line-number="18"><span class="co">#&gt;       J sims          error_est</span></a>
+<a class="sourceLine" id="cb416-19" data-line-number="19"><span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;            &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb416-20" data-line-number="20"><span class="co">#&gt; 1     1 &lt;dbl [1,000]&gt;     0.098</span></a>
+<a class="sourceLine" id="cb416-21" data-line-number="21"><span class="co">#&gt; 2    10 &lt;dbl [1,000]&gt;     0.035</span></a>
+<a class="sourceLine" id="cb416-22" data-line-number="22"><span class="co">#&gt; 3   100 &lt;dbl [1,000]&gt;     0.02 </span></a>
+<a class="sourceLine" id="cb416-23" data-line-number="23"><span class="co">#&gt; 4  1000 &lt;dbl [1,000]&gt;     0.016</span></a>
+<a class="sourceLine" id="cb416-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb416-25" data-line-number="25">tamano_muestra &lt;-<span class="st"> </span><span class="cf">function</span>(J) {</a>
+<a class="sourceLine" id="cb416-26" data-line-number="26">    n_total &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="dv">100</span>, J)</a>
+<a class="sourceLine" id="cb416-27" data-line-number="27">    ee &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">500</span>, <span class="kw">muestreo</span>(<span class="dt">J =</span> J, <span class="dt">n_total =</span> n_total)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb416-28" data-line-number="28"><span class="st">        </span><span class="kw">flatten_dbl</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sd</span>()</a>
+<a class="sourceLine" id="cb416-29" data-line-number="29">    <span class="cf">while</span>(ee <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.02</span>){</a>
+<a class="sourceLine" id="cb416-30" data-line-number="30">        n_total =<span class="st"> </span>n_total <span class="op">+</span><span class="st"> </span><span class="dv">20</span></a>
+<a class="sourceLine" id="cb416-31" data-line-number="31">        ee &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">500</span>, <span class="kw">muestreo</span>(<span class="dt">J =</span> J, <span class="dt">n_total =</span> n_total)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb416-32" data-line-number="32"><span class="st">            </span><span class="kw">flatten_dbl</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb416-33" data-line-number="33"><span class="st">            </span><span class="kw">sd</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb416-34" data-line-number="34"><span class="st">            </span><span class="kw">round</span>(<span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb416-35" data-line-number="35">        }</a>
+<a class="sourceLine" id="cb416-36" data-line-number="36">    <span class="kw">list</span>(<span class="dt">ee =</span> ee, <span class="dt">n_total =</span> n_total, <span class="dt">costo =</span> <span class="dv">500</span> <span class="op">*</span><span class="st"> </span>J <span class="op">+</span><span class="st"> </span><span class="dv">50</span> <span class="op">*</span><span class="st"> </span>n_total)</a>
+<a class="sourceLine" id="cb416-37" data-line-number="37">}</a>
+<a class="sourceLine" id="cb416-38" data-line-number="38">tamanos &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">150</span>)</a>
+<a class="sourceLine" id="cb416-39" data-line-number="39">costos &lt;-<span class="st"> </span><span class="kw">map_df</span>(tamanos, tamano_muestra)</a>
+<a class="sourceLine" id="cb416-40" data-line-number="40">costos<span class="op">$</span>J &lt;-<span class="st"> </span>tamanos</a>
+<a class="sourceLine" id="cb416-41" data-line-number="41">costos</a>
+<a class="sourceLine" id="cb416-42" data-line-number="42"><span class="co">#&gt; # A tibble: 6 x 4</span></a>
+<a class="sourceLine" id="cb416-43" data-line-number="43"><span class="co">#&gt;      ee n_total   costo     J</span></a>
+<a class="sourceLine" id="cb416-44" data-line-number="44"><span class="co">#&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb416-45" data-line-number="45"><span class="co">#&gt; 1 0.02    23000 1160000    20</span></a>
+<a class="sourceLine" id="cb416-46" data-line-number="46"><span class="co">#&gt; 2 0.02     1900  110000    30</span></a>
+<a class="sourceLine" id="cb416-47" data-line-number="47"><span class="co">#&gt; 3 0.02     1100   75000    40</span></a>
+<a class="sourceLine" id="cb416-48" data-line-number="48"><span class="co">#&gt; 4 0.02      940   72000    50</span></a>
+<a class="sourceLine" id="cb416-49" data-line-number="49"><span class="co">#&gt; 5 0.02      580   79000   100</span></a>
+<a class="sourceLine" id="cb416-50" data-line-number="50"><span class="co">#&gt; 6 0.019     550  102500   150</span></a>
+<a class="sourceLine" id="cb416-51" data-line-number="51"><span class="kw">ggplot</span>(costos, <span class="kw">aes</span>(<span class="dt">x =</span> J, <span class="dt">y =</span> costo <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb416-52" data-line-number="52"><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_y_log10</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_minimal</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb416-53" data-line-number="53"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;miles de pesos&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Costos&quot;</span>)</a></code></pre></div>
 <p><img src="98-tareas_files/figure-html/unnamed-chunk-32-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="bootstrap-paramétrico-1" class="section level4 unnumbered">

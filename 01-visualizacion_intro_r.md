@@ -15,6 +15,11 @@ encontramos rápidamente que los conjuntos de datos son muy distintos.
 
 <div style= "float:left;top:-10px;width:500px;">
 
+
+```
+#> Error in library(bayesplot): there is no package called 'bayesplot'
+```
+
 <img src="01-visualizacion_intro_r_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" />
 
 </div>
@@ -572,7 +577,7 @@ print(read_csv)
 #>         comment = comment, n_max = n_max, guess_max = guess_max, 
 #>         progress = progress)
 #> }
-#> <bytecode: 0x7cf1ba0>
+#> <bytecode: 0x9aa8060>
 #> <environment: namespace:readr>
 
 library(readr)
@@ -590,7 +595,7 @@ print(read_csv)
 #>         comment = comment, n_max = n_max, guess_max = guess_max, 
 #>         progress = progress)
 #> }
-#> <bytecode: 0x7cf1ba0>
+#> <bytecode: 0x9aa8060>
 #> <environment: namespace:readr>
 ```
 

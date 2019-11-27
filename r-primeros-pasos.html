@@ -280,7 +280,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#más-allá-que-permutación"><i class="fa fa-check"></i>Más allá que permutación</a></li>
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#otras-consideraciones-1"><i class="fa fa-check"></i>Otras consideraciones</a></li>
 </ul></li>
-<li class="chapter" data-level="8.4" data-path="tamaño-de-muestrapoder-estadístico.html"><a href="tamaño-de-muestrapoder-estadístico.html"><i class="fa fa-check"></i><b>8.4</b> Tamaño de muestra/poder estadístico</a></li>
+<li class="chapter" data-level="8.4" data-path="tamaño-de-muestracalculos-de-potencia.html"><a href="tamaño-de-muestracalculos-de-potencia.html"><i class="fa fa-check"></i><b>8.4</b> Tamaño de muestra/calculos de potencia</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="inferencia-paramétrica.html"><a href="inferencia-paramétrica.html"><i class="fa fa-check"></i><b>9</b> Inferencia paramétrica</a><ul>
 <li class="chapter" data-level="9.1" data-path="máxima-verosimilitud.html"><a href="máxima-verosimilitud.html"><i class="fa fa-check"></i><b>9.1</b> Máxima verosimilitud</a><ul>
@@ -305,8 +305,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.6" data-path="metrópolis.html"><a href="metrópolis.html"><i class="fa fa-check"></i><b>10.6</b> Metrópolis</a><ul>
 <li class="chapter" data-level="" data-path="metrópolis.html"><a href="metrópolis.html#inferencia-de-dos-proporciones-binomiales"><i class="fa fa-check"></i>Inferencia de dos proporciones binomiales</a></li>
 </ul></li>
-<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a></li>
-<li class="chapter" data-level="" data-path="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><a href="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
+<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a><ul>
+<li class="chapter" data-level="" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#conclusiones-y-observaciones-metrópolis-y-gibbs"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
+</ul></li>
+<li class="chapter" data-level="10.8" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html"><i class="fa fa-check"></i><b>10.8</b> HMC y Stan</a><ul>
+<li class="chapter" data-level="" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#muestreo-hmc"><i class="fa fa-check"></i>Muestreo HMC</a></li>
+<li class="chapter" data-level="" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#stan"><i class="fa fa-check"></i>Stan</a></li>
+</ul></li>
+<li class="chapter" data-level="10.9" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html"><i class="fa fa-check"></i><b>10.9</b> Diagnósticos generales</a><ul>
+<li class="chapter" data-level="" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recomendaciones-generales"><i class="fa fa-check"></i>Recomendaciones generales</a></li>
+<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales</a></li>
+<li class="chapter" data-level="10.9.2" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.9.2</b> Recursos de Stan y paquetes con R:</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -400,49 +410,49 @@ cantidad de paquetes que aportan funcionalidad adicional. Desde
 Rstudio podemos instalar paquetes (Tools - &gt; Install packages o usar la
 función <code>install.packages(&quot;nombre_paquete&quot;)</code>).</p>
 <p>Las siguientes lineas instalan los paquetes <code>devtools</code> y <code>readr</code>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">install.packages</span>(<span class="st">&quot;readr&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">install.packages</span>(<span class="st">&quot;readr&quot;</span>)</a></code></pre></div>
 <p>Una vez instalados, podemos cargarlos a nuestra sesión de R mediante <code>library</code>. Por ejemplo, para cargar el
 paquete <code>readr</code> hacemos:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">print</span>(read_csv)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; function (file, col_names = TRUE, col_types = NULL, locale = default_locale(), </span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;     na = c(&quot;&quot;, &quot;NA&quot;), quoted_na = TRUE, quote = &quot;\&quot;&quot;, comment = &quot;&quot;, </span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;     trim_ws = TRUE, skip = 0, n_max = Inf, guess_max = min(1000, </span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;         n_max), progress = show_progress(), skip_empty_rows = TRUE) </span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; {</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;     tokenizer &lt;- tokenizer_csv(na = na, quoted_na = quoted_na, </span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;         quote = quote, comment = comment, trim_ws = trim_ws, </span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;         skip_empty_rows = skip_empty_rows)</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt;     read_delimited(file, tokenizer, col_names = col_names, col_types = col_types, </span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;         locale = locale, skip = skip, skip_empty_rows = skip_empty_rows, </span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt;         comment = comment, n_max = n_max, guess_max = guess_max, </span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt;         progress = progress)</span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; }</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; &lt;bytecode: 0x7cf1ba0&gt;</span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; &lt;environment: namespace:readr&gt;</span></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="kw">library</span>(readr)</a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="kw">print</span>(read_csv)</a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; function (file, col_names = TRUE, col_types = NULL, locale = default_locale(), </span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt;     na = c(&quot;&quot;, &quot;NA&quot;), quoted_na = TRUE, quote = &quot;\&quot;&quot;, comment = &quot;&quot;, </span></a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt;     trim_ws = TRUE, skip = 0, n_max = Inf, guess_max = min(1000, </span></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt;         n_max), progress = show_progress(), skip_empty_rows = TRUE) </span></a>
-<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; {</span></a>
-<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt;     tokenizer &lt;- tokenizer_csv(na = na, quoted_na = quoted_na, </span></a>
-<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt;         quote = quote, comment = comment, trim_ws = trim_ws, </span></a>
-<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">#&gt;         skip_empty_rows = skip_empty_rows)</span></a>
-<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">#&gt;     read_delimited(file, tokenizer, col_names = col_names, col_types = col_types, </span></a>
-<a class="sourceLine" id="cb2-29" data-line-number="29"><span class="co">#&gt;         locale = locale, skip = skip, skip_empty_rows = skip_empty_rows, </span></a>
-<a class="sourceLine" id="cb2-30" data-line-number="30"><span class="co">#&gt;         comment = comment, n_max = n_max, guess_max = guess_max, </span></a>
-<a class="sourceLine" id="cb2-31" data-line-number="31"><span class="co">#&gt;         progress = progress)</span></a>
-<a class="sourceLine" id="cb2-32" data-line-number="32"><span class="co">#&gt; }</span></a>
-<a class="sourceLine" id="cb2-33" data-line-number="33"><span class="co">#&gt; &lt;bytecode: 0x7cf1ba0&gt;</span></a>
-<a class="sourceLine" id="cb2-34" data-line-number="34"><span class="co">#&gt; &lt;environment: namespace:readr&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">print</span>(read_csv)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; function (file, col_names = TRUE, col_types = NULL, locale = default_locale(), </span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;     na = c(&quot;&quot;, &quot;NA&quot;), quoted_na = TRUE, quote = &quot;\&quot;&quot;, comment = &quot;&quot;, </span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;     trim_ws = TRUE, skip = 0, n_max = Inf, guess_max = min(1000, </span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt;         n_max), progress = show_progress(), skip_empty_rows = TRUE) </span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; {</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt;     tokenizer &lt;- tokenizer_csv(na = na, quoted_na = quoted_na, </span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt;         quote = quote, comment = comment, trim_ws = trim_ws, </span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt;         skip_empty_rows = skip_empty_rows)</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt;     read_delimited(file, tokenizer, col_names = col_names, col_types = col_types, </span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt;         locale = locale, skip = skip, skip_empty_rows = skip_empty_rows, </span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt;         comment = comment, n_max = n_max, guess_max = guess_max, </span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt;         progress = progress)</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; }</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; &lt;bytecode: 0x9aa8060&gt;</span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt; &lt;environment: namespace:readr&gt;</span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="kw">library</span>(readr)</a>
+<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="kw">print</span>(read_csv)</a>
+<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt; function (file, col_names = TRUE, col_types = NULL, locale = default_locale(), </span></a>
+<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co">#&gt;     na = c(&quot;&quot;, &quot;NA&quot;), quoted_na = TRUE, quote = &quot;\&quot;&quot;, comment = &quot;&quot;, </span></a>
+<a class="sourceLine" id="cb3-22" data-line-number="22"><span class="co">#&gt;     trim_ws = TRUE, skip = 0, n_max = Inf, guess_max = min(1000, </span></a>
+<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">#&gt;         n_max), progress = show_progress(), skip_empty_rows = TRUE) </span></a>
+<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt; {</span></a>
+<a class="sourceLine" id="cb3-25" data-line-number="25"><span class="co">#&gt;     tokenizer &lt;- tokenizer_csv(na = na, quoted_na = quoted_na, </span></a>
+<a class="sourceLine" id="cb3-26" data-line-number="26"><span class="co">#&gt;         quote = quote, comment = comment, trim_ws = trim_ws, </span></a>
+<a class="sourceLine" id="cb3-27" data-line-number="27"><span class="co">#&gt;         skip_empty_rows = skip_empty_rows)</span></a>
+<a class="sourceLine" id="cb3-28" data-line-number="28"><span class="co">#&gt;     read_delimited(file, tokenizer, col_names = col_names, col_types = col_types, </span></a>
+<a class="sourceLine" id="cb3-29" data-line-number="29"><span class="co">#&gt;         locale = locale, skip = skip, skip_empty_rows = skip_empty_rows, </span></a>
+<a class="sourceLine" id="cb3-30" data-line-number="30"><span class="co">#&gt;         comment = comment, n_max = n_max, guess_max = guess_max, </span></a>
+<a class="sourceLine" id="cb3-31" data-line-number="31"><span class="co">#&gt;         progress = progress)</span></a>
+<a class="sourceLine" id="cb3-32" data-line-number="32"><span class="co">#&gt; }</span></a>
+<a class="sourceLine" id="cb3-33" data-line-number="33"><span class="co">#&gt; &lt;bytecode: 0x9aa8060&gt;</span></a>
+<a class="sourceLine" id="cb3-34" data-line-number="34"><span class="co">#&gt; &lt;environment: namespace:readr&gt;</span></a></code></pre></div>
 <p><code>read_csv</code> es una función que aporta el paquete <code>readr</code>, que a su vez está incluido en el <em>tidyverse</em>.</p>
 <p>El paquete de arriba se instaló de CRAN, pero podemos instalar paquetes que
 están en otros repositorios (por ejemplo <a href="https://www.bioconductor.org">BioConductor</a>) o paquetes que están en GitHub.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(devtools)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">install_github</span>(<span class="st">&quot;tereom/estcomp&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">library</span>(devtools)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">install_github</span>(<span class="st">&quot;tereom/estcomp&quot;</span>)</a></code></pre></div>
 <p>Los paquetes se instalan una sola vez, sin embargo, se deben cargar
 (ejecutar <code>library(readr)</code>) en cada sesión de R que los ocupemos.</p>
 <p>En estas notas utilizaremos la colección de paquetes incluídos en el
@@ -452,7 +462,7 @@ de trabajo.</p>
 <p>La siguiente imagen tomada de <a href="https://rviews.rstudio.com/2017/06/08/what-is-the-tidyverse/">Why the tidyverse</a> (Joseph
 Rickert) indica que paquetes del tidyverse se utilizan para cada
 etapa del análisis de datos.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;img/tidyverse.png&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;img/tidyverse.png&quot;</span>)</a></code></pre></div>
 <p><img src="img/tidyverse.png" width="700px" style="display: block; margin: auto;" /></p>
 </div>
 <div id="recursos" class="section level3 unnumbered">

@@ -280,7 +280,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#más-allá-que-permutación"><i class="fa fa-check"></i>Más allá que permutación</a></li>
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#otras-consideraciones-1"><i class="fa fa-check"></i>Otras consideraciones</a></li>
 </ul></li>
-<li class="chapter" data-level="8.4" data-path="tamaño-de-muestrapoder-estadístico.html"><a href="tamaño-de-muestrapoder-estadístico.html"><i class="fa fa-check"></i><b>8.4</b> Tamaño de muestra/poder estadístico</a></li>
+<li class="chapter" data-level="8.4" data-path="tamaño-de-muestracalculos-de-potencia.html"><a href="tamaño-de-muestracalculos-de-potencia.html"><i class="fa fa-check"></i><b>8.4</b> Tamaño de muestra/calculos de potencia</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="inferencia-paramétrica.html"><a href="inferencia-paramétrica.html"><i class="fa fa-check"></i><b>9</b> Inferencia paramétrica</a><ul>
 <li class="chapter" data-level="9.1" data-path="máxima-verosimilitud.html"><a href="máxima-verosimilitud.html"><i class="fa fa-check"></i><b>9.1</b> Máxima verosimilitud</a><ul>
@@ -305,8 +305,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.6" data-path="metrópolis.html"><a href="metrópolis.html"><i class="fa fa-check"></i><b>10.6</b> Metrópolis</a><ul>
 <li class="chapter" data-level="" data-path="metrópolis.html"><a href="metrópolis.html#inferencia-de-dos-proporciones-binomiales"><i class="fa fa-check"></i>Inferencia de dos proporciones binomiales</a></li>
 </ul></li>
-<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a></li>
-<li class="chapter" data-level="" data-path="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><a href="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
+<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a><ul>
+<li class="chapter" data-level="" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#conclusiones-y-observaciones-metrópolis-y-gibbs"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
+</ul></li>
+<li class="chapter" data-level="10.8" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html"><i class="fa fa-check"></i><b>10.8</b> HMC y Stan</a><ul>
+<li class="chapter" data-level="" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#muestreo-hmc"><i class="fa fa-check"></i>Muestreo HMC</a></li>
+<li class="chapter" data-level="" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#stan"><i class="fa fa-check"></i>Stan</a></li>
+</ul></li>
+<li class="chapter" data-level="10.9" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html"><i class="fa fa-check"></i><b>10.9</b> Diagnósticos generales</a><ul>
+<li class="chapter" data-level="" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recomendaciones-generales"><i class="fa fa-check"></i>Recomendaciones generales</a></li>
+<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales</a></li>
+<li class="chapter" data-level="10.9.2" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.9.2</b> Recursos de Stan y paquetes con R:</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -351,6 +361,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="refs" class="references">
 <div>
+<p>Betancourt, Michael. 2017. “A Conceptual Introduction to Hamiltonian Monte Carlo.” <a href="http://arxiv.org/abs/1701.02434" class="uri">http://arxiv.org/abs/1701.02434</a>.</p>
+</div>
+<div>
 <p>Bolstad, W.M. 2010. <em>Understanding Computational Bayesian Statistics</em>. Cram101 Textbook Key Facts. Wiley. <a href="https://books.google.com.mx/books?id=igbrBgAAQBAJ" class="uri">https://books.google.com.mx/books?id=igbrBgAAQBAJ</a>.</p>
 </div>
 <div>
@@ -381,10 +394,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Efron, Bradley, and Robert J. Tibshirani. 1993. <em>An Introduction to the Bootstrap</em>. Monographs on Statistics and Applied Probability 57. Boca Raton, Florida, USA: Chapman &amp; Hall/CRC.</p>
 </div>
 <div>
+<p>Gabry, Jonah, and Ben Goodrich. 2019. <em>Rstanarm: Bayesian Applied Regression Modeling via Stan</em>. <a href="https://CRAN.R-project.org/package=rstanarm" class="uri">https://CRAN.R-project.org/package=rstanarm</a>.</p>
+</div>
+<div>
+<p>Gabry, Jonah, and Tristan Mahr. 2019. <em>Bayesplot: Plotting for Bayesian Models</em>. <a href="https://CRAN.R-project.org/package=bayesplot" class="uri">https://CRAN.R-project.org/package=bayesplot</a>.</p>
+</div>
+<div>
 <p>Gelman, A., J.B. Carlin, H.S. Stern, D.B. Dunson, A. Vehtari, and D.B. Rubin. 2013. <em>Bayesian Data Analysis, Third Edition</em>. Chapman &amp; Hall/Crc Texts in Statistical Science. Taylor &amp; Francis. <a href="https://books.google.com.mx/books?id=ZXL6AQAAQBAJ" class="uri">https://books.google.com.mx/books?id=ZXL6AQAAQBAJ</a>.</p>
 </div>
 <div>
 <p>Gelman, Andrew, and Jennifer Hill. 2007. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. Vol. Analytical methods for social research. New York: Cambridge University Press.</p>
+</div>
+<div>
+<p>Guo, Jiqiang, Jonah Gabry, and Ben Goodrich. 2019. <em>Rstan: R Interface to Stan</em>. <a href="https://CRAN.R-project.org/package=rstan" class="uri">https://CRAN.R-project.org/package=rstan</a>.</p>
 </div>
 <div>
 <p>Hastie, Trevor, Robert Tibshirani, and Jerome Friedman. 2001. <em>The Elements of Statistical Learning</em>. Springer Series in Statistics. New York, NY, USA: Springer New York Inc.</p>

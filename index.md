@@ -5,8 +5,6 @@ author: "María Teresa Ortiz"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib]
-nocite: |
-    @advr, @r4ds, @gelman-bayesian, @gelman-hill
 biblio-style: apalike
 link-citations: yes
 github-repo: tereom/est-computacional-2019
@@ -43,10 +41,11 @@ y [\@mkokotchikova](https://github.com/mkokotchikova).
 
 -   Principios de visualización.
 -   Reestructura y manipulación de datos.
--   Temas selectos de programación en R: programación funcional, evaluación 
-no estándar.
+-   Temas selectos de programación en R: iteración, programación funcional, 
+rendimiento.
 
-Referencias: @tufte06, @cleveland93, @r4ds, @advr.
+Referencias: @tufte06, @cleveland93, @r4ds, @advr, @R-ggplot2 @R-dplyr, 
+@R-tidyr, @R-purrr.
 
 2. **Inferencia y remuestreo**
 
@@ -66,18 +65,18 @@ Referencias: @ross, @efron, @chihara.
 -   Familias importantes: discretas y continuas.
 -   Teoría básica de simulación
     -   El generador uniforme de números aleatorios.
-    -   El método de la transformación inversa.
-    -   Simulación de variables aleatorias discretas con soporte finito.
-    -   Otras variables aleatorias.
+    -   Pruebas de aleatoriedad.
+    -   Simulación de variables aleatorias.
 -   Simulación para modelos gráficos
     -   Modelos probabilíticos gráficos.
-    -   Simulación (e.g. ANOVA, regresión simple).
+    -   Simulación de modelos para: inferencia, evaluación de ajuste, 
+    cálculos de potencia/tamaño de muestra.
 -   Inferencia paramétrica y remuestreo
     -   Modelos paramétricos.
     -   Máxima verosimilitud y bootstrap paramétrico.
 -   Inferencia de gráficas
 
- Referencias: @gelman-hill.
+ Referencias: @gelman-hill, @hastie.
 
 4. **Métodos computacionales e inferencia Bayesiana**
 
@@ -92,7 +91,7 @@ Referencias: @ross, @efron, @chihara.
     -   Monte Carlo Hamiltoniano.
     -   Diagnósticos de convergencia.
 
-Referencias: @kruschke, @gelman-bayesian.
+Referencias: @kruschke, @gelman-bayesian, @gelman-hill.
 
 ### Calificación {-}
 

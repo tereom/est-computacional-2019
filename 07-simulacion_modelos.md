@@ -1645,7 +1645,7 @@ falla el modelo.
 
 
 
-## Tamaño de muestra/poder estadístico
+## Tamaño de muestra/calculos de potencia
 
 Cuando se esta diseñando un estudio se determina la precisión en las inferencias 
 que se desea, y esto (junto con algunos supuestos de la población) determina el 
@@ -1660,7 +1660,8 @@ un nivel del $95\%$ de confianza*, ¿cúantas personas se debe entrevistar para
 lograr esto?
 
 2. Se determina la probabilidad de que un estadístico determinado sea 
-*estadísticamente significativo*. Por ejemplo, cuando se hacen ensayos clínicos
+*estadísticamente significativo*, esto se conoce como la potencia de un
+experimento. Por ejemplo, cuando se hacen ensayos clínicos
 se determina un tamaño de muestra para que con probabilidad de $x$% se detecte
 una diferencia clinicamente relevante con el nuevo tratamiento (si es que este 
 es efectivo).

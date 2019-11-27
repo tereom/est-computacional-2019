@@ -280,7 +280,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#más-allá-que-permutación"><i class="fa fa-check"></i>Más allá que permutación</a></li>
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#otras-consideraciones-1"><i class="fa fa-check"></i>Otras consideraciones</a></li>
 </ul></li>
-<li class="chapter" data-level="8.4" data-path="tamaño-de-muestrapoder-estadístico.html"><a href="tamaño-de-muestrapoder-estadístico.html"><i class="fa fa-check"></i><b>8.4</b> Tamaño de muestra/poder estadístico</a></li>
+<li class="chapter" data-level="8.4" data-path="tamaño-de-muestracalculos-de-potencia.html"><a href="tamaño-de-muestracalculos-de-potencia.html"><i class="fa fa-check"></i><b>8.4</b> Tamaño de muestra/calculos de potencia</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="inferencia-paramétrica.html"><a href="inferencia-paramétrica.html"><i class="fa fa-check"></i><b>9</b> Inferencia paramétrica</a><ul>
 <li class="chapter" data-level="9.1" data-path="máxima-verosimilitud.html"><a href="máxima-verosimilitud.html"><i class="fa fa-check"></i><b>9.1</b> Máxima verosimilitud</a><ul>
@@ -305,8 +305,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.6" data-path="metrópolis.html"><a href="metrópolis.html"><i class="fa fa-check"></i><b>10.6</b> Metrópolis</a><ul>
 <li class="chapter" data-level="" data-path="metrópolis.html"><a href="metrópolis.html#inferencia-de-dos-proporciones-binomiales"><i class="fa fa-check"></i>Inferencia de dos proporciones binomiales</a></li>
 </ul></li>
-<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a></li>
-<li class="chapter" data-level="" data-path="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><a href="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
+<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a><ul>
+<li class="chapter" data-level="" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#conclusiones-y-observaciones-metrópolis-y-gibbs"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
+</ul></li>
+<li class="chapter" data-level="10.8" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html"><i class="fa fa-check"></i><b>10.8</b> HMC y Stan</a><ul>
+<li class="chapter" data-level="" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#muestreo-hmc"><i class="fa fa-check"></i>Muestreo HMC</a></li>
+<li class="chapter" data-level="" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#stan"><i class="fa fa-check"></i>Stan</a></li>
+</ul></li>
+<li class="chapter" data-level="10.9" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html"><i class="fa fa-check"></i><b>10.9</b> Diagnósticos generales</a><ul>
+<li class="chapter" data-level="" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recomendaciones-generales"><i class="fa fa-check"></i>Recomendaciones generales</a></li>
+<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales</a></li>
+<li class="chapter" data-level="10.9.2" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.9.2</b> Recursos de Stan y paquetes con R:</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -378,23 +388,23 @@ que nos interesa principlamente
 <span class="math inline">\(X =\)</span> número de seises que obtuvimos en le experimento.</p>
 <p>Entonces es posible demostrar (o puedes estimar con simulación), que las
 probabilidades asociadas a <span class="math inline">\(X\)</span> podemos escribirlas como:</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" data-line-number="1">X_prob &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">X =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb169-2" data-line-number="2"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">prob =</span> <span class="kw">dbinom</span>(X, <span class="dv">10</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">6</span>), <span class="dt">prob_redondear =</span> <span class="kw">round</span>(prob, <span class="dv">3</span>))</a>
-<a class="sourceLine" id="cb169-3" data-line-number="3">X_prob</a>
-<a class="sourceLine" id="cb169-4" data-line-number="4"><span class="co">#&gt; # A tibble: 11 x 3</span></a>
-<a class="sourceLine" id="cb169-5" data-line-number="5"><span class="co">#&gt;        X         prob prob_redondear</span></a>
-<a class="sourceLine" id="cb169-6" data-line-number="6"><span class="co">#&gt;    &lt;int&gt;        &lt;dbl&gt;          &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb169-7" data-line-number="7"><span class="co">#&gt;  1     0 0.162                 0.162</span></a>
-<a class="sourceLine" id="cb169-8" data-line-number="8"><span class="co">#&gt;  2     1 0.323                 0.323</span></a>
-<a class="sourceLine" id="cb169-9" data-line-number="9"><span class="co">#&gt;  3     2 0.291                 0.291</span></a>
-<a class="sourceLine" id="cb169-10" data-line-number="10"><span class="co">#&gt;  4     3 0.155                 0.155</span></a>
-<a class="sourceLine" id="cb169-11" data-line-number="11"><span class="co">#&gt;  5     4 0.0543                0.054</span></a>
-<a class="sourceLine" id="cb169-12" data-line-number="12"><span class="co">#&gt;  6     5 0.0130                0.013</span></a>
-<a class="sourceLine" id="cb169-13" data-line-number="13"><span class="co">#&gt;  7     6 0.00217               0.002</span></a>
-<a class="sourceLine" id="cb169-14" data-line-number="14"><span class="co">#&gt;  8     7 0.000248              0    </span></a>
-<a class="sourceLine" id="cb169-15" data-line-number="15"><span class="co">#&gt;  9     8 0.0000186             0    </span></a>
-<a class="sourceLine" id="cb169-16" data-line-number="16"><span class="co">#&gt; 10     9 0.000000827           0    </span></a>
-<a class="sourceLine" id="cb169-17" data-line-number="17"><span class="co">#&gt; 11    10 0.0000000165          0</span></a></code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb170-1" data-line-number="1">X_prob &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">X =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb170-2" data-line-number="2"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">prob =</span> <span class="kw">dbinom</span>(X, <span class="dv">10</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">6</span>), <span class="dt">prob_redondear =</span> <span class="kw">round</span>(prob, <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb170-3" data-line-number="3">X_prob</a>
+<a class="sourceLine" id="cb170-4" data-line-number="4"><span class="co">#&gt; # A tibble: 11 x 3</span></a>
+<a class="sourceLine" id="cb170-5" data-line-number="5"><span class="co">#&gt;        X         prob prob_redondear</span></a>
+<a class="sourceLine" id="cb170-6" data-line-number="6"><span class="co">#&gt;    &lt;int&gt;        &lt;dbl&gt;          &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb170-7" data-line-number="7"><span class="co">#&gt;  1     0 0.162                 0.162</span></a>
+<a class="sourceLine" id="cb170-8" data-line-number="8"><span class="co">#&gt;  2     1 0.323                 0.323</span></a>
+<a class="sourceLine" id="cb170-9" data-line-number="9"><span class="co">#&gt;  3     2 0.291                 0.291</span></a>
+<a class="sourceLine" id="cb170-10" data-line-number="10"><span class="co">#&gt;  4     3 0.155                 0.155</span></a>
+<a class="sourceLine" id="cb170-11" data-line-number="11"><span class="co">#&gt;  5     4 0.0543                0.054</span></a>
+<a class="sourceLine" id="cb170-12" data-line-number="12"><span class="co">#&gt;  6     5 0.0130                0.013</span></a>
+<a class="sourceLine" id="cb170-13" data-line-number="13"><span class="co">#&gt;  7     6 0.00217               0.002</span></a>
+<a class="sourceLine" id="cb170-14" data-line-number="14"><span class="co">#&gt;  8     7 0.000248              0    </span></a>
+<a class="sourceLine" id="cb170-15" data-line-number="15"><span class="co">#&gt;  9     8 0.0000186             0    </span></a>
+<a class="sourceLine" id="cb170-16" data-line-number="16"><span class="co">#&gt; 10     9 0.000000827           0    </span></a>
+<a class="sourceLine" id="cb170-17" data-line-number="17"><span class="co">#&gt; 11    10 0.0000000165          0</span></a></code></pre></div>
 <p>Y con esta función podemos resolver otros problemas de interés sin
 tener que recurrir al modelo probabilístico completo. Por ejemplo,
 contesta la siguientes preguntas (puedes usar simulación si es necesario) :</p>
@@ -455,21 +465,21 @@ caso continuo.</p>
 <div id="ejemplo-6" class="section level4 unnumbered">
 <h4>Ejemplo</h4>
 <p>Calculamos la función de distribución acumulada para el ejemplo anterior:</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb170-1" data-line-number="1">X_prob <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">fda =</span> <span class="kw">cumsum</span>(prob))</a>
-<a class="sourceLine" id="cb170-2" data-line-number="2"><span class="co">#&gt; # A tibble: 11 x 4</span></a>
-<a class="sourceLine" id="cb170-3" data-line-number="3"><span class="co">#&gt;        X         prob prob_redondear   fda</span></a>
-<a class="sourceLine" id="cb170-4" data-line-number="4"><span class="co">#&gt;    &lt;int&gt;        &lt;dbl&gt;          &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb170-5" data-line-number="5"><span class="co">#&gt;  1     0 0.162                 0.162 0.162</span></a>
-<a class="sourceLine" id="cb170-6" data-line-number="6"><span class="co">#&gt;  2     1 0.323                 0.323 0.485</span></a>
-<a class="sourceLine" id="cb170-7" data-line-number="7"><span class="co">#&gt;  3     2 0.291                 0.291 0.775</span></a>
-<a class="sourceLine" id="cb170-8" data-line-number="8"><span class="co">#&gt;  4     3 0.155                 0.155 0.930</span></a>
-<a class="sourceLine" id="cb170-9" data-line-number="9"><span class="co">#&gt;  5     4 0.0543                0.054 0.985</span></a>
-<a class="sourceLine" id="cb170-10" data-line-number="10"><span class="co">#&gt;  6     5 0.0130                0.013 0.998</span></a>
-<a class="sourceLine" id="cb170-11" data-line-number="11"><span class="co">#&gt;  7     6 0.00217               0.002 1.000</span></a>
-<a class="sourceLine" id="cb170-12" data-line-number="12"><span class="co">#&gt;  8     7 0.000248              0     1.000</span></a>
-<a class="sourceLine" id="cb170-13" data-line-number="13"><span class="co">#&gt;  9     8 0.0000186             0     1.000</span></a>
-<a class="sourceLine" id="cb170-14" data-line-number="14"><span class="co">#&gt; 10     9 0.000000827           0     1.000</span></a>
-<a class="sourceLine" id="cb170-15" data-line-number="15"><span class="co">#&gt; 11    10 0.0000000165          0     1.000</span></a></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb171-1" data-line-number="1">X_prob <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">fda =</span> <span class="kw">cumsum</span>(prob))</a>
+<a class="sourceLine" id="cb171-2" data-line-number="2"><span class="co">#&gt; # A tibble: 11 x 4</span></a>
+<a class="sourceLine" id="cb171-3" data-line-number="3"><span class="co">#&gt;        X         prob prob_redondear   fda</span></a>
+<a class="sourceLine" id="cb171-4" data-line-number="4"><span class="co">#&gt;    &lt;int&gt;        &lt;dbl&gt;          &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb171-5" data-line-number="5"><span class="co">#&gt;  1     0 0.162                 0.162 0.162</span></a>
+<a class="sourceLine" id="cb171-6" data-line-number="6"><span class="co">#&gt;  2     1 0.323                 0.323 0.485</span></a>
+<a class="sourceLine" id="cb171-7" data-line-number="7"><span class="co">#&gt;  3     2 0.291                 0.291 0.775</span></a>
+<a class="sourceLine" id="cb171-8" data-line-number="8"><span class="co">#&gt;  4     3 0.155                 0.155 0.930</span></a>
+<a class="sourceLine" id="cb171-9" data-line-number="9"><span class="co">#&gt;  5     4 0.0543                0.054 0.985</span></a>
+<a class="sourceLine" id="cb171-10" data-line-number="10"><span class="co">#&gt;  6     5 0.0130                0.013 0.998</span></a>
+<a class="sourceLine" id="cb171-11" data-line-number="11"><span class="co">#&gt;  7     6 0.00217               0.002 1.000</span></a>
+<a class="sourceLine" id="cb171-12" data-line-number="12"><span class="co">#&gt;  8     7 0.000248              0     1.000</span></a>
+<a class="sourceLine" id="cb171-13" data-line-number="13"><span class="co">#&gt;  9     8 0.0000186             0     1.000</span></a>
+<a class="sourceLine" id="cb171-14" data-line-number="14"><span class="co">#&gt; 10     9 0.000000827           0     1.000</span></a>
+<a class="sourceLine" id="cb171-15" data-line-number="15"><span class="co">#&gt; 11    10 0.0000000165          0     1.000</span></a></code></pre></div>
 <p><strong>Pregunta</strong>: ¿cómo recuperamos la probabilidades de cada valor a
 partir de la función de distribución acumulada?</p>
 </div>
@@ -491,9 +501,9 @@ dado justo. Entonces,
 <span class="math display">\[E(X)=1\cdot P(X=1) +2\cdot P(X=2) +3\cdot P(X=3) +4\cdot P(X=4) +5\cdot P(X=5) +6\cdot P(X=6) = 3.5\]</span>
 Lo que nos dice que si tiramos el dado muchas veces deberíamos esperar que el promedio de las tiradas sea cercano a 3.5.</p>
 <p><strong>Esperanza como un promedio cuando n es grande</strong>. Si vemos las probabilidades de los valores de <span class="math inline">\(X\)</span> como una aproximación de frecuencias relativas cuando n es grande, entonces <span class="math inline">\(E(X)\)</span> es aproximadamente el valor promedio del valor de <span class="math inline">\(X\)</span> cuando n es grande.</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb171-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10000</span>, <span class="dt">mean =</span> <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb171-2" data-line-number="2"><span class="kw">mean</span>(x)</a>
-<a class="sourceLine" id="cb171-3" data-line-number="3"><span class="co">#&gt; [1] 9.997833</span></a></code></pre></div>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb172-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10000</span>, <span class="dt">mean =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb172-2" data-line-number="2"><span class="kw">mean</span>(x)</a>
+<a class="sourceLine" id="cb172-3" data-line-number="3"><span class="co">#&gt; [1] 9.997833</span></a></code></pre></div>
 <!--
 **Esperanza y predicción**. Supongamos que deseamos predecir el valor de una variable aleatoria $X$. ¿Cuál es el mejor predictor de X? Para responder la pregunta es preciso seleccionar un criterio. Es común que el criterio 
 sea minimizar el 

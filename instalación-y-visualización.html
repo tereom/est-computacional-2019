@@ -280,7 +280,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#más-allá-que-permutación"><i class="fa fa-check"></i>Más allá que permutación</a></li>
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#otras-consideraciones-1"><i class="fa fa-check"></i>Otras consideraciones</a></li>
 </ul></li>
-<li class="chapter" data-level="8.4" data-path="tamaño-de-muestrapoder-estadístico.html"><a href="tamaño-de-muestrapoder-estadístico.html"><i class="fa fa-check"></i><b>8.4</b> Tamaño de muestra/poder estadístico</a></li>
+<li class="chapter" data-level="8.4" data-path="tamaño-de-muestracalculos-de-potencia.html"><a href="tamaño-de-muestracalculos-de-potencia.html"><i class="fa fa-check"></i><b>8.4</b> Tamaño de muestra/calculos de potencia</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="inferencia-paramétrica.html"><a href="inferencia-paramétrica.html"><i class="fa fa-check"></i><b>9</b> Inferencia paramétrica</a><ul>
 <li class="chapter" data-level="9.1" data-path="máxima-verosimilitud.html"><a href="máxima-verosimilitud.html"><i class="fa fa-check"></i><b>9.1</b> Máxima verosimilitud</a><ul>
@@ -305,8 +305,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.6" data-path="metrópolis.html"><a href="metrópolis.html"><i class="fa fa-check"></i><b>10.6</b> Metrópolis</a><ul>
 <li class="chapter" data-level="" data-path="metrópolis.html"><a href="metrópolis.html#inferencia-de-dos-proporciones-binomiales"><i class="fa fa-check"></i>Inferencia de dos proporciones binomiales</a></li>
 </ul></li>
-<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a></li>
-<li class="chapter" data-level="" data-path="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><a href="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
+<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a><ul>
+<li class="chapter" data-level="" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#conclusiones-y-observaciones-metrópolis-y-gibbs"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
+</ul></li>
+<li class="chapter" data-level="10.8" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html"><i class="fa fa-check"></i><b>10.8</b> HMC y Stan</a><ul>
+<li class="chapter" data-level="" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#muestreo-hmc"><i class="fa fa-check"></i>Muestreo HMC</a></li>
+<li class="chapter" data-level="" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#stan"><i class="fa fa-check"></i>Stan</a></li>
+</ul></li>
+<li class="chapter" data-level="10.9" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html"><i class="fa fa-check"></i><b>10.9</b> Diagnósticos generales</a><ul>
+<li class="chapter" data-level="" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recomendaciones-generales"><i class="fa fa-check"></i>Recomendaciones generales</a></li>
+<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales</a></li>
+<li class="chapter" data-level="10.9.2" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.9.2</b> Recursos de Stan y paquetes con R:</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -381,56 +391,56 @@ una de las gráficas debe ser de paneles (usando <code>facet_wrap()</code> o <co
 <p>Ejercicios basados en ejercicios de <span class="citation">Wickham and Grolemund (<a href="#ref-r4ds">2017</a>)</span>.</p>
 <p>Socrative: <a href="https://b.socrative.com/login/student/" class="uri">https://b.socrative.com/login/student/</a><br />
 Room: ESTCOMP</p>
-<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb362-1" data-line-number="1"><span class="kw">library</span>(tidyverse,<span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb362-2" data-line-number="2"><span class="kw">library</span>(gridExtra)</a>
-<a class="sourceLine" id="cb362-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb362-4" data-line-number="4"><span class="co"># 1.</span></a>
-<a class="sourceLine" id="cb362-5" data-line-number="5">one &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span></a>
-<a class="sourceLine" id="cb362-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy))</a>
-<a class="sourceLine" id="cb362-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb362-8" data-line-number="8"><span class="co"># 2.</span></a>
-<a class="sourceLine" id="cb362-9" data-line-number="9">two &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span></a>
-<a class="sourceLine" id="cb362-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy), <span class="dt">se =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb362-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb362-12" data-line-number="12"><span class="co"># 3.</span></a>
-<a class="sourceLine" id="cb362-13" data-line-number="13">three &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span></a>
-<a class="sourceLine" id="cb362-14" data-line-number="14"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">group =</span> drv))</a></code></pre></div>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb388-1" data-line-number="1"><span class="kw">library</span>(tidyverse,<span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb388-2" data-line-number="2"><span class="kw">library</span>(gridExtra)</a>
+<a class="sourceLine" id="cb388-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb388-4" data-line-number="4"><span class="co"># 1.</span></a>
+<a class="sourceLine" id="cb388-5" data-line-number="5">one &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy))</a>
+<a class="sourceLine" id="cb388-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb388-8" data-line-number="8"><span class="co"># 2.</span></a>
+<a class="sourceLine" id="cb388-9" data-line-number="9">two &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy), <span class="dt">se =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb388-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb388-12" data-line-number="12"><span class="co"># 3.</span></a>
+<a class="sourceLine" id="cb388-13" data-line-number="13">three &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-14" data-line-number="14"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">group =</span> drv))</a></code></pre></div>
 <p><img src="98-tareas_files/figure-html/unnamed-chunk-3-1.png" width="720" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb363-1" data-line-number="1"><span class="co"># 4. </span></a>
-<a class="sourceLine" id="cb363-2" data-line-number="2">four &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb363-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>), </a>
-<a class="sourceLine" id="cb363-4" data-line-number="4">    <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb363-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb363-6" data-line-number="6"><span class="co"># 5.</span></a>
-<a class="sourceLine" id="cb363-7" data-line-number="7">five &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb363-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy), <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>, </a>
-<a class="sourceLine" id="cb363-9" data-line-number="9">    <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb363-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb363-11" data-line-number="11"><span class="co"># 6. </span></a>
-<a class="sourceLine" id="cb363-12" data-line-number="12">six &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb363-13" data-line-number="13"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy), <span class="dt">color =</span> <span class="st">&quot;class&quot;</span>, </a>
-<a class="sourceLine" id="cb363-14" data-line-number="14">    <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb363-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb363-16" data-line-number="16"><span class="co"># 7.</span></a>
-<a class="sourceLine" id="cb363-17" data-line-number="17">seven &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb363-18" data-line-number="18"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> <span class="st">&quot;class&quot;</span>), </a>
-<a class="sourceLine" id="cb363-19" data-line-number="19">    <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb389-1" data-line-number="1"><span class="co"># 4. </span></a>
+<a class="sourceLine" id="cb389-2" data-line-number="2">four &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb389-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>), </a>
+<a class="sourceLine" id="cb389-4" data-line-number="4">    <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb389-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb389-6" data-line-number="6"><span class="co"># 5.</span></a>
+<a class="sourceLine" id="cb389-7" data-line-number="7">five &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb389-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy), <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>, </a>
+<a class="sourceLine" id="cb389-9" data-line-number="9">    <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb389-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb389-11" data-line-number="11"><span class="co"># 6. </span></a>
+<a class="sourceLine" id="cb389-12" data-line-number="12">six &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb389-13" data-line-number="13"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy), <span class="dt">color =</span> <span class="st">&quot;class&quot;</span>, </a>
+<a class="sourceLine" id="cb389-14" data-line-number="14">    <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb389-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb389-16" data-line-number="16"><span class="co"># 7.</span></a>
+<a class="sourceLine" id="cb389-17" data-line-number="17">seven &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb389-18" data-line-number="18"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> <span class="st">&quot;class&quot;</span>), </a>
+<a class="sourceLine" id="cb389-19" data-line-number="19">    <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p><img src="98-tareas_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb364-1" data-line-number="1">eight &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> drv)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb364-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb364-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_smooth</span>()</a>
-<a class="sourceLine" id="cb364-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb364-5" data-line-number="5">nine &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb364-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> drv)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb364-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">data =</span> <span class="kw">select</span>(mpg, displ, hwy), <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy))</a>
-<a class="sourceLine" id="cb364-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb364-9" data-line-number="9">ten &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb364-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> drv)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb364-11" data-line-number="11"><span class="st">  </span><span class="kw">geom_smooth</span>()</a>
-<a class="sourceLine" id="cb364-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb364-13" data-line-number="13">eleven &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb364-14" data-line-number="14"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> drv)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb364-15" data-line-number="15"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> drv))</a></code></pre></div>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb390-1" data-line-number="1">eight &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> drv)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb390-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb390-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_smooth</span>()</a>
+<a class="sourceLine" id="cb390-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb390-5" data-line-number="5">nine &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb390-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> drv)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb390-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">data =</span> <span class="kw">select</span>(mpg, displ, hwy), <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy))</a>
+<a class="sourceLine" id="cb390-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb390-9" data-line-number="9">ten &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb390-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> drv)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb390-11" data-line-number="11"><span class="st">  </span><span class="kw">geom_smooth</span>()</a>
+<a class="sourceLine" id="cb390-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb390-13" data-line-number="13">eleven &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb390-14" data-line-number="14"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> drv)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb390-15" data-line-number="15"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> drv))</a></code></pre></div>
 </div>
 </div>
 <h3>Referencias</h3>

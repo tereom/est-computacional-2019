@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>10.4 Aproximación por cuadrícula | Estadística Computacional</title>
+  <title>10.9 Diagnósticos generales | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   <meta name="generator" content="bookdown 0.15.1 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="10.4 Aproximación por cuadrícula | Estadística Computacional" />
+  <meta property="og:title" content="10.9 Diagnósticos generales | Estadística Computacional" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="tereom/est-computacional-2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="10.4 Aproximación por cuadrícula | Estadística Computacional" />
+  <meta name="twitter:title" content="10.9 Diagnósticos generales | Estadística Computacional" />
   
   <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="distribuciones-conjugadas.html"/>
-<link rel="next" href="mcmc.html"/>
+<link rel="prev" href="hmc-y-stan.html"/>
+<link rel="next" href="tareas.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -356,113 +356,234 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="aproximación-por-cuadrícula" class="section level2">
-<h2><span class="header-section-number">10.4</span> Aproximación por cuadrícula</h2>
-<p>Supongamos que la distribución beta no describe nuestras creencias de manera
-adecuada. Por ejemplo, mis creencias podrían estar mejor representadas por una
-distribución trimodal: la moneda esta fuertemente sesgada hacia sol,
-fuertemente sesgada hacia águila o es justa. No hay parámetros en una beta
-que puedan describir este patrón.</p>
-<p>Exploraremos entonces una técnica de aproximación numérica de la distribución
-posterior que consiste en definir la distribución inicial en una cuadrícula
-de valores de <span class="math inline">\(\theta\)</span>. En este método no necesitamos describir nuestras
-creencias mediante una función matemática ni realizar integración analítica.
-Suponemos que existe únicamente un número finito de valores de <span class="math inline">\(\theta\)</span> que
-creemos que pueden ocurrir (el primer ejemplo que estudiamos usamos esta
-técnica). Es así que la regla de Bayes se escribe como:</p>
-<p><span class="math display">\[p(x|\theta)=\frac{p(x|\theta)p(\theta)}{\sum_{\theta}p(x|\theta)p(\theta)}\]</span></p>
-<p>Entonces, si podemos discretizar una distribución inicial continua mediante una
-cuadrícula de masas de probabilidad discreta podemos usar la versión discreta
-de la regla de Bayes. El proceso consiste en dividir el dominio en regiones,
-crear un rectángulo con la altura correspondiente al valor de la densidad en
-el punto medio. Aproximamos el área de cada región mediante la altura del
-rectángulo.</p>
-<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb330-1" data-line-number="1"><span class="co"># N = 14, z = 11, a = 1, b = 1</span></a>
-<a class="sourceLine" id="cb330-2" data-line-number="2">N =<span class="st"> </span><span class="dv">14</span>; z =<span class="st"> </span><span class="dv">11</span></a>
-<a class="sourceLine" id="cb330-3" data-line-number="3">inicial &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">theta =</span> <span class="kw">seq</span>(<span class="fl">0.05</span>, <span class="dv">1</span>, <span class="fl">0.05</span>), <span class="dt">inicial =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">20</span>, <span class="dv">20</span>))</a>
-<a class="sourceLine" id="cb330-4" data-line-number="4">dists_h &lt;-<span class="st"> </span>inicial <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb330-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb330-6" data-line-number="6">        <span class="dt">verosimilitud =</span> theta <span class="op">^</span><span class="st"> </span>z <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta) <span class="op">^</span><span class="st"> </span>(N <span class="op">-</span><span class="st"> </span>z), <span class="co"># verosimilitud </span></a>
-<a class="sourceLine" id="cb330-7" data-line-number="7">        <span class="dt">posterior =</span> (verosimilitud <span class="op">*</span><span class="st"> </span>inicial) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(verosimilitud <span class="op">*</span><span class="st"> </span>inicial)</a>
-<a class="sourceLine" id="cb330-8" data-line-number="8">        )  </a>
-<a class="sourceLine" id="cb330-9" data-line-number="9">dists &lt;-<span class="st"> </span>dists_h <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># base de datos larga</span></a>
-<a class="sourceLine" id="cb330-10" data-line-number="10"><span class="st">    </span><span class="kw">gather</span>(dist, valor, inicial, verosimilitud, posterior) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb330-11" data-line-number="11"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">dist =</span> <span class="kw">factor</span>(dist, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;inicial&quot;</span>, <span class="st">&quot;verosimilitud&quot;</span>, <span class="st">&quot;posterior&quot;</span>)))</a>
-<a class="sourceLine" id="cb330-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb330-13" data-line-number="13"><span class="kw">ggplot</span>(dists, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> valor)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb330-14" data-line-number="14"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb330-15" data-line-number="15"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>dist, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb330-16" data-line-number="16"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta), <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.2</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb330-17" data-line-number="17"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-13-1.png" width="720" style="display: block; margin: auto;" /></p>
-<p>y lo podemos comparar con la versión continua (distribución beta).</p>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-14-1.png" width="720" style="display: block; margin: auto;" /></p>
-<p>En cuanto a la estimación, la tabla de probabilidades nos da una estimación
-para los valores de los parámetros. Podemos calcular la media de <span class="math inline">\(\theta\)</span>
-como el promedio ponderado por las probabilidades:</p>
-<p><span class="math inline">\(\bar{\theta}=\sum_{\theta} \theta p(\theta|x)\)</span></p>
-<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb331-1" data-line-number="1"><span class="kw">head</span>(dists_h)</a>
-<a class="sourceLine" id="cb331-2" data-line-number="2"><span class="co">#&gt;   theta inicial verosimilitud    posterior</span></a>
-<a class="sourceLine" id="cb331-3" data-line-number="3"><span class="co">#&gt; 1  0.05    0.05  4.186401e-15 1.142584e-12</span></a>
-<a class="sourceLine" id="cb331-4" data-line-number="4"><span class="co">#&gt; 2  0.10    0.05  7.290000e-12 1.989641e-09</span></a>
-<a class="sourceLine" id="cb331-5" data-line-number="5"><span class="co">#&gt; 3  0.15    0.05  5.312031e-10 1.449799e-07</span></a>
-<a class="sourceLine" id="cb331-6" data-line-number="6"><span class="co">#&gt; 4  0.20    0.05  1.048576e-08 2.861851e-06</span></a>
-<a class="sourceLine" id="cb331-7" data-line-number="7"><span class="co">#&gt; 5  0.25    0.05  1.005828e-07 2.745181e-05</span></a>
-<a class="sourceLine" id="cb331-8" data-line-number="8"><span class="co">#&gt; 6  0.30    0.05  6.076142e-07 1.658346e-04</span></a>
-<a class="sourceLine" id="cb331-9" data-line-number="9"><span class="kw">sum</span>(dists_h<span class="op">$</span>posterior <span class="op">*</span><span class="st"> </span>dists_h<span class="op">$</span>theta)</a>
-<a class="sourceLine" id="cb331-10" data-line-number="10"><span class="co">#&gt; [1] 0.7500629</span></a></code></pre></div>
-<p>Ahora para intervalos de probabilidad, debido a que estamos usando masas
-discretas, la suma de las masas en un intervalo usualmente no será igual
-a <span class="math inline">\(95\%\)</span> y por tanto elegimos los puntos tales que la masa sea mayor a igual
-a <span class="math inline">\(95\%\)</span> y la masa total sea lo menor posible, en nuestro ejemplo podemos usar
-cuantiles.</p>
-<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb332-1" data-line-number="1">dist_cum &lt;-<span class="st"> </span><span class="kw">cumsum</span>(dists_h<span class="op">$</span>posterior) <span class="co">#vector de distribución acumulada</span></a>
-<a class="sourceLine" id="cb332-2" data-line-number="2">lb &lt;-<span class="st"> </span><span class="kw">which.min</span>(dist_cum <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>) <span class="op">-</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb332-3" data-line-number="3">ub &lt;-<span class="st"> </span><span class="kw">which.min</span>(dist_cum <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.975</span>)</a>
-<a class="sourceLine" id="cb332-4" data-line-number="4">dists_h<span class="op">$</span>theta[lb]</a>
-<a class="sourceLine" id="cb332-5" data-line-number="5"><span class="co">#&gt; [1] 0.5</span></a>
-<a class="sourceLine" id="cb332-6" data-line-number="6">dists_h<span class="op">$</span>theta[ub]</a>
-<a class="sourceLine" id="cb332-7" data-line-number="7"><span class="co">#&gt; [1] 0.9</span></a></code></pre></div>
-<p>Para el problema de predicción, la probabilidad predictiva para el
-siguiente valor <span class="math inline">\(y\)</span> es simplemente la probabilidad de que ocurra dicho valor
-ponderado por la probabilidad posterior correspondiente:</p>
-<p><span class="math display">\[p(y|x)=\int p(y|\theta)p(\theta|x)d\theta\]</span>
-<span class="math display">\[\approx \sum_{\theta} p(y|\theta)p(\theta|x)\]</span></p>
-<p><img src="img/manicule2.jpg" /> Calcula la probabilidad predictiva para <span class="math inline">\(y=1\)</span>
-usando los datos del ejemplo.</p>
-<p>Finalmente, para la comparación de modelos la integral que define la evidencia</p>
-<p><span class="math display">\[p(x|M)=\int p(x|\theta,M)p(\theta|M)d\theta\]</span></p>
-<p>se convierte en una suma</p>
-<p><span class="math display">\[p(x|M)\approx \sum_{\theta} p(x|\theta,M)p(\theta|M)d\theta\]</span></p>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb333-1" data-line-number="1"><span class="co"># calcula el factor de Bayes para el experimento Bernoulli Modelos M1 y M2</span></a>
-<a class="sourceLine" id="cb333-2" data-line-number="2">factorBayes &lt;-<span class="st"> </span><span class="cf">function</span>(M, s){</a>
-<a class="sourceLine" id="cb333-3" data-line-number="3">  evidencia &lt;-<span class="st"> </span><span class="kw">rbind</span>(p_M1, p_M2) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># base de datos horizontal</span></a>
-<a class="sourceLine" id="cb333-4" data-line-number="4"><span class="st">    </span><span class="kw">group_by</span>(modelo) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb333-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb333-6" data-line-number="6">      <span class="dt">Like =</span> theta <span class="op">^</span><span class="st"> </span>s <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta) <span class="op">^</span><span class="st"> </span>(M <span class="op">-</span><span class="st"> </span>s), <span class="co"># verosimilitud </span></a>
-<a class="sourceLine" id="cb333-7" data-line-number="7">      <span class="dt">posterior =</span> (Like <span class="op">*</span><span class="st"> </span>prior) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(Like <span class="op">*</span><span class="st"> </span>prior)</a>
-<a class="sourceLine" id="cb333-8" data-line-number="8">    ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb333-9" data-line-number="9"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">evidencia =</span> <span class="kw">sum</span>(prior <span class="op">*</span><span class="st"> </span>Like))</a>
-<a class="sourceLine" id="cb333-10" data-line-number="10">  <span class="kw">print</span>(evidencia)</a>
-<a class="sourceLine" id="cb333-11" data-line-number="11">  <span class="kw">return</span>(evidencia[<span class="dv">1</span>, <span class="dv">2</span>] <span class="op">/</span><span class="st"> </span>evidencia[<span class="dv">2</span>, <span class="dv">2</span>])</a>
-<a class="sourceLine" id="cb333-12" data-line-number="12">}</a>
-<a class="sourceLine" id="cb333-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb333-14" data-line-number="14"><span class="kw">factorBayes</span>(<span class="dv">50</span>, <span class="dv">25</span>)</a>
-<a class="sourceLine" id="cb333-15" data-line-number="15"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
-<a class="sourceLine" id="cb333-16" data-line-number="16"><span class="co">#&gt;   modelo evidencia</span></a>
-<a class="sourceLine" id="cb333-17" data-line-number="17"><span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb333-18" data-line-number="18"><span class="co">#&gt; 1 M1      4.44e-16</span></a>
-<a class="sourceLine" id="cb333-19" data-line-number="19"><span class="co">#&gt; 2 M2      2.75e-16</span></a>
-<a class="sourceLine" id="cb333-20" data-line-number="20"><span class="co">#&gt;   evidencia</span></a>
-<a class="sourceLine" id="cb333-21" data-line-number="21"><span class="co">#&gt; 1    1.6142</span></a></code></pre></div>
+<div id="diagnósticos-generales" class="section level2">
+<h2><span class="header-section-number">10.9</span> Diagnósticos generales</h2>
+<p>Cuando generamos una muestra de la distribución posterior usando MCMC, sin
+importar el método (Metrópolis, Gibbs, HMC), buscamos que:</p>
+<ol style="list-style-type: decimal">
+<li><p>Los valores simulados sean representativos de la distribución posterior, esto
+implica que no deben estar influenciados por el valor inicial (arbitrario) y
+deben explorar todo el rango de la posterior.</p></li>
+<li><p>Debemos tener suficientes simulaciones de tal manera que las estimaciones
+sean precisas y estables.</p></li>
+<li><p>Queremos tener un método eficiente para generar las simulaciones.</p></li>
+</ol>
+<p>En la práctica intentamos cumplir lo más posible estos objetivos, pues aunque en
+principio los métodos MCMC garantizan que cadena infinitamente largas lograran
+una representación perfecta, siempre debemos tener un criterio para cortar la
+cadena y evaluar la calidad de las simulaciones.</p>
+<div id="representatividad" class="section level4 unnumbered">
+<h4>Representatividad</h4>
+<p>Para determinar la convergencia de la cadena es conveniente realizar más de una
+cadena, buscamos ver si realmente se ha olvidado el estado inicial y revisar
+que algunas cadenas no hayan quedado <em>atoradas</em> en regiones inusuales del espacio
+de parámetros.</p>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb385-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">337687</span>)</a>
+<a class="sourceLine" id="cb385-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb385-3" data-line-number="3">norm_fit_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">sampling</span>(<span class="dt">object =</span> stan_norm_cpp, <span class="dt">data =</span> data_list,</a>
+<a class="sourceLine" id="cb385-4" data-line-number="4">  <span class="dt">chains =</span> <span class="dv">3</span> , <span class="dt">iter =</span> <span class="dv">40</span> , <span class="dt">warmup =</span> <span class="dv">20</span>)</a>
+<a class="sourceLine" id="cb385-5" data-line-number="5"><span class="co">#&gt; Warning: The largest R-hat is 1.14, indicating chains have not mixed.</span></a>
+<a class="sourceLine" id="cb385-6" data-line-number="6"><span class="co">#&gt; Running the chains for more iterations may help. See</span></a>
+<a class="sourceLine" id="cb385-7" data-line-number="7"><span class="co">#&gt; http://mc-stan.org/misc/warnings.html#r-hat</span></a>
+<a class="sourceLine" id="cb385-8" data-line-number="8"><span class="co">#&gt; Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.</span></a>
+<a class="sourceLine" id="cb385-9" data-line-number="9"><span class="co">#&gt; Running the chains for more iterations may help. See</span></a>
+<a class="sourceLine" id="cb385-10" data-line-number="10"><span class="co">#&gt; http://mc-stan.org/misc/warnings.html#bulk-ess</span></a>
+<a class="sourceLine" id="cb385-11" data-line-number="11"><span class="co">#&gt; Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.</span></a>
+<a class="sourceLine" id="cb385-12" data-line-number="12"><span class="co">#&gt; Running the chains for more iterations may help. See</span></a>
+<a class="sourceLine" id="cb385-13" data-line-number="13"><span class="co">#&gt; http://mc-stan.org/misc/warnings.html#tail-ess</span></a>
+<a class="sourceLine" id="cb385-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb385-15" data-line-number="15">norm_posterior_inc_warmup &lt;-<span class="st"> </span><span class="kw">extract</span>(norm_fit_<span class="dv">1</span>, <span class="dt">inc_warmup =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb385-16" data-line-number="16">  <span class="dt">permuted =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb385-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb385-18" data-line-number="18"><span class="kw">mcmc_trace</span>(norm_posterior_inc_warmup,  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;sigma2&quot;</span>), <span class="dt">n_warmup =</span> <span class="dv">20</span>,</a>
+<a class="sourceLine" id="cb385-19" data-line-number="19">  <span class="dt">facet_args =</span> <span class="kw">list</span>(<span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">labeller =</span> label_parsed)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb385-20" data-line-number="20"><span class="st">  </span><span class="kw">facet_text</span>(<span class="dt">size =</span> <span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb385-21" data-line-number="21"><span class="co">#&gt; Error in mcmc_trace(norm_posterior_inc_warmup, pars = c(&quot;mu&quot;, &quot;sigma2&quot;), : could not find function &quot;mcmc_trace&quot;</span></a></code></pre></div>
+<p>La gráfica anterior nos puede ayudar a determinar si elegimos un periodo de
+calentamiento adecuado o si alguna cadena está alejada del resto.</p>
+<p>Además de realizar gráficas podemos usar la medida de convergencia <span class="math inline">\(\hat{R}\)</span>
+que la función <code>rstan()</code> calcula por omisión:</p>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb386-1" data-line-number="1">norm_fit_<span class="dv">1</span></a>
+<a class="sourceLine" id="cb386-2" data-line-number="2"><span class="co">#&gt; Inference for Stan model: modelo_normal.</span></a>
+<a class="sourceLine" id="cb386-3" data-line-number="3"><span class="co">#&gt; 3 chains, each with iter=40; warmup=20; thin=1; </span></a>
+<a class="sourceLine" id="cb386-4" data-line-number="4"><span class="co">#&gt; post-warmup draws per chain=20, total post-warmup draws=60.</span></a>
+<a class="sourceLine" id="cb386-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb386-6" data-line-number="6"><span class="co">#&gt;          mean se_mean   sd   2.5%    25%    50%    75%  97.5% n_eff Rhat</span></a>
+<a class="sourceLine" id="cb386-7" data-line-number="7"><span class="co">#&gt; mu       1.84    0.05 0.31   1.18   1.73   1.88   2.00   2.41    40 1.04</span></a>
+<a class="sourceLine" id="cb386-8" data-line-number="8"><span class="co">#&gt; sigma2   4.76    0.11 0.89   3.24   4.06   4.71   5.23   6.56    61 0.97</span></a>
+<a class="sourceLine" id="cb386-9" data-line-number="9"><span class="co">#&gt; lp__   -71.06    0.20 1.24 -74.81 -71.56 -70.47 -70.30 -70.06    38 1.07</span></a>
+<a class="sourceLine" id="cb386-10" data-line-number="10"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb386-11" data-line-number="11"><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Wed Nov 27 08:03:56 2019.</span></a>
+<a class="sourceLine" id="cb386-12" data-line-number="12"><span class="co">#&gt; For each parameter, n_eff is a crude measure of effective sample size,</span></a>
+<a class="sourceLine" id="cb386-13" data-line-number="13"><span class="co">#&gt; and Rhat is the potential scale reduction factor on split chains (at </span></a>
+<a class="sourceLine" id="cb386-14" data-line-number="14"><span class="co">#&gt; convergence, Rhat=1).</span></a></code></pre></div>
+<p>La medida <span class="math inline">\(\hat{R}\)</span> se conoce como el <strong>factor de reducción potencial de
+escala</strong> o <em>diagnóstico de convergencia de Gelman-Rubin</em>, esta es una estimación
+de la posible reducción en la longitud de un intervalo de confianza si las
+simulaciones continuran infinitamente. <span class="math inline">\(\hat{R}\)</span> es aproximadamente la raíz
+cuadrada de la varianza de todas las
+cadenas juntas dividida entre la varianza dentro de cada cadena. Si <span class="math inline">\(\hat{R}\)</span> es
+mucho mayor a 1 esto indica que las cadenas no se han mezclado bien. Una regla
+usual es iterar hasta alcanzar un valor <span class="math inline">\(\hat{R} \leq 1.1\)</span> para todos los
+parámetros.</p>
+<p><span class="math display">\[\hat{R} = \sqrt{\frac{\hat{d}+3}{\hat{d}+1}\frac{\hat{V}}{W}}\]</span></p>
+<p>donde <span class="math inline">\(B\)</span> es la varianza entre las cadenas, <span class="math inline">\(W\)</span> es la varianza dentro de las cadenas</p>
+<p><span class="math display">\[B = \frac{N}{M-1}\sum_m (\hat{\theta_m} - \hat{\theta})^2\]</span>
+<span class="math display">\[W = \frac{1}{M}\sum_m \hat{\sigma_m}^2\]</span>
+Y <span class="math inline">\(\hat{V}\)</span> es una estimación del varianza de posteriro de <span class="math inline">\(\theta\)</span>:</p>
+<p><span class="math display">\[\hat{V} = \frac{N-1}{N}W + \frac{M+1}{MN}B\]</span></p>
+</div>
+<div id="precisión" class="section level4 unnumbered">
+<h4>Precisión</h4>
+<p>Una vez que tenemos una muestra representativa de la distribución posterior,
+nuestro objetivo es asegurarnos de que la muestra es lo suficientemente grande
+para producir estimaciones estables y precisas de la distribución.</p>
+<p>Para ello usaremos otra salida de la función jags: <code>n.eff</code> que es el
+<strong>tamaño efectivo de muestra</strong>, si las simulaciones fueran independientes
+<code>n.eff</code> sería el número total de simulaciones; sin embargo, las simulaciones de
+MCMC suelen estar correlacionadas, el tamaño efectivo nos dice que tamaño de
+muestra de observaciones independientes nos daría la misma información que las
+simulaciones de la cadena.</p>
+<p><span class="math display">\[NEM = \frac{N}{1+2\sum_{k=1}^\infty ACF(k)} \]</span></p>
+<p>Usualmente nos gustaría obtener un tamaño efectivo de al menos <span class="math inline">\(100\)</span>.</p>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb387-1" data-line-number="1">norm_fit</a>
+<a class="sourceLine" id="cb387-2" data-line-number="2"><span class="co">#&gt; Inference for Stan model: modelo_normal.</span></a>
+<a class="sourceLine" id="cb387-3" data-line-number="3"><span class="co">#&gt; 3 chains, each with iter=1000; warmup=500; thin=1; </span></a>
+<a class="sourceLine" id="cb387-4" data-line-number="4"><span class="co">#&gt; post-warmup draws per chain=500, total post-warmup draws=1500.</span></a>
+<a class="sourceLine" id="cb387-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb387-6" data-line-number="6"><span class="co">#&gt;          mean se_mean   sd   2.5%    25%    50%    75%  97.5% n_eff Rhat</span></a>
+<a class="sourceLine" id="cb387-7" data-line-number="7"><span class="co">#&gt; mu       1.91    0.01 0.31   1.30   1.70   1.92   2.12   2.53  1071 1.00</span></a>
+<a class="sourceLine" id="cb387-8" data-line-number="8"><span class="co">#&gt; sigma2   4.72    0.03 0.92   3.26   4.07   4.62   5.26   6.81   981 1.00</span></a>
+<a class="sourceLine" id="cb387-9" data-line-number="9"><span class="co">#&gt; lp__   -71.04    0.05 0.99 -73.64 -71.39 -70.76 -70.33 -70.07   455 1.01</span></a>
+<a class="sourceLine" id="cb387-10" data-line-number="10"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb387-11" data-line-number="11"><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Wed Nov 27 08:03:54 2019.</span></a>
+<a class="sourceLine" id="cb387-12" data-line-number="12"><span class="co">#&gt; For each parameter, n_eff is a crude measure of effective sample size,</span></a>
+<a class="sourceLine" id="cb387-13" data-line-number="13"><span class="co">#&gt; and Rhat is the potential scale reduction factor on split chains (at </span></a>
+<a class="sourceLine" id="cb387-14" data-line-number="14"><span class="co">#&gt; convergence, Rhat=1).</span></a></code></pre></div>
+</div>
+<div id="eficiencia" class="section level4 unnumbered">
+<h4>Eficiencia</h4>
+<p>Hay varias maneras para mejorar la eficiencia de un proceso MCMC:</p>
+<ul>
+<li><p>Paralelizar, no disminuimos el número de pasos en las simulaciones pero
+podemos disminuir el tiempo que tarda en correr.</p></li>
+<li><p>Cambiar la parametrización del modelo o transformar los datos.</p></li>
+<li><p>Adelgazar la muestra: esto nos puede ayudar a disminuir el uso de memoria,
+consiste en guardar únicamente los <span class="math inline">\(k\)</span>-ésimos pasos de la cadena y resulta
+en cadenas con menos autocorrelación (en el caso de la función <code>sampling()</code> el
+adelgazamiento está controlado por el parámetro <code>thin</code>).</p></li>
+</ul>
+</div>
+<div id="recomendaciones-generales" class="section level3 unnumbered">
+<h3>Recomendaciones generales</h3>
+<p><span class="citation">Gelman and Hill (<a href="#ref-gelman-hill">2007</a>)</span> recomienda los siguientes pasos cuando uno esta simulando de la
+posterior:</p>
+<ol style="list-style-type: decimal">
+<li><p>Cuando definimos un modelo por primera vez establecemos un valor bajo para
+<em>iter</em>. La razón es que la mayor parte de las veces los
+modelos no funcionan a la primera por lo que sería pérdida de tiempo dejarlo
+correr mucho tiempo antes de descubrir el problema.</p></li>
+<li><p>Si las simulaciones no han alcanzado convergencia aumentamos las iteraciones
+a <span class="math inline">\(500\)</span> ó <span class="math inline">\(1000\)</span> de tal forma que las corridas tarden segundos o unos cuantos
+minutos.</p></li>
+<li><p>Si tarda más que unos cuantos minutos (para problemas del tamaño que
+veremos en la clase) y aún así no alcanza convergencia entonces <em>juega</em> un poco
+con el modelo (por ejemplo intenta transformaciones lineales), para JAGS Gelman
+sugiere más técnicas para acelerar la convergencia en el capitulo <span class="math inline">\(19\)</span> del libro
+<em>Data Analysis Using Regression and Multilevel/Hierarchical models</em>. En el
+caso de Stan veremos ejemplos de reparametrización, y se puede leer más en
+la <a href="https://mc-stan.org/docs/2_21/stan-users-guide/reparameterization-section.html">guía</a>.</p></li>
+<li><p>Otra técnica conveniente cuando se trabaja con bases de datos grandes
+(sobretodo para la parte exploratoria) es trabajar con un subconjunto de los
+datos, quizá la mitad o una quinta parte.</p></li>
+</ol>
+</div>
+<div id="iniciales" class="section level3">
+<h3><span class="header-section-number">10.9.1</span> Iniciales</h3>
+<p>Las siguientes recomendaciones de iniciales son de los desarrolladores de Stan,
+puedes leer más en <a href="https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations" class="uri">https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations</a>.</p>
+<p>Podemos clasificar las iniciales en 5 niveles de acuerdo a que tan informativas
+son:</p>
+<ol style="list-style-type: decimal">
+<li>Iniciales planas: usualmente impropias.</li>
+<li>Muy vagas pero propias: <span class="math inline">\(N(0, (1e6) ^ 2)\)</span>.</li>
+<li>Iniciales genéricas muy debilmente informativas: <span class="math inline">\(Normal(0, 10^2)\)</span>.</li>
+<li>Iniciales genéricas debilmente informativas: <span class="math inline">\(Normal(0, 1)\)</span>.</li>
+<li>Iniciales específicas e informativas: <span class="math inline">\(Normal(0.4, 0.2^2)\)</span></li>
+</ol>
+<p>Cuando se usa Stan tenemos los siguientes principios generales:</p>
+<ul>
+<li><p>En Stan no importa usar conjugadas (cuando se usan muestreadores de Gibbs
+puede ser conveniente usar conjugadas, aquí no).</p></li>
+<li><p>No interesan: invarianza, Jeffreys o entropía.</p></li>
+<li><p>Las iniciales debilmente informativas deben contener suficiente información
+para regularizar: las iniciales deben dejar fuera valores de los parámetros que
+no sean razonables, pero no dejar fuera valores que podrían tener sentido.</p></li>
+<li><p>Se prefieren las iniciales debilmente informativas sobre las informativas,
+esto es porque las consecuencias de <em>perder precisión</em> por elegir una inicial
+muy débil (comparado con la verdadera distribución poblacional de los parámetros
+o comparado con conocimiento experto) es menos importante que la ganancia en
+robustez que se deriva de incluir parte del espacio paramétrico que pueda ser
+relevante.</p></li>
+<li><p>Cuando se usen distribuciones iniciales informativas se debe ser explícito en
+porque se tomaron las decisiones.</p></li>
+<li>No utilices iniciales uniformes, o en general no restrinjas el espacio
+paramétrico, a menos que las fronteras representen restricciones verdaderas (por
+ejemplo parámetros de escala restringidos a los positivos, o correlaciones entre
+el -1 y el 1). Algunos ejemplos:
+<ul>
+<li>Si crees que un parámetro se ubica entre el cero y el un, en lugar de usar
+Uniforme(0,1), intenta Normal(0.5, 0.5).</li>
+<li>Un parámetro de escala esta restringido a ser positivo y quieres una
+inicial vaga, propones Uniforme(0,100) (o Uniforme(0,1000), es mejor no
+especificar inicial, que en Stan equivale a una inicial uniforme no
+informativa, o usar una Esxponencial con valor esperado 10, o una
+media-normal(0,10).</li>
+</ul></li>
+</ul>
+</div>
+<div id="recursos-de-stan-y-paquetes-con-r" class="section level3">
+<h3><span class="header-section-number">10.9.2</span> Recursos de Stan y paquetes con R:</h3>
+<ul>
+<li><p><a href="https://mc-stan.org/docs/2_21/reference-manual/index.html">Stan Manual</a>.</p></li>
+<li><p><a href="https://mc-stan.org/docs/2_21/stan-users-guide/index.html">Stan User’s Guide</a>.</p></li>
+<li><p>El paquete <a href="https://cran.r-project.org/web/packages/rstanarm/vignettes/rstanarm.html">rstanarm</a>,
+<span class="citation">Gabry and Goodrich (<a href="#ref-R-rstanarm">2019</a>)</span>, facilita el uso de Stan desde R, cuenta con funciones para llevar a
+cabo estimación Bayesiana sin necesidad de escribir código en el <em>lenguaje de Stan</em>,
+de acuerdo a los autores el objetivo del paquete es que la estimación bayesiana
+sea rutina para los modelos de regresión más comunes.</p></li>
+<li><p>El paquete <a href="bayesplot" class="uri">bayesplot</a>, <span class="citation">Gabry and Mahr (<a href="#ref-R-bayesplot">2019</a>)</span>, cuenta con funciones para
+graficar estimaciones de los parámetros, realizar diagnósticos visuales de las
+cadenas (convergencia), y analizar el ajuste del modelo (graficando de la
+predictiva posterior).</p></li>
+<li><p>El paquete <a href="http://mc-stan.org/users/interfaces/shinystan">shinystan</a>,
+<span class="citation">(<span class="citeproc-not-found" data-reference-id="R-shinysta"><strong>???</strong></span>)</span>, contiene
+resumenes gráficos y numéricos de parámetros de un modelo y de diagnósticos de
+convergencia.</p></li>
+</ul>
+
+</div>
+</div>
+<!-- </div> -->
+<h3>Referencias</h3>
+<div id="refs" class="references">
+<div id="ref-R-rstanarm">
+<p>Gabry, Jonah, and Ben Goodrich. 2019. <em>Rstanarm: Bayesian Applied Regression Modeling via Stan</em>. <a href="https://CRAN.R-project.org/package=rstanarm" class="uri">https://CRAN.R-project.org/package=rstanarm</a>.</p>
+</div>
+<div id="ref-R-bayesplot">
+<p>Gabry, Jonah, and Tristan Mahr. 2019. <em>Bayesplot: Plotting for Bayesian Models</em>. <a href="https://CRAN.R-project.org/package=bayesplot" class="uri">https://CRAN.R-project.org/package=bayesplot</a>.</p>
+</div>
+<div id="ref-gelman-hill">
+<p>Gelman, Andrew, and Jennifer Hill. 2007. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. Vol. Analytical methods for social research. New York: Cambridge University Press.</p>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="distribuciones-conjugadas.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="mcmc.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="hmc-y-stan.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="tareas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

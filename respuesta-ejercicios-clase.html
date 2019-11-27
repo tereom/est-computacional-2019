@@ -280,7 +280,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#más-allá-que-permutación"><i class="fa fa-check"></i>Más allá que permutación</a></li>
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#otras-consideraciones-1"><i class="fa fa-check"></i>Otras consideraciones</a></li>
 </ul></li>
-<li class="chapter" data-level="8.4" data-path="tamaño-de-muestrapoder-estadístico.html"><a href="tamaño-de-muestrapoder-estadístico.html"><i class="fa fa-check"></i><b>8.4</b> Tamaño de muestra/poder estadístico</a></li>
+<li class="chapter" data-level="8.4" data-path="tamaño-de-muestracalculos-de-potencia.html"><a href="tamaño-de-muestracalculos-de-potencia.html"><i class="fa fa-check"></i><b>8.4</b> Tamaño de muestra/calculos de potencia</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="inferencia-paramétrica.html"><a href="inferencia-paramétrica.html"><i class="fa fa-check"></i><b>9</b> Inferencia paramétrica</a><ul>
 <li class="chapter" data-level="9.1" data-path="máxima-verosimilitud.html"><a href="máxima-verosimilitud.html"><i class="fa fa-check"></i><b>9.1</b> Máxima verosimilitud</a><ul>
@@ -305,8 +305,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.6" data-path="metrópolis.html"><a href="metrópolis.html"><i class="fa fa-check"></i><b>10.6</b> Metrópolis</a><ul>
 <li class="chapter" data-level="" data-path="metrópolis.html"><a href="metrópolis.html#inferencia-de-dos-proporciones-binomiales"><i class="fa fa-check"></i>Inferencia de dos proporciones binomiales</a></li>
 </ul></li>
-<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a></li>
-<li class="chapter" data-level="" data-path="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><a href="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
+<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a><ul>
+<li class="chapter" data-level="" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#conclusiones-y-observaciones-metrópolis-y-gibbs"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
+</ul></li>
+<li class="chapter" data-level="10.8" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html"><i class="fa fa-check"></i><b>10.8</b> HMC y Stan</a><ul>
+<li class="chapter" data-level="" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#muestreo-hmc"><i class="fa fa-check"></i>Muestreo HMC</a></li>
+<li class="chapter" data-level="" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#stan"><i class="fa fa-check"></i>Stan</a></li>
+</ul></li>
+<li class="chapter" data-level="10.9" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html"><i class="fa fa-check"></i><b>10.9</b> Diagnósticos generales</a><ul>
+<li class="chapter" data-level="" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recomendaciones-generales"><i class="fa fa-check"></i>Recomendaciones generales</a></li>
+<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales</a></li>
+<li class="chapter" data-level="10.9.2" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.9.2</b> Recursos de Stan y paquetes con R:</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -354,52 +364,52 @@ calificación de <span class="math inline">\(y=\)</span>esp_3 y la de <span clas
 precisa es esta estimación? Calcula el estimador plug-in y el error estándar
 bootstrap.</li>
 </ul>
-<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb380-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
-<a class="sourceLine" id="cb380-2" data-line-number="2"><span class="co"># universo: creamos datos de ENLACE estado de México</span></a>
-<a class="sourceLine" id="cb380-3" data-line-number="3">enlace &lt;-<span class="st"> </span>enlacep_<span class="dv">2013</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb380-4" data-line-number="4"><span class="st">    </span>janitor<span class="op">::</span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb380-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb380-6" data-line-number="6"><span class="st">    </span><span class="kw">select</span>(id, cve_ent, turno, tipo, <span class="dt">esp_3 =</span> punt_esp_<span class="dv">3</span>, <span class="dt">esp_6 =</span> punt_esp_<span class="dv">6</span>, </a>
-<a class="sourceLine" id="cb380-7" data-line-number="7">        <span class="dt">n_eval_3 =</span> alum_eval_<span class="dv">3</span>, <span class="dt">n_eval_6 =</span> alum_eval_<span class="dv">6</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb380-8" data-line-number="8"><span class="st">    </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb380-9" data-line-number="9"><span class="st">    </span><span class="kw">filter</span>(esp_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, esp_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, cve_ent <span class="op">==</span><span class="st"> &quot;15&quot;</span>)</a>
-<a class="sourceLine" id="cb380-10" data-line-number="10"><span class="kw">glimpse</span>(enlace)</a>
-<a class="sourceLine" id="cb380-11" data-line-number="11"><span class="kw">set.seed</span>(<span class="dv">16021</span>)</a>
-<a class="sourceLine" id="cb380-12" data-line-number="12">n &lt;-<span class="st"> </span><span class="dv">300</span></a>
-<a class="sourceLine" id="cb380-13" data-line-number="13"><span class="co"># muestra</span></a>
-<a class="sourceLine" id="cb380-14" data-line-number="14">enlace_muestra &lt;-<span class="st"> </span><span class="kw">sample_n</span>(enlace, n)</a>
-<a class="sourceLine" id="cb380-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb380-16" data-line-number="16"><span class="co"># estimador plug-in</span></a>
-<a class="sourceLine" id="cb380-17" data-line-number="17">theta_hat &lt;-<span class="st"> </span><span class="kw">cor</span>(enlace_muestra<span class="op">$</span>esp_<span class="dv">3</span>, enlace_muestra<span class="op">$</span>esp_<span class="dv">6</span>)</a>
-<a class="sourceLine" id="cb380-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb380-19" data-line-number="19">boot_reps &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
-<a class="sourceLine" id="cb380-20" data-line-number="20">    muestra_boot &lt;-<span class="st"> </span><span class="kw">sample_frac</span>(enlace_muestra, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb380-21" data-line-number="21">    <span class="kw">cor</span>(muestra_boot<span class="op">$</span>esp_<span class="dv">3</span>, muestra_boot<span class="op">$</span>esp_<span class="dv">6</span>)</a>
-<a class="sourceLine" id="cb380-22" data-line-number="22">}</a>
-<a class="sourceLine" id="cb380-23" data-line-number="23"><span class="co"># error estandar bootstrap</span></a>
-<a class="sourceLine" id="cb380-24" data-line-number="24">replicaciones &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">boot_reps</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a>
-<a class="sourceLine" id="cb380-25" data-line-number="25"><span class="kw">sd</span>(replicaciones)</a></code></pre></div>
+<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb406-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
+<a class="sourceLine" id="cb406-2" data-line-number="2"><span class="co"># universo: creamos datos de ENLACE estado de México</span></a>
+<a class="sourceLine" id="cb406-3" data-line-number="3">enlace &lt;-<span class="st"> </span>enlacep_<span class="dv">2013</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb406-4" data-line-number="4"><span class="st">    </span>janitor<span class="op">::</span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb406-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb406-6" data-line-number="6"><span class="st">    </span><span class="kw">select</span>(id, cve_ent, turno, tipo, <span class="dt">esp_3 =</span> punt_esp_<span class="dv">3</span>, <span class="dt">esp_6 =</span> punt_esp_<span class="dv">6</span>, </a>
+<a class="sourceLine" id="cb406-7" data-line-number="7">        <span class="dt">n_eval_3 =</span> alum_eval_<span class="dv">3</span>, <span class="dt">n_eval_6 =</span> alum_eval_<span class="dv">6</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb406-8" data-line-number="8"><span class="st">    </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb406-9" data-line-number="9"><span class="st">    </span><span class="kw">filter</span>(esp_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, esp_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, cve_ent <span class="op">==</span><span class="st"> &quot;15&quot;</span>)</a>
+<a class="sourceLine" id="cb406-10" data-line-number="10"><span class="kw">glimpse</span>(enlace)</a>
+<a class="sourceLine" id="cb406-11" data-line-number="11"><span class="kw">set.seed</span>(<span class="dv">16021</span>)</a>
+<a class="sourceLine" id="cb406-12" data-line-number="12">n &lt;-<span class="st"> </span><span class="dv">300</span></a>
+<a class="sourceLine" id="cb406-13" data-line-number="13"><span class="co"># muestra</span></a>
+<a class="sourceLine" id="cb406-14" data-line-number="14">enlace_muestra &lt;-<span class="st"> </span><span class="kw">sample_n</span>(enlace, n)</a>
+<a class="sourceLine" id="cb406-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb406-16" data-line-number="16"><span class="co"># estimador plug-in</span></a>
+<a class="sourceLine" id="cb406-17" data-line-number="17">theta_hat &lt;-<span class="st"> </span><span class="kw">cor</span>(enlace_muestra<span class="op">$</span>esp_<span class="dv">3</span>, enlace_muestra<span class="op">$</span>esp_<span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb406-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb406-19" data-line-number="19">boot_reps &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
+<a class="sourceLine" id="cb406-20" data-line-number="20">    muestra_boot &lt;-<span class="st"> </span><span class="kw">sample_frac</span>(enlace_muestra, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb406-21" data-line-number="21">    <span class="kw">cor</span>(muestra_boot<span class="op">$</span>esp_<span class="dv">3</span>, muestra_boot<span class="op">$</span>esp_<span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb406-22" data-line-number="22">}</a>
+<a class="sourceLine" id="cb406-23" data-line-number="23"><span class="co"># error estandar bootstrap</span></a>
+<a class="sourceLine" id="cb406-24" data-line-number="24">replicaciones &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">boot_reps</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a>
+<a class="sourceLine" id="cb406-25" data-line-number="25"><span class="kw">sd</span>(replicaciones)</a></code></pre></div>
 <ul>
 <li>Varianza sesgada con datos spatial.</li>
 </ul>
-<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb381-1" data-line-number="1"><span class="kw">library</span>(bootstrap)</a>
-<a class="sourceLine" id="cb381-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb381-3" data-line-number="3">rep_bootstrap &lt;-<span class="st"> </span><span class="cf">function</span>() {</a>
-<a class="sourceLine" id="cb381-4" data-line-number="4">  boot_sample &lt;-<span class="st"> </span><span class="kw">sample</span>(spatial<span class="op">$</span>A, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb381-5" data-line-number="5">  boot_replication &lt;-<span class="st"> </span><span class="kw">var_sesgada</span>(boot_sample)</a>
-<a class="sourceLine" id="cb381-6" data-line-number="6">}</a>
-<a class="sourceLine" id="cb381-7" data-line-number="7">theta_hat &lt;-<span class="st"> </span><span class="kw">var_sesgada</span>(spatial<span class="op">$</span>A)</a>
-<a class="sourceLine" id="cb381-8" data-line-number="8">reps_boot &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">5000</span>, <span class="kw">rep_bootstrap</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a>
-<a class="sourceLine" id="cb381-9" data-line-number="9"><span class="kw">qplot</span>(reps_boot)</a>
-<a class="sourceLine" id="cb381-10" data-line-number="10">sd_spatial &lt;-<span class="st"> </span><span class="kw">sd</span>(reps_boot)</a>
-<a class="sourceLine" id="cb381-11" data-line-number="11"><span class="co"># Normal</span></a>
-<a class="sourceLine" id="cb381-12" data-line-number="12">theta_hat <span class="op">-</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>sd_spatial</a>
-<a class="sourceLine" id="cb381-13" data-line-number="13">theta_hat <span class="op">+</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>sd_spatial</a>
-<a class="sourceLine" id="cb381-14" data-line-number="14"><span class="co"># t</span></a>
-<a class="sourceLine" id="cb381-15" data-line-number="15">theta_hat <span class="op">+</span><span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.025</span>, <span class="dv">25</span>) <span class="op">*</span><span class="st"> </span>sd_spatial</a>
-<a class="sourceLine" id="cb381-16" data-line-number="16">theta_hat <span class="op">+</span><span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.975</span>, <span class="dv">25</span>) <span class="op">*</span><span class="st"> </span>sd_spatial</a>
-<a class="sourceLine" id="cb381-17" data-line-number="17"><span class="co"># Percentiles</span></a>
-<a class="sourceLine" id="cb381-18" data-line-number="18"><span class="kw">quantile</span>(reps_boot, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb407-1" data-line-number="1"><span class="kw">library</span>(bootstrap)</a>
+<a class="sourceLine" id="cb407-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb407-3" data-line-number="3">rep_bootstrap &lt;-<span class="st"> </span><span class="cf">function</span>() {</a>
+<a class="sourceLine" id="cb407-4" data-line-number="4">  boot_sample &lt;-<span class="st"> </span><span class="kw">sample</span>(spatial<span class="op">$</span>A, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb407-5" data-line-number="5">  boot_replication &lt;-<span class="st"> </span><span class="kw">var_sesgada</span>(boot_sample)</a>
+<a class="sourceLine" id="cb407-6" data-line-number="6">}</a>
+<a class="sourceLine" id="cb407-7" data-line-number="7">theta_hat &lt;-<span class="st"> </span><span class="kw">var_sesgada</span>(spatial<span class="op">$</span>A)</a>
+<a class="sourceLine" id="cb407-8" data-line-number="8">reps_boot &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">5000</span>, <span class="kw">rep_bootstrap</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a>
+<a class="sourceLine" id="cb407-9" data-line-number="9"><span class="kw">qplot</span>(reps_boot)</a>
+<a class="sourceLine" id="cb407-10" data-line-number="10">sd_spatial &lt;-<span class="st"> </span><span class="kw">sd</span>(reps_boot)</a>
+<a class="sourceLine" id="cb407-11" data-line-number="11"><span class="co"># Normal</span></a>
+<a class="sourceLine" id="cb407-12" data-line-number="12">theta_hat <span class="op">-</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>sd_spatial</a>
+<a class="sourceLine" id="cb407-13" data-line-number="13">theta_hat <span class="op">+</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>sd_spatial</a>
+<a class="sourceLine" id="cb407-14" data-line-number="14"><span class="co"># t</span></a>
+<a class="sourceLine" id="cb407-15" data-line-number="15">theta_hat <span class="op">+</span><span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.025</span>, <span class="dv">25</span>) <span class="op">*</span><span class="st"> </span>sd_spatial</a>
+<a class="sourceLine" id="cb407-16" data-line-number="16">theta_hat <span class="op">+</span><span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.975</span>, <span class="dv">25</span>) <span class="op">*</span><span class="st"> </span>sd_spatial</a>
+<a class="sourceLine" id="cb407-17" data-line-number="17"><span class="co"># Percentiles</span></a>
+<a class="sourceLine" id="cb407-18" data-line-number="18"><span class="kw">quantile</span>(reps_boot, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre></div>
 </div>
             </section>
 

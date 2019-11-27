@@ -280,7 +280,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#más-allá-que-permutación"><i class="fa fa-check"></i>Más allá que permutación</a></li>
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#otras-consideraciones-1"><i class="fa fa-check"></i>Otras consideraciones</a></li>
 </ul></li>
-<li class="chapter" data-level="8.4" data-path="tamaño-de-muestrapoder-estadístico.html"><a href="tamaño-de-muestrapoder-estadístico.html"><i class="fa fa-check"></i><b>8.4</b> Tamaño de muestra/poder estadístico</a></li>
+<li class="chapter" data-level="8.4" data-path="tamaño-de-muestracalculos-de-potencia.html"><a href="tamaño-de-muestracalculos-de-potencia.html"><i class="fa fa-check"></i><b>8.4</b> Tamaño de muestra/calculos de potencia</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="inferencia-paramétrica.html"><a href="inferencia-paramétrica.html"><i class="fa fa-check"></i><b>9</b> Inferencia paramétrica</a><ul>
 <li class="chapter" data-level="9.1" data-path="máxima-verosimilitud.html"><a href="máxima-verosimilitud.html"><i class="fa fa-check"></i><b>9.1</b> Máxima verosimilitud</a><ul>
@@ -305,8 +305,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.6" data-path="metrópolis.html"><a href="metrópolis.html"><i class="fa fa-check"></i><b>10.6</b> Metrópolis</a><ul>
 <li class="chapter" data-level="" data-path="metrópolis.html"><a href="metrópolis.html#inferencia-de-dos-proporciones-binomiales"><i class="fa fa-check"></i>Inferencia de dos proporciones binomiales</a></li>
 </ul></li>
-<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a></li>
-<li class="chapter" data-level="" data-path="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><a href="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
+<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a><ul>
+<li class="chapter" data-level="" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#conclusiones-y-observaciones-metrópolis-y-gibbs"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
+</ul></li>
+<li class="chapter" data-level="10.8" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html"><i class="fa fa-check"></i><b>10.8</b> HMC y Stan</a><ul>
+<li class="chapter" data-level="" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#muestreo-hmc"><i class="fa fa-check"></i>Muestreo HMC</a></li>
+<li class="chapter" data-level="" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#stan"><i class="fa fa-check"></i>Stan</a></li>
+</ul></li>
+<li class="chapter" data-level="10.9" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html"><i class="fa fa-check"></i><b>10.9</b> Diagnósticos generales</a><ul>
+<li class="chapter" data-level="" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recomendaciones-generales"><i class="fa fa-check"></i>Recomendaciones generales</a></li>
+<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales</a></li>
+<li class="chapter" data-level="10.9.2" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.9.2</b> Recursos de Stan y paquetes con R:</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -403,179 +413,179 @@ ajustes por no respuesta y por proyección (calibración), esta última
 busca que distintos dominios de la muestra coincidan con la proyección de
 población de INEGI.</p></li>
 </ol>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb220-1" data-line-number="1"><span class="kw">library</span>(usethis)</a>
-<a class="sourceLine" id="cb220-2" data-line-number="2"><span class="kw">use_zip</span>(<span class="st">&quot;https://www.inegi.org.mx/contenidos/programas/enigh/nc/2018/datosabiertos/conjunto_de_datos_enigh_2018_ns_csv.zip&quot;</span>, <span class="st">&quot;data&quot;</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb221-1" data-line-number="1"><span class="kw">library</span>(here)</a>
-<a class="sourceLine" id="cb221-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb221-3" data-line-number="3">concentrado_hogar &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="kw">here</span>(<span class="st">&quot;data&quot;</span>, </a>
-<a class="sourceLine" id="cb221-4" data-line-number="4">    <span class="st">&quot;conjunto_de_datos_enigh_2018_ns_csv&quot;</span>, </a>
-<a class="sourceLine" id="cb221-5" data-line-number="5">    <span class="st">&quot;conjunto_de_datos_concentradohogar_enigh_2018_ns&quot;</span>, <span class="st">&quot;conjunto_de_datos&quot;</span>,</a>
-<a class="sourceLine" id="cb221-6" data-line-number="6">    <span class="st">&quot;conjunto_de_datos_concentradohogar_enigh_2018_ns.csv&quot;</span>))</a>
-<a class="sourceLine" id="cb221-7" data-line-number="7"><span class="kw">glimpse</span>(concentrado_hogar)</a>
-<a class="sourceLine" id="cb221-8" data-line-number="8"><span class="co">#&gt; Observations: 74,647</span></a>
-<a class="sourceLine" id="cb221-9" data-line-number="9"><span class="co">#&gt; Variables: 126</span></a>
-<a class="sourceLine" id="cb221-10" data-line-number="10"><span class="co">#&gt; $ folioviv   &lt;dbl&gt; 100013601, 100013602, 100013603, 100013604, 100013606, 100…</span></a>
-<a class="sourceLine" id="cb221-11" data-line-number="11"><span class="co">#&gt; $ foliohog   &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></a>
-<a class="sourceLine" id="cb221-12" data-line-number="12"><span class="co">#&gt; $ ubica_geo  &lt;dbl&gt; 1001, 1001, 1001, 1001, 1001, 1001, 1001, 1001, 1001, 1001…</span></a>
-<a class="sourceLine" id="cb221-13" data-line-number="13"><span class="co">#&gt; $ tam_loc    &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></a>
-<a class="sourceLine" id="cb221-14" data-line-number="14"><span class="co">#&gt; $ est_socio  &lt;dbl&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3…</span></a>
-<a class="sourceLine" id="cb221-15" data-line-number="15"><span class="co">#&gt; $ est_dis    &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2…</span></a>
-<a class="sourceLine" id="cb221-16" data-line-number="16"><span class="co">#&gt; $ upm        &lt;dbl&gt; 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5…</span></a>
-<a class="sourceLine" id="cb221-17" data-line-number="17"><span class="co">#&gt; $ factor     &lt;dbl&gt; 175, 175, 175, 175, 175, 189, 189, 189, 189, 186, 186, 186…</span></a>
-<a class="sourceLine" id="cb221-18" data-line-number="18"><span class="co">#&gt; $ clase_hog  &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 1, 2, 2, 3, 2, 1, 2, 2, 2, 2, 3, 1, 3, 2…</span></a>
-<a class="sourceLine" id="cb221-19" data-line-number="19"><span class="co">#&gt; $ sexo_jefe  &lt;dbl&gt; 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></a>
-<a class="sourceLine" id="cb221-20" data-line-number="20"><span class="co">#&gt; $ edad_jefe  &lt;dbl&gt; 74, 48, 39, 70, 51, 41, 57, 53, 30, 69, 76, 77, 70, 29, 68…</span></a>
-<a class="sourceLine" id="cb221-21" data-line-number="21"><span class="co">#&gt; $ educa_jefe &lt;dbl&gt; 4, 11, 10, 8, 4, 11, 9, 11, 6, 4, 3, 4, 6, 6, 9, 7, 6, 8, …</span></a>
-<a class="sourceLine" id="cb221-22" data-line-number="22"><span class="co">#&gt; $ tot_integ  &lt;dbl&gt; 3, 5, 2, 2, 4, 4, 1, 2, 3, 4, 2, 1, 2, 4, 4, 2, 5, 1, 4, 3…</span></a>
-<a class="sourceLine" id="cb221-23" data-line-number="23"><span class="co">#&gt; $ hombres    &lt;dbl&gt; 2, 2, 1, 1, 1, 2, 0, 1, 2, 4, 0, 1, 1, 2, 3, 1, 2, 1, 2, 1…</span></a>
-<a class="sourceLine" id="cb221-24" data-line-number="24"><span class="co">#&gt; $ mujeres    &lt;dbl&gt; 1, 3, 1, 1, 3, 2, 1, 1, 1, 0, 2, 0, 1, 2, 1, 1, 3, 0, 2, 2…</span></a>
-<a class="sourceLine" id="cb221-25" data-line-number="25"><span class="co">#&gt; $ mayores    &lt;dbl&gt; 3, 5, 2, 2, 3, 4, 1, 2, 2, 3, 2, 1, 2, 2, 4, 2, 5, 1, 3, 3…</span></a>
-<a class="sourceLine" id="cb221-26" data-line-number="26"><span class="co">#&gt; $ menores    &lt;dbl&gt; 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 2, 0, 0, 0, 0, 1, 0…</span></a>
-<a class="sourceLine" id="cb221-27" data-line-number="27"><span class="co">#&gt; $ p12_64     &lt;dbl&gt; 1, 5, 2, 1, 3, 4, 1, 2, 2, 2, 1, 0, 0, 2, 2, 0, 5, 1, 3, 2…</span></a>
-<a class="sourceLine" id="cb221-28" data-line-number="28"><span class="co">#&gt; $ p65mas     &lt;dbl&gt; 2, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 2, 0, 2, 2, 0, 0, 0, 1…</span></a>
-<a class="sourceLine" id="cb221-29" data-line-number="29"><span class="co">#&gt; $ ocupados   &lt;dbl&gt; 2, 2, 2, 0, 2, 2, 1, 2, 2, 2, 1, 1, 1, 1, 2, 0, 4, 1, 2, 2…</span></a>
-<a class="sourceLine" id="cb221-30" data-line-number="30"><span class="co">#&gt; $ percep_ing &lt;dbl&gt; 3, 5, 2, 2, 2, 2, 1, 2, 2, 4, 2, 1, 2, 1, 4, 2, 4, 1, 2, 3…</span></a>
-<a class="sourceLine" id="cb221-31" data-line-number="31"><span class="co">#&gt; $ perc_ocupa &lt;dbl&gt; 2, 2, 2, 0, 2, 2, 1, 2, 2, 2, 1, 1, 1, 1, 2, 0, 4, 1, 2, 2…</span></a>
-<a class="sourceLine" id="cb221-32" data-line-number="32"><span class="co">#&gt; $ ing_cor    &lt;dbl&gt; 76403.70, 42987.73, 580697.74, 46252.71, 53837.09, 237742.…</span></a>
-<a class="sourceLine" id="cb221-33" data-line-number="33"><span class="co">#&gt; $ ingtrab    &lt;dbl&gt; 53114.74, 15235.06, 141885.21, 0.00, 43229.49, 129836.03, …</span></a>
-<a class="sourceLine" id="cb221-34" data-line-number="34"><span class="co">#&gt; $ trabajo    &lt;dbl&gt; 53114.74, 0.00, 141885.21, 0.00, 8852.45, 129836.03, 23606…</span></a>
-<a class="sourceLine" id="cb221-35" data-line-number="35"><span class="co">#&gt; $ sueldos    &lt;dbl&gt; 53114.74, 0.00, 133770.48, 0.00, 8852.45, 95901.63, 23606.…</span></a>
-<a class="sourceLine" id="cb221-36" data-line-number="36"><span class="co">#&gt; $ horas_extr &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
-<a class="sourceLine" id="cb221-37" data-line-number="37"><span class="co">#&gt; $ comisiones &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 22131.14, 0.00, 0.00, 0.00, …</span></a>
-<a class="sourceLine" id="cb221-38" data-line-number="38"><span class="co">#&gt; $ aguinaldo  &lt;dbl&gt; 0.00, 0.00, 3934.42, 0.00, 0.00, 11803.26, 0.00, 22131.14,…</span></a>
-<a class="sourceLine" id="cb221-39" data-line-number="39"><span class="co">#&gt; $ indemtrab  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
-<a class="sourceLine" id="cb221-40" data-line-number="40"><span class="co">#&gt; $ otra_rem   &lt;dbl&gt; 0.00, 0.00, 4180.31, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
-<a class="sourceLine" id="cb221-41" data-line-number="41"><span class="co">#&gt; $ remu_espec &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
-<a class="sourceLine" id="cb221-42" data-line-number="42"><span class="co">#&gt; $ negocio    &lt;dbl&gt; 0.00, 13759.66, 0.00, 0.00, 34377.04, 0.00, 0.00, 0.00, 0.…</span></a>
-<a class="sourceLine" id="cb221-43" data-line-number="43"><span class="co">#&gt; $ noagrop    &lt;dbl&gt; 0.00, 13759.66, 0.00, 0.00, 34377.04, 0.00, 0.00, 0.00, 0.…</span></a>
-<a class="sourceLine" id="cb221-44" data-line-number="44"><span class="co">#&gt; $ industria  &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
-<a class="sourceLine" id="cb221-45" data-line-number="45"><span class="co">#&gt; $ comercio   &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 34377.04, 0.00, 0.00, 0.00, 0.00, …</span></a>
-<a class="sourceLine" id="cb221-46" data-line-number="46"><span class="co">#&gt; $ servicios  &lt;dbl&gt; 0.00, 13759.66, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, …</span></a>
-<a class="sourceLine" id="cb221-47" data-line-number="47"><span class="co">#&gt; $ agrope     &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
-<a class="sourceLine" id="cb221-48" data-line-number="48"><span class="co">#&gt; $ agricolas  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
-<a class="sourceLine" id="cb221-49" data-line-number="49"><span class="co">#&gt; $ pecuarios  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
-<a class="sourceLine" id="cb221-50" data-line-number="50"><span class="co">#&gt; $ reproducc  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
-<a class="sourceLine" id="cb221-51" data-line-number="51"><span class="co">#&gt; $ pesca      &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
-<a class="sourceLine" id="cb221-52" data-line-number="52"><span class="co">#&gt; $ otros_trab &lt;dbl&gt; 0.0, 1475.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, …</span></a>
-<a class="sourceLine" id="cb221-53" data-line-number="53"><span class="co">#&gt; $ rentas     &lt;dbl&gt; 0.00, 0.00, 29508.19, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, …</span></a>
-<a class="sourceLine" id="cb221-54" data-line-number="54"><span class="co">#&gt; $ utilidad   &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
-<a class="sourceLine" id="cb221-55" data-line-number="55"><span class="co">#&gt; $ arrenda    &lt;dbl&gt; 0.00, 0.00, 29508.19, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, …</span></a>
-<a class="sourceLine" id="cb221-56" data-line-number="56"><span class="co">#&gt; $ transfer   &lt;dbl&gt; 11288.96, 3752.67, 391304.34, 34252.71, 107.60, 89906.51, …</span></a>
-<a class="sourceLine" id="cb221-57" data-line-number="57"><span class="co">#&gt; $ jubilacion &lt;dbl&gt; 9147.54, 0.00, 0.00, 23606.55, 0.00, 23606.55, 0.00, 0.00,…</span></a>
-<a class="sourceLine" id="cb221-58" data-line-number="58"><span class="co">#&gt; $ becas      &lt;dbl&gt; 0.0, 491.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0…</span></a>
-<a class="sourceLine" id="cb221-59" data-line-number="59"><span class="co">#&gt; $ donativos  &lt;dbl&gt; 0.00, 147.54, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 23…</span></a>
-<a class="sourceLine" id="cb221-60" data-line-number="60"><span class="co">#&gt; $ remesas    &lt;dbl&gt; 0.00, 98.36, 0.00, 5901.63, 0.00, 0.00, 0.00, 0.00, 0.00, …</span></a>
-<a class="sourceLine" id="cb221-61" data-line-number="61"><span class="co">#&gt; $ bene_gob   &lt;dbl&gt; 1622.95, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
-<a class="sourceLine" id="cb221-62" data-line-number="62"><span class="co">#&gt; $ transf_hog &lt;dbl&gt; 0.00, 3014.97, 0.00, 0.00, 107.60, 61714.26, 0.00, 0.00, 0…</span></a>
-<a class="sourceLine" id="cb221-63" data-line-number="63"><span class="co">#&gt; $ trans_inst &lt;dbl&gt; 518.47, 0.00, 391304.34, 4744.53, 0.00, 4585.70, 0.00, 0.0…</span></a>
-<a class="sourceLine" id="cb221-64" data-line-number="64"><span class="co">#&gt; $ estim_alqu &lt;dbl&gt; 12000.00, 24000.00, 18000.00, 12000.00, 10500.00, 18000.00…</span></a>
-<a class="sourceLine" id="cb221-65" data-line-number="65"><span class="co">#&gt; $ otros_ing  &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
-<a class="sourceLine" id="cb221-66" data-line-number="66"><span class="co">#&gt; $ gasto_mon  &lt;dbl&gt; 18551.47, 55470.99, 103106.89, 19340.06, 13605.03, 33627.7…</span></a>
-<a class="sourceLine" id="cb221-67" data-line-number="67"><span class="co">#&gt; $ alimentos  &lt;dbl&gt; 5618.47, 20930.29, 37594.06, 2892.84, 7367.09, 0.00, 11455…</span></a>
-<a class="sourceLine" id="cb221-68" data-line-number="68"><span class="co">#&gt; $ ali_dentro &lt;dbl&gt; 4075.63, 8587.46, 25251.25, 2892.84, 4795.67, 0.00, 8344.1…</span></a>
-<a class="sourceLine" id="cb221-69" data-line-number="69"><span class="co">#&gt; $ cereales   &lt;dbl&gt; 964.25, 2689.65, 3728.53, 385.71, 257.14, 0.00, 437.13, 10…</span></a>
-<a class="sourceLine" id="cb221-70" data-line-number="70"><span class="co">#&gt; $ carnes     &lt;dbl&gt; 0.00, 1401.41, 2828.56, 2121.42, 2931.41, 0.00, 1787.13, 3…</span></a>
-<a class="sourceLine" id="cb221-71" data-line-number="71"><span class="co">#&gt; $ pescado    &lt;dbl&gt; 745.71, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.…</span></a>
-<a class="sourceLine" id="cb221-72" data-line-number="72"><span class="co">#&gt; $ leche      &lt;dbl&gt; 0.00, 443.55, 4345.70, 0.00, 0.00, 0.00, 2841.41, 1491.40,…</span></a>
-<a class="sourceLine" id="cb221-73" data-line-number="73"><span class="co">#&gt; $ huevo      &lt;dbl&gt; 719.98, 0.00, 411.42, 0.00, 0.00, 0.00, 308.57, 629.99, 30…</span></a>
-<a class="sourceLine" id="cb221-74" data-line-number="74"><span class="co">#&gt; $ aceites    &lt;dbl&gt; 0.00, 0.00, 1928.57, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
-<a class="sourceLine" id="cb221-75" data-line-number="75"><span class="co">#&gt; $ tuberculo  &lt;dbl&gt; 0.00, 257.14, 385.71, 0.00, 128.57, 0.00, 231.42, 411.42, …</span></a>
-<a class="sourceLine" id="cb221-76" data-line-number="76"><span class="co">#&gt; $ verduras   &lt;dbl&gt; 745.70, 1893.29, 2635.66, 0.00, 835.70, 0.00, 861.38, 1028…</span></a>
-<a class="sourceLine" id="cb221-77" data-line-number="77"><span class="co">#&gt; $ frutas     &lt;dbl&gt; 0.00, 533.16, 1864.27, 0.00, 0.00, 0.00, 244.27, 809.98, 0…</span></a>
-<a class="sourceLine" id="cb221-78" data-line-number="78"><span class="co">#&gt; $ azucar     &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 257.14, 0.00, 0.00, 0.…</span></a>
-<a class="sourceLine" id="cb221-79" data-line-number="79"><span class="co">#&gt; $ cafe       &lt;dbl&gt; 0.00, 462.85, 1414.28, 0.00, 0.00, 0.00, 964.28, 0.00, 0.0…</span></a>
-<a class="sourceLine" id="cb221-80" data-line-number="80"><span class="co">#&gt; $ especias   &lt;dbl&gt; 0.00, 167.14, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.…</span></a>
-<a class="sourceLine" id="cb221-81" data-line-number="81"><span class="co">#&gt; $ otros_alim &lt;dbl&gt; 0.00, 392.13, 2545.71, 385.71, 514.28, 0.00, 0.00, 2699.99…</span></a>
-<a class="sourceLine" id="cb221-82" data-line-number="82"><span class="co">#&gt; $ bebidas    &lt;dbl&gt; 899.99, 347.14, 3162.84, 0.00, 128.57, 0.00, 411.42, 385.7…</span></a>
-<a class="sourceLine" id="cb221-83" data-line-number="83"><span class="co">#&gt; $ ali_fuera  &lt;dbl&gt; 771.42, 12342.83, 12342.81, 0.00, 2571.42, 0.00, 1928.57, …</span></a>
-<a class="sourceLine" id="cb221-84" data-line-number="84"><span class="co">#&gt; $ tabaco     &lt;dbl&gt; 771.42, 0.00, 0.00, 0.00, 0.00, 0.00, 1182.84, 0.00, 0.00,…</span></a>
-<a class="sourceLine" id="cb221-85" data-line-number="85"><span class="co">#&gt; $ vesti_calz &lt;dbl&gt; 0.00, 401.06, 2015.21, 97.82, 0.00, 0.00, 0.00, 1565.20, 5…</span></a>
-<a class="sourceLine" id="cb221-86" data-line-number="86"><span class="co">#&gt; $ vestido    &lt;dbl&gt; 0.00, 224.98, 2015.21, 97.82, 0.00, 0.00, 0.00, 293.47, 53…</span></a>
-<a class="sourceLine" id="cb221-87" data-line-number="87"><span class="co">#&gt; $ calzado    &lt;dbl&gt; 0.00, 176.08, 0.00, 0.00, 0.00, 0.00, 0.00, 1271.73, 0.00,…</span></a>
-<a class="sourceLine" id="cb221-88" data-line-number="88"><span class="co">#&gt; $ vivienda   &lt;dbl&gt; 3912.00, 2495.00, 4475.00, 1458.00, 300.00, 2801.00, 4405.…</span></a>
-<a class="sourceLine" id="cb221-89" data-line-number="89"><span class="co">#&gt; $ alquiler   &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 3900.00, 1…</span></a>
-<a class="sourceLine" id="cb221-90" data-line-number="90"><span class="co">#&gt; $ pred_cons  &lt;dbl&gt; 0.00, 1250.00, 1250.00, 0.00, 0.00, 140.00, 250.00, 0.00, …</span></a>
-<a class="sourceLine" id="cb221-91" data-line-number="91"><span class="co">#&gt; $ agua       &lt;dbl&gt; 312.00, 750.00, 750.00, 600.00, 0.00, 741.00, 630.00, 690.…</span></a>
-<a class="sourceLine" id="cb221-92" data-line-number="92"><span class="co">#&gt; $ energia    &lt;dbl&gt; 3600.00, 495.00, 2475.00, 858.00, 300.00, 1920.00, 3525.00…</span></a>
-<a class="sourceLine" id="cb221-93" data-line-number="93"><span class="co">#&gt; $ limpieza   &lt;dbl&gt; 522.00, 412.16, 3318.26, 5514.00, 3300.00, 5682.00, 2496.6…</span></a>
-<a class="sourceLine" id="cb221-94" data-line-number="94"><span class="co">#&gt; $ cuidados   &lt;dbl&gt; 522.00, 375.00, 2340.00, 5514.00, 3300.00, 5682.00, 2301.0…</span></a>
-<a class="sourceLine" id="cb221-95" data-line-number="95"><span class="co">#&gt; $ utensilios &lt;dbl&gt; 0.00, 37.16, 978.26, 0.00, 0.00, 0.00, 195.65, 391.30, 0.0…</span></a>
-<a class="sourceLine" id="cb221-96" data-line-number="96"><span class="co">#&gt; $ enseres    &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 5901.63, 0.00, 0…</span></a>
-<a class="sourceLine" id="cb221-97" data-line-number="97"><span class="co">#&gt; $ salud      &lt;dbl&gt; 0.00, 1348.99, 28858.68, 322.82, 56.73, 0.00, 4695.64, 0.0…</span></a>
-<a class="sourceLine" id="cb221-98" data-line-number="98"><span class="co">#&gt; $ atenc_ambu &lt;dbl&gt; 0.00, 1007.59, 28858.68, 0.00, 56.73, 0.00, 4695.64, 0.00,…</span></a>
-<a class="sourceLine" id="cb221-99" data-line-number="99"><span class="co">#&gt; $ hospital   &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 8217…</span></a>
-<a class="sourceLine" id="cb221-100" data-line-number="100"><span class="co">#&gt; $ medicinas  &lt;dbl&gt; 0.00, 341.40, 0.00, 322.82, 0.00, 0.00, 0.00, 0.00, 0.00, …</span></a>
-<a class="sourceLine" id="cb221-101" data-line-number="101"><span class="co">#&gt; $ transporte &lt;dbl&gt; 8400.00, 7628.56, 12325.68, 7350.00, 600.00, 18235.70, 580…</span></a>
-<a class="sourceLine" id="cb221-102" data-line-number="102"><span class="co">#&gt; $ publico    &lt;dbl&gt; 0.00, 578.56, 4255.68, 0.00, 0.00, 1285.70, 0.00, 0.00, 0.…</span></a>
-<a class="sourceLine" id="cb221-103" data-line-number="103"><span class="co">#&gt; $ foraneo    &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 590.16, 0.00, 0.00, 70…</span></a>
-<a class="sourceLine" id="cb221-104" data-line-number="104"><span class="co">#&gt; $ adqui_vehi &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
-<a class="sourceLine" id="cb221-105" data-line-number="105"><span class="co">#&gt; $ mantenim   &lt;dbl&gt; 7200.00, 3600.00, 4500.00, 6000.00, 0.00, 13200.00, 4253.1…</span></a>
-<a class="sourceLine" id="cb221-106" data-line-number="106"><span class="co">#&gt; $ refaccion  &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 2213.11, 0.00, 0.00, 0…</span></a>
-<a class="sourceLine" id="cb221-107" data-line-number="107"><span class="co">#&gt; $ combus     &lt;dbl&gt; 7200.00, 3600.00, 4500.00, 6000.00, 0.00, 13200.00, 2040.0…</span></a>
-<a class="sourceLine" id="cb221-108" data-line-number="108"><span class="co">#&gt; $ comunica   &lt;dbl&gt; 1200.00, 3450.00, 3570.00, 1350.00, 600.00, 3750.00, 960.0…</span></a>
-<a class="sourceLine" id="cb221-109" data-line-number="109"><span class="co">#&gt; $ educa_espa &lt;dbl&gt; 0.00, 17567.05, 0.00, 639.34, 0.00, 1800.00, 627.00, 3600.…</span></a>
-<a class="sourceLine" id="cb221-110" data-line-number="110"><span class="co">#&gt; $ educacion  &lt;dbl&gt; 0.00, 8547.39, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
-<a class="sourceLine" id="cb221-111" data-line-number="111"><span class="co">#&gt; $ esparci    &lt;dbl&gt; 0.00, 167.21, 0.00, 639.34, 0.00, 1800.00, 627.00, 3600.00…</span></a>
-<a class="sourceLine" id="cb221-112" data-line-number="112"><span class="co">#&gt; $ paq_turist &lt;dbl&gt; 0.00, 8852.45, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
-<a class="sourceLine" id="cb221-113" data-line-number="113"><span class="co">#&gt; $ personales &lt;dbl&gt; 99.00, 4663.29, 8520.00, 1065.24, 1686.13, 5109.00, 3335.6…</span></a>
-<a class="sourceLine" id="cb221-114" data-line-number="114"><span class="co">#&gt; $ cuida_pers &lt;dbl&gt; 99.00, 1497.00, 8520.00, 180.00, 1647.00, 4509.00, 1500.00…</span></a>
-<a class="sourceLine" id="cb221-115" data-line-number="115"><span class="co">#&gt; $ acces_pers &lt;dbl&gt; 0.00, 166.29, 0.00, 0.00, 39.13, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
-<a class="sourceLine" id="cb221-116" data-line-number="116"><span class="co">#&gt; $ otros_gas  &lt;dbl&gt; 0.00, 3000.00, 0.00, 885.24, 0.00, 600.00, 1835.65, 0.00, …</span></a>
-<a class="sourceLine" id="cb221-117" data-line-number="117"><span class="co">#&gt; $ transf_gas &lt;dbl&gt; 0.00, 24.59, 6000.00, 0.00, 295.08, 0.00, 491.80, 23606.55…</span></a>
-<a class="sourceLine" id="cb221-118" data-line-number="118"><span class="co">#&gt; $ percep_tot &lt;dbl&gt; 0.00, 6073.09, 3857.14, 1380.55, 0.00, 1928.57, 489.13, 20…</span></a>
-<a class="sourceLine" id="cb221-119" data-line-number="119"><span class="co">#&gt; $ retiro_inv &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
-<a class="sourceLine" id="cb221-120" data-line-number="120"><span class="co">#&gt; $ prestamos  &lt;dbl&gt; 0.00, 7.37, 0.00, 737.70, 0.00, 0.00, 0.00, 0.00, 491.80, …</span></a>
-<a class="sourceLine" id="cb221-121" data-line-number="121"><span class="co">#&gt; $ otras_perc &lt;dbl&gt; 0.00, 462.28, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.…</span></a>
-<a class="sourceLine" id="cb221-122" data-line-number="122"><span class="co">#&gt; $ ero_nm_viv &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
-<a class="sourceLine" id="cb221-123" data-line-number="123"><span class="co">#&gt; $ ero_nm_hog &lt;dbl&gt; 0.00, 5603.44, 3857.14, 642.85, 0.00, 1928.57, 489.13, 205…</span></a>
-<a class="sourceLine" id="cb221-124" data-line-number="124"><span class="co">#&gt; $ erogac_tot &lt;dbl&gt; 0.00, 9009.82, 81147.53, 0.00, 0.00, 14754.09, 0.00, 58229…</span></a>
-<a class="sourceLine" id="cb221-125" data-line-number="125"><span class="co">#&gt; $ cuota_viv  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 12000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</span></a>
-<a class="sourceLine" id="cb221-126" data-line-number="126"><span class="co">#&gt; $ mater_serv &lt;dbl&gt; 0.00, 147.54, 0.00, 0.00, 0.00, 0.00, 0.00, 7868.85, 0.00,…</span></a>
-<a class="sourceLine" id="cb221-127" data-line-number="127"><span class="co">#&gt; $ material   &lt;dbl&gt; 0.00, 147.54, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.…</span></a>
-<a class="sourceLine" id="cb221-128" data-line-number="128"><span class="co">#&gt; $ servicio   &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 7868.85, 0.00, 0…</span></a>
-<a class="sourceLine" id="cb221-129" data-line-number="129"><span class="co">#&gt; $ deposito   &lt;dbl&gt; 0.00, 9.83, 66393.44, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, …</span></a>
-<a class="sourceLine" id="cb221-130" data-line-number="130"><span class="co">#&gt; $ prest_terc &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
-<a class="sourceLine" id="cb221-131" data-line-number="131"><span class="co">#&gt; $ pago_tarje &lt;dbl&gt; 0.00, 8852.45, 0.00, 0.00, 0.00, 14754.09, 0.00, 0.00, 0.0…</span></a>
-<a class="sourceLine" id="cb221-132" data-line-number="132"><span class="co">#&gt; $ deudas     &lt;dbl&gt; 0.00, 0.00, 14754.09, 0.00, 0.00, 0.00, 0.00, 38360.65, 0.…</span></a>
-<a class="sourceLine" id="cb221-133" data-line-number="133"><span class="co">#&gt; $ balance    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
-<a class="sourceLine" id="cb221-134" data-line-number="134"><span class="co">#&gt; $ otras_erog &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
-<a class="sourceLine" id="cb221-135" data-line-number="135"><span class="co">#&gt; $ smg        &lt;dbl&gt; 7952.4, 7952.4, 7952.4, 7952.4, 7952.4, 7952.4, 7952.4, 79…</span></a>
-<a class="sourceLine" id="cb221-136" data-line-number="136"></a>
-<a class="sourceLine" id="cb221-137" data-line-number="137"><span class="co"># seleccionar variable de ingreso corriente</span></a>
-<a class="sourceLine" id="cb221-138" data-line-number="138">hogar &lt;-<span class="st"> </span>concentrado_hogar <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb221-139" data-line-number="139"><span class="st">    </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb221-140" data-line-number="140">        <span class="dt">upm =</span> <span class="kw">as.integer</span>(upm),</a>
-<a class="sourceLine" id="cb221-141" data-line-number="141">        <span class="dt">jefe_hombre =</span> sexo_jefe <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, </a>
-<a class="sourceLine" id="cb221-142" data-line-number="142">        <span class="dt">edo =</span> <span class="kw">str_sub</span>(ubica_geo, <span class="dv">1</span>, <span class="dv">2</span>), </a>
-<a class="sourceLine" id="cb221-143" data-line-number="143">        <span class="dt">jefa_50 =</span> (sexo_jefe <span class="op">==</span><span class="st"> </span><span class="dv">2</span>) <span class="op">&amp;</span><span class="st"> </span>(edad_jefe <span class="op">&gt;</span><span class="st"> </span><span class="dv">50</span>)</a>
-<a class="sourceLine" id="cb221-144" data-line-number="144">        ) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb221-145" data-line-number="145"><span class="st">    </span><span class="kw">select</span>(folioviv, foliohog, est_dis, upm, factor, ing_cor, sexo_jefe, </a>
-<a class="sourceLine" id="cb221-146" data-line-number="146">       edad_jefe, edo, jefa_<span class="dv">50</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb221-147" data-line-number="147"><span class="st">    </span><span class="kw">group_by</span>(est_dis) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb221-148" data-line-number="148"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">n =</span> <span class="kw">n_distinct</span>(upm)) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># número de upms por estrato</span></a>
-<a class="sourceLine" id="cb221-149" data-line-number="149"><span class="st">    </span><span class="kw">ungroup</span>()</a>
-<a class="sourceLine" id="cb221-150" data-line-number="150">hogar</a>
-<a class="sourceLine" id="cb221-151" data-line-number="151"><span class="co">#&gt; # A tibble: 74,647 x 11</span></a>
-<a class="sourceLine" id="cb221-152" data-line-number="152"><span class="co">#&gt;    folioviv foliohog est_dis   upm factor ing_cor sexo_jefe edad_jefe edo  </span></a>
-<a class="sourceLine" id="cb221-153" data-line-number="153"><span class="co">#&gt;       &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb221-154" data-line-number="154"><span class="co">#&gt;  1   1.00e8        1       2     1    175  76404.         1        74 10   </span></a>
-<a class="sourceLine" id="cb221-155" data-line-number="155"><span class="co">#&gt;  2   1.00e8        1       2     1    175  42988.         1        48 10   </span></a>
-<a class="sourceLine" id="cb221-156" data-line-number="156"><span class="co">#&gt;  3   1.00e8        1       2     1    175 580698.         1        39 10   </span></a>
-<a class="sourceLine" id="cb221-157" data-line-number="157"><span class="co">#&gt;  4   1.00e8        1       2     1    175  46253.         2        70 10   </span></a>
-<a class="sourceLine" id="cb221-158" data-line-number="158"><span class="co">#&gt;  5   1.00e8        1       2     1    175  53837.         2        51 10   </span></a>
-<a class="sourceLine" id="cb221-159" data-line-number="159"><span class="co">#&gt;  6   1.00e8        1       2     2    189 237743.         2        41 10   </span></a>
-<a class="sourceLine" id="cb221-160" data-line-number="160"><span class="co">#&gt;  7   1.00e8        1       2     2    189  32607.         2        57 10   </span></a>
-<a class="sourceLine" id="cb221-161" data-line-number="161"><span class="co">#&gt;  8   1.00e8        1       2     2    189 169918.         1        53 10   </span></a>
-<a class="sourceLine" id="cb221-162" data-line-number="162"><span class="co">#&gt;  9   1.00e8        1       2     2    189  17311.         1        30 10   </span></a>
-<a class="sourceLine" id="cb221-163" data-line-number="163"><span class="co">#&gt; 10   1.00e8        1       2     3    186 120488.         1        69 10   </span></a>
-<a class="sourceLine" id="cb221-164" data-line-number="164"><span class="co">#&gt; # … with 74,637 more rows, and 2 more variables: jefa_50 &lt;lgl&gt;, n &lt;int&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb221-1" data-line-number="1"><span class="kw">library</span>(usethis)</a>
+<a class="sourceLine" id="cb221-2" data-line-number="2"><span class="kw">use_zip</span>(<span class="st">&quot;https://www.inegi.org.mx/contenidos/programas/enigh/nc/2018/datosabiertos/conjunto_de_datos_enigh_2018_ns_csv.zip&quot;</span>, <span class="st">&quot;data&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb222-1" data-line-number="1"><span class="kw">library</span>(here)</a>
+<a class="sourceLine" id="cb222-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb222-3" data-line-number="3">concentrado_hogar &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="kw">here</span>(<span class="st">&quot;data&quot;</span>, </a>
+<a class="sourceLine" id="cb222-4" data-line-number="4">    <span class="st">&quot;conjunto_de_datos_enigh_2018_ns_csv&quot;</span>, </a>
+<a class="sourceLine" id="cb222-5" data-line-number="5">    <span class="st">&quot;conjunto_de_datos_concentradohogar_enigh_2018_ns&quot;</span>, <span class="st">&quot;conjunto_de_datos&quot;</span>,</a>
+<a class="sourceLine" id="cb222-6" data-line-number="6">    <span class="st">&quot;conjunto_de_datos_concentradohogar_enigh_2018_ns.csv&quot;</span>))</a>
+<a class="sourceLine" id="cb222-7" data-line-number="7"><span class="kw">glimpse</span>(concentrado_hogar)</a>
+<a class="sourceLine" id="cb222-8" data-line-number="8"><span class="co">#&gt; Observations: 74,647</span></a>
+<a class="sourceLine" id="cb222-9" data-line-number="9"><span class="co">#&gt; Variables: 126</span></a>
+<a class="sourceLine" id="cb222-10" data-line-number="10"><span class="co">#&gt; $ folioviv   &lt;dbl&gt; 100013601, 100013602, 100013603, 100013604, 100013606, 100…</span></a>
+<a class="sourceLine" id="cb222-11" data-line-number="11"><span class="co">#&gt; $ foliohog   &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></a>
+<a class="sourceLine" id="cb222-12" data-line-number="12"><span class="co">#&gt; $ ubica_geo  &lt;dbl&gt; 1001, 1001, 1001, 1001, 1001, 1001, 1001, 1001, 1001, 1001…</span></a>
+<a class="sourceLine" id="cb222-13" data-line-number="13"><span class="co">#&gt; $ tam_loc    &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></a>
+<a class="sourceLine" id="cb222-14" data-line-number="14"><span class="co">#&gt; $ est_socio  &lt;dbl&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3…</span></a>
+<a class="sourceLine" id="cb222-15" data-line-number="15"><span class="co">#&gt; $ est_dis    &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2…</span></a>
+<a class="sourceLine" id="cb222-16" data-line-number="16"><span class="co">#&gt; $ upm        &lt;dbl&gt; 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5…</span></a>
+<a class="sourceLine" id="cb222-17" data-line-number="17"><span class="co">#&gt; $ factor     &lt;dbl&gt; 175, 175, 175, 175, 175, 189, 189, 189, 189, 186, 186, 186…</span></a>
+<a class="sourceLine" id="cb222-18" data-line-number="18"><span class="co">#&gt; $ clase_hog  &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 1, 2, 2, 3, 2, 1, 2, 2, 2, 2, 3, 1, 3, 2…</span></a>
+<a class="sourceLine" id="cb222-19" data-line-number="19"><span class="co">#&gt; $ sexo_jefe  &lt;dbl&gt; 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></a>
+<a class="sourceLine" id="cb222-20" data-line-number="20"><span class="co">#&gt; $ edad_jefe  &lt;dbl&gt; 74, 48, 39, 70, 51, 41, 57, 53, 30, 69, 76, 77, 70, 29, 68…</span></a>
+<a class="sourceLine" id="cb222-21" data-line-number="21"><span class="co">#&gt; $ educa_jefe &lt;dbl&gt; 4, 11, 10, 8, 4, 11, 9, 11, 6, 4, 3, 4, 6, 6, 9, 7, 6, 8, …</span></a>
+<a class="sourceLine" id="cb222-22" data-line-number="22"><span class="co">#&gt; $ tot_integ  &lt;dbl&gt; 3, 5, 2, 2, 4, 4, 1, 2, 3, 4, 2, 1, 2, 4, 4, 2, 5, 1, 4, 3…</span></a>
+<a class="sourceLine" id="cb222-23" data-line-number="23"><span class="co">#&gt; $ hombres    &lt;dbl&gt; 2, 2, 1, 1, 1, 2, 0, 1, 2, 4, 0, 1, 1, 2, 3, 1, 2, 1, 2, 1…</span></a>
+<a class="sourceLine" id="cb222-24" data-line-number="24"><span class="co">#&gt; $ mujeres    &lt;dbl&gt; 1, 3, 1, 1, 3, 2, 1, 1, 1, 0, 2, 0, 1, 2, 1, 1, 3, 0, 2, 2…</span></a>
+<a class="sourceLine" id="cb222-25" data-line-number="25"><span class="co">#&gt; $ mayores    &lt;dbl&gt; 3, 5, 2, 2, 3, 4, 1, 2, 2, 3, 2, 1, 2, 2, 4, 2, 5, 1, 3, 3…</span></a>
+<a class="sourceLine" id="cb222-26" data-line-number="26"><span class="co">#&gt; $ menores    &lt;dbl&gt; 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 2, 0, 0, 0, 0, 1, 0…</span></a>
+<a class="sourceLine" id="cb222-27" data-line-number="27"><span class="co">#&gt; $ p12_64     &lt;dbl&gt; 1, 5, 2, 1, 3, 4, 1, 2, 2, 2, 1, 0, 0, 2, 2, 0, 5, 1, 3, 2…</span></a>
+<a class="sourceLine" id="cb222-28" data-line-number="28"><span class="co">#&gt; $ p65mas     &lt;dbl&gt; 2, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 2, 0, 2, 2, 0, 0, 0, 1…</span></a>
+<a class="sourceLine" id="cb222-29" data-line-number="29"><span class="co">#&gt; $ ocupados   &lt;dbl&gt; 2, 2, 2, 0, 2, 2, 1, 2, 2, 2, 1, 1, 1, 1, 2, 0, 4, 1, 2, 2…</span></a>
+<a class="sourceLine" id="cb222-30" data-line-number="30"><span class="co">#&gt; $ percep_ing &lt;dbl&gt; 3, 5, 2, 2, 2, 2, 1, 2, 2, 4, 2, 1, 2, 1, 4, 2, 4, 1, 2, 3…</span></a>
+<a class="sourceLine" id="cb222-31" data-line-number="31"><span class="co">#&gt; $ perc_ocupa &lt;dbl&gt; 2, 2, 2, 0, 2, 2, 1, 2, 2, 2, 1, 1, 1, 1, 2, 0, 4, 1, 2, 2…</span></a>
+<a class="sourceLine" id="cb222-32" data-line-number="32"><span class="co">#&gt; $ ing_cor    &lt;dbl&gt; 76403.70, 42987.73, 580697.74, 46252.71, 53837.09, 237742.…</span></a>
+<a class="sourceLine" id="cb222-33" data-line-number="33"><span class="co">#&gt; $ ingtrab    &lt;dbl&gt; 53114.74, 15235.06, 141885.21, 0.00, 43229.49, 129836.03, …</span></a>
+<a class="sourceLine" id="cb222-34" data-line-number="34"><span class="co">#&gt; $ trabajo    &lt;dbl&gt; 53114.74, 0.00, 141885.21, 0.00, 8852.45, 129836.03, 23606…</span></a>
+<a class="sourceLine" id="cb222-35" data-line-number="35"><span class="co">#&gt; $ sueldos    &lt;dbl&gt; 53114.74, 0.00, 133770.48, 0.00, 8852.45, 95901.63, 23606.…</span></a>
+<a class="sourceLine" id="cb222-36" data-line-number="36"><span class="co">#&gt; $ horas_extr &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
+<a class="sourceLine" id="cb222-37" data-line-number="37"><span class="co">#&gt; $ comisiones &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 22131.14, 0.00, 0.00, 0.00, …</span></a>
+<a class="sourceLine" id="cb222-38" data-line-number="38"><span class="co">#&gt; $ aguinaldo  &lt;dbl&gt; 0.00, 0.00, 3934.42, 0.00, 0.00, 11803.26, 0.00, 22131.14,…</span></a>
+<a class="sourceLine" id="cb222-39" data-line-number="39"><span class="co">#&gt; $ indemtrab  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
+<a class="sourceLine" id="cb222-40" data-line-number="40"><span class="co">#&gt; $ otra_rem   &lt;dbl&gt; 0.00, 0.00, 4180.31, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
+<a class="sourceLine" id="cb222-41" data-line-number="41"><span class="co">#&gt; $ remu_espec &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
+<a class="sourceLine" id="cb222-42" data-line-number="42"><span class="co">#&gt; $ negocio    &lt;dbl&gt; 0.00, 13759.66, 0.00, 0.00, 34377.04, 0.00, 0.00, 0.00, 0.…</span></a>
+<a class="sourceLine" id="cb222-43" data-line-number="43"><span class="co">#&gt; $ noagrop    &lt;dbl&gt; 0.00, 13759.66, 0.00, 0.00, 34377.04, 0.00, 0.00, 0.00, 0.…</span></a>
+<a class="sourceLine" id="cb222-44" data-line-number="44"><span class="co">#&gt; $ industria  &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
+<a class="sourceLine" id="cb222-45" data-line-number="45"><span class="co">#&gt; $ comercio   &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 34377.04, 0.00, 0.00, 0.00, 0.00, …</span></a>
+<a class="sourceLine" id="cb222-46" data-line-number="46"><span class="co">#&gt; $ servicios  &lt;dbl&gt; 0.00, 13759.66, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, …</span></a>
+<a class="sourceLine" id="cb222-47" data-line-number="47"><span class="co">#&gt; $ agrope     &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
+<a class="sourceLine" id="cb222-48" data-line-number="48"><span class="co">#&gt; $ agricolas  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
+<a class="sourceLine" id="cb222-49" data-line-number="49"><span class="co">#&gt; $ pecuarios  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
+<a class="sourceLine" id="cb222-50" data-line-number="50"><span class="co">#&gt; $ reproducc  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
+<a class="sourceLine" id="cb222-51" data-line-number="51"><span class="co">#&gt; $ pesca      &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
+<a class="sourceLine" id="cb222-52" data-line-number="52"><span class="co">#&gt; $ otros_trab &lt;dbl&gt; 0.0, 1475.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, …</span></a>
+<a class="sourceLine" id="cb222-53" data-line-number="53"><span class="co">#&gt; $ rentas     &lt;dbl&gt; 0.00, 0.00, 29508.19, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, …</span></a>
+<a class="sourceLine" id="cb222-54" data-line-number="54"><span class="co">#&gt; $ utilidad   &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
+<a class="sourceLine" id="cb222-55" data-line-number="55"><span class="co">#&gt; $ arrenda    &lt;dbl&gt; 0.00, 0.00, 29508.19, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, …</span></a>
+<a class="sourceLine" id="cb222-56" data-line-number="56"><span class="co">#&gt; $ transfer   &lt;dbl&gt; 11288.96, 3752.67, 391304.34, 34252.71, 107.60, 89906.51, …</span></a>
+<a class="sourceLine" id="cb222-57" data-line-number="57"><span class="co">#&gt; $ jubilacion &lt;dbl&gt; 9147.54, 0.00, 0.00, 23606.55, 0.00, 23606.55, 0.00, 0.00,…</span></a>
+<a class="sourceLine" id="cb222-58" data-line-number="58"><span class="co">#&gt; $ becas      &lt;dbl&gt; 0.0, 491.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0…</span></a>
+<a class="sourceLine" id="cb222-59" data-line-number="59"><span class="co">#&gt; $ donativos  &lt;dbl&gt; 0.00, 147.54, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 23…</span></a>
+<a class="sourceLine" id="cb222-60" data-line-number="60"><span class="co">#&gt; $ remesas    &lt;dbl&gt; 0.00, 98.36, 0.00, 5901.63, 0.00, 0.00, 0.00, 0.00, 0.00, …</span></a>
+<a class="sourceLine" id="cb222-61" data-line-number="61"><span class="co">#&gt; $ bene_gob   &lt;dbl&gt; 1622.95, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
+<a class="sourceLine" id="cb222-62" data-line-number="62"><span class="co">#&gt; $ transf_hog &lt;dbl&gt; 0.00, 3014.97, 0.00, 0.00, 107.60, 61714.26, 0.00, 0.00, 0…</span></a>
+<a class="sourceLine" id="cb222-63" data-line-number="63"><span class="co">#&gt; $ trans_inst &lt;dbl&gt; 518.47, 0.00, 391304.34, 4744.53, 0.00, 4585.70, 0.00, 0.0…</span></a>
+<a class="sourceLine" id="cb222-64" data-line-number="64"><span class="co">#&gt; $ estim_alqu &lt;dbl&gt; 12000.00, 24000.00, 18000.00, 12000.00, 10500.00, 18000.00…</span></a>
+<a class="sourceLine" id="cb222-65" data-line-number="65"><span class="co">#&gt; $ otros_ing  &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
+<a class="sourceLine" id="cb222-66" data-line-number="66"><span class="co">#&gt; $ gasto_mon  &lt;dbl&gt; 18551.47, 55470.99, 103106.89, 19340.06, 13605.03, 33627.7…</span></a>
+<a class="sourceLine" id="cb222-67" data-line-number="67"><span class="co">#&gt; $ alimentos  &lt;dbl&gt; 5618.47, 20930.29, 37594.06, 2892.84, 7367.09, 0.00, 11455…</span></a>
+<a class="sourceLine" id="cb222-68" data-line-number="68"><span class="co">#&gt; $ ali_dentro &lt;dbl&gt; 4075.63, 8587.46, 25251.25, 2892.84, 4795.67, 0.00, 8344.1…</span></a>
+<a class="sourceLine" id="cb222-69" data-line-number="69"><span class="co">#&gt; $ cereales   &lt;dbl&gt; 964.25, 2689.65, 3728.53, 385.71, 257.14, 0.00, 437.13, 10…</span></a>
+<a class="sourceLine" id="cb222-70" data-line-number="70"><span class="co">#&gt; $ carnes     &lt;dbl&gt; 0.00, 1401.41, 2828.56, 2121.42, 2931.41, 0.00, 1787.13, 3…</span></a>
+<a class="sourceLine" id="cb222-71" data-line-number="71"><span class="co">#&gt; $ pescado    &lt;dbl&gt; 745.71, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.…</span></a>
+<a class="sourceLine" id="cb222-72" data-line-number="72"><span class="co">#&gt; $ leche      &lt;dbl&gt; 0.00, 443.55, 4345.70, 0.00, 0.00, 0.00, 2841.41, 1491.40,…</span></a>
+<a class="sourceLine" id="cb222-73" data-line-number="73"><span class="co">#&gt; $ huevo      &lt;dbl&gt; 719.98, 0.00, 411.42, 0.00, 0.00, 0.00, 308.57, 629.99, 30…</span></a>
+<a class="sourceLine" id="cb222-74" data-line-number="74"><span class="co">#&gt; $ aceites    &lt;dbl&gt; 0.00, 0.00, 1928.57, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
+<a class="sourceLine" id="cb222-75" data-line-number="75"><span class="co">#&gt; $ tuberculo  &lt;dbl&gt; 0.00, 257.14, 385.71, 0.00, 128.57, 0.00, 231.42, 411.42, …</span></a>
+<a class="sourceLine" id="cb222-76" data-line-number="76"><span class="co">#&gt; $ verduras   &lt;dbl&gt; 745.70, 1893.29, 2635.66, 0.00, 835.70, 0.00, 861.38, 1028…</span></a>
+<a class="sourceLine" id="cb222-77" data-line-number="77"><span class="co">#&gt; $ frutas     &lt;dbl&gt; 0.00, 533.16, 1864.27, 0.00, 0.00, 0.00, 244.27, 809.98, 0…</span></a>
+<a class="sourceLine" id="cb222-78" data-line-number="78"><span class="co">#&gt; $ azucar     &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 257.14, 0.00, 0.00, 0.…</span></a>
+<a class="sourceLine" id="cb222-79" data-line-number="79"><span class="co">#&gt; $ cafe       &lt;dbl&gt; 0.00, 462.85, 1414.28, 0.00, 0.00, 0.00, 964.28, 0.00, 0.0…</span></a>
+<a class="sourceLine" id="cb222-80" data-line-number="80"><span class="co">#&gt; $ especias   &lt;dbl&gt; 0.00, 167.14, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.…</span></a>
+<a class="sourceLine" id="cb222-81" data-line-number="81"><span class="co">#&gt; $ otros_alim &lt;dbl&gt; 0.00, 392.13, 2545.71, 385.71, 514.28, 0.00, 0.00, 2699.99…</span></a>
+<a class="sourceLine" id="cb222-82" data-line-number="82"><span class="co">#&gt; $ bebidas    &lt;dbl&gt; 899.99, 347.14, 3162.84, 0.00, 128.57, 0.00, 411.42, 385.7…</span></a>
+<a class="sourceLine" id="cb222-83" data-line-number="83"><span class="co">#&gt; $ ali_fuera  &lt;dbl&gt; 771.42, 12342.83, 12342.81, 0.00, 2571.42, 0.00, 1928.57, …</span></a>
+<a class="sourceLine" id="cb222-84" data-line-number="84"><span class="co">#&gt; $ tabaco     &lt;dbl&gt; 771.42, 0.00, 0.00, 0.00, 0.00, 0.00, 1182.84, 0.00, 0.00,…</span></a>
+<a class="sourceLine" id="cb222-85" data-line-number="85"><span class="co">#&gt; $ vesti_calz &lt;dbl&gt; 0.00, 401.06, 2015.21, 97.82, 0.00, 0.00, 0.00, 1565.20, 5…</span></a>
+<a class="sourceLine" id="cb222-86" data-line-number="86"><span class="co">#&gt; $ vestido    &lt;dbl&gt; 0.00, 224.98, 2015.21, 97.82, 0.00, 0.00, 0.00, 293.47, 53…</span></a>
+<a class="sourceLine" id="cb222-87" data-line-number="87"><span class="co">#&gt; $ calzado    &lt;dbl&gt; 0.00, 176.08, 0.00, 0.00, 0.00, 0.00, 0.00, 1271.73, 0.00,…</span></a>
+<a class="sourceLine" id="cb222-88" data-line-number="88"><span class="co">#&gt; $ vivienda   &lt;dbl&gt; 3912.00, 2495.00, 4475.00, 1458.00, 300.00, 2801.00, 4405.…</span></a>
+<a class="sourceLine" id="cb222-89" data-line-number="89"><span class="co">#&gt; $ alquiler   &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 3900.00, 1…</span></a>
+<a class="sourceLine" id="cb222-90" data-line-number="90"><span class="co">#&gt; $ pred_cons  &lt;dbl&gt; 0.00, 1250.00, 1250.00, 0.00, 0.00, 140.00, 250.00, 0.00, …</span></a>
+<a class="sourceLine" id="cb222-91" data-line-number="91"><span class="co">#&gt; $ agua       &lt;dbl&gt; 312.00, 750.00, 750.00, 600.00, 0.00, 741.00, 630.00, 690.…</span></a>
+<a class="sourceLine" id="cb222-92" data-line-number="92"><span class="co">#&gt; $ energia    &lt;dbl&gt; 3600.00, 495.00, 2475.00, 858.00, 300.00, 1920.00, 3525.00…</span></a>
+<a class="sourceLine" id="cb222-93" data-line-number="93"><span class="co">#&gt; $ limpieza   &lt;dbl&gt; 522.00, 412.16, 3318.26, 5514.00, 3300.00, 5682.00, 2496.6…</span></a>
+<a class="sourceLine" id="cb222-94" data-line-number="94"><span class="co">#&gt; $ cuidados   &lt;dbl&gt; 522.00, 375.00, 2340.00, 5514.00, 3300.00, 5682.00, 2301.0…</span></a>
+<a class="sourceLine" id="cb222-95" data-line-number="95"><span class="co">#&gt; $ utensilios &lt;dbl&gt; 0.00, 37.16, 978.26, 0.00, 0.00, 0.00, 195.65, 391.30, 0.0…</span></a>
+<a class="sourceLine" id="cb222-96" data-line-number="96"><span class="co">#&gt; $ enseres    &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 5901.63, 0.00, 0…</span></a>
+<a class="sourceLine" id="cb222-97" data-line-number="97"><span class="co">#&gt; $ salud      &lt;dbl&gt; 0.00, 1348.99, 28858.68, 322.82, 56.73, 0.00, 4695.64, 0.0…</span></a>
+<a class="sourceLine" id="cb222-98" data-line-number="98"><span class="co">#&gt; $ atenc_ambu &lt;dbl&gt; 0.00, 1007.59, 28858.68, 0.00, 56.73, 0.00, 4695.64, 0.00,…</span></a>
+<a class="sourceLine" id="cb222-99" data-line-number="99"><span class="co">#&gt; $ hospital   &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 8217…</span></a>
+<a class="sourceLine" id="cb222-100" data-line-number="100"><span class="co">#&gt; $ medicinas  &lt;dbl&gt; 0.00, 341.40, 0.00, 322.82, 0.00, 0.00, 0.00, 0.00, 0.00, …</span></a>
+<a class="sourceLine" id="cb222-101" data-line-number="101"><span class="co">#&gt; $ transporte &lt;dbl&gt; 8400.00, 7628.56, 12325.68, 7350.00, 600.00, 18235.70, 580…</span></a>
+<a class="sourceLine" id="cb222-102" data-line-number="102"><span class="co">#&gt; $ publico    &lt;dbl&gt; 0.00, 578.56, 4255.68, 0.00, 0.00, 1285.70, 0.00, 0.00, 0.…</span></a>
+<a class="sourceLine" id="cb222-103" data-line-number="103"><span class="co">#&gt; $ foraneo    &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 590.16, 0.00, 0.00, 70…</span></a>
+<a class="sourceLine" id="cb222-104" data-line-number="104"><span class="co">#&gt; $ adqui_vehi &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
+<a class="sourceLine" id="cb222-105" data-line-number="105"><span class="co">#&gt; $ mantenim   &lt;dbl&gt; 7200.00, 3600.00, 4500.00, 6000.00, 0.00, 13200.00, 4253.1…</span></a>
+<a class="sourceLine" id="cb222-106" data-line-number="106"><span class="co">#&gt; $ refaccion  &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 2213.11, 0.00, 0.00, 0…</span></a>
+<a class="sourceLine" id="cb222-107" data-line-number="107"><span class="co">#&gt; $ combus     &lt;dbl&gt; 7200.00, 3600.00, 4500.00, 6000.00, 0.00, 13200.00, 2040.0…</span></a>
+<a class="sourceLine" id="cb222-108" data-line-number="108"><span class="co">#&gt; $ comunica   &lt;dbl&gt; 1200.00, 3450.00, 3570.00, 1350.00, 600.00, 3750.00, 960.0…</span></a>
+<a class="sourceLine" id="cb222-109" data-line-number="109"><span class="co">#&gt; $ educa_espa &lt;dbl&gt; 0.00, 17567.05, 0.00, 639.34, 0.00, 1800.00, 627.00, 3600.…</span></a>
+<a class="sourceLine" id="cb222-110" data-line-number="110"><span class="co">#&gt; $ educacion  &lt;dbl&gt; 0.00, 8547.39, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
+<a class="sourceLine" id="cb222-111" data-line-number="111"><span class="co">#&gt; $ esparci    &lt;dbl&gt; 0.00, 167.21, 0.00, 639.34, 0.00, 1800.00, 627.00, 3600.00…</span></a>
+<a class="sourceLine" id="cb222-112" data-line-number="112"><span class="co">#&gt; $ paq_turist &lt;dbl&gt; 0.00, 8852.45, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
+<a class="sourceLine" id="cb222-113" data-line-number="113"><span class="co">#&gt; $ personales &lt;dbl&gt; 99.00, 4663.29, 8520.00, 1065.24, 1686.13, 5109.00, 3335.6…</span></a>
+<a class="sourceLine" id="cb222-114" data-line-number="114"><span class="co">#&gt; $ cuida_pers &lt;dbl&gt; 99.00, 1497.00, 8520.00, 180.00, 1647.00, 4509.00, 1500.00…</span></a>
+<a class="sourceLine" id="cb222-115" data-line-number="115"><span class="co">#&gt; $ acces_pers &lt;dbl&gt; 0.00, 166.29, 0.00, 0.00, 39.13, 0.00, 0.00, 0.00, 0.00, 0…</span></a>
+<a class="sourceLine" id="cb222-116" data-line-number="116"><span class="co">#&gt; $ otros_gas  &lt;dbl&gt; 0.00, 3000.00, 0.00, 885.24, 0.00, 600.00, 1835.65, 0.00, …</span></a>
+<a class="sourceLine" id="cb222-117" data-line-number="117"><span class="co">#&gt; $ transf_gas &lt;dbl&gt; 0.00, 24.59, 6000.00, 0.00, 295.08, 0.00, 491.80, 23606.55…</span></a>
+<a class="sourceLine" id="cb222-118" data-line-number="118"><span class="co">#&gt; $ percep_tot &lt;dbl&gt; 0.00, 6073.09, 3857.14, 1380.55, 0.00, 1928.57, 489.13, 20…</span></a>
+<a class="sourceLine" id="cb222-119" data-line-number="119"><span class="co">#&gt; $ retiro_inv &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
+<a class="sourceLine" id="cb222-120" data-line-number="120"><span class="co">#&gt; $ prestamos  &lt;dbl&gt; 0.00, 7.37, 0.00, 737.70, 0.00, 0.00, 0.00, 0.00, 491.80, …</span></a>
+<a class="sourceLine" id="cb222-121" data-line-number="121"><span class="co">#&gt; $ otras_perc &lt;dbl&gt; 0.00, 462.28, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.…</span></a>
+<a class="sourceLine" id="cb222-122" data-line-number="122"><span class="co">#&gt; $ ero_nm_viv &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
+<a class="sourceLine" id="cb222-123" data-line-number="123"><span class="co">#&gt; $ ero_nm_hog &lt;dbl&gt; 0.00, 5603.44, 3857.14, 642.85, 0.00, 1928.57, 489.13, 205…</span></a>
+<a class="sourceLine" id="cb222-124" data-line-number="124"><span class="co">#&gt; $ erogac_tot &lt;dbl&gt; 0.00, 9009.82, 81147.53, 0.00, 0.00, 14754.09, 0.00, 58229…</span></a>
+<a class="sourceLine" id="cb222-125" data-line-number="125"><span class="co">#&gt; $ cuota_viv  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 12000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</span></a>
+<a class="sourceLine" id="cb222-126" data-line-number="126"><span class="co">#&gt; $ mater_serv &lt;dbl&gt; 0.00, 147.54, 0.00, 0.00, 0.00, 0.00, 0.00, 7868.85, 0.00,…</span></a>
+<a class="sourceLine" id="cb222-127" data-line-number="127"><span class="co">#&gt; $ material   &lt;dbl&gt; 0.00, 147.54, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.…</span></a>
+<a class="sourceLine" id="cb222-128" data-line-number="128"><span class="co">#&gt; $ servicio   &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 7868.85, 0.00, 0…</span></a>
+<a class="sourceLine" id="cb222-129" data-line-number="129"><span class="co">#&gt; $ deposito   &lt;dbl&gt; 0.00, 9.83, 66393.44, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, …</span></a>
+<a class="sourceLine" id="cb222-130" data-line-number="130"><span class="co">#&gt; $ prest_terc &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
+<a class="sourceLine" id="cb222-131" data-line-number="131"><span class="co">#&gt; $ pago_tarje &lt;dbl&gt; 0.00, 8852.45, 0.00, 0.00, 0.00, 14754.09, 0.00, 0.00, 0.0…</span></a>
+<a class="sourceLine" id="cb222-132" data-line-number="132"><span class="co">#&gt; $ deudas     &lt;dbl&gt; 0.00, 0.00, 14754.09, 0.00, 0.00, 0.00, 0.00, 38360.65, 0.…</span></a>
+<a class="sourceLine" id="cb222-133" data-line-number="133"><span class="co">#&gt; $ balance    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></a>
+<a class="sourceLine" id="cb222-134" data-line-number="134"><span class="co">#&gt; $ otras_erog &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…</span></a>
+<a class="sourceLine" id="cb222-135" data-line-number="135"><span class="co">#&gt; $ smg        &lt;dbl&gt; 7952.4, 7952.4, 7952.4, 7952.4, 7952.4, 7952.4, 7952.4, 79…</span></a>
+<a class="sourceLine" id="cb222-136" data-line-number="136"></a>
+<a class="sourceLine" id="cb222-137" data-line-number="137"><span class="co"># seleccionar variable de ingreso corriente</span></a>
+<a class="sourceLine" id="cb222-138" data-line-number="138">hogar &lt;-<span class="st"> </span>concentrado_hogar <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb222-139" data-line-number="139"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb222-140" data-line-number="140">        <span class="dt">upm =</span> <span class="kw">as.integer</span>(upm),</a>
+<a class="sourceLine" id="cb222-141" data-line-number="141">        <span class="dt">jefe_hombre =</span> sexo_jefe <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb222-142" data-line-number="142">        <span class="dt">edo =</span> <span class="kw">str_sub</span>(ubica_geo, <span class="dv">1</span>, <span class="dv">2</span>), </a>
+<a class="sourceLine" id="cb222-143" data-line-number="143">        <span class="dt">jefa_50 =</span> (sexo_jefe <span class="op">==</span><span class="st"> </span><span class="dv">2</span>) <span class="op">&amp;</span><span class="st"> </span>(edad_jefe <span class="op">&gt;</span><span class="st"> </span><span class="dv">50</span>)</a>
+<a class="sourceLine" id="cb222-144" data-line-number="144">        ) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb222-145" data-line-number="145"><span class="st">    </span><span class="kw">select</span>(folioviv, foliohog, est_dis, upm, factor, ing_cor, sexo_jefe, </a>
+<a class="sourceLine" id="cb222-146" data-line-number="146">       edad_jefe, edo, jefa_<span class="dv">50</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb222-147" data-line-number="147"><span class="st">    </span><span class="kw">group_by</span>(est_dis) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb222-148" data-line-number="148"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">n =</span> <span class="kw">n_distinct</span>(upm)) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># número de upms por estrato</span></a>
+<a class="sourceLine" id="cb222-149" data-line-number="149"><span class="st">    </span><span class="kw">ungroup</span>()</a>
+<a class="sourceLine" id="cb222-150" data-line-number="150">hogar</a>
+<a class="sourceLine" id="cb222-151" data-line-number="151"><span class="co">#&gt; # A tibble: 74,647 x 11</span></a>
+<a class="sourceLine" id="cb222-152" data-line-number="152"><span class="co">#&gt;    folioviv foliohog est_dis   upm factor ing_cor sexo_jefe edad_jefe edo  </span></a>
+<a class="sourceLine" id="cb222-153" data-line-number="153"><span class="co">#&gt;       &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb222-154" data-line-number="154"><span class="co">#&gt;  1   1.00e8        1       2     1    175  76404.         1        74 10   </span></a>
+<a class="sourceLine" id="cb222-155" data-line-number="155"><span class="co">#&gt;  2   1.00e8        1       2     1    175  42988.         1        48 10   </span></a>
+<a class="sourceLine" id="cb222-156" data-line-number="156"><span class="co">#&gt;  3   1.00e8        1       2     1    175 580698.         1        39 10   </span></a>
+<a class="sourceLine" id="cb222-157" data-line-number="157"><span class="co">#&gt;  4   1.00e8        1       2     1    175  46253.         2        70 10   </span></a>
+<a class="sourceLine" id="cb222-158" data-line-number="158"><span class="co">#&gt;  5   1.00e8        1       2     1    175  53837.         2        51 10   </span></a>
+<a class="sourceLine" id="cb222-159" data-line-number="159"><span class="co">#&gt;  6   1.00e8        1       2     2    189 237743.         2        41 10   </span></a>
+<a class="sourceLine" id="cb222-160" data-line-number="160"><span class="co">#&gt;  7   1.00e8        1       2     2    189  32607.         2        57 10   </span></a>
+<a class="sourceLine" id="cb222-161" data-line-number="161"><span class="co">#&gt;  8   1.00e8        1       2     2    189 169918.         1        53 10   </span></a>
+<a class="sourceLine" id="cb222-162" data-line-number="162"><span class="co">#&gt;  9   1.00e8        1       2     2    189  17311.         1        30 10   </span></a>
+<a class="sourceLine" id="cb222-163" data-line-number="163"><span class="co">#&gt; 10   1.00e8        1       2     3    186 120488.         1        69 10   </span></a>
+<a class="sourceLine" id="cb222-164" data-line-number="164"><span class="co">#&gt; # … with 74,637 more rows, and 2 more variables: jefa_50 &lt;lgl&gt;, n &lt;int&gt;</span></a></code></pre></div>
 <p>Para el cálculo de estadísticos debemos usar los factores de expansión, por
 ejemplo el ingreso trimestral total sería:</p>
-<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb222-1" data-line-number="1"><span class="kw">sum</span>(hogar<span class="op">$</span>factor <span class="op">*</span><span class="st"> </span>hogar<span class="op">$</span>ing_cor <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>)</a>
-<a class="sourceLine" id="cb222-2" data-line-number="2"><span class="co">#&gt; [1] 1723700566</span></a></code></pre></div>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb223-1" data-line-number="1"><span class="kw">sum</span>(hogar<span class="op">$</span>factor <span class="op">*</span><span class="st"> </span>hogar<span class="op">$</span>ing_cor <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>)</a>
+<a class="sourceLine" id="cb223-2" data-line-number="2"><span class="co">#&gt; [1] 1723700566</span></a></code></pre></div>
 <p>y ingreso trimestral medio (miles pesos)</p>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb223-1" data-line-number="1"><span class="kw">sum</span>(hogar<span class="op">$</span>factor <span class="op">*</span><span class="st"> </span>hogar<span class="op">$</span>ing_cor <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(hogar<span class="op">$</span>factor)</a>
-<a class="sourceLine" id="cb223-2" data-line-number="2"><span class="co">#&gt; [1] 49.61029</span></a></code></pre></div>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb224-1" data-line-number="1"><span class="kw">sum</span>(hogar<span class="op">$</span>factor <span class="op">*</span><span class="st"> </span>hogar<span class="op">$</span>ing_cor <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(hogar<span class="op">$</span>factor)</a>
+<a class="sourceLine" id="cb224-2" data-line-number="2"><span class="co">#&gt; [1] 49.61029</span></a></code></pre></div>
 <p>La estimación del error estándar, por otro lado, no es sencilla y requiere
 usar aproximaciones, en la metodología de INEGI proponen una aproximación con
 series de Taylor.</p>
@@ -613,153 +623,153 @@ un valor de cero como ponderador. Si elegimos <span class="math inline">\(n_h \n
 no están en la muestra tienen ponderador distinto a cero, si <span class="math inline">\(m_h=n_h\)</span> el
 ponderador podría tomar valores negativos.</p>
 <p>Implementemos el bootstrap de Rao y Wu a la ENIGH, usaremos <span class="math inline">\(m_h=n_h-1\)</span></p>
-<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb224-1" data-line-number="1"><span class="co"># creamos una tabla con los estratos y upms</span></a>
-<a class="sourceLine" id="cb224-2" data-line-number="2">est_upm &lt;-<span class="st"> </span>hogar <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb224-3" data-line-number="3"><span class="st">    </span><span class="kw">distinct</span>(est_dis, upm, n)</a>
-<a class="sourceLine" id="cb224-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb224-5" data-line-number="5">hogar_factor &lt;-<span class="st"> </span>est_upm <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb224-6" data-line-number="6"><span class="st">    </span><span class="kw">split</span>(.<span class="op">$</span>est_dis) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># dentro de cada estrato tomamos muestra (n_h-1)</span></a>
-<a class="sourceLine" id="cb224-7" data-line-number="7"><span class="st">    </span><span class="kw">map_df</span>(<span class="op">~</span><span class="kw">sample_n</span>(., <span class="dt">size =</span> <span class="kw">first</span>(.<span class="op">$</span>n) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb224-8" data-line-number="8"><span class="st">    </span><span class="kw">add_count</span>(upm, <span class="dt">name =</span> <span class="st">&quot;m_hi&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># calculamos m_hi*</span></a>
-<a class="sourceLine" id="cb224-9" data-line-number="9"><span class="st">    </span><span class="kw">left_join</span>(hogar, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;est_dis&quot;</span>, <span class="st">&quot;upm&quot;</span>, <span class="st">&quot;n&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb224-10" data-line-number="10"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">factor_b =</span> factor <span class="op">*</span><span class="st"> </span>m_hi <span class="op">*</span><span class="st"> </span>n <span class="op">/</span><span class="st"> </span>(n <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb224-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb224-12" data-line-number="12"><span class="co"># unimos los pasos anteriores en una función para replicar en cada muestra bootstrap</span></a>
-<a class="sourceLine" id="cb224-13" data-line-number="13">svy_boot &lt;-<span class="st"> </span><span class="cf">function</span>(est_upm, hogar){</a>
-<a class="sourceLine" id="cb224-14" data-line-number="14">    m_hi &lt;-<span class="st"> </span>est_upm <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb224-15" data-line-number="15"><span class="st">        </span><span class="kw">split</span>(.<span class="op">$</span>est_dis) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb224-16" data-line-number="16"><span class="st">        </span><span class="kw">map</span>(<span class="op">~</span><span class="kw">sample</span>(.<span class="op">$</span>upm, <span class="dt">size =</span> <span class="kw">first</span>(.<span class="op">$</span>n) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb224-17" data-line-number="17"><span class="st">        </span><span class="kw">flatten_int</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb224-18" data-line-number="18"><span class="st">        </span>plyr<span class="op">::</span><span class="kw">count</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb224-19" data-line-number="19"><span class="st">        </span><span class="kw">select</span>(<span class="dt">upm =</span> x, <span class="dt">m_h =</span> freq)</a>
-<a class="sourceLine" id="cb224-20" data-line-number="20">    m_hi <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb224-21" data-line-number="21"><span class="st">        </span><span class="kw">left_join</span>(hogar, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;upm&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb224-22" data-line-number="22"><span class="st">        </span><span class="kw">mutate</span>(<span class="dt">factor_b =</span> factor <span class="op">*</span><span class="st"> </span>m_h <span class="op">*</span><span class="st"> </span>n <span class="op">/</span><span class="st"> </span>(n <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb224-23" data-line-number="23">}</a>
-<a class="sourceLine" id="cb224-24" data-line-number="24"><span class="kw">set.seed</span>(<span class="dv">1038984</span>)</a>
-<a class="sourceLine" id="cb224-25" data-line-number="25">boot_rep &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">500</span>, <span class="kw">svy_boot</span>(est_upm, hogar))</a>
-<a class="sourceLine" id="cb224-26" data-line-number="26"></a>
-<a class="sourceLine" id="cb224-27" data-line-number="27"><span class="co"># Aplicación a ingreso medio</span></a>
-<a class="sourceLine" id="cb224-28" data-line-number="28">wtd_mean &lt;-<span class="st"> </span><span class="cf">function</span>(w, x, <span class="dt">na.rm =</span> <span class="ot">FALSE</span>) {</a>
-<a class="sourceLine" id="cb224-29" data-line-number="29">    <span class="kw">sum</span>(w <span class="op">*</span><span class="st"> </span>x, <span class="dt">na.rm =</span> na.rm) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(w, <span class="dt">na.rm =</span> na.rm)</a>
-<a class="sourceLine" id="cb224-30" data-line-number="30">} </a>
-<a class="sourceLine" id="cb224-31" data-line-number="31"></a>
-<a class="sourceLine" id="cb224-32" data-line-number="32"><span class="co"># La media es:</span></a>
-<a class="sourceLine" id="cb224-33" data-line-number="33">hogar <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb224-34" data-line-number="34"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">media =</span> <span class="kw">wtd_mean</span>(factor, ing_cor))</a>
-<a class="sourceLine" id="cb224-35" data-line-number="35"><span class="co">#&gt; # A tibble: 1 x 1</span></a>
-<a class="sourceLine" id="cb224-36" data-line-number="36"><span class="co">#&gt;    media</span></a>
-<a class="sourceLine" id="cb224-37" data-line-number="37"><span class="co">#&gt;    &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb224-38" data-line-number="38"><span class="co">#&gt; 1 49610.</span></a></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb225-1" data-line-number="1"><span class="co"># creamos una tabla con los estratos y upms</span></a>
+<a class="sourceLine" id="cb225-2" data-line-number="2">est_upm &lt;-<span class="st"> </span>hogar <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb225-3" data-line-number="3"><span class="st">    </span><span class="kw">distinct</span>(est_dis, upm, n)</a>
+<a class="sourceLine" id="cb225-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb225-5" data-line-number="5">hogar_factor &lt;-<span class="st"> </span>est_upm <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb225-6" data-line-number="6"><span class="st">    </span><span class="kw">split</span>(.<span class="op">$</span>est_dis) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># dentro de cada estrato tomamos muestra (n_h-1)</span></a>
+<a class="sourceLine" id="cb225-7" data-line-number="7"><span class="st">    </span><span class="kw">map_df</span>(<span class="op">~</span><span class="kw">sample_n</span>(., <span class="dt">size =</span> <span class="kw">first</span>(.<span class="op">$</span>n) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb225-8" data-line-number="8"><span class="st">    </span><span class="kw">add_count</span>(upm, <span class="dt">name =</span> <span class="st">&quot;m_hi&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># calculamos m_hi*</span></a>
+<a class="sourceLine" id="cb225-9" data-line-number="9"><span class="st">    </span><span class="kw">left_join</span>(hogar, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;est_dis&quot;</span>, <span class="st">&quot;upm&quot;</span>, <span class="st">&quot;n&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb225-10" data-line-number="10"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">factor_b =</span> factor <span class="op">*</span><span class="st"> </span>m_hi <span class="op">*</span><span class="st"> </span>n <span class="op">/</span><span class="st"> </span>(n <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb225-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb225-12" data-line-number="12"><span class="co"># unimos los pasos anteriores en una función para replicar en cada muestra bootstrap</span></a>
+<a class="sourceLine" id="cb225-13" data-line-number="13">svy_boot &lt;-<span class="st"> </span><span class="cf">function</span>(est_upm, hogar){</a>
+<a class="sourceLine" id="cb225-14" data-line-number="14">    m_hi &lt;-<span class="st"> </span>est_upm <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb225-15" data-line-number="15"><span class="st">        </span><span class="kw">split</span>(.<span class="op">$</span>est_dis) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb225-16" data-line-number="16"><span class="st">        </span><span class="kw">map</span>(<span class="op">~</span><span class="kw">sample</span>(.<span class="op">$</span>upm, <span class="dt">size =</span> <span class="kw">first</span>(.<span class="op">$</span>n) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb225-17" data-line-number="17"><span class="st">        </span><span class="kw">flatten_int</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb225-18" data-line-number="18"><span class="st">        </span>plyr<span class="op">::</span><span class="kw">count</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb225-19" data-line-number="19"><span class="st">        </span><span class="kw">select</span>(<span class="dt">upm =</span> x, <span class="dt">m_h =</span> freq)</a>
+<a class="sourceLine" id="cb225-20" data-line-number="20">    m_hi <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb225-21" data-line-number="21"><span class="st">        </span><span class="kw">left_join</span>(hogar, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;upm&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb225-22" data-line-number="22"><span class="st">        </span><span class="kw">mutate</span>(<span class="dt">factor_b =</span> factor <span class="op">*</span><span class="st"> </span>m_h <span class="op">*</span><span class="st"> </span>n <span class="op">/</span><span class="st"> </span>(n <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb225-23" data-line-number="23">}</a>
+<a class="sourceLine" id="cb225-24" data-line-number="24"><span class="kw">set.seed</span>(<span class="dv">1038984</span>)</a>
+<a class="sourceLine" id="cb225-25" data-line-number="25">boot_rep &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">500</span>, <span class="kw">svy_boot</span>(est_upm, hogar))</a>
+<a class="sourceLine" id="cb225-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb225-27" data-line-number="27"><span class="co"># Aplicación a ingreso medio</span></a>
+<a class="sourceLine" id="cb225-28" data-line-number="28">wtd_mean &lt;-<span class="st"> </span><span class="cf">function</span>(w, x, <span class="dt">na.rm =</span> <span class="ot">FALSE</span>) {</a>
+<a class="sourceLine" id="cb225-29" data-line-number="29">    <span class="kw">sum</span>(w <span class="op">*</span><span class="st"> </span>x, <span class="dt">na.rm =</span> na.rm) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(w, <span class="dt">na.rm =</span> na.rm)</a>
+<a class="sourceLine" id="cb225-30" data-line-number="30">} </a>
+<a class="sourceLine" id="cb225-31" data-line-number="31"></a>
+<a class="sourceLine" id="cb225-32" data-line-number="32"><span class="co"># La media es:</span></a>
+<a class="sourceLine" id="cb225-33" data-line-number="33">hogar <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb225-34" data-line-number="34"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">media =</span> <span class="kw">wtd_mean</span>(factor, ing_cor))</a>
+<a class="sourceLine" id="cb225-35" data-line-number="35"><span class="co">#&gt; # A tibble: 1 x 1</span></a>
+<a class="sourceLine" id="cb225-36" data-line-number="36"><span class="co">#&gt;    media</span></a>
+<a class="sourceLine" id="cb225-37" data-line-number="37"><span class="co">#&gt;    &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb225-38" data-line-number="38"><span class="co">#&gt; 1 49610.</span></a></code></pre></div>
 <p>Y el error estándar:</p>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb225-1" data-line-number="1"><span class="kw">map_dbl</span>(boot_rep, <span class="op">~</span><span class="kw">wtd_mean</span>(<span class="dt">w =</span> .<span class="op">$</span>factor_b, <span class="dt">x =</span> .<span class="op">$</span>ing_cor)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sd</span>()</a>
-<a class="sourceLine" id="cb225-2" data-line-number="2"><span class="co">#&gt; [1] 441.0439</span></a></code></pre></div>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb226-1" data-line-number="1"><span class="kw">map_dbl</span>(boot_rep, <span class="op">~</span><span class="kw">wtd_mean</span>(<span class="dt">w =</span> .<span class="op">$</span>factor_b, <span class="dt">x =</span> .<span class="op">$</span>ing_cor)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sd</span>()</a>
+<a class="sourceLine" id="cb226-2" data-line-number="2"><span class="co">#&gt; [1] 441.0439</span></a></code></pre></div>
 <p>El método bootstrap está implementado en el paquete <code>survey</code> y más recientemente
 en <code>srvyr</code> que es una versión <em>tidy</em> que utiliza las funciones en <code>survey</code>.</p>
 <p>Podemos comparar nuestros resultados con la implementación en <code>survey</code>.</p>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb226-1" data-line-number="1"><span class="co"># 1. Definimos el diseño de la encuesta</span></a>
-<a class="sourceLine" id="cb226-2" data-line-number="2"><span class="kw">library</span>(survey)</a>
-<a class="sourceLine" id="cb226-3" data-line-number="3"><span class="kw">library</span>(srvyr)</a>
-<a class="sourceLine" id="cb226-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb226-5" data-line-number="5">enigh_design &lt;-<span class="st"> </span>hogar <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb226-6" data-line-number="6"><span class="st">    </span><span class="kw">as_survey_design</span>(<span class="dt">ids =</span> upm, <span class="dt">weights =</span> factor, <span class="dt">strata =</span> est_dis)</a>
-<a class="sourceLine" id="cb226-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb226-8" data-line-number="8"><span class="co"># 2. Elegimos bootstrap como el método para el cálculo de errores estándar</span></a>
-<a class="sourceLine" id="cb226-9" data-line-number="9"><span class="kw">set.seed</span>(<span class="dv">7398731</span>)</a>
-<a class="sourceLine" id="cb226-10" data-line-number="10">enigh_boot &lt;-<span class="st"> </span>enigh_design <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb226-11" data-line-number="11"><span class="st">    </span><span class="kw">as_survey_rep</span>(<span class="dt">type =</span> <span class="st">&quot;subbootstrap&quot;</span>, <span class="dt">replicates =</span> <span class="dv">500</span>)</a>
-<a class="sourceLine" id="cb226-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb226-13" data-line-number="13"><span class="co"># 3. Así calculamos la media</span></a>
-<a class="sourceLine" id="cb226-14" data-line-number="14">enigh_boot <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb226-15" data-line-number="15"><span class="st">    </span>srvyr<span class="op">::</span><span class="kw">summarise</span>(<span class="dt">mean_ingcor =</span> <span class="kw">survey_mean</span>(ing_cor))</a>
-<a class="sourceLine" id="cb226-16" data-line-number="16"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
-<a class="sourceLine" id="cb226-17" data-line-number="17"><span class="co">#&gt;   mean_ingcor mean_ingcor_se</span></a>
-<a class="sourceLine" id="cb226-18" data-line-number="18"><span class="co">#&gt;         &lt;dbl&gt;          &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb226-19" data-line-number="19"><span class="co">#&gt; 1      49610.           459.</span></a>
-<a class="sourceLine" id="cb226-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb226-21" data-line-number="21">enigh_boot <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb226-22" data-line-number="22"><span class="st">    </span><span class="kw">group_by</span>(edo) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb226-23" data-line-number="23"><span class="st">    </span>srvyr<span class="op">::</span><span class="kw">summarise</span>(<span class="dt">mean_ingcor =</span> <span class="kw">survey_mean</span>(ing_cor)) </a>
-<a class="sourceLine" id="cb226-24" data-line-number="24"><span class="co">#&gt; # A tibble: 30 x 3</span></a>
-<a class="sourceLine" id="cb226-25" data-line-number="25"><span class="co">#&gt;    edo   mean_ingcor mean_ingcor_se</span></a>
-<a class="sourceLine" id="cb226-26" data-line-number="26"><span class="co">#&gt;    &lt;chr&gt;       &lt;dbl&gt;          &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb226-27" data-line-number="27"><span class="co">#&gt;  1 10         50161.           942.</span></a>
-<a class="sourceLine" id="cb226-28" data-line-number="28"><span class="co">#&gt;  2 11         46142.          1252.</span></a>
-<a class="sourceLine" id="cb226-29" data-line-number="29"><span class="co">#&gt;  3 12         29334.          1067.</span></a>
-<a class="sourceLine" id="cb226-30" data-line-number="30"><span class="co">#&gt;  4 13         38783.           933.</span></a>
-<a class="sourceLine" id="cb226-31" data-line-number="31"><span class="co">#&gt;  5 14         60541.          1873.</span></a>
-<a class="sourceLine" id="cb226-32" data-line-number="32"><span class="co">#&gt;  6 15         48013.          1245.</span></a>
-<a class="sourceLine" id="cb226-33" data-line-number="33"><span class="co">#&gt;  7 16         42653.          1239.</span></a>
-<a class="sourceLine" id="cb226-34" data-line-number="34"><span class="co">#&gt;  8 17         42973.          1675.</span></a>
-<a class="sourceLine" id="cb226-35" data-line-number="35"><span class="co">#&gt;  9 18         48148.          1822.</span></a>
-<a class="sourceLine" id="cb226-36" data-line-number="36"><span class="co">#&gt; 10 19         68959.          3625.</span></a>
-<a class="sourceLine" id="cb226-37" data-line-number="37"><span class="co">#&gt; # … with 20 more rows</span></a>
-<a class="sourceLine" id="cb226-38" data-line-number="38"></a>
-<a class="sourceLine" id="cb226-39" data-line-number="39"><span class="co"># cuantiles</span></a>
-<a class="sourceLine" id="cb226-40" data-line-number="40"><span class="kw">svyquantile</span>(<span class="op">~</span>ing_cor, enigh_boot, <span class="dt">quantiles =</span> <span class="kw">seq</span>(<span class="fl">0.1</span>, <span class="dv">1</span>, <span class="fl">0.1</span>), </a>
-<a class="sourceLine" id="cb226-41" data-line-number="41">    <span class="dt">interval.type =</span> <span class="st">&quot;quantile&quot;</span>)</a>
-<a class="sourceLine" id="cb226-42" data-line-number="42"><span class="co">#&gt; Statistic:</span></a>
-<a class="sourceLine" id="cb226-43" data-line-number="43"><span class="co">#&gt;         ing_cor</span></a>
-<a class="sourceLine" id="cb226-44" data-line-number="44"><span class="co">#&gt; q0.1   13155.75</span></a>
-<a class="sourceLine" id="cb226-45" data-line-number="45"><span class="co">#&gt; q0.2   18895.37</span></a>
-<a class="sourceLine" id="cb226-46" data-line-number="46"><span class="co">#&gt; q0.3   24041.89</span></a>
-<a class="sourceLine" id="cb226-47" data-line-number="47"><span class="co">#&gt; q0.4   29358.29</span></a>
-<a class="sourceLine" id="cb226-48" data-line-number="48"><span class="co">#&gt; q0.5   35505.47</span></a>
-<a class="sourceLine" id="cb226-49" data-line-number="49"><span class="co">#&gt; q0.6   42695.44</span></a>
-<a class="sourceLine" id="cb226-50" data-line-number="50"><span class="co">#&gt; q0.7   52426.32</span></a>
-<a class="sourceLine" id="cb226-51" data-line-number="51"><span class="co">#&gt; q0.8   66594.08</span></a>
-<a class="sourceLine" id="cb226-52" data-line-number="52"><span class="co">#&gt; q0.9   94613.04</span></a>
-<a class="sourceLine" id="cb226-53" data-line-number="53"><span class="co">#&gt; q1   4501830.28</span></a>
-<a class="sourceLine" id="cb226-54" data-line-number="54"><span class="co">#&gt; SE:</span></a>
-<a class="sourceLine" id="cb226-55" data-line-number="55"><span class="co">#&gt;          ing_cor</span></a>
-<a class="sourceLine" id="cb226-56" data-line-number="56"><span class="co">#&gt; q0.1    114.2707</span></a>
-<a class="sourceLine" id="cb226-57" data-line-number="57"><span class="co">#&gt; q0.2    110.1885</span></a>
-<a class="sourceLine" id="cb226-58" data-line-number="58"><span class="co">#&gt; q0.3    130.8151</span></a>
-<a class="sourceLine" id="cb226-59" data-line-number="59"><span class="co">#&gt; q0.4    152.8712</span></a>
-<a class="sourceLine" id="cb226-60" data-line-number="60"><span class="co">#&gt; q0.5    199.3702</span></a>
-<a class="sourceLine" id="cb226-61" data-line-number="61"><span class="co">#&gt; q0.6    241.1244</span></a>
-<a class="sourceLine" id="cb226-62" data-line-number="62"><span class="co">#&gt; q0.7    339.4501</span></a>
-<a class="sourceLine" id="cb226-63" data-line-number="63"><span class="co">#&gt; q0.8    479.4980</span></a>
-<a class="sourceLine" id="cb226-64" data-line-number="64"><span class="co">#&gt; q0.9    908.6814</span></a>
-<a class="sourceLine" id="cb226-65" data-line-number="65"><span class="co">#&gt; q1   384477.9727</span></a></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb227-1" data-line-number="1"><span class="co"># 1. Definimos el diseño de la encuesta</span></a>
+<a class="sourceLine" id="cb227-2" data-line-number="2"><span class="kw">library</span>(survey)</a>
+<a class="sourceLine" id="cb227-3" data-line-number="3"><span class="kw">library</span>(srvyr)</a>
+<a class="sourceLine" id="cb227-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb227-5" data-line-number="5">enigh_design &lt;-<span class="st"> </span>hogar <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb227-6" data-line-number="6"><span class="st">    </span><span class="kw">as_survey_design</span>(<span class="dt">ids =</span> upm, <span class="dt">weights =</span> factor, <span class="dt">strata =</span> est_dis)</a>
+<a class="sourceLine" id="cb227-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb227-8" data-line-number="8"><span class="co"># 2. Elegimos bootstrap como el método para el cálculo de errores estándar</span></a>
+<a class="sourceLine" id="cb227-9" data-line-number="9"><span class="kw">set.seed</span>(<span class="dv">7398731</span>)</a>
+<a class="sourceLine" id="cb227-10" data-line-number="10">enigh_boot &lt;-<span class="st"> </span>enigh_design <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb227-11" data-line-number="11"><span class="st">    </span><span class="kw">as_survey_rep</span>(<span class="dt">type =</span> <span class="st">&quot;subbootstrap&quot;</span>, <span class="dt">replicates =</span> <span class="dv">500</span>)</a>
+<a class="sourceLine" id="cb227-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb227-13" data-line-number="13"><span class="co"># 3. Así calculamos la media</span></a>
+<a class="sourceLine" id="cb227-14" data-line-number="14">enigh_boot <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb227-15" data-line-number="15"><span class="st">    </span>srvyr<span class="op">::</span><span class="kw">summarise</span>(<span class="dt">mean_ingcor =</span> <span class="kw">survey_mean</span>(ing_cor))</a>
+<a class="sourceLine" id="cb227-16" data-line-number="16"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
+<a class="sourceLine" id="cb227-17" data-line-number="17"><span class="co">#&gt;   mean_ingcor mean_ingcor_se</span></a>
+<a class="sourceLine" id="cb227-18" data-line-number="18"><span class="co">#&gt;         &lt;dbl&gt;          &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb227-19" data-line-number="19"><span class="co">#&gt; 1      49610.           459.</span></a>
+<a class="sourceLine" id="cb227-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb227-21" data-line-number="21">enigh_boot <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb227-22" data-line-number="22"><span class="st">    </span><span class="kw">group_by</span>(edo) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb227-23" data-line-number="23"><span class="st">    </span>srvyr<span class="op">::</span><span class="kw">summarise</span>(<span class="dt">mean_ingcor =</span> <span class="kw">survey_mean</span>(ing_cor)) </a>
+<a class="sourceLine" id="cb227-24" data-line-number="24"><span class="co">#&gt; # A tibble: 30 x 3</span></a>
+<a class="sourceLine" id="cb227-25" data-line-number="25"><span class="co">#&gt;    edo   mean_ingcor mean_ingcor_se</span></a>
+<a class="sourceLine" id="cb227-26" data-line-number="26"><span class="co">#&gt;    &lt;chr&gt;       &lt;dbl&gt;          &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb227-27" data-line-number="27"><span class="co">#&gt;  1 10         50161.           942.</span></a>
+<a class="sourceLine" id="cb227-28" data-line-number="28"><span class="co">#&gt;  2 11         46142.          1252.</span></a>
+<a class="sourceLine" id="cb227-29" data-line-number="29"><span class="co">#&gt;  3 12         29334.          1067.</span></a>
+<a class="sourceLine" id="cb227-30" data-line-number="30"><span class="co">#&gt;  4 13         38783.           933.</span></a>
+<a class="sourceLine" id="cb227-31" data-line-number="31"><span class="co">#&gt;  5 14         60541.          1873.</span></a>
+<a class="sourceLine" id="cb227-32" data-line-number="32"><span class="co">#&gt;  6 15         48013.          1245.</span></a>
+<a class="sourceLine" id="cb227-33" data-line-number="33"><span class="co">#&gt;  7 16         42653.          1239.</span></a>
+<a class="sourceLine" id="cb227-34" data-line-number="34"><span class="co">#&gt;  8 17         42973.          1675.</span></a>
+<a class="sourceLine" id="cb227-35" data-line-number="35"><span class="co">#&gt;  9 18         48148.          1822.</span></a>
+<a class="sourceLine" id="cb227-36" data-line-number="36"><span class="co">#&gt; 10 19         68959.          3625.</span></a>
+<a class="sourceLine" id="cb227-37" data-line-number="37"><span class="co">#&gt; # … with 20 more rows</span></a>
+<a class="sourceLine" id="cb227-38" data-line-number="38"></a>
+<a class="sourceLine" id="cb227-39" data-line-number="39"><span class="co"># cuantiles</span></a>
+<a class="sourceLine" id="cb227-40" data-line-number="40"><span class="kw">svyquantile</span>(<span class="op">~</span>ing_cor, enigh_boot, <span class="dt">quantiles =</span> <span class="kw">seq</span>(<span class="fl">0.1</span>, <span class="dv">1</span>, <span class="fl">0.1</span>), </a>
+<a class="sourceLine" id="cb227-41" data-line-number="41">    <span class="dt">interval.type =</span> <span class="st">&quot;quantile&quot;</span>)</a>
+<a class="sourceLine" id="cb227-42" data-line-number="42"><span class="co">#&gt; Statistic:</span></a>
+<a class="sourceLine" id="cb227-43" data-line-number="43"><span class="co">#&gt;         ing_cor</span></a>
+<a class="sourceLine" id="cb227-44" data-line-number="44"><span class="co">#&gt; q0.1   13155.75</span></a>
+<a class="sourceLine" id="cb227-45" data-line-number="45"><span class="co">#&gt; q0.2   18895.37</span></a>
+<a class="sourceLine" id="cb227-46" data-line-number="46"><span class="co">#&gt; q0.3   24041.89</span></a>
+<a class="sourceLine" id="cb227-47" data-line-number="47"><span class="co">#&gt; q0.4   29358.29</span></a>
+<a class="sourceLine" id="cb227-48" data-line-number="48"><span class="co">#&gt; q0.5   35505.47</span></a>
+<a class="sourceLine" id="cb227-49" data-line-number="49"><span class="co">#&gt; q0.6   42695.44</span></a>
+<a class="sourceLine" id="cb227-50" data-line-number="50"><span class="co">#&gt; q0.7   52426.32</span></a>
+<a class="sourceLine" id="cb227-51" data-line-number="51"><span class="co">#&gt; q0.8   66594.08</span></a>
+<a class="sourceLine" id="cb227-52" data-line-number="52"><span class="co">#&gt; q0.9   94613.04</span></a>
+<a class="sourceLine" id="cb227-53" data-line-number="53"><span class="co">#&gt; q1   4501830.28</span></a>
+<a class="sourceLine" id="cb227-54" data-line-number="54"><span class="co">#&gt; SE:</span></a>
+<a class="sourceLine" id="cb227-55" data-line-number="55"><span class="co">#&gt;          ing_cor</span></a>
+<a class="sourceLine" id="cb227-56" data-line-number="56"><span class="co">#&gt; q0.1    114.2707</span></a>
+<a class="sourceLine" id="cb227-57" data-line-number="57"><span class="co">#&gt; q0.2    110.1885</span></a>
+<a class="sourceLine" id="cb227-58" data-line-number="58"><span class="co">#&gt; q0.3    130.8151</span></a>
+<a class="sourceLine" id="cb227-59" data-line-number="59"><span class="co">#&gt; q0.4    152.8712</span></a>
+<a class="sourceLine" id="cb227-60" data-line-number="60"><span class="co">#&gt; q0.5    199.3702</span></a>
+<a class="sourceLine" id="cb227-61" data-line-number="61"><span class="co">#&gt; q0.6    241.1244</span></a>
+<a class="sourceLine" id="cb227-62" data-line-number="62"><span class="co">#&gt; q0.7    339.4501</span></a>
+<a class="sourceLine" id="cb227-63" data-line-number="63"><span class="co">#&gt; q0.8    479.4980</span></a>
+<a class="sourceLine" id="cb227-64" data-line-number="64"><span class="co">#&gt; q0.9    908.6814</span></a>
+<a class="sourceLine" id="cb227-65" data-line-number="65"><span class="co">#&gt; q1   384477.9727</span></a></code></pre></div>
 <p>Supongamos que queremos calcular la media para los hogares con jefe de familia
 mujer mayor a 50 años.</p>
-<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb227-1" data-line-number="1"><span class="co"># Creamos datos con filter y repetimos lo de arriba</span></a>
-<a class="sourceLine" id="cb227-2" data-line-number="2">hogar_mujer &lt;-<span class="st"> </span><span class="kw">filter</span>(hogar, jefa_<span class="dv">50</span>)</a>
-<a class="sourceLine" id="cb227-3" data-line-number="3">est_upm_mujer &lt;-<span class="st"> </span>hogar_mujer <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb227-4" data-line-number="4"><span class="st">    </span><span class="kw">distinct</span>(est_dis, upm, n)</a>
-<a class="sourceLine" id="cb227-5" data-line-number="5"><span class="co"># bootstrap</span></a>
-<a class="sourceLine" id="cb227-6" data-line-number="6">boot_rep_mujer &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">500</span>, <span class="kw">svy_boot</span>(est_upm_mujer, hogar_mujer))</a>
-<a class="sourceLine" id="cb227-7" data-line-number="7"><span class="co"># media y error estándar</span></a>
-<a class="sourceLine" id="cb227-8" data-line-number="8">hogar_mujer <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb227-9" data-line-number="9"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">media =</span> <span class="kw">wtd_mean</span>(factor, ing_cor))</a>
-<a class="sourceLine" id="cb227-10" data-line-number="10"><span class="co">#&gt; # A tibble: 1 x 1</span></a>
-<a class="sourceLine" id="cb227-11" data-line-number="11"><span class="co">#&gt;    media</span></a>
-<a class="sourceLine" id="cb227-12" data-line-number="12"><span class="co">#&gt;    &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb227-13" data-line-number="13"><span class="co">#&gt; 1 44356.</span></a>
-<a class="sourceLine" id="cb227-14" data-line-number="14"><span class="co"># usamos bootstrap para calcular los errores estándar</span></a>
-<a class="sourceLine" id="cb227-15" data-line-number="15"><span class="kw">map_dbl</span>(boot_rep_mujer, <span class="op">~</span><span class="kw">wtd_mean</span>(<span class="dt">w =</span> .<span class="op">$</span>factor_b, <span class="dt">x =</span> .<span class="op">$</span>ing_cor, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb227-16" data-line-number="16"><span class="st">    </span><span class="kw">sd</span>()</a>
-<a class="sourceLine" id="cb227-17" data-line-number="17"><span class="co">#&gt; [1] 546.8034</span></a></code></pre></div>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb228-1" data-line-number="1"><span class="co"># Creamos datos con filter y repetimos lo de arriba</span></a>
+<a class="sourceLine" id="cb228-2" data-line-number="2">hogar_mujer &lt;-<span class="st"> </span><span class="kw">filter</span>(hogar, jefa_<span class="dv">50</span>)</a>
+<a class="sourceLine" id="cb228-3" data-line-number="3">est_upm_mujer &lt;-<span class="st"> </span>hogar_mujer <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb228-4" data-line-number="4"><span class="st">    </span><span class="kw">distinct</span>(est_dis, upm, n)</a>
+<a class="sourceLine" id="cb228-5" data-line-number="5"><span class="co"># bootstrap</span></a>
+<a class="sourceLine" id="cb228-6" data-line-number="6">boot_rep_mujer &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">500</span>, <span class="kw">svy_boot</span>(est_upm_mujer, hogar_mujer))</a>
+<a class="sourceLine" id="cb228-7" data-line-number="7"><span class="co"># media y error estándar</span></a>
+<a class="sourceLine" id="cb228-8" data-line-number="8">hogar_mujer <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb228-9" data-line-number="9"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">media =</span> <span class="kw">wtd_mean</span>(factor, ing_cor))</a>
+<a class="sourceLine" id="cb228-10" data-line-number="10"><span class="co">#&gt; # A tibble: 1 x 1</span></a>
+<a class="sourceLine" id="cb228-11" data-line-number="11"><span class="co">#&gt;    media</span></a>
+<a class="sourceLine" id="cb228-12" data-line-number="12"><span class="co">#&gt;    &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb228-13" data-line-number="13"><span class="co">#&gt; 1 44356.</span></a>
+<a class="sourceLine" id="cb228-14" data-line-number="14"><span class="co"># usamos bootstrap para calcular los errores estándar</span></a>
+<a class="sourceLine" id="cb228-15" data-line-number="15"><span class="kw">map_dbl</span>(boot_rep_mujer, <span class="op">~</span><span class="kw">wtd_mean</span>(<span class="dt">w =</span> .<span class="op">$</span>factor_b, <span class="dt">x =</span> .<span class="op">$</span>ing_cor, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb228-16" data-line-number="16"><span class="st">    </span><span class="kw">sd</span>()</a>
+<a class="sourceLine" id="cb228-17" data-line-number="17"><span class="co">#&gt; [1] 546.8034</span></a></code></pre></div>
 <p>Comparemos con los resultados de <code>srvyr</code>. ¿qué pasa?</p>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb228-1" data-line-number="1"><span class="kw">library</span>(srvyr)</a>
-<a class="sourceLine" id="cb228-2" data-line-number="2">enigh_boot <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb228-3" data-line-number="3"><span class="st">    </span>srvyr<span class="op">::</span><span class="kw">group_by</span>(jefa_<span class="dv">50</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb228-4" data-line-number="4"><span class="st">    </span>srvyr<span class="op">::</span><span class="kw">summarise</span>(<span class="dt">mean_ingcor =</span> <span class="kw">survey_mean</span>(ing_cor))</a>
-<a class="sourceLine" id="cb228-5" data-line-number="5"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
-<a class="sourceLine" id="cb228-6" data-line-number="6"><span class="co">#&gt;   jefa_50 mean_ingcor mean_ingcor_se</span></a>
-<a class="sourceLine" id="cb228-7" data-line-number="7"><span class="co">#&gt;   &lt;lgl&gt;         &lt;dbl&gt;          &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb228-8" data-line-number="8"><span class="co">#&gt; 1 FALSE        50574.           502.</span></a>
-<a class="sourceLine" id="cb228-9" data-line-number="9"><span class="co">#&gt; 2 TRUE         44356.           726.</span></a></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb229-1" data-line-number="1"><span class="kw">library</span>(srvyr)</a>
+<a class="sourceLine" id="cb229-2" data-line-number="2">enigh_boot <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb229-3" data-line-number="3"><span class="st">    </span>srvyr<span class="op">::</span><span class="kw">group_by</span>(jefa_<span class="dv">50</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb229-4" data-line-number="4"><span class="st">    </span>srvyr<span class="op">::</span><span class="kw">summarise</span>(<span class="dt">mean_ingcor =</span> <span class="kw">survey_mean</span>(ing_cor))</a>
+<a class="sourceLine" id="cb229-5" data-line-number="5"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
+<a class="sourceLine" id="cb229-6" data-line-number="6"><span class="co">#&gt;   jefa_50 mean_ingcor mean_ingcor_se</span></a>
+<a class="sourceLine" id="cb229-7" data-line-number="7"><span class="co">#&gt;   &lt;lgl&gt;         &lt;dbl&gt;          &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb229-8" data-line-number="8"><span class="co">#&gt; 1 FALSE        50574.           502.</span></a>
+<a class="sourceLine" id="cb229-9" data-line-number="9"><span class="co">#&gt; 2 TRUE         44356.           726.</span></a></code></pre></div>
 <p>Sub-poblaciones como “jefas de familia mayores a 50” se conocen como un dominio,
 esto es un subgrupo cuyo tamaño de muestra es aleatorio, este ejemplo nos
 recalca la importancia de considerar el proceso en que se generó la muestra para
 calcular los errores estándar bootstrap.</p>
-<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb229-1" data-line-number="1"><span class="kw">map_dbl</span>(boot_rep, </a>
-<a class="sourceLine" id="cb229-2" data-line-number="2">    <span class="cf">function</span>(x){hm &lt;-<span class="st"> </span><span class="kw">filter</span>(x, jefa_<span class="dv">50</span>); </a>
-<a class="sourceLine" id="cb229-3" data-line-number="3">    <span class="kw">wtd_mean</span>(<span class="dt">w =</span> hm<span class="op">$</span>factor_b, <span class="dt">x =</span> hm<span class="op">$</span>ing_cor)}) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb229-4" data-line-number="4"><span class="st">    </span><span class="kw">sd</span>()</a>
-<a class="sourceLine" id="cb229-5" data-line-number="5"><span class="co">#&gt; [1] 715.9535</span></a></code></pre></div>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb230-1" data-line-number="1"><span class="kw">map_dbl</span>(boot_rep, </a>
+<a class="sourceLine" id="cb230-2" data-line-number="2">    <span class="cf">function</span>(x){hm &lt;-<span class="st"> </span><span class="kw">filter</span>(x, jefa_<span class="dv">50</span>); </a>
+<a class="sourceLine" id="cb230-3" data-line-number="3">    <span class="kw">wtd_mean</span>(<span class="dt">w =</span> hm<span class="op">$</span>factor_b, <span class="dt">x =</span> hm<span class="op">$</span>ing_cor)}) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb230-4" data-line-number="4"><span class="st">    </span><span class="kw">sd</span>()</a>
+<a class="sourceLine" id="cb230-5" data-line-number="5"><span class="co">#&gt; [1] 715.9535</span></a></code></pre></div>
 <p>Resumiendo:</p>
 <ul>
 <li><p>El bootstrap de Rao y Wu genera un estimador consistente y aproximadamente

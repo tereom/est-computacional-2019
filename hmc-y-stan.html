@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>10.4 Aproximación por cuadrícula | Estadística Computacional</title>
+  <title>10.8 HMC y Stan | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   <meta name="generator" content="bookdown 0.15.1 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="10.4 Aproximación por cuadrícula | Estadística Computacional" />
+  <meta property="og:title" content="10.8 HMC y Stan | Estadística Computacional" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="tereom/est-computacional-2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="10.4 Aproximación por cuadrícula | Estadística Computacional" />
+  <meta name="twitter:title" content="10.8 HMC y Stan | Estadística Computacional" />
   
   <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="distribuciones-conjugadas.html"/>
-<link rel="next" href="mcmc.html"/>
+<link rel="prev" href="muestreador-de-gibbs.html"/>
+<link rel="next" href="diagnósticos-generales.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -356,113 +356,347 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="aproximación-por-cuadrícula" class="section level2">
-<h2><span class="header-section-number">10.4</span> Aproximación por cuadrícula</h2>
-<p>Supongamos que la distribución beta no describe nuestras creencias de manera
-adecuada. Por ejemplo, mis creencias podrían estar mejor representadas por una
-distribución trimodal: la moneda esta fuertemente sesgada hacia sol,
-fuertemente sesgada hacia águila o es justa. No hay parámetros en una beta
-que puedan describir este patrón.</p>
-<p>Exploraremos entonces una técnica de aproximación numérica de la distribución
-posterior que consiste en definir la distribución inicial en una cuadrícula
-de valores de <span class="math inline">\(\theta\)</span>. En este método no necesitamos describir nuestras
-creencias mediante una función matemática ni realizar integración analítica.
-Suponemos que existe únicamente un número finito de valores de <span class="math inline">\(\theta\)</span> que
-creemos que pueden ocurrir (el primer ejemplo que estudiamos usamos esta
-técnica). Es así que la regla de Bayes se escribe como:</p>
-<p><span class="math display">\[p(x|\theta)=\frac{p(x|\theta)p(\theta)}{\sum_{\theta}p(x|\theta)p(\theta)}\]</span></p>
-<p>Entonces, si podemos discretizar una distribución inicial continua mediante una
-cuadrícula de masas de probabilidad discreta podemos usar la versión discreta
-de la regla de Bayes. El proceso consiste en dividir el dominio en regiones,
-crear un rectángulo con la altura correspondiente al valor de la densidad en
-el punto medio. Aproximamos el área de cada región mediante la altura del
-rectángulo.</p>
-<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb330-1" data-line-number="1"><span class="co"># N = 14, z = 11, a = 1, b = 1</span></a>
-<a class="sourceLine" id="cb330-2" data-line-number="2">N =<span class="st"> </span><span class="dv">14</span>; z =<span class="st"> </span><span class="dv">11</span></a>
-<a class="sourceLine" id="cb330-3" data-line-number="3">inicial &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">theta =</span> <span class="kw">seq</span>(<span class="fl">0.05</span>, <span class="dv">1</span>, <span class="fl">0.05</span>), <span class="dt">inicial =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">20</span>, <span class="dv">20</span>))</a>
-<a class="sourceLine" id="cb330-4" data-line-number="4">dists_h &lt;-<span class="st"> </span>inicial <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb330-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb330-6" data-line-number="6">        <span class="dt">verosimilitud =</span> theta <span class="op">^</span><span class="st"> </span>z <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta) <span class="op">^</span><span class="st"> </span>(N <span class="op">-</span><span class="st"> </span>z), <span class="co"># verosimilitud </span></a>
-<a class="sourceLine" id="cb330-7" data-line-number="7">        <span class="dt">posterior =</span> (verosimilitud <span class="op">*</span><span class="st"> </span>inicial) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(verosimilitud <span class="op">*</span><span class="st"> </span>inicial)</a>
-<a class="sourceLine" id="cb330-8" data-line-number="8">        )  </a>
-<a class="sourceLine" id="cb330-9" data-line-number="9">dists &lt;-<span class="st"> </span>dists_h <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># base de datos larga</span></a>
-<a class="sourceLine" id="cb330-10" data-line-number="10"><span class="st">    </span><span class="kw">gather</span>(dist, valor, inicial, verosimilitud, posterior) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb330-11" data-line-number="11"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">dist =</span> <span class="kw">factor</span>(dist, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;inicial&quot;</span>, <span class="st">&quot;verosimilitud&quot;</span>, <span class="st">&quot;posterior&quot;</span>)))</a>
-<a class="sourceLine" id="cb330-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb330-13" data-line-number="13"><span class="kw">ggplot</span>(dists, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> valor)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb330-14" data-line-number="14"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb330-15" data-line-number="15"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>dist, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb330-16" data-line-number="16"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta), <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.2</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb330-17" data-line-number="17"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-13-1.png" width="720" style="display: block; margin: auto;" /></p>
-<p>y lo podemos comparar con la versión continua (distribución beta).</p>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-14-1.png" width="720" style="display: block; margin: auto;" /></p>
-<p>En cuanto a la estimación, la tabla de probabilidades nos da una estimación
-para los valores de los parámetros. Podemos calcular la media de <span class="math inline">\(\theta\)</span>
-como el promedio ponderado por las probabilidades:</p>
-<p><span class="math inline">\(\bar{\theta}=\sum_{\theta} \theta p(\theta|x)\)</span></p>
-<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb331-1" data-line-number="1"><span class="kw">head</span>(dists_h)</a>
-<a class="sourceLine" id="cb331-2" data-line-number="2"><span class="co">#&gt;   theta inicial verosimilitud    posterior</span></a>
-<a class="sourceLine" id="cb331-3" data-line-number="3"><span class="co">#&gt; 1  0.05    0.05  4.186401e-15 1.142584e-12</span></a>
-<a class="sourceLine" id="cb331-4" data-line-number="4"><span class="co">#&gt; 2  0.10    0.05  7.290000e-12 1.989641e-09</span></a>
-<a class="sourceLine" id="cb331-5" data-line-number="5"><span class="co">#&gt; 3  0.15    0.05  5.312031e-10 1.449799e-07</span></a>
-<a class="sourceLine" id="cb331-6" data-line-number="6"><span class="co">#&gt; 4  0.20    0.05  1.048576e-08 2.861851e-06</span></a>
-<a class="sourceLine" id="cb331-7" data-line-number="7"><span class="co">#&gt; 5  0.25    0.05  1.005828e-07 2.745181e-05</span></a>
-<a class="sourceLine" id="cb331-8" data-line-number="8"><span class="co">#&gt; 6  0.30    0.05  6.076142e-07 1.658346e-04</span></a>
-<a class="sourceLine" id="cb331-9" data-line-number="9"><span class="kw">sum</span>(dists_h<span class="op">$</span>posterior <span class="op">*</span><span class="st"> </span>dists_h<span class="op">$</span>theta)</a>
-<a class="sourceLine" id="cb331-10" data-line-number="10"><span class="co">#&gt; [1] 0.7500629</span></a></code></pre></div>
-<p>Ahora para intervalos de probabilidad, debido a que estamos usando masas
-discretas, la suma de las masas en un intervalo usualmente no será igual
-a <span class="math inline">\(95\%\)</span> y por tanto elegimos los puntos tales que la masa sea mayor a igual
-a <span class="math inline">\(95\%\)</span> y la masa total sea lo menor posible, en nuestro ejemplo podemos usar
-cuantiles.</p>
-<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb332-1" data-line-number="1">dist_cum &lt;-<span class="st"> </span><span class="kw">cumsum</span>(dists_h<span class="op">$</span>posterior) <span class="co">#vector de distribución acumulada</span></a>
-<a class="sourceLine" id="cb332-2" data-line-number="2">lb &lt;-<span class="st"> </span><span class="kw">which.min</span>(dist_cum <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>) <span class="op">-</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb332-3" data-line-number="3">ub &lt;-<span class="st"> </span><span class="kw">which.min</span>(dist_cum <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.975</span>)</a>
-<a class="sourceLine" id="cb332-4" data-line-number="4">dists_h<span class="op">$</span>theta[lb]</a>
-<a class="sourceLine" id="cb332-5" data-line-number="5"><span class="co">#&gt; [1] 0.5</span></a>
-<a class="sourceLine" id="cb332-6" data-line-number="6">dists_h<span class="op">$</span>theta[ub]</a>
-<a class="sourceLine" id="cb332-7" data-line-number="7"><span class="co">#&gt; [1] 0.9</span></a></code></pre></div>
-<p>Para el problema de predicción, la probabilidad predictiva para el
-siguiente valor <span class="math inline">\(y\)</span> es simplemente la probabilidad de que ocurra dicho valor
-ponderado por la probabilidad posterior correspondiente:</p>
-<p><span class="math display">\[p(y|x)=\int p(y|\theta)p(\theta|x)d\theta\]</span>
-<span class="math display">\[\approx \sum_{\theta} p(y|\theta)p(\theta|x)\]</span></p>
-<p><img src="img/manicule2.jpg" /> Calcula la probabilidad predictiva para <span class="math inline">\(y=1\)</span>
-usando los datos del ejemplo.</p>
-<p>Finalmente, para la comparación de modelos la integral que define la evidencia</p>
-<p><span class="math display">\[p(x|M)=\int p(x|\theta,M)p(\theta|M)d\theta\]</span></p>
-<p>se convierte en una suma</p>
-<p><span class="math display">\[p(x|M)\approx \sum_{\theta} p(x|\theta,M)p(\theta|M)d\theta\]</span></p>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb333-1" data-line-number="1"><span class="co"># calcula el factor de Bayes para el experimento Bernoulli Modelos M1 y M2</span></a>
-<a class="sourceLine" id="cb333-2" data-line-number="2">factorBayes &lt;-<span class="st"> </span><span class="cf">function</span>(M, s){</a>
-<a class="sourceLine" id="cb333-3" data-line-number="3">  evidencia &lt;-<span class="st"> </span><span class="kw">rbind</span>(p_M1, p_M2) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># base de datos horizontal</span></a>
-<a class="sourceLine" id="cb333-4" data-line-number="4"><span class="st">    </span><span class="kw">group_by</span>(modelo) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb333-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb333-6" data-line-number="6">      <span class="dt">Like =</span> theta <span class="op">^</span><span class="st"> </span>s <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta) <span class="op">^</span><span class="st"> </span>(M <span class="op">-</span><span class="st"> </span>s), <span class="co"># verosimilitud </span></a>
-<a class="sourceLine" id="cb333-7" data-line-number="7">      <span class="dt">posterior =</span> (Like <span class="op">*</span><span class="st"> </span>prior) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(Like <span class="op">*</span><span class="st"> </span>prior)</a>
-<a class="sourceLine" id="cb333-8" data-line-number="8">    ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb333-9" data-line-number="9"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">evidencia =</span> <span class="kw">sum</span>(prior <span class="op">*</span><span class="st"> </span>Like))</a>
-<a class="sourceLine" id="cb333-10" data-line-number="10">  <span class="kw">print</span>(evidencia)</a>
-<a class="sourceLine" id="cb333-11" data-line-number="11">  <span class="kw">return</span>(evidencia[<span class="dv">1</span>, <span class="dv">2</span>] <span class="op">/</span><span class="st"> </span>evidencia[<span class="dv">2</span>, <span class="dv">2</span>])</a>
-<a class="sourceLine" id="cb333-12" data-line-number="12">}</a>
-<a class="sourceLine" id="cb333-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb333-14" data-line-number="14"><span class="kw">factorBayes</span>(<span class="dv">50</span>, <span class="dv">25</span>)</a>
-<a class="sourceLine" id="cb333-15" data-line-number="15"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
-<a class="sourceLine" id="cb333-16" data-line-number="16"><span class="co">#&gt;   modelo evidencia</span></a>
-<a class="sourceLine" id="cb333-17" data-line-number="17"><span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb333-18" data-line-number="18"><span class="co">#&gt; 1 M1      4.44e-16</span></a>
-<a class="sourceLine" id="cb333-19" data-line-number="19"><span class="co">#&gt; 2 M2      2.75e-16</span></a>
-<a class="sourceLine" id="cb333-20" data-line-number="20"><span class="co">#&gt;   evidencia</span></a>
-<a class="sourceLine" id="cb333-21" data-line-number="21"><span class="co">#&gt; 1    1.6142</span></a></code></pre></div>
+<div id="hmc-y-stan" class="section level2">
+<h2><span class="header-section-number">10.8</span> HMC y Stan</h2>
+<blockquote>
+<p>It appears to be quite a general principle that, whenever there is a
+randomized way of doinf something, then there is a nonrandomized way that
+delivers better performance but requires more thought. -E.T. Jaynes</p>
+</blockquote>
+<p>Stan es un programa para generar muestras de una distribución posterior de los
+parámetros de un modelo, el nombre del programa hace referencia a <a href="https://en.wikipedia.org/wiki/Stanislaw_Ulam">Stanislaw Ulam (1904-1984)</a> que fue pionero en
+los métodos de Monte Carlo. A diferencia de JAGS y BUGS, los pasos de la cadena
+de Markov se generan con un método llamado <em>Monte Carlo Hamiltoniano</em> (HMC). HMC
+es computacionalmente más costoso que Metropolis o Gibbs, sin embargo, sus
+propuestas suelen ser más eficientes, y por consiguiente no necesita muestras
+tan grandes. En particular cuando se ajustan modelos grandes y complejos (por
+ejemplo, con variables con correlación alta) HMC supera a otros.</p>
+<div id="muestreo-hmc" class="section level3 unnumbered">
+<h3>Muestreo HMC</h3>
+<p>El uso de HMC en estadística es reciente, sin embargo, gracias a Stan se ha
+expandido rápidamente tanto en academia como industria. Desafortunadamente, la
+teoría de HMC está desarrollada en términos de geometría diferencial, lo que
+hace que su construcción formal requiera de matemáticas avanzadas. En estas
+notas se presentan las ideas detrás de HMC siguiendo <span class="citation">Kruschke (<a href="#ref-kruschke">2015</a>)</span>, una referencia
+con mayor detalle es <span class="citation">Betancourt (<a href="#ref-betancourt2017">2017</a>)</span> y para el uso de Stan vale la pena tener
+siempre a la mano el <a href="https://mc-stan.org/docs/2_21/reference-manual/index.html">manual</a>.</p>
+<p>Stan genera muestras de la posterior usando una variación del algoritmo de
+Metrópolis. Recordemos como funciona el algoritmo de Metrópolis que vimos en
+clase:</p>
+<ol style="list-style-type: decimal">
+<li><p>Tenemos una distribución objetivo <span class="math inline">\(p(\theta)\)</span> de la cual buscamos generar
+muestras. Debemos ser capaces de calcular el valor de <span class="math inline">\(p(\theta)\)</span> para cualquier
+valor candidato <span class="math inline">\(\theta\)</span>. La distribución objetivo <span class="math inline">\(p(\theta)\)</span> no tiene que
+estar normalizada, típicamente <span class="math inline">\(p(\theta)\)</span> es la distribución posterior de
+<span class="math inline">\(\theta\)</span> no normalizada, es decir, es el producto de la verosimilitud y la
+inicial.</p></li>
+<li>La muestra de la distribución objetivo se genera mediante una caminata
+aleatoria a través del espacio de parámetros.
+<ul>
+<li>La caminata inicia en un lugar arbitrario (definido por el usuario). El
+punto inicial debe ser tal que <span class="math inline">\(p(\theta)&gt;0\)</span>.</li>
+<li>La caminata avanza en cada tiempo proponiendo un movimiento a una
+nueva posición y después decidiendo si se acepta o no el valor propuesto. Las
+distribuciones propuesta pueden tener muchas formas, el objetivo es que la
+distribución propuesta explore el espacio de parámetros de manera eficiente.</li>
+</ul></li>
+<li><p>Una vez que tenemos un valor propuesto decidimos si aceptar calculando:</p></li>
+</ol>
+<p><span class="math display">\[p_{mover}=min\bigg( \frac{p(\theta_{propuesta})}{p(\theta_{actual})},1\bigg)\]</span></p>
+<p>Y al final obtenemos valores representativos de la distribución objetivo
+<span class="math inline">\(\{\theta_1,...,\theta_n\}\)</span>.</p>
+<p>Notemos que en la versión de Metrópolis que estudiamos, la forma de la
+distribución propuesta está centrada de manera simétrica en la posición actual.
+Es decir, en un espacio paramétrico multidimensional, la distribución propuesta
+podría ser una Normal multivariada, con la matriz de varianzas y covarianzas
+seleccionada para mejorar la eficiencia en la aplicación particular.
+La normal multivariada siempre esta centrada en la posición actual y siempre
+tiene la misma forma, sin importar en que sección del espacio paramétrico
+estemos ubicados. Esto puede llevar a ineficiencias, por ejemplo, si nos
+ubicamos en las colas de la distribución posterior el paso propuesto con la
+misma probabilidad nos aleja o acerca de la moda de la posterior. Otro ejemplo
+es si la distriución posterior se curva a lo largo del espacio paramétrico, una
+distribución propuesta (de forma fija) puede ser eficiente para una parte de la
+posterior y poco eficiente para otra parte de la misma.</p>
+<p>Por su parte HMC, usa una distribución propuesta que cambia dependiendo de la
+posición actual. HMC utiliza el gradiente de la posterior y <em>envuelve</em> la
+distribución propuesta hacia el gradiente, como se ve en la siguiente figura.</p>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb363-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;img/hmc_proposals.png&quot;</span>)</a></code></pre></div>
+<p><img src="img/hmc_proposals.png" width="500px" style="display: block; margin: auto;" /></p>
+<p>HMC genera un movimiento propuesta de manera análoga a rodar una canica en la
+distribución posterior volteada (también conocida como potencial). El potencial
+es el negativo del logaritmo de la densidad posterior, en las regiones donde la
+posterior es alta el potencial es bajo, y en las la regiones donde la posterior
+es plana el potencial es alto.</p>
+<p>La propuesta se genera dando un golpecito la canica en una dirección aleatoria y
+dejándola rodar cierto tiempo. En el caso del ejemplo de un solo parámetro la
+dirección del golpecito inicial es hacia la izquierda o derecha, y la magnitud
+se genera de manera aleatoria muestreando de una distrubución Gaussiana de media
+cero. El golpecito impone un momento inicial a la canica, y al terminar el
+tiempo se propone al algoritmo de Metrópilis la posición final de la canica. Es
+fácil imaginar que la posición propuesta tenderá a estar en regiones de mayor
+probabilidad posterior.</p>
+<p>La última fila de la figura de arriba nos muestra un histograma de los pasos
+propuestos, notemos que no está centrado en la posición actual sino que hay una
+inclinación hacia la moda de la posterior.</p>
+<p>Para distribuciones posteriores de dimensión alta con valles diagonales o
+curveados, la dinámica de HMC generará valores propuesta mucho más prometedores
+que una distribución propuesta simétrica (como la versión de Metrópolis que
+implementamos) y mejores que un muestreador de Gibbs que puede <em>atorarse</em> en
+paredes diagonales.</p>
+<p>Es así que para pasar del algoritmo de Metrópolis que estudiamos a HMC se
+modifica la probabilidad de aceptación para tener en cuenta no sola la denisdad
+posterior relativa, sino también el <em>momento</em> (denotado por <span class="math inline">\(\phi\)</span>) en las
+posiciones actual y propuesta.</p>
+<p><span class="math display">\[p_{aceptar}=min\bigg\{\frac{p(\theta_{propuesta}|x)p(\phi_{propuesta})}{p(\theta_{actual}|x)p(\phi_{actual})}, 1 \bigg\}\]</span></p>
+<p>En un sistema continuo ideal la suma de la energía potencial y cinética (que
+corresponden a <span class="math inline">\(-log(p(\theta|x))\)</span> y <span class="math inline">\(-log(p(\phi))\)</span>) es constante y por tanto
+aceptaríamos todas las propuestas. Sin embargo, en la práctica las dinámicas
+continuas se dicretizan a intervalos en el tiempo y los cálculos son solo
+aproximados conllevando a que se rechacen algunas propuestas.</p>
+<p>Si los pasos discretizados son pequeños entonces la aproximación será buena pero
+se necesitarán más pasos para alejarse de una posición dada, y lo contrario si
+los pasos son muy grandes. Por tanto se debe ajustar el tamaño del paso
+(<span class="math inline">\(\varepsilon\)</span>) y el número de pasos. La duración de la trayectoria es el producto del
+tamaño del paso y el número de pasos. Es usual buscar una tasa de aceptación
+alrededor del <span class="math inline">\(65\%\)</span>, moviendo el tamaño de epsilon y compensando con el número de
+pasos.</p>
+<p>Es así que el tamaño del paso controla la suavidad de la trayectoria. También es
+importante ajustar el número de pasos (es decir la duración del movimiento) pues
+no queremos alejarnos demasiado o rodar de regreso a la posición actual. La
+siguiente figura muestra varias trayectorias y notamos que muchas rebotan al
+lugar inicial.</p>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb364-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;img/hmc_proposals_2.png&quot;</span>)</a></code></pre></div>
+<p><img src="img/hmc_proposals_2.png" width="500px" style="display: block; margin: auto;" /></p>
+<p>Para evitar las ineficiencias de dar vueltas en U, Stan incorpora un algoritmo
+que generaliza la nación de vueltas en U a espacios de dimensión alta, y así
+estima cuando parar las trayectorias antes de que reboten hacia la posición
+inical. El algoritmo se llama <em>No U-turn Sampler</em> (NUTS).</p>
+<p>Adicional a ajustar el tamaño del paso y número de pasos debemos ajustar la
+desviación estándar del momento inicial. Si la desviación estandar del momento
+es grande también lo será la desviación estándar de las propuestas. Nuevamente,
+lo más eficiente será una desviación estándar ni muy grande ni muy chica. En
+Stan la desviación estándar del momento se establece de manera adaptativa para
+que coincida con la desviación estándar de la posterior.</p>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb365-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;img/hmc_proposals_3.png&quot;</span>)</a></code></pre></div>
+<p><img src="img/hmc_proposals_3.png" width="500px" style="display: block; margin: auto;" /></p>
+<p>Por último, para calcular la trayectoria propuesta debemos ser capaces de
+calcular el gradiente de la densidad posterior en cualquier valor de los
+parámetros. Para realizar esto de manera eficiente en espacios de dimensión alta
+se debe derivar analíticamente, en el caso de modelos complejos las fórmulas se
+derivan usando algoritmos avanzados.</p>
+<p>El paper <a href="https://arxiv.org/pdf/1701.02434.pdf">A Conceptual Introduction to Hamiltonian Monte Carlo</a> de Michael Betancourt explica
+conceptos e intuición detrás de HMC, y el porqué es apropiado en problemas de
+alta dimensión.</p>
+</div>
+<div id="stan" class="section level3 unnumbered">
+<h3>Stan</h3>
+<p>Para instalar Stan sigue las instrucciones de <a href="http://mc-stan.org/users/interfaces/rstan.html">aquí</a>.
+Nosotros usaremos el paquete <code>rstan</code>, <span class="citation">Guo, Gabry, and Goodrich (<a href="#ref-R-rstan">2019</a>)</span>.</p>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb366-1" data-line-number="1"><span class="kw">library</span>(rstan)</a>
+<a class="sourceLine" id="cb366-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb366-3" data-line-number="3"><span class="co"># opcional para correr en paralelo</span></a>
+<a class="sourceLine" id="cb366-4" data-line-number="4"><span class="kw">rstan_options</span>(<span class="dt">auto_write =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb366-5" data-line-number="5"><span class="kw">options</span>(<span class="dt">mc.cores =</span> parallel<span class="op">::</span><span class="kw">detectCores</span>())</a></code></pre></div>
+<p>En Stan los programas se organizan mediante secuencias de bloques, cada uno
+de estos bloques inicia con declaración de variables y después le siguen
+enunciados.</p>
+<p>El siguiente esqueleto ejemplifica los bloques disponibles, sin embargo, veremos
+que no siempre se utilizan todos los bloques.</p>
+<pre><code>functions {
+  // ... function declarations and definitions ...
+}
+data {
+  // ... declarations ...
+}
+transformed data {
+   // ... declarations ... statements ...
+}
+parameters {
+   // ... declarations ...
+}
+transformed parameters {
+   // ... declarations ... statements ...
+}
+model {
+   // ... declarations ... statements ...
+}
+generated quantities {
+   // ... declarations ... statements ...
+}</code></pre>
+<p>Comenzamos con el ejemplo sencillo de estimar el sesgo de una moneda. El primer
+paso es especificar el modelo en el lenguaje de Stan. Lo podemos guardar en un
+archivo de texto separado o simplemente asignarlo a una variable en R.</p>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb368-1" data-line-number="1">modelo_bernoulli.stan &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb368-2" data-line-number="2"><span class="st">&#39;   </span></a>
+<a class="sourceLine" id="cb368-3" data-line-number="3"><span class="st">data {</span></a>
+<a class="sourceLine" id="cb368-4" data-line-number="4"><span class="st">    int&lt;lower=0&gt; N;</span></a>
+<a class="sourceLine" id="cb368-5" data-line-number="5"><span class="st">    int y[N]; </span></a>
+<a class="sourceLine" id="cb368-6" data-line-number="6"><span class="st">}</span></a>
+<a class="sourceLine" id="cb368-7" data-line-number="7"><span class="st">parameters {</span></a>
+<a class="sourceLine" id="cb368-8" data-line-number="8"><span class="st">    real&lt;lower=0,upper=1&gt; theta;</span></a>
+<a class="sourceLine" id="cb368-9" data-line-number="9"><span class="st">} </span></a>
+<a class="sourceLine" id="cb368-10" data-line-number="10"><span class="st">model {</span></a>
+<a class="sourceLine" id="cb368-11" data-line-number="11"><span class="st">    theta ~ beta(1,1) ;</span></a>
+<a class="sourceLine" id="cb368-12" data-line-number="12"><span class="st">    y ~ bernoulli(theta) ;</span></a>
+<a class="sourceLine" id="cb368-13" data-line-number="13"><span class="st">}</span></a>
+<a class="sourceLine" id="cb368-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb368-15" data-line-number="15"><span class="st">&#39;</span></a>
+<a class="sourceLine" id="cb368-16" data-line-number="16"><span class="co"># notemos que los modelos de Stan deben terminar con una línea en blanco</span></a>
+<a class="sourceLine" id="cb368-17" data-line-number="17"><span class="kw">cat</span>(modelo_bernoulli.stan, <span class="dt">file =</span> <span class="st">&quot;src/stan_files/modelo_bernoulli.stan&quot;</span>)</a></code></pre></div>
+<p>Notemos que Stan permite operaciones vectorizadas, por lo que podemos
+poner:</p>
+<pre><code>y ~ bernoulli(theta) ;</code></pre>
+<p>sin necesidad de hacer el ciclo <code>for</code>:</p>
+<pre><code>for ( i in 1:N ) {
+    y[i] ~ dbern(theta)
+}</code></pre>
+<p>Una vez que especificamos el modelo lo siguiente es traducir el modelo a código
+de C++ y compilarlo. Para esto usamos la función <code>stan_model()</code> que puede
+recibir el archivo de texto con la especificación del modelo.</p>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb371-1" data-line-number="1">stan_cpp &lt;-<span class="st"> </span><span class="kw">stan_model</span>(<span class="st">&quot;src/stan_files/modelo_bernoulli.stan&quot;</span>)</a></code></pre></div>
+<p>O el objeto de R,</p>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb372-1" data-line-number="1">stan_cpp &lt;-<span class="st"> </span><span class="kw">stan_model</span>(<span class="dt">model_code =</span> modelo_bernoulli.stan)</a></code></pre></div>
+<p>El paso de compilación puede tardar, pues Stan está calculando los gradientes
+para las dinámicas Hamiltonianas.</p>
+<p>Ahora cargamos los datos y usamos la función <code>sampling</code> para obtener las
+simulaciones de la distribución posterior.</p>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb373-1" data-line-number="1">N =<span class="st"> </span><span class="dv">50</span> ; z =<span class="st"> </span><span class="dv">10</span> ; y =<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, z), <span class="kw">rep</span>(<span class="dv">0</span>, N <span class="op">-</span><span class="st"> </span>z))</a>
+<a class="sourceLine" id="cb373-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb373-3" data-line-number="3"><span class="kw">set.seed</span>(<span class="dv">8979</span>)</a>
+<a class="sourceLine" id="cb373-4" data-line-number="4">data_list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">N =</span> N )</a>
+<a class="sourceLine" id="cb373-5" data-line-number="5">stan_fit &lt;-<span class="st"> </span><span class="kw">sampling</span>(<span class="dt">object =</span> stan_cpp, <span class="dt">data =</span> data_list, <span class="dt">chains =</span> <span class="dv">3</span> , </a>
+<a class="sourceLine" id="cb373-6" data-line-number="6">    <span class="dt">iter =</span> <span class="dv">1000</span> , <span class="dt">warmup =</span> <span class="dv">200</span>, <span class="dt">thin =</span> <span class="dv">1</span> )</a></code></pre></div>
+<p>La función <code>summary()</code> nos da resúmenes de la distribución posterior de los
+parámetros combinando las simulaciones de todas las cadenas y por cadena.</p>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb374-1" data-line-number="1">stan_fit</a>
+<a class="sourceLine" id="cb374-2" data-line-number="2"><span class="co">#&gt; Inference for Stan model: modelo_bernoulli.</span></a>
+<a class="sourceLine" id="cb374-3" data-line-number="3"><span class="co">#&gt; 3 chains, each with iter=1000; warmup=200; thin=1; </span></a>
+<a class="sourceLine" id="cb374-4" data-line-number="4"><span class="co">#&gt; post-warmup draws per chain=800, total post-warmup draws=2400.</span></a>
+<a class="sourceLine" id="cb374-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb374-6" data-line-number="6"><span class="co">#&gt;         mean se_mean   sd   2.5%    25%    50%    75%  97.5% n_eff Rhat</span></a>
+<a class="sourceLine" id="cb374-7" data-line-number="7"><span class="co">#&gt; theta   0.21    0.00 0.06   0.11   0.17   0.21   0.25   0.33   864    1</span></a>
+<a class="sourceLine" id="cb374-8" data-line-number="8"><span class="co">#&gt; lp__  -27.35    0.02 0.75 -29.49 -27.52 -27.07 -26.88 -26.83   915    1</span></a>
+<a class="sourceLine" id="cb374-9" data-line-number="9"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb374-10" data-line-number="10"><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Wed Nov 27 08:03:06 2019.</span></a>
+<a class="sourceLine" id="cb374-11" data-line-number="11"><span class="co">#&gt; For each parameter, n_eff is a crude measure of effective sample size,</span></a>
+<a class="sourceLine" id="cb374-12" data-line-number="12"><span class="co">#&gt; and Rhat is the potential scale reduction factor on split chains (at </span></a>
+<a class="sourceLine" id="cb374-13" data-line-number="13"><span class="co">#&gt; convergence, Rhat=1).</span></a></code></pre></div>
+<p>Una alternativa a usar las funciones <code>stan_model()</code> y <code>sampling()</code>, es compilar
+y correr las cadenas de manera simultanea con la función <code>stan()</code>.</p>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb375-1" data-line-number="1">stan_fit_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">stan</span>(<span class="dt">file =</span> <span class="st">&#39;src/stan_files/modelo_bernoulli.stan&#39;</span>, <span class="dt">data =</span> data_list, </a>
+<a class="sourceLine" id="cb375-2" data-line-number="2">    <span class="dt">chains =</span> <span class="dv">3</span>, <span class="dt">iter =</span> <span class="dv">1000</span> , <span class="dt">warmup =</span> <span class="dv">200</span>, <span class="dt">thin =</span> <span class="dv">1</span>)</a></code></pre></div>
+<p>Podemos graficar las cadenas con la función <code>traceplot()</code>, esta gráfica nos
+permire inspecconar la conducta del muestreador y evaluar si las cadenas se han
+mezclado y olvidado el valor inicial.</p>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb376-1" data-line-number="1"><span class="kw">traceplot</span>(stan_fit)</a></code></pre></div>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-54-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="ejemplo-normal-1" class="section level4 unnumbered">
+<h4>Ejemplo normal</h4>
+<p>Recordemos ahora el ejemplo normal con media y varianza desconocidas, para este
+problema escribimos un muestreador de Gibbs, y ahora veremos como lo haríamos
+con Stan y compararemos los resultados.</p>
+<ol style="list-style-type: decimal">
+<li>Escribimos el modelo en Stan:</li>
+</ol>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb377-1" data-line-number="1">modelo_normal.stan &lt;-</a>
+<a class="sourceLine" id="cb377-2" data-line-number="2"><span class="st">&#39;</span></a>
+<a class="sourceLine" id="cb377-3" data-line-number="3"><span class="st">data {</span></a>
+<a class="sourceLine" id="cb377-4" data-line-number="4"><span class="st">    int&lt;lower=0&gt; N;</span></a>
+<a class="sourceLine" id="cb377-5" data-line-number="5"><span class="st">    vector[N] y; </span></a>
+<a class="sourceLine" id="cb377-6" data-line-number="6"><span class="st">}</span></a>
+<a class="sourceLine" id="cb377-7" data-line-number="7"><span class="st">parameters {</span></a>
+<a class="sourceLine" id="cb377-8" data-line-number="8"><span class="st">    real mu;</span></a>
+<a class="sourceLine" id="cb377-9" data-line-number="9"><span class="st">    real&lt;lower=0&gt; sigma2;</span></a>
+<a class="sourceLine" id="cb377-10" data-line-number="10"><span class="st">} </span></a>
+<a class="sourceLine" id="cb377-11" data-line-number="11"><span class="st">model {</span></a>
+<a class="sourceLine" id="cb377-12" data-line-number="12"><span class="st">    y ~ normal(mu, sqrt(sigma2));</span></a>
+<a class="sourceLine" id="cb377-13" data-line-number="13"><span class="st">    mu ~ normal(1.5, 4);</span></a>
+<a class="sourceLine" id="cb377-14" data-line-number="14"><span class="st">    sigma2 ~ inv_gamma(3, 3);</span></a>
+<a class="sourceLine" id="cb377-15" data-line-number="15"><span class="st">}</span></a>
+<a class="sourceLine" id="cb377-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb377-17" data-line-number="17"><span class="st">&#39;</span></a>
+<a class="sourceLine" id="cb377-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb377-19" data-line-number="19"><span class="kw">cat</span>(modelo_normal.stan, <span class="dt">file =</span> <span class="st">&quot;src/stan_files/modelo_normal.stan&quot;</span>)</a></code></pre></div>
+<p>Especificamos la verosimilitud normal con media <span class="math inline">\(\mu\)</span> y varianza <span class="math inline">\(\sigma^2\)</span>,
+notemos que en Stan los parámetros son la media y desviación estándar.</p>
+<pre><code>y ~ normal(mu, sqrt(sigma2));</code></pre>
+<p>Y al igual que en el ejemplo del muestreador de Gibbs usaremos iniciales Normal
+para <span class="math inline">\(\mu\)</span> y Gamma inversa para <span class="math inline">\(\sigma^2\)</span>.</p>
+<pre><code>mu ~ normal(1.5, 4);
+sigma2 ~ inv_gamma(3, 3);</code></pre>
+<p>Pasamos al paso de compilación:</p>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb380-1" data-line-number="1">stan_norm_cpp &lt;-<span class="st"> </span><span class="kw">stan_model</span>(<span class="st">&quot;src/stan_files/modelo_normal.stan&quot;</span>)</a></code></pre></div>
+<p>El modelo ya esta especificado, pero aun falta indicar los datos observados.</p>
+<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb381-1" data-line-number="1">N &lt;-<span class="st"> </span><span class="dv">50</span> <span class="co"># Observamos 20 realizaciones</span></a>
+<a class="sourceLine" id="cb381-2" data-line-number="2"><span class="kw">set.seed</span>(<span class="dv">122</span>)</a>
+<a class="sourceLine" id="cb381-3" data-line-number="3">y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(N, <span class="dv">2</span>, <span class="dv">2</span>) </a>
+<a class="sourceLine" id="cb381-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb381-5" data-line-number="5">data_list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">N =</span> N )</a>
+<a class="sourceLine" id="cb381-6" data-line-number="6">norm_fit &lt;-<span class="st"> </span><span class="kw">sampling</span>(<span class="dt">object =</span> stan_norm_cpp, <span class="dt">data =</span> data_list,</a>
+<a class="sourceLine" id="cb381-7" data-line-number="7">  <span class="dt">chains =</span> <span class="dv">3</span> , <span class="dt">iter =</span> <span class="dv">1000</span> , <span class="dt">warmup =</span> <span class="dv">500</span>)</a></code></pre></div>
+<p>Y podemos ver intervalos de la distribución posterior de los parámetros.</p>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb382-1" data-line-number="1">norm_fit</a>
+<a class="sourceLine" id="cb382-2" data-line-number="2"><span class="co">#&gt; Inference for Stan model: modelo_normal.</span></a>
+<a class="sourceLine" id="cb382-3" data-line-number="3"><span class="co">#&gt; 3 chains, each with iter=1000; warmup=500; thin=1; </span></a>
+<a class="sourceLine" id="cb382-4" data-line-number="4"><span class="co">#&gt; post-warmup draws per chain=500, total post-warmup draws=1500.</span></a>
+<a class="sourceLine" id="cb382-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb382-6" data-line-number="6"><span class="co">#&gt;          mean se_mean   sd   2.5%    25%    50%    75%  97.5% n_eff Rhat</span></a>
+<a class="sourceLine" id="cb382-7" data-line-number="7"><span class="co">#&gt; mu       1.91    0.01 0.31   1.30   1.70   1.92   2.12   2.53  1071 1.00</span></a>
+<a class="sourceLine" id="cb382-8" data-line-number="8"><span class="co">#&gt; sigma2   4.72    0.03 0.92   3.26   4.07   4.62   5.26   6.81   981 1.00</span></a>
+<a class="sourceLine" id="cb382-9" data-line-number="9"><span class="co">#&gt; lp__   -71.04    0.05 0.99 -73.64 -71.39 -70.76 -70.33 -70.07   455 1.01</span></a>
+<a class="sourceLine" id="cb382-10" data-line-number="10"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb382-11" data-line-number="11"><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Wed Nov 27 08:03:54 2019.</span></a>
+<a class="sourceLine" id="cb382-12" data-line-number="12"><span class="co">#&gt; For each parameter, n_eff is a crude measure of effective sample size,</span></a>
+<a class="sourceLine" id="cb382-13" data-line-number="13"><span class="co">#&gt; and Rhat is the potential scale reduction factor on split chains (at </span></a>
+<a class="sourceLine" id="cb382-14" data-line-number="14"><span class="co">#&gt; convergence, Rhat=1).</span></a></code></pre></div>
+<p>Podemos realizar graficas de las cadenas con más detalle (y con facilidad),
+usando el paquete <code>bayesplot</code>.</p>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb383-1" data-line-number="1"><span class="kw">library</span>(bayesplot)</a>
+<a class="sourceLine" id="cb383-2" data-line-number="2"><span class="co">#&gt; Error in library(bayesplot): there is no package called &#39;bayesplot&#39;</span></a>
+<a class="sourceLine" id="cb383-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb383-4" data-line-number="4">norm_posterior_inc_warmup &lt;-<span class="st"> </span><span class="kw">extract</span>(norm_fit, <span class="dt">inc_warmup =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb383-5" data-line-number="5">  <span class="dt">permuted =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb383-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb383-7" data-line-number="7"><span class="kw">color_scheme_set</span>(<span class="st">&quot;viridis&quot;</span>)</a>
+<a class="sourceLine" id="cb383-8" data-line-number="8"><span class="co">#&gt; Error in color_scheme_set(&quot;viridis&quot;): could not find function &quot;color_scheme_set&quot;</span></a>
+<a class="sourceLine" id="cb383-9" data-line-number="9"><span class="kw">mcmc_trace</span>(norm_posterior_inc_warmup,  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;sigma2&quot;</span>), <span class="dt">n_warmup =</span> <span class="dv">300</span>,</a>
+<a class="sourceLine" id="cb383-10" data-line-number="10">  <span class="dt">facet_args =</span> <span class="kw">list</span>(<span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">labeller =</span> label_parsed)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb383-11" data-line-number="11"><span class="st">  </span><span class="kw">facet_text</span>(<span class="dt">size =</span> <span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb383-12" data-line-number="12"><span class="co">#&gt; Error in mcmc_trace(norm_posterior_inc_warmup, pars = c(&quot;mu&quot;, &quot;sigma2&quot;), : could not find function &quot;mcmc_trace&quot;</span></a></code></pre></div>
+<p>Y podemos graficar la distribución posterior de los parámetros, con intervalos
+de probabilidad.</p>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb384-1" data-line-number="1">norm_posterior &lt;-<span class="st"> </span><span class="kw">as.array</span>(norm_fit)</a>
+<a class="sourceLine" id="cb384-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb384-3" data-line-number="3"><span class="kw">mcmc_areas</span>(norm_posterior, <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;sigma2&quot;</span>), <span class="dt">prob =</span> <span class="fl">0.8</span>, </a>
+<a class="sourceLine" id="cb384-4" data-line-number="4">    <span class="dt">point_est =</span> <span class="st">&quot;median&quot;</span>, <span class="dt">adjust =</span> <span class="fl">1.4</span>) </a>
+<a class="sourceLine" id="cb384-5" data-line-number="5"><span class="co">#&gt; Error in mcmc_areas(norm_posterior, pars = c(&quot;mu&quot;, &quot;sigma2&quot;), prob = 0.8, : could not find function &quot;mcmc_areas&quot;</span></a></code></pre></div>
+<p><img src="img/manicule2.jpg" /> Realiza un histograma de la distribución predictiva
+posterior. Construye un intervalo de <span class="math inline">\(95\%\)</span> de probabilidad para una predicción.
+Tip: usa la función <code>extract()</code> para extraer las simulaciones del objeto
+<code>stanfit</code>.</p>
+</div>
+</div>
+</div>
+<h3>Referencias</h3>
+<div id="refs" class="references">
+<div id="ref-betancourt2017">
+<p>Betancourt, Michael. 2017. “A Conceptual Introduction to Hamiltonian Monte Carlo.” <a href="http://arxiv.org/abs/1701.02434" class="uri">http://arxiv.org/abs/1701.02434</a>.</p>
+</div>
+<div id="ref-R-rstan">
+<p>Guo, Jiqiang, Jonah Gabry, and Ben Goodrich. 2019. <em>Rstan: R Interface to Stan</em>. <a href="https://CRAN.R-project.org/package=rstan" class="uri">https://CRAN.R-project.org/package=rstan</a>.</p>
+</div>
+<div id="ref-kruschke">
+<p>Kruschke, John. 2015. <em>Doing Bayesian Data Analysis (Second Edition)</em>. Boston: Academic Press.</p>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="distribuciones-conjugadas.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="mcmc.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="muestreador-de-gibbs.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="diagnósticos-generales.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

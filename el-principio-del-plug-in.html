@@ -280,7 +280,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#más-allá-que-permutación"><i class="fa fa-check"></i>Más allá que permutación</a></li>
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#otras-consideraciones-1"><i class="fa fa-check"></i>Otras consideraciones</a></li>
 </ul></li>
-<li class="chapter" data-level="8.4" data-path="tamaño-de-muestrapoder-estadístico.html"><a href="tamaño-de-muestrapoder-estadístico.html"><i class="fa fa-check"></i><b>8.4</b> Tamaño de muestra/poder estadístico</a></li>
+<li class="chapter" data-level="8.4" data-path="tamaño-de-muestracalculos-de-potencia.html"><a href="tamaño-de-muestracalculos-de-potencia.html"><i class="fa fa-check"></i><b>8.4</b> Tamaño de muestra/calculos de potencia</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="inferencia-paramétrica.html"><a href="inferencia-paramétrica.html"><i class="fa fa-check"></i><b>9</b> Inferencia paramétrica</a><ul>
 <li class="chapter" data-level="9.1" data-path="máxima-verosimilitud.html"><a href="máxima-verosimilitud.html"><i class="fa fa-check"></i><b>9.1</b> Máxima verosimilitud</a><ul>
@@ -305,8 +305,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.6" data-path="metrópolis.html"><a href="metrópolis.html"><i class="fa fa-check"></i><b>10.6</b> Metrópolis</a><ul>
 <li class="chapter" data-level="" data-path="metrópolis.html"><a href="metrópolis.html#inferencia-de-dos-proporciones-binomiales"><i class="fa fa-check"></i>Inferencia de dos proporciones binomiales</a></li>
 </ul></li>
-<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a></li>
-<li class="chapter" data-level="" data-path="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><a href="conclusiones-y-observaciones-metrópolis-y-gibbs.html"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
+<li class="chapter" data-level="10.7" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.7</b> Muestreador de Gibbs</a><ul>
+<li class="chapter" data-level="" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#conclusiones-y-observaciones-metrópolis-y-gibbs"><i class="fa fa-check"></i>Conclusiones y observaciones Metrópolis y Gibbs</a></li>
+</ul></li>
+<li class="chapter" data-level="10.8" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html"><i class="fa fa-check"></i><b>10.8</b> HMC y Stan</a><ul>
+<li class="chapter" data-level="" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#muestreo-hmc"><i class="fa fa-check"></i>Muestreo HMC</a></li>
+<li class="chapter" data-level="" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#stan"><i class="fa fa-check"></i>Stan</a></li>
+</ul></li>
+<li class="chapter" data-level="10.9" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html"><i class="fa fa-check"></i><b>10.9</b> Diagnósticos generales</a><ul>
+<li class="chapter" data-level="" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recomendaciones-generales"><i class="fa fa-check"></i>Recomendaciones generales</a></li>
+<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales</a></li>
+<li class="chapter" data-level="10.9.2" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.9.2</b> Recursos de Stan y paquetes con R:</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -398,31 +408,31 @@ de la población <span class="math inline">\(\mathcal{X}\)</span> a partir de lo
 <h4>Ejemplo: ENLACE</h4>
 <p>Veamos un ejemplo donde tomamos una muestra de 300 escuelas primarias
 del Estado de México, de un universo de 7,518 escuelas,</p>
-<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb176-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
-<a class="sourceLine" id="cb176-2" data-line-number="2"><span class="co"># universo</span></a>
-<a class="sourceLine" id="cb176-3" data-line-number="3">enlace &lt;-<span class="st"> </span>enlacep_<span class="dv">2013</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb176-4" data-line-number="4"><span class="st">    </span>janitor<span class="op">::</span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb176-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb176-6" data-line-number="6"><span class="st">    </span><span class="kw">select</span>(id, cve_ent, turno, tipo, <span class="dt">esp_3 =</span> punt_esp_<span class="dv">3</span>, <span class="dt">esp_6 =</span> punt_esp_<span class="dv">6</span>, </a>
-<a class="sourceLine" id="cb176-7" data-line-number="7">        <span class="dt">n_eval_3 =</span> alum_eval_<span class="dv">3</span>, <span class="dt">n_eval_6 =</span> alum_eval_<span class="dv">6</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb176-8" data-line-number="8"><span class="st">    </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb176-9" data-line-number="9"><span class="st">    </span><span class="kw">filter</span>(esp_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, esp_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, cve_ent <span class="op">==</span><span class="st"> &quot;15&quot;</span>)</a>
-<a class="sourceLine" id="cb176-10" data-line-number="10"><span class="kw">glimpse</span>(enlace)</a>
-<a class="sourceLine" id="cb176-11" data-line-number="11"><span class="co">#&gt; Observations: 7,518</span></a>
-<a class="sourceLine" id="cb176-12" data-line-number="12"><span class="co">#&gt; Variables: 8</span></a>
-<a class="sourceLine" id="cb176-13" data-line-number="13"><span class="co">#&gt; $ id       &lt;int&gt; 38570, 38571, 38572, 38573, 38574, 38575, 38576, 38577, 3857…</span></a>
-<a class="sourceLine" id="cb176-14" data-line-number="14"><span class="co">#&gt; $ cve_ent  &lt;chr&gt; &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, …</span></a>
-<a class="sourceLine" id="cb176-15" data-line-number="15"><span class="co">#&gt; $ turno    &lt;chr&gt; &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, …</span></a>
-<a class="sourceLine" id="cb176-16" data-line-number="16"><span class="co">#&gt; $ tipo     &lt;chr&gt; &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, …</span></a>
-<a class="sourceLine" id="cb176-17" data-line-number="17"><span class="co">#&gt; $ esp_3    &lt;dbl&gt; 550, 485, 462, 646, 508, 502, 570, 441, 597, 648, 535, 430, …</span></a>
-<a class="sourceLine" id="cb176-18" data-line-number="18"><span class="co">#&gt; $ esp_6    &lt;dbl&gt; 483, 490, 385, 613, 452, 500, 454, 427, 582, 614, 443, 562, …</span></a>
-<a class="sourceLine" id="cb176-19" data-line-number="19"><span class="co">#&gt; $ n_eval_3 &lt;dbl&gt; 13, 17, 9, 33, 26, 10, 65, 82, 132, 16, 16, 6, 10, 27, 10, 1…</span></a>
-<a class="sourceLine" id="cb176-20" data-line-number="20"><span class="co">#&gt; $ n_eval_6 &lt;dbl&gt; 19, 18, 9, 26, 35, 13, 49, 78, 110, 18, 9, 2, 12, 34, 9, 6, …</span></a>
-<a class="sourceLine" id="cb176-21" data-line-number="21"><span class="kw">set.seed</span>(<span class="dv">16021</span>)</a>
-<a class="sourceLine" id="cb176-22" data-line-number="22">n &lt;-<span class="st"> </span><span class="dv">300</span></a>
-<a class="sourceLine" id="cb176-23" data-line-number="23"><span class="co"># muestra</span></a>
-<a class="sourceLine" id="cb176-24" data-line-number="24">enlace_muestra &lt;-<span class="st"> </span><span class="kw">sample_n</span>(enlace, n) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb176-25" data-line-number="25"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">clase =</span> <span class="st">&quot;muestra&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb177-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
+<a class="sourceLine" id="cb177-2" data-line-number="2"><span class="co"># universo</span></a>
+<a class="sourceLine" id="cb177-3" data-line-number="3">enlace &lt;-<span class="st"> </span>enlacep_<span class="dv">2013</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb177-4" data-line-number="4"><span class="st">    </span>janitor<span class="op">::</span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb177-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb177-6" data-line-number="6"><span class="st">    </span><span class="kw">select</span>(id, cve_ent, turno, tipo, <span class="dt">esp_3 =</span> punt_esp_<span class="dv">3</span>, <span class="dt">esp_6 =</span> punt_esp_<span class="dv">6</span>, </a>
+<a class="sourceLine" id="cb177-7" data-line-number="7">        <span class="dt">n_eval_3 =</span> alum_eval_<span class="dv">3</span>, <span class="dt">n_eval_6 =</span> alum_eval_<span class="dv">6</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb177-8" data-line-number="8"><span class="st">    </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb177-9" data-line-number="9"><span class="st">    </span><span class="kw">filter</span>(esp_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, esp_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, cve_ent <span class="op">==</span><span class="st"> &quot;15&quot;</span>)</a>
+<a class="sourceLine" id="cb177-10" data-line-number="10"><span class="kw">glimpse</span>(enlace)</a>
+<a class="sourceLine" id="cb177-11" data-line-number="11"><span class="co">#&gt; Observations: 7,518</span></a>
+<a class="sourceLine" id="cb177-12" data-line-number="12"><span class="co">#&gt; Variables: 8</span></a>
+<a class="sourceLine" id="cb177-13" data-line-number="13"><span class="co">#&gt; $ id       &lt;int&gt; 38570, 38571, 38572, 38573, 38574, 38575, 38576, 38577, 3857…</span></a>
+<a class="sourceLine" id="cb177-14" data-line-number="14"><span class="co">#&gt; $ cve_ent  &lt;chr&gt; &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, &quot;15&quot;, …</span></a>
+<a class="sourceLine" id="cb177-15" data-line-number="15"><span class="co">#&gt; $ turno    &lt;chr&gt; &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, &quot;MATUTINO&quot;, …</span></a>
+<a class="sourceLine" id="cb177-16" data-line-number="16"><span class="co">#&gt; $ tipo     &lt;chr&gt; &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, &quot;INDêGENA&quot;, …</span></a>
+<a class="sourceLine" id="cb177-17" data-line-number="17"><span class="co">#&gt; $ esp_3    &lt;dbl&gt; 550, 485, 462, 646, 508, 502, 570, 441, 597, 648, 535, 430, …</span></a>
+<a class="sourceLine" id="cb177-18" data-line-number="18"><span class="co">#&gt; $ esp_6    &lt;dbl&gt; 483, 490, 385, 613, 452, 500, 454, 427, 582, 614, 443, 562, …</span></a>
+<a class="sourceLine" id="cb177-19" data-line-number="19"><span class="co">#&gt; $ n_eval_3 &lt;dbl&gt; 13, 17, 9, 33, 26, 10, 65, 82, 132, 16, 16, 6, 10, 27, 10, 1…</span></a>
+<a class="sourceLine" id="cb177-20" data-line-number="20"><span class="co">#&gt; $ n_eval_6 &lt;dbl&gt; 19, 18, 9, 26, 35, 13, 49, 78, 110, 18, 9, 2, 12, 34, 9, 6, …</span></a>
+<a class="sourceLine" id="cb177-21" data-line-number="21"><span class="kw">set.seed</span>(<span class="dv">16021</span>)</a>
+<a class="sourceLine" id="cb177-22" data-line-number="22">n &lt;-<span class="st"> </span><span class="dv">300</span></a>
+<a class="sourceLine" id="cb177-23" data-line-number="23"><span class="co"># muestra</span></a>
+<a class="sourceLine" id="cb177-24" data-line-number="24">enlace_muestra &lt;-<span class="st"> </span><span class="kw">sample_n</span>(enlace, n) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb177-25" data-line-number="25"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">clase =</span> <span class="st">&quot;muestra&quot;</span>)</a></code></pre></div>
 <p>para cada escuela en la muestra consideremos la medida <span class="math inline">\(x_i\)</span>, conformada por el
 promedio de las calificaciones en español de los alumnos de tercero y sexto
 de primaria (prueba ENLACE 2010):</p>
@@ -431,8 +441,8 @@ de primaria (prueba ENLACE 2010):</p>
 aleatoria de la tabla de datos general, sin embargo, es común contar únicamente
 con la muestra.</p>
 <p>Para español 3<sup>o</sup> de primaria la media observada es</p>
-<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb177-1" data-line-number="1"><span class="kw">mean</span>(enlace_muestra<span class="op">$</span>esp_<span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb177-2" data-line-number="2"><span class="co">#&gt; [1] 554.5867</span></a></code></pre></div>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb178-1" data-line-number="1"><span class="kw">mean</span>(enlace_muestra<span class="op">$</span>esp_<span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb178-2" data-line-number="2"><span class="co">#&gt; [1] 554.5867</span></a></code></pre></div>
 <p>La media muestral es una estadística descriptiva de la muestra, pero también la
 podemos usar para describir a la población de escuelas.</p>
 <p>Al usar la media observada para describir a la población estamos aplicando el
@@ -467,37 +477,37 @@ casi seguro.</p></li>
 </ul>
 <p>Regresando al ejemplo de las escuelas, comparemos la distribución poblacional y
 la distribución empírica.</p>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb178-1" data-line-number="1">enlace_long &lt;-<span class="st"> </span>enlace <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb178-2" data-line-number="2"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">clase =</span> <span class="st">&quot;población&quot;) %&gt;% </span></a>
-<a class="sourceLine" id="cb178-3" data-line-number="3"><span class="st">    bind_rows(enlace_muestra) %&gt;% </span></a>
-<a class="sourceLine" id="cb178-4" data-line-number="4"><span class="st">    gather(grado, calif, esp_3:esp_6)</span></a>
-<a class="sourceLine" id="cb178-5" data-line-number="5"><span class="st">    </span></a>
-<a class="sourceLine" id="cb178-6" data-line-number="6"><span class="st">ggplot(enlace_long, aes(x = calif)) +</span></a>
-<a class="sourceLine" id="cb178-7" data-line-number="7"><span class="st">    geom_histogram(aes(y = ..density..), binwidth = 20, fill = &quot;</span>darkgray<span class="st">&quot;) +</span></a>
-<a class="sourceLine" id="cb178-8" data-line-number="8"><span class="st">    facet_grid(grado ~ clase)</span></a></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb179-1" data-line-number="1">enlace_long &lt;-<span class="st"> </span>enlace <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb179-2" data-line-number="2"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">clase =</span> <span class="st">&quot;población&quot;) %&gt;% </span></a>
+<a class="sourceLine" id="cb179-3" data-line-number="3"><span class="st">    bind_rows(enlace_muestra) %&gt;% </span></a>
+<a class="sourceLine" id="cb179-4" data-line-number="4"><span class="st">    gather(grado, calif, esp_3:esp_6)</span></a>
+<a class="sourceLine" id="cb179-5" data-line-number="5"><span class="st">    </span></a>
+<a class="sourceLine" id="cb179-6" data-line-number="6"><span class="st">ggplot(enlace_long, aes(x = calif)) +</span></a>
+<a class="sourceLine" id="cb179-7" data-line-number="7"><span class="st">    geom_histogram(aes(y = ..density..), binwidth = 20, fill = &quot;</span>darkgray<span class="st">&quot;) +</span></a>
+<a class="sourceLine" id="cb179-8" data-line-number="8"><span class="st">    facet_grid(grado ~ clase)</span></a></code></pre></div>
 <p><img src="05-bootstrap_no_parametrico_files/figure-html/distribucion_empirica-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>Podemos comparar la función de distribución acumulada empírica y la función de
 distribución acumulada poblacional:</p>
 <p>En la siguiente gráfica la curva roja
 representa la función de distribución acumulada empírica y la curva con relleno
 gris la función de distribución acumulada poblacional.</p>
-<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb179-1" data-line-number="1"><span class="kw">ggplot</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb179-2" data-line-number="2"><span class="st">    </span><span class="kw">stat_ecdf</span>(<span class="dt">data =</span> <span class="kw">filter</span>(enlace_long, clase <span class="op">==</span><span class="st"> &quot;población&quot;), </span></a>
-<a class="sourceLine" id="cb179-3" data-line-number="3"><span class="st">        aes(x = calif, ymin = 0, ymax = ..y..), geom = &quot;</span>ribbon<span class="st">&quot;, pad = TRUE, </span></a>
-<a class="sourceLine" id="cb179-4" data-line-number="4"><span class="st">          alpha = 0.5, </span></a>
-<a class="sourceLine" id="cb179-5" data-line-number="5"><span class="st">        fill = &quot;</span>gray<span class="st">&quot;, color = &quot;</span>darkgray<span class="st">&quot;)  +</span></a>
-<a class="sourceLine" id="cb179-6" data-line-number="6"><span class="st">    stat_ecdf(data = filter(enlace_long, clase == &quot;</span>muestra<span class="st">&quot;), </span></a>
-<a class="sourceLine" id="cb179-7" data-line-number="7"><span class="st">        aes(x = calif), geom = &quot;</span>step<span class="st">&quot;, color = &quot;</span>red<span class="st">&quot;) +</span></a>
-<a class="sourceLine" id="cb179-8" data-line-number="8"><span class="st">    facet_grid(~ grado) +</span></a>
-<a class="sourceLine" id="cb179-9" data-line-number="9"><span class="st">    labs(color = &quot;&quot;)</span></a></code></pre></div>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb180-1" data-line-number="1"><span class="kw">ggplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb180-2" data-line-number="2"><span class="st">    </span><span class="kw">stat_ecdf</span>(<span class="dt">data =</span> <span class="kw">filter</span>(enlace_long, clase <span class="op">==</span><span class="st"> &quot;población&quot;), </span></a>
+<a class="sourceLine" id="cb180-3" data-line-number="3"><span class="st">        aes(x = calif, ymin = 0, ymax = ..y..), geom = &quot;</span>ribbon<span class="st">&quot;, pad = TRUE, </span></a>
+<a class="sourceLine" id="cb180-4" data-line-number="4"><span class="st">          alpha = 0.5, </span></a>
+<a class="sourceLine" id="cb180-5" data-line-number="5"><span class="st">        fill = &quot;</span>gray<span class="st">&quot;, color = &quot;</span>darkgray<span class="st">&quot;)  +</span></a>
+<a class="sourceLine" id="cb180-6" data-line-number="6"><span class="st">    stat_ecdf(data = filter(enlace_long, clase == &quot;</span>muestra<span class="st">&quot;), </span></a>
+<a class="sourceLine" id="cb180-7" data-line-number="7"><span class="st">        aes(x = calif), geom = &quot;</span>step<span class="st">&quot;, color = &quot;</span>red<span class="st">&quot;) +</span></a>
+<a class="sourceLine" id="cb180-8" data-line-number="8"><span class="st">    facet_grid(~ grado) +</span></a>
+<a class="sourceLine" id="cb180-9" data-line-number="9"><span class="st">    labs(color = &quot;&quot;)</span></a></code></pre></div>
 <p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-3-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>Cuando la variable de interés toma pocos valores es fácil ver la distribución
 empírica, supongamos que la medición de las unidades que nos interesa es la
 variable tipo de escuela, entonces la distribución empírica en la muestra es</p>
-<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb180-1" data-line-number="1"><span class="kw">table</span>(enlace_muestra<span class="op">$</span>tipo) <span class="op">/</span><span class="st"> </span>n</a>
-<a class="sourceLine" id="cb180-2" data-line-number="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb180-3" data-line-number="3"><span class="co">#&gt;     CONAFE    GENERAL   INDêGENA PARTICULAR </span></a>
-<a class="sourceLine" id="cb180-4" data-line-number="4"><span class="co">#&gt; 0.01000000 0.82000000 0.02333333 0.14666667</span></a></code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb181-1" data-line-number="1"><span class="kw">table</span>(enlace_muestra<span class="op">$</span>tipo) <span class="op">/</span><span class="st"> </span>n</a>
+<a class="sourceLine" id="cb181-2" data-line-number="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb181-3" data-line-number="3"><span class="co">#&gt;     CONAFE    GENERAL   INDêGENA PARTICULAR </span></a>
+<a class="sourceLine" id="cb181-4" data-line-number="4"><span class="co">#&gt; 0.01000000 0.82000000 0.02333333 0.14666667</span></a></code></pre></div>
 <p>Vale la pena notar que pasar de la muestra desagregada a la distribución
 empírica (lista de valores y la proporción que ocurre cada una en la muestra)
 no conlleva ninguna pérdida de información:<br />
@@ -521,26 +531,26 @@ de aritmética, el coeficiente de correlación poblacional esta dado por:</p>
 {[\sum_{j=1}^{N}(Y_j - \mu_y)^2\sum_{j=1}^{N}(Z_j - \mu_z)^2]^{1/2}}\]</span></p>
 <p>en nuestro ejemplo <span class="math inline">\((Y_j,Z_j)\)</span> son el j-ésimo punto en la población de escuelas
 primarias <span class="math inline">\(\mathcal{X}\)</span>, <span class="math inline">\(\mu_y=\sum Y_j/3311\)</span> y <span class="math inline">\(\mu_z=\sum Z_j/3311\)</span>.</p>
-<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb181-1" data-line-number="1"><span class="kw">ggplot</span>(enlace, <span class="kw">aes</span>(<span class="dt">x =</span> esp_<span class="dv">3</span>, <span class="dt">y =</span> esp_<span class="dv">6</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb181-2" data-line-number="2"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb182-1" data-line-number="1"><span class="kw">ggplot</span>(enlace, <span class="kw">aes</span>(<span class="dt">x =</span> esp_<span class="dv">3</span>, <span class="dt">y =</span> esp_<span class="dv">6</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb182-2" data-line-number="2"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)</a></code></pre></div>
 <p><img src="05-bootstrap_no_parametrico_files/figure-html/grafica_corr-1.png" width="300px" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb182-1" data-line-number="1"><span class="kw">cor</span>(enlace<span class="op">$</span>esp_<span class="dv">3</span>, enlace<span class="op">$</span>esp_<span class="dv">6</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb182-2" data-line-number="2"><span class="co">#&gt; [1] 0.49</span></a></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb183-1" data-line-number="1"><span class="kw">cor</span>(enlace<span class="op">$</span>esp_<span class="dv">3</span>, enlace<span class="op">$</span>esp_<span class="dv">6</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb183-2" data-line-number="2"><span class="co">#&gt; [1] 0.49</span></a></code></pre></div>
 <p>Si no tenemos un censo debemos inferir, podríamos estimar la correlación
 <span class="math inline">\(corr(y,z)\)</span> a través del coeficiente de correlación muestral:</p>
 <p><span class="math display">\[\hat{corr}(y,z) = \frac{\sum_{j=1}^{n}(y_j - \hat{\mu}_y)(z_j-\hat{\mu}_z)}
 {[\sum_{j=1}^{n}(y_j - \hat{\mu}_y)^2\sum_{j=1}^{n}(z_j - \hat{\mu}_z)^2]^{1/2}}\]</span></p>
 <p>recordando que la distribución empírica es una estimación de la distribución
 completa.</p>
-<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb183-1" data-line-number="1"><span class="kw">cor</span>(enlace_muestra<span class="op">$</span>esp_<span class="dv">3</span>, enlace_muestra<span class="op">$</span>esp_<span class="dv">6</span>)</a>
-<a class="sourceLine" id="cb183-2" data-line-number="2"><span class="co">#&gt; [1] 0.4392921</span></a></code></pre></div>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb184-1" data-line-number="1"><span class="kw">cor</span>(enlace_muestra<span class="op">$</span>esp_<span class="dv">3</span>, enlace_muestra<span class="op">$</span>esp_<span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb184-2" data-line-number="2"><span class="co">#&gt; [1] 0.4392921</span></a></code></pre></div>
 <p>Al igual que la media esto es una estimación <em>plug-in</em>. Otros ejemplos son:</p>
 <ul>
 <li>Supongamos que nos interesa estimar la mediana de las calificaciones
 de español para 3^o de primaria:</li>
 </ul>
-<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb184-1" data-line-number="1"><span class="kw">median</span>(enlace_muestra<span class="op">$</span>esp_<span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb184-2" data-line-number="2"><span class="co">#&gt; [1] 554.5</span></a></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb185-1" data-line-number="1"><span class="kw">median</span>(enlace_muestra<span class="op">$</span>esp_<span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb185-2" data-line-number="2"><span class="co">#&gt; [1] 554.5</span></a></code></pre></div>
 <ul>
 <li>Supongamos que nos interesa estimar la probabilidad de que la calificación de
 español de una escuela sea mayor a 700:</li>
@@ -548,17 +558,17 @@ español de una escuela sea mayor a 700:</li>
 <p><span class="math display">\[\theta=\frac{1}{N}\sum_{j=1}^N I_{\{Y_i&gt;700\}}\]</span></p>
 <p>donde <span class="math inline">\(I_{\{\cdot\}}\)</span> es la función indicadora.</p>
 <p>La estimación <em>plug-in</em> de <span class="math inline">\(\hat{\theta}\)</span> sería:</p>
-<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb185-1" data-line-number="1"><span class="kw">sum</span>(enlace_muestra<span class="op">$</span>esp_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">700</span>) <span class="op">/</span><span class="st"> </span>n</a>
-<a class="sourceLine" id="cb185-2" data-line-number="2"><span class="co">#&gt; [1] 0.01333333</span></a></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb186-1" data-line-number="1"><span class="kw">sum</span>(enlace_muestra<span class="op">$</span>esp_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">700</span>) <span class="op">/</span><span class="st"> </span>n</a>
+<a class="sourceLine" id="cb186-2" data-line-number="2"><span class="co">#&gt; [1] 0.01333333</span></a></code></pre></div>
 <div id="ejemplo-dado" class="section level4 unnumbered">
 <h4>Ejemplo: dado</h4>
 <p>Observamos 100 lanzamientos de un dado, obteniendo la siguiente distribución
 empírica:</p>
-<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb186-1" data-line-number="1">dado &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data/dado.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">quote =</span> <span class="st">&quot;</span><span class="ch">\&quot;</span><span class="st">&quot;</span>)</a>
-<a class="sourceLine" id="cb186-2" data-line-number="2"><span class="kw">prop.table</span>(<span class="kw">table</span>(dado<span class="op">$</span>x))</a>
-<a class="sourceLine" id="cb186-3" data-line-number="3"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb186-4" data-line-number="4"><span class="co">#&gt;    1    2    3    4    5    6 </span></a>
-<a class="sourceLine" id="cb186-5" data-line-number="5"><span class="co">#&gt; 0.13 0.19 0.10 0.17 0.14 0.27</span></a></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb187-1" data-line-number="1">dado &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data/dado.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">quote =</span> <span class="st">&quot;</span><span class="ch">\&quot;</span><span class="st">&quot;</span>)</a>
+<a class="sourceLine" id="cb187-2" data-line-number="2"><span class="kw">prop.table</span>(<span class="kw">table</span>(dado<span class="op">$</span>x))</a>
+<a class="sourceLine" id="cb187-3" data-line-number="3"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb187-4" data-line-number="4"><span class="co">#&gt;    1    2    3    4    5    6 </span></a>
+<a class="sourceLine" id="cb187-5" data-line-number="5"><span class="co">#&gt; 0.13 0.19 0.10 0.17 0.14 0.27</span></a></code></pre></div>
 <p>En este caso no tenemos un censo, solo contamos con la muestra. Una pregunta
 de inferencia que surge de manera natural es si el dado es justo, esto es,
 si la distribución que generó esta muestra tiene una distribución
@@ -613,46 +623,46 @@ de muestras).</p></li>
 <li><p>Calcula la estadística de interés para cada muestra.</p></li>
 <li><p><strong>La distribución de la estadística es la distribución muestral.</strong></p></li>
 </ul>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb187-1" data-line-number="1"><span class="kw">library</span>(LaplacesDemon)</a>
-<a class="sourceLine" id="cb187-2" data-line-number="2"><span class="kw">library</span>(patchwork)</a>
-<a class="sourceLine" id="cb187-3" data-line-number="3"><span class="co"># En este ejemplo la población es una mezcla de normales</span></a>
-<a class="sourceLine" id="cb187-4" data-line-number="4">pob_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">data_frame</span>(<span class="dt">x =</span> <span class="dv">-15</span><span class="op">:</span><span class="dv">20</span>), <span class="kw">aes</span>(x)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb187-5" data-line-number="5"><span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnormm, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">p =</span> <span class="kw">c</span>(<span class="fl">0.3</span>, <span class="fl">0.7</span>), <span class="dt">mu =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">8</span>), </a>
-<a class="sourceLine" id="cb187-6" data-line-number="6">        <span class="dt">sigma =</span> <span class="kw">c</span>(<span class="fl">3.5</span>, <span class="dv">3</span>)), <span class="dt">alpha =</span> <span class="fl">0.8</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb187-7" data-line-number="7"><span class="st">    </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">color =</span> <span class="st">&quot;mu&quot;</span>, <span class="dt">xintercept =</span> <span class="dv">5</span>), <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb187-8" data-line-number="8"><span class="st">    </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;mu&#39;</span> =<span class="st"> &#39;red&#39;</span>), <span class="dt">name =</span> <span class="st">&#39;&#39;</span>, </a>
-<a class="sourceLine" id="cb187-9" data-line-number="9">        <span class="dt">labels =</span> <span class="kw">expression</span>(mu)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb187-10" data-line-number="10"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>, <span class="dt">subtitle =</span> <span class="st">&quot;Población&quot;, color = &quot;&quot;)</span></a>
-<a class="sourceLine" id="cb187-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb187-12" data-line-number="12"><span class="st">samples &lt;- data_frame(sample = 1:3) %&gt;% </span></a>
-<a class="sourceLine" id="cb187-13" data-line-number="13"><span class="st">    mutate(</span></a>
-<a class="sourceLine" id="cb187-14" data-line-number="14"><span class="st">        sims = rerun(3, rnormm(30, p = c(0.3, 0.7), mu = c(-2, 8), </span></a>
-<a class="sourceLine" id="cb187-15" data-line-number="15"><span class="st">            sigma = c(3.5, 3))), </span></a>
-<a class="sourceLine" id="cb187-16" data-line-number="16"><span class="st">        x_bar = map_dbl(sims, mean))</span></a>
-<a class="sourceLine" id="cb187-17" data-line-number="17"><span class="st">muestras_plot &lt;- samples %&gt;% </span></a>
-<a class="sourceLine" id="cb187-18" data-line-number="18"><span class="st">    unnest() %&gt;% </span></a>
-<a class="sourceLine" id="cb187-19" data-line-number="19"><span class="st">    ggplot(aes(x = sims)) +</span></a>
-<a class="sourceLine" id="cb187-20" data-line-number="20"><span class="st">        geom_histogram(binwidth = 2, alpha = 0.5, fill = &quot;</span>darkgray<span class="st">&quot;) +</span></a>
-<a class="sourceLine" id="cb187-21" data-line-number="21"><span class="st">        geom_vline(xintercept = 5, color = &quot;</span>red<span class="st">&quot;, alpha = 0.5) +</span></a>
-<a class="sourceLine" id="cb187-22" data-line-number="22"><span class="st">        geom_segment(aes(x = x_bar, xend = x_bar, y = 0, yend = 0.8), </span></a>
-<a class="sourceLine" id="cb187-23" data-line-number="23"><span class="st">            color = &quot;</span>blue<span class="st">&quot;) +</span></a>
-<a class="sourceLine" id="cb187-24" data-line-number="24"><span class="st">        xlim(-15, 20) +</span></a>
-<a class="sourceLine" id="cb187-25" data-line-number="25"><span class="st">        facet_wrap(~ sample) +</span></a>
-<a class="sourceLine" id="cb187-26" data-line-number="26"><span class="st">        geom_text(aes(x = x_bar, y = 0.95, label = &quot;</span><span class="kw">bar</span>(x)<span class="st">&quot;), parse = TRUE, </span></a>
-<a class="sourceLine" id="cb187-27" data-line-number="27"><span class="st">            color = &quot;</span>blue<span class="st">&quot;, alpha = 0.2, hjust = 1) +</span></a>
-<a class="sourceLine" id="cb187-28" data-line-number="28"><span class="st">        labs(x = &quot;&quot;, subtitle = &quot;</span>Muestras<span class="st">&quot;) </span></a>
-<a class="sourceLine" id="cb187-29" data-line-number="29"></a>
-<a class="sourceLine" id="cb187-30" data-line-number="30"><span class="st">samples_dist &lt;- data_frame(sample = 1:10000) %&gt;% </span></a>
-<a class="sourceLine" id="cb187-31" data-line-number="31"><span class="st">    mutate(</span></a>
-<a class="sourceLine" id="cb187-32" data-line-number="32"><span class="st">        sims = rerun(10000, rnormm(100, p = c(0.3, 0.7), mu = c(-2, 8), </span></a>
-<a class="sourceLine" id="cb187-33" data-line-number="33"><span class="st">            sigma = c(3.5, 3))), </span></a>
-<a class="sourceLine" id="cb187-34" data-line-number="34"><span class="st">        mu_hat = map_dbl(sims, mean))</span></a>
-<a class="sourceLine" id="cb187-35" data-line-number="35"><span class="st">dist_muestral_plot &lt;- ggplot(samples_dist, aes(x = mu_hat)) +</span></a>
-<a class="sourceLine" id="cb187-36" data-line-number="36"><span class="st">    geom_density(adjust = 2) +</span></a>
-<a class="sourceLine" id="cb187-37" data-line-number="37"><span class="st">    labs(x = &quot;&quot;, subtitle = expression(&quot;</span>Distribución muestral de <span class="st">&quot;~hat(mu))) +</span></a>
-<a class="sourceLine" id="cb187-38" data-line-number="38"><span class="st">    geom_vline(xintercept = 5, color = &quot;</span>red<span class="st">&quot;, alpha = 0.5)</span></a>
-<a class="sourceLine" id="cb187-39" data-line-number="39"></a>
-<a class="sourceLine" id="cb187-40" data-line-number="40"><span class="st">(pob_plot | plot_spacer()) / (muestras_plot | dist_muestral_plot) </span></a></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb188-1" data-line-number="1"><span class="kw">library</span>(LaplacesDemon)</a>
+<a class="sourceLine" id="cb188-2" data-line-number="2"><span class="kw">library</span>(patchwork)</a>
+<a class="sourceLine" id="cb188-3" data-line-number="3"><span class="co"># En este ejemplo la población es una mezcla de normales</span></a>
+<a class="sourceLine" id="cb188-4" data-line-number="4">pob_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">data_frame</span>(<span class="dt">x =</span> <span class="dv">-15</span><span class="op">:</span><span class="dv">20</span>), <span class="kw">aes</span>(x)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb188-5" data-line-number="5"><span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnormm, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">p =</span> <span class="kw">c</span>(<span class="fl">0.3</span>, <span class="fl">0.7</span>), <span class="dt">mu =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">8</span>), </a>
+<a class="sourceLine" id="cb188-6" data-line-number="6">        <span class="dt">sigma =</span> <span class="kw">c</span>(<span class="fl">3.5</span>, <span class="dv">3</span>)), <span class="dt">alpha =</span> <span class="fl">0.8</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb188-7" data-line-number="7"><span class="st">    </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">color =</span> <span class="st">&quot;mu&quot;</span>, <span class="dt">xintercept =</span> <span class="dv">5</span>), <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb188-8" data-line-number="8"><span class="st">    </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;mu&#39;</span> =<span class="st"> &#39;red&#39;</span>), <span class="dt">name =</span> <span class="st">&#39;&#39;</span>, </a>
+<a class="sourceLine" id="cb188-9" data-line-number="9">        <span class="dt">labels =</span> <span class="kw">expression</span>(mu)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb188-10" data-line-number="10"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>, <span class="dt">subtitle =</span> <span class="st">&quot;Población&quot;, color = &quot;&quot;)</span></a>
+<a class="sourceLine" id="cb188-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb188-12" data-line-number="12"><span class="st">samples &lt;- data_frame(sample = 1:3) %&gt;% </span></a>
+<a class="sourceLine" id="cb188-13" data-line-number="13"><span class="st">    mutate(</span></a>
+<a class="sourceLine" id="cb188-14" data-line-number="14"><span class="st">        sims = rerun(3, rnormm(30, p = c(0.3, 0.7), mu = c(-2, 8), </span></a>
+<a class="sourceLine" id="cb188-15" data-line-number="15"><span class="st">            sigma = c(3.5, 3))), </span></a>
+<a class="sourceLine" id="cb188-16" data-line-number="16"><span class="st">        x_bar = map_dbl(sims, mean))</span></a>
+<a class="sourceLine" id="cb188-17" data-line-number="17"><span class="st">muestras_plot &lt;- samples %&gt;% </span></a>
+<a class="sourceLine" id="cb188-18" data-line-number="18"><span class="st">    unnest() %&gt;% </span></a>
+<a class="sourceLine" id="cb188-19" data-line-number="19"><span class="st">    ggplot(aes(x = sims)) +</span></a>
+<a class="sourceLine" id="cb188-20" data-line-number="20"><span class="st">        geom_histogram(binwidth = 2, alpha = 0.5, fill = &quot;</span>darkgray<span class="st">&quot;) +</span></a>
+<a class="sourceLine" id="cb188-21" data-line-number="21"><span class="st">        geom_vline(xintercept = 5, color = &quot;</span>red<span class="st">&quot;, alpha = 0.5) +</span></a>
+<a class="sourceLine" id="cb188-22" data-line-number="22"><span class="st">        geom_segment(aes(x = x_bar, xend = x_bar, y = 0, yend = 0.8), </span></a>
+<a class="sourceLine" id="cb188-23" data-line-number="23"><span class="st">            color = &quot;</span>blue<span class="st">&quot;) +</span></a>
+<a class="sourceLine" id="cb188-24" data-line-number="24"><span class="st">        xlim(-15, 20) +</span></a>
+<a class="sourceLine" id="cb188-25" data-line-number="25"><span class="st">        facet_wrap(~ sample) +</span></a>
+<a class="sourceLine" id="cb188-26" data-line-number="26"><span class="st">        geom_text(aes(x = x_bar, y = 0.95, label = &quot;</span><span class="kw">bar</span>(x)<span class="st">&quot;), parse = TRUE, </span></a>
+<a class="sourceLine" id="cb188-27" data-line-number="27"><span class="st">            color = &quot;</span>blue<span class="st">&quot;, alpha = 0.2, hjust = 1) +</span></a>
+<a class="sourceLine" id="cb188-28" data-line-number="28"><span class="st">        labs(x = &quot;&quot;, subtitle = &quot;</span>Muestras<span class="st">&quot;) </span></a>
+<a class="sourceLine" id="cb188-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb188-30" data-line-number="30"><span class="st">samples_dist &lt;- data_frame(sample = 1:10000) %&gt;% </span></a>
+<a class="sourceLine" id="cb188-31" data-line-number="31"><span class="st">    mutate(</span></a>
+<a class="sourceLine" id="cb188-32" data-line-number="32"><span class="st">        sims = rerun(10000, rnormm(100, p = c(0.3, 0.7), mu = c(-2, 8), </span></a>
+<a class="sourceLine" id="cb188-33" data-line-number="33"><span class="st">            sigma = c(3.5, 3))), </span></a>
+<a class="sourceLine" id="cb188-34" data-line-number="34"><span class="st">        mu_hat = map_dbl(sims, mean))</span></a>
+<a class="sourceLine" id="cb188-35" data-line-number="35"><span class="st">dist_muestral_plot &lt;- ggplot(samples_dist, aes(x = mu_hat)) +</span></a>
+<a class="sourceLine" id="cb188-36" data-line-number="36"><span class="st">    geom_density(adjust = 2) +</span></a>
+<a class="sourceLine" id="cb188-37" data-line-number="37"><span class="st">    labs(x = &quot;&quot;, subtitle = expression(&quot;</span>Distribución muestral de <span class="st">&quot;~hat(mu))) +</span></a>
+<a class="sourceLine" id="cb188-38" data-line-number="38"><span class="st">    geom_vline(xintercept = 5, color = &quot;</span>red<span class="st">&quot;, alpha = 0.5)</span></a>
+<a class="sourceLine" id="cb188-39" data-line-number="39"></a>
+<a class="sourceLine" id="cb188-40" data-line-number="40"><span class="st">(pob_plot | plot_spacer()) / (muestras_plot | dist_muestral_plot) </span></a></code></pre></div>
 <p><img src="img/ideal_world.png" /></p>
 <p>Para hacer inferencia necesitamos describir la forma de la distribución
 muestral, es natural pensar en la desviación estándar pues es una medida de la
