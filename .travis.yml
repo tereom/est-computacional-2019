@@ -25,6 +25,7 @@ addons:
 r_github_packages: 
     - tereom/estcomp
     - diegovalle/mxmaps
+    - stan-dev/bayesplot
 
 # repos: 
 #   CRAN: https://cran.rstudio.com
