@@ -314,8 +314,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.9" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html"><i class="fa fa-check"></i><b>10.9</b> Diagnósticos generales</a><ul>
 <li class="chapter" data-level="" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recomendaciones-generales"><i class="fa fa-check"></i>Recomendaciones generales</a></li>
-<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales</a></li>
+<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales en Stan</a></li>
 <li class="chapter" data-level="10.9.2" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.9.2</b> Recursos de Stan y paquetes con R:</a></li>
+</ul></li>
+<li class="chapter" data-level="10.10" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html"><i class="fa fa-check"></i><b>10.10</b> Modelos jerárquicos</a><ul>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelo-jerárquico-una-moneda"><i class="fa fa-check"></i>Modelo jerárquico una moneda</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
@@ -368,96 +372,96 @@ identificador del número y tipo de muestra.</li>
 </ol>
 <p>Veamos un ejemplo donde seleccionamos muestras del conjunto de datos
 <code>muestra_computos</code> que contiene 10,000 observaciones.</p>
-<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb231-1" data-line-number="1"><span class="kw">library</span>(rsample)</a>
-<a class="sourceLine" id="cb231-2" data-line-number="2"><span class="kw">library</span>(estcomp)</a>
-<a class="sourceLine" id="cb231-3" data-line-number="3">muestra_computos &lt;-<span class="st"> </span><span class="kw">sample_n</span>(election_<span class="dv">2012</span>, <span class="dv">10000</span>)</a>
-<a class="sourceLine" id="cb231-4" data-line-number="4">muestra_computos</a>
-<a class="sourceLine" id="cb231-5" data-line-number="5"><span class="co">#&gt; # A tibble: 10,000 x 23</span></a>
-<a class="sourceLine" id="cb231-6" data-line-number="6"><span class="co">#&gt;    state_code state_name state_abbr district_loc_17 district_fed_17 polling_id</span></a>
-<a class="sourceLine" id="cb231-7" data-line-number="7"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;                &lt;int&gt;           &lt;int&gt;      &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb231-8" data-line-number="8"><span class="co">#&gt;  1 27         Tabasco    TAB                      5               5     120510</span></a>
-<a class="sourceLine" id="cb231-9" data-line-number="9"><span class="co">#&gt;  2 15         México     MEX                     32              24      70680</span></a>
-<a class="sourceLine" id="cb231-10" data-line-number="10"><span class="co">#&gt;  3 09         Ciudad de… CDMX                    20              17      29697</span></a>
-<a class="sourceLine" id="cb231-11" data-line-number="11"><span class="co">#&gt;  4 21         Puebla     PUE                     16              12     102052</span></a>
-<a class="sourceLine" id="cb231-12" data-line-number="12"><span class="co">#&gt;  5 12         Guerrero   GRO                     17               1      43875</span></a>
-<a class="sourceLine" id="cb231-13" data-line-number="13"><span class="co">#&gt;  6 30         Veracruz   VER                      8               7     131313</span></a>
-<a class="sourceLine" id="cb231-14" data-line-number="14"><span class="co">#&gt;  7 11         Guanajuato GTO                     18               7      42010</span></a>
-<a class="sourceLine" id="cb231-15" data-line-number="15"><span class="co">#&gt;  8 12         Guerrero   GRO                      4               4      45915</span></a>
-<a class="sourceLine" id="cb231-16" data-line-number="16"><span class="co">#&gt;  9 30         Veracruz   VER                     25              19     137278</span></a>
-<a class="sourceLine" id="cb231-17" data-line-number="17"><span class="co">#&gt; 10 15         México     MEX                     29              15      66959</span></a>
-<a class="sourceLine" id="cb231-18" data-line-number="18"><span class="co">#&gt; # … with 9,990 more rows, and 17 more variables: section &lt;int&gt;, region &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb231-19" data-line-number="19"><span class="co">#&gt; #   polling_type &lt;chr&gt;, section_type &lt;chr&gt;, pri_pvem &lt;int&gt;, pan &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb231-20" data-line-number="20"><span class="co">#&gt; #   panal &lt;int&gt;, prd_pt_mc &lt;int&gt;, otros &lt;int&gt;, total &lt;int&gt;, nominal_list &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb231-21" data-line-number="21"><span class="co">#&gt; #   pri_pvem_pct &lt;dbl&gt;, pan_pct &lt;dbl&gt;, panal_pct &lt;dbl&gt;, prd_pt_mc_pct &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb231-22" data-line-number="22"><span class="co">#&gt; #   otros_pct &lt;dbl&gt;, winner &lt;chr&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb230-1" data-line-number="1"><span class="kw">library</span>(rsample)</a>
+<a class="sourceLine" id="cb230-2" data-line-number="2"><span class="kw">library</span>(estcomp)</a>
+<a class="sourceLine" id="cb230-3" data-line-number="3">muestra_computos &lt;-<span class="st"> </span><span class="kw">sample_n</span>(election_<span class="dv">2012</span>, <span class="dv">10000</span>)</a>
+<a class="sourceLine" id="cb230-4" data-line-number="4">muestra_computos</a>
+<a class="sourceLine" id="cb230-5" data-line-number="5"><span class="co">#&gt; # A tibble: 10,000 x 23</span></a>
+<a class="sourceLine" id="cb230-6" data-line-number="6"><span class="co">#&gt;    state_code state_name state_abbr district_loc_17 district_fed_17 polling_id</span></a>
+<a class="sourceLine" id="cb230-7" data-line-number="7"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;                &lt;int&gt;           &lt;int&gt;      &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb230-8" data-line-number="8"><span class="co">#&gt;  1 27         Tabasco    TAB                      5               5     120510</span></a>
+<a class="sourceLine" id="cb230-9" data-line-number="9"><span class="co">#&gt;  2 15         México     MEX                     32              24      70680</span></a>
+<a class="sourceLine" id="cb230-10" data-line-number="10"><span class="co">#&gt;  3 09         Ciudad de… CDMX                    20              17      29697</span></a>
+<a class="sourceLine" id="cb230-11" data-line-number="11"><span class="co">#&gt;  4 21         Puebla     PUE                     16              12     102052</span></a>
+<a class="sourceLine" id="cb230-12" data-line-number="12"><span class="co">#&gt;  5 12         Guerrero   GRO                     17               1      43875</span></a>
+<a class="sourceLine" id="cb230-13" data-line-number="13"><span class="co">#&gt;  6 30         Veracruz   VER                      8               7     131313</span></a>
+<a class="sourceLine" id="cb230-14" data-line-number="14"><span class="co">#&gt;  7 11         Guanajuato GTO                     18               7      42010</span></a>
+<a class="sourceLine" id="cb230-15" data-line-number="15"><span class="co">#&gt;  8 12         Guerrero   GRO                      4               4      45915</span></a>
+<a class="sourceLine" id="cb230-16" data-line-number="16"><span class="co">#&gt;  9 30         Veracruz   VER                     25              19     137278</span></a>
+<a class="sourceLine" id="cb230-17" data-line-number="17"><span class="co">#&gt; 10 15         México     MEX                     29              15      66959</span></a>
+<a class="sourceLine" id="cb230-18" data-line-number="18"><span class="co">#&gt; # … with 9,990 more rows, and 17 more variables: section &lt;int&gt;, region &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb230-19" data-line-number="19"><span class="co">#&gt; #   polling_type &lt;chr&gt;, section_type &lt;chr&gt;, pri_pvem &lt;int&gt;, pan &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb230-20" data-line-number="20"><span class="co">#&gt; #   panal &lt;int&gt;, prd_pt_mc &lt;int&gt;, otros &lt;int&gt;, total &lt;int&gt;, nominal_list &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb230-21" data-line-number="21"><span class="co">#&gt; #   pri_pvem_pct &lt;dbl&gt;, pan_pct &lt;dbl&gt;, panal_pct &lt;dbl&gt;, prd_pt_mc_pct &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb230-22" data-line-number="22"><span class="co">#&gt; #   otros_pct &lt;dbl&gt;, winner &lt;chr&gt;</span></a></code></pre></div>
 <p>Generamos 100 muestras bootstrap, y la función nos regresa un arreglo con 100
 renglones, cada uno corresponde a una muestra bootstrap.</p>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb232-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">839287482</span>)</a>
-<a class="sourceLine" id="cb232-2" data-line-number="2">computos_boot &lt;-<span class="st"> </span><span class="kw">bootstraps</span>(muestra_computos, <span class="dt">times =</span> <span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb232-3" data-line-number="3">computos_boot</a>
-<a class="sourceLine" id="cb232-4" data-line-number="4"><span class="co">#&gt; # Bootstrap sampling </span></a>
-<a class="sourceLine" id="cb232-5" data-line-number="5"><span class="co">#&gt; # A tibble: 100 x 2</span></a>
-<a class="sourceLine" id="cb232-6" data-line-number="6"><span class="co">#&gt;    splits             id          </span></a>
-<a class="sourceLine" id="cb232-7" data-line-number="7"><span class="co">#&gt;    &lt;list&gt;             &lt;chr&gt;       </span></a>
-<a class="sourceLine" id="cb232-8" data-line-number="8"><span class="co">#&gt;  1 &lt;split [10K/3.6K]&gt; Bootstrap001</span></a>
-<a class="sourceLine" id="cb232-9" data-line-number="9"><span class="co">#&gt;  2 &lt;split [10K/3.6K]&gt; Bootstrap002</span></a>
-<a class="sourceLine" id="cb232-10" data-line-number="10"><span class="co">#&gt;  3 &lt;split [10K/3.7K]&gt; Bootstrap003</span></a>
-<a class="sourceLine" id="cb232-11" data-line-number="11"><span class="co">#&gt;  4 &lt;split [10K/3.7K]&gt; Bootstrap004</span></a>
-<a class="sourceLine" id="cb232-12" data-line-number="12"><span class="co">#&gt;  5 &lt;split [10K/3.7K]&gt; Bootstrap005</span></a>
-<a class="sourceLine" id="cb232-13" data-line-number="13"><span class="co">#&gt;  6 &lt;split [10K/3.7K]&gt; Bootstrap006</span></a>
-<a class="sourceLine" id="cb232-14" data-line-number="14"><span class="co">#&gt;  7 &lt;split [10K/3.7K]&gt; Bootstrap007</span></a>
-<a class="sourceLine" id="cb232-15" data-line-number="15"><span class="co">#&gt;  8 &lt;split [10K/3.7K]&gt; Bootstrap008</span></a>
-<a class="sourceLine" id="cb232-16" data-line-number="16"><span class="co">#&gt;  9 &lt;split [10K/3.6K]&gt; Bootstrap009</span></a>
-<a class="sourceLine" id="cb232-17" data-line-number="17"><span class="co">#&gt; 10 &lt;split [10K/3.7K]&gt; Bootstrap010</span></a>
-<a class="sourceLine" id="cb232-18" data-line-number="18"><span class="co">#&gt; # … with 90 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb231-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">839287482</span>)</a>
+<a class="sourceLine" id="cb231-2" data-line-number="2">computos_boot &lt;-<span class="st"> </span><span class="kw">bootstraps</span>(muestra_computos, <span class="dt">times =</span> <span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb231-3" data-line-number="3">computos_boot</a>
+<a class="sourceLine" id="cb231-4" data-line-number="4"><span class="co">#&gt; # Bootstrap sampling </span></a>
+<a class="sourceLine" id="cb231-5" data-line-number="5"><span class="co">#&gt; # A tibble: 100 x 2</span></a>
+<a class="sourceLine" id="cb231-6" data-line-number="6"><span class="co">#&gt;    splits             id          </span></a>
+<a class="sourceLine" id="cb231-7" data-line-number="7"><span class="co">#&gt;    &lt;list&gt;             &lt;chr&gt;       </span></a>
+<a class="sourceLine" id="cb231-8" data-line-number="8"><span class="co">#&gt;  1 &lt;split [10K/3.6K]&gt; Bootstrap001</span></a>
+<a class="sourceLine" id="cb231-9" data-line-number="9"><span class="co">#&gt;  2 &lt;split [10K/3.6K]&gt; Bootstrap002</span></a>
+<a class="sourceLine" id="cb231-10" data-line-number="10"><span class="co">#&gt;  3 &lt;split [10K/3.7K]&gt; Bootstrap003</span></a>
+<a class="sourceLine" id="cb231-11" data-line-number="11"><span class="co">#&gt;  4 &lt;split [10K/3.7K]&gt; Bootstrap004</span></a>
+<a class="sourceLine" id="cb231-12" data-line-number="12"><span class="co">#&gt;  5 &lt;split [10K/3.7K]&gt; Bootstrap005</span></a>
+<a class="sourceLine" id="cb231-13" data-line-number="13"><span class="co">#&gt;  6 &lt;split [10K/3.7K]&gt; Bootstrap006</span></a>
+<a class="sourceLine" id="cb231-14" data-line-number="14"><span class="co">#&gt;  7 &lt;split [10K/3.7K]&gt; Bootstrap007</span></a>
+<a class="sourceLine" id="cb231-15" data-line-number="15"><span class="co">#&gt;  8 &lt;split [10K/3.7K]&gt; Bootstrap008</span></a>
+<a class="sourceLine" id="cb231-16" data-line-number="16"><span class="co">#&gt;  9 &lt;split [10K/3.6K]&gt; Bootstrap009</span></a>
+<a class="sourceLine" id="cb231-17" data-line-number="17"><span class="co">#&gt; 10 &lt;split [10K/3.7K]&gt; Bootstrap010</span></a>
+<a class="sourceLine" id="cb231-18" data-line-number="18"><span class="co">#&gt; # … with 90 more rows</span></a></code></pre></div>
 <p>La columna <code>splits</code> tiene información de las muestras seleccionadas, para la
 primera vemos que de 10,000 observaciones en la muestra original la primera
 muestra bootstrap contiene 10000-3647=6353.</p>
-<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb233-1" data-line-number="1">first_computos_boot &lt;-<span class="st"> </span>computos_boot<span class="op">$</span>splits[[<span class="dv">1</span>]]</a>
-<a class="sourceLine" id="cb233-2" data-line-number="2">first_computos_boot </a>
-<a class="sourceLine" id="cb233-3" data-line-number="3"><span class="co">#&gt; &lt;10000/3647/10000&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb232-1" data-line-number="1">first_computos_boot &lt;-<span class="st"> </span>computos_boot<span class="op">$</span>splits[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb232-2" data-line-number="2">first_computos_boot </a>
+<a class="sourceLine" id="cb232-3" data-line-number="3"><span class="co">#&gt; &lt;10000/3647/10000&gt;</span></a></code></pre></div>
 <p>Y podemos obtener los datos de la muestra bootstrap con la función
 <code>as.data.frame()</code></p>
-<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb234-1" data-line-number="1"><span class="kw">as.data.frame</span>(first_computos_boot)</a>
-<a class="sourceLine" id="cb234-2" data-line-number="2"><span class="co">#&gt; # A tibble: 10,000 x 23</span></a>
-<a class="sourceLine" id="cb234-3" data-line-number="3"><span class="co">#&gt;    state_code state_name state_abbr district_loc_17 district_fed_17 polling_id</span></a>
-<a class="sourceLine" id="cb234-4" data-line-number="4"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;                &lt;int&gt;           &lt;int&gt;      &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb234-5" data-line-number="5"><span class="co">#&gt;  1 01         Aguascali… AGS                     18               3       1308</span></a>
-<a class="sourceLine" id="cb234-6" data-line-number="6"><span class="co">#&gt;  2 15         México     MEX                     17              18      68217</span></a>
-<a class="sourceLine" id="cb234-7" data-line-number="7"><span class="co">#&gt;  3 02         Baja Cali… BC                      10               6       4504</span></a>
-<a class="sourceLine" id="cb234-8" data-line-number="8"><span class="co">#&gt;  4 16         Michoacán  MICH                     8               2      78876</span></a>
-<a class="sourceLine" id="cb234-9" data-line-number="9"><span class="co">#&gt;  5 09         Ciudad de… CDMX                     7               9      24951</span></a>
-<a class="sourceLine" id="cb234-10" data-line-number="10"><span class="co">#&gt;  6 05         Coahuila   COAH                    15               7      10402</span></a>
-<a class="sourceLine" id="cb234-11" data-line-number="11"><span class="co">#&gt;  7 26         Sonora     SON                     20               7     119582</span></a>
-<a class="sourceLine" id="cb234-12" data-line-number="12"><span class="co">#&gt;  8 09         Ciudad de… CDMX                     4               2      23677</span></a>
-<a class="sourceLine" id="cb234-13" data-line-number="13"><span class="co">#&gt;  9 30         Veracruz   VER                     14              12     133755</span></a>
-<a class="sourceLine" id="cb234-14" data-line-number="14"><span class="co">#&gt; 10 30         Veracruz   VER                     24              19     136925</span></a>
-<a class="sourceLine" id="cb234-15" data-line-number="15"><span class="co">#&gt; # … with 9,990 more rows, and 17 more variables: section &lt;int&gt;, region &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb234-16" data-line-number="16"><span class="co">#&gt; #   polling_type &lt;chr&gt;, section_type &lt;chr&gt;, pri_pvem &lt;int&gt;, pan &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb234-17" data-line-number="17"><span class="co">#&gt; #   panal &lt;int&gt;, prd_pt_mc &lt;int&gt;, otros &lt;int&gt;, total &lt;int&gt;, nominal_list &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb234-18" data-line-number="18"><span class="co">#&gt; #   pri_pvem_pct &lt;dbl&gt;, pan_pct &lt;dbl&gt;, panal_pct &lt;dbl&gt;, prd_pt_mc_pct &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb234-19" data-line-number="19"><span class="co">#&gt; #   otros_pct &lt;dbl&gt;, winner &lt;chr&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb233-1" data-line-number="1"><span class="kw">as.data.frame</span>(first_computos_boot)</a>
+<a class="sourceLine" id="cb233-2" data-line-number="2"><span class="co">#&gt; # A tibble: 10,000 x 23</span></a>
+<a class="sourceLine" id="cb233-3" data-line-number="3"><span class="co">#&gt;    state_code state_name state_abbr district_loc_17 district_fed_17 polling_id</span></a>
+<a class="sourceLine" id="cb233-4" data-line-number="4"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;                &lt;int&gt;           &lt;int&gt;      &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb233-5" data-line-number="5"><span class="co">#&gt;  1 01         Aguascali… AGS                     18               3       1308</span></a>
+<a class="sourceLine" id="cb233-6" data-line-number="6"><span class="co">#&gt;  2 15         México     MEX                     17              18      68217</span></a>
+<a class="sourceLine" id="cb233-7" data-line-number="7"><span class="co">#&gt;  3 02         Baja Cali… BC                      10               6       4504</span></a>
+<a class="sourceLine" id="cb233-8" data-line-number="8"><span class="co">#&gt;  4 16         Michoacán  MICH                     8               2      78876</span></a>
+<a class="sourceLine" id="cb233-9" data-line-number="9"><span class="co">#&gt;  5 09         Ciudad de… CDMX                     7               9      24951</span></a>
+<a class="sourceLine" id="cb233-10" data-line-number="10"><span class="co">#&gt;  6 05         Coahuila   COAH                    15               7      10402</span></a>
+<a class="sourceLine" id="cb233-11" data-line-number="11"><span class="co">#&gt;  7 26         Sonora     SON                     20               7     119582</span></a>
+<a class="sourceLine" id="cb233-12" data-line-number="12"><span class="co">#&gt;  8 09         Ciudad de… CDMX                     4               2      23677</span></a>
+<a class="sourceLine" id="cb233-13" data-line-number="13"><span class="co">#&gt;  9 30         Veracruz   VER                     14              12     133755</span></a>
+<a class="sourceLine" id="cb233-14" data-line-number="14"><span class="co">#&gt; 10 30         Veracruz   VER                     24              19     136925</span></a>
+<a class="sourceLine" id="cb233-15" data-line-number="15"><span class="co">#&gt; # … with 9,990 more rows, and 17 more variables: section &lt;int&gt;, region &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb233-16" data-line-number="16"><span class="co">#&gt; #   polling_type &lt;chr&gt;, section_type &lt;chr&gt;, pri_pvem &lt;int&gt;, pan &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb233-17" data-line-number="17"><span class="co">#&gt; #   panal &lt;int&gt;, prd_pt_mc &lt;int&gt;, otros &lt;int&gt;, total &lt;int&gt;, nominal_list &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb233-18" data-line-number="18"><span class="co">#&gt; #   pri_pvem_pct &lt;dbl&gt;, pan_pct &lt;dbl&gt;, panal_pct &lt;dbl&gt;, prd_pt_mc_pct &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb233-19" data-line-number="19"><span class="co">#&gt; #   otros_pct &lt;dbl&gt;, winner &lt;chr&gt;</span></a></code></pre></div>
 <p>Una de las principales ventajas de usar este paquete es que es eficiente en
 el uso de memoria.</p>
-<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb235-1" data-line-number="1"><span class="kw">library</span>(pryr)</a>
-<a class="sourceLine" id="cb235-2" data-line-number="2"><span class="co">#&gt; Registered S3 method overwritten by &#39;pryr&#39;:</span></a>
-<a class="sourceLine" id="cb235-3" data-line-number="3"><span class="co">#&gt;   method      from</span></a>
-<a class="sourceLine" id="cb235-4" data-line-number="4"><span class="co">#&gt;   print.bytes Rcpp</span></a>
-<a class="sourceLine" id="cb235-5" data-line-number="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb235-6" data-line-number="6"><span class="co">#&gt; Attaching package: &#39;pryr&#39;</span></a>
-<a class="sourceLine" id="cb235-7" data-line-number="7"><span class="co">#&gt; The following objects are masked from &#39;package:purrr&#39;:</span></a>
-<a class="sourceLine" id="cb235-8" data-line-number="8"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb235-9" data-line-number="9"><span class="co">#&gt;     compose, partial</span></a>
-<a class="sourceLine" id="cb235-10" data-line-number="10"><span class="kw">object_size</span>(muestra_computos)</a>
-<a class="sourceLine" id="cb235-11" data-line-number="11"><span class="co">#&gt; 1.41 MB</span></a>
-<a class="sourceLine" id="cb235-12" data-line-number="12"><span class="kw">object_size</span>(computos_boot)</a>
-<a class="sourceLine" id="cb235-13" data-line-number="13"><span class="co">#&gt; 5.49 MB</span></a>
-<a class="sourceLine" id="cb235-14" data-line-number="14"><span class="co"># tamaño por muestra</span></a>
-<a class="sourceLine" id="cb235-15" data-line-number="15"><span class="kw">object_size</span>(computos_boot)<span class="op">/</span><span class="kw">nrow</span>(computos_boot)</a>
-<a class="sourceLine" id="cb235-16" data-line-number="16"><span class="co">#&gt; 54.9 kB</span></a>
-<a class="sourceLine" id="cb235-17" data-line-number="17"><span class="co"># el incremento en tamaño es &lt;&lt; 100</span></a>
-<a class="sourceLine" id="cb235-18" data-line-number="18"><span class="kw">as.numeric</span>(<span class="kw">object_size</span>(computos_boot)<span class="op">/</span><span class="kw">object_size</span>(muestra_computos))</a>
-<a class="sourceLine" id="cb235-19" data-line-number="19"><span class="co">#&gt; [1] 3.894717</span></a></code></pre></div>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb234-1" data-line-number="1"><span class="kw">library</span>(pryr)</a>
+<a class="sourceLine" id="cb234-2" data-line-number="2"><span class="co">#&gt; Registered S3 method overwritten by &#39;pryr&#39;:</span></a>
+<a class="sourceLine" id="cb234-3" data-line-number="3"><span class="co">#&gt;   method      from</span></a>
+<a class="sourceLine" id="cb234-4" data-line-number="4"><span class="co">#&gt;   print.bytes Rcpp</span></a>
+<a class="sourceLine" id="cb234-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb234-6" data-line-number="6"><span class="co">#&gt; Attaching package: &#39;pryr&#39;</span></a>
+<a class="sourceLine" id="cb234-7" data-line-number="7"><span class="co">#&gt; The following objects are masked from &#39;package:purrr&#39;:</span></a>
+<a class="sourceLine" id="cb234-8" data-line-number="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb234-9" data-line-number="9"><span class="co">#&gt;     compose, partial</span></a>
+<a class="sourceLine" id="cb234-10" data-line-number="10"><span class="kw">object_size</span>(muestra_computos)</a>
+<a class="sourceLine" id="cb234-11" data-line-number="11"><span class="co">#&gt; 1.41 MB</span></a>
+<a class="sourceLine" id="cb234-12" data-line-number="12"><span class="kw">object_size</span>(computos_boot)</a>
+<a class="sourceLine" id="cb234-13" data-line-number="13"><span class="co">#&gt; 5.49 MB</span></a>
+<a class="sourceLine" id="cb234-14" data-line-number="14"><span class="co"># tamaño por muestra</span></a>
+<a class="sourceLine" id="cb234-15" data-line-number="15"><span class="kw">object_size</span>(computos_boot)<span class="op">/</span><span class="kw">nrow</span>(computos_boot)</a>
+<a class="sourceLine" id="cb234-16" data-line-number="16"><span class="co">#&gt; 54.9 kB</span></a>
+<a class="sourceLine" id="cb234-17" data-line-number="17"><span class="co"># el incremento en tamaño es &lt;&lt; 100</span></a>
+<a class="sourceLine" id="cb234-18" data-line-number="18"><span class="kw">as.numeric</span>(<span class="kw">object_size</span>(computos_boot)<span class="op">/</span><span class="kw">object_size</span>(muestra_computos))</a>
+<a class="sourceLine" id="cb234-19" data-line-number="19"><span class="co">#&gt; [1] 3.894717</span></a></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>El paquete <code>boot</code> está asociado al libro <em>Bootstrap Methods and Their
 Applications</em> (<span class="citation">Davison and Hinkley (<a href="#ref-davison">1997</a>)</span>) y tiene, entre otras, funciones para calcular

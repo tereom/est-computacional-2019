@@ -314,8 +314,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.9" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html"><i class="fa fa-check"></i><b>10.9</b> Diagnósticos generales</a><ul>
 <li class="chapter" data-level="" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recomendaciones-generales"><i class="fa fa-check"></i>Recomendaciones generales</a></li>
-<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales</a></li>
+<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales en Stan</a></li>
 <li class="chapter" data-level="10.9.2" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.9.2</b> Recursos de Stan y paquetes con R:</a></li>
+</ul></li>
+<li class="chapter" data-level="10.10" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html"><i class="fa fa-check"></i><b>10.10</b> Modelos jerárquicos</a><ul>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelo-jerárquico-una-moneda"><i class="fa fa-check"></i>Modelo jerárquico una moneda</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
@@ -400,16 +404,16 @@ experimento. Ahora, sea A un posible resultado del evento
 <div id="ejemplo-2" class="section level4 unnumbered">
 <h4>Ejemplo</h4>
 <p>Supongamos que lanzamos una moneda 10 veces y obtenemos los siguientes resultados:</p>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb148-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">2881</span>)</a>
-<a class="sourceLine" id="cb148-2" data-line-number="2">lanzamientos_<span class="dv">10</span> &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;S&quot;</span>), <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb148-3" data-line-number="3">lanzamientos_<span class="dv">10</span></a>
-<a class="sourceLine" id="cb148-4" data-line-number="4"><span class="co">#&gt;  [1] &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;S&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">2881</span>)</a>
+<a class="sourceLine" id="cb147-2" data-line-number="2">lanzamientos_<span class="dv">10</span> &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;S&quot;</span>), <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb147-3" data-line-number="3">lanzamientos_<span class="dv">10</span></a>
+<a class="sourceLine" id="cb147-4" data-line-number="4"><span class="co">#&gt;  [1] &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;S&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot;</span></a></code></pre></div>
 <p>Podemos calcular las secuencia de frecuencias relativas de águila:</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb149-1" data-line-number="1"><span class="kw">cumsum</span>(lanzamientos_<span class="dv">10</span> <span class="op">==</span><span class="st"> &quot;A&quot;</span>) <span class="co"># suma acumulada de águilas</span></a>
-<a class="sourceLine" id="cb149-2" data-line-number="2"><span class="co">#&gt;  [1] 1 2 3 4 5 6 6 7 8 9</span></a>
-<a class="sourceLine" id="cb149-3" data-line-number="3"><span class="kw">cumsum</span>(lanzamientos_<span class="dv">10</span> <span class="op">==</span><span class="st"> &quot;A&quot;</span>) <span class="op">/</span><span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></a>
-<a class="sourceLine" id="cb149-4" data-line-number="4"><span class="co">#&gt;  [1] 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 0.8571429</span></a>
-<a class="sourceLine" id="cb149-5" data-line-number="5"><span class="co">#&gt;  [8] 0.8750000 0.8888889 0.9000000</span></a></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb148-1" data-line-number="1"><span class="kw">cumsum</span>(lanzamientos_<span class="dv">10</span> <span class="op">==</span><span class="st"> &quot;A&quot;</span>) <span class="co"># suma acumulada de águilas</span></a>
+<a class="sourceLine" id="cb148-2" data-line-number="2"><span class="co">#&gt;  [1] 1 2 3 4 5 6 6 7 8 9</span></a>
+<a class="sourceLine" id="cb148-3" data-line-number="3"><span class="kw">cumsum</span>(lanzamientos_<span class="dv">10</span> <span class="op">==</span><span class="st"> &quot;A&quot;</span>) <span class="op">/</span><span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb148-4" data-line-number="4"><span class="co">#&gt;  [1] 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 0.8571429</span></a>
+<a class="sourceLine" id="cb148-5" data-line-number="5"><span class="co">#&gt;  [8] 0.8750000 0.8888889 0.9000000</span></a></code></pre></div>
 </div>
 <div id="resultados-empíricos-acerca-de-frecuencias-relativas" class="section level3 unnumbered">
 <h3>Resultados empíricos acerca de frecuencias relativas</h3>
@@ -418,44 +422,44 @@ número mayor de observaciones son menos fluctuantes comparado con las
 frecuencias relativas basadas en pocas observaciones.</p>
 <p>Este fenómeno se conoce a veces como la <strong>ley empírica de los promedios</strong> (que
 se formaliza después en las leyes de los grandes números):</p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb150-1" data-line-number="1">n &lt;-<span class="st"> </span><span class="dv">1000</span></a>
-<a class="sourceLine" id="cb150-2" data-line-number="2"><span class="kw">tibble</span>(<span class="dt">num_lanzamiento =</span> <span class="dv">1</span><span class="op">:</span>n, <span class="dt">lanzamiento =</span> <span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;S&quot;</span>), n, </a>
-<a class="sourceLine" id="cb150-3" data-line-number="3">    <span class="dt">replace =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb150-4" data-line-number="4"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">frec_rel =</span> <span class="kw">cummean</span>(lanzamiento <span class="op">==</span><span class="st"> &quot;A&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb150-5" data-line-number="5"><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> num_lanzamiento, <span class="dt">y =</span> frec_rel)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb150-6" data-line-number="6"><span class="st">        </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">0.5</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb150-7" data-line-number="7"><span class="st">        </span><span class="kw">geom_line</span>(<span class="dt">color =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb150-8" data-line-number="8"><span class="st">        </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="fl">1.0</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb150-9" data-line-number="9"><span class="st">        </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;frecuencia relativa&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;1000 volados&quot;</span>, </a>
-<a class="sourceLine" id="cb150-10" data-line-number="10">            <span class="dt">x =</span> <span class="st">&quot;lanzamiento&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb149-1" data-line-number="1">n &lt;-<span class="st"> </span><span class="dv">1000</span></a>
+<a class="sourceLine" id="cb149-2" data-line-number="2"><span class="kw">tibble</span>(<span class="dt">num_lanzamiento =</span> <span class="dv">1</span><span class="op">:</span>n, <span class="dt">lanzamiento =</span> <span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;S&quot;</span>), n, </a>
+<a class="sourceLine" id="cb149-3" data-line-number="3">    <span class="dt">replace =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb149-4" data-line-number="4"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">frec_rel =</span> <span class="kw">cummean</span>(lanzamiento <span class="op">==</span><span class="st"> &quot;A&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb149-5" data-line-number="5"><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> num_lanzamiento, <span class="dt">y =</span> frec_rel)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb149-6" data-line-number="6"><span class="st">        </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">0.5</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb149-7" data-line-number="7"><span class="st">        </span><span class="kw">geom_line</span>(<span class="dt">color =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb149-8" data-line-number="8"><span class="st">        </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="fl">1.0</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb149-9" data-line-number="9"><span class="st">        </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;frecuencia relativa&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;1000 volados&quot;</span>, </a>
+<a class="sourceLine" id="cb149-10" data-line-number="10">            <span class="dt">x =</span> <span class="st">&quot;lanzamiento&quot;</span>)</a></code></pre></div>
 <p><img src="04_probabilidad_files/figure-html/unnamed-chunk-8-1.png" width="787.2" style="display: block; margin: auto;" /></p>
 <p>Veamos las frecuencias relativas para 3 series de 1000 lanzamientos.</p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb151-1" data-line-number="1">lanzar &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">n =</span> <span class="dv">1000</span>){</a>
-<a class="sourceLine" id="cb151-2" data-line-number="2">    <span class="kw">tibble</span>(<span class="dt">num_lanzamiento =</span> <span class="dv">1</span><span class="op">:</span>n, <span class="dt">lanzamiento =</span> <span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;S&quot;</span>), n, </a>
-<a class="sourceLine" id="cb151-3" data-line-number="3">        <span class="dt">replace =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb151-4" data-line-number="4"><span class="st">        </span><span class="kw">mutate</span>(<span class="dt">frec_rel =</span> <span class="kw">cummean</span>(lanzamiento <span class="op">==</span><span class="st"> &quot;A&quot;</span>))</a>
-<a class="sourceLine" id="cb151-5" data-line-number="5">  }</a>
-<a class="sourceLine" id="cb151-6" data-line-number="6"><span class="kw">head</span>(<span class="kw">lanzar</span>())</a>
-<a class="sourceLine" id="cb151-7" data-line-number="7"><span class="co">#&gt; # A tibble: 6 x 3</span></a>
-<a class="sourceLine" id="cb151-8" data-line-number="8"><span class="co">#&gt;   num_lanzamiento lanzamiento frec_rel</span></a>
-<a class="sourceLine" id="cb151-9" data-line-number="9"><span class="co">#&gt;             &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb151-10" data-line-number="10"><span class="co">#&gt; 1               1 A              1    </span></a>
-<a class="sourceLine" id="cb151-11" data-line-number="11"><span class="co">#&gt; 2               2 S              0.5  </span></a>
-<a class="sourceLine" id="cb151-12" data-line-number="12"><span class="co">#&gt; 3               3 A              0.667</span></a>
-<a class="sourceLine" id="cb151-13" data-line-number="13"><span class="co">#&gt; 4               4 S              0.5  </span></a>
-<a class="sourceLine" id="cb151-14" data-line-number="14"><span class="co">#&gt; 5               5 S              0.4  </span></a>
-<a class="sourceLine" id="cb151-15" data-line-number="15"><span class="co">#&gt; 6               6 S              0.333</span></a>
-<a class="sourceLine" id="cb151-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb151-17" data-line-number="17"><span class="kw">set.seed</span>(<span class="dv">31287931</span>)</a>
-<a class="sourceLine" id="cb151-18" data-line-number="18"><span class="co"># usamos la función map_df del paquete purrr</span></a>
-<a class="sourceLine" id="cb151-19" data-line-number="19"><span class="kw">map_df</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="op">~</span><span class="kw">lanzar</span>(), <span class="dt">.id =</span> <span class="st">&quot;serie&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb151-20" data-line-number="20"><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(num_lanzamiento), <span class="dt">y =</span> frec_rel, </a>
-<a class="sourceLine" id="cb151-21" data-line-number="21">        <span class="dt">color =</span> <span class="kw">as.character</span>(serie))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb151-22" data-line-number="22"><span class="st">        </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">0.5</span>, <span class="dt">color =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb151-23" data-line-number="23"><span class="st">        </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb151-24" data-line-number="24"><span class="st">        </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;lanzamiento&quot;</span>, <span class="dt">labels =</span> exp, </a>
-<a class="sourceLine" id="cb151-25" data-line-number="25">            <span class="dt">breaks =</span> <span class="kw">log</span>(<span class="kw">sapply</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">10</span>, <span class="cf">function</span>(i) <span class="dv">2</span> <span class="op">^</span><span class="st"> </span>i))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb151-26" data-line-number="26"><span class="st">        </span><span class="kw">labs</span>(<span class="dt">color =</span> <span class="st">&quot;serie&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;frecuencia relativa&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;1000 volados&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb150-1" data-line-number="1">lanzar &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">n =</span> <span class="dv">1000</span>){</a>
+<a class="sourceLine" id="cb150-2" data-line-number="2">    <span class="kw">tibble</span>(<span class="dt">num_lanzamiento =</span> <span class="dv">1</span><span class="op">:</span>n, <span class="dt">lanzamiento =</span> <span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;S&quot;</span>), n, </a>
+<a class="sourceLine" id="cb150-3" data-line-number="3">        <span class="dt">replace =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb150-4" data-line-number="4"><span class="st">        </span><span class="kw">mutate</span>(<span class="dt">frec_rel =</span> <span class="kw">cummean</span>(lanzamiento <span class="op">==</span><span class="st"> &quot;A&quot;</span>))</a>
+<a class="sourceLine" id="cb150-5" data-line-number="5">  }</a>
+<a class="sourceLine" id="cb150-6" data-line-number="6"><span class="kw">head</span>(<span class="kw">lanzar</span>())</a>
+<a class="sourceLine" id="cb150-7" data-line-number="7"><span class="co">#&gt; # A tibble: 6 x 3</span></a>
+<a class="sourceLine" id="cb150-8" data-line-number="8"><span class="co">#&gt;   num_lanzamiento lanzamiento frec_rel</span></a>
+<a class="sourceLine" id="cb150-9" data-line-number="9"><span class="co">#&gt;             &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb150-10" data-line-number="10"><span class="co">#&gt; 1               1 A              1    </span></a>
+<a class="sourceLine" id="cb150-11" data-line-number="11"><span class="co">#&gt; 2               2 S              0.5  </span></a>
+<a class="sourceLine" id="cb150-12" data-line-number="12"><span class="co">#&gt; 3               3 A              0.667</span></a>
+<a class="sourceLine" id="cb150-13" data-line-number="13"><span class="co">#&gt; 4               4 S              0.5  </span></a>
+<a class="sourceLine" id="cb150-14" data-line-number="14"><span class="co">#&gt; 5               5 S              0.4  </span></a>
+<a class="sourceLine" id="cb150-15" data-line-number="15"><span class="co">#&gt; 6               6 S              0.333</span></a>
+<a class="sourceLine" id="cb150-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb150-17" data-line-number="17"><span class="kw">set.seed</span>(<span class="dv">31287931</span>)</a>
+<a class="sourceLine" id="cb150-18" data-line-number="18"><span class="co"># usamos la función map_df del paquete purrr</span></a>
+<a class="sourceLine" id="cb150-19" data-line-number="19"><span class="kw">map_df</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="op">~</span><span class="kw">lanzar</span>(), <span class="dt">.id =</span> <span class="st">&quot;serie&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb150-20" data-line-number="20"><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(num_lanzamiento), <span class="dt">y =</span> frec_rel, </a>
+<a class="sourceLine" id="cb150-21" data-line-number="21">        <span class="dt">color =</span> <span class="kw">as.character</span>(serie))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb150-22" data-line-number="22"><span class="st">        </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">0.5</span>, <span class="dt">color =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb150-23" data-line-number="23"><span class="st">        </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb150-24" data-line-number="24"><span class="st">        </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;lanzamiento&quot;</span>, <span class="dt">labels =</span> exp, </a>
+<a class="sourceLine" id="cb150-25" data-line-number="25">            <span class="dt">breaks =</span> <span class="kw">log</span>(<span class="kw">sapply</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">10</span>, <span class="cf">function</span>(i) <span class="dv">2</span> <span class="op">^</span><span class="st"> </span>i))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb150-26" data-line-number="26"><span class="st">        </span><span class="kw">labs</span>(<span class="dt">color =</span> <span class="st">&quot;serie&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;frecuencia relativa&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;1000 volados&quot;</span>)</a></code></pre></div>
 <p><img src="04_probabilidad_files/figure-html/unnamed-chunk-9-1.png" width="787.2" style="display: block; margin: auto;" /></p>
 <p>La segunda observación empírica es que, cuando el modelo de resultados
 equiprobables es apropiado:</p>
@@ -501,11 +505,11 @@ ser consistente con la interpretación frecuentista, ¿cuál es?</p>
 <p>La primer respuesta es incorrecta pues supone probabilidad cero para el evento
 águila y sol. La solución dos, por otra parte, no es fácil de desacreditar, así
 que realicemos el experimento para encontrar la respuesta:</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb152-1" data-line-number="1">n &lt;-<span class="st"> </span><span class="dv">10000</span></a>
-<a class="sourceLine" id="cb152-2" data-line-number="2">moneda_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;S&quot;</span>), n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb152-3" data-line-number="3">moneda_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;S&quot;</span>), n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb152-4" data-line-number="4"><span class="kw">sum</span>(moneda_<span class="dv">1</span> <span class="op">==</span><span class="st"> </span>moneda_<span class="dv">2</span> <span class="op">&amp;</span><span class="st"> </span>moneda_<span class="dv">1</span> <span class="op">==</span><span class="st"> &quot;A&quot;</span>) <span class="op">/</span><span class="st"> </span>n</a>
-<a class="sourceLine" id="cb152-5" data-line-number="5"><span class="co">#&gt; [1] 0.2482</span></a></code></pre></div>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb151-1" data-line-number="1">n &lt;-<span class="st"> </span><span class="dv">10000</span></a>
+<a class="sourceLine" id="cb151-2" data-line-number="2">moneda_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;S&quot;</span>), n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb151-3" data-line-number="3">moneda_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;S&quot;</span>), n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb151-4" data-line-number="4"><span class="kw">sum</span>(moneda_<span class="dv">1</span> <span class="op">==</span><span class="st"> </span>moneda_<span class="dv">2</span> <span class="op">&amp;</span><span class="st"> </span>moneda_<span class="dv">1</span> <span class="op">==</span><span class="st"> &quot;A&quot;</span>) <span class="op">/</span><span class="st"> </span>n</a>
+<a class="sourceLine" id="cb151-5" data-line-number="5"><span class="co">#&gt; [1] 0.2482</span></a></code></pre></div>
 <p>La respuesta 3 es la correcta, y lo que vemos es que incluso cuando el supuesto
 de igualmente probables es apropiado a un cierto nivel de descripción
 determinado, este <em>nivel</em> no es algo que se pueda juzgar usando únicamente

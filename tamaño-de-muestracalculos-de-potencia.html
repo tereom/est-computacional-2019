@@ -314,8 +314,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.9" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html"><i class="fa fa-check"></i><b>10.9</b> Diagnósticos generales</a><ul>
 <li class="chapter" data-level="" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recomendaciones-generales"><i class="fa fa-check"></i>Recomendaciones generales</a></li>
-<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales</a></li>
+<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales en Stan</a></li>
 <li class="chapter" data-level="10.9.2" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.9.2</b> Recursos de Stan y paquetes con R:</a></li>
+</ul></li>
+<li class="chapter" data-level="10.10" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html"><i class="fa fa-check"></i><b>10.10</b> Modelos jerárquicos</a><ul>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelo-jerárquico-una-moneda"><i class="fa fa-check"></i>Modelo jerárquico una moneda</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
@@ -395,42 +399,42 @@ el error estándar de la proporción <span class="math inline">\(p\)</span> es</
 sería <span class="math inline">\(0.49/\sqrt{n}\)</span>, de tal manera que si queremos <span class="math inline">\(se(p) \le 0.05\)</span>
 necesitamos <span class="math inline">\(n&gt;96\)</span>, en el caso de proporciones es fácil determinar el tamaño de
 muestra de manera conservadora pues basta con suponer <span class="math inline">\(p = 0.5\)</span>.</p>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb298-1" data-line-number="1">se_fun_n &lt;-<span class="st"> </span><span class="cf">function</span>(n, p) <span class="kw">sqrt</span>(p <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p) <span class="op">/</span><span class="st"> </span>n)</a>
-<a class="sourceLine" id="cb298-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb298-3" data-line-number="3">xy &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="dv">20</span><span class="op">:</span><span class="dv">220</span>, <span class="dt">y =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.005</span>))</a>
-<a class="sourceLine" id="cb298-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb298-5" data-line-number="5"><span class="kw">ggplot</span>(xy, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb298-6" data-line-number="6"><span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> se_fun_n, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">p =</span> <span class="fl">0.7</span>), <span class="kw">aes</span>(<span class="dt">color =</span> <span class="st">&quot;p=0.7&quot;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb298-7" data-line-number="7"><span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> se_fun_n, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">p =</span> <span class="fl">0.9</span>), <span class="kw">aes</span>(<span class="dt">color =</span> <span class="st">&quot;p=0.9&quot;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb298-8" data-line-number="8"><span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> se_fun_n, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">p =</span> <span class="fl">0.5</span>), <span class="kw">aes</span>(<span class="dt">color =</span> <span class="st">&quot;p=0.5&quot;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb298-9" data-line-number="9"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;se&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb298-10" data-line-number="10"><span class="st">    </span><span class="kw">geom_segment</span>(<span class="dt">x =</span> <span class="dv">20</span>, <span class="dt">xend =</span> <span class="dv">100</span>, <span class="dt">y =</span> <span class="fl">0.05</span>, <span class="dt">yend =</span> <span class="fl">0.05</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, </a>
-<a class="sourceLine" id="cb298-11" data-line-number="11">        <span class="dt">alpha =</span> <span class="fl">0.3</span>, <span class="dt">linetype =</span> <span class="st">&quot;longdash&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb298-12" data-line-number="12"><span class="st">    </span><span class="kw">geom_segment</span>(<span class="dt">x =</span> <span class="dv">100</span>, <span class="dt">xend =</span> <span class="dv">100</span>, <span class="dt">y =</span> <span class="fl">0.05</span>, <span class="dt">yend =</span> <span class="dv">0</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, </a>
-<a class="sourceLine" id="cb298-13" data-line-number="13">        <span class="dt">alpha =</span> <span class="fl">0.3</span>, <span class="dt">linetype =</span> <span class="st">&quot;longdash&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb297-1" data-line-number="1">se_fun_n &lt;-<span class="st"> </span><span class="cf">function</span>(n, p) <span class="kw">sqrt</span>(p <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p) <span class="op">/</span><span class="st"> </span>n)</a>
+<a class="sourceLine" id="cb297-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb297-3" data-line-number="3">xy &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="dv">20</span><span class="op">:</span><span class="dv">220</span>, <span class="dt">y =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.005</span>))</a>
+<a class="sourceLine" id="cb297-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb297-5" data-line-number="5"><span class="kw">ggplot</span>(xy, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb297-6" data-line-number="6"><span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> se_fun_n, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">p =</span> <span class="fl">0.7</span>), <span class="kw">aes</span>(<span class="dt">color =</span> <span class="st">&quot;p=0.7&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb297-7" data-line-number="7"><span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> se_fun_n, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">p =</span> <span class="fl">0.9</span>), <span class="kw">aes</span>(<span class="dt">color =</span> <span class="st">&quot;p=0.9&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb297-8" data-line-number="8"><span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> se_fun_n, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">p =</span> <span class="fl">0.5</span>), <span class="kw">aes</span>(<span class="dt">color =</span> <span class="st">&quot;p=0.5&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb297-9" data-line-number="9"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;se&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb297-10" data-line-number="10"><span class="st">    </span><span class="kw">geom_segment</span>(<span class="dt">x =</span> <span class="dv">20</span>, <span class="dt">xend =</span> <span class="dv">100</span>, <span class="dt">y =</span> <span class="fl">0.05</span>, <span class="dt">yend =</span> <span class="fl">0.05</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, </a>
+<a class="sourceLine" id="cb297-11" data-line-number="11">        <span class="dt">alpha =</span> <span class="fl">0.3</span>, <span class="dt">linetype =</span> <span class="st">&quot;longdash&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb297-12" data-line-number="12"><span class="st">    </span><span class="kw">geom_segment</span>(<span class="dt">x =</span> <span class="dv">100</span>, <span class="dt">xend =</span> <span class="dv">100</span>, <span class="dt">y =</span> <span class="fl">0.05</span>, <span class="dt">yend =</span> <span class="dv">0</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, </a>
+<a class="sourceLine" id="cb297-13" data-line-number="13">        <span class="dt">alpha =</span> <span class="fl">0.3</span>, <span class="dt">linetype =</span> <span class="st">&quot;longdash&quot;</span>)</a></code></pre></div>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-44-1.png" width="350px" style="display: block; margin: auto;" /></p>
 <p>Cómo calcularíamos el tamaño de muestra simulando? En este caso es trivial
 calcular de manera analítica, pero nos sirve para comparar los resultados que
 obtendríamos con simulación.</p>
-<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb299-1" data-line-number="1">sim_p_hat &lt;-<span class="st"> </span><span class="cf">function</span>(n, p, <span class="dt">n_sims =</span> <span class="dv">1000</span>){</a>
-<a class="sourceLine" id="cb299-2" data-line-number="2">    sim_muestra &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n_sims, <span class="dt">size =</span> n, <span class="dt">prob =</span> p)</a>
-<a class="sourceLine" id="cb299-3" data-line-number="3">    se_p_hat &lt;-<span class="st"> </span><span class="kw">sd</span>(sim_muestra <span class="op">/</span><span class="st"> </span>n)</a>
-<a class="sourceLine" id="cb299-4" data-line-number="4">    <span class="kw">tibble</span>(<span class="dt">n =</span> n, <span class="dt">se_p_hat =</span> se_p_hat, <span class="dt">p =</span> p)</a>
-<a class="sourceLine" id="cb299-5" data-line-number="5">}</a>
-<a class="sourceLine" id="cb299-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb299-7" data-line-number="7">sims_.<span class="dv">7</span> &lt;-<span class="st"> </span><span class="kw">map_df</span>(<span class="kw">seq</span>(<span class="dv">20</span>, <span class="dv">220</span>, <span class="dv">5</span>), sim_p_hat, <span class="dt">p =</span> <span class="fl">0.7</span>)</a>
-<a class="sourceLine" id="cb299-8" data-line-number="8">sims_.<span class="dv">5</span> &lt;-<span class="st"> </span><span class="kw">map_df</span>(<span class="kw">seq</span>(<span class="dv">20</span>, <span class="dv">220</span>, <span class="dv">5</span>), sim_p_hat, <span class="dt">p =</span> <span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb299-9" data-line-number="9">sims_.<span class="dv">9</span> &lt;-<span class="st"> </span><span class="kw">map_df</span>(<span class="kw">seq</span>(<span class="dv">20</span>, <span class="dv">220</span>, <span class="dv">5</span>), sim_p_hat, <span class="dt">p =</span> <span class="fl">0.9</span>)</a>
-<a class="sourceLine" id="cb299-10" data-line-number="10">sims &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(sims_.<span class="dv">7</span>, sims_.<span class="dv">5</span>, sims_.<span class="dv">9</span>)</a>
-<a class="sourceLine" id="cb299-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb299-12" data-line-number="12"><span class="kw">ggplot</span>(sims, <span class="kw">aes</span>(<span class="dt">x =</span> n, <span class="dt">y =</span> se_p_hat, <span class="dt">color =</span> <span class="kw">factor</span>(p), <span class="dt">group =</span> p)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb299-13" data-line-number="13"><span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">size =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb299-14" data-line-number="14"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;se&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb299-15" data-line-number="15"><span class="st">    </span><span class="kw">geom_segment</span>(<span class="dt">x =</span> <span class="dv">20</span>, <span class="dt">xend =</span> <span class="dv">100</span>, <span class="dt">y =</span> <span class="fl">0.05</span>, <span class="dt">yend =</span> <span class="fl">0.05</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, </a>
-<a class="sourceLine" id="cb299-16" data-line-number="16">        <span class="dt">alpha =</span> <span class="fl">0.3</span>, <span class="dt">linetype =</span> <span class="st">&quot;longdash&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb299-17" data-line-number="17"><span class="st">    </span><span class="kw">geom_segment</span>(<span class="dt">x =</span> <span class="dv">100</span>, <span class="dt">xend =</span> <span class="dv">100</span>, <span class="dt">y =</span> <span class="fl">0.05</span>, <span class="dt">yend =</span> <span class="dv">0</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, </a>
-<a class="sourceLine" id="cb299-18" data-line-number="18">        <span class="dt">alpha =</span> <span class="fl">0.3</span>, <span class="dt">linetype =</span> <span class="st">&quot;longdash&quot;</span>)</a>
-<a class="sourceLine" id="cb299-19" data-line-number="19"><span class="co">#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb298-1" data-line-number="1">sim_p_hat &lt;-<span class="st"> </span><span class="cf">function</span>(n, p, <span class="dt">n_sims =</span> <span class="dv">1000</span>){</a>
+<a class="sourceLine" id="cb298-2" data-line-number="2">    sim_muestra &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n_sims, <span class="dt">size =</span> n, <span class="dt">prob =</span> p)</a>
+<a class="sourceLine" id="cb298-3" data-line-number="3">    se_p_hat &lt;-<span class="st"> </span><span class="kw">sd</span>(sim_muestra <span class="op">/</span><span class="st"> </span>n)</a>
+<a class="sourceLine" id="cb298-4" data-line-number="4">    <span class="kw">tibble</span>(<span class="dt">n =</span> n, <span class="dt">se_p_hat =</span> se_p_hat, <span class="dt">p =</span> p)</a>
+<a class="sourceLine" id="cb298-5" data-line-number="5">}</a>
+<a class="sourceLine" id="cb298-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb298-7" data-line-number="7">sims_.<span class="dv">7</span> &lt;-<span class="st"> </span><span class="kw">map_df</span>(<span class="kw">seq</span>(<span class="dv">20</span>, <span class="dv">220</span>, <span class="dv">5</span>), sim_p_hat, <span class="dt">p =</span> <span class="fl">0.7</span>)</a>
+<a class="sourceLine" id="cb298-8" data-line-number="8">sims_.<span class="dv">5</span> &lt;-<span class="st"> </span><span class="kw">map_df</span>(<span class="kw">seq</span>(<span class="dv">20</span>, <span class="dv">220</span>, <span class="dv">5</span>), sim_p_hat, <span class="dt">p =</span> <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb298-9" data-line-number="9">sims_.<span class="dv">9</span> &lt;-<span class="st"> </span><span class="kw">map_df</span>(<span class="kw">seq</span>(<span class="dv">20</span>, <span class="dv">220</span>, <span class="dv">5</span>), sim_p_hat, <span class="dt">p =</span> <span class="fl">0.9</span>)</a>
+<a class="sourceLine" id="cb298-10" data-line-number="10">sims &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(sims_.<span class="dv">7</span>, sims_.<span class="dv">5</span>, sims_.<span class="dv">9</span>)</a>
+<a class="sourceLine" id="cb298-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb298-12" data-line-number="12"><span class="kw">ggplot</span>(sims, <span class="kw">aes</span>(<span class="dt">x =</span> n, <span class="dt">y =</span> se_p_hat, <span class="dt">color =</span> <span class="kw">factor</span>(p), <span class="dt">group =</span> p)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb298-13" data-line-number="13"><span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">size =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb298-14" data-line-number="14"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;se&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb298-15" data-line-number="15"><span class="st">    </span><span class="kw">geom_segment</span>(<span class="dt">x =</span> <span class="dv">20</span>, <span class="dt">xend =</span> <span class="dv">100</span>, <span class="dt">y =</span> <span class="fl">0.05</span>, <span class="dt">yend =</span> <span class="fl">0.05</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, </a>
+<a class="sourceLine" id="cb298-16" data-line-number="16">        <span class="dt">alpha =</span> <span class="fl">0.3</span>, <span class="dt">linetype =</span> <span class="st">&quot;longdash&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb298-17" data-line-number="17"><span class="st">    </span><span class="kw">geom_segment</span>(<span class="dt">x =</span> <span class="dv">100</span>, <span class="dt">xend =</span> <span class="dv">100</span>, <span class="dt">y =</span> <span class="fl">0.05</span>, <span class="dt">yend =</span> <span class="dv">0</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, </a>
+<a class="sourceLine" id="cb298-18" data-line-number="18">        <span class="dt">alpha =</span> <span class="fl">0.3</span>, <span class="dt">linetype =</span> <span class="st">&quot;longdash&quot;</span>)</a>
+<a class="sourceLine" id="cb298-19" data-line-number="19"><span class="co">#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</span></a></code></pre></div>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-45-1.png" width="350px" style="display: block; margin: auto;" /></p>
 </div>
 <div id="tamaño-de-muestra-determinado-para-obtener-significancia-estadística-con-una-probabilidad-determinada" class="section level4 unnumbered">
@@ -446,23 +450,23 @@ necesitamos que:</p>
 <p><span class="math display">\[0.5 + 1.96 se \leq 0.6 - 0.84 se\]</span></p>
 <p>Sustituyendo <span class="math inline">\(se = 0.5/\sqrt{n}\)</span> obtenemos <span class="math inline">\(n=196\)</span></p>
 <p>Y simulando sería</p>
-<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb300-1" data-line-number="1">sim_potencia &lt;-<span class="st"> </span><span class="cf">function</span>(n, p, <span class="dt">n_sims =</span> <span class="dv">1000</span>){</a>
-<a class="sourceLine" id="cb300-2" data-line-number="2">    sim_muestra &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n_sims, <span class="dt">size =</span> n, <span class="dt">prob =</span> p)</a>
-<a class="sourceLine" id="cb300-3" data-line-number="3">    p_hat &lt;-<span class="st"> </span>sim_muestra <span class="op">/</span><span class="st"> </span>n</a>
-<a class="sourceLine" id="cb300-4" data-line-number="4">    se_p_hat &lt;-<span class="st"> </span><span class="kw">sqrt</span>(p_hat <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p_hat) <span class="op">/</span><span class="st"> </span>n)</a>
-<a class="sourceLine" id="cb300-5" data-line-number="5">    acepta &lt;-<span class="st"> </span>(p_hat <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>se_p_hat) <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span></a>
-<a class="sourceLine" id="cb300-6" data-line-number="6">    <span class="kw">tibble</span>(<span class="dt">n =</span> n, <span class="dt">p =</span> p, <span class="dt">potencia =</span> <span class="kw">mean</span>(acepta))</a>
-<a class="sourceLine" id="cb300-7" data-line-number="7">}</a>
-<a class="sourceLine" id="cb300-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb300-9" data-line-number="9">casos_sim &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">n =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">80</span>, <span class="dv">100</span>, <span class="dv">150</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">500</span>), </a>
-<a class="sourceLine" id="cb300-10" data-line-number="10">    <span class="dt">p =</span> <span class="kw">c</span>(<span class="fl">0.6</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>))</a>
-<a class="sourceLine" id="cb300-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb300-12" data-line-number="12">sims &lt;-<span class="st"> </span><span class="kw">map2_df</span>(casos_sim<span class="op">$</span>n, casos_sim<span class="op">$</span>p, <span class="op">~</span><span class="kw">sim_potencia</span>(<span class="dt">n =</span> .x, <span class="dt">p =</span> .y))</a>
-<a class="sourceLine" id="cb300-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb300-14" data-line-number="14"><span class="kw">ggplot</span>(sims) <span class="op">+</span></a>
-<a class="sourceLine" id="cb300-15" data-line-number="15"><span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> n, <span class="dt">y =</span> potencia, <span class="dt">color =</span> <span class="kw">factor</span>(p), <span class="dt">group =</span> p)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb300-16" data-line-number="16"><span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">0.8</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">size =</span> <span class="fl">0.7</span>, </a>
-<a class="sourceLine" id="cb300-17" data-line-number="17">        <span class="dt">linetype =</span> <span class="st">&quot;longdash&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb299-1" data-line-number="1">sim_potencia &lt;-<span class="st"> </span><span class="cf">function</span>(n, p, <span class="dt">n_sims =</span> <span class="dv">1000</span>){</a>
+<a class="sourceLine" id="cb299-2" data-line-number="2">    sim_muestra &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n_sims, <span class="dt">size =</span> n, <span class="dt">prob =</span> p)</a>
+<a class="sourceLine" id="cb299-3" data-line-number="3">    p_hat &lt;-<span class="st"> </span>sim_muestra <span class="op">/</span><span class="st"> </span>n</a>
+<a class="sourceLine" id="cb299-4" data-line-number="4">    se_p_hat &lt;-<span class="st"> </span><span class="kw">sqrt</span>(p_hat <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p_hat) <span class="op">/</span><span class="st"> </span>n)</a>
+<a class="sourceLine" id="cb299-5" data-line-number="5">    acepta &lt;-<span class="st"> </span>(p_hat <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>se_p_hat) <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span></a>
+<a class="sourceLine" id="cb299-6" data-line-number="6">    <span class="kw">tibble</span>(<span class="dt">n =</span> n, <span class="dt">p =</span> p, <span class="dt">potencia =</span> <span class="kw">mean</span>(acepta))</a>
+<a class="sourceLine" id="cb299-7" data-line-number="7">}</a>
+<a class="sourceLine" id="cb299-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb299-9" data-line-number="9">casos_sim &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">n =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">80</span>, <span class="dv">100</span>, <span class="dv">150</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">500</span>), </a>
+<a class="sourceLine" id="cb299-10" data-line-number="10">    <span class="dt">p =</span> <span class="kw">c</span>(<span class="fl">0.6</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>))</a>
+<a class="sourceLine" id="cb299-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb299-12" data-line-number="12">sims &lt;-<span class="st"> </span><span class="kw">map2_df</span>(casos_sim<span class="op">$</span>n, casos_sim<span class="op">$</span>p, <span class="op">~</span><span class="kw">sim_potencia</span>(<span class="dt">n =</span> .x, <span class="dt">p =</span> .y))</a>
+<a class="sourceLine" id="cb299-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb299-14" data-line-number="14"><span class="kw">ggplot</span>(sims) <span class="op">+</span></a>
+<a class="sourceLine" id="cb299-15" data-line-number="15"><span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> n, <span class="dt">y =</span> potencia, <span class="dt">color =</span> <span class="kw">factor</span>(p), <span class="dt">group =</span> p)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb299-16" data-line-number="16"><span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">0.8</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">size =</span> <span class="fl">0.7</span>, </a>
+<a class="sourceLine" id="cb299-17" data-line-number="17">        <span class="dt">linetype =</span> <span class="st">&quot;longdash&quot;</span>)</a></code></pre></div>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-46-1.png" width="350px" style="display: block; margin: auto;" /></p>
 </div>
 <div id="respuestas-continuas" class="section level4 unnumbered">
@@ -487,61 +491,61 @@ de <span class="math inline">\(2\)</span> años. Las series de tiempo se ajustan
 de intercepto y pendiente variable:</p>
 <p><span class="math display">\[y_i \sim N(\alpha_{j[i]} + \beta_{j[i]}t_i, \sigma^2_y)\]</span></p>
 <p>donde <span class="math inline">\(i\)</span> indexa las mediciones tomadas al tiempo <span class="math inline">\(i\)</span> en el individuo <span class="math inline">\(j[i]\)</span>.</p>
-<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb301-1" data-line-number="1"><span class="co"># preparación de los datos</span></a>
-<a class="sourceLine" id="cb301-2" data-line-number="2"><span class="kw">library</span>(lme4)</a>
-<a class="sourceLine" id="cb301-3" data-line-number="3">allvar &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/data_sim/allvar.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb301-4" data-line-number="4"><span class="co">#&gt; Parsed with column specification:</span></a>
-<a class="sourceLine" id="cb301-5" data-line-number="5"><span class="co">#&gt; cols(</span></a>
-<a class="sourceLine" id="cb301-6" data-line-number="6"><span class="co">#&gt;   VISIT = col_double(),</span></a>
-<a class="sourceLine" id="cb301-7" data-line-number="7"><span class="co">#&gt;   newpid = col_double(),</span></a>
-<a class="sourceLine" id="cb301-8" data-line-number="8"><span class="co">#&gt;   VDATE = col_character(),</span></a>
-<a class="sourceLine" id="cb301-9" data-line-number="9"><span class="co">#&gt;   CD4PCT = col_double(),</span></a>
-<a class="sourceLine" id="cb301-10" data-line-number="10"><span class="co">#&gt;   arv = col_double(),</span></a>
-<a class="sourceLine" id="cb301-11" data-line-number="11"><span class="co">#&gt;   visage = col_double(),</span></a>
-<a class="sourceLine" id="cb301-12" data-line-number="12"><span class="co">#&gt;   treatmnt = col_double(),</span></a>
-<a class="sourceLine" id="cb301-13" data-line-number="13"><span class="co">#&gt;   CD4CNT = col_double(),</span></a>
-<a class="sourceLine" id="cb301-14" data-line-number="14"><span class="co">#&gt;   baseage = col_double()</span></a>
-<a class="sourceLine" id="cb301-15" data-line-number="15"><span class="co">#&gt; )</span></a>
-<a class="sourceLine" id="cb301-16" data-line-number="16">cd4 &lt;-<span class="st"> </span>allvar <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb301-17" data-line-number="17"><span class="st">    </span><span class="kw">filter</span>(treatmnt <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="op">!</span><span class="kw">is.na</span>(CD4PCT), baseage <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>, baseage <span class="op">&lt;</span><span class="st"> </span><span class="dv">5</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb301-18" data-line-number="18"><span class="st">    </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb301-19" data-line-number="19">        <span class="dt">y =</span> <span class="kw">sqrt</span>(CD4PCT), </a>
-<a class="sourceLine" id="cb301-20" data-line-number="20">        <span class="dt">person =</span> newpid, </a>
-<a class="sourceLine" id="cb301-21" data-line-number="21">        <span class="dt">time =</span> visage <span class="op">-</span><span class="st"> </span>baseage</a>
-<a class="sourceLine" id="cb301-22" data-line-number="22">        ) </a></code></pre></div>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb300-1" data-line-number="1"><span class="co"># preparación de los datos</span></a>
+<a class="sourceLine" id="cb300-2" data-line-number="2"><span class="kw">library</span>(lme4)</a>
+<a class="sourceLine" id="cb300-3" data-line-number="3">allvar &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/data_sim/allvar.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb300-4" data-line-number="4"><span class="co">#&gt; Parsed with column specification:</span></a>
+<a class="sourceLine" id="cb300-5" data-line-number="5"><span class="co">#&gt; cols(</span></a>
+<a class="sourceLine" id="cb300-6" data-line-number="6"><span class="co">#&gt;   VISIT = col_double(),</span></a>
+<a class="sourceLine" id="cb300-7" data-line-number="7"><span class="co">#&gt;   newpid = col_double(),</span></a>
+<a class="sourceLine" id="cb300-8" data-line-number="8"><span class="co">#&gt;   VDATE = col_character(),</span></a>
+<a class="sourceLine" id="cb300-9" data-line-number="9"><span class="co">#&gt;   CD4PCT = col_double(),</span></a>
+<a class="sourceLine" id="cb300-10" data-line-number="10"><span class="co">#&gt;   arv = col_double(),</span></a>
+<a class="sourceLine" id="cb300-11" data-line-number="11"><span class="co">#&gt;   visage = col_double(),</span></a>
+<a class="sourceLine" id="cb300-12" data-line-number="12"><span class="co">#&gt;   treatmnt = col_double(),</span></a>
+<a class="sourceLine" id="cb300-13" data-line-number="13"><span class="co">#&gt;   CD4CNT = col_double(),</span></a>
+<a class="sourceLine" id="cb300-14" data-line-number="14"><span class="co">#&gt;   baseage = col_double()</span></a>
+<a class="sourceLine" id="cb300-15" data-line-number="15"><span class="co">#&gt; )</span></a>
+<a class="sourceLine" id="cb300-16" data-line-number="16">cd4 &lt;-<span class="st"> </span>allvar <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb300-17" data-line-number="17"><span class="st">    </span><span class="kw">filter</span>(treatmnt <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="op">!</span><span class="kw">is.na</span>(CD4PCT), baseage <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>, baseage <span class="op">&lt;</span><span class="st"> </span><span class="dv">5</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb300-18" data-line-number="18"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb300-19" data-line-number="19">        <span class="dt">y =</span> <span class="kw">sqrt</span>(CD4PCT), </a>
+<a class="sourceLine" id="cb300-20" data-line-number="20">        <span class="dt">person =</span> newpid, </a>
+<a class="sourceLine" id="cb300-21" data-line-number="21">        <span class="dt">time =</span> visage <span class="op">-</span><span class="st"> </span>baseage</a>
+<a class="sourceLine" id="cb300-22" data-line-number="22">        ) </a></code></pre></div>
 <p>La siguiente gráfica muestra las mediciones para cada individuo, podemos ver que
 las series de tiempo son ruidosas.</p>
-<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb302-1" data-line-number="1"><span class="kw">ggplot</span>(cd4, <span class="kw">aes</span>(<span class="dt">x =</span> time, <span class="dt">y =</span> y, <span class="dt">group =</span> person)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb302-2" data-line-number="2"><span class="st">    </span><span class="kw">geom_line</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb301-1" data-line-number="1"><span class="kw">ggplot</span>(cd4, <span class="kw">aes</span>(<span class="dt">x =</span> time, <span class="dt">y =</span> y, <span class="dt">group =</span> person)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb301-2" data-line-number="2"><span class="st">    </span><span class="kw">geom_line</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)</a></code></pre></div>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-48-1.png" width="350px" style="display: block; margin: auto;" /></p>
 <p>Veamos un ajuste usando la función <code>lmer()</code> del paquete <code>lme4</code>.</p>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb303-1" data-line-number="1">fit_cd4 &lt;-<span class="st"> </span><span class="kw">lmer</span>(<span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span>time <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>time <span class="op">|</span><span class="st"> </span>person), cd4)</a>
-<a class="sourceLine" id="cb303-2" data-line-number="2"><span class="kw">summary</span>(fit_cd4)</a>
-<a class="sourceLine" id="cb303-3" data-line-number="3"><span class="co">#&gt; Linear mixed model fit by REML [&#39;lmerMod&#39;]</span></a>
-<a class="sourceLine" id="cb303-4" data-line-number="4"><span class="co">#&gt; Formula: y ~ time + (1 + time | person)</span></a>
-<a class="sourceLine" id="cb303-5" data-line-number="5"><span class="co">#&gt;    Data: cd4</span></a>
-<a class="sourceLine" id="cb303-6" data-line-number="6"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb303-7" data-line-number="7"><span class="co">#&gt; REML criterion at convergence: 1096.1</span></a>
-<a class="sourceLine" id="cb303-8" data-line-number="8"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb303-9" data-line-number="9"><span class="co">#&gt; Scaled residuals: </span></a>
-<a class="sourceLine" id="cb303-10" data-line-number="10"><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></a>
-<a class="sourceLine" id="cb303-11" data-line-number="11"><span class="co">#&gt; -4.4621 -0.4354  0.0504  0.3597  3.4620 </span></a>
-<a class="sourceLine" id="cb303-12" data-line-number="12"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb303-13" data-line-number="13"><span class="co">#&gt; Random effects:</span></a>
-<a class="sourceLine" id="cb303-14" data-line-number="14"><span class="co">#&gt;  Groups   Name        Variance Std.Dev. Corr</span></a>
-<a class="sourceLine" id="cb303-15" data-line-number="15"><span class="co">#&gt;  person   (Intercept) 1.7659   1.3289       </span></a>
-<a class="sourceLine" id="cb303-16" data-line-number="16"><span class="co">#&gt;           time        0.4619   0.6796   0.15</span></a>
-<a class="sourceLine" id="cb303-17" data-line-number="17"><span class="co">#&gt;  Residual             0.5595   0.7480       </span></a>
-<a class="sourceLine" id="cb303-18" data-line-number="18"><span class="co">#&gt; Number of obs: 369, groups:  person, 83</span></a>
-<a class="sourceLine" id="cb303-19" data-line-number="19"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb303-20" data-line-number="20"><span class="co">#&gt; Fixed effects:</span></a>
-<a class="sourceLine" id="cb303-21" data-line-number="21"><span class="co">#&gt;             Estimate Std. Error t value</span></a>
-<a class="sourceLine" id="cb303-22" data-line-number="22"><span class="co">#&gt; (Intercept)   4.8460     0.1597  30.349</span></a>
-<a class="sourceLine" id="cb303-23" data-line-number="23"><span class="co">#&gt; time         -0.4683     0.1276  -3.671</span></a>
-<a class="sourceLine" id="cb303-24" data-line-number="24"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb303-25" data-line-number="25"><span class="co">#&gt; Correlation of Fixed Effects:</span></a>
-<a class="sourceLine" id="cb303-26" data-line-number="26"><span class="co">#&gt;      (Intr)</span></a>
-<a class="sourceLine" id="cb303-27" data-line-number="27"><span class="co">#&gt; time -0.146</span></a></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb302-1" data-line-number="1">fit_cd4 &lt;-<span class="st"> </span><span class="kw">lmer</span>(<span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span>time <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>time <span class="op">|</span><span class="st"> </span>person), cd4)</a>
+<a class="sourceLine" id="cb302-2" data-line-number="2"><span class="kw">summary</span>(fit_cd4)</a>
+<a class="sourceLine" id="cb302-3" data-line-number="3"><span class="co">#&gt; Linear mixed model fit by REML [&#39;lmerMod&#39;]</span></a>
+<a class="sourceLine" id="cb302-4" data-line-number="4"><span class="co">#&gt; Formula: y ~ time + (1 + time | person)</span></a>
+<a class="sourceLine" id="cb302-5" data-line-number="5"><span class="co">#&gt;    Data: cd4</span></a>
+<a class="sourceLine" id="cb302-6" data-line-number="6"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb302-7" data-line-number="7"><span class="co">#&gt; REML criterion at convergence: 1096.1</span></a>
+<a class="sourceLine" id="cb302-8" data-line-number="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb302-9" data-line-number="9"><span class="co">#&gt; Scaled residuals: </span></a>
+<a class="sourceLine" id="cb302-10" data-line-number="10"><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></a>
+<a class="sourceLine" id="cb302-11" data-line-number="11"><span class="co">#&gt; -4.4621 -0.4354  0.0504  0.3597  3.4620 </span></a>
+<a class="sourceLine" id="cb302-12" data-line-number="12"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb302-13" data-line-number="13"><span class="co">#&gt; Random effects:</span></a>
+<a class="sourceLine" id="cb302-14" data-line-number="14"><span class="co">#&gt;  Groups   Name        Variance Std.Dev. Corr</span></a>
+<a class="sourceLine" id="cb302-15" data-line-number="15"><span class="co">#&gt;  person   (Intercept) 1.7659   1.3289       </span></a>
+<a class="sourceLine" id="cb302-16" data-line-number="16"><span class="co">#&gt;           time        0.4619   0.6796   0.15</span></a>
+<a class="sourceLine" id="cb302-17" data-line-number="17"><span class="co">#&gt;  Residual             0.5595   0.7480       </span></a>
+<a class="sourceLine" id="cb302-18" data-line-number="18"><span class="co">#&gt; Number of obs: 369, groups:  person, 83</span></a>
+<a class="sourceLine" id="cb302-19" data-line-number="19"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb302-20" data-line-number="20"><span class="co">#&gt; Fixed effects:</span></a>
+<a class="sourceLine" id="cb302-21" data-line-number="21"><span class="co">#&gt;             Estimate Std. Error t value</span></a>
+<a class="sourceLine" id="cb302-22" data-line-number="22"><span class="co">#&gt; (Intercept)   4.8460     0.1597  30.349</span></a>
+<a class="sourceLine" id="cb302-23" data-line-number="23"><span class="co">#&gt; time         -0.4683     0.1276  -3.671</span></a>
+<a class="sourceLine" id="cb302-24" data-line-number="24"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb302-25" data-line-number="25"><span class="co">#&gt; Correlation of Fixed Effects:</span></a>
+<a class="sourceLine" id="cb302-26" data-line-number="26"><span class="co">#&gt;      (Intr)</span></a>
+<a class="sourceLine" id="cb302-27" data-line-number="27"><span class="co">#&gt; time -0.146</span></a></code></pre></div>
 <p>Notamos que las tendencias sobre el tiempo <span class="math inline">\(\beta\)</span> tienen un promedio estimado
 en <span class="math inline">\(-0.5\)</span> con desviación estándar de <span class="math inline">\(0.7\)</span>, es decir, estimamos que la mayoría
 de los niños tienen niveles de CD4 decrecientes, pero no todos.</p>
@@ -590,43 +594,43 @@ suponemos que se medirá el porcentaje de CD4 cada <span class="math inline">\(2
 <p>Usaremos simulación para determinar el tamaño de muestra <span class="math inline">\(J\)</span> que se requiere
 para tener una potencia de <span class="math inline">\(80\%\)</span> si el verdadero efecto es <span class="math inline">\(0.5\)</span>, ¿cuál es el
 modelo gráfico asociado?</p>
-<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb304-1" data-line-number="1"><span class="co"># cd4_sim simula del modelo con los supuestos que fijamos arriba</span></a>
-<a class="sourceLine" id="cb304-2" data-line-number="2"><span class="co">#   podemos variar los valores de los parámetros para cambiar el escenario</span></a>
-<a class="sourceLine" id="cb304-3" data-line-number="3">cd4_sim &lt;-<span class="st"> </span><span class="cf">function</span>(J, K, <span class="dt">mu.a.true =</span> <span class="fl">4.8</span>, <span class="dt">g.0.true =</span> <span class="fl">-0.5</span>, <span class="dt">g.1.true =</span> <span class="fl">0.5</span>, </a>
-<a class="sourceLine" id="cb304-4" data-line-number="4">    <span class="dt">sigma.y.true =</span> <span class="fl">0.7</span>, <span class="dt">sigma.a.true =</span> <span class="fl">1.3</span>, <span class="dt">sigma.b.true =</span> <span class="fl">0.7</span>){</a>
-<a class="sourceLine" id="cb304-5" data-line-number="5">    time &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length =</span> K), J) <span class="co"># K mediciones en el año</span></a>
-<a class="sourceLine" id="cb304-6" data-line-number="6">    person &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>J, <span class="dt">each =</span> K)        <span class="co"># ids</span></a>
-<a class="sourceLine" id="cb304-7" data-line-number="7">    treatment &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">rep</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">1</span>, J<span class="op">/</span><span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb304-8" data-line-number="8">    treatment1 &lt;-<span class="st"> </span>treatment[person]</a>
-<a class="sourceLine" id="cb304-9" data-line-number="9">    <span class="co"># parámetros a nivel persona</span></a>
-<a class="sourceLine" id="cb304-10" data-line-number="10">    a.true &lt;-<span class="st"> </span><span class="kw">rnorm</span>(J, mu.a.true, sigma.a.true)</a>
-<a class="sourceLine" id="cb304-11" data-line-number="11">    b.true &lt;-<span class="st"> </span><span class="kw">rnorm</span>(J, g.<span class="fl">0.</span>true <span class="op">+</span><span class="st"> </span>g.<span class="fl">1.</span>true <span class="op">*</span><span class="st"> </span>treatment, sigma.b.true)</a>
-<a class="sourceLine" id="cb304-12" data-line-number="12">    y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(J <span class="op">*</span><span class="st"> </span>K, a.true[person] <span class="op">+</span><span class="st"> </span>b.true[person] <span class="op">*</span><span class="st"> </span>time, sigma.y.true)</a>
-<a class="sourceLine" id="cb304-13" data-line-number="13">    <span class="kw">data.frame</span>(y, time, person, treatment1)</a>
-<a class="sourceLine" id="cb304-14" data-line-number="14">}</a>
-<a class="sourceLine" id="cb304-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb304-16" data-line-number="16"><span class="co"># calcular si el parámetro es significativo para una generación de simulación</span></a>
-<a class="sourceLine" id="cb304-17" data-line-number="17">cd4_signif &lt;-<span class="st"> </span><span class="cf">function</span>(J, K){</a>
-<a class="sourceLine" id="cb304-18" data-line-number="18">    fake &lt;-<span class="st"> </span><span class="kw">cd4_sim</span>(J, K)</a>
-<a class="sourceLine" id="cb304-19" data-line-number="19">    lme_power &lt;-<span class="st"> </span><span class="kw">lmer</span>(y <span class="op">~</span><span class="st"> </span>time <span class="op">+</span><span class="st"> </span>time<span class="op">:</span>treatment1 <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>time <span class="op">|</span><span class="st"> </span>person), <span class="dt">data =</span> fake)</a>
-<a class="sourceLine" id="cb304-20" data-line-number="20">    theta_hat &lt;-<span class="st"> </span><span class="kw">fixef</span>(lme_power)[<span class="st">&quot;time:treatment1&quot;</span>]</a>
-<a class="sourceLine" id="cb304-21" data-line-number="21">    theta_se &lt;-<span class="st"> </span><span class="kw">summary</span>(lme_power)<span class="op">$</span>coefficients[<span class="st">&quot;time:treatment1&quot;</span>, <span class="st">&quot;Std. Error&quot;</span>]</a>
-<a class="sourceLine" id="cb304-22" data-line-number="22">    theta_hat <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>theta_se <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span></a>
-<a class="sourceLine" id="cb304-23" data-line-number="23">}</a>
-<a class="sourceLine" id="cb304-24" data-line-number="24"></a>
-<a class="sourceLine" id="cb304-25" data-line-number="25"><span class="co"># repetir la simulación de cd4 n_sims veces y calcular el porcentaje de las</span></a>
-<a class="sourceLine" id="cb304-26" data-line-number="26"><span class="co">#   muestras en que es significativo el parámetro (el poder)</span></a>
-<a class="sourceLine" id="cb304-27" data-line-number="27">cd4_power &lt;-<span class="st"> </span><span class="cf">function</span>(n_sims, J, K){</a>
-<a class="sourceLine" id="cb304-28" data-line-number="28">    <span class="kw">rerun</span>(n_sims, <span class="kw">cd4_signif</span>(J, <span class="dt">K =</span> <span class="dv">7</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mean</span>()</a>
-<a class="sourceLine" id="cb304-29" data-line-number="29">}</a>
-<a class="sourceLine" id="cb304-30" data-line-number="30"></a>
-<a class="sourceLine" id="cb304-31" data-line-number="31"><span class="co"># calculamos el poder para distintos tamaños de muestra, con 7 mediciones al año</span></a>
-<a class="sourceLine" id="cb304-32" data-line-number="32">potencias &lt;-<span class="st"> </span><span class="kw">map_df</span>(<span class="kw">c</span>(<span class="dv">8</span>, <span class="dv">16</span>, <span class="dv">60</span>, <span class="dv">100</span>, <span class="dv">150</span>, <span class="dv">200</span>, <span class="dv">225</span>, <span class="dv">250</span>, <span class="dv">300</span>, <span class="dv">400</span>), </a>
-<a class="sourceLine" id="cb304-33" data-line-number="33">    <span class="op">~</span><span class="kw">data_frame</span>(<span class="dt">n =</span> ., <span class="dt">p =</span> <span class="kw">cd4_power</span>(<span class="dt">n_sims =</span> <span class="dv">500</span>, <span class="dt">J =</span> ., <span class="dt">K =</span> <span class="dv">7</span>)))</a>
-<a class="sourceLine" id="cb304-34" data-line-number="34"></a>
-<a class="sourceLine" id="cb304-35" data-line-number="35"><span class="kw">ggplot</span>(potencias, <span class="kw">aes</span>(<span class="dt">x =</span> n, <span class="dt">y =</span> p)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb304-36" data-line-number="36"><span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">0.8</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb304-37" data-line-number="37"><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb303-1" data-line-number="1"><span class="co"># cd4_sim simula del modelo con los supuestos que fijamos arriba</span></a>
+<a class="sourceLine" id="cb303-2" data-line-number="2"><span class="co">#   podemos variar los valores de los parámetros para cambiar el escenario</span></a>
+<a class="sourceLine" id="cb303-3" data-line-number="3">cd4_sim &lt;-<span class="st"> </span><span class="cf">function</span>(J, K, <span class="dt">mu.a.true =</span> <span class="fl">4.8</span>, <span class="dt">g.0.true =</span> <span class="fl">-0.5</span>, <span class="dt">g.1.true =</span> <span class="fl">0.5</span>, </a>
+<a class="sourceLine" id="cb303-4" data-line-number="4">    <span class="dt">sigma.y.true =</span> <span class="fl">0.7</span>, <span class="dt">sigma.a.true =</span> <span class="fl">1.3</span>, <span class="dt">sigma.b.true =</span> <span class="fl">0.7</span>){</a>
+<a class="sourceLine" id="cb303-5" data-line-number="5">    time &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length =</span> K), J) <span class="co"># K mediciones en el año</span></a>
+<a class="sourceLine" id="cb303-6" data-line-number="6">    person &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>J, <span class="dt">each =</span> K)        <span class="co"># ids</span></a>
+<a class="sourceLine" id="cb303-7" data-line-number="7">    treatment &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">rep</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">1</span>, J<span class="op">/</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb303-8" data-line-number="8">    treatment1 &lt;-<span class="st"> </span>treatment[person]</a>
+<a class="sourceLine" id="cb303-9" data-line-number="9">    <span class="co"># parámetros a nivel persona</span></a>
+<a class="sourceLine" id="cb303-10" data-line-number="10">    a.true &lt;-<span class="st"> </span><span class="kw">rnorm</span>(J, mu.a.true, sigma.a.true)</a>
+<a class="sourceLine" id="cb303-11" data-line-number="11">    b.true &lt;-<span class="st"> </span><span class="kw">rnorm</span>(J, g.<span class="fl">0.</span>true <span class="op">+</span><span class="st"> </span>g.<span class="fl">1.</span>true <span class="op">*</span><span class="st"> </span>treatment, sigma.b.true)</a>
+<a class="sourceLine" id="cb303-12" data-line-number="12">    y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(J <span class="op">*</span><span class="st"> </span>K, a.true[person] <span class="op">+</span><span class="st"> </span>b.true[person] <span class="op">*</span><span class="st"> </span>time, sigma.y.true)</a>
+<a class="sourceLine" id="cb303-13" data-line-number="13">    <span class="kw">data.frame</span>(y, time, person, treatment1)</a>
+<a class="sourceLine" id="cb303-14" data-line-number="14">}</a>
+<a class="sourceLine" id="cb303-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb303-16" data-line-number="16"><span class="co"># calcular si el parámetro es significativo para una generación de simulación</span></a>
+<a class="sourceLine" id="cb303-17" data-line-number="17">cd4_signif &lt;-<span class="st"> </span><span class="cf">function</span>(J, K){</a>
+<a class="sourceLine" id="cb303-18" data-line-number="18">    fake &lt;-<span class="st"> </span><span class="kw">cd4_sim</span>(J, K)</a>
+<a class="sourceLine" id="cb303-19" data-line-number="19">    lme_power &lt;-<span class="st"> </span><span class="kw">lmer</span>(y <span class="op">~</span><span class="st"> </span>time <span class="op">+</span><span class="st"> </span>time<span class="op">:</span>treatment1 <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>time <span class="op">|</span><span class="st"> </span>person), <span class="dt">data =</span> fake)</a>
+<a class="sourceLine" id="cb303-20" data-line-number="20">    theta_hat &lt;-<span class="st"> </span><span class="kw">fixef</span>(lme_power)[<span class="st">&quot;time:treatment1&quot;</span>]</a>
+<a class="sourceLine" id="cb303-21" data-line-number="21">    theta_se &lt;-<span class="st"> </span><span class="kw">summary</span>(lme_power)<span class="op">$</span>coefficients[<span class="st">&quot;time:treatment1&quot;</span>, <span class="st">&quot;Std. Error&quot;</span>]</a>
+<a class="sourceLine" id="cb303-22" data-line-number="22">    theta_hat <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>theta_se <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb303-23" data-line-number="23">}</a>
+<a class="sourceLine" id="cb303-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb303-25" data-line-number="25"><span class="co"># repetir la simulación de cd4 n_sims veces y calcular el porcentaje de las</span></a>
+<a class="sourceLine" id="cb303-26" data-line-number="26"><span class="co">#   muestras en que es significativo el parámetro (el poder)</span></a>
+<a class="sourceLine" id="cb303-27" data-line-number="27">cd4_power &lt;-<span class="st"> </span><span class="cf">function</span>(n_sims, J, K){</a>
+<a class="sourceLine" id="cb303-28" data-line-number="28">    <span class="kw">rerun</span>(n_sims, <span class="kw">cd4_signif</span>(J, <span class="dt">K =</span> <span class="dv">7</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mean</span>()</a>
+<a class="sourceLine" id="cb303-29" data-line-number="29">}</a>
+<a class="sourceLine" id="cb303-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb303-31" data-line-number="31"><span class="co"># calculamos el poder para distintos tamaños de muestra, con 7 mediciones al año</span></a>
+<a class="sourceLine" id="cb303-32" data-line-number="32">potencias &lt;-<span class="st"> </span><span class="kw">map_df</span>(<span class="kw">c</span>(<span class="dv">8</span>, <span class="dv">16</span>, <span class="dv">60</span>, <span class="dv">100</span>, <span class="dv">150</span>, <span class="dv">200</span>, <span class="dv">225</span>, <span class="dv">250</span>, <span class="dv">300</span>, <span class="dv">400</span>), </a>
+<a class="sourceLine" id="cb303-33" data-line-number="33">    <span class="op">~</span><span class="kw">data_frame</span>(<span class="dt">n =</span> ., <span class="dt">p =</span> <span class="kw">cd4_power</span>(<span class="dt">n_sims =</span> <span class="dv">500</span>, <span class="dt">J =</span> ., <span class="dt">K =</span> <span class="dv">7</span>)))</a>
+<a class="sourceLine" id="cb303-34" data-line-number="34"></a>
+<a class="sourceLine" id="cb303-35" data-line-number="35"><span class="kw">ggplot</span>(potencias, <span class="kw">aes</span>(<span class="dt">x =</span> n, <span class="dt">y =</span> p)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb303-36" data-line-number="36"><span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">0.8</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb303-37" data-line-number="37"><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="dv">1</span>)</a></code></pre></div>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-50-1.png" width="350px" style="display: block; margin: auto;" /></p>
 <p>Notemos que la función <code>cd4_rep()</code> regresa la proporción de las simulaciones en
 las que el resultado es estadísticamente significativo, esto es, la potencia

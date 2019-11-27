@@ -314,8 +314,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.9" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html"><i class="fa fa-check"></i><b>10.9</b> Diagnósticos generales</a><ul>
 <li class="chapter" data-level="" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recomendaciones-generales"><i class="fa fa-check"></i>Recomendaciones generales</a></li>
-<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales</a></li>
+<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales en Stan</a></li>
 <li class="chapter" data-level="10.9.2" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.9.2</b> Recursos de Stan y paquetes con R:</a></li>
+</ul></li>
+<li class="chapter" data-level="10.10" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html"><i class="fa fa-check"></i><b>10.10</b> Modelos jerárquicos</a><ul>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelo-jerárquico-una-moneda"><i class="fa fa-check"></i>Modelo jerárquico una moneda</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
@@ -365,24 +369,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>¿Están limpios los datos? en caso de que no
 ¿qué principio no cumplen?</li>
 </ol>
-<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb392-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
-<a class="sourceLine" id="cb392-2" data-line-number="2">df_marital</a>
-<a class="sourceLine" id="cb392-3" data-line-number="3"><span class="co">#&gt; # A tibble: 29,484 x 14</span></a>
-<a class="sourceLine" id="cb392-4" data-line-number="4"><span class="co">#&gt;    state_code municipio_code region state_name state_abbr municipio_name sex  </span></a>
-<a class="sourceLine" id="cb392-5" data-line-number="5"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb392-6" data-line-number="6"><span class="co">#&gt;  1 01         001            01001  Aguascali… AGS        Aguascalientes Total</span></a>
-<a class="sourceLine" id="cb392-7" data-line-number="7"><span class="co">#&gt;  2 01         001            01001  Aguascali… AGS        Aguascalientes Total</span></a>
-<a class="sourceLine" id="cb392-8" data-line-number="8"><span class="co">#&gt;  3 01         001            01001  Aguascali… AGS        Aguascalientes Total</span></a>
-<a class="sourceLine" id="cb392-9" data-line-number="9"><span class="co">#&gt;  4 01         001            01001  Aguascali… AGS        Aguascalientes Total</span></a>
-<a class="sourceLine" id="cb392-10" data-line-number="10"><span class="co">#&gt;  5 01         001            01001  Aguascali… AGS        Aguascalientes Homb…</span></a>
-<a class="sourceLine" id="cb392-11" data-line-number="11"><span class="co">#&gt;  6 01         001            01001  Aguascali… AGS        Aguascalientes Homb…</span></a>
-<a class="sourceLine" id="cb392-12" data-line-number="12"><span class="co">#&gt;  7 01         001            01001  Aguascali… AGS        Aguascalientes Homb…</span></a>
-<a class="sourceLine" id="cb392-13" data-line-number="13"><span class="co">#&gt;  8 01         001            01001  Aguascali… AGS        Aguascalientes Homb…</span></a>
-<a class="sourceLine" id="cb392-14" data-line-number="14"><span class="co">#&gt;  9 01         001            01001  Aguascali… AGS        Aguascalientes Muje…</span></a>
-<a class="sourceLine" id="cb392-15" data-line-number="15"><span class="co">#&gt; 10 01         001            01001  Aguascali… AGS        Aguascalientes Muje…</span></a>
-<a class="sourceLine" id="cb392-16" data-line-number="16"><span class="co">#&gt; # … with 29,474 more rows, and 7 more variables: age_group &lt;chr&gt;, pop &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb392-17" data-line-number="17"><span class="co">#&gt; #   single &lt;dbl&gt;, married &lt;dbl&gt;, living_w_partner &lt;dbl&gt;, separated &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb392-18" data-line-number="18"><span class="co">#&gt; #   other &lt;dbl&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb394-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
+<a class="sourceLine" id="cb394-2" data-line-number="2">df_marital</a>
+<a class="sourceLine" id="cb394-3" data-line-number="3"><span class="co">#&gt; # A tibble: 29,484 x 14</span></a>
+<a class="sourceLine" id="cb394-4" data-line-number="4"><span class="co">#&gt;    state_code municipio_code region state_name state_abbr municipio_name sex  </span></a>
+<a class="sourceLine" id="cb394-5" data-line-number="5"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb394-6" data-line-number="6"><span class="co">#&gt;  1 01         001            01001  Aguascali… AGS        Aguascalientes Total</span></a>
+<a class="sourceLine" id="cb394-7" data-line-number="7"><span class="co">#&gt;  2 01         001            01001  Aguascali… AGS        Aguascalientes Total</span></a>
+<a class="sourceLine" id="cb394-8" data-line-number="8"><span class="co">#&gt;  3 01         001            01001  Aguascali… AGS        Aguascalientes Total</span></a>
+<a class="sourceLine" id="cb394-9" data-line-number="9"><span class="co">#&gt;  4 01         001            01001  Aguascali… AGS        Aguascalientes Total</span></a>
+<a class="sourceLine" id="cb394-10" data-line-number="10"><span class="co">#&gt;  5 01         001            01001  Aguascali… AGS        Aguascalientes Homb…</span></a>
+<a class="sourceLine" id="cb394-11" data-line-number="11"><span class="co">#&gt;  6 01         001            01001  Aguascali… AGS        Aguascalientes Homb…</span></a>
+<a class="sourceLine" id="cb394-12" data-line-number="12"><span class="co">#&gt;  7 01         001            01001  Aguascali… AGS        Aguascalientes Homb…</span></a>
+<a class="sourceLine" id="cb394-13" data-line-number="13"><span class="co">#&gt;  8 01         001            01001  Aguascali… AGS        Aguascalientes Homb…</span></a>
+<a class="sourceLine" id="cb394-14" data-line-number="14"><span class="co">#&gt;  9 01         001            01001  Aguascali… AGS        Aguascalientes Muje…</span></a>
+<a class="sourceLine" id="cb394-15" data-line-number="15"><span class="co">#&gt; 10 01         001            01001  Aguascali… AGS        Aguascalientes Muje…</span></a>
+<a class="sourceLine" id="cb394-16" data-line-number="16"><span class="co">#&gt; # … with 29,474 more rows, and 7 more variables: age_group &lt;chr&gt;, pop &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb394-17" data-line-number="17"><span class="co">#&gt; #   single &lt;dbl&gt;, married &lt;dbl&gt;, living_w_partner &lt;dbl&gt;, separated &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb394-18" data-line-number="18"><span class="co">#&gt; #   other &lt;dbl&gt;</span></a></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li><p>Limpia los datos y muestra las primeras y últimas líneas (usa <code>head()</code> y
 <code>tail()</code>).</p></li>

@@ -314,8 +314,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.9" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html"><i class="fa fa-check"></i><b>10.9</b> Diagnósticos generales</a><ul>
 <li class="chapter" data-level="" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recomendaciones-generales"><i class="fa fa-check"></i>Recomendaciones generales</a></li>
-<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales</a></li>
+<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales en Stan</a></li>
 <li class="chapter" data-level="10.9.2" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.9.2</b> Recursos de Stan y paquetes con R:</a></li>
+</ul></li>
+<li class="chapter" data-level="10.10" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html"><i class="fa fa-check"></i><b>10.10</b> Modelos jerárquicos</a><ul>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelo-jerárquico-una-moneda"><i class="fa fa-check"></i>Modelo jerárquico una moneda</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
@@ -377,52 +381,52 @@ de la regla de Bayes. El proceso consiste en dividir el dominio en regiones,
 crear un rectángulo con la altura correspondiente al valor de la densidad en
 el punto medio. Aproximamos el área de cada región mediante la altura del
 rectángulo.</p>
-<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb330-1" data-line-number="1"><span class="co"># N = 14, z = 11, a = 1, b = 1</span></a>
-<a class="sourceLine" id="cb330-2" data-line-number="2">N =<span class="st"> </span><span class="dv">14</span>; z =<span class="st"> </span><span class="dv">11</span></a>
-<a class="sourceLine" id="cb330-3" data-line-number="3">inicial &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">theta =</span> <span class="kw">seq</span>(<span class="fl">0.05</span>, <span class="dv">1</span>, <span class="fl">0.05</span>), <span class="dt">inicial =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">20</span>, <span class="dv">20</span>))</a>
-<a class="sourceLine" id="cb330-4" data-line-number="4">dists_h &lt;-<span class="st"> </span>inicial <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb330-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb330-6" data-line-number="6">        <span class="dt">verosimilitud =</span> theta <span class="op">^</span><span class="st"> </span>z <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta) <span class="op">^</span><span class="st"> </span>(N <span class="op">-</span><span class="st"> </span>z), <span class="co"># verosimilitud </span></a>
-<a class="sourceLine" id="cb330-7" data-line-number="7">        <span class="dt">posterior =</span> (verosimilitud <span class="op">*</span><span class="st"> </span>inicial) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(verosimilitud <span class="op">*</span><span class="st"> </span>inicial)</a>
-<a class="sourceLine" id="cb330-8" data-line-number="8">        )  </a>
-<a class="sourceLine" id="cb330-9" data-line-number="9">dists &lt;-<span class="st"> </span>dists_h <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># base de datos larga</span></a>
-<a class="sourceLine" id="cb330-10" data-line-number="10"><span class="st">    </span><span class="kw">gather</span>(dist, valor, inicial, verosimilitud, posterior) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb330-11" data-line-number="11"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">dist =</span> <span class="kw">factor</span>(dist, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;inicial&quot;</span>, <span class="st">&quot;verosimilitud&quot;</span>, <span class="st">&quot;posterior&quot;</span>)))</a>
-<a class="sourceLine" id="cb330-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb330-13" data-line-number="13"><span class="kw">ggplot</span>(dists, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> valor)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb330-14" data-line-number="14"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb330-15" data-line-number="15"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>dist, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb330-16" data-line-number="16"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta), <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.2</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb330-17" data-line-number="17"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-13-1.png" width="720" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb329-1" data-line-number="1"><span class="co"># N = 14, z = 11, a = 1, b = 1</span></a>
+<a class="sourceLine" id="cb329-2" data-line-number="2">N =<span class="st"> </span><span class="dv">14</span>; z =<span class="st"> </span><span class="dv">11</span></a>
+<a class="sourceLine" id="cb329-3" data-line-number="3">inicial &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">theta =</span> <span class="kw">seq</span>(<span class="fl">0.05</span>, <span class="dv">1</span>, <span class="fl">0.05</span>), <span class="dt">inicial =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">20</span>, <span class="dv">20</span>))</a>
+<a class="sourceLine" id="cb329-4" data-line-number="4">dists_h &lt;-<span class="st"> </span>inicial <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb329-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb329-6" data-line-number="6">        <span class="dt">verosimilitud =</span> theta <span class="op">^</span><span class="st"> </span>z <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta) <span class="op">^</span><span class="st"> </span>(N <span class="op">-</span><span class="st"> </span>z), <span class="co"># verosimilitud </span></a>
+<a class="sourceLine" id="cb329-7" data-line-number="7">        <span class="dt">posterior =</span> (verosimilitud <span class="op">*</span><span class="st"> </span>inicial) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(verosimilitud <span class="op">*</span><span class="st"> </span>inicial)</a>
+<a class="sourceLine" id="cb329-8" data-line-number="8">        )  </a>
+<a class="sourceLine" id="cb329-9" data-line-number="9">dists &lt;-<span class="st"> </span>dists_h <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># base de datos larga</span></a>
+<a class="sourceLine" id="cb329-10" data-line-number="10"><span class="st">    </span><span class="kw">gather</span>(dist, valor, inicial, verosimilitud, posterior) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb329-11" data-line-number="11"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">dist =</span> <span class="kw">factor</span>(dist, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;inicial&quot;</span>, <span class="st">&quot;verosimilitud&quot;</span>, <span class="st">&quot;posterior&quot;</span>)))</a>
+<a class="sourceLine" id="cb329-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb329-13" data-line-number="13"><span class="kw">ggplot</span>(dists, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> valor)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb329-14" data-line-number="14"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb329-15" data-line-number="15"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>dist, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb329-16" data-line-number="16"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta), <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.2</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb329-17" data-line-number="17"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-15-1.png" width="720" style="display: block; margin: auto;" /></p>
 <p>y lo podemos comparar con la versión continua (distribución beta).</p>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-14-1.png" width="720" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-16-1.png" width="720" style="display: block; margin: auto;" /></p>
 <p>En cuanto a la estimación, la tabla de probabilidades nos da una estimación
 para los valores de los parámetros. Podemos calcular la media de <span class="math inline">\(\theta\)</span>
 como el promedio ponderado por las probabilidades:</p>
 <p><span class="math inline">\(\bar{\theta}=\sum_{\theta} \theta p(\theta|x)\)</span></p>
-<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb331-1" data-line-number="1"><span class="kw">head</span>(dists_h)</a>
-<a class="sourceLine" id="cb331-2" data-line-number="2"><span class="co">#&gt;   theta inicial verosimilitud    posterior</span></a>
-<a class="sourceLine" id="cb331-3" data-line-number="3"><span class="co">#&gt; 1  0.05    0.05  4.186401e-15 1.142584e-12</span></a>
-<a class="sourceLine" id="cb331-4" data-line-number="4"><span class="co">#&gt; 2  0.10    0.05  7.290000e-12 1.989641e-09</span></a>
-<a class="sourceLine" id="cb331-5" data-line-number="5"><span class="co">#&gt; 3  0.15    0.05  5.312031e-10 1.449799e-07</span></a>
-<a class="sourceLine" id="cb331-6" data-line-number="6"><span class="co">#&gt; 4  0.20    0.05  1.048576e-08 2.861851e-06</span></a>
-<a class="sourceLine" id="cb331-7" data-line-number="7"><span class="co">#&gt; 5  0.25    0.05  1.005828e-07 2.745181e-05</span></a>
-<a class="sourceLine" id="cb331-8" data-line-number="8"><span class="co">#&gt; 6  0.30    0.05  6.076142e-07 1.658346e-04</span></a>
-<a class="sourceLine" id="cb331-9" data-line-number="9"><span class="kw">sum</span>(dists_h<span class="op">$</span>posterior <span class="op">*</span><span class="st"> </span>dists_h<span class="op">$</span>theta)</a>
-<a class="sourceLine" id="cb331-10" data-line-number="10"><span class="co">#&gt; [1] 0.7500629</span></a></code></pre></div>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb330-1" data-line-number="1"><span class="kw">head</span>(dists_h)</a>
+<a class="sourceLine" id="cb330-2" data-line-number="2"><span class="co">#&gt;   theta inicial verosimilitud    posterior</span></a>
+<a class="sourceLine" id="cb330-3" data-line-number="3"><span class="co">#&gt; 1  0.05    0.05  4.186401e-15 1.142584e-12</span></a>
+<a class="sourceLine" id="cb330-4" data-line-number="4"><span class="co">#&gt; 2  0.10    0.05  7.290000e-12 1.989641e-09</span></a>
+<a class="sourceLine" id="cb330-5" data-line-number="5"><span class="co">#&gt; 3  0.15    0.05  5.312031e-10 1.449799e-07</span></a>
+<a class="sourceLine" id="cb330-6" data-line-number="6"><span class="co">#&gt; 4  0.20    0.05  1.048576e-08 2.861851e-06</span></a>
+<a class="sourceLine" id="cb330-7" data-line-number="7"><span class="co">#&gt; 5  0.25    0.05  1.005828e-07 2.745181e-05</span></a>
+<a class="sourceLine" id="cb330-8" data-line-number="8"><span class="co">#&gt; 6  0.30    0.05  6.076142e-07 1.658346e-04</span></a>
+<a class="sourceLine" id="cb330-9" data-line-number="9"><span class="kw">sum</span>(dists_h<span class="op">$</span>posterior <span class="op">*</span><span class="st"> </span>dists_h<span class="op">$</span>theta)</a>
+<a class="sourceLine" id="cb330-10" data-line-number="10"><span class="co">#&gt; [1] 0.7500629</span></a></code></pre></div>
 <p>Ahora para intervalos de probabilidad, debido a que estamos usando masas
 discretas, la suma de las masas en un intervalo usualmente no será igual
 a <span class="math inline">\(95\%\)</span> y por tanto elegimos los puntos tales que la masa sea mayor a igual
 a <span class="math inline">\(95\%\)</span> y la masa total sea lo menor posible, en nuestro ejemplo podemos usar
 cuantiles.</p>
-<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb332-1" data-line-number="1">dist_cum &lt;-<span class="st"> </span><span class="kw">cumsum</span>(dists_h<span class="op">$</span>posterior) <span class="co">#vector de distribución acumulada</span></a>
-<a class="sourceLine" id="cb332-2" data-line-number="2">lb &lt;-<span class="st"> </span><span class="kw">which.min</span>(dist_cum <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>) <span class="op">-</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb332-3" data-line-number="3">ub &lt;-<span class="st"> </span><span class="kw">which.min</span>(dist_cum <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.975</span>)</a>
-<a class="sourceLine" id="cb332-4" data-line-number="4">dists_h<span class="op">$</span>theta[lb]</a>
-<a class="sourceLine" id="cb332-5" data-line-number="5"><span class="co">#&gt; [1] 0.5</span></a>
-<a class="sourceLine" id="cb332-6" data-line-number="6">dists_h<span class="op">$</span>theta[ub]</a>
-<a class="sourceLine" id="cb332-7" data-line-number="7"><span class="co">#&gt; [1] 0.9</span></a></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb331-1" data-line-number="1">dist_cum &lt;-<span class="st"> </span><span class="kw">cumsum</span>(dists_h<span class="op">$</span>posterior) <span class="co">#vector de distribución acumulada</span></a>
+<a class="sourceLine" id="cb331-2" data-line-number="2">lb &lt;-<span class="st"> </span><span class="kw">which.min</span>(dist_cum <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>) <span class="op">-</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb331-3" data-line-number="3">ub &lt;-<span class="st"> </span><span class="kw">which.min</span>(dist_cum <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.975</span>)</a>
+<a class="sourceLine" id="cb331-4" data-line-number="4">dists_h<span class="op">$</span>theta[lb]</a>
+<a class="sourceLine" id="cb331-5" data-line-number="5"><span class="co">#&gt; [1] 0.5</span></a>
+<a class="sourceLine" id="cb331-6" data-line-number="6">dists_h<span class="op">$</span>theta[ub]</a>
+<a class="sourceLine" id="cb331-7" data-line-number="7"><span class="co">#&gt; [1] 0.9</span></a></code></pre></div>
 <p>Para el problema de predicción, la probabilidad predictiva para el
 siguiente valor <span class="math inline">\(y\)</span> es simplemente la probabilidad de que ocurra dicho valor
 ponderado por la probabilidad posterior correspondiente:</p>
@@ -434,27 +438,27 @@ usando los datos del ejemplo.</p>
 <p><span class="math display">\[p(x|M)=\int p(x|\theta,M)p(\theta|M)d\theta\]</span></p>
 <p>se convierte en una suma</p>
 <p><span class="math display">\[p(x|M)\approx \sum_{\theta} p(x|\theta,M)p(\theta|M)d\theta\]</span></p>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb333-1" data-line-number="1"><span class="co"># calcula el factor de Bayes para el experimento Bernoulli Modelos M1 y M2</span></a>
-<a class="sourceLine" id="cb333-2" data-line-number="2">factorBayes &lt;-<span class="st"> </span><span class="cf">function</span>(M, s){</a>
-<a class="sourceLine" id="cb333-3" data-line-number="3">  evidencia &lt;-<span class="st"> </span><span class="kw">rbind</span>(p_M1, p_M2) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># base de datos horizontal</span></a>
-<a class="sourceLine" id="cb333-4" data-line-number="4"><span class="st">    </span><span class="kw">group_by</span>(modelo) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb333-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb333-6" data-line-number="6">      <span class="dt">Like =</span> theta <span class="op">^</span><span class="st"> </span>s <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta) <span class="op">^</span><span class="st"> </span>(M <span class="op">-</span><span class="st"> </span>s), <span class="co"># verosimilitud </span></a>
-<a class="sourceLine" id="cb333-7" data-line-number="7">      <span class="dt">posterior =</span> (Like <span class="op">*</span><span class="st"> </span>prior) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(Like <span class="op">*</span><span class="st"> </span>prior)</a>
-<a class="sourceLine" id="cb333-8" data-line-number="8">    ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb333-9" data-line-number="9"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">evidencia =</span> <span class="kw">sum</span>(prior <span class="op">*</span><span class="st"> </span>Like))</a>
-<a class="sourceLine" id="cb333-10" data-line-number="10">  <span class="kw">print</span>(evidencia)</a>
-<a class="sourceLine" id="cb333-11" data-line-number="11">  <span class="kw">return</span>(evidencia[<span class="dv">1</span>, <span class="dv">2</span>] <span class="op">/</span><span class="st"> </span>evidencia[<span class="dv">2</span>, <span class="dv">2</span>])</a>
-<a class="sourceLine" id="cb333-12" data-line-number="12">}</a>
-<a class="sourceLine" id="cb333-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb333-14" data-line-number="14"><span class="kw">factorBayes</span>(<span class="dv">50</span>, <span class="dv">25</span>)</a>
-<a class="sourceLine" id="cb333-15" data-line-number="15"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
-<a class="sourceLine" id="cb333-16" data-line-number="16"><span class="co">#&gt;   modelo evidencia</span></a>
-<a class="sourceLine" id="cb333-17" data-line-number="17"><span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb333-18" data-line-number="18"><span class="co">#&gt; 1 M1      4.44e-16</span></a>
-<a class="sourceLine" id="cb333-19" data-line-number="19"><span class="co">#&gt; 2 M2      2.75e-16</span></a>
-<a class="sourceLine" id="cb333-20" data-line-number="20"><span class="co">#&gt;   evidencia</span></a>
-<a class="sourceLine" id="cb333-21" data-line-number="21"><span class="co">#&gt; 1    1.6142</span></a></code></pre></div>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb332-1" data-line-number="1"><span class="co"># calcula el factor de Bayes para el experimento Bernoulli Modelos M1 y M2</span></a>
+<a class="sourceLine" id="cb332-2" data-line-number="2">factorBayes &lt;-<span class="st"> </span><span class="cf">function</span>(M, s){</a>
+<a class="sourceLine" id="cb332-3" data-line-number="3">  evidencia &lt;-<span class="st"> </span><span class="kw">rbind</span>(p_M1, p_M2) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># base de datos horizontal</span></a>
+<a class="sourceLine" id="cb332-4" data-line-number="4"><span class="st">    </span><span class="kw">group_by</span>(modelo) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb332-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb332-6" data-line-number="6">      <span class="dt">Like =</span> theta <span class="op">^</span><span class="st"> </span>s <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta) <span class="op">^</span><span class="st"> </span>(M <span class="op">-</span><span class="st"> </span>s), <span class="co"># verosimilitud </span></a>
+<a class="sourceLine" id="cb332-7" data-line-number="7">      <span class="dt">posterior =</span> (Like <span class="op">*</span><span class="st"> </span>prior) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(Like <span class="op">*</span><span class="st"> </span>prior)</a>
+<a class="sourceLine" id="cb332-8" data-line-number="8">    ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb332-9" data-line-number="9"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">evidencia =</span> <span class="kw">sum</span>(prior <span class="op">*</span><span class="st"> </span>Like))</a>
+<a class="sourceLine" id="cb332-10" data-line-number="10">  <span class="kw">print</span>(evidencia)</a>
+<a class="sourceLine" id="cb332-11" data-line-number="11">  <span class="kw">return</span>(evidencia[<span class="dv">1</span>, <span class="dv">2</span>] <span class="op">/</span><span class="st"> </span>evidencia[<span class="dv">2</span>, <span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb332-12" data-line-number="12">}</a>
+<a class="sourceLine" id="cb332-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb332-14" data-line-number="14"><span class="kw">factorBayes</span>(<span class="dv">50</span>, <span class="dv">25</span>)</a>
+<a class="sourceLine" id="cb332-15" data-line-number="15"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
+<a class="sourceLine" id="cb332-16" data-line-number="16"><span class="co">#&gt;   modelo evidencia</span></a>
+<a class="sourceLine" id="cb332-17" data-line-number="17"><span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb332-18" data-line-number="18"><span class="co">#&gt; 1 M1      4.44e-16</span></a>
+<a class="sourceLine" id="cb332-19" data-line-number="19"><span class="co">#&gt; 2 M2      2.75e-16</span></a>
+<a class="sourceLine" id="cb332-20" data-line-number="20"><span class="co">#&gt;   evidencia</span></a>
+<a class="sourceLine" id="cb332-21" data-line-number="21"><span class="co">#&gt; 1    1.6142</span></a></code></pre></div>
 </div>
             </section>
 

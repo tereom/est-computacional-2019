@@ -314,8 +314,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.9" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html"><i class="fa fa-check"></i><b>10.9</b> Diagnósticos generales</a><ul>
 <li class="chapter" data-level="" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recomendaciones-generales"><i class="fa fa-check"></i>Recomendaciones generales</a></li>
-<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales</a></li>
+<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales en Stan</a></li>
 <li class="chapter" data-level="10.9.2" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.9.2</b> Recursos de Stan y paquetes con R:</a></li>
+</ul></li>
+<li class="chapter" data-level="10.10" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html"><i class="fa fa-check"></i><b>10.10</b> Modelos jerárquicos</a><ul>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelo-jerárquico-una-moneda"><i class="fa fa-check"></i>Modelo jerárquico una moneda</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
@@ -381,94 +385,94 @@ completos a operar en grupos.</p>
 <p>Usaremos datos de población municipal incluidos en el paquete <code>mxmaps</code> y
 datos de educación, situación conyugal y hogar incluídos en el <code>estcomp</code>,
 para tener acceso a ellos cargamos los paquetes correspondientes.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw">library</span>(tidyverse, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="kw">library</span>(mxmaps)</a>
-<a class="sourceLine" id="cb28-3" data-line-number="3"><span class="kw">library</span>(estcomp)</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">library</span>(tidyverse, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw">library</span>(mxmaps)</a>
+<a class="sourceLine" id="cb27-3" data-line-number="3"><span class="kw">library</span>(estcomp)</a></code></pre></div>
 <p>Una alternatica a instalar <code>mxmaps</code> es leer únicamente los datos, se descargan
 del repositorio de GitHub y se cargan con la función <code>load()</code>.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">download.file</span>(<span class="st">&quot;https://github.com/diegovalle/mxmaps/blob/master/data/df_mxmunicipio.RData?raw=true&quot;</span>, <span class="st">&quot;df_mxmunicipio.RData&quot;</span>)</a>
-<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="kw">load</span>(<span class="st">&quot;df_mxmunicipio.RData&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw">download.file</span>(<span class="st">&quot;https://github.com/diegovalle/mxmaps/blob/master/data/df_mxmunicipio.RData?raw=true&quot;</span>, <span class="st">&quot;df_mxmunicipio.RData&quot;</span>)</a>
+<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="kw">load</span>(<span class="st">&quot;df_mxmunicipio.RData&quot;</span>)</a></code></pre></div>
 <p>Observemos la estructura de los datos:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">df_mxmunicipio &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(df_mxmunicipio)</a>
-<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw">glimpse</span>(df_mxmunicipio)</a>
-<a class="sourceLine" id="cb30-3" data-line-number="3"><span class="co">#&gt; Observations: 2,457</span></a>
-<a class="sourceLine" id="cb30-4" data-line-number="4"><span class="co">#&gt; Variables: 18</span></a>
-<a class="sourceLine" id="cb30-5" data-line-number="5"><span class="co">#&gt; $ state_code          &lt;chr&gt; &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;…</span></a>
-<a class="sourceLine" id="cb30-6" data-line-number="6"><span class="co">#&gt; $ municipio_code      &lt;chr&gt; &quot;001&quot;, &quot;002&quot;, &quot;003&quot;, &quot;004&quot;, &quot;005&quot;, &quot;006&quot;, &quot;007&quot;, …</span></a>
-<a class="sourceLine" id="cb30-7" data-line-number="7"><span class="co">#&gt; $ region              &lt;chr&gt; &quot;01001&quot;, &quot;01002&quot;, &quot;01003&quot;, &quot;01004&quot;, &quot;01005&quot;, &quot;010…</span></a>
-<a class="sourceLine" id="cb30-8" data-line-number="8"><span class="co">#&gt; $ state_name          &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalient…</span></a>
-<a class="sourceLine" id="cb30-9" data-line-number="9"><span class="co">#&gt; $ state_name_official &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalient…</span></a>
-<a class="sourceLine" id="cb30-10" data-line-number="10"><span class="co">#&gt; $ state_abbr          &lt;chr&gt; &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, …</span></a>
-<a class="sourceLine" id="cb30-11" data-line-number="11"><span class="co">#&gt; $ state_abbr_official &lt;chr&gt; &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;…</span></a>
-<a class="sourceLine" id="cb30-12" data-line-number="12"><span class="co">#&gt; $ municipio_name      &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Asientos&quot;, &quot;Calvillo&quot;, &quot;Cosío&quot;…</span></a>
-<a class="sourceLine" id="cb30-13" data-line-number="13"><span class="co">#&gt; $ pop                 &lt;int&gt; 877190, 46464, 56048, 15577, 120405, 46473, 53866…</span></a>
-<a class="sourceLine" id="cb30-14" data-line-number="14"><span class="co">#&gt; $ pop_male            &lt;int&gt; 425731, 22745, 27298, 7552, 60135, 22490, 26693, …</span></a>
-<a class="sourceLine" id="cb30-15" data-line-number="15"><span class="co">#&gt; $ pop_female          &lt;int&gt; 451459, 23719, 28750, 8025, 60270, 23983, 27173, …</span></a>
-<a class="sourceLine" id="cb30-16" data-line-number="16"><span class="co">#&gt; $ afromexican         &lt;dbl&gt; 532, 3, 10, 0, 32, 3, 13, 13, 4, 0, 43, 1139, 351…</span></a>
-<a class="sourceLine" id="cb30-17" data-line-number="17"><span class="co">#&gt; $ part_afromexican    &lt;dbl&gt; 2791, 130, 167, 67, 219, 74, 578, 37, 59, 60, 377…</span></a>
-<a class="sourceLine" id="cb30-18" data-line-number="18"><span class="co">#&gt; $ indigenous          &lt;dbl&gt; 104125, 1691, 7358, 2213, 8679, 6232, 6714, 1733,…</span></a>
-<a class="sourceLine" id="cb30-19" data-line-number="19"><span class="co">#&gt; $ part_indigenous     &lt;dbl&gt; 14209, 92, 2223, 191, 649, 251, 247, 84, 76, 244,…</span></a>
-<a class="sourceLine" id="cb30-20" data-line-number="20"><span class="co">#&gt; $ metro_area          &lt;chr&gt; &quot;Aguascalientes&quot;, NA, NA, NA, &quot;Aguascalientes&quot;, N…</span></a>
-<a class="sourceLine" id="cb30-21" data-line-number="21"><span class="co">#&gt; $ long                &lt;dbl&gt; -102.29605, -102.08928, -102.71875, -102.30004, -…</span></a>
-<a class="sourceLine" id="cb30-22" data-line-number="22"><span class="co">#&gt; $ lat                 &lt;dbl&gt; 21.87982, 22.23832, 21.84691, 22.36641, 21.96127,…</span></a>
-<a class="sourceLine" id="cb30-23" data-line-number="23"><span class="kw">glimpse</span>(df_edu)</a>
-<a class="sourceLine" id="cb30-24" data-line-number="24"><span class="co">#&gt; Observations: 7,371</span></a>
-<a class="sourceLine" id="cb30-25" data-line-number="25"><span class="co">#&gt; Variables: 16</span></a>
-<a class="sourceLine" id="cb30-26" data-line-number="26"><span class="co">#&gt; $ state_code     &lt;chr&gt; &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, …</span></a>
-<a class="sourceLine" id="cb30-27" data-line-number="27"><span class="co">#&gt; $ municipio_code &lt;chr&gt; &quot;001&quot;, &quot;001&quot;, &quot;001&quot;, &quot;002&quot;, &quot;002&quot;, &quot;002&quot;, &quot;003&quot;, &quot;003&quot;…</span></a>
-<a class="sourceLine" id="cb30-28" data-line-number="28"><span class="co">#&gt; $ region         &lt;chr&gt; &quot;01001&quot;, &quot;01001&quot;, &quot;01001&quot;, &quot;01002&quot;, &quot;01002&quot;, &quot;01002&quot;, …</span></a>
-<a class="sourceLine" id="cb30-29" data-line-number="29"><span class="co">#&gt; $ state_name     &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, …</span></a>
-<a class="sourceLine" id="cb30-30" data-line-number="30"><span class="co">#&gt; $ state_abbr     &lt;chr&gt; &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;…</span></a>
-<a class="sourceLine" id="cb30-31" data-line-number="31"><span class="co">#&gt; $ municipio_name &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, …</span></a>
-<a class="sourceLine" id="cb30-32" data-line-number="32"><span class="co">#&gt; $ sex            &lt;chr&gt; &quot;Total&quot;, &quot;Hombres&quot;, &quot;Mujeres&quot;, &quot;Total&quot;, &quot;Hombres&quot;, &quot;Mu…</span></a>
-<a class="sourceLine" id="cb30-33" data-line-number="33"><span class="co">#&gt; $ pop_15         &lt;dbl&gt; 631064, 301714, 329350, 31013, 14991, 16022, 38678, 18…</span></a>
-<a class="sourceLine" id="cb30-34" data-line-number="34"><span class="co">#&gt; $ no_school      &lt;dbl&gt; 2.662329, 2.355211, 2.943677, 4.011221, 4.389300, 3.65…</span></a>
-<a class="sourceLine" id="cb30-35" data-line-number="35"><span class="co">#&gt; $ preschool      &lt;dbl&gt; 0.17335801, 0.17466873, 0.17215728, 0.25795634, 0.2935…</span></a>
-<a class="sourceLine" id="cb30-36" data-line-number="36"><span class="co">#&gt; $ elementary     &lt;dbl&gt; 20.15247, 18.60073, 21.57401, 33.77938, 35.48129, 32.1…</span></a>
-<a class="sourceLine" id="cb30-37" data-line-number="37"><span class="co">#&gt; $ secondary      &lt;dbl&gt; 29.31145, 30.37976, 28.33278, 39.21259, 37.45581, 40.8…</span></a>
-<a class="sourceLine" id="cb30-38" data-line-number="38"><span class="co">#&gt; $ highschool     &lt;dbl&gt; 23.31824, 22.84912, 23.74799, 16.07068, 15.67607, 16.4…</span></a>
-<a class="sourceLine" id="cb30-39" data-line-number="39"><span class="co">#&gt; $ higher_edu     &lt;dbl&gt; 24.291989, 25.560299, 23.130105, 6.355399, 6.357148, 6…</span></a>
-<a class="sourceLine" id="cb30-40" data-line-number="40"><span class="co">#&gt; $ other          &lt;dbl&gt; 0.09016518, 0.08020841, 0.09928647, 0.31277206, 0.3468…</span></a>
-<a class="sourceLine" id="cb30-41" data-line-number="41"><span class="co">#&gt; $ schoolyrs      &lt;dbl&gt; 10.211152, 10.380144, 10.056383, 7.854005, 7.692086, 8…</span></a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">df_mxmunicipio &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(df_mxmunicipio)</a>
+<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="kw">glimpse</span>(df_mxmunicipio)</a>
+<a class="sourceLine" id="cb29-3" data-line-number="3"><span class="co">#&gt; Observations: 2,457</span></a>
+<a class="sourceLine" id="cb29-4" data-line-number="4"><span class="co">#&gt; Variables: 18</span></a>
+<a class="sourceLine" id="cb29-5" data-line-number="5"><span class="co">#&gt; $ state_code          &lt;chr&gt; &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;…</span></a>
+<a class="sourceLine" id="cb29-6" data-line-number="6"><span class="co">#&gt; $ municipio_code      &lt;chr&gt; &quot;001&quot;, &quot;002&quot;, &quot;003&quot;, &quot;004&quot;, &quot;005&quot;, &quot;006&quot;, &quot;007&quot;, …</span></a>
+<a class="sourceLine" id="cb29-7" data-line-number="7"><span class="co">#&gt; $ region              &lt;chr&gt; &quot;01001&quot;, &quot;01002&quot;, &quot;01003&quot;, &quot;01004&quot;, &quot;01005&quot;, &quot;010…</span></a>
+<a class="sourceLine" id="cb29-8" data-line-number="8"><span class="co">#&gt; $ state_name          &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalient…</span></a>
+<a class="sourceLine" id="cb29-9" data-line-number="9"><span class="co">#&gt; $ state_name_official &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalient…</span></a>
+<a class="sourceLine" id="cb29-10" data-line-number="10"><span class="co">#&gt; $ state_abbr          &lt;chr&gt; &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, …</span></a>
+<a class="sourceLine" id="cb29-11" data-line-number="11"><span class="co">#&gt; $ state_abbr_official &lt;chr&gt; &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;…</span></a>
+<a class="sourceLine" id="cb29-12" data-line-number="12"><span class="co">#&gt; $ municipio_name      &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Asientos&quot;, &quot;Calvillo&quot;, &quot;Cosío&quot;…</span></a>
+<a class="sourceLine" id="cb29-13" data-line-number="13"><span class="co">#&gt; $ pop                 &lt;int&gt; 877190, 46464, 56048, 15577, 120405, 46473, 53866…</span></a>
+<a class="sourceLine" id="cb29-14" data-line-number="14"><span class="co">#&gt; $ pop_male            &lt;int&gt; 425731, 22745, 27298, 7552, 60135, 22490, 26693, …</span></a>
+<a class="sourceLine" id="cb29-15" data-line-number="15"><span class="co">#&gt; $ pop_female          &lt;int&gt; 451459, 23719, 28750, 8025, 60270, 23983, 27173, …</span></a>
+<a class="sourceLine" id="cb29-16" data-line-number="16"><span class="co">#&gt; $ afromexican         &lt;dbl&gt; 532, 3, 10, 0, 32, 3, 13, 13, 4, 0, 43, 1139, 351…</span></a>
+<a class="sourceLine" id="cb29-17" data-line-number="17"><span class="co">#&gt; $ part_afromexican    &lt;dbl&gt; 2791, 130, 167, 67, 219, 74, 578, 37, 59, 60, 377…</span></a>
+<a class="sourceLine" id="cb29-18" data-line-number="18"><span class="co">#&gt; $ indigenous          &lt;dbl&gt; 104125, 1691, 7358, 2213, 8679, 6232, 6714, 1733,…</span></a>
+<a class="sourceLine" id="cb29-19" data-line-number="19"><span class="co">#&gt; $ part_indigenous     &lt;dbl&gt; 14209, 92, 2223, 191, 649, 251, 247, 84, 76, 244,…</span></a>
+<a class="sourceLine" id="cb29-20" data-line-number="20"><span class="co">#&gt; $ metro_area          &lt;chr&gt; &quot;Aguascalientes&quot;, NA, NA, NA, &quot;Aguascalientes&quot;, N…</span></a>
+<a class="sourceLine" id="cb29-21" data-line-number="21"><span class="co">#&gt; $ long                &lt;dbl&gt; -102.29605, -102.08928, -102.71875, -102.30004, -…</span></a>
+<a class="sourceLine" id="cb29-22" data-line-number="22"><span class="co">#&gt; $ lat                 &lt;dbl&gt; 21.87982, 22.23832, 21.84691, 22.36641, 21.96127,…</span></a>
+<a class="sourceLine" id="cb29-23" data-line-number="23"><span class="kw">glimpse</span>(df_edu)</a>
+<a class="sourceLine" id="cb29-24" data-line-number="24"><span class="co">#&gt; Observations: 7,371</span></a>
+<a class="sourceLine" id="cb29-25" data-line-number="25"><span class="co">#&gt; Variables: 16</span></a>
+<a class="sourceLine" id="cb29-26" data-line-number="26"><span class="co">#&gt; $ state_code     &lt;chr&gt; &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, …</span></a>
+<a class="sourceLine" id="cb29-27" data-line-number="27"><span class="co">#&gt; $ municipio_code &lt;chr&gt; &quot;001&quot;, &quot;001&quot;, &quot;001&quot;, &quot;002&quot;, &quot;002&quot;, &quot;002&quot;, &quot;003&quot;, &quot;003&quot;…</span></a>
+<a class="sourceLine" id="cb29-28" data-line-number="28"><span class="co">#&gt; $ region         &lt;chr&gt; &quot;01001&quot;, &quot;01001&quot;, &quot;01001&quot;, &quot;01002&quot;, &quot;01002&quot;, &quot;01002&quot;, …</span></a>
+<a class="sourceLine" id="cb29-29" data-line-number="29"><span class="co">#&gt; $ state_name     &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, …</span></a>
+<a class="sourceLine" id="cb29-30" data-line-number="30"><span class="co">#&gt; $ state_abbr     &lt;chr&gt; &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;…</span></a>
+<a class="sourceLine" id="cb29-31" data-line-number="31"><span class="co">#&gt; $ municipio_name &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, …</span></a>
+<a class="sourceLine" id="cb29-32" data-line-number="32"><span class="co">#&gt; $ sex            &lt;chr&gt; &quot;Total&quot;, &quot;Hombres&quot;, &quot;Mujeres&quot;, &quot;Total&quot;, &quot;Hombres&quot;, &quot;Mu…</span></a>
+<a class="sourceLine" id="cb29-33" data-line-number="33"><span class="co">#&gt; $ pop_15         &lt;dbl&gt; 631064, 301714, 329350, 31013, 14991, 16022, 38678, 18…</span></a>
+<a class="sourceLine" id="cb29-34" data-line-number="34"><span class="co">#&gt; $ no_school      &lt;dbl&gt; 2.662329, 2.355211, 2.943677, 4.011221, 4.389300, 3.65…</span></a>
+<a class="sourceLine" id="cb29-35" data-line-number="35"><span class="co">#&gt; $ preschool      &lt;dbl&gt; 0.17335801, 0.17466873, 0.17215728, 0.25795634, 0.2935…</span></a>
+<a class="sourceLine" id="cb29-36" data-line-number="36"><span class="co">#&gt; $ elementary     &lt;dbl&gt; 20.15247, 18.60073, 21.57401, 33.77938, 35.48129, 32.1…</span></a>
+<a class="sourceLine" id="cb29-37" data-line-number="37"><span class="co">#&gt; $ secondary      &lt;dbl&gt; 29.31145, 30.37976, 28.33278, 39.21259, 37.45581, 40.8…</span></a>
+<a class="sourceLine" id="cb29-38" data-line-number="38"><span class="co">#&gt; $ highschool     &lt;dbl&gt; 23.31824, 22.84912, 23.74799, 16.07068, 15.67607, 16.4…</span></a>
+<a class="sourceLine" id="cb29-39" data-line-number="39"><span class="co">#&gt; $ higher_edu     &lt;dbl&gt; 24.291989, 25.560299, 23.130105, 6.355399, 6.357148, 6…</span></a>
+<a class="sourceLine" id="cb29-40" data-line-number="40"><span class="co">#&gt; $ other          &lt;dbl&gt; 0.09016518, 0.08020841, 0.09928647, 0.31277206, 0.3468…</span></a>
+<a class="sourceLine" id="cb29-41" data-line-number="41"><span class="co">#&gt; $ schoolyrs      &lt;dbl&gt; 10.211152, 10.380144, 10.056383, 7.854005, 7.692086, 8…</span></a></code></pre></div>
 </div>
 <div id="filtrar" class="section level3 unnumbered">
 <h3>Filtrar</h3>
 <p>Creamos una tabla de datos de juguete para mostrar el funcionamiento de cada
 instrucción:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">df_ej &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">sexo =</span> <span class="kw">c</span>(<span class="st">&quot;mujer&quot;</span>, <span class="st">&quot;hombre&quot;</span>, <span class="st">&quot;mujer&quot;</span>, <span class="st">&quot;mujer&quot;</span>, <span class="st">&quot;hombre&quot;</span>), </a>
-<a class="sourceLine" id="cb31-2" data-line-number="2">  <span class="dt">estatura =</span> <span class="kw">c</span>(<span class="fl">1.65</span>, <span class="fl">1.80</span>, <span class="fl">1.70</span>, <span class="fl">1.60</span>, <span class="fl">1.67</span>))</a>
-<a class="sourceLine" id="cb31-3" data-line-number="3">df_ej</a>
-<a class="sourceLine" id="cb31-4" data-line-number="4"><span class="co">#&gt; # A tibble: 5 x 2</span></a>
-<a class="sourceLine" id="cb31-5" data-line-number="5"><span class="co">#&gt;   sexo   estatura</span></a>
-<a class="sourceLine" id="cb31-6" data-line-number="6"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb31-7" data-line-number="7"><span class="co">#&gt; 1 mujer      1.65</span></a>
-<a class="sourceLine" id="cb31-8" data-line-number="8"><span class="co">#&gt; 2 hombre     1.8 </span></a>
-<a class="sourceLine" id="cb31-9" data-line-number="9"><span class="co">#&gt; 3 mujer      1.7 </span></a>
-<a class="sourceLine" id="cb31-10" data-line-number="10"><span class="co">#&gt; 4 mujer      1.6 </span></a>
-<a class="sourceLine" id="cb31-11" data-line-number="11"><span class="co">#&gt; 5 hombre     1.67</span></a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">df_ej &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">sexo =</span> <span class="kw">c</span>(<span class="st">&quot;mujer&quot;</span>, <span class="st">&quot;hombre&quot;</span>, <span class="st">&quot;mujer&quot;</span>, <span class="st">&quot;mujer&quot;</span>, <span class="st">&quot;hombre&quot;</span>), </a>
+<a class="sourceLine" id="cb30-2" data-line-number="2">  <span class="dt">estatura =</span> <span class="kw">c</span>(<span class="fl">1.65</span>, <span class="fl">1.80</span>, <span class="fl">1.70</span>, <span class="fl">1.60</span>, <span class="fl">1.67</span>))</a>
+<a class="sourceLine" id="cb30-3" data-line-number="3">df_ej</a>
+<a class="sourceLine" id="cb30-4" data-line-number="4"><span class="co">#&gt; # A tibble: 5 x 2</span></a>
+<a class="sourceLine" id="cb30-5" data-line-number="5"><span class="co">#&gt;   sexo   estatura</span></a>
+<a class="sourceLine" id="cb30-6" data-line-number="6"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb30-7" data-line-number="7"><span class="co">#&gt; 1 mujer      1.65</span></a>
+<a class="sourceLine" id="cb30-8" data-line-number="8"><span class="co">#&gt; 2 hombre     1.8 </span></a>
+<a class="sourceLine" id="cb30-9" data-line-number="9"><span class="co">#&gt; 3 mujer      1.7 </span></a>
+<a class="sourceLine" id="cb30-10" data-line-number="10"><span class="co">#&gt; 4 mujer      1.6 </span></a>
+<a class="sourceLine" id="cb30-11" data-line-number="11"><span class="co">#&gt; 5 hombre     1.67</span></a></code></pre></div>
 <p>El primer argumento de <code>filter()</code> es el nombre del <code>data frame</code>, los
 subsecuentes son las expresiones que indican que filas filtrar.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw">filter</span>(df_ej, sexo <span class="op">==</span><span class="st"> &quot;mujer&quot;</span>)</a>
-<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="co">#&gt; # A tibble: 3 x 2</span></a>
-<a class="sourceLine" id="cb32-3" data-line-number="3"><span class="co">#&gt;   sexo  estatura</span></a>
-<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb32-5" data-line-number="5"><span class="co">#&gt; 1 mujer     1.65</span></a>
-<a class="sourceLine" id="cb32-6" data-line-number="6"><span class="co">#&gt; 2 mujer     1.7 </span></a>
-<a class="sourceLine" id="cb32-7" data-line-number="7"><span class="co">#&gt; 3 mujer     1.6</span></a>
-<a class="sourceLine" id="cb32-8" data-line-number="8"><span class="kw">filter</span>(df_ej, estatura <span class="op">&gt;</span><span class="st"> </span><span class="fl">1.65</span> <span class="op">&amp;</span><span class="st"> </span>estatura <span class="op">&lt;</span><span class="st"> </span><span class="fl">1.75</span>)</a>
-<a class="sourceLine" id="cb32-9" data-line-number="9"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
-<a class="sourceLine" id="cb32-10" data-line-number="10"><span class="co">#&gt;   sexo   estatura</span></a>
-<a class="sourceLine" id="cb32-11" data-line-number="11"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb32-12" data-line-number="12"><span class="co">#&gt; 1 mujer      1.7 </span></a>
-<a class="sourceLine" id="cb32-13" data-line-number="13"><span class="co">#&gt; 2 hombre     1.67</span></a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">filter</span>(df_ej, sexo <span class="op">==</span><span class="st"> &quot;mujer&quot;</span>)</a>
+<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="co">#&gt; # A tibble: 3 x 2</span></a>
+<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="co">#&gt;   sexo  estatura</span></a>
+<a class="sourceLine" id="cb31-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb31-5" data-line-number="5"><span class="co">#&gt; 1 mujer     1.65</span></a>
+<a class="sourceLine" id="cb31-6" data-line-number="6"><span class="co">#&gt; 2 mujer     1.7 </span></a>
+<a class="sourceLine" id="cb31-7" data-line-number="7"><span class="co">#&gt; 3 mujer     1.6</span></a>
+<a class="sourceLine" id="cb31-8" data-line-number="8"><span class="kw">filter</span>(df_ej, estatura <span class="op">&gt;</span><span class="st"> </span><span class="fl">1.65</span> <span class="op">&amp;</span><span class="st"> </span>estatura <span class="op">&lt;</span><span class="st"> </span><span class="fl">1.75</span>)</a>
+<a class="sourceLine" id="cb31-9" data-line-number="9"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
+<a class="sourceLine" id="cb31-10" data-line-number="10"><span class="co">#&gt;   sexo   estatura</span></a>
+<a class="sourceLine" id="cb31-11" data-line-number="11"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb31-12" data-line-number="12"><span class="co">#&gt; 1 mujer      1.7 </span></a>
+<a class="sourceLine" id="cb31-13" data-line-number="13"><span class="co">#&gt; 2 hombre     1.67</span></a></code></pre></div>
 <p>Algunos operadores importantes para filtrar son:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">x <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb33-2" data-line-number="2">x <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb33-3" data-line-number="3">x <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb33-4" data-line-number="4">x <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb33-5" data-line-number="5">x <span class="op">!=</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb33-6" data-line-number="6">x <span class="op">==</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb33-7" data-line-number="7">x <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">x <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb32-2" data-line-number="2">x <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb32-3" data-line-number="3">x <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb32-4" data-line-number="4">x <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb32-5" data-line-number="5">x <span class="op">!=</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb32-6" data-line-number="6">x <span class="op">==</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb32-7" data-line-number="7">x <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>)</a></code></pre></div>
 <p><img src="img/manicule2.jpg" /> Crea un subconjunto de los datos <code>df_mxmunicipio</code> que
 contenga únicamente los municipios de la CDMX (<code>state_abbr</code> es <code>CDMX</code>)</p>
 <ul>
@@ -479,23 +483,23 @@ afromexicana o parte afromexicana.</p></li>
 <div id="observación-y-operadores-booleanos" class="section level4 unnumbered">
 <h4>Observación <code>==</code> y operadores booleanos</h4>
 <p>Debemos tener cuidado al usar <code>==</code>, ¿qué devuelven las siguientes expresiones?</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">sqrt</span>(<span class="dv">2</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb34-2" data-line-number="2"><span class="dv">1</span><span class="op">/</span><span class="dv">49</span> <span class="op">*</span><span class="st"> </span><span class="dv">49</span> <span class="op">==</span><span class="st"> </span><span class="dv">1</span></a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw">sqrt</span>(<span class="dv">2</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="dv">1</span><span class="op">/</span><span class="dv">49</span> <span class="op">*</span><span class="st"> </span><span class="dv">49</span> <span class="op">==</span><span class="st"> </span><span class="dv">1</span></a></code></pre></div>
 <p>Los resultados de arriba se deben a que las computadoras
 usan aritmética de precisión finita:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">print</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">49</span> <span class="op">*</span><span class="st"> </span><span class="dv">49</span>, <span class="dt">digits =</span> <span class="dv">22</span>)</a>
-<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="co">#&gt; [1] 0.9999999999999998889777</span></a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">print</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">49</span> <span class="op">*</span><span class="st"> </span><span class="dv">49</span>, <span class="dt">digits =</span> <span class="dv">22</span>)</a>
+<a class="sourceLine" id="cb34-2" data-line-number="2"><span class="co">#&gt; [1] 0.9999999999999998889777</span></a></code></pre></div>
 <p>Para estos casos es útil usar la función <code>near()</code></p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw">near</span>(<span class="kw">sqrt</span>(<span class="dv">2</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>,  <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb36-2" data-line-number="2"><span class="co">#&gt; [1] TRUE</span></a>
-<a class="sourceLine" id="cb36-3" data-line-number="3"><span class="kw">near</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">49</span> <span class="op">*</span><span class="st"> </span><span class="dv">49</span>, <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb36-4" data-line-number="4"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">near</span>(<span class="kw">sqrt</span>(<span class="dv">2</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>,  <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="co">#&gt; [1] TRUE</span></a>
+<a class="sourceLine" id="cb35-3" data-line-number="3"><span class="kw">near</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">49</span> <span class="op">*</span><span class="st"> </span><span class="dv">49</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb35-4" data-line-number="4"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
 <p>Los <strong>operadores booleanos</strong> también son convenientes para filtrar:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="co"># Conjuntos</span></a>
-<a class="sourceLine" id="cb37-2" data-line-number="2">a <span class="op">|</span><span class="st"> </span>b <span class="co"># a o b</span></a>
-<a class="sourceLine" id="cb37-3" data-line-number="3">a <span class="op">&amp;</span><span class="st"> </span>b <span class="co"># a y b </span></a>
-<a class="sourceLine" id="cb37-4" data-line-number="4">a <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span>b <span class="co"># a y no-b</span></a>
-<a class="sourceLine" id="cb37-5" data-line-number="5"><span class="kw">xor</span>(a, b)</a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="co"># Conjuntos</span></a>
+<a class="sourceLine" id="cb36-2" data-line-number="2">a <span class="op">|</span><span class="st"> </span>b <span class="co"># a o b</span></a>
+<a class="sourceLine" id="cb36-3" data-line-number="3">a <span class="op">&amp;</span><span class="st"> </span>b <span class="co"># a y b </span></a>
+<a class="sourceLine" id="cb36-4" data-line-number="4">a <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span>b <span class="co"># a y no-b</span></a>
+<a class="sourceLine" id="cb36-5" data-line-number="5"><span class="kw">xor</span>(a, b)</a></code></pre></div>
 <p>El siguiente esquema nos ayuda a entender que hace cada operación, <code>x</code> está
 representada por el círculo del lado izquierdo y <code>y</code> por el círculo del lado
 derecho, la parte sombreada muestra las regiones que selecciona el operador:</p>
@@ -512,120 +516,120 @@ Figure 3.1: Operaciones booleanas, imagen del libro <a href="https://r4ds.had.co
 faltantes en una o más columnas de las tablas de datos, en R los datos faltantes
 se expresan como <code>NA</code>, para seleccionar los registros con faltante en la
 variable <code>schoolyrs</code> de los datos <code>df_edu</code> resulta natural escribir:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">filter</span>(df_edu, schoolyrs <span class="op">==</span><span class="st"> </span><span class="ot">NA</span>)</a>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">filter</span>(df_edu, schoolyrs <span class="op">==</span><span class="st"> </span><span class="ot">NA</span>)</a>
+<a class="sourceLine" id="cb37-2" data-line-number="2"><span class="co">#&gt; # A tibble: 0 x 16</span></a>
+<a class="sourceLine" id="cb37-3" data-line-number="3"><span class="co">#&gt; # … with 16 variables: state_code &lt;chr&gt;, municipio_code &lt;chr&gt;, region &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb37-4" data-line-number="4"><span class="co">#&gt; #   state_name &lt;chr&gt;, state_abbr &lt;chr&gt;, municipio_name &lt;chr&gt;, sex &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb37-5" data-line-number="5"><span class="co">#&gt; #   pop_15 &lt;dbl&gt;, no_school &lt;dbl&gt;, preschool &lt;dbl&gt;, elementary &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb37-6" data-line-number="6"><span class="co">#&gt; #   secondary &lt;dbl&gt;, highschool &lt;dbl&gt;, higher_edu &lt;dbl&gt;, other &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb37-7" data-line-number="7"><span class="co">#&gt; #   schoolyrs &lt;dbl&gt;</span></a></code></pre></div>
+<p>Y para eliminarlos</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">filter</span>(df_edu, schoolyrs <span class="op">!=</span><span class="st"> </span><span class="ot">NA</span>)</a>
 <a class="sourceLine" id="cb38-2" data-line-number="2"><span class="co">#&gt; # A tibble: 0 x 16</span></a>
 <a class="sourceLine" id="cb38-3" data-line-number="3"><span class="co">#&gt; # … with 16 variables: state_code &lt;chr&gt;, municipio_code &lt;chr&gt;, region &lt;chr&gt;,</span></a>
 <a class="sourceLine" id="cb38-4" data-line-number="4"><span class="co">#&gt; #   state_name &lt;chr&gt;, state_abbr &lt;chr&gt;, municipio_name &lt;chr&gt;, sex &lt;chr&gt;,</span></a>
 <a class="sourceLine" id="cb38-5" data-line-number="5"><span class="co">#&gt; #   pop_15 &lt;dbl&gt;, no_school &lt;dbl&gt;, preschool &lt;dbl&gt;, elementary &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb38-6" data-line-number="6"><span class="co">#&gt; #   secondary &lt;dbl&gt;, highschool &lt;dbl&gt;, higher_edu &lt;dbl&gt;, other &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb38-7" data-line-number="7"><span class="co">#&gt; #   schoolyrs &lt;dbl&gt;</span></a></code></pre></div>
-<p>Y para eliminarlos</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw">filter</span>(df_edu, schoolyrs <span class="op">!=</span><span class="st"> </span><span class="ot">NA</span>)</a>
-<a class="sourceLine" id="cb39-2" data-line-number="2"><span class="co">#&gt; # A tibble: 0 x 16</span></a>
-<a class="sourceLine" id="cb39-3" data-line-number="3"><span class="co">#&gt; # … with 16 variables: state_code &lt;chr&gt;, municipio_code &lt;chr&gt;, region &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb39-4" data-line-number="4"><span class="co">#&gt; #   state_name &lt;chr&gt;, state_abbr &lt;chr&gt;, municipio_name &lt;chr&gt;, sex &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb39-5" data-line-number="5"><span class="co">#&gt; #   pop_15 &lt;dbl&gt;, no_school &lt;dbl&gt;, preschool &lt;dbl&gt;, elementary &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb39-6" data-line-number="6"><span class="co">#&gt; #   secondary &lt;dbl&gt;, highschool &lt;dbl&gt;, higher_edu &lt;dbl&gt;, other &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb39-7" data-line-number="7"><span class="co">#&gt; #   schoolyrs &lt;dbl&gt;</span></a></code></pre></div>
 <p>en ambos casos nos devuelve una tabla vacía!</p>
 <p>El problema resulta de usar los operadores <code>==</code> y <code>!=</code>, pensemos ¿qué regresan
 las siguientes expresiones?</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="dv">5</span> <span class="op">+</span><span class="st"> </span><span class="ot">NA</span></a>
-<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="ot">NA</span> <span class="op">/</span><span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb40-3" data-line-number="3"><span class="kw">sum</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="ot">NA</span>))</a>
-<a class="sourceLine" id="cb40-4" data-line-number="4"><span class="kw">mean</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">4</span>,  <span class="ot">NA</span>))</a>
-<a class="sourceLine" id="cb40-5" data-line-number="5"><span class="ot">NA</span> <span class="op">&lt;</span><span class="st"> </span><span class="dv">3</span></a>
-<a class="sourceLine" id="cb40-6" data-line-number="6"><span class="ot">NA</span> <span class="op">==</span><span class="st"> </span><span class="dv">3</span></a>
-<a class="sourceLine" id="cb40-7" data-line-number="7"><span class="ot">NA</span> <span class="op">==</span><span class="st"> </span><span class="ot">NA</span></a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="dv">5</span> <span class="op">+</span><span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb39-2" data-line-number="2"><span class="ot">NA</span> <span class="op">/</span><span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb39-3" data-line-number="3"><span class="kw">sum</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="ot">NA</span>))</a>
+<a class="sourceLine" id="cb39-4" data-line-number="4"><span class="kw">mean</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">4</span>,  <span class="ot">NA</span>))</a>
+<a class="sourceLine" id="cb39-5" data-line-number="5"><span class="ot">NA</span> <span class="op">&lt;</span><span class="st"> </span><span class="dv">3</span></a>
+<a class="sourceLine" id="cb39-6" data-line-number="6"><span class="ot">NA</span> <span class="op">==</span><span class="st"> </span><span class="dv">3</span></a>
+<a class="sourceLine" id="cb39-7" data-line-number="7"><span class="ot">NA</span> <span class="op">==</span><span class="st"> </span><span class="ot">NA</span></a></code></pre></div>
 <p>Las expresiones anteriores regresan <code>NA</code>, el hecho que la media de un vector
 que incluye <code>NA</code>s o su suma regrese <code>NA</code>s se debe a que por defecto en R se
 propagan los valores faltantes, esto es, si deconozco el valor de una de las
 componentes de un vector, también desconozco la suma del mismo; sin embargo,
 muchas funciones tienen un argumento <em>na.rm</em> para eliminarlos,</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="kw">sum</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="ot">NA</span>), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="co">#&gt; [1] 9</span></a>
-<a class="sourceLine" id="cb41-3" data-line-number="3"><span class="kw">mean</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="ot">NA</span>), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb41-4" data-line-number="4"><span class="co">#&gt; [1] 4.5</span></a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="kw">sum</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="ot">NA</span>), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="co">#&gt; [1] 9</span></a>
+<a class="sourceLine" id="cb40-3" data-line-number="3"><span class="kw">mean</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="ot">NA</span>), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb40-4" data-line-number="4"><span class="co">#&gt; [1] 4.5</span></a></code></pre></div>
 <p>Aún queda pendiente como filtrarlos en una tabla, para esto veamos que el
 manejo de datos faltantes en R utiliza una lógica ternaria (como SQL):</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="ot">NA</span> <span class="op">==</span><span class="st"> </span><span class="ot">NA</span></a>
-<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="co">#&gt; [1] NA</span></a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="ot">NA</span> <span class="op">==</span><span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="co">#&gt; [1] NA</span></a></code></pre></div>
 <p>La expresión anterior puede resultar confusa, una manera de pensar en esto es
 considerar los NA como <em>no sé</em>, por ejemplo si no se la edad de Juan y no se la
 edad de Esteban, la respuesta a ¿Juan tiene la misma edad que Esteban? es
 <em>no sé</em> (NA).</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">edad_Juan &lt;-<span class="st"> </span><span class="ot">NA</span></a>
-<a class="sourceLine" id="cb43-2" data-line-number="2">edad_Esteban &lt;-<span class="st"> </span><span class="ot">NA</span></a>
-<a class="sourceLine" id="cb43-3" data-line-number="3">edad_Juan <span class="op">==</span><span class="st"> </span>edad_Esteban</a>
-<a class="sourceLine" id="cb43-4" data-line-number="4"><span class="co">#&gt; [1] NA</span></a>
-<a class="sourceLine" id="cb43-5" data-line-number="5">edad_Jose &lt;-<span class="st"> </span><span class="dv">32</span></a>
-<a class="sourceLine" id="cb43-6" data-line-number="6"><span class="co"># Juan es menor que José?</span></a>
-<a class="sourceLine" id="cb43-7" data-line-number="7">edad_Juan <span class="op">&lt;</span><span class="st"> </span>edad_Jose</a>
-<a class="sourceLine" id="cb43-8" data-line-number="8"><span class="co">#&gt; [1] NA</span></a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">edad_Juan &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb42-2" data-line-number="2">edad_Esteban &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb42-3" data-line-number="3">edad_Juan <span class="op">==</span><span class="st"> </span>edad_Esteban</a>
+<a class="sourceLine" id="cb42-4" data-line-number="4"><span class="co">#&gt; [1] NA</span></a>
+<a class="sourceLine" id="cb42-5" data-line-number="5">edad_Jose &lt;-<span class="st"> </span><span class="dv">32</span></a>
+<a class="sourceLine" id="cb42-6" data-line-number="6"><span class="co"># Juan es menor que José?</span></a>
+<a class="sourceLine" id="cb42-7" data-line-number="7">edad_Juan <span class="op">&lt;</span><span class="st"> </span>edad_Jose</a>
+<a class="sourceLine" id="cb42-8" data-line-number="8"><span class="co">#&gt; [1] NA</span></a></code></pre></div>
 <p>Por tanto para determinar si un valor es faltante usamos la instrucción
 <code>is.na()</code>.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="kw">is.na</span>(<span class="ot">NA</span>)</a>
-<a class="sourceLine" id="cb44-2" data-line-number="2"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw">is.na</span>(<span class="ot">NA</span>)</a>
+<a class="sourceLine" id="cb43-2" data-line-number="2"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
 <p>Y finalmente podemos filtrar,</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw">filter</span>(df_edu, <span class="kw">is.na</span>(schoolyrs))</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="kw">filter</span>(df_edu, <span class="kw">is.na</span>(schoolyrs))</a></code></pre></div>
 </div>
 </div>
 <div id="seleccionar" class="section level3 unnumbered">
 <h3>Seleccionar</h3>
 <p>Elegir columnas de un conjunto de datos.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">df_ej</a>
-<a class="sourceLine" id="cb46-2" data-line-number="2"><span class="co">#&gt; # A tibble: 5 x 2</span></a>
-<a class="sourceLine" id="cb46-3" data-line-number="3"><span class="co">#&gt;   sexo   estatura</span></a>
-<a class="sourceLine" id="cb46-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb46-5" data-line-number="5"><span class="co">#&gt; 1 mujer      1.65</span></a>
-<a class="sourceLine" id="cb46-6" data-line-number="6"><span class="co">#&gt; 2 hombre     1.8 </span></a>
-<a class="sourceLine" id="cb46-7" data-line-number="7"><span class="co">#&gt; 3 mujer      1.7 </span></a>
-<a class="sourceLine" id="cb46-8" data-line-number="8"><span class="co">#&gt; 4 mujer      1.6 </span></a>
-<a class="sourceLine" id="cb46-9" data-line-number="9"><span class="co">#&gt; 5 hombre     1.67</span></a>
-<a class="sourceLine" id="cb46-10" data-line-number="10"><span class="kw">select</span>(df_ej, sexo)</a>
-<a class="sourceLine" id="cb46-11" data-line-number="11"><span class="co">#&gt; # A tibble: 5 x 1</span></a>
-<a class="sourceLine" id="cb46-12" data-line-number="12"><span class="co">#&gt;   sexo  </span></a>
-<a class="sourceLine" id="cb46-13" data-line-number="13"><span class="co">#&gt;   &lt;chr&gt; </span></a>
-<a class="sourceLine" id="cb46-14" data-line-number="14"><span class="co">#&gt; 1 mujer </span></a>
-<a class="sourceLine" id="cb46-15" data-line-number="15"><span class="co">#&gt; 2 hombre</span></a>
-<a class="sourceLine" id="cb46-16" data-line-number="16"><span class="co">#&gt; 3 mujer </span></a>
-<a class="sourceLine" id="cb46-17" data-line-number="17"><span class="co">#&gt; 4 mujer </span></a>
-<a class="sourceLine" id="cb46-18" data-line-number="18"><span class="co">#&gt; 5 hombre</span></a>
-<a class="sourceLine" id="cb46-19" data-line-number="19"><span class="kw">select</span>(df_ej, <span class="op">-</span>sexo)</a>
-<a class="sourceLine" id="cb46-20" data-line-number="20"><span class="co">#&gt; # A tibble: 5 x 1</span></a>
-<a class="sourceLine" id="cb46-21" data-line-number="21"><span class="co">#&gt;   estatura</span></a>
-<a class="sourceLine" id="cb46-22" data-line-number="22"><span class="co">#&gt;      &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb46-23" data-line-number="23"><span class="co">#&gt; 1     1.65</span></a>
-<a class="sourceLine" id="cb46-24" data-line-number="24"><span class="co">#&gt; 2     1.8 </span></a>
-<a class="sourceLine" id="cb46-25" data-line-number="25"><span class="co">#&gt; 3     1.7 </span></a>
-<a class="sourceLine" id="cb46-26" data-line-number="26"><span class="co">#&gt; 4     1.6 </span></a>
-<a class="sourceLine" id="cb46-27" data-line-number="27"><span class="co">#&gt; 5     1.67</span></a></code></pre></div>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">select</span>(df_ej, <span class="kw">starts_with</span>(<span class="st">&quot;s&quot;</span>))</a>
-<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="kw">select</span>(df_ej, <span class="kw">contains</span>(<span class="st">&quot;x&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">df_ej</a>
+<a class="sourceLine" id="cb45-2" data-line-number="2"><span class="co">#&gt; # A tibble: 5 x 2</span></a>
+<a class="sourceLine" id="cb45-3" data-line-number="3"><span class="co">#&gt;   sexo   estatura</span></a>
+<a class="sourceLine" id="cb45-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb45-5" data-line-number="5"><span class="co">#&gt; 1 mujer      1.65</span></a>
+<a class="sourceLine" id="cb45-6" data-line-number="6"><span class="co">#&gt; 2 hombre     1.8 </span></a>
+<a class="sourceLine" id="cb45-7" data-line-number="7"><span class="co">#&gt; 3 mujer      1.7 </span></a>
+<a class="sourceLine" id="cb45-8" data-line-number="8"><span class="co">#&gt; 4 mujer      1.6 </span></a>
+<a class="sourceLine" id="cb45-9" data-line-number="9"><span class="co">#&gt; 5 hombre     1.67</span></a>
+<a class="sourceLine" id="cb45-10" data-line-number="10"><span class="kw">select</span>(df_ej, sexo)</a>
+<a class="sourceLine" id="cb45-11" data-line-number="11"><span class="co">#&gt; # A tibble: 5 x 1</span></a>
+<a class="sourceLine" id="cb45-12" data-line-number="12"><span class="co">#&gt;   sexo  </span></a>
+<a class="sourceLine" id="cb45-13" data-line-number="13"><span class="co">#&gt;   &lt;chr&gt; </span></a>
+<a class="sourceLine" id="cb45-14" data-line-number="14"><span class="co">#&gt; 1 mujer </span></a>
+<a class="sourceLine" id="cb45-15" data-line-number="15"><span class="co">#&gt; 2 hombre</span></a>
+<a class="sourceLine" id="cb45-16" data-line-number="16"><span class="co">#&gt; 3 mujer </span></a>
+<a class="sourceLine" id="cb45-17" data-line-number="17"><span class="co">#&gt; 4 mujer </span></a>
+<a class="sourceLine" id="cb45-18" data-line-number="18"><span class="co">#&gt; 5 hombre</span></a>
+<a class="sourceLine" id="cb45-19" data-line-number="19"><span class="kw">select</span>(df_ej, <span class="op">-</span>sexo)</a>
+<a class="sourceLine" id="cb45-20" data-line-number="20"><span class="co">#&gt; # A tibble: 5 x 1</span></a>
+<a class="sourceLine" id="cb45-21" data-line-number="21"><span class="co">#&gt;   estatura</span></a>
+<a class="sourceLine" id="cb45-22" data-line-number="22"><span class="co">#&gt;      &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb45-23" data-line-number="23"><span class="co">#&gt; 1     1.65</span></a>
+<a class="sourceLine" id="cb45-24" data-line-number="24"><span class="co">#&gt; 2     1.8 </span></a>
+<a class="sourceLine" id="cb45-25" data-line-number="25"><span class="co">#&gt; 3     1.7 </span></a>
+<a class="sourceLine" id="cb45-26" data-line-number="26"><span class="co">#&gt; 4     1.6 </span></a>
+<a class="sourceLine" id="cb45-27" data-line-number="27"><span class="co">#&gt; 5     1.67</span></a></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="kw">select</span>(df_ej, <span class="kw">starts_with</span>(<span class="st">&quot;s&quot;</span>))</a>
+<a class="sourceLine" id="cb46-2" data-line-number="2"><span class="kw">select</span>(df_ej, <span class="kw">contains</span>(<span class="st">&quot;x&quot;</span>))</a></code></pre></div>
 <p><img src="img/manicule2.jpg" /> Ve la ayuda de select (<code>?select</code>) y escribe tres
 maneras de seleccionar las variables del estado en los datos <code>df_mxmunicipio</code>.</p>
 </div>
 <div id="ordenar" class="section level3 unnumbered">
 <h3>Ordenar</h3>
 <p>Ordenar de acuerdo al valor de una o más variables:</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw">arrange</span>(df_ej, sexo)</a>
-<a class="sourceLine" id="cb48-2" data-line-number="2"><span class="co">#&gt; # A tibble: 5 x 2</span></a>
-<a class="sourceLine" id="cb48-3" data-line-number="3"><span class="co">#&gt;   sexo   estatura</span></a>
-<a class="sourceLine" id="cb48-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb48-5" data-line-number="5"><span class="co">#&gt; 1 hombre     1.8 </span></a>
-<a class="sourceLine" id="cb48-6" data-line-number="6"><span class="co">#&gt; 2 hombre     1.67</span></a>
-<a class="sourceLine" id="cb48-7" data-line-number="7"><span class="co">#&gt; 3 mujer      1.65</span></a>
-<a class="sourceLine" id="cb48-8" data-line-number="8"><span class="co">#&gt; 4 mujer      1.7 </span></a>
-<a class="sourceLine" id="cb48-9" data-line-number="9"><span class="co">#&gt; 5 mujer      1.6</span></a>
-<a class="sourceLine" id="cb48-10" data-line-number="10"><span class="kw">arrange</span>(df_ej, <span class="kw">desc</span>(estatura))</a>
-<a class="sourceLine" id="cb48-11" data-line-number="11"><span class="co">#&gt; # A tibble: 5 x 2</span></a>
-<a class="sourceLine" id="cb48-12" data-line-number="12"><span class="co">#&gt;   sexo   estatura</span></a>
-<a class="sourceLine" id="cb48-13" data-line-number="13"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb48-14" data-line-number="14"><span class="co">#&gt; 1 hombre     1.8 </span></a>
-<a class="sourceLine" id="cb48-15" data-line-number="15"><span class="co">#&gt; 2 mujer      1.7 </span></a>
-<a class="sourceLine" id="cb48-16" data-line-number="16"><span class="co">#&gt; 3 hombre     1.67</span></a>
-<a class="sourceLine" id="cb48-17" data-line-number="17"><span class="co">#&gt; 4 mujer      1.65</span></a>
-<a class="sourceLine" id="cb48-18" data-line-number="18"><span class="co">#&gt; 5 mujer      1.6</span></a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">arrange</span>(df_ej, sexo)</a>
+<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="co">#&gt; # A tibble: 5 x 2</span></a>
+<a class="sourceLine" id="cb47-3" data-line-number="3"><span class="co">#&gt;   sexo   estatura</span></a>
+<a class="sourceLine" id="cb47-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb47-5" data-line-number="5"><span class="co">#&gt; 1 hombre     1.8 </span></a>
+<a class="sourceLine" id="cb47-6" data-line-number="6"><span class="co">#&gt; 2 hombre     1.67</span></a>
+<a class="sourceLine" id="cb47-7" data-line-number="7"><span class="co">#&gt; 3 mujer      1.65</span></a>
+<a class="sourceLine" id="cb47-8" data-line-number="8"><span class="co">#&gt; 4 mujer      1.7 </span></a>
+<a class="sourceLine" id="cb47-9" data-line-number="9"><span class="co">#&gt; 5 mujer      1.6</span></a>
+<a class="sourceLine" id="cb47-10" data-line-number="10"><span class="kw">arrange</span>(df_ej, <span class="kw">desc</span>(estatura))</a>
+<a class="sourceLine" id="cb47-11" data-line-number="11"><span class="co">#&gt; # A tibble: 5 x 2</span></a>
+<a class="sourceLine" id="cb47-12" data-line-number="12"><span class="co">#&gt;   sexo   estatura</span></a>
+<a class="sourceLine" id="cb47-13" data-line-number="13"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb47-14" data-line-number="14"><span class="co">#&gt; 1 hombre     1.8 </span></a>
+<a class="sourceLine" id="cb47-15" data-line-number="15"><span class="co">#&gt; 2 mujer      1.7 </span></a>
+<a class="sourceLine" id="cb47-16" data-line-number="16"><span class="co">#&gt; 3 hombre     1.67</span></a>
+<a class="sourceLine" id="cb47-17" data-line-number="17"><span class="co">#&gt; 4 mujer      1.65</span></a>
+<a class="sourceLine" id="cb47-18" data-line-number="18"><span class="co">#&gt; 5 mujer      1.6</span></a></code></pre></div>
 <p><img src="img/manicule2.jpg" /> Ordena los municipios por población, de mayor a
 menor.</p>
 <ul>
@@ -638,24 +642,24 @@ elimina los municipios con menos de 5000 habitantes y repite.</p></li>
 <h3>Mutar</h3>
 <p>Mutar consiste en crear nuevas variables aplicando una función a columnas
 existentes:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw">mutate</span>(df_ej, <span class="dt">estatura_cm =</span> estatura <span class="op">*</span><span class="st"> </span><span class="dv">100</span>) </a>
-<a class="sourceLine" id="cb49-2" data-line-number="2"><span class="co">#&gt; # A tibble: 5 x 3</span></a>
-<a class="sourceLine" id="cb49-3" data-line-number="3"><span class="co">#&gt;   sexo   estatura estatura_cm</span></a>
-<a class="sourceLine" id="cb49-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;       &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb49-5" data-line-number="5"><span class="co">#&gt; 1 mujer      1.65         165</span></a>
-<a class="sourceLine" id="cb49-6" data-line-number="6"><span class="co">#&gt; 2 hombre     1.8          180</span></a>
-<a class="sourceLine" id="cb49-7" data-line-number="7"><span class="co">#&gt; 3 mujer      1.7          170</span></a>
-<a class="sourceLine" id="cb49-8" data-line-number="8"><span class="co">#&gt; 4 mujer      1.6          160</span></a>
-<a class="sourceLine" id="cb49-9" data-line-number="9"><span class="co">#&gt; 5 hombre     1.67         167</span></a>
-<a class="sourceLine" id="cb49-10" data-line-number="10"><span class="kw">mutate</span>(df_ej, <span class="dt">estatura_cm =</span> estatura <span class="op">*</span><span class="st"> </span><span class="dv">100</span>, <span class="dt">estatura_in =</span> estatura_cm <span class="op">*</span><span class="st"> </span><span class="fl">0.3937</span>) </a>
-<a class="sourceLine" id="cb49-11" data-line-number="11"><span class="co">#&gt; # A tibble: 5 x 4</span></a>
-<a class="sourceLine" id="cb49-12" data-line-number="12"><span class="co">#&gt;   sexo   estatura estatura_cm estatura_in</span></a>
-<a class="sourceLine" id="cb49-13" data-line-number="13"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb49-14" data-line-number="14"><span class="co">#&gt; 1 mujer      1.65         165        65.0</span></a>
-<a class="sourceLine" id="cb49-15" data-line-number="15"><span class="co">#&gt; 2 hombre     1.8          180        70.9</span></a>
-<a class="sourceLine" id="cb49-16" data-line-number="16"><span class="co">#&gt; 3 mujer      1.7          170        66.9</span></a>
-<a class="sourceLine" id="cb49-17" data-line-number="17"><span class="co">#&gt; 4 mujer      1.6          160        63.0</span></a>
-<a class="sourceLine" id="cb49-18" data-line-number="18"><span class="co">#&gt; 5 hombre     1.67         167        65.7</span></a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw">mutate</span>(df_ej, <span class="dt">estatura_cm =</span> estatura <span class="op">*</span><span class="st"> </span><span class="dv">100</span>) </a>
+<a class="sourceLine" id="cb48-2" data-line-number="2"><span class="co">#&gt; # A tibble: 5 x 3</span></a>
+<a class="sourceLine" id="cb48-3" data-line-number="3"><span class="co">#&gt;   sexo   estatura estatura_cm</span></a>
+<a class="sourceLine" id="cb48-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;       &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb48-5" data-line-number="5"><span class="co">#&gt; 1 mujer      1.65         165</span></a>
+<a class="sourceLine" id="cb48-6" data-line-number="6"><span class="co">#&gt; 2 hombre     1.8          180</span></a>
+<a class="sourceLine" id="cb48-7" data-line-number="7"><span class="co">#&gt; 3 mujer      1.7          170</span></a>
+<a class="sourceLine" id="cb48-8" data-line-number="8"><span class="co">#&gt; 4 mujer      1.6          160</span></a>
+<a class="sourceLine" id="cb48-9" data-line-number="9"><span class="co">#&gt; 5 hombre     1.67         167</span></a>
+<a class="sourceLine" id="cb48-10" data-line-number="10"><span class="kw">mutate</span>(df_ej, <span class="dt">estatura_cm =</span> estatura <span class="op">*</span><span class="st"> </span><span class="dv">100</span>, <span class="dt">estatura_in =</span> estatura_cm <span class="op">*</span><span class="st"> </span><span class="fl">0.3937</span>) </a>
+<a class="sourceLine" id="cb48-11" data-line-number="11"><span class="co">#&gt; # A tibble: 5 x 4</span></a>
+<a class="sourceLine" id="cb48-12" data-line-number="12"><span class="co">#&gt;   sexo   estatura estatura_cm estatura_in</span></a>
+<a class="sourceLine" id="cb48-13" data-line-number="13"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb48-14" data-line-number="14"><span class="co">#&gt; 1 mujer      1.65         165        65.0</span></a>
+<a class="sourceLine" id="cb48-15" data-line-number="15"><span class="co">#&gt; 2 hombre     1.8          180        70.9</span></a>
+<a class="sourceLine" id="cb48-16" data-line-number="16"><span class="co">#&gt; 3 mujer      1.7          170        66.9</span></a>
+<a class="sourceLine" id="cb48-17" data-line-number="17"><span class="co">#&gt; 4 mujer      1.6          160        63.0</span></a>
+<a class="sourceLine" id="cb48-18" data-line-number="18"><span class="co">#&gt; 5 hombre     1.67         167        65.7</span></a></code></pre></div>
 <p><img src="img/manicule2.jpg" /> Calcula el porcentaje de población indígena de cada
 municipio y almacenalo en una nueva variable.</p>
 <ul>
@@ -668,30 +672,30 @@ multiplicar columnas o por un escalar.</p>
 <code>mutate()</code>? Notar que hay escenarios en los que nos puede interesar usar funciones no vectorizadas con <code>mutate()</code> pero vale la pena entender que es lo
 que regresan.<br />
 * mean, pmin, max, <code>*</code>, <code>^</code>, quantile</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">df_ej_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">add_column</span>(df_ej, <span class="dt">peso_actual =</span> <span class="kw">c</span>(<span class="dv">60</span>, <span class="dv">80</span>, <span class="dv">70</span>, <span class="dv">50</span>, <span class="dv">65</span>), </a>
-<a class="sourceLine" id="cb50-2" data-line-number="2">    <span class="dt">peso_anterior =</span> <span class="kw">c</span>(<span class="dv">66</span>, <span class="dv">78</span>, <span class="dv">73</span>, <span class="dv">54</span>, <span class="dv">61</span>))</a>
-<a class="sourceLine" id="cb50-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb50-4" data-line-number="4"><span class="kw">mutate</span>(df_ej_<span class="dv">2</span>, <span class="dt">peso_medio =</span> <span class="kw">mean</span>(<span class="kw">c</span>(peso_actual, peso_anterior)))</a>
-<a class="sourceLine" id="cb50-5" data-line-number="5"><span class="kw">mutate</span>(df_ej_<span class="dv">2</span>, <span class="dt">peso_menor =</span> <span class="kw">pmin</span>(peso_actual, peso_anterior))</a>
-<a class="sourceLine" id="cb50-6" data-line-number="6"><span class="kw">mutate</span>(df_ej_<span class="dv">2</span>, <span class="dt">peso_mayor =</span> <span class="kw">max</span>(peso_actual, peso_anterior))</a>
-<a class="sourceLine" id="cb50-7" data-line-number="7"><span class="kw">mutate</span>(df_ej_<span class="dv">2</span>, <span class="dt">estatura_sq =</span> estatura <span class="op">^</span><span class="st"> </span><span class="dv">2</span>, <span class="dt">bmi =</span> peso_actual <span class="op">/</span><span class="st"> </span>estatura_sq)</a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">df_ej_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">add_column</span>(df_ej, <span class="dt">peso_actual =</span> <span class="kw">c</span>(<span class="dv">60</span>, <span class="dv">80</span>, <span class="dv">70</span>, <span class="dv">50</span>, <span class="dv">65</span>), </a>
+<a class="sourceLine" id="cb49-2" data-line-number="2">    <span class="dt">peso_anterior =</span> <span class="kw">c</span>(<span class="dv">66</span>, <span class="dv">78</span>, <span class="dv">73</span>, <span class="dv">54</span>, <span class="dv">61</span>))</a>
+<a class="sourceLine" id="cb49-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb49-4" data-line-number="4"><span class="kw">mutate</span>(df_ej_<span class="dv">2</span>, <span class="dt">peso_medio =</span> <span class="kw">mean</span>(<span class="kw">c</span>(peso_actual, peso_anterior)))</a>
+<a class="sourceLine" id="cb49-5" data-line-number="5"><span class="kw">mutate</span>(df_ej_<span class="dv">2</span>, <span class="dt">peso_menor =</span> <span class="kw">pmin</span>(peso_actual, peso_anterior))</a>
+<a class="sourceLine" id="cb49-6" data-line-number="6"><span class="kw">mutate</span>(df_ej_<span class="dv">2</span>, <span class="dt">peso_mayor =</span> <span class="kw">max</span>(peso_actual, peso_anterior))</a>
+<a class="sourceLine" id="cb49-7" data-line-number="7"><span class="kw">mutate</span>(df_ej_<span class="dv">2</span>, <span class="dt">estatura_sq =</span> estatura <span class="op">^</span><span class="st"> </span><span class="dv">2</span>, <span class="dt">bmi =</span> peso_actual <span class="op">/</span><span class="st"> </span>estatura_sq)</a></code></pre></div>
 </div>
 <div id="summarise-y-resúmenes-por-grupo" class="section level3 unnumbered">
 <h3>Summarise y resúmenes por grupo</h3>
 <p>Summarise sirve para crear nuevas bases de datos con resúmenes o agregaciones de los datos originales.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw">summarise</span>(df_ej, <span class="dt">promedio =</span> <span class="kw">mean</span>(estatura))</a>
-<a class="sourceLine" id="cb51-2" data-line-number="2"><span class="co">#&gt; # A tibble: 1 x 1</span></a>
-<a class="sourceLine" id="cb51-3" data-line-number="3"><span class="co">#&gt;   promedio</span></a>
-<a class="sourceLine" id="cb51-4" data-line-number="4"><span class="co">#&gt;      &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb51-5" data-line-number="5"><span class="co">#&gt; 1     1.68</span></a></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">summarise</span>(df_ej, <span class="dt">promedio =</span> <span class="kw">mean</span>(estatura))</a>
+<a class="sourceLine" id="cb50-2" data-line-number="2"><span class="co">#&gt; # A tibble: 1 x 1</span></a>
+<a class="sourceLine" id="cb50-3" data-line-number="3"><span class="co">#&gt;   promedio</span></a>
+<a class="sourceLine" id="cb50-4" data-line-number="4"><span class="co">#&gt;      &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb50-5" data-line-number="5"><span class="co">#&gt; 1     1.68</span></a></code></pre></div>
 <p><img src="img/manicule2.jpg" /> Calcula la población total, indígena y afromexicana a
 total.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="kw">summarise</span>(df_mxmunicipio, <span class="dt">indigeonous =</span> <span class="kw">sum</span>(indigenous), </a>
-<a class="sourceLine" id="cb52-2" data-line-number="2">    <span class="dt">afromexican =</span> <span class="kw">sum</span>(afromexican))</a>
-<a class="sourceLine" id="cb52-3" data-line-number="3"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
-<a class="sourceLine" id="cb52-4" data-line-number="4"><span class="co">#&gt;   indigeonous afromexican</span></a>
-<a class="sourceLine" id="cb52-5" data-line-number="5"><span class="co">#&gt;         &lt;dbl&gt;       &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb52-6" data-line-number="6"><span class="co">#&gt; 1    25694928     1381853</span></a></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw">summarise</span>(df_mxmunicipio, <span class="dt">indigeonous =</span> <span class="kw">sum</span>(indigenous), </a>
+<a class="sourceLine" id="cb51-2" data-line-number="2">    <span class="dt">afromexican =</span> <span class="kw">sum</span>(afromexican))</a>
+<a class="sourceLine" id="cb51-3" data-line-number="3"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
+<a class="sourceLine" id="cb51-4" data-line-number="4"><span class="co">#&gt;   indigeonous afromexican</span></a>
+<a class="sourceLine" id="cb51-5" data-line-number="5"><span class="co">#&gt;         &lt;dbl&gt;       &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb51-6" data-line-number="6"><span class="co">#&gt; 1    25694928     1381853</span></a></code></pre></div>
 <p>La mayor utlidad de <code>summarise</code> es cuando la combinamos con una variable de
 agrupación y esta combinación es la estrategia separa-aplica combina.</p>
 <div id="separa-aplica-combina-split-apply-combine" class="section level4 unnumbered">
@@ -721,17 +725,17 @@ de ciclos <code>for</code> desemboca en código difícil de entender por lo que 
 trabajar con funciones creadas para estas tareas, usaremos el paquete
 <code>dplyr</code> que además de ser más claro suele ser más veloz.</p>
 <p>Podemos hacer resúmenes por grupo, primero creamos una base de datos agrupada:</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">by_sexo &lt;-<span class="st"> </span><span class="kw">group_by</span>(df_ej, sexo)</a>
-<a class="sourceLine" id="cb53-2" data-line-number="2">by_sexo</a>
-<a class="sourceLine" id="cb53-3" data-line-number="3"><span class="co">#&gt; # A tibble: 5 x 2</span></a>
-<a class="sourceLine" id="cb53-4" data-line-number="4"><span class="co">#&gt; # Groups:   sexo [2]</span></a>
-<a class="sourceLine" id="cb53-5" data-line-number="5"><span class="co">#&gt;   sexo   estatura</span></a>
-<a class="sourceLine" id="cb53-6" data-line-number="6"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb53-7" data-line-number="7"><span class="co">#&gt; 1 mujer      1.65</span></a>
-<a class="sourceLine" id="cb53-8" data-line-number="8"><span class="co">#&gt; 2 hombre     1.8 </span></a>
-<a class="sourceLine" id="cb53-9" data-line-number="9"><span class="co">#&gt; 3 mujer      1.7 </span></a>
-<a class="sourceLine" id="cb53-10" data-line-number="10"><span class="co">#&gt; 4 mujer      1.6 </span></a>
-<a class="sourceLine" id="cb53-11" data-line-number="11"><span class="co">#&gt; 5 hombre     1.67</span></a></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">by_sexo &lt;-<span class="st"> </span><span class="kw">group_by</span>(df_ej, sexo)</a>
+<a class="sourceLine" id="cb52-2" data-line-number="2">by_sexo</a>
+<a class="sourceLine" id="cb52-3" data-line-number="3"><span class="co">#&gt; # A tibble: 5 x 2</span></a>
+<a class="sourceLine" id="cb52-4" data-line-number="4"><span class="co">#&gt; # Groups:   sexo [2]</span></a>
+<a class="sourceLine" id="cb52-5" data-line-number="5"><span class="co">#&gt;   sexo   estatura</span></a>
+<a class="sourceLine" id="cb52-6" data-line-number="6"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb52-7" data-line-number="7"><span class="co">#&gt; 1 mujer      1.65</span></a>
+<a class="sourceLine" id="cb52-8" data-line-number="8"><span class="co">#&gt; 2 hombre     1.8 </span></a>
+<a class="sourceLine" id="cb52-9" data-line-number="9"><span class="co">#&gt; 3 mujer      1.7 </span></a>
+<a class="sourceLine" id="cb52-10" data-line-number="10"><span class="co">#&gt; 4 mujer      1.6 </span></a>
+<a class="sourceLine" id="cb52-11" data-line-number="11"><span class="co">#&gt; 5 hombre     1.67</span></a></code></pre></div>
 <p>y después operamos sobre cada grupo, creando un resumen a nivel grupo y uniendo
 los subconjuntos en una base nueva:</p>
 <p><img src="img/manicule2.jpg" /> Calcula la población total por estado.</p>
@@ -743,45 +747,45 @@ los subconjuntos en una base nueva:</p>
 quantile(x, p), n(), sum(x), sum(x &gt; 1), mean(x &gt; 1), sd(x).</p>
 <p>Por ejemplo, para cada área metropolitana: cuántos municipios engloba (<code>n()</code>),
 la población total (<code>sum()</code>) y al estado al que pertenece (<code>first()</code>).</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1">by_metro_area &lt;-<span class="st"> </span><span class="kw">group_by</span>(df_mxmunicipio, metro_area)</a>
-<a class="sourceLine" id="cb54-2" data-line-number="2">no_miss &lt;-<span class="st"> </span><span class="kw">filter</span>(by_metro_area, <span class="op">!</span><span class="kw">is.na</span>(metro_area))</a>
-<a class="sourceLine" id="cb54-3" data-line-number="3">pop_metro_area &lt;-<span class="st"> </span><span class="kw">summarise</span>(no_miss, <span class="dt">state =</span> <span class="kw">first</span>(state_abbr), </a>
-<a class="sourceLine" id="cb54-4" data-line-number="4">    <span class="dt">n_municipios =</span> <span class="kw">n</span>(), <span class="dt">pop_total =</span> <span class="kw">sum</span>(pop))</a>
-<a class="sourceLine" id="cb54-5" data-line-number="5"><span class="kw">head</span>(pop_metro_area)</a>
-<a class="sourceLine" id="cb54-6" data-line-number="6"><span class="co">#&gt; # A tibble: 6 x 4</span></a>
-<a class="sourceLine" id="cb54-7" data-line-number="7"><span class="co">#&gt;   metro_area     state n_municipios pop_total</span></a>
-<a class="sourceLine" id="cb54-8" data-line-number="8"><span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;        &lt;int&gt;     &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb54-9" data-line-number="9"><span class="co">#&gt; 1 Acapulco       GRO              2    886975</span></a>
-<a class="sourceLine" id="cb54-10" data-line-number="10"><span class="co">#&gt; 2 Acayucan       VER              3    120340</span></a>
-<a class="sourceLine" id="cb54-11" data-line-number="11"><span class="co">#&gt; 3 Aguascalientes AGS              3   1044049</span></a>
-<a class="sourceLine" id="cb54-12" data-line-number="12"><span class="co">#&gt; 4 Cancún         QROO             2    763121</span></a>
-<a class="sourceLine" id="cb54-13" data-line-number="13"><span class="co">#&gt; 5 Celaya         GTO              3    635706</span></a>
-<a class="sourceLine" id="cb54-14" data-line-number="14"><span class="co">#&gt; 6 Chihuahua      CHIH             3    918339</span></a></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">by_metro_area &lt;-<span class="st"> </span><span class="kw">group_by</span>(df_mxmunicipio, metro_area)</a>
+<a class="sourceLine" id="cb53-2" data-line-number="2">no_miss &lt;-<span class="st"> </span><span class="kw">filter</span>(by_metro_area, <span class="op">!</span><span class="kw">is.na</span>(metro_area))</a>
+<a class="sourceLine" id="cb53-3" data-line-number="3">pop_metro_area &lt;-<span class="st"> </span><span class="kw">summarise</span>(no_miss, <span class="dt">state =</span> <span class="kw">first</span>(state_abbr), </a>
+<a class="sourceLine" id="cb53-4" data-line-number="4">    <span class="dt">n_municipios =</span> <span class="kw">n</span>(), <span class="dt">pop_total =</span> <span class="kw">sum</span>(pop))</a>
+<a class="sourceLine" id="cb53-5" data-line-number="5"><span class="kw">head</span>(pop_metro_area)</a>
+<a class="sourceLine" id="cb53-6" data-line-number="6"><span class="co">#&gt; # A tibble: 6 x 4</span></a>
+<a class="sourceLine" id="cb53-7" data-line-number="7"><span class="co">#&gt;   metro_area     state n_municipios pop_total</span></a>
+<a class="sourceLine" id="cb53-8" data-line-number="8"><span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;        &lt;int&gt;     &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb53-9" data-line-number="9"><span class="co">#&gt; 1 Acapulco       GRO              2    886975</span></a>
+<a class="sourceLine" id="cb53-10" data-line-number="10"><span class="co">#&gt; 2 Acayucan       VER              3    120340</span></a>
+<a class="sourceLine" id="cb53-11" data-line-number="11"><span class="co">#&gt; 3 Aguascalientes AGS              3   1044049</span></a>
+<a class="sourceLine" id="cb53-12" data-line-number="12"><span class="co">#&gt; 4 Cancún         QROO             2    763121</span></a>
+<a class="sourceLine" id="cb53-13" data-line-number="13"><span class="co">#&gt; 5 Celaya         GTO              3    635706</span></a>
+<a class="sourceLine" id="cb53-14" data-line-number="14"><span class="co">#&gt; 6 Chihuahua      CHIH             3    918339</span></a></code></pre></div>
 </div>
 <div id="operador-pipeline" class="section level4 unnumbered">
 <h4>Operador pipeline</h4>
 <p>En R, cuando uno hace varias operaciones es difícil leer y entender el
 código:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
-<a class="sourceLine" id="cb55-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb55-3" data-line-number="3"><span class="kw">summarise</span>(<span class="kw">group_by</span>(<span class="kw">filter</span>(election_<span class="dv">2012</span>, <span class="op">!</span><span class="kw">is.na</span>(section_type)), region,</a>
-<a class="sourceLine" id="cb55-4" data-line-number="4">    section_type), <span class="dt">n =</span> <span class="kw">n</span>(), <span class="dt">pri_pvem =</span> <span class="kw">sum</span>(pri_pvem), </a>
-<a class="sourceLine" id="cb55-5" data-line-number="5">    <span class="dt">prd_pt_mc =</span> <span class="kw">sum</span>(prd_pt_mc), <span class="dt">pan =</span> <span class="kw">sum</span>(pan))</a>
-<a class="sourceLine" id="cb55-6" data-line-number="6"><span class="co">#&gt; # A tibble: 24 x 6</span></a>
-<a class="sourceLine" id="cb55-7" data-line-number="7"><span class="co">#&gt; # Groups:   region [8]</span></a>
-<a class="sourceLine" id="cb55-8" data-line-number="8"><span class="co">#&gt;    region      section_type     n pri_pvem prd_pt_mc     pan</span></a>
-<a class="sourceLine" id="cb55-9" data-line-number="9"><span class="co">#&gt;    &lt;chr&gt;       &lt;chr&gt;        &lt;int&gt;    &lt;int&gt;     &lt;int&gt;   &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb55-10" data-line-number="10"><span class="co">#&gt;  1 centronorte M             2071   331221    143225  228112</span></a>
-<a class="sourceLine" id="cb55-11" data-line-number="11"><span class="co">#&gt;  2 centronorte R             5049   651507    211524  447886</span></a>
-<a class="sourceLine" id="cb55-12" data-line-number="12"><span class="co">#&gt;  3 centronorte U             8940  1229241    653540 1171415</span></a>
-<a class="sourceLine" id="cb55-13" data-line-number="13"><span class="co">#&gt;  4 centrosur   M             1839   324327    277470  126264</span></a>
-<a class="sourceLine" id="cb55-14" data-line-number="14"><span class="co">#&gt;  5 centrosur   R             2541   495288    223978  181755</span></a>
-<a class="sourceLine" id="cb55-15" data-line-number="15"><span class="co">#&gt;  6 centrosur   U            27515  3698793   4765575 1936586</span></a>
-<a class="sourceLine" id="cb55-16" data-line-number="16"><span class="co">#&gt;  7 este        M             3158   462510    370352  306124</span></a>
-<a class="sourceLine" id="cb55-17" data-line-number="17"><span class="co">#&gt;  8 este        R             6768   905078    521793  654839</span></a>
-<a class="sourceLine" id="cb55-18" data-line-number="18"><span class="co">#&gt;  9 este        U            11403  1373876   1602217 1179497</span></a>
-<a class="sourceLine" id="cb55-19" data-line-number="19"><span class="co">#&gt; 10 noreste     M             1259   176191     77062  169285</span></a>
-<a class="sourceLine" id="cb55-20" data-line-number="20"><span class="co">#&gt; # … with 14 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
+<a class="sourceLine" id="cb54-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb54-3" data-line-number="3"><span class="kw">summarise</span>(<span class="kw">group_by</span>(<span class="kw">filter</span>(election_<span class="dv">2012</span>, <span class="op">!</span><span class="kw">is.na</span>(section_type)), region,</a>
+<a class="sourceLine" id="cb54-4" data-line-number="4">    section_type), <span class="dt">n =</span> <span class="kw">n</span>(), <span class="dt">pri_pvem =</span> <span class="kw">sum</span>(pri_pvem), </a>
+<a class="sourceLine" id="cb54-5" data-line-number="5">    <span class="dt">prd_pt_mc =</span> <span class="kw">sum</span>(prd_pt_mc), <span class="dt">pan =</span> <span class="kw">sum</span>(pan))</a>
+<a class="sourceLine" id="cb54-6" data-line-number="6"><span class="co">#&gt; # A tibble: 24 x 6</span></a>
+<a class="sourceLine" id="cb54-7" data-line-number="7"><span class="co">#&gt; # Groups:   region [8]</span></a>
+<a class="sourceLine" id="cb54-8" data-line-number="8"><span class="co">#&gt;    region      section_type     n pri_pvem prd_pt_mc     pan</span></a>
+<a class="sourceLine" id="cb54-9" data-line-number="9"><span class="co">#&gt;    &lt;chr&gt;       &lt;chr&gt;        &lt;int&gt;    &lt;int&gt;     &lt;int&gt;   &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb54-10" data-line-number="10"><span class="co">#&gt;  1 centronorte M             2071   331221    143225  228112</span></a>
+<a class="sourceLine" id="cb54-11" data-line-number="11"><span class="co">#&gt;  2 centronorte R             5049   651507    211524  447886</span></a>
+<a class="sourceLine" id="cb54-12" data-line-number="12"><span class="co">#&gt;  3 centronorte U             8940  1229241    653540 1171415</span></a>
+<a class="sourceLine" id="cb54-13" data-line-number="13"><span class="co">#&gt;  4 centrosur   M             1839   324327    277470  126264</span></a>
+<a class="sourceLine" id="cb54-14" data-line-number="14"><span class="co">#&gt;  5 centrosur   R             2541   495288    223978  181755</span></a>
+<a class="sourceLine" id="cb54-15" data-line-number="15"><span class="co">#&gt;  6 centrosur   U            27515  3698793   4765575 1936586</span></a>
+<a class="sourceLine" id="cb54-16" data-line-number="16"><span class="co">#&gt;  7 este        M             3158   462510    370352  306124</span></a>
+<a class="sourceLine" id="cb54-17" data-line-number="17"><span class="co">#&gt;  8 este        R             6768   905078    521793  654839</span></a>
+<a class="sourceLine" id="cb54-18" data-line-number="18"><span class="co">#&gt;  9 este        U            11403  1373876   1602217 1179497</span></a>
+<a class="sourceLine" id="cb54-19" data-line-number="19"><span class="co">#&gt; 10 noreste     M             1259   176191     77062  169285</span></a>
+<a class="sourceLine" id="cb54-20" data-line-number="20"><span class="co">#&gt; # … with 14 more rows</span></a></code></pre></div>
 <p>La dificultad radica en que usualmente los parámetros se asignan después del
 nombre de la función usando ().</p>
 <p>Una alternativa es ir almacenando las salidas en tablas de datos intermedias
@@ -799,30 +803,30 @@ parámetros, de manera que un parámetro que precede a la función es enviado
 <p>Es así que podemos reescribir el código para poder leer las
 operaciones que vamos aplicando de izquierda a derecha y de arriba hacia abajo.</p>
 <p>Veamos como cambia el código del ejemplo:</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">election_<span class="dv">2012</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb56-2" data-line-number="2"><span class="st">    </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(section_type)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb56-3" data-line-number="3"><span class="st">    </span><span class="kw">group_by</span>(region, section_type) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb56-4" data-line-number="4"><span class="st">    </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb56-5" data-line-number="5">        <span class="dt">n =</span> <span class="kw">n</span>(), </a>
-<a class="sourceLine" id="cb56-6" data-line-number="6">        <span class="dt">pri_pvem =</span> <span class="kw">sum</span>(pri_pvem), </a>
-<a class="sourceLine" id="cb56-7" data-line-number="7">        <span class="dt">prd_pt_mc =</span> <span class="kw">sum</span>(prd_pt_mc), </a>
-<a class="sourceLine" id="cb56-8" data-line-number="8">        <span class="dt">pan =</span> <span class="kw">sum</span>(pan)</a>
-<a class="sourceLine" id="cb56-9" data-line-number="9">        ) </a>
-<a class="sourceLine" id="cb56-10" data-line-number="10"><span class="co">#&gt; # A tibble: 24 x 6</span></a>
-<a class="sourceLine" id="cb56-11" data-line-number="11"><span class="co">#&gt; # Groups:   region [8]</span></a>
-<a class="sourceLine" id="cb56-12" data-line-number="12"><span class="co">#&gt;    region      section_type     n pri_pvem prd_pt_mc     pan</span></a>
-<a class="sourceLine" id="cb56-13" data-line-number="13"><span class="co">#&gt;    &lt;chr&gt;       &lt;chr&gt;        &lt;int&gt;    &lt;int&gt;     &lt;int&gt;   &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb56-14" data-line-number="14"><span class="co">#&gt;  1 centronorte M             2071   331221    143225  228112</span></a>
-<a class="sourceLine" id="cb56-15" data-line-number="15"><span class="co">#&gt;  2 centronorte R             5049   651507    211524  447886</span></a>
-<a class="sourceLine" id="cb56-16" data-line-number="16"><span class="co">#&gt;  3 centronorte U             8940  1229241    653540 1171415</span></a>
-<a class="sourceLine" id="cb56-17" data-line-number="17"><span class="co">#&gt;  4 centrosur   M             1839   324327    277470  126264</span></a>
-<a class="sourceLine" id="cb56-18" data-line-number="18"><span class="co">#&gt;  5 centrosur   R             2541   495288    223978  181755</span></a>
-<a class="sourceLine" id="cb56-19" data-line-number="19"><span class="co">#&gt;  6 centrosur   U            27515  3698793   4765575 1936586</span></a>
-<a class="sourceLine" id="cb56-20" data-line-number="20"><span class="co">#&gt;  7 este        M             3158   462510    370352  306124</span></a>
-<a class="sourceLine" id="cb56-21" data-line-number="21"><span class="co">#&gt;  8 este        R             6768   905078    521793  654839</span></a>
-<a class="sourceLine" id="cb56-22" data-line-number="22"><span class="co">#&gt;  9 este        U            11403  1373876   1602217 1179497</span></a>
-<a class="sourceLine" id="cb56-23" data-line-number="23"><span class="co">#&gt; 10 noreste     M             1259   176191     77062  169285</span></a>
-<a class="sourceLine" id="cb56-24" data-line-number="24"><span class="co">#&gt; # … with 14 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1">election_<span class="dv">2012</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb55-2" data-line-number="2"><span class="st">    </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(section_type)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb55-3" data-line-number="3"><span class="st">    </span><span class="kw">group_by</span>(region, section_type) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb55-4" data-line-number="4"><span class="st">    </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb55-5" data-line-number="5">        <span class="dt">n =</span> <span class="kw">n</span>(), </a>
+<a class="sourceLine" id="cb55-6" data-line-number="6">        <span class="dt">pri_pvem =</span> <span class="kw">sum</span>(pri_pvem), </a>
+<a class="sourceLine" id="cb55-7" data-line-number="7">        <span class="dt">prd_pt_mc =</span> <span class="kw">sum</span>(prd_pt_mc), </a>
+<a class="sourceLine" id="cb55-8" data-line-number="8">        <span class="dt">pan =</span> <span class="kw">sum</span>(pan)</a>
+<a class="sourceLine" id="cb55-9" data-line-number="9">        ) </a>
+<a class="sourceLine" id="cb55-10" data-line-number="10"><span class="co">#&gt; # A tibble: 24 x 6</span></a>
+<a class="sourceLine" id="cb55-11" data-line-number="11"><span class="co">#&gt; # Groups:   region [8]</span></a>
+<a class="sourceLine" id="cb55-12" data-line-number="12"><span class="co">#&gt;    region      section_type     n pri_pvem prd_pt_mc     pan</span></a>
+<a class="sourceLine" id="cb55-13" data-line-number="13"><span class="co">#&gt;    &lt;chr&gt;       &lt;chr&gt;        &lt;int&gt;    &lt;int&gt;     &lt;int&gt;   &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb55-14" data-line-number="14"><span class="co">#&gt;  1 centronorte M             2071   331221    143225  228112</span></a>
+<a class="sourceLine" id="cb55-15" data-line-number="15"><span class="co">#&gt;  2 centronorte R             5049   651507    211524  447886</span></a>
+<a class="sourceLine" id="cb55-16" data-line-number="16"><span class="co">#&gt;  3 centronorte U             8940  1229241    653540 1171415</span></a>
+<a class="sourceLine" id="cb55-17" data-line-number="17"><span class="co">#&gt;  4 centrosur   M             1839   324327    277470  126264</span></a>
+<a class="sourceLine" id="cb55-18" data-line-number="18"><span class="co">#&gt;  5 centrosur   R             2541   495288    223978  181755</span></a>
+<a class="sourceLine" id="cb55-19" data-line-number="19"><span class="co">#&gt;  6 centrosur   U            27515  3698793   4765575 1936586</span></a>
+<a class="sourceLine" id="cb55-20" data-line-number="20"><span class="co">#&gt;  7 este        M             3158   462510    370352  306124</span></a>
+<a class="sourceLine" id="cb55-21" data-line-number="21"><span class="co">#&gt;  8 este        R             6768   905078    521793  654839</span></a>
+<a class="sourceLine" id="cb55-22" data-line-number="22"><span class="co">#&gt;  9 este        U            11403  1373876   1602217 1179497</span></a>
+<a class="sourceLine" id="cb55-23" data-line-number="23"><span class="co">#&gt; 10 noreste     M             1259   176191     77062  169285</span></a>
+<a class="sourceLine" id="cb55-24" data-line-number="24"><span class="co">#&gt; # … with 14 more rows</span></a></code></pre></div>
 <p>podemos leer %&gt;% como “<em>después</em>”.</p>
 <p><strong>Tip:</strong> Un atajo para producir el operador pipeline <code>%&gt;%</code> es
 shift + ctrl/cmd + M</p>
@@ -837,16 +841,16 @@ que porcentaje asistió a votar)? Tip: debes eliminar las casillas especiales pu
 dentro de cada grupo z = (x - mean(x)) / sd(x). Para esto usamos <code>group_by()</code>
 y <code>mutate()</code>.</p>
 <p>Veamos un ejemplo:</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">z_prd_pt_mc_state &lt;-<span class="st"> </span>election_<span class="dv">2012</span> <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb57-2" data-line-number="2"><span class="st">    </span><span class="kw">filter</span>(total <span class="op">&gt;</span><span class="st"> </span><span class="dv">50</span>, <span class="op">!</span><span class="kw">is.na</span>(section_type)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb57-3" data-line-number="3"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">prd_pt_mc_pct =</span> prd_pt_mc <span class="op">/</span><span class="st"> </span>total) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb57-4" data-line-number="4"><span class="st">    </span><span class="kw">group_by</span>(state_abbr) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb57-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb57-6" data-line-number="6">        <span class="dt">n =</span> <span class="kw">n</span>(),</a>
-<a class="sourceLine" id="cb57-7" data-line-number="7">        <span class="dt">sd_prd_pt_mc =</span> <span class="kw">sd</span>(prd_pt_mc_pct),</a>
-<a class="sourceLine" id="cb57-8" data-line-number="8">        <span class="dt">mean_prd_pt_mc =</span> <span class="kw">mean</span>(prd_pt_mc_pct),</a>
-<a class="sourceLine" id="cb57-9" data-line-number="9">        <span class="dt">z_prd_pt_mc =</span> (prd_pt_mc_pct <span class="op">-</span><span class="st"> </span>mean_prd_pt_mc) <span class="op">/</span><span class="st"> </span>sd_prd_pt_mc </a>
-<a class="sourceLine" id="cb57-10" data-line-number="10">    )</a></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">z_prd_pt_mc_state &lt;-<span class="st"> </span>election_<span class="dv">2012</span> <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb56-2" data-line-number="2"><span class="st">    </span><span class="kw">filter</span>(total <span class="op">&gt;</span><span class="st"> </span><span class="dv">50</span>, <span class="op">!</span><span class="kw">is.na</span>(section_type)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb56-3" data-line-number="3"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">prd_pt_mc_pct =</span> prd_pt_mc <span class="op">/</span><span class="st"> </span>total) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb56-4" data-line-number="4"><span class="st">    </span><span class="kw">group_by</span>(state_abbr) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb56-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb56-6" data-line-number="6">        <span class="dt">n =</span> <span class="kw">n</span>(),</a>
+<a class="sourceLine" id="cb56-7" data-line-number="7">        <span class="dt">sd_prd_pt_mc =</span> <span class="kw">sd</span>(prd_pt_mc_pct),</a>
+<a class="sourceLine" id="cb56-8" data-line-number="8">        <span class="dt">mean_prd_pt_mc =</span> <span class="kw">mean</span>(prd_pt_mc_pct),</a>
+<a class="sourceLine" id="cb56-9" data-line-number="9">        <span class="dt">z_prd_pt_mc =</span> (prd_pt_mc_pct <span class="op">-</span><span class="st"> </span>mean_prd_pt_mc) <span class="op">/</span><span class="st"> </span>sd_prd_pt_mc </a>
+<a class="sourceLine" id="cb56-10" data-line-number="10">    )</a></code></pre></div>
 </div>
 <div id="verbos-de-dos-tablas" class="section level3 unnumbered">
 <h3>Verbos de dos tablas</h3>
@@ -857,68 +861,68 @@ población indígena (<code>indigenous</code> en <code>df_mxmunicipios</code>), 
 las dos tablas.</p>
 <p>Hay varias maneras de unir dos bases de datos y debemos pensar en el
 obejtivo:</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">name =</span> <span class="kw">c</span>(<span class="st">&quot;John&quot;</span>, <span class="st">&quot;Paul&quot;</span>, <span class="st">&quot;George&quot;</span>, <span class="st">&quot;Ringo&quot;</span>, <span class="st">&quot;Stuart&quot;</span>, <span class="st">&quot;Pete&quot;</span>),</a>
-<a class="sourceLine" id="cb58-2" data-line-number="2">  <span class="dt">instrument =</span> <span class="kw">c</span>(<span class="st">&quot;guitar&quot;</span>, <span class="st">&quot;bass&quot;</span>, <span class="st">&quot;guitar&quot;</span>, <span class="st">&quot;drums&quot;</span>, <span class="st">&quot;bass&quot;</span>,</a>
-<a class="sourceLine" id="cb58-3" data-line-number="3">     <span class="st">&quot;drums&quot;</span>))</a>
-<a class="sourceLine" id="cb58-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb58-5" data-line-number="5">y &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">name =</span> <span class="kw">c</span>(<span class="st">&quot;John&quot;</span>, <span class="st">&quot;Paul&quot;</span>, <span class="st">&quot;George&quot;</span>, <span class="st">&quot;Ringo&quot;</span>, <span class="st">&quot;Brian&quot;</span>),</a>
-<a class="sourceLine" id="cb58-6" data-line-number="6">  <span class="dt">band =</span> <span class="kw">c</span>(<span class="st">&quot;TRUE&quot;</span>, <span class="st">&quot;TRUE&quot;</span>, <span class="st">&quot;TRUE&quot;</span>,  <span class="st">&quot;TRUE&quot;</span>, <span class="st">&quot;FALSE&quot;</span>))</a>
-<a class="sourceLine" id="cb58-7" data-line-number="7">x</a>
-<a class="sourceLine" id="cb58-8" data-line-number="8"><span class="co">#&gt; # A tibble: 6 x 2</span></a>
-<a class="sourceLine" id="cb58-9" data-line-number="9"><span class="co">#&gt;   name   instrument</span></a>
-<a class="sourceLine" id="cb58-10" data-line-number="10"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;     </span></a>
-<a class="sourceLine" id="cb58-11" data-line-number="11"><span class="co">#&gt; 1 John   guitar    </span></a>
-<a class="sourceLine" id="cb58-12" data-line-number="12"><span class="co">#&gt; 2 Paul   bass      </span></a>
-<a class="sourceLine" id="cb58-13" data-line-number="13"><span class="co">#&gt; 3 George guitar    </span></a>
-<a class="sourceLine" id="cb58-14" data-line-number="14"><span class="co">#&gt; 4 Ringo  drums     </span></a>
-<a class="sourceLine" id="cb58-15" data-line-number="15"><span class="co">#&gt; 5 Stuart bass      </span></a>
-<a class="sourceLine" id="cb58-16" data-line-number="16"><span class="co">#&gt; 6 Pete   drums</span></a>
-<a class="sourceLine" id="cb58-17" data-line-number="17">y</a>
-<a class="sourceLine" id="cb58-18" data-line-number="18"><span class="co">#&gt; # A tibble: 5 x 2</span></a>
-<a class="sourceLine" id="cb58-19" data-line-number="19"><span class="co">#&gt;   name   band </span></a>
-<a class="sourceLine" id="cb58-20" data-line-number="20"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb58-21" data-line-number="21"><span class="co">#&gt; 1 John   TRUE </span></a>
-<a class="sourceLine" id="cb58-22" data-line-number="22"><span class="co">#&gt; 2 Paul   TRUE </span></a>
-<a class="sourceLine" id="cb58-23" data-line-number="23"><span class="co">#&gt; 3 George TRUE </span></a>
-<a class="sourceLine" id="cb58-24" data-line-number="24"><span class="co">#&gt; 4 Ringo  TRUE </span></a>
-<a class="sourceLine" id="cb58-25" data-line-number="25"><span class="co">#&gt; 5 Brian  FALSE</span></a>
-<a class="sourceLine" id="cb58-26" data-line-number="26"></a>
-<a class="sourceLine" id="cb58-27" data-line-number="27"><span class="kw">inner_join</span>(x, y)</a>
-<a class="sourceLine" id="cb58-28" data-line-number="28"><span class="co">#&gt; Joining, by = &quot;name&quot;</span></a>
-<a class="sourceLine" id="cb58-29" data-line-number="29"><span class="co">#&gt; # A tibble: 4 x 3</span></a>
-<a class="sourceLine" id="cb58-30" data-line-number="30"><span class="co">#&gt;   name   instrument band </span></a>
-<a class="sourceLine" id="cb58-31" data-line-number="31"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb58-32" data-line-number="32"><span class="co">#&gt; 1 John   guitar     TRUE </span></a>
-<a class="sourceLine" id="cb58-33" data-line-number="33"><span class="co">#&gt; 2 Paul   bass       TRUE </span></a>
-<a class="sourceLine" id="cb58-34" data-line-number="34"><span class="co">#&gt; 3 George guitar     TRUE </span></a>
-<a class="sourceLine" id="cb58-35" data-line-number="35"><span class="co">#&gt; 4 Ringo  drums      TRUE</span></a>
-<a class="sourceLine" id="cb58-36" data-line-number="36"><span class="kw">left_join</span>(x, y)</a>
-<a class="sourceLine" id="cb58-37" data-line-number="37"><span class="co">#&gt; Joining, by = &quot;name&quot;</span></a>
-<a class="sourceLine" id="cb58-38" data-line-number="38"><span class="co">#&gt; # A tibble: 6 x 3</span></a>
-<a class="sourceLine" id="cb58-39" data-line-number="39"><span class="co">#&gt;   name   instrument band </span></a>
-<a class="sourceLine" id="cb58-40" data-line-number="40"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb58-41" data-line-number="41"><span class="co">#&gt; 1 John   guitar     TRUE </span></a>
-<a class="sourceLine" id="cb58-42" data-line-number="42"><span class="co">#&gt; 2 Paul   bass       TRUE </span></a>
-<a class="sourceLine" id="cb58-43" data-line-number="43"><span class="co">#&gt; 3 George guitar     TRUE </span></a>
-<a class="sourceLine" id="cb58-44" data-line-number="44"><span class="co">#&gt; 4 Ringo  drums      TRUE </span></a>
-<a class="sourceLine" id="cb58-45" data-line-number="45"><span class="co">#&gt; 5 Stuart bass       &lt;NA&gt; </span></a>
-<a class="sourceLine" id="cb58-46" data-line-number="46"><span class="co">#&gt; 6 Pete   drums      &lt;NA&gt;</span></a>
-<a class="sourceLine" id="cb58-47" data-line-number="47"><span class="kw">semi_join</span>(x, y)</a>
-<a class="sourceLine" id="cb58-48" data-line-number="48"><span class="co">#&gt; Joining, by = &quot;name&quot;</span></a>
-<a class="sourceLine" id="cb58-49" data-line-number="49"><span class="co">#&gt; # A tibble: 4 x 2</span></a>
-<a class="sourceLine" id="cb58-50" data-line-number="50"><span class="co">#&gt;   name   instrument</span></a>
-<a class="sourceLine" id="cb58-51" data-line-number="51"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;     </span></a>
-<a class="sourceLine" id="cb58-52" data-line-number="52"><span class="co">#&gt; 1 John   guitar    </span></a>
-<a class="sourceLine" id="cb58-53" data-line-number="53"><span class="co">#&gt; 2 Paul   bass      </span></a>
-<a class="sourceLine" id="cb58-54" data-line-number="54"><span class="co">#&gt; 3 George guitar    </span></a>
-<a class="sourceLine" id="cb58-55" data-line-number="55"><span class="co">#&gt; 4 Ringo  drums</span></a>
-<a class="sourceLine" id="cb58-56" data-line-number="56"><span class="kw">anti_join</span>(x, y)</a>
-<a class="sourceLine" id="cb58-57" data-line-number="57"><span class="co">#&gt; Joining, by = &quot;name&quot;</span></a>
-<a class="sourceLine" id="cb58-58" data-line-number="58"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
-<a class="sourceLine" id="cb58-59" data-line-number="59"><span class="co">#&gt;   name   instrument</span></a>
-<a class="sourceLine" id="cb58-60" data-line-number="60"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;     </span></a>
-<a class="sourceLine" id="cb58-61" data-line-number="61"><span class="co">#&gt; 1 Stuart bass      </span></a>
-<a class="sourceLine" id="cb58-62" data-line-number="62"><span class="co">#&gt; 2 Pete   drums</span></a></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">name =</span> <span class="kw">c</span>(<span class="st">&quot;John&quot;</span>, <span class="st">&quot;Paul&quot;</span>, <span class="st">&quot;George&quot;</span>, <span class="st">&quot;Ringo&quot;</span>, <span class="st">&quot;Stuart&quot;</span>, <span class="st">&quot;Pete&quot;</span>),</a>
+<a class="sourceLine" id="cb57-2" data-line-number="2">  <span class="dt">instrument =</span> <span class="kw">c</span>(<span class="st">&quot;guitar&quot;</span>, <span class="st">&quot;bass&quot;</span>, <span class="st">&quot;guitar&quot;</span>, <span class="st">&quot;drums&quot;</span>, <span class="st">&quot;bass&quot;</span>,</a>
+<a class="sourceLine" id="cb57-3" data-line-number="3">     <span class="st">&quot;drums&quot;</span>))</a>
+<a class="sourceLine" id="cb57-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb57-5" data-line-number="5">y &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">name =</span> <span class="kw">c</span>(<span class="st">&quot;John&quot;</span>, <span class="st">&quot;Paul&quot;</span>, <span class="st">&quot;George&quot;</span>, <span class="st">&quot;Ringo&quot;</span>, <span class="st">&quot;Brian&quot;</span>),</a>
+<a class="sourceLine" id="cb57-6" data-line-number="6">  <span class="dt">band =</span> <span class="kw">c</span>(<span class="st">&quot;TRUE&quot;</span>, <span class="st">&quot;TRUE&quot;</span>, <span class="st">&quot;TRUE&quot;</span>,  <span class="st">&quot;TRUE&quot;</span>, <span class="st">&quot;FALSE&quot;</span>))</a>
+<a class="sourceLine" id="cb57-7" data-line-number="7">x</a>
+<a class="sourceLine" id="cb57-8" data-line-number="8"><span class="co">#&gt; # A tibble: 6 x 2</span></a>
+<a class="sourceLine" id="cb57-9" data-line-number="9"><span class="co">#&gt;   name   instrument</span></a>
+<a class="sourceLine" id="cb57-10" data-line-number="10"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;     </span></a>
+<a class="sourceLine" id="cb57-11" data-line-number="11"><span class="co">#&gt; 1 John   guitar    </span></a>
+<a class="sourceLine" id="cb57-12" data-line-number="12"><span class="co">#&gt; 2 Paul   bass      </span></a>
+<a class="sourceLine" id="cb57-13" data-line-number="13"><span class="co">#&gt; 3 George guitar    </span></a>
+<a class="sourceLine" id="cb57-14" data-line-number="14"><span class="co">#&gt; 4 Ringo  drums     </span></a>
+<a class="sourceLine" id="cb57-15" data-line-number="15"><span class="co">#&gt; 5 Stuart bass      </span></a>
+<a class="sourceLine" id="cb57-16" data-line-number="16"><span class="co">#&gt; 6 Pete   drums</span></a>
+<a class="sourceLine" id="cb57-17" data-line-number="17">y</a>
+<a class="sourceLine" id="cb57-18" data-line-number="18"><span class="co">#&gt; # A tibble: 5 x 2</span></a>
+<a class="sourceLine" id="cb57-19" data-line-number="19"><span class="co">#&gt;   name   band </span></a>
+<a class="sourceLine" id="cb57-20" data-line-number="20"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb57-21" data-line-number="21"><span class="co">#&gt; 1 John   TRUE </span></a>
+<a class="sourceLine" id="cb57-22" data-line-number="22"><span class="co">#&gt; 2 Paul   TRUE </span></a>
+<a class="sourceLine" id="cb57-23" data-line-number="23"><span class="co">#&gt; 3 George TRUE </span></a>
+<a class="sourceLine" id="cb57-24" data-line-number="24"><span class="co">#&gt; 4 Ringo  TRUE </span></a>
+<a class="sourceLine" id="cb57-25" data-line-number="25"><span class="co">#&gt; 5 Brian  FALSE</span></a>
+<a class="sourceLine" id="cb57-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb57-27" data-line-number="27"><span class="kw">inner_join</span>(x, y)</a>
+<a class="sourceLine" id="cb57-28" data-line-number="28"><span class="co">#&gt; Joining, by = &quot;name&quot;</span></a>
+<a class="sourceLine" id="cb57-29" data-line-number="29"><span class="co">#&gt; # A tibble: 4 x 3</span></a>
+<a class="sourceLine" id="cb57-30" data-line-number="30"><span class="co">#&gt;   name   instrument band </span></a>
+<a class="sourceLine" id="cb57-31" data-line-number="31"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb57-32" data-line-number="32"><span class="co">#&gt; 1 John   guitar     TRUE </span></a>
+<a class="sourceLine" id="cb57-33" data-line-number="33"><span class="co">#&gt; 2 Paul   bass       TRUE </span></a>
+<a class="sourceLine" id="cb57-34" data-line-number="34"><span class="co">#&gt; 3 George guitar     TRUE </span></a>
+<a class="sourceLine" id="cb57-35" data-line-number="35"><span class="co">#&gt; 4 Ringo  drums      TRUE</span></a>
+<a class="sourceLine" id="cb57-36" data-line-number="36"><span class="kw">left_join</span>(x, y)</a>
+<a class="sourceLine" id="cb57-37" data-line-number="37"><span class="co">#&gt; Joining, by = &quot;name&quot;</span></a>
+<a class="sourceLine" id="cb57-38" data-line-number="38"><span class="co">#&gt; # A tibble: 6 x 3</span></a>
+<a class="sourceLine" id="cb57-39" data-line-number="39"><span class="co">#&gt;   name   instrument band </span></a>
+<a class="sourceLine" id="cb57-40" data-line-number="40"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb57-41" data-line-number="41"><span class="co">#&gt; 1 John   guitar     TRUE </span></a>
+<a class="sourceLine" id="cb57-42" data-line-number="42"><span class="co">#&gt; 2 Paul   bass       TRUE </span></a>
+<a class="sourceLine" id="cb57-43" data-line-number="43"><span class="co">#&gt; 3 George guitar     TRUE </span></a>
+<a class="sourceLine" id="cb57-44" data-line-number="44"><span class="co">#&gt; 4 Ringo  drums      TRUE </span></a>
+<a class="sourceLine" id="cb57-45" data-line-number="45"><span class="co">#&gt; 5 Stuart bass       &lt;NA&gt; </span></a>
+<a class="sourceLine" id="cb57-46" data-line-number="46"><span class="co">#&gt; 6 Pete   drums      &lt;NA&gt;</span></a>
+<a class="sourceLine" id="cb57-47" data-line-number="47"><span class="kw">semi_join</span>(x, y)</a>
+<a class="sourceLine" id="cb57-48" data-line-number="48"><span class="co">#&gt; Joining, by = &quot;name&quot;</span></a>
+<a class="sourceLine" id="cb57-49" data-line-number="49"><span class="co">#&gt; # A tibble: 4 x 2</span></a>
+<a class="sourceLine" id="cb57-50" data-line-number="50"><span class="co">#&gt;   name   instrument</span></a>
+<a class="sourceLine" id="cb57-51" data-line-number="51"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;     </span></a>
+<a class="sourceLine" id="cb57-52" data-line-number="52"><span class="co">#&gt; 1 John   guitar    </span></a>
+<a class="sourceLine" id="cb57-53" data-line-number="53"><span class="co">#&gt; 2 Paul   bass      </span></a>
+<a class="sourceLine" id="cb57-54" data-line-number="54"><span class="co">#&gt; 3 George guitar    </span></a>
+<a class="sourceLine" id="cb57-55" data-line-number="55"><span class="co">#&gt; 4 Ringo  drums</span></a>
+<a class="sourceLine" id="cb57-56" data-line-number="56"><span class="kw">anti_join</span>(x, y)</a>
+<a class="sourceLine" id="cb57-57" data-line-number="57"><span class="co">#&gt; Joining, by = &quot;name&quot;</span></a>
+<a class="sourceLine" id="cb57-58" data-line-number="58"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
+<a class="sourceLine" id="cb57-59" data-line-number="59"><span class="co">#&gt;   name   instrument</span></a>
+<a class="sourceLine" id="cb57-60" data-line-number="60"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;     </span></a>
+<a class="sourceLine" id="cb57-61" data-line-number="61"><span class="co">#&gt; 1 Stuart bass      </span></a>
+<a class="sourceLine" id="cb57-62" data-line-number="62"><span class="co">#&gt; 2 Pete   drums</span></a></code></pre></div>
 <p>Resumamos lo que observamos arriba:</p>
 <div class="mi-tabla">
 <table>
@@ -952,103 +956,103 @@ obejtivo:</p>
 escolaridad con el porcentaje de población indígena. Utiliza los datos
 <code>df_mxmunicipio</code> y <code>df_edu</code> para explorar la relación. ¿cuál es el <code>join</code>
 adecuado? ¿de qué tamaño serán los datos finales?</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="kw">glimpse</span>(df_edu)</a>
-<a class="sourceLine" id="cb59-2" data-line-number="2"><span class="co">#&gt; Observations: 7,371</span></a>
-<a class="sourceLine" id="cb59-3" data-line-number="3"><span class="co">#&gt; Variables: 16</span></a>
-<a class="sourceLine" id="cb59-4" data-line-number="4"><span class="co">#&gt; $ state_code     &lt;chr&gt; &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, …</span></a>
-<a class="sourceLine" id="cb59-5" data-line-number="5"><span class="co">#&gt; $ municipio_code &lt;chr&gt; &quot;001&quot;, &quot;001&quot;, &quot;001&quot;, &quot;002&quot;, &quot;002&quot;, &quot;002&quot;, &quot;003&quot;, &quot;003&quot;…</span></a>
-<a class="sourceLine" id="cb59-6" data-line-number="6"><span class="co">#&gt; $ region         &lt;chr&gt; &quot;01001&quot;, &quot;01001&quot;, &quot;01001&quot;, &quot;01002&quot;, &quot;01002&quot;, &quot;01002&quot;, …</span></a>
-<a class="sourceLine" id="cb59-7" data-line-number="7"><span class="co">#&gt; $ state_name     &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, …</span></a>
-<a class="sourceLine" id="cb59-8" data-line-number="8"><span class="co">#&gt; $ state_abbr     &lt;chr&gt; &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;…</span></a>
-<a class="sourceLine" id="cb59-9" data-line-number="9"><span class="co">#&gt; $ municipio_name &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, …</span></a>
-<a class="sourceLine" id="cb59-10" data-line-number="10"><span class="co">#&gt; $ sex            &lt;chr&gt; &quot;Total&quot;, &quot;Hombres&quot;, &quot;Mujeres&quot;, &quot;Total&quot;, &quot;Hombres&quot;, &quot;Mu…</span></a>
-<a class="sourceLine" id="cb59-11" data-line-number="11"><span class="co">#&gt; $ pop_15         &lt;dbl&gt; 631064, 301714, 329350, 31013, 14991, 16022, 38678, 18…</span></a>
-<a class="sourceLine" id="cb59-12" data-line-number="12"><span class="co">#&gt; $ no_school      &lt;dbl&gt; 2.662329, 2.355211, 2.943677, 4.011221, 4.389300, 3.65…</span></a>
-<a class="sourceLine" id="cb59-13" data-line-number="13"><span class="co">#&gt; $ preschool      &lt;dbl&gt; 0.17335801, 0.17466873, 0.17215728, 0.25795634, 0.2935…</span></a>
-<a class="sourceLine" id="cb59-14" data-line-number="14"><span class="co">#&gt; $ elementary     &lt;dbl&gt; 20.15247, 18.60073, 21.57401, 33.77938, 35.48129, 32.1…</span></a>
-<a class="sourceLine" id="cb59-15" data-line-number="15"><span class="co">#&gt; $ secondary      &lt;dbl&gt; 29.31145, 30.37976, 28.33278, 39.21259, 37.45581, 40.8…</span></a>
-<a class="sourceLine" id="cb59-16" data-line-number="16"><span class="co">#&gt; $ highschool     &lt;dbl&gt; 23.31824, 22.84912, 23.74799, 16.07068, 15.67607, 16.4…</span></a>
-<a class="sourceLine" id="cb59-17" data-line-number="17"><span class="co">#&gt; $ higher_edu     &lt;dbl&gt; 24.291989, 25.560299, 23.130105, 6.355399, 6.357148, 6…</span></a>
-<a class="sourceLine" id="cb59-18" data-line-number="18"><span class="co">#&gt; $ other          &lt;dbl&gt; 0.09016518, 0.08020841, 0.09928647, 0.31277206, 0.3468…</span></a>
-<a class="sourceLine" id="cb59-19" data-line-number="19"><span class="co">#&gt; $ schoolyrs      &lt;dbl&gt; 10.211152, 10.380144, 10.056383, 7.854005, 7.692086, 8…</span></a>
-<a class="sourceLine" id="cb59-20" data-line-number="20"><span class="kw">glimpse</span>(df_mxmunicipio)</a>
-<a class="sourceLine" id="cb59-21" data-line-number="21"><span class="co">#&gt; Observations: 2,457</span></a>
-<a class="sourceLine" id="cb59-22" data-line-number="22"><span class="co">#&gt; Variables: 18</span></a>
-<a class="sourceLine" id="cb59-23" data-line-number="23"><span class="co">#&gt; $ state_code          &lt;chr&gt; &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;…</span></a>
-<a class="sourceLine" id="cb59-24" data-line-number="24"><span class="co">#&gt; $ municipio_code      &lt;chr&gt; &quot;001&quot;, &quot;002&quot;, &quot;003&quot;, &quot;004&quot;, &quot;005&quot;, &quot;006&quot;, &quot;007&quot;, …</span></a>
-<a class="sourceLine" id="cb59-25" data-line-number="25"><span class="co">#&gt; $ region              &lt;chr&gt; &quot;01001&quot;, &quot;01002&quot;, &quot;01003&quot;, &quot;01004&quot;, &quot;01005&quot;, &quot;010…</span></a>
-<a class="sourceLine" id="cb59-26" data-line-number="26"><span class="co">#&gt; $ state_name          &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalient…</span></a>
-<a class="sourceLine" id="cb59-27" data-line-number="27"><span class="co">#&gt; $ state_name_official &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalient…</span></a>
-<a class="sourceLine" id="cb59-28" data-line-number="28"><span class="co">#&gt; $ state_abbr          &lt;chr&gt; &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, …</span></a>
-<a class="sourceLine" id="cb59-29" data-line-number="29"><span class="co">#&gt; $ state_abbr_official &lt;chr&gt; &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;…</span></a>
-<a class="sourceLine" id="cb59-30" data-line-number="30"><span class="co">#&gt; $ municipio_name      &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Asientos&quot;, &quot;Calvillo&quot;, &quot;Cosío&quot;…</span></a>
-<a class="sourceLine" id="cb59-31" data-line-number="31"><span class="co">#&gt; $ pop                 &lt;int&gt; 877190, 46464, 56048, 15577, 120405, 46473, 53866…</span></a>
-<a class="sourceLine" id="cb59-32" data-line-number="32"><span class="co">#&gt; $ pop_male            &lt;int&gt; 425731, 22745, 27298, 7552, 60135, 22490, 26693, …</span></a>
-<a class="sourceLine" id="cb59-33" data-line-number="33"><span class="co">#&gt; $ pop_female          &lt;int&gt; 451459, 23719, 28750, 8025, 60270, 23983, 27173, …</span></a>
-<a class="sourceLine" id="cb59-34" data-line-number="34"><span class="co">#&gt; $ afromexican         &lt;dbl&gt; 532, 3, 10, 0, 32, 3, 13, 13, 4, 0, 43, 1139, 351…</span></a>
-<a class="sourceLine" id="cb59-35" data-line-number="35"><span class="co">#&gt; $ part_afromexican    &lt;dbl&gt; 2791, 130, 167, 67, 219, 74, 578, 37, 59, 60, 377…</span></a>
-<a class="sourceLine" id="cb59-36" data-line-number="36"><span class="co">#&gt; $ indigenous          &lt;dbl&gt; 104125, 1691, 7358, 2213, 8679, 6232, 6714, 1733,…</span></a>
-<a class="sourceLine" id="cb59-37" data-line-number="37"><span class="co">#&gt; $ part_indigenous     &lt;dbl&gt; 14209, 92, 2223, 191, 649, 251, 247, 84, 76, 244,…</span></a>
-<a class="sourceLine" id="cb59-38" data-line-number="38"><span class="co">#&gt; $ metro_area          &lt;chr&gt; &quot;Aguascalientes&quot;, NA, NA, NA, &quot;Aguascalientes&quot;, N…</span></a>
-<a class="sourceLine" id="cb59-39" data-line-number="39"><span class="co">#&gt; $ long                &lt;dbl&gt; -102.29605, -102.08928, -102.71875, -102.30004, -…</span></a>
-<a class="sourceLine" id="cb59-40" data-line-number="40"><span class="co">#&gt; $ lat                 &lt;dbl&gt; 21.87982, 22.23832, 21.84691, 22.36641, 21.96127,…</span></a></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">glimpse</span>(df_edu)</a>
+<a class="sourceLine" id="cb58-2" data-line-number="2"><span class="co">#&gt; Observations: 7,371</span></a>
+<a class="sourceLine" id="cb58-3" data-line-number="3"><span class="co">#&gt; Variables: 16</span></a>
+<a class="sourceLine" id="cb58-4" data-line-number="4"><span class="co">#&gt; $ state_code     &lt;chr&gt; &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, …</span></a>
+<a class="sourceLine" id="cb58-5" data-line-number="5"><span class="co">#&gt; $ municipio_code &lt;chr&gt; &quot;001&quot;, &quot;001&quot;, &quot;001&quot;, &quot;002&quot;, &quot;002&quot;, &quot;002&quot;, &quot;003&quot;, &quot;003&quot;…</span></a>
+<a class="sourceLine" id="cb58-6" data-line-number="6"><span class="co">#&gt; $ region         &lt;chr&gt; &quot;01001&quot;, &quot;01001&quot;, &quot;01001&quot;, &quot;01002&quot;, &quot;01002&quot;, &quot;01002&quot;, …</span></a>
+<a class="sourceLine" id="cb58-7" data-line-number="7"><span class="co">#&gt; $ state_name     &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, …</span></a>
+<a class="sourceLine" id="cb58-8" data-line-number="8"><span class="co">#&gt; $ state_abbr     &lt;chr&gt; &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;…</span></a>
+<a class="sourceLine" id="cb58-9" data-line-number="9"><span class="co">#&gt; $ municipio_name &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, …</span></a>
+<a class="sourceLine" id="cb58-10" data-line-number="10"><span class="co">#&gt; $ sex            &lt;chr&gt; &quot;Total&quot;, &quot;Hombres&quot;, &quot;Mujeres&quot;, &quot;Total&quot;, &quot;Hombres&quot;, &quot;Mu…</span></a>
+<a class="sourceLine" id="cb58-11" data-line-number="11"><span class="co">#&gt; $ pop_15         &lt;dbl&gt; 631064, 301714, 329350, 31013, 14991, 16022, 38678, 18…</span></a>
+<a class="sourceLine" id="cb58-12" data-line-number="12"><span class="co">#&gt; $ no_school      &lt;dbl&gt; 2.662329, 2.355211, 2.943677, 4.011221, 4.389300, 3.65…</span></a>
+<a class="sourceLine" id="cb58-13" data-line-number="13"><span class="co">#&gt; $ preschool      &lt;dbl&gt; 0.17335801, 0.17466873, 0.17215728, 0.25795634, 0.2935…</span></a>
+<a class="sourceLine" id="cb58-14" data-line-number="14"><span class="co">#&gt; $ elementary     &lt;dbl&gt; 20.15247, 18.60073, 21.57401, 33.77938, 35.48129, 32.1…</span></a>
+<a class="sourceLine" id="cb58-15" data-line-number="15"><span class="co">#&gt; $ secondary      &lt;dbl&gt; 29.31145, 30.37976, 28.33278, 39.21259, 37.45581, 40.8…</span></a>
+<a class="sourceLine" id="cb58-16" data-line-number="16"><span class="co">#&gt; $ highschool     &lt;dbl&gt; 23.31824, 22.84912, 23.74799, 16.07068, 15.67607, 16.4…</span></a>
+<a class="sourceLine" id="cb58-17" data-line-number="17"><span class="co">#&gt; $ higher_edu     &lt;dbl&gt; 24.291989, 25.560299, 23.130105, 6.355399, 6.357148, 6…</span></a>
+<a class="sourceLine" id="cb58-18" data-line-number="18"><span class="co">#&gt; $ other          &lt;dbl&gt; 0.09016518, 0.08020841, 0.09928647, 0.31277206, 0.3468…</span></a>
+<a class="sourceLine" id="cb58-19" data-line-number="19"><span class="co">#&gt; $ schoolyrs      &lt;dbl&gt; 10.211152, 10.380144, 10.056383, 7.854005, 7.692086, 8…</span></a>
+<a class="sourceLine" id="cb58-20" data-line-number="20"><span class="kw">glimpse</span>(df_mxmunicipio)</a>
+<a class="sourceLine" id="cb58-21" data-line-number="21"><span class="co">#&gt; Observations: 2,457</span></a>
+<a class="sourceLine" id="cb58-22" data-line-number="22"><span class="co">#&gt; Variables: 18</span></a>
+<a class="sourceLine" id="cb58-23" data-line-number="23"><span class="co">#&gt; $ state_code          &lt;chr&gt; &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;…</span></a>
+<a class="sourceLine" id="cb58-24" data-line-number="24"><span class="co">#&gt; $ municipio_code      &lt;chr&gt; &quot;001&quot;, &quot;002&quot;, &quot;003&quot;, &quot;004&quot;, &quot;005&quot;, &quot;006&quot;, &quot;007&quot;, …</span></a>
+<a class="sourceLine" id="cb58-25" data-line-number="25"><span class="co">#&gt; $ region              &lt;chr&gt; &quot;01001&quot;, &quot;01002&quot;, &quot;01003&quot;, &quot;01004&quot;, &quot;01005&quot;, &quot;010…</span></a>
+<a class="sourceLine" id="cb58-26" data-line-number="26"><span class="co">#&gt; $ state_name          &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalient…</span></a>
+<a class="sourceLine" id="cb58-27" data-line-number="27"><span class="co">#&gt; $ state_name_official &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Aguascalientes&quot;, &quot;Aguascalient…</span></a>
+<a class="sourceLine" id="cb58-28" data-line-number="28"><span class="co">#&gt; $ state_abbr          &lt;chr&gt; &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, &quot;AGS&quot;, …</span></a>
+<a class="sourceLine" id="cb58-29" data-line-number="29"><span class="co">#&gt; $ state_abbr_official &lt;chr&gt; &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;Ags.&quot;, &quot;…</span></a>
+<a class="sourceLine" id="cb58-30" data-line-number="30"><span class="co">#&gt; $ municipio_name      &lt;chr&gt; &quot;Aguascalientes&quot;, &quot;Asientos&quot;, &quot;Calvillo&quot;, &quot;Cosío&quot;…</span></a>
+<a class="sourceLine" id="cb58-31" data-line-number="31"><span class="co">#&gt; $ pop                 &lt;int&gt; 877190, 46464, 56048, 15577, 120405, 46473, 53866…</span></a>
+<a class="sourceLine" id="cb58-32" data-line-number="32"><span class="co">#&gt; $ pop_male            &lt;int&gt; 425731, 22745, 27298, 7552, 60135, 22490, 26693, …</span></a>
+<a class="sourceLine" id="cb58-33" data-line-number="33"><span class="co">#&gt; $ pop_female          &lt;int&gt; 451459, 23719, 28750, 8025, 60270, 23983, 27173, …</span></a>
+<a class="sourceLine" id="cb58-34" data-line-number="34"><span class="co">#&gt; $ afromexican         &lt;dbl&gt; 532, 3, 10, 0, 32, 3, 13, 13, 4, 0, 43, 1139, 351…</span></a>
+<a class="sourceLine" id="cb58-35" data-line-number="35"><span class="co">#&gt; $ part_afromexican    &lt;dbl&gt; 2791, 130, 167, 67, 219, 74, 578, 37, 59, 60, 377…</span></a>
+<a class="sourceLine" id="cb58-36" data-line-number="36"><span class="co">#&gt; $ indigenous          &lt;dbl&gt; 104125, 1691, 7358, 2213, 8679, 6232, 6714, 1733,…</span></a>
+<a class="sourceLine" id="cb58-37" data-line-number="37"><span class="co">#&gt; $ part_indigenous     &lt;dbl&gt; 14209, 92, 2223, 191, 649, 251, 247, 84, 76, 244,…</span></a>
+<a class="sourceLine" id="cb58-38" data-line-number="38"><span class="co">#&gt; $ metro_area          &lt;chr&gt; &quot;Aguascalientes&quot;, NA, NA, NA, &quot;Aguascalientes&quot;, N…</span></a>
+<a class="sourceLine" id="cb58-39" data-line-number="39"><span class="co">#&gt; $ long                &lt;dbl&gt; -102.29605, -102.08928, -102.71875, -102.30004, -…</span></a>
+<a class="sourceLine" id="cb58-40" data-line-number="40"><span class="co">#&gt; $ lat                 &lt;dbl&gt; 21.87982, 22.23832, 21.84691, 22.36641, 21.96127,…</span></a></code></pre></div>
 <p>Si queremos un mapa del ganador de las elecciones por estado debemos unir los
 datos de elecciones con datos geográficos, estos estan incluídos en <code>mxmaps</code>,
 son <code>mxstate.map</code>.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1">election_<span class="dv">2012</span>_state &lt;-<span class="st"> </span>election_<span class="dv">2012</span> <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb60-2" data-line-number="2"><span class="st">    </span><span class="kw">group_by</span>(state_code) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb60-3" data-line-number="3"><span class="st">    </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb60-4" data-line-number="4">        <span class="dt">pri_pvem =</span> <span class="dv">100</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(pri_pvem) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(total),</a>
-<a class="sourceLine" id="cb60-5" data-line-number="5">        <span class="dt">pan =</span> <span class="dv">100</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(pan) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(total),</a>
-<a class="sourceLine" id="cb60-6" data-line-number="6">        <span class="dt">prd_pt_mc =</span> <span class="dv">100</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(prd_pt_mc) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(total)</a>
-<a class="sourceLine" id="cb60-7" data-line-number="7">    ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb60-8" data-line-number="8"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">winner =</span> <span class="kw">case_when</span>(</a>
-<a class="sourceLine" id="cb60-9" data-line-number="9">        pri_pvem <span class="op">&gt;</span><span class="st"> </span>pan <span class="op">&amp;</span><span class="st"> </span>pri_pvem <span class="op">&gt;</span><span class="st"> </span>prd_pt_mc <span class="op">~</span><span class="st"> &quot;pri_pvem&quot;</span>,</a>
-<a class="sourceLine" id="cb60-10" data-line-number="10">        pan <span class="op">&gt;</span><span class="st"> </span>pri_pvem <span class="op">&amp;</span><span class="st"> </span>pan <span class="op">&gt;</span><span class="st"> </span>prd_pt_mc <span class="op">~</span><span class="st"> &quot;pan&quot;</span>,</a>
-<a class="sourceLine" id="cb60-11" data-line-number="11">        <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> &quot;prd_pt_mc&quot;</span>), </a>
-<a class="sourceLine" id="cb60-12" data-line-number="12">        <span class="dt">winner_pct =</span> <span class="kw">pmax</span>(pri_pvem, pan, prd_pt_mc))</a>
-<a class="sourceLine" id="cb60-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb60-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb60-15" data-line-number="15">election_map &lt;-<span class="st"> </span>mxstate.map <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb60-16" data-line-number="16"><span class="st">    </span><span class="kw">left_join</span>(election_<span class="dv">2012</span>_state, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;region&quot;</span> =<span class="st"> &quot;state_code&quot;</span>)) </a>
-<a class="sourceLine" id="cb60-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb60-18" data-line-number="18"><span class="kw">ggplot</span>(election_map, <span class="kw">aes</span>(long, lat, <span class="dt">group =</span> group)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb60-19" data-line-number="19"><span class="st">    </span><span class="kw">geom_polygon</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> winner)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb60-20" data-line-number="20"><span class="st">    </span><span class="kw">coord_map</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">election_<span class="dv">2012</span>_state &lt;-<span class="st"> </span>election_<span class="dv">2012</span> <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb59-2" data-line-number="2"><span class="st">    </span><span class="kw">group_by</span>(state_code) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb59-3" data-line-number="3"><span class="st">    </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb59-4" data-line-number="4">        <span class="dt">pri_pvem =</span> <span class="dv">100</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(pri_pvem) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(total),</a>
+<a class="sourceLine" id="cb59-5" data-line-number="5">        <span class="dt">pan =</span> <span class="dv">100</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(pan) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(total),</a>
+<a class="sourceLine" id="cb59-6" data-line-number="6">        <span class="dt">prd_pt_mc =</span> <span class="dv">100</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(prd_pt_mc) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(total)</a>
+<a class="sourceLine" id="cb59-7" data-line-number="7">    ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb59-8" data-line-number="8"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">winner =</span> <span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb59-9" data-line-number="9">        pri_pvem <span class="op">&gt;</span><span class="st"> </span>pan <span class="op">&amp;</span><span class="st"> </span>pri_pvem <span class="op">&gt;</span><span class="st"> </span>prd_pt_mc <span class="op">~</span><span class="st"> &quot;pri_pvem&quot;</span>,</a>
+<a class="sourceLine" id="cb59-10" data-line-number="10">        pan <span class="op">&gt;</span><span class="st"> </span>pri_pvem <span class="op">&amp;</span><span class="st"> </span>pan <span class="op">&gt;</span><span class="st"> </span>prd_pt_mc <span class="op">~</span><span class="st"> &quot;pan&quot;</span>,</a>
+<a class="sourceLine" id="cb59-11" data-line-number="11">        <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> &quot;prd_pt_mc&quot;</span>), </a>
+<a class="sourceLine" id="cb59-12" data-line-number="12">        <span class="dt">winner_pct =</span> <span class="kw">pmax</span>(pri_pvem, pan, prd_pt_mc))</a>
+<a class="sourceLine" id="cb59-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb59-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb59-15" data-line-number="15">election_map &lt;-<span class="st"> </span>mxstate.map <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb59-16" data-line-number="16"><span class="st">    </span><span class="kw">left_join</span>(election_<span class="dv">2012</span>_state, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;region&quot;</span> =<span class="st"> &quot;state_code&quot;</span>)) </a>
+<a class="sourceLine" id="cb59-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb59-18" data-line-number="18"><span class="kw">ggplot</span>(election_map, <span class="kw">aes</span>(long, lat, <span class="dt">group =</span> group)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb59-19" data-line-number="19"><span class="st">    </span><span class="kw">geom_polygon</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> winner)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb59-20" data-line-number="20"><span class="st">    </span><span class="kw">coord_map</span>()</a></code></pre></div>
 <p><img src="02-manipulacion_files/figure-html/unnamed-chunk-46-1.png" width="432" style="display: block; margin: auto;" /></p>
 <p>Podemos especificar el color de cada categoría y la intensidad puede variar de
 acuerdo al porcentaje de votos que se llevó el partido/alianza ganador.</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="kw">library</span>(gridExtra)</a>
-<a class="sourceLine" id="cb61-2" data-line-number="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb61-3" data-line-number="3"><span class="co">#&gt; Attaching package: &#39;gridExtra&#39;</span></a>
-<a class="sourceLine" id="cb61-4" data-line-number="4"><span class="co">#&gt; The following object is masked from &#39;package:dplyr&#39;:</span></a>
-<a class="sourceLine" id="cb61-5" data-line-number="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb61-6" data-line-number="6"><span class="co">#&gt;     combine</span></a>
-<a class="sourceLine" id="cb61-7" data-line-number="7">map_edo &lt;-<span class="st"> </span><span class="kw">ggplot</span>(election_map, <span class="kw">aes</span>(long, lat, <span class="dt">group =</span> group)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb61-8" data-line-number="8"><span class="st">    </span><span class="kw">geom_polygon</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> winner, <span class="dt">alpha =</span> winner_pct), <span class="dt">color =</span> <span class="st">&quot;#666666&quot;</span>, </a>
-<a class="sourceLine" id="cb61-9" data-line-number="9">        <span class="dt">size =</span> <span class="fl">.05</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb61-10" data-line-number="10"><span class="st">    </span><span class="kw">coord_map</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb61-11" data-line-number="11"><span class="st">    </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;prd_pt_mc&quot;</span> =<span class="st"> &quot;#FFCC00&quot;</span>, <span class="st">&quot;pan&quot;</span> =<span class="st"> &quot;#3399FF&quot;</span>, </a>
-<a class="sourceLine" id="cb61-12" data-line-number="12">        <span class="st">&quot;pri_pvem&quot;</span> =<span class="st"> &quot;#00CD66&quot;</span>)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb61-13" data-line-number="13"><span class="st">    </span><span class="kw">theme_void</span>()</a>
-<a class="sourceLine" id="cb61-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb61-15" data-line-number="15">election_hexbinmap &lt;-<span class="st"> </span>mxhexbin.map <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb61-16" data-line-number="16"><span class="st">    </span><span class="kw">left_join</span>(election_<span class="dv">2012</span>_state, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;region&quot;</span> =<span class="st"> &quot;state_code&quot;</span>)) </a>
-<a class="sourceLine" id="cb61-17" data-line-number="17">state_labels_map &lt;-<span class="st"> </span>mxhexbin.map <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb61-18" data-line-number="18"><span class="st">    </span><span class="kw">group_by</span>(state_abbr) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb61-19" data-line-number="19"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">long =</span> <span class="kw">mean</span>(long), <span class="dt">lat =</span> <span class="kw">mean</span>(lat), <span class="dt">group =</span> <span class="kw">first</span>(group))</a>
-<a class="sourceLine" id="cb61-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb61-21" data-line-number="21">hexbinmap_edo &lt;-<span class="st"> </span><span class="kw">ggplot</span>(election_hexbinmap, <span class="kw">aes</span>(long, lat, </a>
-<a class="sourceLine" id="cb61-22" data-line-number="22">  <span class="dt">group =</span> group)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb61-23" data-line-number="23"><span class="st">    </span><span class="kw">geom_polygon</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> winner, <span class="dt">alpha =</span> winner_pct), <span class="dt">color =</span> <span class="st">&quot;#666666&quot;</span>, </a>
-<a class="sourceLine" id="cb61-24" data-line-number="24">        <span class="dt">size =</span> <span class="fl">.05</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb61-25" data-line-number="25"><span class="st">    </span><span class="kw">coord_map</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb61-26" data-line-number="26"><span class="st">    </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;prd_pt_mc&quot;</span> =<span class="st"> &quot;#FFCC00&quot;</span>, <span class="st">&quot;pan&quot;</span> =<span class="st"> &quot;#3399FF&quot;</span>, </a>
-<a class="sourceLine" id="cb61-27" data-line-number="27">        <span class="st">&quot;pri_pvem&quot;</span> =<span class="st"> &quot;#00CD66&quot;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb61-28" data-line-number="28"><span class="st">    </span><span class="kw">geom_text</span>(<span class="dt">data =</span> state_labels_map, <span class="kw">aes</span>(long, lat, <span class="dt">label =</span> state_abbr)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb61-29" data-line-number="29"><span class="st">    </span><span class="kw">theme_void</span>()</a>
-<a class="sourceLine" id="cb61-30" data-line-number="30"></a>
-<a class="sourceLine" id="cb61-31" data-line-number="31"><span class="kw">grid.arrange</span>(map_edo, hexbinmap_edo, <span class="dt">nrow =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw">library</span>(gridExtra)</a>
+<a class="sourceLine" id="cb60-2" data-line-number="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb60-3" data-line-number="3"><span class="co">#&gt; Attaching package: &#39;gridExtra&#39;</span></a>
+<a class="sourceLine" id="cb60-4" data-line-number="4"><span class="co">#&gt; The following object is masked from &#39;package:dplyr&#39;:</span></a>
+<a class="sourceLine" id="cb60-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb60-6" data-line-number="6"><span class="co">#&gt;     combine</span></a>
+<a class="sourceLine" id="cb60-7" data-line-number="7">map_edo &lt;-<span class="st"> </span><span class="kw">ggplot</span>(election_map, <span class="kw">aes</span>(long, lat, <span class="dt">group =</span> group)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb60-8" data-line-number="8"><span class="st">    </span><span class="kw">geom_polygon</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> winner, <span class="dt">alpha =</span> winner_pct), <span class="dt">color =</span> <span class="st">&quot;#666666&quot;</span>, </a>
+<a class="sourceLine" id="cb60-9" data-line-number="9">        <span class="dt">size =</span> <span class="fl">.05</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb60-10" data-line-number="10"><span class="st">    </span><span class="kw">coord_map</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb60-11" data-line-number="11"><span class="st">    </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;prd_pt_mc&quot;</span> =<span class="st"> &quot;#FFCC00&quot;</span>, <span class="st">&quot;pan&quot;</span> =<span class="st"> &quot;#3399FF&quot;</span>, </a>
+<a class="sourceLine" id="cb60-12" data-line-number="12">        <span class="st">&quot;pri_pvem&quot;</span> =<span class="st"> &quot;#00CD66&quot;</span>)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb60-13" data-line-number="13"><span class="st">    </span><span class="kw">theme_void</span>()</a>
+<a class="sourceLine" id="cb60-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb60-15" data-line-number="15">election_hexbinmap &lt;-<span class="st"> </span>mxhexbin.map <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb60-16" data-line-number="16"><span class="st">    </span><span class="kw">left_join</span>(election_<span class="dv">2012</span>_state, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;region&quot;</span> =<span class="st"> &quot;state_code&quot;</span>)) </a>
+<a class="sourceLine" id="cb60-17" data-line-number="17">state_labels_map &lt;-<span class="st"> </span>mxhexbin.map <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb60-18" data-line-number="18"><span class="st">    </span><span class="kw">group_by</span>(state_abbr) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb60-19" data-line-number="19"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">long =</span> <span class="kw">mean</span>(long), <span class="dt">lat =</span> <span class="kw">mean</span>(lat), <span class="dt">group =</span> <span class="kw">first</span>(group))</a>
+<a class="sourceLine" id="cb60-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb60-21" data-line-number="21">hexbinmap_edo &lt;-<span class="st"> </span><span class="kw">ggplot</span>(election_hexbinmap, <span class="kw">aes</span>(long, lat, </a>
+<a class="sourceLine" id="cb60-22" data-line-number="22">  <span class="dt">group =</span> group)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb60-23" data-line-number="23"><span class="st">    </span><span class="kw">geom_polygon</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> winner, <span class="dt">alpha =</span> winner_pct), <span class="dt">color =</span> <span class="st">&quot;#666666&quot;</span>, </a>
+<a class="sourceLine" id="cb60-24" data-line-number="24">        <span class="dt">size =</span> <span class="fl">.05</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb60-25" data-line-number="25"><span class="st">    </span><span class="kw">coord_map</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb60-26" data-line-number="26"><span class="st">    </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;prd_pt_mc&quot;</span> =<span class="st"> &quot;#FFCC00&quot;</span>, <span class="st">&quot;pan&quot;</span> =<span class="st"> &quot;#3399FF&quot;</span>, </a>
+<a class="sourceLine" id="cb60-27" data-line-number="27">        <span class="st">&quot;pri_pvem&quot;</span> =<span class="st"> &quot;#00CD66&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb60-28" data-line-number="28"><span class="st">    </span><span class="kw">geom_text</span>(<span class="dt">data =</span> state_labels_map, <span class="kw">aes</span>(long, lat, <span class="dt">label =</span> state_abbr)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb60-29" data-line-number="29"><span class="st">    </span><span class="kw">theme_void</span>()</a>
+<a class="sourceLine" id="cb60-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb60-31" data-line-number="31"><span class="kw">grid.arrange</span>(map_edo, hexbinmap_edo, <span class="dt">nrow =</span> <span class="dv">1</span>)</a></code></pre></div>
 <p><img src="02-manipulacion_files/figure-html/unnamed-chunk-47-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p><img src="img/manicule2.jpg" /> Genera un mapa a nivel municipo que muestre el porcentaje
 de la población casada a total (mayores de 12 años).</p>

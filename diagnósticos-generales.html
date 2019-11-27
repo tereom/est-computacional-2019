@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="hmc-y-stan.html"/>
-<link rel="next" href="tareas.html"/>
+<link rel="next" href="modelos-jerárquicos.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -314,8 +314,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.9" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html"><i class="fa fa-check"></i><b>10.9</b> Diagnósticos generales</a><ul>
 <li class="chapter" data-level="" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recomendaciones-generales"><i class="fa fa-check"></i>Recomendaciones generales</a></li>
-<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales</a></li>
+<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales en Stan</a></li>
 <li class="chapter" data-level="10.9.2" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.9.2</b> Recursos de Stan y paquetes con R:</a></li>
+</ul></li>
+<li class="chapter" data-level="10.10" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html"><i class="fa fa-check"></i><b>10.10</b> Modelos jerárquicos</a><ul>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelo-jerárquico-una-moneda"><i class="fa fa-check"></i>Modelo jerárquico una moneda</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
@@ -378,45 +382,45 @@ cadena y evaluar la calidad de las simulaciones.</p>
 cadena, buscamos ver si realmente se ha olvidado el estado inicial y revisar
 que algunas cadenas no hayan quedado <em>atoradas</em> en regiones inusuales del espacio
 de parámetros.</p>
-<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb385-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">337687</span>)</a>
-<a class="sourceLine" id="cb385-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb385-3" data-line-number="3">norm_fit_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">sampling</span>(<span class="dt">object =</span> stan_norm_cpp, <span class="dt">data =</span> data_list,</a>
-<a class="sourceLine" id="cb385-4" data-line-number="4">  <span class="dt">chains =</span> <span class="dv">3</span> , <span class="dt">iter =</span> <span class="dv">40</span> , <span class="dt">warmup =</span> <span class="dv">20</span>)</a>
-<a class="sourceLine" id="cb385-5" data-line-number="5"><span class="co">#&gt; Warning: The largest R-hat is 1.14, indicating chains have not mixed.</span></a>
-<a class="sourceLine" id="cb385-6" data-line-number="6"><span class="co">#&gt; Running the chains for more iterations may help. See</span></a>
-<a class="sourceLine" id="cb385-7" data-line-number="7"><span class="co">#&gt; http://mc-stan.org/misc/warnings.html#r-hat</span></a>
-<a class="sourceLine" id="cb385-8" data-line-number="8"><span class="co">#&gt; Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.</span></a>
-<a class="sourceLine" id="cb385-9" data-line-number="9"><span class="co">#&gt; Running the chains for more iterations may help. See</span></a>
-<a class="sourceLine" id="cb385-10" data-line-number="10"><span class="co">#&gt; http://mc-stan.org/misc/warnings.html#bulk-ess</span></a>
-<a class="sourceLine" id="cb385-11" data-line-number="11"><span class="co">#&gt; Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.</span></a>
-<a class="sourceLine" id="cb385-12" data-line-number="12"><span class="co">#&gt; Running the chains for more iterations may help. See</span></a>
-<a class="sourceLine" id="cb385-13" data-line-number="13"><span class="co">#&gt; http://mc-stan.org/misc/warnings.html#tail-ess</span></a>
-<a class="sourceLine" id="cb385-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb385-15" data-line-number="15">norm_posterior_inc_warmup &lt;-<span class="st"> </span><span class="kw">extract</span>(norm_fit_<span class="dv">1</span>, <span class="dt">inc_warmup =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb385-16" data-line-number="16">  <span class="dt">permuted =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb385-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb385-18" data-line-number="18"><span class="kw">mcmc_trace</span>(norm_posterior_inc_warmup,  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;sigma2&quot;</span>), <span class="dt">n_warmup =</span> <span class="dv">20</span>,</a>
-<a class="sourceLine" id="cb385-19" data-line-number="19">  <span class="dt">facet_args =</span> <span class="kw">list</span>(<span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">labeller =</span> label_parsed)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb385-20" data-line-number="20"><span class="st">  </span><span class="kw">facet_text</span>(<span class="dt">size =</span> <span class="dv">15</span>)</a>
-<a class="sourceLine" id="cb385-21" data-line-number="21"><span class="co">#&gt; Error in mcmc_trace(norm_posterior_inc_warmup, pars = c(&quot;mu&quot;, &quot;sigma2&quot;), : could not find function &quot;mcmc_trace&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb384-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">337687</span>)</a>
+<a class="sourceLine" id="cb384-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb384-3" data-line-number="3">norm_fit_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">sampling</span>(<span class="dt">object =</span> stan_norm_cpp, <span class="dt">data =</span> data_list,</a>
+<a class="sourceLine" id="cb384-4" data-line-number="4">  <span class="dt">chains =</span> <span class="dv">3</span> , <span class="dt">iter =</span> <span class="dv">40</span> , <span class="dt">warmup =</span> <span class="dv">20</span>)</a>
+<a class="sourceLine" id="cb384-5" data-line-number="5"><span class="co">#&gt; Warning: The largest R-hat is 1.14, indicating chains have not mixed.</span></a>
+<a class="sourceLine" id="cb384-6" data-line-number="6"><span class="co">#&gt; Running the chains for more iterations may help. See</span></a>
+<a class="sourceLine" id="cb384-7" data-line-number="7"><span class="co">#&gt; http://mc-stan.org/misc/warnings.html#r-hat</span></a>
+<a class="sourceLine" id="cb384-8" data-line-number="8"><span class="co">#&gt; Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.</span></a>
+<a class="sourceLine" id="cb384-9" data-line-number="9"><span class="co">#&gt; Running the chains for more iterations may help. See</span></a>
+<a class="sourceLine" id="cb384-10" data-line-number="10"><span class="co">#&gt; http://mc-stan.org/misc/warnings.html#bulk-ess</span></a>
+<a class="sourceLine" id="cb384-11" data-line-number="11"><span class="co">#&gt; Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.</span></a>
+<a class="sourceLine" id="cb384-12" data-line-number="12"><span class="co">#&gt; Running the chains for more iterations may help. See</span></a>
+<a class="sourceLine" id="cb384-13" data-line-number="13"><span class="co">#&gt; http://mc-stan.org/misc/warnings.html#tail-ess</span></a>
+<a class="sourceLine" id="cb384-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb384-15" data-line-number="15">norm_posterior_inc_warmup &lt;-<span class="st"> </span><span class="kw">extract</span>(norm_fit_<span class="dv">1</span>, <span class="dt">inc_warmup =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb384-16" data-line-number="16">  <span class="dt">permuted =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb384-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb384-18" data-line-number="18"><span class="kw">mcmc_trace</span>(norm_posterior_inc_warmup,  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;sigma2&quot;</span>), <span class="dt">n_warmup =</span> <span class="dv">20</span>,</a>
+<a class="sourceLine" id="cb384-19" data-line-number="19">  <span class="dt">facet_args =</span> <span class="kw">list</span>(<span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">labeller =</span> label_parsed)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb384-20" data-line-number="20"><span class="st">  </span><span class="kw">facet_text</span>(<span class="dt">size =</span> <span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb384-21" data-line-number="21"><span class="co">#&gt; Error in mcmc_trace(norm_posterior_inc_warmup, pars = c(&quot;mu&quot;, &quot;sigma2&quot;), : could not find function &quot;mcmc_trace&quot;</span></a></code></pre></div>
 <p>La gráfica anterior nos puede ayudar a determinar si elegimos un periodo de
 calentamiento adecuado o si alguna cadena está alejada del resto.</p>
 <p>Además de realizar gráficas podemos usar la medida de convergencia <span class="math inline">\(\hat{R}\)</span>
 que la función <code>rstan()</code> calcula por omisión:</p>
-<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb386-1" data-line-number="1">norm_fit_<span class="dv">1</span></a>
-<a class="sourceLine" id="cb386-2" data-line-number="2"><span class="co">#&gt; Inference for Stan model: modelo_normal.</span></a>
-<a class="sourceLine" id="cb386-3" data-line-number="3"><span class="co">#&gt; 3 chains, each with iter=40; warmup=20; thin=1; </span></a>
-<a class="sourceLine" id="cb386-4" data-line-number="4"><span class="co">#&gt; post-warmup draws per chain=20, total post-warmup draws=60.</span></a>
-<a class="sourceLine" id="cb386-5" data-line-number="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb386-6" data-line-number="6"><span class="co">#&gt;          mean se_mean   sd   2.5%    25%    50%    75%  97.5% n_eff Rhat</span></a>
-<a class="sourceLine" id="cb386-7" data-line-number="7"><span class="co">#&gt; mu       1.84    0.05 0.31   1.18   1.73   1.88   2.00   2.41    40 1.04</span></a>
-<a class="sourceLine" id="cb386-8" data-line-number="8"><span class="co">#&gt; sigma2   4.76    0.11 0.89   3.24   4.06   4.71   5.23   6.56    61 0.97</span></a>
-<a class="sourceLine" id="cb386-9" data-line-number="9"><span class="co">#&gt; lp__   -71.06    0.20 1.24 -74.81 -71.56 -70.47 -70.30 -70.06    38 1.07</span></a>
-<a class="sourceLine" id="cb386-10" data-line-number="10"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb386-11" data-line-number="11"><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Wed Nov 27 08:03:56 2019.</span></a>
-<a class="sourceLine" id="cb386-12" data-line-number="12"><span class="co">#&gt; For each parameter, n_eff is a crude measure of effective sample size,</span></a>
-<a class="sourceLine" id="cb386-13" data-line-number="13"><span class="co">#&gt; and Rhat is the potential scale reduction factor on split chains (at </span></a>
-<a class="sourceLine" id="cb386-14" data-line-number="14"><span class="co">#&gt; convergence, Rhat=1).</span></a></code></pre></div>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb385-1" data-line-number="1">norm_fit_<span class="dv">1</span></a>
+<a class="sourceLine" id="cb385-2" data-line-number="2"><span class="co">#&gt; Inference for Stan model: modelo_normal.</span></a>
+<a class="sourceLine" id="cb385-3" data-line-number="3"><span class="co">#&gt; 3 chains, each with iter=40; warmup=20; thin=1; </span></a>
+<a class="sourceLine" id="cb385-4" data-line-number="4"><span class="co">#&gt; post-warmup draws per chain=20, total post-warmup draws=60.</span></a>
+<a class="sourceLine" id="cb385-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb385-6" data-line-number="6"><span class="co">#&gt;          mean se_mean   sd   2.5%    25%    50%    75%  97.5% n_eff Rhat</span></a>
+<a class="sourceLine" id="cb385-7" data-line-number="7"><span class="co">#&gt; mu       1.84    0.05 0.31   1.18   1.73   1.88   2.00   2.41    40 1.04</span></a>
+<a class="sourceLine" id="cb385-8" data-line-number="8"><span class="co">#&gt; sigma2   4.76    0.11 0.89   3.24   4.06   4.71   5.23   6.56    61 0.97</span></a>
+<a class="sourceLine" id="cb385-9" data-line-number="9"><span class="co">#&gt; lp__   -71.06    0.20 1.24 -74.81 -71.56 -70.47 -70.30 -70.06    38 1.07</span></a>
+<a class="sourceLine" id="cb385-10" data-line-number="10"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb385-11" data-line-number="11"><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Wed Nov 27 08:41:53 2019.</span></a>
+<a class="sourceLine" id="cb385-12" data-line-number="12"><span class="co">#&gt; For each parameter, n_eff is a crude measure of effective sample size,</span></a>
+<a class="sourceLine" id="cb385-13" data-line-number="13"><span class="co">#&gt; and Rhat is the potential scale reduction factor on split chains (at </span></a>
+<a class="sourceLine" id="cb385-14" data-line-number="14"><span class="co">#&gt; convergence, Rhat=1).</span></a></code></pre></div>
 <p>La medida <span class="math inline">\(\hat{R}\)</span> se conoce como el <strong>factor de reducción potencial de
 escala</strong> o <em>diagnóstico de convergencia de Gelman-Rubin</em>, esta es una estimación
 de la posible reducción en la longitud de un intervalo de confianza si las
@@ -446,20 +450,20 @@ muestra de observaciones independientes nos daría la misma información que las
 simulaciones de la cadena.</p>
 <p><span class="math display">\[NEM = \frac{N}{1+2\sum_{k=1}^\infty ACF(k)} \]</span></p>
 <p>Usualmente nos gustaría obtener un tamaño efectivo de al menos <span class="math inline">\(100\)</span>.</p>
-<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb387-1" data-line-number="1">norm_fit</a>
-<a class="sourceLine" id="cb387-2" data-line-number="2"><span class="co">#&gt; Inference for Stan model: modelo_normal.</span></a>
-<a class="sourceLine" id="cb387-3" data-line-number="3"><span class="co">#&gt; 3 chains, each with iter=1000; warmup=500; thin=1; </span></a>
-<a class="sourceLine" id="cb387-4" data-line-number="4"><span class="co">#&gt; post-warmup draws per chain=500, total post-warmup draws=1500.</span></a>
-<a class="sourceLine" id="cb387-5" data-line-number="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb387-6" data-line-number="6"><span class="co">#&gt;          mean se_mean   sd   2.5%    25%    50%    75%  97.5% n_eff Rhat</span></a>
-<a class="sourceLine" id="cb387-7" data-line-number="7"><span class="co">#&gt; mu       1.91    0.01 0.31   1.30   1.70   1.92   2.12   2.53  1071 1.00</span></a>
-<a class="sourceLine" id="cb387-8" data-line-number="8"><span class="co">#&gt; sigma2   4.72    0.03 0.92   3.26   4.07   4.62   5.26   6.81   981 1.00</span></a>
-<a class="sourceLine" id="cb387-9" data-line-number="9"><span class="co">#&gt; lp__   -71.04    0.05 0.99 -73.64 -71.39 -70.76 -70.33 -70.07   455 1.01</span></a>
-<a class="sourceLine" id="cb387-10" data-line-number="10"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb387-11" data-line-number="11"><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Wed Nov 27 08:03:54 2019.</span></a>
-<a class="sourceLine" id="cb387-12" data-line-number="12"><span class="co">#&gt; For each parameter, n_eff is a crude measure of effective sample size,</span></a>
-<a class="sourceLine" id="cb387-13" data-line-number="13"><span class="co">#&gt; and Rhat is the potential scale reduction factor on split chains (at </span></a>
-<a class="sourceLine" id="cb387-14" data-line-number="14"><span class="co">#&gt; convergence, Rhat=1).</span></a></code></pre></div>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb386-1" data-line-number="1">norm_fit</a>
+<a class="sourceLine" id="cb386-2" data-line-number="2"><span class="co">#&gt; Inference for Stan model: modelo_normal.</span></a>
+<a class="sourceLine" id="cb386-3" data-line-number="3"><span class="co">#&gt; 3 chains, each with iter=1000; warmup=500; thin=1; </span></a>
+<a class="sourceLine" id="cb386-4" data-line-number="4"><span class="co">#&gt; post-warmup draws per chain=500, total post-warmup draws=1500.</span></a>
+<a class="sourceLine" id="cb386-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb386-6" data-line-number="6"><span class="co">#&gt;          mean se_mean   sd   2.5%    25%    50%    75%  97.5% n_eff Rhat</span></a>
+<a class="sourceLine" id="cb386-7" data-line-number="7"><span class="co">#&gt; mu       1.91    0.01 0.31   1.30   1.70   1.92   2.12   2.53  1071 1.00</span></a>
+<a class="sourceLine" id="cb386-8" data-line-number="8"><span class="co">#&gt; sigma2   4.72    0.03 0.92   3.26   4.07   4.62   5.26   6.81   981 1.00</span></a>
+<a class="sourceLine" id="cb386-9" data-line-number="9"><span class="co">#&gt; lp__   -71.04    0.05 0.99 -73.64 -71.39 -70.76 -70.33 -70.07   455 1.01</span></a>
+<a class="sourceLine" id="cb386-10" data-line-number="10"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb386-11" data-line-number="11"><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Wed Nov 27 08:41:52 2019.</span></a>
+<a class="sourceLine" id="cb386-12" data-line-number="12"><span class="co">#&gt; For each parameter, n_eff is a crude measure of effective sample size,</span></a>
+<a class="sourceLine" id="cb386-13" data-line-number="13"><span class="co">#&gt; and Rhat is the potential scale reduction factor on split chains (at </span></a>
+<a class="sourceLine" id="cb386-14" data-line-number="14"><span class="co">#&gt; convergence, Rhat=1).</span></a></code></pre></div>
 </div>
 <div id="eficiencia" class="section level4 unnumbered">
 <h4>Eficiencia</h4>
@@ -498,8 +502,8 @@ la <a href="https://mc-stan.org/docs/2_21/stan-users-guide/reparameterization-se
 datos, quizá la mitad o una quinta parte.</p></li>
 </ol>
 </div>
-<div id="iniciales" class="section level3">
-<h3><span class="header-section-number">10.9.1</span> Iniciales</h3>
+<div id="iniciales-en-stan" class="section level3">
+<h3><span class="header-section-number">10.9.1</span> Iniciales en Stan</h3>
 <p>Las siguientes recomendaciones de iniciales son de los desarrolladores de Stan,
 puedes leer más en <a href="https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations" class="uri">https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations</a>.</p>
 <p>Podemos clasificar las iniciales en 5 niveles de acuerdo a que tan informativas
@@ -552,21 +556,22 @@ media-normal(0,10).</li>
 cabo estimación Bayesiana sin necesidad de escribir código en el <em>lenguaje de Stan</em>,
 de acuerdo a los autores el objetivo del paquete es que la estimación bayesiana
 sea rutina para los modelos de regresión más comunes.</p></li>
-<li><p>El paquete <a href="bayesplot" class="uri">bayesplot</a>, <span class="citation">Gabry and Mahr (<a href="#ref-R-bayesplot">2019</a>)</span>, cuenta con funciones para
+<li><p>El paquete <a href="https://mc-stan.org/bayesplot/">bayesplot</a>, <span class="citation">Gabry and Mahr (<a href="#ref-R-bayesplot">2019</a>)</span>, cuenta con funciones para
 graficar estimaciones de los parámetros, realizar diagnósticos visuales de las
 cadenas (convergencia), y analizar el ajuste del modelo (graficando de la
 predictiva posterior).</p></li>
 <li><p>El paquete <a href="http://mc-stan.org/users/interfaces/shinystan">shinystan</a>,
-<span class="citation">(<span class="citeproc-not-found" data-reference-id="R-shinysta"><strong>???</strong></span>)</span>, contiene
+<span class="citation">Gabry (<a href="#ref-R-shinystan">2018</a>)</span>, contiene
 resumenes gráficos y numéricos de parámetros de un modelo y de diagnósticos de
 convergencia.</p></li>
 </ul>
-
 </div>
 </div>
-<!-- </div> -->
 <h3>Referencias</h3>
 <div id="refs" class="references">
+<div id="ref-R-shinystan">
+<p>Gabry, Jonah. 2018. <em>Shinystan: Interactive Visual and Numerical Diagnostics and Posterior Analysis for Bayesian Models</em>. <a href="https://CRAN.R-project.org/package=shinystan" class="uri">https://CRAN.R-project.org/package=shinystan</a>.</p>
+</div>
 <div id="ref-R-rstanarm">
 <p>Gabry, Jonah, and Ben Goodrich. 2019. <em>Rstanarm: Bayesian Applied Regression Modeling via Stan</em>. <a href="https://CRAN.R-project.org/package=rstanarm" class="uri">https://CRAN.R-project.org/package=rstanarm</a>.</p>
 </div>
@@ -583,7 +588,7 @@ convergencia.</p></li>
         </div>
       </div>
 <a href="hmc-y-stan.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="tareas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="modelos-jerárquicos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
