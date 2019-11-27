@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="familias-conjugadas.html"/>
-<link rel="next" href="referencias.html"/>
+<link rel="next" href="modelos-jerárquicos-1.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -338,6 +338,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="simulación-muestra-y-bootstrap-paramétrico.html"><a href="simulación-muestra-y-bootstrap-paramétrico.html"><i class="fa fa-check"></i>10. Simulación muestra y bootstrap paramétrico</a></li>
 <li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>11-Familias conjugadas</a></li>
 <li class="chapter" data-level="" data-path="metropolis-1.html"><a href="metropolis-1.html"><i class="fa fa-check"></i>12-Metropolis</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos-1.html"><a href="modelos-jerárquicos-1.html"><i class="fa fa-check"></i>13-Modelos jerárquicos</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -375,11 +376,11 @@ para obtener una muestra de la distribución posterior.</p></li>
 tus creencias del parámetro desconocido <span class="math inline">\(\theta\)</span> y devuelva <span class="math inline">\(p(\theta)\)</span>, donde
 <span class="math inline">\(p(\theta)\)</span> tiene distriución <span class="math inline">\(N(\mu, \sigma^2)\)</span></li>
 </ol>
-<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb419-1" data-line-number="1">prior &lt;-<span class="st"> </span><span class="cf">function</span>(mu, tau{</a>
-<a class="sourceLine" id="cb419-2" data-line-number="2">  <span class="cf">function</span>(theta){</a>
-<a class="sourceLine" id="cb419-3" data-line-number="3">    ... <span class="co"># llena esta parte</span></a>
-<a class="sourceLine" id="cb419-4" data-line-number="4">  }</a>
-<a class="sourceLine" id="cb419-5" data-line-number="5">}</a></code></pre></div>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb420-1" data-line-number="1">prior &lt;-<span class="st"> </span><span class="cf">function</span>(mu, tau{</a>
+<a class="sourceLine" id="cb420-2" data-line-number="2">  <span class="cf">function</span>(theta){</a>
+<a class="sourceLine" id="cb420-3" data-line-number="3">    ... <span class="co"># llena esta parte</span></a>
+<a class="sourceLine" id="cb420-4" data-line-number="4">  }</a>
+<a class="sourceLine" id="cb420-5" data-line-number="5">}</a></code></pre></div>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Utiliza la función que acabas de escribir para definir una distribución
 inicial con parámetros <span class="math inline">\(\mu = 150\)</span> y <span class="math inline">\(\tau = 15\)</span>, llámala <em>mi_prior</em>.</li>
@@ -398,12 +399,12 @@ de los valores observados <span class="math inline">\(\sum x_i\)</span>, la suma
 función de verosimilitud (es decir va a regresar una función que depende
 únicamente de <span class="math inline">\(\theta\)</span>).</li>
 </ol>
-<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb420-1" data-line-number="1"><span class="co"># S: sum x_i, S2: sum x_i^2, N: número obs.</span></a>
-<a class="sourceLine" id="cb420-2" data-line-number="2">likeNorm &lt;-<span class="st"> </span><span class="cf">function</span>(S, S2, N){</a>
-<a class="sourceLine" id="cb420-3" data-line-number="3">  <span class="cf">function</span>(theta){</a>
-<a class="sourceLine" id="cb420-4" data-line-number="4">    ...  <span class="co"># llena esta parte</span></a>
-<a class="sourceLine" id="cb420-5" data-line-number="5">  }</a>
-<a class="sourceLine" id="cb420-6" data-line-number="6">}</a></code></pre></div>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb421-1" data-line-number="1"><span class="co"># S: sum x_i, S2: sum x_i^2, N: número obs.</span></a>
+<a class="sourceLine" id="cb421-2" data-line-number="2">likeNorm &lt;-<span class="st"> </span><span class="cf">function</span>(S, S2, N){</a>
+<a class="sourceLine" id="cb421-3" data-line-number="3">  <span class="cf">function</span>(theta){</a>
+<a class="sourceLine" id="cb421-4" data-line-number="4">    ...  <span class="co"># llena esta parte</span></a>
+<a class="sourceLine" id="cb421-5" data-line-number="5">  }</a>
+<a class="sourceLine" id="cb421-6" data-line-number="6">}</a></code></pre></div>
 <ol start="4" style="list-style-type: lower-alpha">
 <li><p>Supongamos que aplicamos un test de IQ a 100 alumnos y observamos que la suma
 de los puntajes es 13300, es decir <span class="math inline">\(\sum x_i=13,000\)</span> y <span class="math inline">\(\sum x_i^2=1,700,000\)</span>.
@@ -412,9 +413,9 @@ verosimilitud condicional a los datos observados, llámala <em>mi_like</em>.</p>
 <li><p>La distribución posterior no normalizada es simplemente el producto de
 la inicial y la posterior:</p></li>
 </ol>
-<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb421-1" data-line-number="1">postRelProb &lt;-<span class="st"> </span><span class="cf">function</span>(theta){</a>
-<a class="sourceLine" id="cb421-2" data-line-number="2">  <span class="kw">mi_like</span>(theta) <span class="op">*</span><span class="st"> </span><span class="kw">mi_prior</span>(theta)</a>
-<a class="sourceLine" id="cb421-3" data-line-number="3">}</a></code></pre></div>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb422-1" data-line-number="1">postRelProb &lt;-<span class="st"> </span><span class="cf">function</span>(theta){</a>
+<a class="sourceLine" id="cb422-2" data-line-number="2">  <span class="kw">mi_like</span>(theta) <span class="op">*</span><span class="st"> </span><span class="kw">mi_prior</span>(theta)</a>
+<a class="sourceLine" id="cb422-3" data-line-number="3">}</a></code></pre></div>
 <p>Utiliza Metropolis para obtener una muestra de valores representativos de la
 distribución posterior de <span class="math inline">\(\theta\)</span>. Para proponer los saltos utiliza una
 Normal(0, 5).</p>
@@ -435,16 +436,14 @@ y comparalas con el histograma de los valores generados con Metropolis.</p>
 <li>¿Cómo utilizarías los parámetros <span class="math inline">\(\mu, \tau^2\)</span> para describir un escenario
 donde sabes poco del verdadero valor de la media <span class="math inline">\(\theta\)</span>?</li>
 </ol>
-
 </div>
-<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
 <a href="familias-conjugadas.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="modelos-jerárquicos-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

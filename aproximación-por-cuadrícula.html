@@ -338,6 +338,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="simulación-muestra-y-bootstrap-paramétrico.html"><a href="simulación-muestra-y-bootstrap-paramétrico.html"><i class="fa fa-check"></i>10. Simulación muestra y bootstrap paramétrico</a></li>
 <li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>11-Familias conjugadas</a></li>
 <li class="chapter" data-level="" data-path="metropolis-1.html"><a href="metropolis-1.html"><i class="fa fa-check"></i>12-Metropolis</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos-1.html"><a href="modelos-jerárquicos-1.html"><i class="fa fa-check"></i>13-Modelos jerárquicos</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -398,9 +399,9 @@ rectángulo.</p>
 <a class="sourceLine" id="cb329-15" data-line-number="15"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>dist, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb329-16" data-line-number="16"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta), <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.2</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb329-17" data-line-number="17"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-15-1.png" width="720" style="display: block; margin: auto;" /></p>
-<p>y lo podemos comparar con la versión continua (distribución beta).</p>
 <p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-16-1.png" width="720" style="display: block; margin: auto;" /></p>
+<p>y lo podemos comparar con la versión continua (distribución beta).</p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-17-1.png" width="720" style="display: block; margin: auto;" /></p>
 <p>En cuanto a la estimación, la tabla de probabilidades nos da una estimación
 para los valores de los parámetros. Podemos calcular la media de <span class="math inline">\(\theta\)</span>
 como el promedio ponderado por las probabilidades:</p>

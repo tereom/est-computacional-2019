@@ -338,6 +338,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="simulación-muestra-y-bootstrap-paramétrico.html"><a href="simulación-muestra-y-bootstrap-paramétrico.html"><i class="fa fa-check"></i>10. Simulación muestra y bootstrap paramétrico</a></li>
 <li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>11-Familias conjugadas</a></li>
 <li class="chapter" data-level="" data-path="metropolis-1.html"><a href="metropolis-1.html"><i class="fa fa-check"></i>12-Metropolis</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos-1.html"><a href="modelos-jerárquicos-1.html"><i class="fa fa-check"></i>13-Modelos jerárquicos</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -558,7 +559,7 @@ con <span class="math inline">\(0&lt;\theta&lt;1\)</span></p>
 <a class="sourceLine" id="cb322-39" data-line-number="39"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb322-40" data-line-number="40"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>dist) <span class="op">+</span></a>
 <a class="sourceLine" id="cb322-41" data-line-number="41"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(theta), <span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(theta))) </a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-5-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-6-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p><img src="img/manicule2.jpg" /> ¿Cómo se ve la distribución posterior si tomamos una muestra de tamaño <span class="math inline">\(90\)</span> donde observamos la misma proporción de éxitos.
 Realiza los cálculos y graficala como un panel adicional de la gráfica
 anterior.</p>
@@ -667,7 +668,7 @@ La siguiente gráfica ejemplifica un experimento Bernoulli, con dos posibles
 iniciales, los datos observados son <span class="math inline">\(N=20\)</span> lanzamientos de moneda que resultan
 en <span class="math inline">\(12\)</span> éxitos o águilas.</li>
 </ol>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-8-1.png" width="700.8" style="display: block; margin: auto;" /><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-8-2.png" width="700.8" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-9-1.png" width="700.8" style="display: block; margin: auto;" /><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-9-2.png" width="700.8" style="display: block; margin: auto;" /></p>
 <ol start="2" style="list-style-type: decimal">
 <li><strong>Predicción</strong> de valores. Usando nuestro conocimiento actual nos interesa
 predecir la probabilidad de datos futuros. La probabilidad predictiva de un

@@ -338,6 +338,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="simulación-muestra-y-bootstrap-paramétrico.html"><a href="simulación-muestra-y-bootstrap-paramétrico.html"><i class="fa fa-check"></i>10. Simulación muestra y bootstrap paramétrico</a></li>
 <li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>11-Familias conjugadas</a></li>
 <li class="chapter" data-level="" data-path="metropolis-1.html"><a href="metropolis-1.html"><i class="fa fa-check"></i>12-Metropolis</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos-1.html"><a href="modelos-jerárquicos-1.html"><i class="fa fa-check"></i>13-Modelos jerárquicos</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -427,17 +428,17 @@ desconocidos <span class="math inline">\(\mu\)</span> y <span class="math inline
 factorizar:</p></li>
 </ol>
 <p><span class="math display">\[p(\theta,\mu)=p(\theta|\mu)p(\mu)\]</span></p>
-<p>Por lo tanto
-<span class="math display">\[p(\theta,\mu|x)=\frac{p(x|\theta,\mu)p(\theta,\mu)}{p(x)}\]</span>
-<span class="math display">\[=\frac{p(x|\theta)p(\theta|\mu)p(\mu)}{p(x)}\]</span>
-El siguiente modelo gráfico resume las independencias condicionales
-de la última ecuación:</p>
+<p>Por lo tanto</p>
+<p><span class="math display">\[p(\theta,\mu|x)=\frac{p(x|\theta,\mu)p(\theta,\mu)}{p(x)}\]</span>
+<span class="math display">\[=\frac{p(x|\theta)p(\theta|\mu)p(\mu)}{p(x)}\]</span></p>
+<p>¿Cuál es el modelo gráfico?</p>
 <div id="aproximación-por-cuadrícula-1" class="section level4 unnumbered">
 <h4>Aproximación por cuadrícula</h4>
 <p>En el caso jerárquico, no se puede derivar la distribución posterior de manera
 analítica pero si los parámetros e hiperparámetros toman un número finito de<br />
 valores y no hay muchos de ellos, podemos aproximar la posterior usando
-aproximación por cuadrícula.</p>
+aproximación por cuadrícula, utilizar este enfoque en el ejemplo introductorio
+ayuda a visualizar el proceso.</p>
 <p>A continuación graficamos las distribuciones correspondientes al caso en que
 la distribución del hiperparámetro <span class="math inline">\(\mu\)</span> tiene la forma de una distribución
 <span class="math inline">\(Beta(2, 2)\)</span>, es decir creemos que la media de la acuñadora <span class="math inline">\(\mu\)</span> es <span class="math inline">\(0.5\)</span>, pero
@@ -452,145 +453,137 @@ hiperparámetro <span class="math inline">\(\mu\)</span> genera monedas con sesg
 <p>Verosimilitud.</p>
 <p><img src="09-analisis_bayesiano_files/figure-html/verosimilitud_jer-1.png" width="259.2" style="display: block; margin: auto;" /></p>
 <p>Posterior.</p>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-67-1.png" width="528" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-68-1.png" width="528" style="display: block; margin: auto;" /></p>
+<p>Código para el análisis y gráficas de arriba.</p>
 <div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb387-1" data-line-number="1">A_mu &lt;-<span class="st"> </span><span class="dv">2</span>; B_mu &lt;-<span class="st"> </span><span class="dv">2</span>; K &lt;-<span class="st"> </span><span class="dv">100</span></a>
 <a class="sourceLine" id="cb387-2" data-line-number="2"><span class="co"># Distribución inicial conjunta p(theta, mu)</span></a>
 <a class="sourceLine" id="cb387-3" data-line-number="3">p_conjunta &lt;-<span class="st"> </span><span class="cf">function</span>(mu, theta, A_mu, B_mu, K){</a>
-<a class="sourceLine" id="cb387-4" data-line-number="4">  <span class="co"># marginal p(mu)</span></a>
-<a class="sourceLine" id="cb387-5" data-line-number="5">  p_mu &lt;-<span class="st"> </span><span class="kw">dbeta</span>(mu, A_mu, B_mu)</a>
-<a class="sourceLine" id="cb387-6" data-line-number="6">  <span class="co"># condicional p(theta | mu)</span></a>
-<a class="sourceLine" id="cb387-7" data-line-number="7">  p_theta_mu &lt;-<span class="st"> </span><span class="kw">dbeta</span>(theta, mu <span class="op">*</span><span class="st"> </span>K, (<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>mu) <span class="op">*</span><span class="st"> </span>K)</a>
-<a class="sourceLine" id="cb387-8" data-line-number="8">  p_mu <span class="op">*</span><span class="st"> </span>p_theta_mu</a>
+<a class="sourceLine" id="cb387-4" data-line-number="4">    <span class="co"># marginal p(mu)</span></a>
+<a class="sourceLine" id="cb387-5" data-line-number="5">    p_mu &lt;-<span class="st"> </span><span class="kw">dbeta</span>(mu, A_mu, B_mu)</a>
+<a class="sourceLine" id="cb387-6" data-line-number="6">    <span class="co"># condicional p(theta | mu)</span></a>
+<a class="sourceLine" id="cb387-7" data-line-number="7">    p_theta_mu &lt;-<span class="st"> </span><span class="kw">dbeta</span>(theta, mu <span class="op">*</span><span class="st"> </span>K, (<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>mu) <span class="op">*</span><span class="st"> </span>K)</a>
+<a class="sourceLine" id="cb387-8" data-line-number="8">    p_mu <span class="op">*</span><span class="st"> </span>p_theta_mu</a>
 <a class="sourceLine" id="cb387-9" data-line-number="9">}</a>
 <a class="sourceLine" id="cb387-10" data-line-number="10"></a>
 <a class="sourceLine" id="cb387-11" data-line-number="11">grid &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">theta =</span> <span class="kw">seq</span>(<span class="fl">0.01</span>, <span class="fl">0.99</span>, <span class="fl">0.005</span>), </a>
-<a class="sourceLine" id="cb387-12" data-line-number="12">  <span class="dt">mu =</span> <span class="kw">seq</span>(<span class="fl">0.01</span>, <span class="fl">0.99</span>, <span class="fl">0.005</span>))</a>
+<a class="sourceLine" id="cb387-12" data-line-number="12">    <span class="dt">mu =</span> <span class="kw">seq</span>(<span class="fl">0.01</span>, <span class="fl">0.99</span>, <span class="fl">0.005</span>))</a>
 <a class="sourceLine" id="cb387-13" data-line-number="13"></a>
 <a class="sourceLine" id="cb387-14" data-line-number="14">grid_inicial &lt;-<span class="st"> </span>grid <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb387-15" data-line-number="15"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">p_inicial =</span> <span class="kw">p_conjunta</span>(mu, theta, A_mu, B_mu, K))</a>
+<a class="sourceLine" id="cb387-15" data-line-number="15"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">p_inicial =</span> <span class="kw">p_conjunta</span>(mu, theta, A_mu, B_mu, K))</a>
 <a class="sourceLine" id="cb387-16" data-line-number="16"></a>
 <a class="sourceLine" id="cb387-17" data-line-number="17">plot_conj &lt;-<span class="st"> </span><span class="kw">ggplot</span>(grid_inicial, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> mu, <span class="dt">z =</span> p_inicial)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb387-18" data-line-number="18"><span class="st">  </span><span class="kw">stat_contour</span>(<span class="dt">binwidth =</span> <span class="dv">2</span>, <span class="kw">aes</span>(<span class="dt">color =</span> ..level..)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb387-19" data-line-number="19"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb387-20" data-line-number="20"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="kw">expression</span>(mu), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb387-21" data-line-number="21"><span class="st">  </span><span class="kw">scale_color_gradient</span>(<span class="kw">expression</span>(<span class="kw">p</span>(theta,mu)), <span class="dt">guide =</span> <span class="ot">FALSE</span>) </a>
+<a class="sourceLine" id="cb387-18" data-line-number="18"><span class="st">    </span><span class="kw">stat_contour</span>(<span class="dt">binwidth =</span> <span class="dv">2</span>, <span class="kw">aes</span>(<span class="dt">color =</span> ..level..)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb387-19" data-line-number="19"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb387-20" data-line-number="20"><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="kw">expression</span>(mu), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb387-21" data-line-number="21"><span class="st">    </span><span class="kw">scale_color_gradient</span>(<span class="kw">expression</span>(<span class="kw">p</span>(theta,mu)), <span class="dt">guide =</span> <span class="ot">FALSE</span>) </a>
 <a class="sourceLine" id="cb387-22" data-line-number="22"></a>
 <a class="sourceLine" id="cb387-23" data-line-number="23">grid_mu &lt;-<span class="st"> </span>grid_inicial <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb387-24" data-line-number="24"><span class="st">  </span><span class="kw">group_by</span>(mu) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb387-25" data-line-number="25"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">p_mu =</span> <span class="kw">sum</span>(p_inicial)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb387-26" data-line-number="26"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb387-27" data-line-number="27"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">p_mu =</span> p_mu <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(p_mu))</a>
+<a class="sourceLine" id="cb387-24" data-line-number="24"><span class="st">    </span><span class="kw">group_by</span>(mu) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-25" data-line-number="25"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">p_mu =</span> <span class="kw">sum</span>(p_inicial)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-26" data-line-number="26"><span class="st">    </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-27" data-line-number="27"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">p_mu =</span> p_mu <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(p_mu))</a>
 <a class="sourceLine" id="cb387-28" data-line-number="28"></a>
 <a class="sourceLine" id="cb387-29" data-line-number="29">plot_mu &lt;-<span class="st"> </span><span class="kw">ggplot</span>(grid_mu, <span class="kw">aes</span>(<span class="dt">x =</span> mu, <span class="dt">y =</span> p_mu)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb387-30" data-line-number="30"><span class="st">  </span><span class="kw">geom_path</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb387-31" data-line-number="31"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(mu)), </a>
-<a class="sourceLine" id="cb387-32" data-line-number="32">       <span class="dt">x =</span> <span class="kw">expression</span>(mu)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb387-33" data-line-number="33"><span class="st">  </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="fl">0.015</span>) <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>()</a>
+<a class="sourceLine" id="cb387-30" data-line-number="30"><span class="st">    </span><span class="kw">geom_path</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb387-31" data-line-number="31"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(mu)), <span class="dt">x =</span> <span class="kw">expression</span>(mu)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb387-32" data-line-number="32"><span class="st">    </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="fl">0.015</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb387-33" data-line-number="33"><span class="st">    </span><span class="kw">coord_flip</span>()</a>
 <a class="sourceLine" id="cb387-34" data-line-number="34"></a>
 <a class="sourceLine" id="cb387-35" data-line-number="35">mus &lt;-<span class="st"> </span><span class="kw">rbeta</span>(<span class="dv">5000</span>, A_mu, B_mu)</a>
 <a class="sourceLine" id="cb387-36" data-line-number="36">sims_marg &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">sims =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">5000</span>, </a>
-<a class="sourceLine" id="cb387-37" data-line-number="37">  <span class="dt">sims_marg =</span> <span class="kw">rbeta</span>(<span class="dv">5000</span>, mus <span class="op">*</span><span class="st"> </span><span class="dv">100</span>, (<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>mus) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>))</a>
+<a class="sourceLine" id="cb387-37" data-line-number="37">    <span class="dt">sims_marg =</span> <span class="kw">rbeta</span>(<span class="dv">5000</span>, mus <span class="op">*</span><span class="st"> </span><span class="dv">100</span>, (<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>mus) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>))</a>
 <a class="sourceLine" id="cb387-38" data-line-number="38"></a>
 <a class="sourceLine" id="cb387-39" data-line-number="39">plot_theta &lt;-<span class="st"> </span><span class="kw">ggplot</span>(sims_marg, <span class="kw">aes</span>(<span class="dt">x =</span> sims_marg)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb387-40" data-line-number="40"><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">adjust =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb387-41" data-line-number="41"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(theta)), </a>
-<a class="sourceLine" id="cb387-42" data-line-number="42">       <span class="dt">x =</span> <span class="kw">expression</span>(theta))</a>
-<a class="sourceLine" id="cb387-43" data-line-number="43"></a>
-<a class="sourceLine" id="cb387-44" data-line-number="44"><span class="co"># p(theta|mu=0.75)</span></a>
-<a class="sourceLine" id="cb387-45" data-line-number="45">sims_cond_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">rbeta</span>(<span class="dv">5000</span>, <span class="fl">0.75</span> <span class="op">*</span><span class="st"> </span><span class="dv">100</span>, (<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.75</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb387-46" data-line-number="46"><span class="co"># p(theta|mu=0.25)</span></a>
-<a class="sourceLine" id="cb387-47" data-line-number="47">sims_cond_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">rbeta</span>(<span class="dv">5000</span>, <span class="fl">0.25</span> <span class="op">*</span><span class="st"> </span><span class="dv">100</span>, (<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.25</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb387-48" data-line-number="48"></a>
-<a class="sourceLine" id="cb387-49" data-line-number="49"><span class="co"># marginal = sims_marg</span></a>
-<a class="sourceLine" id="cb387-50" data-line-number="50"></a>
-<a class="sourceLine" id="cb387-51" data-line-number="51">sims &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">sim =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">5000</span>, </a>
-<a class="sourceLine" id="cb387-52" data-line-number="52">  <span class="dt">cond_1 =</span> sims_cond_<span class="dv">1</span>, </a>
-<a class="sourceLine" id="cb387-53" data-line-number="53">  <span class="dt">cond_2 =</span> sims_cond_<span class="dv">2</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb387-54" data-line-number="54"><span class="st">  </span><span class="kw">gather</span>(dist, values, <span class="op">-</span>sim) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb387-55" data-line-number="55"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">mu =</span> <span class="kw">ifelse</span>(dist <span class="op">==</span><span class="st"> &quot;cond_1&quot;</span>, <span class="fl">0.75</span>, <span class="fl">0.25</span>))</a>
+<a class="sourceLine" id="cb387-40" data-line-number="40"><span class="st">    </span><span class="kw">geom_density</span>(<span class="dt">adjust =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb387-41" data-line-number="41"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(theta)), <span class="dt">x =</span> <span class="kw">expression</span>(theta))</a>
+<a class="sourceLine" id="cb387-42" data-line-number="42"></a>
+<a class="sourceLine" id="cb387-43" data-line-number="43"><span class="co"># p(theta|mu=0.75)</span></a>
+<a class="sourceLine" id="cb387-44" data-line-number="44">sims_cond_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">rbeta</span>(<span class="dv">5000</span>, <span class="fl">0.75</span> <span class="op">*</span><span class="st"> </span><span class="dv">100</span>, (<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.75</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb387-45" data-line-number="45"><span class="co"># p(theta|mu=0.25)</span></a>
+<a class="sourceLine" id="cb387-46" data-line-number="46">sims_cond_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">rbeta</span>(<span class="dv">5000</span>, <span class="fl">0.25</span> <span class="op">*</span><span class="st"> </span><span class="dv">100</span>, (<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.25</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb387-47" data-line-number="47"></a>
+<a class="sourceLine" id="cb387-48" data-line-number="48"><span class="co"># marginal = sims_marg</span></a>
+<a class="sourceLine" id="cb387-49" data-line-number="49"></a>
+<a class="sourceLine" id="cb387-50" data-line-number="50">sims &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">sim =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">5000</span>, </a>
+<a class="sourceLine" id="cb387-51" data-line-number="51">    <span class="dt">cond_1 =</span> sims_cond_<span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb387-52" data-line-number="52">    <span class="dt">cond_2 =</span> sims_cond_<span class="dv">2</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-53" data-line-number="53"><span class="st">    </span><span class="kw">gather</span>(dist, values, <span class="op">-</span>sim) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-54" data-line-number="54"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">mu =</span> <span class="kw">ifelse</span>(dist <span class="op">==</span><span class="st"> &quot;cond_1&quot;</span>, <span class="fl">0.75</span>, <span class="fl">0.25</span>))</a>
+<a class="sourceLine" id="cb387-55" data-line-number="55"></a>
 <a class="sourceLine" id="cb387-56" data-line-number="56"></a>
-<a class="sourceLine" id="cb387-57" data-line-number="57"></a>
-<a class="sourceLine" id="cb387-58" data-line-number="58">plots_marginales &lt;-<span class="st"> </span><span class="kw">ggplot</span>(sims, <span class="kw">aes</span>(<span class="dt">x =</span> values)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb387-59" data-line-number="59"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(<span class="kw">paste</span>(theta, l, mu))), </a>
-<a class="sourceLine" id="cb387-60" data-line-number="60">       <span class="dt">x =</span> <span class="kw">expression</span>(theta)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb387-61" data-line-number="61"><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">adjust =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb387-62" data-line-number="62"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>mu, <span class="dt">ncol =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb387-63" data-line-number="63"></a>
-<a class="sourceLine" id="cb387-64" data-line-number="64"><span class="kw">grid.arrange</span>(plot_conj, plot_mu, plot_theta, plots_marginales, <span class="dt">ncol=</span><span class="dv">2</span>)</a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-68-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb388-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb388-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb388-3" data-line-number="3">likeBern &lt;-<span class="st"> </span><span class="cf">function</span>(z, N){</a>
-<a class="sourceLine" id="cb388-4" data-line-number="4">  <span class="cf">function</span>(theta){</a>
-<a class="sourceLine" id="cb388-5" data-line-number="5">    theta <span class="op">^</span><span class="st"> </span>z <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta) <span class="op">^</span><span class="st"> </span>(N <span class="op">-</span><span class="st"> </span>z)</a>
-<a class="sourceLine" id="cb388-6" data-line-number="6">  }</a>
-<a class="sourceLine" id="cb388-7" data-line-number="7">}</a>
-<a class="sourceLine" id="cb388-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb388-9" data-line-number="9"><span class="co"># Valores observados</span></a>
-<a class="sourceLine" id="cb388-10" data-line-number="10">z &lt;-<span class="st"> </span><span class="dv">9</span>; N &lt;-<span class="st"> </span><span class="dv">12</span></a>
-<a class="sourceLine" id="cb388-11" data-line-number="11">mi_like &lt;-<span class="st"> </span><span class="kw">likeBern</span>(z, N)</a>
-<a class="sourceLine" id="cb388-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb388-13" data-line-number="13">grid_like &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">x =</span> <span class="kw">seq</span>(<span class="fl">0.01</span>, <span class="dv">1</span>, <span class="fl">0.05</span>), <span class="dt">y =</span> <span class="kw">seq</span>(<span class="fl">0.01</span>, <span class="dv">1</span>, <span class="fl">0.05</span>))</a>
-<a class="sourceLine" id="cb388-14" data-line-number="14">grid_like &lt;-<span class="st"> </span>grid_like <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb388-15" data-line-number="15"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">z =</span> <span class="kw">mi_like</span>(x))</a>
-<a class="sourceLine" id="cb388-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb388-17" data-line-number="17"><span class="kw">ggplot</span>(grid_like, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">z =</span> z)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb388-18" data-line-number="18"><span class="st">  </span><span class="kw">stat_contour</span>(<span class="kw">aes</span>(<span class="dt">color =</span> ..level..)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb388-19" data-line-number="19"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb388-20" data-line-number="20"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="kw">expression</span>(mu), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb388-21" data-line-number="21"><span class="st">  </span><span class="kw">scale_color_gradient</span>(<span class="kw">expression</span>(<span class="kw">L</span>(theta,mu)), <span class="dt">guide =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb388-22" data-line-number="22"><span class="st">  </span><span class="kw">coord_fixed</span>()</a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-68-2.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb389-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb389-2" data-line-number="2"><span class="co"># cuadrícula</span></a>
-<a class="sourceLine" id="cb389-3" data-line-number="3">grid_post &lt;-<span class="st"> </span>grid_inicial <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb389-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb389-5" data-line-number="5">    <span class="dt">prior =</span> p_inicial <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(p_inicial),</a>
-<a class="sourceLine" id="cb389-6" data-line-number="6">    <span class="dt">Like =</span> theta <span class="op">^</span><span class="st"> </span>z <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta) <span class="op">^</span><span class="st"> </span>(N <span class="op">-</span><span class="st"> </span>z), <span class="co"># verosimilitud </span></a>
-<a class="sourceLine" id="cb389-7" data-line-number="7">    <span class="dt">posterior =</span> (Like <span class="op">*</span><span class="st"> </span>prior) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(Like <span class="op">*</span><span class="st"> </span>prior)</a>
-<a class="sourceLine" id="cb389-8" data-line-number="8">  )  </a>
-<a class="sourceLine" id="cb389-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb389-10" data-line-number="10">post_conj &lt;-<span class="st"> </span><span class="kw">ggplot</span>(grid_post, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> mu, <span class="dt">z =</span> posterior)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb389-11" data-line-number="11"><span class="st">  </span><span class="kw">stat_contour</span>(<span class="kw">aes</span>(<span class="dt">color =</span> ..level..)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb389-12" data-line-number="12"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb389-13" data-line-number="13"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="kw">expression</span>(mu), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb389-14" data-line-number="14"><span class="st">  </span><span class="kw">scale_color_gradient</span>(<span class="kw">expression</span>(<span class="kw">p</span>(theta,mu)), <span class="dt">guide =</span> <span class="ot">FALSE</span>) </a>
-<a class="sourceLine" id="cb389-15" data-line-number="15"><span class="co"># head(grid_post)</span></a>
-<a class="sourceLine" id="cb389-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb389-17" data-line-number="17">grid_mu &lt;-<span class="st"> </span>grid_post <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb389-18" data-line-number="18"><span class="st">  </span><span class="kw">group_by</span>(mu) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb389-19" data-line-number="19"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">post_mu =</span> <span class="kw">sum</span>(posterior)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb389-20" data-line-number="20"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb389-21" data-line-number="21"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">post_mu =</span> post_mu <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(post_mu))</a>
-<a class="sourceLine" id="cb389-22" data-line-number="22"></a>
-<a class="sourceLine" id="cb389-23" data-line-number="23">post_mu &lt;-<span class="st"> </span><span class="kw">ggplot</span>(grid_mu, <span class="kw">aes</span>(<span class="dt">x =</span> mu, <span class="dt">y =</span> post_mu)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb389-24" data-line-number="24"><span class="st">  </span><span class="kw">geom_path</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb389-25" data-line-number="25"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(<span class="kw">paste</span>(mu, l, x))), </a>
-<a class="sourceLine" id="cb389-26" data-line-number="26">       <span class="dt">x =</span> <span class="kw">expression</span>(mu)) <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>()</a>
-<a class="sourceLine" id="cb389-27" data-line-number="27"></a>
-<a class="sourceLine" id="cb389-28" data-line-number="28">grid_theta &lt;-<span class="st"> </span>grid_post <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb389-29" data-line-number="29"><span class="st">  </span><span class="kw">group_by</span>(theta) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb389-30" data-line-number="30"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">post_theta =</span> <span class="kw">sum</span>(posterior)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb389-31" data-line-number="31"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb389-32" data-line-number="32"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">post_theta =</span> post_theta <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(post_theta))</a>
-<a class="sourceLine" id="cb389-33" data-line-number="33"></a>
-<a class="sourceLine" id="cb389-34" data-line-number="34">post_theta &lt;-<span class="st"> </span><span class="kw">ggplot</span>(grid_theta, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> post_theta)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb389-35" data-line-number="35"><span class="st">  </span><span class="kw">geom_path</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb389-36" data-line-number="36"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(<span class="kw">paste</span>(theta, l, x))), </a>
-<a class="sourceLine" id="cb389-37" data-line-number="37">       <span class="dt">x =</span> <span class="kw">expression</span>(theta))</a>
-<a class="sourceLine" id="cb389-38" data-line-number="38"></a>
-<a class="sourceLine" id="cb389-39" data-line-number="39">grid_theta_m &lt;-<span class="st"> </span>grid_post <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb389-40" data-line-number="40"><span class="st">  </span><span class="kw">filter</span>(mu <span class="op">==</span><span class="st"> </span><span class="fl">0.75</span> <span class="op">|</span><span class="st"> </span>mu <span class="op">==</span><span class="st"> </span><span class="fl">0.25</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb389-41" data-line-number="41"><span class="st">  </span><span class="kw">group_by</span>(theta, mu) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb389-42" data-line-number="42"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">post_theta =</span> <span class="kw">sum</span>(posterior)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb389-43" data-line-number="43"><span class="st">  </span><span class="kw">group_by</span>(mu) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb389-44" data-line-number="44"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">post_theta =</span> post_theta <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(post_theta))</a>
-<a class="sourceLine" id="cb389-45" data-line-number="45"></a>
-<a class="sourceLine" id="cb389-46" data-line-number="46">post_marginales &lt;-<span class="st"> </span><span class="kw">ggplot</span>(grid_theta_m, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> post_theta)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb389-47" data-line-number="47"><span class="st">  </span><span class="kw">geom_path</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb389-48" data-line-number="48"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>mu, <span class="dt">ncol =</span> <span class="dv">1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb389-49" data-line-number="49"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(<span class="kw">paste</span>(theta, l, x, mu))), </a>
-<a class="sourceLine" id="cb389-50" data-line-number="50">       <span class="dt">x =</span> <span class="kw">expression</span>(theta))</a></code></pre></div>
+<a class="sourceLine" id="cb387-57" data-line-number="57">plots_marginales &lt;-<span class="st"> </span><span class="kw">ggplot</span>(sims, <span class="kw">aes</span>(<span class="dt">x =</span> values)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb387-58" data-line-number="58"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(<span class="kw">paste</span>(theta, l, mu))), <span class="dt">x =</span> <span class="kw">expression</span>(theta)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb387-59" data-line-number="59"><span class="st">    </span><span class="kw">geom_density</span>(<span class="dt">adjust =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb387-60" data-line-number="60"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>mu, <span class="dt">ncol =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb387-61" data-line-number="61"></a>
+<a class="sourceLine" id="cb387-62" data-line-number="62"><span class="kw">grid.arrange</span>(plot_conj, plot_mu, plot_theta, plots_marginales, <span class="dt">ncol =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb387-63" data-line-number="63">likeBern &lt;-<span class="st"> </span><span class="cf">function</span>(z, N){</a>
+<a class="sourceLine" id="cb387-64" data-line-number="64">    <span class="cf">function</span>(theta){</a>
+<a class="sourceLine" id="cb387-65" data-line-number="65">      theta <span class="op">^</span><span class="st"> </span>z <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta) <span class="op">^</span><span class="st"> </span>(N <span class="op">-</span><span class="st"> </span>z)</a>
+<a class="sourceLine" id="cb387-66" data-line-number="66">    }</a>
+<a class="sourceLine" id="cb387-67" data-line-number="67">}</a>
+<a class="sourceLine" id="cb387-68" data-line-number="68"></a>
+<a class="sourceLine" id="cb387-69" data-line-number="69"><span class="co"># Valores observados</span></a>
+<a class="sourceLine" id="cb387-70" data-line-number="70">z &lt;-<span class="st"> </span><span class="dv">9</span>; N &lt;-<span class="st"> </span><span class="dv">12</span></a>
+<a class="sourceLine" id="cb387-71" data-line-number="71">mi_like &lt;-<span class="st"> </span><span class="kw">likeBern</span>(z, N)</a>
+<a class="sourceLine" id="cb387-72" data-line-number="72"></a>
+<a class="sourceLine" id="cb387-73" data-line-number="73">grid_like &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">x =</span> <span class="kw">seq</span>(<span class="fl">0.01</span>, <span class="dv">1</span>, <span class="fl">0.05</span>), <span class="dt">y =</span> <span class="kw">seq</span>(<span class="fl">0.01</span>, <span class="dv">1</span>, <span class="fl">0.05</span>))</a>
+<a class="sourceLine" id="cb387-74" data-line-number="74">grid_like &lt;-<span class="st"> </span>grid_like <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb387-75" data-line-number="75"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">z =</span> <span class="kw">mi_like</span>(x))</a>
+<a class="sourceLine" id="cb387-76" data-line-number="76"></a>
+<a class="sourceLine" id="cb387-77" data-line-number="77"><span class="kw">ggplot</span>(grid_like, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">z =</span> z)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb387-78" data-line-number="78"><span class="st">    </span><span class="kw">stat_contour</span>(<span class="kw">aes</span>(<span class="dt">color =</span> ..level..)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb387-79" data-line-number="79"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb387-80" data-line-number="80"><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="kw">expression</span>(mu), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb387-81" data-line-number="81"><span class="st">    </span><span class="kw">scale_color_gradient</span>(<span class="kw">expression</span>(<span class="kw">L</span>(theta,mu)), <span class="dt">guide =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb387-82" data-line-number="82"><span class="st">    </span><span class="kw">coord_fixed</span>()</a>
+<a class="sourceLine" id="cb387-83" data-line-number="83"></a>
+<a class="sourceLine" id="cb387-84" data-line-number="84"><span class="co"># cuadrícula</span></a>
+<a class="sourceLine" id="cb387-85" data-line-number="85">grid_post &lt;-<span class="st"> </span>grid_inicial <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-86" data-line-number="86"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb387-87" data-line-number="87">      <span class="dt">prior =</span> p_inicial <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(p_inicial),</a>
+<a class="sourceLine" id="cb387-88" data-line-number="88">      <span class="dt">Like =</span> theta <span class="op">^</span><span class="st"> </span>z <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta) <span class="op">^</span><span class="st"> </span>(N <span class="op">-</span><span class="st"> </span>z), <span class="co"># verosimilitud </span></a>
+<a class="sourceLine" id="cb387-89" data-line-number="89">      <span class="dt">posterior =</span> (Like <span class="op">*</span><span class="st"> </span>prior) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(Like <span class="op">*</span><span class="st"> </span>prior)</a>
+<a class="sourceLine" id="cb387-90" data-line-number="90">    )  </a>
+<a class="sourceLine" id="cb387-91" data-line-number="91"></a>
+<a class="sourceLine" id="cb387-92" data-line-number="92">post_conj &lt;-<span class="st"> </span><span class="kw">ggplot</span>(grid_post, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> mu, <span class="dt">z =</span> posterior)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb387-93" data-line-number="93"><span class="st">    </span><span class="kw">stat_contour</span>(<span class="kw">aes</span>(<span class="dt">color =</span> ..level..)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb387-94" data-line-number="94"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb387-95" data-line-number="95"><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="kw">expression</span>(mu), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb387-96" data-line-number="96"><span class="st">    </span><span class="kw">scale_color_gradient</span>(<span class="kw">expression</span>(<span class="kw">p</span>(theta,mu)), <span class="dt">guide =</span> <span class="ot">FALSE</span>) </a>
+<a class="sourceLine" id="cb387-97" data-line-number="97">grid_mu &lt;-<span class="st"> </span>grid_post <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-98" data-line-number="98"><span class="st">    </span><span class="kw">group_by</span>(mu) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-99" data-line-number="99"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">post_mu =</span> <span class="kw">sum</span>(posterior)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-100" data-line-number="100"><span class="st">    </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-101" data-line-number="101"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">post_mu =</span> post_mu <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(post_mu))</a>
+<a class="sourceLine" id="cb387-102" data-line-number="102"></a>
+<a class="sourceLine" id="cb387-103" data-line-number="103">post_mu &lt;-<span class="st"> </span><span class="kw">ggplot</span>(grid_mu, <span class="kw">aes</span>(<span class="dt">x =</span> mu, <span class="dt">y =</span> post_mu)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb387-104" data-line-number="104"><span class="st">    </span><span class="kw">geom_path</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb387-105" data-line-number="105"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(<span class="kw">paste</span>(mu, l, x))), <span class="dt">x =</span> <span class="kw">expression</span>(mu)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb387-106" data-line-number="106"><span class="st">    </span><span class="kw">coord_flip</span>()</a>
+<a class="sourceLine" id="cb387-107" data-line-number="107"></a>
+<a class="sourceLine" id="cb387-108" data-line-number="108">grid_theta &lt;-<span class="st"> </span>grid_post <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-109" data-line-number="109"><span class="st">    </span><span class="kw">group_by</span>(theta) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-110" data-line-number="110"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">post_theta =</span> <span class="kw">sum</span>(posterior)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-111" data-line-number="111"><span class="st">    </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-112" data-line-number="112"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">post_theta =</span> post_theta <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(post_theta))</a>
+<a class="sourceLine" id="cb387-113" data-line-number="113"></a>
+<a class="sourceLine" id="cb387-114" data-line-number="114">post_theta &lt;-<span class="st"> </span><span class="kw">ggplot</span>(grid_theta, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> post_theta)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb387-115" data-line-number="115"><span class="st">    </span><span class="kw">geom_path</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb387-116" data-line-number="116"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(<span class="kw">paste</span>(theta, l, x))), <span class="dt">x =</span> <span class="kw">expression</span>(theta))</a>
+<a class="sourceLine" id="cb387-117" data-line-number="117"></a>
+<a class="sourceLine" id="cb387-118" data-line-number="118">grid_theta_m &lt;-<span class="st"> </span>grid_post <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-119" data-line-number="119"><span class="st">    </span><span class="kw">filter</span>(mu <span class="op">==</span><span class="st"> </span><span class="fl">0.75</span> <span class="op">|</span><span class="st"> </span>mu <span class="op">==</span><span class="st"> </span><span class="fl">0.25</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-120" data-line-number="120"><span class="st">    </span><span class="kw">group_by</span>(theta, mu) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-121" data-line-number="121"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">post_theta =</span> <span class="kw">sum</span>(posterior)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-122" data-line-number="122"><span class="st">    </span><span class="kw">group_by</span>(mu) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-123" data-line-number="123"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">post_theta =</span> post_theta <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(post_theta))</a>
+<a class="sourceLine" id="cb387-124" data-line-number="124"></a>
+<a class="sourceLine" id="cb387-125" data-line-number="125">post_marginales &lt;-<span class="st"> </span><span class="kw">ggplot</span>(grid_theta_m, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> post_theta)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb387-126" data-line-number="126"><span class="st">    </span><span class="kw">geom_path</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb387-127" data-line-number="127"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>mu, <span class="dt">ncol =</span> <span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb387-128" data-line-number="128"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(<span class="kw">paste</span>(theta, l, x, mu))), </a>
+<a class="sourceLine" id="cb387-129" data-line-number="129">         <span class="dt">x =</span> <span class="kw">expression</span>(theta))</a></code></pre></div>
 </div>
 </div>
 <div id="multiples-monedas-de-una-misma-fábrica" class="section level3 unnumbered">
@@ -611,11 +604,198 @@ en nuestros conocimientos iniciales.</p>
 los sesgos <span class="math inline">\(\theta_1\)</span>, <span class="math inline">\(\theta_2\)</span> de las dos monedas y estimar simultáneamente
 el parámetro <span class="math inline">\(\mu\)</span> correspondiente a la casa de moneda que las fabricó.</p>
 <p>Inicial.</p>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-69-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/inicial_jer_2-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Verosimilitud.</p>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-70-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/verosimilitud_jer_2-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Posterior.</p>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-71-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/posterior_jer_2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Y el código para el análisis y gráficas de arriba.</p>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb388-1" data-line-number="1">A_mu &lt;-<span class="st"> </span><span class="dv">2</span>; B_mu &lt;-<span class="st"> </span><span class="dv">2</span>; K &lt;-<span class="st"> </span><span class="dv">1000</span></a>
+<a class="sourceLine" id="cb388-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb388-3" data-line-number="3"><span class="co"># Distribución inicial p(theta, mu)</span></a>
+<a class="sourceLine" id="cb388-4" data-line-number="4">p_conjunta &lt;-<span class="st"> </span><span class="cf">function</span>(mu, theta, A_mu, B_mu, K){</a>
+<a class="sourceLine" id="cb388-5" data-line-number="5">    <span class="co"># marginal p(mu)</span></a>
+<a class="sourceLine" id="cb388-6" data-line-number="6">    p_mu &lt;-<span class="st"> </span><span class="kw">dbeta</span>(mu, A_mu, B_mu)</a>
+<a class="sourceLine" id="cb388-7" data-line-number="7">    <span class="co"># condicional p(theta | mu)</span></a>
+<a class="sourceLine" id="cb388-8" data-line-number="8">    p_theta_mu &lt;-<span class="st"> </span><span class="kw">dbeta</span>(theta, mu <span class="op">*</span><span class="st"> </span>K, (<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>mu) <span class="op">*</span><span class="st"> </span>K)</a>
+<a class="sourceLine" id="cb388-9" data-line-number="9">    p_mu <span class="op">*</span><span class="st"> </span>p_theta_mu</a>
+<a class="sourceLine" id="cb388-10" data-line-number="10">}</a>
+<a class="sourceLine" id="cb388-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb388-12" data-line-number="12">grid_inicial &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">theta =</span> <span class="kw">seq</span>(<span class="fl">0.01</span>, <span class="fl">0.99</span>, <span class="fl">0.005</span>),</a>
+<a class="sourceLine" id="cb388-13" data-line-number="13">    <span class="dt">mu =</span> <span class="kw">seq</span>(<span class="fl">0.01</span>, <span class="fl">0.99</span>, <span class="fl">0.005</span>))</a>
+<a class="sourceLine" id="cb388-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb388-15" data-line-number="15">grid_inicial &lt;-<span class="st"> </span>grid_inicial <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb388-16" data-line-number="16"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">p_inicial =</span> <span class="kw">p_conjunta</span>(mu, theta, A_mu, B_mu, K))</a>
+<a class="sourceLine" id="cb388-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb388-18" data-line-number="18">plot_conj_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">ggplot</span>(grid_inicial, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> mu, <span class="dt">z =</span> p_inicial)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb388-19" data-line-number="19"><span class="st">    </span><span class="kw">stat_contour</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>, <span class="kw">aes</span>(<span class="dt">color =</span> ..level..)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-20" data-line-number="20"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta[<span class="dv">1</span>]), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-21" data-line-number="21"><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="kw">expression</span>(mu), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-22" data-line-number="22"><span class="st">    </span><span class="kw">scale_color_gradient</span>(<span class="kw">expression</span>(<span class="kw">p</span>(theta,mu)), <span class="dt">guide =</span> <span class="ot">FALSE</span>) </a>
+<a class="sourceLine" id="cb388-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb388-24" data-line-number="24">plot_conj_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">ggplot</span>(grid_inicial, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> mu, <span class="dt">z =</span> p_inicial)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb388-25" data-line-number="25"><span class="st">    </span><span class="kw">stat_contour</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>, <span class="kw">aes</span>(<span class="dt">color =</span> ..level..)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-26" data-line-number="26"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta[<span class="dv">2</span>]), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-27" data-line-number="27"><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="kw">expression</span>(mu), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-28" data-line-number="28"><span class="st">    </span><span class="kw">scale_color_gradient</span>(<span class="kw">expression</span>(<span class="kw">p</span>(theta,mu)), <span class="dt">guide =</span> <span class="ot">FALSE</span>) </a>
+<a class="sourceLine" id="cb388-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb388-30" data-line-number="30">grid_mu &lt;-<span class="st"> </span>grid_inicial <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb388-31" data-line-number="31"><span class="st">    </span><span class="kw">group_by</span>(mu) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb388-32" data-line-number="32"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">p_mu =</span> <span class="kw">sum</span>(p_inicial)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb388-33" data-line-number="33"><span class="st">    </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb388-34" data-line-number="34"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">p_mu =</span> p_mu <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(p_mu))</a>
+<a class="sourceLine" id="cb388-35" data-line-number="35"></a>
+<a class="sourceLine" id="cb388-36" data-line-number="36">plot_mu &lt;-<span class="st"> </span><span class="kw">ggplot</span>(grid_mu, <span class="kw">aes</span>(<span class="dt">x =</span> mu, <span class="dt">y =</span> p_mu)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-37" data-line-number="37"><span class="st">    </span><span class="kw">geom_path</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-38" data-line-number="38"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(<span class="kw">paste</span>(mu))), <span class="dt">x =</span> <span class="kw">expression</span>(mu)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb388-39" data-line-number="39"><span class="st">    </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="fl">0.015</span>) <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>()</a>
+<a class="sourceLine" id="cb388-40" data-line-number="40"></a>
+<a class="sourceLine" id="cb388-41" data-line-number="41">p_marg &lt;-<span class="st"> </span>grid_inicial <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb388-42" data-line-number="42"><span class="st">    </span><span class="kw">group_by</span>(theta) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb388-43" data-line-number="43"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">marg =</span> <span class="kw">sum</span>(p_inicial)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb388-44" data-line-number="44"><span class="st">    </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb388-45" data-line-number="45"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">marg =</span> marg <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(marg))</a>
+<a class="sourceLine" id="cb388-46" data-line-number="46"></a>
+<a class="sourceLine" id="cb388-47" data-line-number="47">plot_marg_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">ggplot</span>(p_marg, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> marg)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb388-48" data-line-number="48"><span class="st">    </span><span class="kw">geom_path</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-49" data-line-number="49"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(theta[<span class="dv">1</span>])), <span class="dt">x =</span> <span class="kw">expression</span>(theta[<span class="dv">1</span>])) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-50" data-line-number="50"><span class="st">    </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="fl">0.02</span>)</a>
+<a class="sourceLine" id="cb388-51" data-line-number="51"></a>
+<a class="sourceLine" id="cb388-52" data-line-number="52">plot_marg_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">ggplot</span>(p_marg, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> marg)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb388-53" data-line-number="53"><span class="st">    </span><span class="kw">geom_path</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-54" data-line-number="54"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(theta[<span class="dv">2</span>])), <span class="dt">x =</span> <span class="kw">expression</span>(theta[<span class="dv">2</span>])) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-55" data-line-number="55"><span class="st">    </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="fl">0.02</span>)</a>
+<a class="sourceLine" id="cb388-56" data-line-number="56"></a>
+<a class="sourceLine" id="cb388-57" data-line-number="57"><span class="kw">grid.arrange</span>(plot_conj_<span class="dv">1</span>, plot_conj_<span class="dv">2</span>, plot_mu, plot_marg_<span class="dv">1</span>, plot_marg_<span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb388-58" data-line-number="58">    <span class="dt">ncol =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb388-59" data-line-number="59">z_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="dv">3</span>; N_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="dv">15</span></a>
+<a class="sourceLine" id="cb388-60" data-line-number="60">z_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="dv">4</span>; N_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="dv">5</span></a>
+<a class="sourceLine" id="cb388-61" data-line-number="61"></a>
+<a class="sourceLine" id="cb388-62" data-line-number="62">mi_like_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">likeBern</span>(z_<span class="dv">1</span>, N_<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb388-63" data-line-number="63">mi_like_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">likeBern</span>(z_<span class="dv">2</span>, N_<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb388-64" data-line-number="64"></a>
+<a class="sourceLine" id="cb388-65" data-line-number="65">grid_like &lt;-<span class="st"> </span>grid_like <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb388-66" data-line-number="66"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">L_1 =</span> <span class="kw">mi_like_1</span>(x), <span class="dt">L_2 =</span> <span class="kw">mi_like_2</span>(x))</a>
+<a class="sourceLine" id="cb388-67" data-line-number="67"></a>
+<a class="sourceLine" id="cb388-68" data-line-number="68">plot_like_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">ggplot</span>(grid_like, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">z =</span> L_<span class="dv">1</span>)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb388-69" data-line-number="69"><span class="st">    </span><span class="kw">stat_contour</span>(<span class="kw">aes</span>(<span class="dt">color =</span> ..level..)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-70" data-line-number="70"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta[<span class="dv">1</span>]), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-71" data-line-number="71"><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="kw">expression</span>(mu), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-72" data-line-number="72"><span class="st">    </span><span class="kw">scale_color_gradient</span>(<span class="kw">expression</span>(<span class="kw">L</span>(theta,mu)), <span class="dt">guide =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb388-73" data-line-number="73"></a>
+<a class="sourceLine" id="cb388-74" data-line-number="74">plot_like_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">ggplot</span>(grid_like, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">z =</span> L_<span class="dv">2</span>)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb388-75" data-line-number="75"><span class="st">    </span><span class="kw">stat_contour</span>(<span class="kw">aes</span>(<span class="dt">color =</span> ..level..)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-76" data-line-number="76"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta[<span class="dv">1</span>]), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-77" data-line-number="77"><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="kw">expression</span>(mu), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-78" data-line-number="78"><span class="st">    </span><span class="kw">scale_color_gradient</span>(<span class="kw">expression</span>(<span class="kw">L</span>(theta,mu)), <span class="dt">guide =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb388-79" data-line-number="79"></a>
+<a class="sourceLine" id="cb388-80" data-line-number="80"><span class="kw">grid.arrange</span>(plot_like_<span class="dv">1</span>, plot_like_<span class="dv">2</span>, <span class="dt">ncol =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb388-81" data-line-number="81">grid_post &lt;-<span class="st"> </span>grid_inicial <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb388-82" data-line-number="82"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb388-83" data-line-number="83">        <span class="dt">prior =</span> p_inicial <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(p_inicial),</a>
+<a class="sourceLine" id="cb388-84" data-line-number="84">        <span class="dt">Like_1 =</span> theta <span class="op">^</span><span class="st"> </span>z_<span class="dv">1</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta) <span class="op">^</span><span class="st"> </span>(N_<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>z_<span class="dv">1</span>), <span class="co"># verosimilitud </span></a>
+<a class="sourceLine" id="cb388-85" data-line-number="85">        <span class="dt">posterior_1 =</span> (Like_<span class="dv">1</span> <span class="op">*</span><span class="st"> </span>prior) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(Like_<span class="dv">1</span> <span class="op">*</span><span class="st"> </span>prior),</a>
+<a class="sourceLine" id="cb388-86" data-line-number="86">        <span class="dt">Like_2 =</span> theta <span class="op">^</span><span class="st"> </span>z_<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta) <span class="op">^</span><span class="st"> </span>(N_<span class="dv">2</span> <span class="op">-</span><span class="st"> </span>z_<span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb388-87" data-line-number="87">        <span class="dt">posterior_2 =</span> (Like_<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>prior) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(Like_<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>prior)</a>
+<a class="sourceLine" id="cb388-88" data-line-number="88">      )  </a>
+<a class="sourceLine" id="cb388-89" data-line-number="89"></a>
+<a class="sourceLine" id="cb388-90" data-line-number="90">post_conj_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">ggplot</span>(grid_post, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> mu, <span class="dt">z =</span> posterior_<span class="dv">1</span>)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb388-91" data-line-number="91"><span class="st">    </span><span class="kw">stat_contour</span>(<span class="kw">aes</span>(<span class="dt">color =</span> ..level..)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-92" data-line-number="92"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta[<span class="dv">1</span>]), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-93" data-line-number="93"><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="kw">expression</span>(mu), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-94" data-line-number="94"><span class="st">    </span><span class="kw">scale_color_gradient</span>(<span class="kw">expression</span>(<span class="kw">p</span>(theta[<span class="dv">1</span>],mu)), <span class="dt">guide =</span> <span class="ot">FALSE</span>) </a>
+<a class="sourceLine" id="cb388-95" data-line-number="95"></a>
+<a class="sourceLine" id="cb388-96" data-line-number="96">post_conj_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">ggplot</span>(grid_post, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> mu, <span class="dt">z =</span> posterior_<span class="dv">2</span>)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb388-97" data-line-number="97"><span class="st">    </span><span class="kw">stat_contour</span>(<span class="kw">aes</span>(<span class="dt">color =</span> ..level..)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-98" data-line-number="98"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta[<span class="dv">2</span>]), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-99" data-line-number="99"><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="kw">expression</span>(mu), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-100" data-line-number="100"><span class="st">    </span><span class="kw">scale_color_gradient</span>(<span class="kw">expression</span>(<span class="kw">p</span>(theta[<span class="dv">2</span>],mu)), <span class="dt">guide =</span> <span class="ot">FALSE</span>) </a>
+<a class="sourceLine" id="cb388-101" data-line-number="101"></a>
+<a class="sourceLine" id="cb388-102" data-line-number="102">grid_mu &lt;-<span class="st"> </span>grid_post <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb388-103" data-line-number="103"><span class="st">    </span><span class="kw">group_by</span>(mu) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb388-104" data-line-number="104"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">post_mu =</span> <span class="kw">sum</span>(posterior_<span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(posterior_<span class="dv">2</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb388-105" data-line-number="105"><span class="st">    </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb388-106" data-line-number="106"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">post_mu =</span> post_mu <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(post_mu))</a>
+<a class="sourceLine" id="cb388-107" data-line-number="107"></a>
+<a class="sourceLine" id="cb388-108" data-line-number="108">post_mu &lt;-<span class="st"> </span><span class="kw">ggplot</span>(grid_mu, <span class="kw">aes</span>(<span class="dt">x =</span> mu, <span class="dt">y =</span> post_mu)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-109" data-line-number="109"><span class="st">    </span><span class="kw">geom_path</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-110" data-line-number="110"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(<span class="kw">paste</span>(mu, l, x))), <span class="dt">x =</span> <span class="kw">expression</span>(mu)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb388-111" data-line-number="111"><span class="st">    </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="fl">0.015</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb388-112" data-line-number="112"><span class="st">    </span><span class="kw">coord_flip</span>()</a>
+<a class="sourceLine" id="cb388-113" data-line-number="113"></a>
+<a class="sourceLine" id="cb388-114" data-line-number="114">grid_theta &lt;-<span class="st"> </span>grid_post <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb388-115" data-line-number="115"><span class="st">    </span><span class="kw">group_by</span>(theta) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb388-116" data-line-number="116"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">post_theta_1 =</span> <span class="kw">sum</span>(posterior_<span class="dv">1</span>), </a>
+<a class="sourceLine" id="cb388-117" data-line-number="117">        <span class="dt">post_theta_2 =</span> <span class="kw">sum</span>(posterior_<span class="dv">2</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb388-118" data-line-number="118"><span class="st">    </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb388-119" data-line-number="119"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">post_theta_1 =</span> post_theta_<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(post_theta_<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb388-120" data-line-number="120"></a>
+<a class="sourceLine" id="cb388-121" data-line-number="121">post_theta_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">ggplot</span>(grid_theta, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> post_theta_<span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-122" data-line-number="122"><span class="st">    </span><span class="kw">geom_path</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-123" data-line-number="123"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(<span class="kw">paste</span>(theta[<span class="dv">1</span>], l, x))), <span class="dt">x =</span> <span class="kw">expression</span>(theta[<span class="dv">1</span>])) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb388-124" data-line-number="124"><span class="st">    </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="fl">0.020</span>)</a>
+<a class="sourceLine" id="cb388-125" data-line-number="125"></a>
+<a class="sourceLine" id="cb388-126" data-line-number="126">post_theta_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">ggplot</span>(grid_theta, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> post_theta_<span class="dv">2</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-127" data-line-number="127"><span class="st">    </span><span class="kw">geom_path</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb388-128" data-line-number="128"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(<span class="kw">paste</span>(theta[<span class="dv">2</span>], l, x))), <span class="dt">x =</span> <span class="kw">expression</span>(theta[<span class="dv">2</span>])) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb388-129" data-line-number="129"><span class="st">    </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="fl">0.020</span>)</a>
+<a class="sourceLine" id="cb388-130" data-line-number="130"></a>
+<a class="sourceLine" id="cb388-131" data-line-number="131"><span class="kw">grid.arrange</span>(post_conj_<span class="dv">1</span>, post_conj_<span class="dv">2</span>, post_mu, post_theta_<span class="dv">1</span>, post_theta_<span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb388-132" data-line-number="132">             <span class="dt">ncol =</span> <span class="dv">3</span>)</a></code></pre></div>
+</div>
+<div id="stan-1" class="section level4 unnumbered">
+<h4>Stan</h4>
+<p>La sección anterior utilizó un modelo simplificado con el objetivo de poder
+visualizar el espacio de parámetros. Ahora incluiremos más parámetros para hacer
+el problema más realista. En los ejemplos anteriores fijamos
+el grado de dependencia entre <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\theta\)</span> de manera arbitraria, a través
+de <span class="math inline">\(K\)</span>, de tal manera que si <span class="math inline">\(K\)</span> era grande, los valores <span class="math inline">\(\theta_j\)</span> individuales
+se situaban cerca de <span class="math inline">\(\mu\)</span> y cuando <span class="math inline">\(K\)</span> era pequeña se permitía más variación.</p>
+<p>En situaciones reales no conocemos el valor de <span class="math inline">\(K\)</span> por adelantado, por lo que
+dejamos que los datos nos informen acerca de valores creíbles para <span class="math inline">\(K\)</span>.
+Intuitivamente, cuando la proporción de águilas observadas es similar a lo largo
+de las monedas, tenemos evidencia de que <span class="math inline">\(K\)</span> es grande, mientras que si estas
+proporciones difieren mucho, tenemos evidencia de que <span class="math inline">\(K\)</span> es pequeña. Debido
+a que <span class="math inline">\(K\)</span> pasará de ser una constante a ser un parámetro lo llamaremos <span class="math inline">\(\kappa\)</span>.</p>
+<p>La distribución inicial para <span class="math inline">\(\kappa\)</span> será una Gamma.</p>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb389-1" data-line-number="1">modelo_jer.stan &lt;-</a>
+<a class="sourceLine" id="cb389-2" data-line-number="2"><span class="st">&#39;</span></a>
+<a class="sourceLine" id="cb389-3" data-line-number="3"><span class="st">data {</span></a>
+<a class="sourceLine" id="cb389-4" data-line-number="4"><span class="st">    int N;</span></a>
+<a class="sourceLine" id="cb389-5" data-line-number="5"><span class="st">    int x[N];</span></a>
+<a class="sourceLine" id="cb389-6" data-line-number="6"><span class="st">    int nCoins;</span></a>
+<a class="sourceLine" id="cb389-7" data-line-number="7"><span class="st">    int coin[N];</span></a>
+<a class="sourceLine" id="cb389-8" data-line-number="8"><span class="st">}</span></a>
+<a class="sourceLine" id="cb389-9" data-line-number="9"><span class="st">parameters {</span></a>
+<a class="sourceLine" id="cb389-10" data-line-number="10"><span class="st">    real&lt;lower=0,upper=1&gt; theta[nCoins];</span></a>
+<a class="sourceLine" id="cb389-11" data-line-number="11"><span class="st">    real&lt;lower=0,upper=1&gt; mu;</span></a>
+<a class="sourceLine" id="cb389-12" data-line-number="12"><span class="st">    real&lt;lower=0&gt;  kappa;</span></a>
+<a class="sourceLine" id="cb389-13" data-line-number="13"><span class="st">}</span></a>
+<a class="sourceLine" id="cb389-14" data-line-number="14"><span class="st">transformed parameters {</span></a>
+<a class="sourceLine" id="cb389-15" data-line-number="15"><span class="st">    real&lt;lower=0&gt;  a;</span></a>
+<a class="sourceLine" id="cb389-16" data-line-number="16"><span class="st">    real&lt;lower=0&gt;  b;</span></a>
+<a class="sourceLine" id="cb389-17" data-line-number="17"><span class="st">    a = mu * kappa;</span></a>
+<a class="sourceLine" id="cb389-18" data-line-number="18"><span class="st">    b = (1-mu) * kappa;</span></a>
+<a class="sourceLine" id="cb389-19" data-line-number="19"><span class="st">}</span></a>
+<a class="sourceLine" id="cb389-20" data-line-number="20"><span class="st">model {</span></a>
+<a class="sourceLine" id="cb389-21" data-line-number="21"><span class="st">    theta ~ beta(a,b);</span></a>
+<a class="sourceLine" id="cb389-22" data-line-number="22"><span class="st">    x ~ bernoulli(theta[coin]);</span></a>
+<a class="sourceLine" id="cb389-23" data-line-number="23"><span class="st">    mu ~ beta(2, 2);</span></a>
+<a class="sourceLine" id="cb389-24" data-line-number="24"><span class="st">    kappa ~ gamma(1, 0.1);</span></a>
+<a class="sourceLine" id="cb389-25" data-line-number="25"><span class="st">}</span></a>
+<a class="sourceLine" id="cb389-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb389-27" data-line-number="27"><span class="st">&#39;</span></a>
+<a class="sourceLine" id="cb389-28" data-line-number="28"><span class="kw">cat</span>(modelo_jer.stan, <span class="dt">file =</span> <span class="st">&quot;src/stan_files/modelo_jer.stan&quot;</span>)</a>
+<a class="sourceLine" id="cb389-29" data-line-number="29">stan_jer_cpp &lt;-<span class="st"> </span><span class="kw">stan_model</span>(<span class="st">&quot;src/stan_files/modelo_jer.stan&quot;</span>)</a></code></pre></div>
+<p><span class="math inline">\(\kappa \sim Gamma(1, 0.1)\)</span>, tiene media <span class="math inline">\(10\)</span> y desviación estándar <span class="math inline">\(10\)</span>.</p>
+<p>Los datos consisten en <span class="math inline">\(5\)</span> monedas, cada una se lanza <span class="math inline">\(5\)</span> veces, resultando <span class="math inline">\(4\)</span>
+de ellas en <span class="math inline">\(1\)</span> águila y <span class="math inline">\(4\)</span> soles y otra en <span class="math inline">\(3\)</span> águilas y <span class="math inline">\(2\)</span> soles.</p>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb390-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb390-2" data-line-number="2">coin &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">5</span>), <span class="kw">rep</span>(<span class="dv">2</span>, <span class="dv">5</span>), <span class="kw">rep</span>(<span class="dv">3</span>, <span class="dv">5</span>), <span class="kw">rep</span>(<span class="dv">4</span>, <span class="dv">5</span>), <span class="kw">rep</span>(<span class="dv">5</span>, <span class="dv">5</span>))</a>
+<a class="sourceLine" id="cb390-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb390-4" data-line-number="4">stan_jer_fit &lt;-<span class="st"> </span><span class="kw">sampling</span>(stan_jer_cpp, </a>
+<a class="sourceLine" id="cb390-5" data-line-number="5">    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">x =</span> x, <span class="dt">coin =</span> coin, <span class="dt">nCoins =</span> <span class="dv">5</span>,  <span class="dt">N =</span> <span class="dv">25</span>), <span class="dt">chains =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb390-6" data-line-number="6">    <span class="dt">iter =</span> <span class="dv">1000</span>, <span class="dt">warmup =</span> <span class="dv">500</span>)</a></code></pre></div>
 
 </div>
 </div>
