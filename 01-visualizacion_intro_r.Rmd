@@ -16,6 +16,7 @@ encontramos rápidamente que los conjuntos de datos son muy distintos.
 
 ```{r, message=FALSE, echo=FALSE, warning=FALSE}
 library(tidyverse)
+library(bayesplot)
 theme_set(theme_minimal())
 anscombe_long <- anscombe %>% 
     mutate(n_obs = 1:n()) %>% 
