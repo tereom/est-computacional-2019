@@ -2250,7 +2250,7 @@ model {
 
 '
 # notemos que los modelos de Stan deben terminar con una línea en blanco
-cat(modelo_bernoulli.stan, file = "stan_files/modelo_bernoulli.stan")
+cat(modelo_bernoulli.stan, file = "src/stan_files/modelo_bernoulli.stan")
 ```
 
 Notemos que Stan permite operaciones vectorizadas, por lo que podemos 
@@ -2269,7 +2269,7 @@ de C++ y compilarlo. Para esto usamos la función `stan_model()` que puede
 recibir el archivo de texto con la especificación del modelo.
 
 ```{r, warning=FALSE, message=FALSE, results='hide', eval = TRUE}
-stan_cpp <- stan_model("stan_files/modelo_bernoulli.stan")
+stan_cpp <- stan_model("src/stan_files/modelo_bernoulli.stan")
 ```
 
 O el objeto de R, 
@@ -2305,7 +2305,7 @@ Una alternativa a usar las funciones `stan_model()` y `sampling()`, es compilar
 y correr las cadenas de manera simultanea con la función `stan()`.
 
 ```{r, warning=FALSE, message=FALSE, results='hide', eval=TRUE}
-stan_fit_2 <- stan(file = 'stan_files/modelo_bernoulli.stan', data = data_list, 
+stan_fit_2 <- stan(file = 'src/stan_files/modelo_bernoulli.stan', data = data_list, 
     chains = 3, iter = 1000 , warmup = 200, thin = 1)
 ```
 
@@ -2344,7 +2344,7 @@ model {
 
 '
 
-cat(modelo_normal.stan, file = "stan_files/modelo_normal.stan")
+cat(modelo_normal.stan, file = "src/stan_files/modelo_normal.stan")
 ```
 
 Especificamos la verosimilitud normal con media $\mu$ y varianza $\sigma^2$, 
@@ -2361,7 +2361,7 @@ para $\mu$ y Gamma inversa para $\sigma^2$.
 Pasamos al paso de compilación:
 
 ```{r, warning=FALSE, message=FALSE}
-stan_norm_cpp <- stan_model("stan_files/modelo_normal.stan")
+stan_norm_cpp <- stan_model("src/stan_files/modelo_normal.stan")
 ```
 
 El modelo ya esta especificado, pero aun falta indicar los datos observados.
