@@ -314,12 +314,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.9" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html"><i class="fa fa-check"></i><b>10.9</b> Diagnósticos generales</a><ul>
 <li class="chapter" data-level="" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recomendaciones-generales"><i class="fa fa-check"></i>Recomendaciones generales</a></li>
-<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales en Stan</a></li>
-<li class="chapter" data-level="10.9.2" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.9.2</b> Recursos de Stan y paquetes con R:</a></li>
 </ul></li>
 <li class="chapter" data-level="10.10" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html"><i class="fa fa-check"></i><b>10.10</b> Modelos jerárquicos</a><ul>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelo-jerárquico-una-moneda"><i class="fa fa-check"></i>Modelo jerárquico una moneda</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-estimación-de-tasas-de-mortalidad"><i class="fa fa-check"></i>Ejemplo: estimación de tasas de mortalidad</a></li>
+<li class="chapter" data-level="10.10.1" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.10.1</b> Iniciales en Stan</a></li>
+<li class="chapter" data-level="10.10.2" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#reparametrización"><i class="fa fa-check"></i><b>10.10.2</b> Reparametrización</a></li>
+<li class="chapter" data-level="10.10.3" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i><b>10.10.3</b> Modelos jerárquicos y parametrización no centrada</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-conteo-rápido"><i class="fa fa-check"></i>Ejemplo: conteo rápido</a></li>
+<li class="chapter" data-level="10.10.4" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.10.4</b> Recursos de Stan y paquetes con R:</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
@@ -375,10 +379,10 @@ identificador de las estaciones.</li>
 <li>La siguiente instrucción descarga los datos si trabajas con proyectos de
 RStudio, también puedes descargar el zip manualmente.</li>
 </ul>
-<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb396-1" data-line-number="1"><span class="kw">library</span>(usethis)</a>
-<a class="sourceLine" id="cb396-2" data-line-number="2"><span class="kw">use_directory</span>(<span class="st">&quot;data&quot;</span>) </a>
-<a class="sourceLine" id="cb396-3" data-line-number="3"><span class="kw">use_zip</span>(<span class="st">&quot;https://d396qusza40orc.cloudfront.net/rprog%2Fdata%2Fspecdata.zip&quot;</span>, </a>
-<a class="sourceLine" id="cb396-4" data-line-number="4">    <span class="dt">destdir =</span> <span class="st">&quot;data&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb442-1" data-line-number="1"><span class="kw">library</span>(usethis)</a>
+<a class="sourceLine" id="cb442-2" data-line-number="2"><span class="kw">use_directory</span>(<span class="st">&quot;data&quot;</span>) </a>
+<a class="sourceLine" id="cb442-3" data-line-number="3"><span class="kw">use_zip</span>(<span class="st">&quot;https://d396qusza40orc.cloudfront.net/rprog%2Fdata%2Fspecdata.zip&quot;</span>, </a>
+<a class="sourceLine" id="cb442-4" data-line-number="4">    <span class="dt">destdir =</span> <span class="st">&quot;data&quot;</span>)</a></code></pre></div>
 <ul>
 <li>Crea un vector con las direcciones de los archivos.<br />
 </li>
@@ -394,14 +398,14 @@ la estación.</li>
 <li>Consideramos los datos de ENLACE edo. de México
 (<code>enlace</code>), y la columna de calificaciones de español 3<sup>o</sup> de primaria (<code>esp_3</code>).</li>
 </ol>
-<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb397-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
-<a class="sourceLine" id="cb397-2" data-line-number="2">enlace &lt;-<span class="st"> </span>enlacep_<span class="dv">2013</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb397-3" data-line-number="3"><span class="st">    </span>janitor<span class="op">::</span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb397-4" data-line-number="4"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb397-5" data-line-number="5"><span class="st">    </span><span class="kw">select</span>(id, cve_ent, turno, tipo, <span class="dt">esp_3 =</span> punt_esp_<span class="dv">3</span>, <span class="dt">esp_6 =</span> punt_esp_<span class="dv">6</span>, </a>
-<a class="sourceLine" id="cb397-6" data-line-number="6">        <span class="dt">n_eval_3 =</span> alum_eval_<span class="dv">3</span>, <span class="dt">n_eval_6 =</span> alum_eval_<span class="dv">6</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb397-7" data-line-number="7"><span class="st">    </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb397-8" data-line-number="8"><span class="st">    </span><span class="kw">filter</span>(esp_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, esp_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, cve_ent <span class="op">==</span><span class="st"> &quot;15&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb443-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
+<a class="sourceLine" id="cb443-2" data-line-number="2">enlace &lt;-<span class="st"> </span>enlacep_<span class="dv">2013</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb443-3" data-line-number="3"><span class="st">    </span>janitor<span class="op">::</span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb443-4" data-line-number="4"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb443-5" data-line-number="5"><span class="st">    </span><span class="kw">select</span>(id, cve_ent, turno, tipo, <span class="dt">esp_3 =</span> punt_esp_<span class="dv">3</span>, <span class="dt">esp_6 =</span> punt_esp_<span class="dv">6</span>, </a>
+<a class="sourceLine" id="cb443-6" data-line-number="6">        <span class="dt">n_eval_3 =</span> alum_eval_<span class="dv">3</span>, <span class="dt">n_eval_6 =</span> alum_eval_<span class="dv">6</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb443-7" data-line-number="7"><span class="st">    </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb443-8" data-line-number="8"><span class="st">    </span><span class="kw">filter</span>(esp_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, esp_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, n_eval_<span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, cve_ent <span class="op">==</span><span class="st"> &quot;15&quot;</span>)</a></code></pre></div>
 <ul>
 <li><p>Selecciona una muestra de tamaño <span class="math inline">\(n = 10, 100, 1000\)</span>. Para cada muestra
 calcula media y el error estándar de la media usando el principio del <em>plug-in</em>:
@@ -417,10 +421,10 @@ estándar de las medias del paso ii. Tip: Escribe una función que dependa del
 tamaño de muestra y usa la función <code>rerun()</code> del paquete <code>purrr</code> para hacer las
 <span class="math inline">\(10,000\)</span> simulaciones.</li>
 </ol>
-<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb398-1" data-line-number="1">simula_media &lt;-<span class="st"> </span><span class="cf">function</span>(n) {</a>
-<a class="sourceLine" id="cb398-2" data-line-number="2">    </a>
-<a class="sourceLine" id="cb398-3" data-line-number="3">}</a>
-<a class="sourceLine" id="cb398-4" data-line-number="4">medias_<span class="dv">10</span> &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">10000</span>, <span class="kw">simula_media</span>(<span class="dt">n =</span> <span class="dv">10</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb444"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb444-1" data-line-number="1">simula_media &lt;-<span class="st"> </span><span class="cf">function</span>(n) {</a>
+<a class="sourceLine" id="cb444-2" data-line-number="2">    </a>
+<a class="sourceLine" id="cb444-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb444-4" data-line-number="4">medias_<span class="dv">10</span> &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">10000</span>, <span class="kw">simula_media</span>(<span class="dt">n =</span> <span class="dv">10</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a></code></pre></div>
 <ul>
 <li><p>Calcula el error estándar de la media para cada tamaño de muestra usando la
 información poblacional (ésta no es una aproximación), usa la fórmula:
@@ -439,9 +443,9 @@ muestra de tamaño <span class="math inline">\(1000\)</span>.</p>
 <ul>
 <li>Selección de muestras:</li>
 </ul>
-<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb399-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">373783326</span>)</a>
-<a class="sourceLine" id="cb399-2" data-line-number="2">muestras &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">tamanos =</span> <span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb399-3" data-line-number="3"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">muestras =</span> <span class="kw">map</span>(tamanos, <span class="op">~</span><span class="kw">sample</span>(enlace<span class="op">$</span>esp_<span class="dv">3</span>, <span class="dt">size =</span> .)))</a></code></pre></div>
+<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb445-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">373783326</span>)</a>
+<a class="sourceLine" id="cb445-2" data-line-number="2">muestras &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">tamanos =</span> <span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb445-3" data-line-number="3"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">muestras =</span> <span class="kw">map</span>(tamanos, <span class="op">~</span><span class="kw">sample</span>(enlace<span class="op">$</span>esp_<span class="dv">3</span>, <span class="dt">size =</span> .)))</a></code></pre></div>
 <p>Ahora procedemos de manera <em>usual</em> en estadística (usando fórmulas y no
 simulación), estimo la media de la muestra con el estimador <em>plug-in</em>
 <span class="math display">\[\bar{x}={1/n\sum x_i}\]</span>
@@ -450,24 +454,24 @@ y el error estándar de <span class="math inline">\(\bar{x}\)</span> con el esti
 <ul>
 <li>Estimadores <em>plug-in</em>:</li>
 </ul>
-<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb400-1" data-line-number="1">se_plug_in &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
-<a class="sourceLine" id="cb400-2" data-line-number="2">    x_bar &lt;-<span class="st"> </span><span class="kw">mean</span>(x)</a>
-<a class="sourceLine" id="cb400-3" data-line-number="3">    n_x &lt;-<span class="st"> </span><span class="kw">length</span>(x)</a>
-<a class="sourceLine" id="cb400-4" data-line-number="4">    var_x &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>n_x <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((x <span class="op">-</span><span class="st"> </span>x_bar) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb400-5" data-line-number="5">    <span class="kw">sqrt</span>(var_x)</a>
-<a class="sourceLine" id="cb400-6" data-line-number="6">}</a>
-<a class="sourceLine" id="cb400-7" data-line-number="7">muestras_est &lt;-<span class="st"> </span>muestras <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb400-8" data-line-number="8"><span class="st">    </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb400-9" data-line-number="9">        <span class="dt">medias =</span> <span class="kw">map_dbl</span>(muestras, mean), </a>
-<a class="sourceLine" id="cb400-10" data-line-number="10">        <span class="dt">e_estandar_plug_in =</span> <span class="kw">map_dbl</span>(muestras, se_plug_in)</a>
-<a class="sourceLine" id="cb400-11" data-line-number="11">    )</a>
-<a class="sourceLine" id="cb400-12" data-line-number="12">muestras_est</a>
-<a class="sourceLine" id="cb400-13" data-line-number="13"><span class="co">#&gt; # A tibble: 3 x 4</span></a>
-<a class="sourceLine" id="cb400-14" data-line-number="14"><span class="co">#&gt;   tamanos muestras      medias e_estandar_plug_in</span></a>
-<a class="sourceLine" id="cb400-15" data-line-number="15"><span class="co">#&gt;     &lt;dbl&gt; &lt;list&gt;         &lt;dbl&gt;              &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb400-16" data-line-number="16"><span class="co">#&gt; 1      10 &lt;dbl [10]&gt;      602.              19.3 </span></a>
-<a class="sourceLine" id="cb400-17" data-line-number="17"><span class="co">#&gt; 2     100 &lt;dbl [100]&gt;     553.               6.54</span></a>
-<a class="sourceLine" id="cb400-18" data-line-number="18"><span class="co">#&gt; 3    1000 &lt;dbl [1,000]&gt;   552.               1.90</span></a></code></pre></div>
+<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb446-1" data-line-number="1">se_plug_in &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb446-2" data-line-number="2">    x_bar &lt;-<span class="st"> </span><span class="kw">mean</span>(x)</a>
+<a class="sourceLine" id="cb446-3" data-line-number="3">    n_x &lt;-<span class="st"> </span><span class="kw">length</span>(x)</a>
+<a class="sourceLine" id="cb446-4" data-line-number="4">    var_x &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>n_x <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((x <span class="op">-</span><span class="st"> </span>x_bar) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb446-5" data-line-number="5">    <span class="kw">sqrt</span>(var_x)</a>
+<a class="sourceLine" id="cb446-6" data-line-number="6">}</a>
+<a class="sourceLine" id="cb446-7" data-line-number="7">muestras_est &lt;-<span class="st"> </span>muestras <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb446-8" data-line-number="8"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb446-9" data-line-number="9">        <span class="dt">medias =</span> <span class="kw">map_dbl</span>(muestras, mean), </a>
+<a class="sourceLine" id="cb446-10" data-line-number="10">        <span class="dt">e_estandar_plug_in =</span> <span class="kw">map_dbl</span>(muestras, se_plug_in)</a>
+<a class="sourceLine" id="cb446-11" data-line-number="11">    )</a>
+<a class="sourceLine" id="cb446-12" data-line-number="12">muestras_est</a>
+<a class="sourceLine" id="cb446-13" data-line-number="13"><span class="co">#&gt; # A tibble: 3 x 4</span></a>
+<a class="sourceLine" id="cb446-14" data-line-number="14"><span class="co">#&gt;   tamanos muestras      medias e_estandar_plug_in</span></a>
+<a class="sourceLine" id="cb446-15" data-line-number="15"><span class="co">#&gt;     &lt;dbl&gt; &lt;list&gt;         &lt;dbl&gt;              &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb446-16" data-line-number="16"><span class="co">#&gt; 1      10 &lt;dbl [10]&gt;      602.              19.3 </span></a>
+<a class="sourceLine" id="cb446-17" data-line-number="17"><span class="co">#&gt; 2     100 &lt;dbl [100]&gt;     553.               6.54</span></a>
+<a class="sourceLine" id="cb446-18" data-line-number="18"><span class="co">#&gt; 3    1000 &lt;dbl [1,000]&gt;   552.               1.90</span></a></code></pre></div>
 <p>Ahora, recordemos que la distribución muestral es la distribución de una
 estadística, considerada como una variable aleatoria. Usando esta definción
 podemos aproximarla, para cada tamaño de muestra, simulando:</p>
@@ -482,21 +486,21 @@ podemos aproximarla, para cada tamaño de muestra, simulando:</p>
 <li>Histogramas de distribución muestral y aproximación de errores estándar con
 simulación</li>
 </ul>
-<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb401-1" data-line-number="1">muestras_sims &lt;-<span class="st"> </span>muestras_est <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb401-2" data-line-number="2"><span class="st">    </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb401-3" data-line-number="3">        <span class="dt">sims_muestras =</span> <span class="kw">map</span>(tamanos, <span class="op">~</span><span class="kw">rerun</span>(<span class="dv">10000</span>, <span class="kw">sample</span>(enlace<span class="op">$</span>esp_<span class="dv">3</span>, </a>
-<a class="sourceLine" id="cb401-4" data-line-number="4">            <span class="dt">size =</span> ., <span class="dt">replace =</span> <span class="ot">TRUE</span>))), </a>
-<a class="sourceLine" id="cb401-5" data-line-number="5">        <span class="dt">sims_medias =</span> <span class="kw">map</span>(sims_muestras, <span class="op">~</span><span class="kw">map_dbl</span>(., mean)), </a>
-<a class="sourceLine" id="cb401-6" data-line-number="6">        <span class="dt">e_estandar_aprox =</span> <span class="kw">map_dbl</span>(sims_medias, sd)</a>
-<a class="sourceLine" id="cb401-7" data-line-number="7">        )</a>
-<a class="sourceLine" id="cb401-8" data-line-number="8">sims_medias &lt;-<span class="st"> </span>muestras_sims <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb401-9" data-line-number="9"><span class="st">    </span><span class="kw">select</span>(tamanos, sims_medias) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb401-10" data-line-number="10"><span class="st">    </span><span class="kw">unnest</span>(sims_medias) </a>
-<a class="sourceLine" id="cb401-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb401-12" data-line-number="12"><span class="kw">ggplot</span>(sims_medias, <span class="kw">aes</span>(<span class="dt">x =</span> sims_medias)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb401-13" data-line-number="13"><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb401-14" data-line-number="14"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span>tamanos, <span class="dt">nrow =</span> <span class="dv">1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb401-15" data-line-number="15"><span class="st">    </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb447-1" data-line-number="1">muestras_sims &lt;-<span class="st"> </span>muestras_est <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb447-2" data-line-number="2"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb447-3" data-line-number="3">        <span class="dt">sims_muestras =</span> <span class="kw">map</span>(tamanos, <span class="op">~</span><span class="kw">rerun</span>(<span class="dv">10000</span>, <span class="kw">sample</span>(enlace<span class="op">$</span>esp_<span class="dv">3</span>, </a>
+<a class="sourceLine" id="cb447-4" data-line-number="4">            <span class="dt">size =</span> ., <span class="dt">replace =</span> <span class="ot">TRUE</span>))), </a>
+<a class="sourceLine" id="cb447-5" data-line-number="5">        <span class="dt">sims_medias =</span> <span class="kw">map</span>(sims_muestras, <span class="op">~</span><span class="kw">map_dbl</span>(., mean)), </a>
+<a class="sourceLine" id="cb447-6" data-line-number="6">        <span class="dt">e_estandar_aprox =</span> <span class="kw">map_dbl</span>(sims_medias, sd)</a>
+<a class="sourceLine" id="cb447-7" data-line-number="7">        )</a>
+<a class="sourceLine" id="cb447-8" data-line-number="8">sims_medias &lt;-<span class="st"> </span>muestras_sims <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb447-9" data-line-number="9"><span class="st">    </span><span class="kw">select</span>(tamanos, sims_medias) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb447-10" data-line-number="10"><span class="st">    </span><span class="kw">unnest</span>(sims_medias) </a>
+<a class="sourceLine" id="cb447-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb447-12" data-line-number="12"><span class="kw">ggplot</span>(sims_medias, <span class="kw">aes</span>(<span class="dt">x =</span> sims_medias)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb447-13" data-line-number="13"><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb447-14" data-line-number="14"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span>tamanos, <span class="dt">nrow =</span> <span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb447-15" data-line-number="15"><span class="st">    </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <p><img src="98-tareas_files/figure-html/unnamed-chunk-13-1.png" width="672" height="350px" style="display: block; margin: auto;" /></p>
 <p>Notamos que la variación en la distribución muestral decrece conforme aumenta
 el tamaño de muestra, esto es esperado pues el error estándar de una media
@@ -505,14 +509,14 @@ para la misma población el valor poblacional <span class="math inline">\(\sigma
 cambia el denominador.</p>
 <p>Nuestros valores de error estándar con simulación están en la columna
 <code>e_estandar_aprox</code>:</p>
-<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb402-1" data-line-number="1">muestras_sims <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb402-2" data-line-number="2"><span class="st">    </span><span class="kw">select</span>(tamanos, medias, e_estandar_plug_in, e_estandar_aprox)</a>
-<a class="sourceLine" id="cb402-3" data-line-number="3"><span class="co">#&gt; # A tibble: 3 x 4</span></a>
-<a class="sourceLine" id="cb402-4" data-line-number="4"><span class="co">#&gt;   tamanos medias e_estandar_plug_in e_estandar_aprox</span></a>
-<a class="sourceLine" id="cb402-5" data-line-number="5"><span class="co">#&gt;     &lt;dbl&gt;  &lt;dbl&gt;              &lt;dbl&gt;            &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb402-6" data-line-number="6"><span class="co">#&gt; 1      10   602.              19.3             18.9 </span></a>
-<a class="sourceLine" id="cb402-7" data-line-number="7"><span class="co">#&gt; 2     100   553.               6.54             5.92</span></a>
-<a class="sourceLine" id="cb402-8" data-line-number="8"><span class="co">#&gt; 3    1000   552.               1.90             1.87</span></a></code></pre></div>
+<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb448-1" data-line-number="1">muestras_sims <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb448-2" data-line-number="2"><span class="st">    </span><span class="kw">select</span>(tamanos, medias, e_estandar_plug_in, e_estandar_aprox)</a>
+<a class="sourceLine" id="cb448-3" data-line-number="3"><span class="co">#&gt; # A tibble: 3 x 4</span></a>
+<a class="sourceLine" id="cb448-4" data-line-number="4"><span class="co">#&gt;   tamanos medias e_estandar_plug_in e_estandar_aprox</span></a>
+<a class="sourceLine" id="cb448-5" data-line-number="5"><span class="co">#&gt;     &lt;dbl&gt;  &lt;dbl&gt;              &lt;dbl&gt;            &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb448-6" data-line-number="6"><span class="co">#&gt; 1      10   602.              19.3             18.9 </span></a>
+<a class="sourceLine" id="cb448-7" data-line-number="7"><span class="co">#&gt; 2     100   553.               6.54             5.92</span></a>
+<a class="sourceLine" id="cb448-8" data-line-number="8"><span class="co">#&gt; 3    1000   552.               1.90             1.87</span></a></code></pre></div>
 <p>En este ejercicio estamos simulando para examinar las distribuciones muestrales
 y para ver que podemos aproximar el error estándar de la media usando
 simulación; sin embargo, dado que en este caso hipotético conocemos la varianza
@@ -522,16 +526,16 @@ calcular el verdadero error estándar para una muestra de cada tamaño.</p>
 <li>Calcula el error estándar de la media para cada tamaño de muestra usando la
 información poblacional:</li>
 </ul>
-<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb403-1" data-line-number="1">muestras_sims_est &lt;-<span class="st"> </span>muestras_sims <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb403-2" data-line-number="2"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">e_estandar_pob =</span> <span class="kw">sd</span>(enlace<span class="op">$</span>esp_<span class="dv">3</span>) <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(tamanos))</a>
-<a class="sourceLine" id="cb403-3" data-line-number="3">muestras_sims_est <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb403-4" data-line-number="4"><span class="st">    </span><span class="kw">select</span>(tamanos, e_estandar_plug_in, e_estandar_aprox, e_estandar_pob)</a>
-<a class="sourceLine" id="cb403-5" data-line-number="5"><span class="co">#&gt; # A tibble: 3 x 4</span></a>
-<a class="sourceLine" id="cb403-6" data-line-number="6"><span class="co">#&gt;   tamanos e_estandar_plug_in e_estandar_aprox e_estandar_pob</span></a>
-<a class="sourceLine" id="cb403-7" data-line-number="7"><span class="co">#&gt;     &lt;dbl&gt;              &lt;dbl&gt;            &lt;dbl&gt;          &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb403-8" data-line-number="8"><span class="co">#&gt; 1      10              19.3             18.9           18.7 </span></a>
-<a class="sourceLine" id="cb403-9" data-line-number="9"><span class="co">#&gt; 2     100               6.54             5.92           5.93</span></a>
-<a class="sourceLine" id="cb403-10" data-line-number="10"><span class="co">#&gt; 3    1000               1.90             1.87           1.87</span></a></code></pre></div>
+<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb449-1" data-line-number="1">muestras_sims_est &lt;-<span class="st"> </span>muestras_sims <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb449-2" data-line-number="2"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">e_estandar_pob =</span> <span class="kw">sd</span>(enlace<span class="op">$</span>esp_<span class="dv">3</span>) <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(tamanos))</a>
+<a class="sourceLine" id="cb449-3" data-line-number="3">muestras_sims_est <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb449-4" data-line-number="4"><span class="st">    </span><span class="kw">select</span>(tamanos, e_estandar_plug_in, e_estandar_aprox, e_estandar_pob)</a>
+<a class="sourceLine" id="cb449-5" data-line-number="5"><span class="co">#&gt; # A tibble: 3 x 4</span></a>
+<a class="sourceLine" id="cb449-6" data-line-number="6"><span class="co">#&gt;   tamanos e_estandar_plug_in e_estandar_aprox e_estandar_pob</span></a>
+<a class="sourceLine" id="cb449-7" data-line-number="7"><span class="co">#&gt;     &lt;dbl&gt;              &lt;dbl&gt;            &lt;dbl&gt;          &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb449-8" data-line-number="8"><span class="co">#&gt; 1      10              19.3             18.9           18.7 </span></a>
+<a class="sourceLine" id="cb449-9" data-line-number="9"><span class="co">#&gt; 2     100               6.54             5.92           5.93</span></a>
+<a class="sourceLine" id="cb449-10" data-line-number="10"><span class="co">#&gt; 3    1000               1.90             1.87           1.87</span></a></code></pre></div>
 <p>En la tabla de arriba podemos comparar los <span class="math inline">\(3\)</span> errores estándar que calculamos,
 recordemos que de estos <span class="math inline">\(3\)</span> el <em>plug-in</em> es el único que podríamos obtener en
 un escenario real pues los otros dos los calculamos usando la población.</p>
@@ -543,42 +547,42 @@ bootstrap usando simulación. Hacemos el mismo procedimiento que usamos para
 calcular <em>e_estandar_apox</em> pero sustituimos la distribución poblacional por la
 distriución empírica. Hagámoslo usando las muestras que sacamos en el primer
 paso:</p>
-<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb404-1" data-line-number="1">muestras_sims_est_boot &lt;-<span class="st"> </span>muestras_sims_est <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb404-2" data-line-number="2"><span class="st">    </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb404-3" data-line-number="3">        <span class="dt">sims_muestras_boot =</span> <span class="kw">map2</span>(muestras, tamanos,</a>
-<a class="sourceLine" id="cb404-4" data-line-number="4">            <span class="op">~</span><span class="kw">rerun</span>(<span class="dv">10000</span>, <span class="kw">sample</span>(.x, <span class="dt">size =</span> .y, <span class="dt">replace =</span> <span class="ot">TRUE</span>))), </a>
-<a class="sourceLine" id="cb404-5" data-line-number="5">        <span class="dt">sims_medias_boot =</span> <span class="kw">map</span>(sims_muestras_boot, <span class="op">~</span><span class="kw">map_dbl</span>(., mean)), </a>
-<a class="sourceLine" id="cb404-6" data-line-number="6">        <span class="dt">e_estandar_boot =</span> <span class="kw">map_dbl</span>(sims_medias_boot, sd)</a>
-<a class="sourceLine" id="cb404-7" data-line-number="7">        )</a>
-<a class="sourceLine" id="cb404-8" data-line-number="8">muestras_sims_est_boot</a>
-<a class="sourceLine" id="cb404-9" data-line-number="9"><span class="co">#&gt; # A tibble: 3 x 11</span></a>
-<a class="sourceLine" id="cb404-10" data-line-number="10"><span class="co">#&gt;   tamanos muestras medias e_estandar_plug… sims_muestras sims_medias</span></a>
-<a class="sourceLine" id="cb404-11" data-line-number="11"><span class="co">#&gt;     &lt;dbl&gt; &lt;list&gt;    &lt;dbl&gt;            &lt;dbl&gt; &lt;list&gt;        &lt;list&gt;     </span></a>
-<a class="sourceLine" id="cb404-12" data-line-number="12"><span class="co">#&gt; 1      10 &lt;dbl [1…   602.            19.3  &lt;list [10,00… &lt;dbl [10,0…</span></a>
-<a class="sourceLine" id="cb404-13" data-line-number="13"><span class="co">#&gt; 2     100 &lt;dbl [1…   553.             6.54 &lt;list [10,00… &lt;dbl [10,0…</span></a>
-<a class="sourceLine" id="cb404-14" data-line-number="14"><span class="co">#&gt; 3    1000 &lt;dbl [1…   552.             1.90 &lt;list [10,00… &lt;dbl [10,0…</span></a>
-<a class="sourceLine" id="cb404-15" data-line-number="15"><span class="co">#&gt; # … with 5 more variables: e_estandar_aprox &lt;dbl&gt;, e_estandar_pob &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb404-16" data-line-number="16"><span class="co">#&gt; #   sims_muestras_boot &lt;list&gt;, sims_medias_boot &lt;list&gt;, e_estandar_boot &lt;dbl&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb450-1" data-line-number="1">muestras_sims_est_boot &lt;-<span class="st"> </span>muestras_sims_est <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb450-2" data-line-number="2"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb450-3" data-line-number="3">        <span class="dt">sims_muestras_boot =</span> <span class="kw">map2</span>(muestras, tamanos,</a>
+<a class="sourceLine" id="cb450-4" data-line-number="4">            <span class="op">~</span><span class="kw">rerun</span>(<span class="dv">10000</span>, <span class="kw">sample</span>(.x, <span class="dt">size =</span> .y, <span class="dt">replace =</span> <span class="ot">TRUE</span>))), </a>
+<a class="sourceLine" id="cb450-5" data-line-number="5">        <span class="dt">sims_medias_boot =</span> <span class="kw">map</span>(sims_muestras_boot, <span class="op">~</span><span class="kw">map_dbl</span>(., mean)), </a>
+<a class="sourceLine" id="cb450-6" data-line-number="6">        <span class="dt">e_estandar_boot =</span> <span class="kw">map_dbl</span>(sims_medias_boot, sd)</a>
+<a class="sourceLine" id="cb450-7" data-line-number="7">        )</a>
+<a class="sourceLine" id="cb450-8" data-line-number="8">muestras_sims_est_boot</a>
+<a class="sourceLine" id="cb450-9" data-line-number="9"><span class="co">#&gt; # A tibble: 3 x 11</span></a>
+<a class="sourceLine" id="cb450-10" data-line-number="10"><span class="co">#&gt;   tamanos muestras medias e_estandar_plug… sims_muestras sims_medias</span></a>
+<a class="sourceLine" id="cb450-11" data-line-number="11"><span class="co">#&gt;     &lt;dbl&gt; &lt;list&gt;    &lt;dbl&gt;            &lt;dbl&gt; &lt;list&gt;        &lt;list&gt;     </span></a>
+<a class="sourceLine" id="cb450-12" data-line-number="12"><span class="co">#&gt; 1      10 &lt;dbl [1…   602.            19.3  &lt;list [10,00… &lt;dbl [10,0…</span></a>
+<a class="sourceLine" id="cb450-13" data-line-number="13"><span class="co">#&gt; 2     100 &lt;dbl [1…   553.             6.54 &lt;list [10,00… &lt;dbl [10,0…</span></a>
+<a class="sourceLine" id="cb450-14" data-line-number="14"><span class="co">#&gt; 3    1000 &lt;dbl [1…   552.             1.90 &lt;list [10,00… &lt;dbl [10,0…</span></a>
+<a class="sourceLine" id="cb450-15" data-line-number="15"><span class="co">#&gt; # … with 5 more variables: e_estandar_aprox &lt;dbl&gt;, e_estandar_pob &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb450-16" data-line-number="16"><span class="co">#&gt; #   sims_muestras_boot &lt;list&gt;, sims_medias_boot &lt;list&gt;, e_estandar_boot &lt;dbl&gt;</span></a></code></pre></div>
 <p>Graficamos los histogramas de la distribución bootstrap para cada muestra.</p>
-<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb405-1" data-line-number="1">sims_medias_boot &lt;-<span class="st"> </span>muestras_sims_est_boot <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb405-2" data-line-number="2"><span class="st">    </span><span class="kw">select</span>(tamanos, sims_medias_boot) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb405-3" data-line-number="3"><span class="st">    </span><span class="kw">unnest</span>(sims_medias_boot) </a>
-<a class="sourceLine" id="cb405-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb405-5" data-line-number="5"><span class="kw">ggplot</span>(sims_medias_boot, <span class="kw">aes</span>(<span class="dt">x =</span> sims_medias_boot)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb405-6" data-line-number="6"><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">4</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb405-7" data-line-number="7"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span>tamanos, <span class="dt">nrow =</span> <span class="dv">1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb405-8" data-line-number="8"><span class="st">    </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb451-1" data-line-number="1">sims_medias_boot &lt;-<span class="st"> </span>muestras_sims_est_boot <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb451-2" data-line-number="2"><span class="st">    </span><span class="kw">select</span>(tamanos, sims_medias_boot) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb451-3" data-line-number="3"><span class="st">    </span><span class="kw">unnest</span>(sims_medias_boot) </a>
+<a class="sourceLine" id="cb451-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb451-5" data-line-number="5"><span class="kw">ggplot</span>(sims_medias_boot, <span class="kw">aes</span>(<span class="dt">x =</span> sims_medias_boot)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb451-6" data-line-number="6"><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">4</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb451-7" data-line-number="7"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span>tamanos, <span class="dt">nrow =</span> <span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb451-8" data-line-number="8"><span class="st">    </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
 <p><img src="98-tareas_files/figure-html/unnamed-chunk-17-1.png" width="672" height="350px" style="display: block; margin: auto;" /></p>
 <p>Y la tabla con todos los errores estándar quedaría:</p>
-<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb406-1" data-line-number="1">muestras_sims_est_boot <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb406-2" data-line-number="2"><span class="st">    </span><span class="kw">select</span>(tamanos, e_estandar_boot, e_estandar_plug_in, e_estandar_aprox, </a>
-<a class="sourceLine" id="cb406-3" data-line-number="3">        e_estandar_pob)</a>
-<a class="sourceLine" id="cb406-4" data-line-number="4"><span class="co">#&gt; # A tibble: 3 x 5</span></a>
-<a class="sourceLine" id="cb406-5" data-line-number="5"><span class="co">#&gt;   tamanos e_estandar_boot e_estandar_plug_in e_estandar_aprox e_estandar_pob</span></a>
-<a class="sourceLine" id="cb406-6" data-line-number="6"><span class="co">#&gt;     &lt;dbl&gt;           &lt;dbl&gt;              &lt;dbl&gt;            &lt;dbl&gt;          &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb406-7" data-line-number="7"><span class="co">#&gt; 1      10           19.3               19.3             18.9           18.7 </span></a>
-<a class="sourceLine" id="cb406-8" data-line-number="8"><span class="co">#&gt; 2     100            6.53               6.54             5.92           5.93</span></a>
-<a class="sourceLine" id="cb406-9" data-line-number="9"><span class="co">#&gt; 3    1000            1.89               1.90             1.87           1.87</span></a></code></pre></div>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb452-1" data-line-number="1">muestras_sims_est_boot <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb452-2" data-line-number="2"><span class="st">    </span><span class="kw">select</span>(tamanos, e_estandar_boot, e_estandar_plug_in, e_estandar_aprox, </a>
+<a class="sourceLine" id="cb452-3" data-line-number="3">        e_estandar_pob)</a>
+<a class="sourceLine" id="cb452-4" data-line-number="4"><span class="co">#&gt; # A tibble: 3 x 5</span></a>
+<a class="sourceLine" id="cb452-5" data-line-number="5"><span class="co">#&gt;   tamanos e_estandar_boot e_estandar_plug_in e_estandar_aprox e_estandar_pob</span></a>
+<a class="sourceLine" id="cb452-6" data-line-number="6"><span class="co">#&gt;     &lt;dbl&gt;           &lt;dbl&gt;              &lt;dbl&gt;            &lt;dbl&gt;          &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb452-7" data-line-number="7"><span class="co">#&gt; 1      10           19.3               19.3             18.9           18.7 </span></a>
+<a class="sourceLine" id="cb452-8" data-line-number="8"><span class="co">#&gt; 2     100            6.53               6.54             5.92           5.93</span></a>
+<a class="sourceLine" id="cb452-9" data-line-number="9"><span class="co">#&gt; 3    1000            1.89               1.90             1.87           1.87</span></a></code></pre></div>
 <p>Observamos que el estimador bootstrap del error estándar es muy similar al
 estimador plug-in del error estándar, esto es esperado pues se calcularon con la
 misma muestra y el error estándar <em>bootstrap</em> converge al <em>plug-in</em> conforme

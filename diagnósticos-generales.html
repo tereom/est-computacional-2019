@@ -314,12 +314,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.9" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html"><i class="fa fa-check"></i><b>10.9</b> Diagnósticos generales</a><ul>
 <li class="chapter" data-level="" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recomendaciones-generales"><i class="fa fa-check"></i>Recomendaciones generales</a></li>
-<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales en Stan</a></li>
-<li class="chapter" data-level="10.9.2" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.9.2</b> Recursos de Stan y paquetes con R:</a></li>
 </ul></li>
 <li class="chapter" data-level="10.10" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html"><i class="fa fa-check"></i><b>10.10</b> Modelos jerárquicos</a><ul>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelo-jerárquico-una-moneda"><i class="fa fa-check"></i>Modelo jerárquico una moneda</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-estimación-de-tasas-de-mortalidad"><i class="fa fa-check"></i>Ejemplo: estimación de tasas de mortalidad</a></li>
+<li class="chapter" data-level="10.10.1" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.10.1</b> Iniciales en Stan</a></li>
+<li class="chapter" data-level="10.10.2" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#reparametrización"><i class="fa fa-check"></i><b>10.10.2</b> Reparametrización</a></li>
+<li class="chapter" data-level="10.10.3" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i><b>10.10.3</b> Modelos jerárquicos y parametrización no centrada</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-conteo-rápido"><i class="fa fa-check"></i>Ejemplo: conteo rápido</a></li>
+<li class="chapter" data-level="10.10.4" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.10.4</b> Recursos de Stan y paquetes con R:</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
@@ -418,7 +422,7 @@ que la función <code>rstan()</code> calcula por omisión:</p>
 <a class="sourceLine" id="cb385-8" data-line-number="8"><span class="co">#&gt; sigma2   4.76    0.11 0.89   3.24   4.06   4.71   5.23   6.56    61 0.97</span></a>
 <a class="sourceLine" id="cb385-9" data-line-number="9"><span class="co">#&gt; lp__   -71.06    0.20 1.24 -74.81 -71.56 -70.47 -70.30 -70.06    38 1.07</span></a>
 <a class="sourceLine" id="cb385-10" data-line-number="10"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb385-11" data-line-number="11"><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Wed Nov 27 18:12:57 2019.</span></a>
+<a class="sourceLine" id="cb385-11" data-line-number="11"><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Mon Dec  2 22:49:16 2019.</span></a>
 <a class="sourceLine" id="cb385-12" data-line-number="12"><span class="co">#&gt; For each parameter, n_eff is a crude measure of effective sample size,</span></a>
 <a class="sourceLine" id="cb385-13" data-line-number="13"><span class="co">#&gt; and Rhat is the potential scale reduction factor on split chains (at </span></a>
 <a class="sourceLine" id="cb385-14" data-line-number="14"><span class="co">#&gt; convergence, Rhat=1).</span></a></code></pre></div>
@@ -461,7 +465,7 @@ simulaciones de la cadena.</p>
 <a class="sourceLine" id="cb386-8" data-line-number="8"><span class="co">#&gt; sigma2   4.72    0.03 0.92   3.26   4.07   4.62   5.26   6.81   981 1.00</span></a>
 <a class="sourceLine" id="cb386-9" data-line-number="9"><span class="co">#&gt; lp__   -71.04    0.05 0.99 -73.64 -71.39 -70.76 -70.33 -70.07   455 1.01</span></a>
 <a class="sourceLine" id="cb386-10" data-line-number="10"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb386-11" data-line-number="11"><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Wed Nov 27 18:12:56 2019.</span></a>
+<a class="sourceLine" id="cb386-11" data-line-number="11"><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Mon Dec  2 22:49:15 2019.</span></a>
 <a class="sourceLine" id="cb386-12" data-line-number="12"><span class="co">#&gt; For each parameter, n_eff is a crude measure of effective sample size,</span></a>
 <a class="sourceLine" id="cb386-13" data-line-number="13"><span class="co">#&gt; and Rhat is the potential scale reduction factor on split chains (at </span></a>
 <a class="sourceLine" id="cb386-14" data-line-number="14"><span class="co">#&gt; convergence, Rhat=1).</span></a></code></pre></div>
@@ -503,82 +507,9 @@ la <a href="https://mc-stan.org/docs/2_21/stan-users-guide/reparameterization-se
 datos, quizá la mitad o una quinta parte.</p></li>
 </ol>
 </div>
-<div id="iniciales-en-stan" class="section level3">
-<h3><span class="header-section-number">10.9.1</span> Iniciales en Stan</h3>
-<p>Las siguientes recomendaciones de iniciales son de los desarrolladores de Stan,
-puedes leer más en <a href="https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations" class="uri">https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations</a>.</p>
-<p>Podemos clasificar las iniciales en 5 niveles de acuerdo a que tan informativas
-son:</p>
-<ol style="list-style-type: decimal">
-<li>Iniciales planas: usualmente impropias.</li>
-<li>Muy vagas pero propias: <span class="math inline">\(N(0, (1e6) ^ 2)\)</span>.</li>
-<li>Iniciales genéricas muy debilmente informativas: <span class="math inline">\(Normal(0, 10^2)\)</span>.</li>
-<li>Iniciales genéricas debilmente informativas: <span class="math inline">\(Normal(0, 1)\)</span>.</li>
-<li>Iniciales específicas e informativas: <span class="math inline">\(Normal(0.4, 0.2^2)\)</span></li>
-</ol>
-<p>Cuando se usa Stan tenemos los siguientes principios generales:</p>
-<ul>
-<li><p>En Stan no importa usar conjugadas (cuando se usan muestreadores de Gibbs
-puede ser conveniente usar conjugadas, aquí no).</p></li>
-<li><p>No interesan: invarianza, Jeffreys o entropía.</p></li>
-<li><p>Las iniciales debilmente informativas deben contener suficiente información
-para regularizar: las iniciales deben dejar fuera valores de los parámetros que
-no sean razonables, pero no dejar fuera valores que podrían tener sentido.</p></li>
-<li><p>Se prefieren las iniciales debilmente informativas sobre las informativas,
-esto es porque las consecuencias de <em>perder precisión</em> por elegir una inicial
-muy débil (comparado con la verdadera distribución poblacional de los parámetros
-o comparado con conocimiento experto) es menos importante que la ganancia en
-robustez que se deriva de incluir parte del espacio paramétrico que pueda ser
-relevante.</p></li>
-<li><p>Cuando se usen distribuciones iniciales informativas se debe ser explícito en
-porque se tomaron las decisiones.</p></li>
-<li>No utilices iniciales uniformes, o en general no restrinjas el espacio
-paramétrico, a menos que las fronteras representen restricciones verdaderas (por
-ejemplo parámetros de escala restringidos a los positivos, o correlaciones entre
-el -1 y el 1). Algunos ejemplos:
-<ul>
-<li>Si crees que un parámetro se ubica entre el cero y el un, en lugar de usar
-Uniforme(0,1), intenta Normal(0.5, 0.5).</li>
-<li>Un parámetro de escala esta restringido a ser positivo y quieres una
-inicial vaga, propones Uniforme(0,100) (o Uniforme(0,1000), es mejor no
-especificar inicial, que en Stan equivale a una inicial uniforme no
-informativa, o usar una Esxponencial con valor esperado 10, o una
-media-normal(0,10).</li>
-</ul></li>
-</ul>
-</div>
-<div id="recursos-de-stan-y-paquetes-con-r" class="section level3">
-<h3><span class="header-section-number">10.9.2</span> Recursos de Stan y paquetes con R:</h3>
-<ul>
-<li><p><a href="https://mc-stan.org/docs/2_21/reference-manual/index.html">Stan Manual</a>.</p></li>
-<li><p><a href="https://mc-stan.org/docs/2_21/stan-users-guide/index.html">Stan User’s Guide</a>.</p></li>
-<li><p>El paquete <a href="https://cran.r-project.org/web/packages/rstanarm/vignettes/rstanarm.html">rstanarm</a>,
-<span class="citation">Gabry and Goodrich (<a href="#ref-R-rstanarm">2019</a>)</span>, facilita el uso de Stan desde R, cuenta con funciones para llevar a
-cabo estimación Bayesiana sin necesidad de escribir código en el <em>lenguaje de Stan</em>,
-de acuerdo a los autores el objetivo del paquete es que la estimación bayesiana
-sea rutina para los modelos de regresión más comunes.</p></li>
-<li><p>El paquete <a href="https://mc-stan.org/bayesplot/">bayesplot</a>, <span class="citation">Gabry and Mahr (<a href="#ref-R-bayesplot">2019</a>)</span>, cuenta con funciones para
-graficar estimaciones de los parámetros, realizar diagnósticos visuales de las
-cadenas (convergencia), y analizar el ajuste del modelo (graficando de la
-predictiva posterior).</p></li>
-<li><p>El paquete <a href="http://mc-stan.org/users/interfaces/shinystan">shinystan</a>,
-<span class="citation">Gabry (<a href="#ref-R-shinystan">2018</a>)</span>, contiene
-resumenes gráficos y numéricos de parámetros de un modelo y de diagnósticos de
-convergencia.</p></li>
-</ul>
-</div>
 </div>
 <h3>Referencias</h3>
 <div id="refs" class="references">
-<div id="ref-R-shinystan">
-<p>Gabry, Jonah. 2018. <em>Shinystan: Interactive Visual and Numerical Diagnostics and Posterior Analysis for Bayesian Models</em>. <a href="https://CRAN.R-project.org/package=shinystan" class="uri">https://CRAN.R-project.org/package=shinystan</a>.</p>
-</div>
-<div id="ref-R-rstanarm">
-<p>Gabry, Jonah, and Ben Goodrich. 2019. <em>Rstanarm: Bayesian Applied Regression Modeling via Stan</em>. <a href="https://CRAN.R-project.org/package=rstanarm" class="uri">https://CRAN.R-project.org/package=rstanarm</a>.</p>
-</div>
-<div id="ref-R-bayesplot">
-<p>Gabry, Jonah, and Tristan Mahr. 2019. <em>Bayesplot: Plotting for Bayesian Models</em>. <a href="https://CRAN.R-project.org/package=bayesplot" class="uri">https://CRAN.R-project.org/package=bayesplot</a>.</p>
-</div>
 <div id="ref-gelman-hill">
 <p>Gelman, Andrew, and Jennifer Hill. 2007. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. Vol. Analytical methods for social research. New York: Cambridge University Press.</p>
 </div>

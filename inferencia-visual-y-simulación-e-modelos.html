@@ -314,12 +314,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.9" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html"><i class="fa fa-check"></i><b>10.9</b> Diagnósticos generales</a><ul>
 <li class="chapter" data-level="" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recomendaciones-generales"><i class="fa fa-check"></i>Recomendaciones generales</a></li>
-<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales en Stan</a></li>
-<li class="chapter" data-level="10.9.2" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.9.2</b> Recursos de Stan y paquetes con R:</a></li>
 </ul></li>
 <li class="chapter" data-level="10.10" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html"><i class="fa fa-check"></i><b>10.10</b> Modelos jerárquicos</a><ul>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelo-jerárquico-una-moneda"><i class="fa fa-check"></i>Modelo jerárquico una moneda</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-estimación-de-tasas-de-mortalidad"><i class="fa fa-check"></i>Ejemplo: estimación de tasas de mortalidad</a></li>
+<li class="chapter" data-level="10.10.1" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.10.1</b> Iniciales en Stan</a></li>
+<li class="chapter" data-level="10.10.2" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#reparametrización"><i class="fa fa-check"></i><b>10.10.2</b> Reparametrización</a></li>
+<li class="chapter" data-level="10.10.3" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i><b>10.10.3</b> Modelos jerárquicos y parametrización no centrada</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-conteo-rápido"><i class="fa fa-check"></i>Ejemplo: conteo rápido</a></li>
+<li class="chapter" data-level="10.10.4" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.10.4</b> Recursos de Stan y paquetes con R:</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
@@ -389,15 +393,15 @@ posibles. Para probar qué tan bien funciona este método, podemos seguir el
 protocolo lineup.</p>
 <p>El siguiente código es como se procedería en análisis discriminante en R usando
 los datos:</p>
-<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb413-1" data-line-number="1"><span class="kw">data</span>(wasps) <span class="co"># incluídos en nullabor</span></a>
-<a class="sourceLine" id="cb413-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb413-3" data-line-number="3">wasp_lda &lt;-<span class="st"> </span>MASS<span class="op">::</span><span class="kw">lda</span>(Group<span class="op">~</span>., <span class="dt">data =</span> wasps[,<span class="op">-</span><span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb413-4" data-line-number="4">wasp_ld &lt;-<span class="st"> </span><span class="kw">predict</span>(wasp_lda, <span class="dt">dimen =</span> <span class="dv">2</span>)<span class="op">$</span>x</a>
-<a class="sourceLine" id="cb413-5" data-line-number="5">true &lt;-<span class="st"> </span><span class="kw">data.frame</span>(wasp_ld, <span class="dt">Group =</span> wasps<span class="op">$</span>Group)</a>
-<a class="sourceLine" id="cb413-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb413-7" data-line-number="7"><span class="kw">ggplot</span>(true, <span class="kw">aes</span>(<span class="dt">x =</span> LD1, <span class="dt">y =</span> LD2, <span class="dt">colour =</span> Group)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb413-8" data-line-number="8"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb413-9" data-line-number="9"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">aspect.ratio =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb459-1" data-line-number="1"><span class="kw">data</span>(wasps) <span class="co"># incluídos en nullabor</span></a>
+<a class="sourceLine" id="cb459-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb459-3" data-line-number="3">wasp_lda &lt;-<span class="st"> </span>MASS<span class="op">::</span><span class="kw">lda</span>(Group<span class="op">~</span>., <span class="dt">data =</span> wasps[,<span class="op">-</span><span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb459-4" data-line-number="4">wasp_ld &lt;-<span class="st"> </span><span class="kw">predict</span>(wasp_lda, <span class="dt">dimen =</span> <span class="dv">2</span>)<span class="op">$</span>x</a>
+<a class="sourceLine" id="cb459-5" data-line-number="5">true &lt;-<span class="st"> </span><span class="kw">data.frame</span>(wasp_ld, <span class="dt">Group =</span> wasps<span class="op">$</span>Group)</a>
+<a class="sourceLine" id="cb459-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb459-7" data-line-number="7"><span class="kw">ggplot</span>(true, <span class="kw">aes</span>(<span class="dt">x =</span> LD1, <span class="dt">y =</span> LD2, <span class="dt">colour =</span> Group)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb459-8" data-line-number="8"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb459-9" data-line-number="9"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">aspect.ratio =</span> <span class="dv">1</span>)</a></code></pre></div>
 <p>Para generar los conjuntos de datos nulos debes permutar lo columna <code>Group</code> de
 la tabla de datos y repetir los pasos de arriba, realiza esto 19 veces y realiza
 una gráfica de páneles en la que escondas los datos verdaderos entre los datos
@@ -414,9 +418,9 @@ juicios de belleza.</p>
 <em>edad</em> (age), <em>belleza</em> (btystdave), <em>sexo</em> (female) e <em>inglés no es primera
 lengua</em> (nonenglish) para predecir las evaluaciones del curso
 (courseevaluation).</p>
-<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb414-1" data-line-number="1">beauty &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/beauty.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb414-2" data-line-number="2">fit_score &lt;-<span class="st"> </span><span class="kw">lm</span>(courseevaluation <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>btystdave <span class="op">+</span><span class="st"> </span>female <span class="op">+</span><span class="st"> </span>nonenglish, </a>
-<a class="sourceLine" id="cb414-3" data-line-number="3">    <span class="dt">data =</span> beauty)</a></code></pre></div>
+<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb460-1" data-line-number="1">beauty &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/beauty.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb460-2" data-line-number="2">fit_score &lt;-<span class="st"> </span><span class="kw">lm</span>(courseevaluation <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>btystdave <span class="op">+</span><span class="st"> </span>female <span class="op">+</span><span class="st"> </span>nonenglish, </a>
+<a class="sourceLine" id="cb460-3" data-line-number="3">    <span class="dt">data =</span> beauty)</a></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>La instructora <span class="math inline">\(A\)</span> es una mujer de <span class="math inline">\(50\)</span> años, el inglés es su primera lengua y
 tiene un puntaje de belleza de <span class="math inline">\(-1\)</span>. El instructor B es un hombre de <span class="math inline">\(60\)</span> años,</li>
@@ -427,15 +431,15 @@ tus simulaciones debes incorporar la incertidumbre en los parámetros y en la
 predicción.</p>
 <p>Para hacer las simulaciones necesitarás la distribución del vector de
 coeficientes <span class="math inline">\(\beta\)</span>, este es normal con media:</p>
-<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb415-1" data-line-number="1"><span class="kw">coef</span>(fit_score)</a></code></pre></div>
+<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb461-1" data-line-number="1"><span class="kw">coef</span>(fit_score)</a></code></pre></div>
 <p>y matriz de varianzas y covarianzas <span class="math inline">\(\sigma^2 V\)</span>, donde <span class="math inline">\(V\)</span> es:</p>
-<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb416-1" data-line-number="1"><span class="kw">summary</span>(fit_score)<span class="op">$</span>cov.unscaled</a></code></pre></div>
+<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb462-1" data-line-number="1"><span class="kw">summary</span>(fit_score)<span class="op">$</span>cov.unscaled</a></code></pre></div>
 <p>y <span class="math inline">\(\sigma\)</span> se calcula como <span class="math inline">\(\sigma=\hat{\sigma}\sqrt{(df)/X}\)</span>, donde X es una
 generación de una distribución <span class="math inline">\(\chi ^2\)</span> con <span class="math inline">\(df\)</span> (<span class="math inline">\(458\)</span>) grados de libertad
 <span class="math inline">\(\hat{\sigma}\)</span> es:</p>
-<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb417-1" data-line-number="1"><span class="kw">summary</span>(fit_score)<span class="op">$</span>sigma</a></code></pre></div>
+<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb463-1" data-line-number="1"><span class="kw">summary</span>(fit_score)<span class="op">$</span>sigma</a></code></pre></div>
 <p>y <span class="math inline">\(df\)</span> (los grados de libertad) se obtienen:</p>
-<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb418-1" data-line-number="1"><span class="kw">summary</span>(fit_score)<span class="op">$</span>df[<span class="dv">2</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb464-1" data-line-number="1"><span class="kw">summary</span>(fit_score)<span class="op">$</span>df[<span class="dv">2</span>]</a></code></pre></div>
 <p>Una vez que obtengas una simulación del vector <span class="math inline">\(\beta\)</span> generas simulaciones
 para los profesores usando el modelo de regresión lineal y las simulaciones
 de los parámetros (también puedes usar la función <code>sim</code> del paquete <code>arm</code>.</p>

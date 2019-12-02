@@ -314,12 +314,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.9" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html"><i class="fa fa-check"></i><b>10.9</b> Diagnósticos generales</a><ul>
 <li class="chapter" data-level="" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recomendaciones-generales"><i class="fa fa-check"></i>Recomendaciones generales</a></li>
-<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales en Stan</a></li>
-<li class="chapter" data-level="10.9.2" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.9.2</b> Recursos de Stan y paquetes con R:</a></li>
 </ul></li>
 <li class="chapter" data-level="10.10" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html"><i class="fa fa-check"></i><b>10.10</b> Modelos jerárquicos</a><ul>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelo-jerárquico-una-moneda"><i class="fa fa-check"></i>Modelo jerárquico una moneda</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-estimación-de-tasas-de-mortalidad"><i class="fa fa-check"></i>Ejemplo: estimación de tasas de mortalidad</a></li>
+<li class="chapter" data-level="10.10.1" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.10.1</b> Iniciales en Stan</a></li>
+<li class="chapter" data-level="10.10.2" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#reparametrización"><i class="fa fa-check"></i><b>10.10.2</b> Reparametrización</a></li>
+<li class="chapter" data-level="10.10.3" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i><b>10.10.3</b> Modelos jerárquicos y parametrización no centrada</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-conteo-rápido"><i class="fa fa-check"></i>Ejemplo: conteo rápido</a></li>
+<li class="chapter" data-level="10.10.4" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.10.4</b> Recursos de Stan y paquetes con R:</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
@@ -490,9 +494,9 @@ veremos a que nos referimos con <span class="math inline">\(I(\theta)^{-1}\)</sp
 <a class="sourceLine" id="cb306-8" data-line-number="8"></a>
 <a class="sourceLine" id="cb306-9" data-line-number="9"><span class="co"># aprox normal con media theta y error estándar </span></a>
 <a class="sourceLine" id="cb306-10" data-line-number="10"><span class="kw">mean</span>(sigma_hats)</a>
-<a class="sourceLine" id="cb306-11" data-line-number="11"><span class="co">#&gt; [1] 4.194421</span></a>
+<a class="sourceLine" id="cb306-11" data-line-number="11"><span class="co">#&gt; [1] 4.16766</span></a>
 <a class="sourceLine" id="cb306-12" data-line-number="12"><span class="kw">sd</span>(sigma_hats)</a>
-<a class="sourceLine" id="cb306-13" data-line-number="13"><span class="co">#&gt; [1] 1.530583</span></a>
+<a class="sourceLine" id="cb306-13" data-line-number="13"><span class="co">#&gt; [1] 1.49147</span></a>
 <a class="sourceLine" id="cb306-14" data-line-number="14"></a>
 <a class="sourceLine" id="cb306-15" data-line-number="15"><span class="kw">ggplot</span>(<span class="kw">data_frame</span>(sigma_hats), <span class="kw">aes</span>(<span class="dt">sample =</span> sigma_hats)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb306-16" data-line-number="16"><span class="st">    </span><span class="kw">stat_qq</span>() <span class="op">+</span></a>

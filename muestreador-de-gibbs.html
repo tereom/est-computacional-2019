@@ -314,12 +314,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.9" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html"><i class="fa fa-check"></i><b>10.9</b> Diagnósticos generales</a><ul>
 <li class="chapter" data-level="" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recomendaciones-generales"><i class="fa fa-check"></i>Recomendaciones generales</a></li>
-<li class="chapter" data-level="10.9.1" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.9.1</b> Iniciales en Stan</a></li>
-<li class="chapter" data-level="10.9.2" data-path="diagnósticos-generales.html"><a href="diagnósticos-generales.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.9.2</b> Recursos de Stan y paquetes con R:</a></li>
 </ul></li>
 <li class="chapter" data-level="10.10" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html"><i class="fa fa-check"></i><b>10.10</b> Modelos jerárquicos</a><ul>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelo-jerárquico-una-moneda"><i class="fa fa-check"></i>Modelo jerárquico una moneda</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-estimación-de-tasas-de-mortalidad"><i class="fa fa-check"></i>Ejemplo: estimación de tasas de mortalidad</a></li>
+<li class="chapter" data-level="10.10.1" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.10.1</b> Iniciales en Stan</a></li>
+<li class="chapter" data-level="10.10.2" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#reparametrización"><i class="fa fa-check"></i><b>10.10.2</b> Reparametrización</a></li>
+<li class="chapter" data-level="10.10.3" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i><b>10.10.3</b> Modelos jerárquicos y parametrización no centrada</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-conteo-rápido"><i class="fa fa-check"></i>Ejemplo: conteo rápido</a></li>
+<li class="chapter" data-level="10.10.4" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.10.4</b> Recursos de Stan y paquetes con R:</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
@@ -440,7 +444,7 @@ función <span class="math inline">\(rbeta\)</span>.</p>
 <a class="sourceLine" id="cb352-24" data-line-number="24"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta[<span class="dv">1</span>]), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb352-25" data-line-number="25"><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="kw">expression</span>(theta[<span class="dv">2</span>]), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb352-26" data-line-number="26"><span class="st">    </span><span class="kw">coord_fixed</span>()</a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-37-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-38-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb353-1" data-line-number="1">caminata_g &lt;-<span class="st"> </span><span class="kw">filter</span>(caminata, pasos <span class="op">%%</span><span class="st"> </span><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb353-2" data-line-number="2"><span class="st">  </span><span class="kw">gather</span>(parametro, val, theta_<span class="dv">1</span>, theta_<span class="dv">2</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb353-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">pasos =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6000</span>, <span class="dv">2</span>)) <span class="op">%&gt;%</span></a>
@@ -450,7 +454,7 @@ función <span class="math inline">\(rbeta\)</span>.</p>
 <a class="sourceLine" id="cb353-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_path</span>(<span class="dt">alpha =</span> <span class="fl">0.3</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb353-8" data-line-number="8"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>parametro, <span class="dt">ncol =</span> <span class="dv">1</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb353-9" data-line-number="9"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;&quot;</span>, <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-38-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-39-1.png" width="816" style="display: block; margin: auto;" /></p>
 <p>Si comparamos los resultados del muestreador de Gibbs con los de Metrópolis
 notamos que las estimaciones son muy cercanas</p>
 <div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb354-1" data-line-number="1"><span class="co"># Metropolis</span></a>
@@ -491,7 +495,7 @@ más interesante.</p>
 <a class="sourceLine" id="cb355-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">fill =</span> <span class="st">&quot;gray&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb355-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">0</span>, <span class="dt">alpha =</span> <span class="fl">0.8</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</a>
 <a class="sourceLine" id="cb355-7" data-line-number="7"><span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-40-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-41-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>La principal ventaja del muestreador de Gibbs sobre el algoritmo de Metrópolis
 es que no hay necesidad de seleccionar una distribución propuesta y no hay que
 lidiar con lo ineficiente de rechazar valores. A cambio, debemos ser capaces
@@ -540,7 +544,7 @@ inversa.</p>
 <a class="sourceLine" id="cb356-11" data-line-number="11"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">binwidth =</span> <span class="fl">0.05</span>, <span class="dt">fill =</span> <span class="st">&quot;gray&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb356-12" data-line-number="12"><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dinvgamma, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">shape =</span> <span class="dv">5</span>, <span class="dt">scale =</span> <span class="dv">1</span>), </a>
 <a class="sourceLine" id="cb356-13" data-line-number="13">    <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)  </a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-41-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-42-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>Volviendo al problema de inferir acerca del parámetros <span class="math inline">\(\sigma^2\)</span>, si resumimos
 nuestro conocimiento inicial a través de una distribución Gamma Inversa tenemos
 <span class="math display">\[p(\sigma^2)=\frac{\beta^\alpha}{\Gamma(\alpha)}\frac{1}{(\sigma^2)^{\alpha + 1}} e^{-\beta/\sigma^2}\]</span></p>
@@ -635,7 +639,7 @@ de interés:</p>
 <a class="sourceLine" id="cb358-30" data-line-number="30"><span class="st">  </span><span class="kw">geom_path</span>(<span class="dt">alpha =</span> <span class="fl">0.3</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb358-31" data-line-number="31"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>parametro, <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb358-32" data-line-number="32"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;&quot;</span>)</a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-43-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-44-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>En la gráfica de arriba podemos ver que se actualiza un parámetro a la vez, por
 lo que cada paso de la caminata aleatoria es paralelo al eje de uno de los
 parámetros. Una alternativa es conservar únicamente ciclos completos de la
@@ -646,7 +650,7 @@ completos) convergen a la misma distribución posterior.</p>
 <a class="sourceLine" id="cb359-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">fill =</span> <span class="st">&quot;gray&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb359-3" data-line-number="3"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>parametro, <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) </a>
 <a class="sourceLine" id="cb359-4" data-line-number="4"><span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-44-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-45-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>Algunos resúmenes de la posterior:</p>
 <div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb360-1" data-line-number="1">caminata_g <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb360-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(pasos <span class="op">&gt;</span><span class="st"> </span><span class="dv">1000</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># eliminamos la etapa de calentamiento</span></a>
@@ -673,7 +677,7 @@ que:</p>
 <a class="sourceLine" id="cb361-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">fill =</span> <span class="st">&quot;gray&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb361-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(y_sims)), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</a>
 <a class="sourceLine" id="cb361-8" data-line-number="8"><span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-46-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-47-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p><img src="img/manicule2.jpg" /> ¿Cuál es la probabilidad de que una
 observación futura sea mayor a <span class="math inline">\(8\)</span>?</p>
 <p>En estadística bayesiana es común parametrizar la distribución Normal en
