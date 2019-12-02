@@ -34,6 +34,18 @@ knitr::opts_chunk$set(
 comma <- function(x) format(x, digits = 2, big.mark = ",")
 ggplot2::theme_set(ggplot2::theme_light())
 ```
+```{r include=FALSE, cache=FALSE}
+library(tidyverse)
+knitr::opts_chunk$set(
+    comment = "#>",
+    collapse = TRUE,
+    fig.align = "center", 
+    error = TRUE,
+    cache = FALSE
+)
+comma <- function(x) format(x, digits = 2, big.mark = ",")
+ggplot2::theme_set(ggplot2::theme_light())
+```
 # Análisis bayesiano
 
 Para esta sección seguiremos principalmente @kruschke, sin embargo, para el 
@@ -2133,7 +2145,7 @@ Por su parte HMC, usa una distribución propuesta que cambia dependiendo de la
 posición actual. HMC utiliza el gradiente de la posterior y *envuelve* la 
 distribución propuesta hacia el gradiente, como se ve en la siguiente figura.
 
-```{r, out.width = "500px"}
+```{r, out.width = "500px", fig.cap="copyright(c) Kruschke, J. K. (2014). Doing Bayesian Data Analysis: A Tutorial with R, JAGS, and Stan. 2nd Edition. Academic Press / Elsevier"}
 knitr::include_graphics("img/hmc_proposals.png")
 ```
 
@@ -2163,7 +2175,7 @@ implementamos) y mejores que un muestreador de Gibbs que puede *atorarse* en
 paredes diagonales.
 
 Es así que para pasar del algoritmo de Metrópolis que estudiamos a HMC se 
-modifica la probabilidad de aceptación para tener en cuenta no sola la denisdad 
+modifica la probabilidad de aceptación para tener en cuenta no sola la densidad 
 posterior relativa, sino también el *momento* (denotado por $\phi$) en las 
 posiciones actual y propuesta. 
 
@@ -2178,10 +2190,10 @@ aproximados conllevando a que se rechacen algunas propuestas.
 Si los pasos discretizados son pequeños entonces la aproximación será buena pero 
 se necesitarán más pasos para alejarse de una posición dada, y lo contrario si 
 los pasos son muy grandes. Por tanto se debe ajustar el tamaño del paso 
-($\varepsilon$) y el número de pasos. La duración de la trayectoria es el producto del 
-tamaño del paso y el número de pasos. Es usual buscar una tasa de aceptación 
-alrededor del $65\%$, moviendo el tamaño de epsilon y compensando con el número de 
-pasos.
+($\varepsilon$) y el número de pasos. La duración de la trayectoria es el 
+producto del tamaño del paso y el número de pasos. Es usual buscar una tasa de
+aceptación alrededor del $65\%$, moviendo el tamaño de epsilon y compensando con 
+el número de pasos.
 
 Es así que el tamaño del paso controla la suavidad de la trayectoria. También es 
 importante ajustar el número de pasos (es decir la duración del movimiento) pues 
@@ -2190,7 +2202,7 @@ siguiente figura muestra varias trayectorias y notamos que muchas rebotan al
 lugar inicial. 
 
 
-```{r, out.width = "500px"}
+```{r, out.width = "500px", fig.cap="copyright(c) Kruschke, J. K. (2014). Doing Bayesian Data Analysis: A Tutorial with R, JAGS, and Stan. 2nd Edition. Academic Press / Elsevier"}
 knitr::include_graphics("img/hmc_proposals_2.png")
 ```
 
@@ -2207,7 +2219,7 @@ Stan la desviación estándar del momento se establece de manera adaptativa para
 que coincida con la desviación estándar de la posterior.
 
 
-```{r, out.width = "500px"}
+```{r, out.width = "500px", fig.cap="copyright(c) Kruschke, J. K. (2014). Doing Bayesian Data Analysis: A Tutorial with R, JAGS, and Stan. 2nd Edition. Academic Press / Elsevier"}
 knitr::include_graphics("img/hmc_proposals_3.png")
 ```
 
@@ -2422,7 +2434,6 @@ norm_fit
 Podemos realizar graficas de las cadenas con más detalle (y con facilidad),
 usando el paquete `bayesplot`.
 
-
 ```{r, nessage=FALSE, fig.height=3.5}
 library(bayesplot)
 
@@ -2584,75 +2595,6 @@ la [guía](https://mc-stan.org/docs/2_21/stan-users-guide/reparameterization-sec
 (sobretodo para la parte exploratoria) es trabajar con un subconjunto de los 
 datos, quizá la mitad o una quinta parte.
 
-
-### Iniciales en Stan 
-
-Las siguientes recomendaciones de iniciales son de los desarrolladores de Stan, 
-puedes leer más en https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations.
-
-Podemos clasificar las iniciales en 5 niveles de acuerdo a que tan informativas 
-son:
-
-1. Iniciales planas: usualmente impropias.
-2. Muy vagas pero propias: $N(0, (1e6) ^ 2)$.
-3. Iniciales genéricas muy debilmente informativas: $Normal(0, 10^2)$.
-4. Iniciales genéricas debilmente informativas: $Normal(0, 1)$.
-5. Iniciales específicas e informativas: $Normal(0.4, 0.2^2)$
-
-Cuando se usa Stan tenemos los siguientes principios generales:
-
-* En Stan no importa usar conjugadas (cuando se usan muestreadores de Gibbs 
-puede ser conveniente usar conjugadas, aquí no).
-
-* No interesan: invarianza, Jeffreys o entropía.
-
-* Las iniciales debilmente informativas deben contener suficiente información 
-para regularizar: las iniciales deben dejar fuera valores de los parámetros que 
-no sean razonables, pero no dejar fuera valores que podrían tener sentido.
-
-* Se prefieren las iniciales debilmente informativas sobre las informativas, 
-esto es porque las consecuencias de *perder precisión* por elegir una inicial 
-muy débil (comparado con la verdadera distribución poblacional de los parámetros
-o comparado con conocimiento experto) es menos importante que la ganancia en 
-robustez que se deriva de incluir parte del espacio paramétrico que pueda ser
-relevante.
-
-* Cuando se usen distribuciones iniciales informativas se debe ser explícito en 
-porque se tomaron las decisiones.
-
-* No utilices iniciales uniformes, o en general no restrinjas el espacio 
-paramétrico, a menos que las fronteras representen restricciones verdaderas (por
-ejemplo parámetros de escala restringidos a los positivos, o correlaciones entre 
-el -1 y el 1). Algunos ejemplos:
-    + Si crees que un parámetro se ubica entre el cero y el un, en lugar de usar
-    Uniforme(0,1), intenta Normal(0.5, 0.5).
-    + Un parámetro de escala esta restringido a ser positivo y quieres una 
-    inicial vaga, propones Uniforme(0,100) (o Uniforme(0,1000), es mejor no 
-    especificar inicial, que en Stan equivale a una inicial uniforme no 
-    informativa, o usar una Esxponencial con valor esperado 10, o una 
-    media-normal(0,10).
-
-### Recursos de Stan y paquetes con R:
-
-* [Stan Manual](https://mc-stan.org/docs/2_21/reference-manual/index.html).
-
-* [Stan User's Guide](https://mc-stan.org/docs/2_21/stan-users-guide/index.html).
-
-* El paquete [rstanarm](https://cran.r-project.org/web/packages/rstanarm/vignettes/rstanarm.html), 
-@R-rstanarm, facilita el uso de Stan desde R, cuenta con funciones para llevar a 
-cabo estimación Bayesiana sin necesidad de escribir código en el *lenguaje de Stan*, 
-de acuerdo a los autores el objetivo del paquete es  que la estimación bayesiana 
-sea rutina para los modelos de regresión más comunes.
-
-* El paquete [bayesplot](https://mc-stan.org/bayesplot/), @R-bayesplot, cuenta con funciones para 
-graficar estimaciones de los parámetros, realizar diagnósticos visuales de las 
-cadenas (convergencia), y analizar el ajuste del modelo (graficando de la 
-predictiva posterior).
-
-* El paquete [shinystan](http://mc-stan.org/users/interfaces/shinystan), 
-@R-shinystan, contiene
-resumenes gráficos y numéricos de parámetros de un modelo y de diagnósticos de
-convergencia.
 
 ## Modelos jerárquicos
 
@@ -3186,6 +3128,1915 @@ stan_jer_fit <- sampling(stan_jer_cpp,
     iter = 1000, warmup = 500)
 ```
 
+Graficamos la distribución posterior de $\mu$ y $\theta_i$.
+
+```{r, fig.width=2.5}
+posterior_jer <- extract(stan_jer_fit, inc_warmup = TRUE, permuted = FALSE)
+
+mcmc_areas(posterior_jer, pars = c("mu", "theta[1]", "theta[2]", "theta[3]", 
+    "theta[4]", "theta[5]"), prob = 0.8, point_est = "median", adjust = 1.4) 
+```
+
+Y para el resto de los parámetros.
+
+```{r}
+mcmc_areas(posterior_jer, pars = c("kappa", "a", "b"), prob = 0.8, point_est = "median", 
+    adjust = 1.4)
+```
+
+
+
+### Ejemplo: estimación de tasas de mortalidad {-}
+
+En esta sección veremos un problema de estimación de tasas de mortalidad, 
+la referencia de este ejemplo es @albert. Plantearemos $3$ alternativas de 
+modelación para resolver el problema: 1) modelo de unidades iguales, 2) modelo 
+de unidades independientes, y 3) modelo jerárquico.
+
+Los datos consisten en información de todas las cirugías de transplante de 
+corazón llevadas a cabo en Estados Unidos en un periodo de $24$ meses, entre 
+octubre de $1987$ y diciembre de $1989$. Para cada uno de los $131$ hospitales, 
+se registró:
+
+* el número de cirugías de transplante de corazón, 
+
+* y el número de muertes durante los $30$ días posteriores a la cirugía, $y$. 
+
+* Además, se cuenta con una predicción de la probabilidad de muerte de cada 
+paciente individual. Esta predicción esta basada en un modelo logístico que 
+incluye información a nivel paciente como condición médica antes de la cirugía, 
+género, sexo y raza. En cada hospital se suman las probabilidades de muerte de 
+sus pacientes para calcular el número esperado de muertes, $e$, conocido como la
+exposición del hospital. $e$ refleja el riesgo de muerte debido a la mezcla de
+pacientes que componen un hospital particular.
+
+La tabla de datos que analizaremos considera únicamente los $94$ hospitales que
+llevaron a cabo $10$ o más cirugías, y contiene las duplas $(y_{j}, e_{j})$ que
+corresponden al número observado de muertes y número de expuestos para el 
+$j$-ésimo hospital, con $j = 1,...,94$.
+
+```{r}
+library(LearnBayes)
+data(hearttransplants)
+heart <- hearttransplants %>% 
+    mutate(hospital = 1:n())
+head(heart)
+```
+
+**El objetivo es obtener buenas estimaciones de las tasas de mortalidad de cada 
+hospital**. Antes de comenzar a ajustar modelos complejos vale la pena observar 
+los datos. 
+
+* El cociente $\{y_{j}/e_{j}\}$ es el número observado de muertes por 
+unidad de exposición y se puede ver como una estimación de la tasa de 
+mortalidad. 
+
+* La siguiente figura grafica, en el eje vertical los cocientes 
+$\{y_{j}/e_{j}\}$ multiplicados por $1000$ (con la intención de que la tasa 
+indique número de muertes por $1000$ expuestos), y en el eje horizontal el 
+número de expuestos $\{e_{j}\}$ -en escala logarítmica- para los $94$ 
+hospitales. Cada punto representa un hospital y esta etiquetado con el número de 
+muertes observadas $\{y_{j}\}$. 
+
+* En la gráfica podemos notar que las tasas estimadas son 
+muy variables, especialmente para programas con baja exposición. 
+
+* Observemos también, que la mayoría de los programas que no experimentaron 
+muertes tienen bajo número de expuestos.
+
+```{r, fig.width=4,fig.height=4,fig.align='center'}
+ggplot(heart, aes(x = log(e), y = 1000 * y / e, color = factor(y), label = y)) +
+    geom_text(show.legend = FALSE)  +
+    scale_x_continuous("Número de expuestos (e)", labels = exp, 
+        breaks = map_dbl(0:4, ~ log(700 ^ .))) 
+```
+
+La variabilidad de las tasas y los hospitales sin muertes sugieren un problema 
+de tamaño de muestra: 
+
+Consideremos un hospital con $700$ expuestos, la muerte 
+por transplante de corazón no es común, el promedio nacional es de $9$ por cada
+$10,000$ expuestos, por lo que con $700$ expuestos es probable que no se 
+presente ninguna muerte, 
+
+* en este caso el hospital pertenece al $10\%$ de los hospitales con menor tasa 
+de mortalidad. 
+
+* Sin embargo, existe la posibilidad de que se observe una muerte, con lo cual 
+el hospital tendrá una tasa de mortalidad que es lo suficientemente alta para 
+que quede en el $25\%$ de los hospitales con mayor tasa de mortalidad observada.
+
+Una vez reconocido el problema de utilizar los datos crudos para estimar las 
+tasas de mortalidad plantearemos $3$ alternativas de modelación:
+
+1. **Unidades iguales**. Considera que los estudios son replicas idénticas una 
+de otra, en este sentido vemos a las observaciones de todos los estudios como 
+muestras independientes de una misma población y consecuentemente todas las 
+$\lambda_{j}$ se consideran iguales, 
+
+$$
+  \begin{eqnarray}
+		\nonumber
+		y_{j} &\sim& f(y_{j}|\lambda),\\
+	 	\nonumber
+		\lambda &\sim& g(\lambda).
+	\end{eqnarray} 
+$$
+
+El modelo gráfico correspondiente a este enfoque (omitiendo la distribución de
+$\lambda$) es:
+
+<center><img src="img/dag_pool.png" width="400px"/></center>
+  
+2. **Unidades independientes**. El extremo opuesto a unidades iguales considera 
+que los estudios son tan diferentes que los resultados de cada uno no proveen información acerca de los resultados de ningún otro y por tanto realizamos 
+estimaciones individuales para cada $\lambda_{j}$, 
+
+$$
+  \begin{align}
+		\nonumber
+		y_{j} &\sim f(y_{j}|\lambda_{j}),\\
+		\nonumber
+		\lambda_j &\stackrel{\mathrm{iid}}{\sim} g(\lambda_j).
+	\end{align}
+$$
+
+Con el siguiente modelo gráfico:
+
+<center><img src="img/dag_ind.png" width="400px"/></center>
+
+3. **Jerárquico**. Es un análisis intermedio que considera los parámetros de interés
+$\lambda_{j}$ como provenientes de una distribución común,
+
+$$
+\begin{eqnarray}
+		\nonumber
+		y_{j} &\sim& f(y_{j}|\lambda_{j}),\\
+		\nonumber
+		\lambda_{j} &\sim& g(\lambda_j|\theta),\\
+		\theta &\sim& h(\theta).
+	\end{eqnarray} 
+$$
+
+<center><img src="img/dag_jer.png" width="400px"/></center>
+
+De esta manera, la probabilidad conjunta del modelo refleja una dependencia 
+entre los parámetros al mismo tiempo que permite variaciones entre los estudios. 
+Como resultado se estima una $\lambda_{j}$ diferente para cada estudio usando 
+información de todos.  
+
+#### Modelo de unidades iguales {-}
+
+Supongamos que las tasas de mortalidad son iguales a lo largo de los hospitales. 
+Estimaremos la tasa de mortalidad con el modelo, 
+
+$$
+\begin{eqnarray}
+	\nonumber
+y_{j} \sim Poisson(e_{j}\lambda),
+\end{eqnarray}
+$$
+
+donde $y_{j}$ es el número de muertes observadas por transplante corazón en el
+hospital $j$, $e_{j}$ es el número de expuestos, y $\lambda$ es la tasa de 
+mortalidad, medida en número de muertes por unidad de exposción y común para 
+todos los hospitales.
+
+Debido a que no contamos con información inicial acerca de la tasa de mortalidad,
+asignamos a $\lambda$ una distribución inicial no informativa, de la forma
+
+$$
+\begin{eqnarray}
+	\nonumber
+	 g(\lambda)\propto\frac{1}{\lambda}.
+\end{eqnarray}
+$$
+
+Sea $y=(y_1,...,y_{94})$, usamos el Teorema de Bayes para calcular la densidad 
+posterior de $\lambda$,
+
+$$
+\begin{eqnarray}
+	\nonumber
+	g(\lambda|y) &\propto& g(\lambda)f(y|\lambda) \\
+	\nonumber
+	&=& g(\lambda)\prod_{i=1}^{94}f(y_{i}|\lambda)\\
+	\nonumber
+	&=& \frac{1}{\lambda}\prod_{i=1}^{94}\bigg(\frac{exp(-e_{i}\lambda)(e_{i}\lambda)^{y_{i}}}{y_{i}!}\bigg)\\
+	\nonumber
+	&\propto& \lambda^{(\sum_{i=1}^{94}y_{j}-1)}exp\bigg(-\sum_{i=1}^{94}e_{j}\lambda\bigg),
+\end{eqnarray}
+$$
+
+identificamos la densidad posterior como una 
+$Gamma(\sum_{i=1}^{94}y_{i},\sum_{i=1}^{94}e_{i})$, donde expresamos la función 
+de densidad de una distribución $Gamma(\alpha, \beta)$ usando el parámetro de 
+forma $\alpha$ y el inverso del parámetro de escala $\beta$ de manera que la 
+función de densidad es,
+
+$$
+\begin{align}
+	\nonumber
+	&f(x|\alpha, \beta) = \beta^{\alpha}\frac{1}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}I_{(0,\infty)}(x)\\
+	\nonumber
+	&\mbox{para }x \geq 0 \mbox{ y }\alpha \mbox{, }\beta > 0.
+\end{align}
+$$
+
+Para verificar el ajuste del modelo utilizaremos la distribución predictiva 
+posterior. Denotemos $y_{j}^*$ el número de muertes por transplante en el 
+hospital $j$ con exposición $e_{j}$ en una muestra futura. Condicional a 
+$\lambda$, $y_{j}^*$ se distribuye $Poisson(e_{j}\lambda)$, no conocemos el 
+verdadero valor de $\lambda$, sin embargo nuestro conocimiento actual está 
+contenido en la densidad posterior $g(\lambda|y)$. Por tanto, la distribución 
+predictiva posterior de $y_{j}^*$ esta dada por: 
+
+$$
+\begin{eqnarray}
+\nonumber
+	f(y_{j}^*|e_{j},y) = \int f(y_{j}^*|e_{j}\lambda)g(\lambda|y)d\lambda, 
+\end{eqnarray}
+$$
+
+donde $f(y_j^*|e_{j}\lambda)$ es una densidad Poisson con media $\lambda$. La 
+densidad predictiva posterior representa la verosimilitud de observaciones 
+futuras basadas en el modelo ajustado. 
+
+En este ejemplo, la densidad 
+$f(y_{j}^*|e_{j},y)$ representa el número de transplantes que se predecirían 
+para un hospital con exposición $e_{j}$. Entonces, si el número observado de 
+muertes $y_{j}$ no está en las colas de la distribución predictiva, diríamos que 
+la observación es consistente con el modelo observado.
+
+
+```{r, fig.width=6,fig.height=4.6,fig.align='center', out.width="550px"}
+# La densidad posterior es Gamma con los siguientes parámetros
+c(sum(heart$y), sum(heart$e))
+# Simulamos 1000 muestras de la densidad posterior de lambda
+lambdas <- rgamma(1000, shape = sum(heart$y), rate = sum(heart$e))
+# ahora para cada hospital simulamos muestras de una distribución Poisson
+# con media e_i*lambda
+heart_sims <- heart %>% 
+    mutate(sims = map(e, ~rpois(1000, . * lambdas))) 
+# tomamos una muestra de 10 hospitales
+set.seed(242)
+heart_sims_sample <- sample_n(heart_sims, 10)
+
+ggplot(unnest(heart_sims_sample, cols = sims), aes(x = sims)) + 
+    geom_histogram(aes(y = ..density..), binwidth = 1, color = "darkgray", 
+        fill = "darkgray") +
+    facet_wrap(~ hospital, nrow = 2) +
+    geom_segment(data = heart_sims_sample, aes(x = y, xend = y, y = 0, 
+        yend = 0.5), color = "red") + 
+    geom_text(data = heart_sims_sample, aes(x = 10, y = 0.4, 
+    label = paste("e =", e)), size = 2.7, color = "red")
+
+```
+
+La figura muestra los histogramas, obtenidos con simulación, de la distribución
+predictiva posterior de $10$ hospitales (se tomó una muestra de los $94$). Para cada
+hospital, se escribió el número de expuestos, $e$, y se grafica una línea 
+vertical en el número de muertes observado. Notemos que en muchos de los 
+histogramas el número de muertes observado se encuentra en las colas de las 
+distribuciones, lo que sugiere que nuestras observaciones son inconsistentes con 
+el modelo ajustado.
+
+Ahora examinaremos la consistencia de las muertes observadas, $y_{j}$, para 
+todos los hospitales. Para cada distribución predictiva posterior calculamos la
+probabilidad de que una observación futura $y_{j}^*$ sea al menos tan extrema 
+como $y_{j}$, estas probabilidades son comúnmente llamadas valores $p$ 
+predictivos: 
+
+$$
+\begin{eqnarray}
+	\nonumber
+	P(extremos) = min\{P(y_{j}^* \leq y_{j}),P(y_{j}^*\geq y_{j})\}
+\end{eqnarray}
+$$
+
+
+```{r, fig.width=4,fig.height=4,fig.align='center'}
+# Para calcular las p predictiva podemos usar las simulaciones
+p_pred <- heart_sims %>% 
+    unnest(cols = sims) %>% 
+    group_by(hospital) %>% 
+    summarise(
+        p = min(sum(sims <= y) / 1000, sum(sims >= y) / 1000), 
+        e = first(e)
+        )
+
+ggplot(p_pred, aes(x = log(e), y = p)) + 
+    geom_point() +
+    scale_x_continuous("Número de expuestos (e)", labels = exp, 
+        breaks = map_dbl(0:4, ~ log(700 ^ .))) + 
+    ylab("P(extremos)") +
+    geom_hline(yintercept = .15, colour = "red", size = 0.4) +
+    ylim(0, .7) 
+```
+
+En la figura anterior graficamos las probabilidades de extremos (calculadas con 
+simulación) en el eje vertical, contra el número de exposición en escala 
+logarítmica de cada hospital en el eje horizontal. Notemos que muchas de estas 
+probabilidades son pequeñas, el $28\%$ son menores a $0.15$, lo que indica que 
+para el $28\%$ de los hospitales el número de muertes observado $y_{j}$ está en 
+la cola de la distribución y por consiguiente el modelo es inadecuado.
+
+#### Modelo de unidades independientes {-}
+
+Consideremos ahora que los hospitales son independientes, estimaremos la tasa de
+mortalidad para cada hospital con el modelo
+
+$$
+\begin{eqnarray}
+	\nonumber
+	y_{j}\sim Poisson(e_{j}\lambda_{j}),
+\end{eqnarray}
+$$
+
+donde $y_{j}$ es el número de muertes observadas por transplante corazón en el 
+hospital $j$, $e_{j}$ es el número de expuestos, y $\lambda_{j}$ es la tasa de
+mortalidad, medida en número de muertes por unidad de exposición, con
+$j=1,...,94$. Utilizamos el subíndice $j$ para enfatizar que son parámetros 
+diferentes, cada uno estimado con sus propios datos.
+
+Por facilidad asignamos a $\lambda_{j}$ una distribución inicial 
+$Gamma(\alpha_{0}, \beta_{0})$ que es conjugada de la distribución Poisson,
+
+$$
+\begin{eqnarray}
+\nonumber
+	g(\lambda_{j}|\alpha_{0},\beta_{0}) = \frac{\beta_{0}^{\alpha_{0}} \lambda_{j}^{\alpha_{0}-1}exp(-\lambda_{j} \beta_{0})}{\Gamma(\alpha_{0})}, \lambda_{j}>0.
+\end{eqnarray}
+$$
+
+Calculamos la densidad posterior de $\lambda_{j}$ usando el Teorema de Bayes,
+
+$$
+\begin{eqnarray}
+	\nonumber
+	g(\lambda_{j}|y_{j},\alpha_{0},\beta_{0}) &\propto& g(\lambda_{j}|\alpha_{0},\beta_{0})f(y_{j}|\lambda_{j})\\
+	\nonumber
+	&=& \frac{\beta_{0}^{\alpha_{0}} \lambda_{j}^{\alpha_{0}-1}exp(-\lambda_{j} \beta_{0})}{\Gamma(\alpha_{0})}\frac{exp(-e_{j}\lambda_{j})(e_{j}\lambda_{j})^{y_{j}}}{y_{j}!}\\
+	\nonumber
+	&\propto& \lambda_{j}^{\alpha_{0}+y_{j}-1}exp(-\lambda_{j}(\beta_{0}+e_{j})),
+\end{eqnarray}
+$$
+
+y obtenemos que $\lambda_{j}|y_{j} \sim Gamma(\alpha_{0}+y_{j}, \beta_{0}+e_{j})$, con media
+
+$$
+\begin{eqnarray}
+	\nonumber
+	E(\lambda_{j}|y_{j},\alpha_{0},\beta_{0}) &=& \frac{\alpha_{0}+y_{j}}{\beta_{0}+e_{j}}\\
+	\label{eqn:pond.indep}
+	&=& (1-A_{j})\frac{y_{j}}{e_{j}}+A_{j}\frac{\alpha_{0}}{\beta_{0}}
+\end{eqnarray}
+$$
+
+donde
+
+$$
+\begin{eqnarray}
+	A_{j}=\frac{\beta_{0}}{\beta_{0}+e_{j}},
+\end{eqnarray}
+$$
+y varianza
+
+$$
+\begin{eqnarray}
+	\nonumber
+	Var(\lambda_{j} |y_{j},\alpha_{0},\beta_{0}) = \frac{\alpha_{0}+y_{j}}{(\beta_{0}+e_{j})^2}.
+\end{eqnarray}
+$$
+
+Notemos que podemos escribir la media posterior como un promedio ponderado de la 
+tasa observada $y_{j}/e_{j}$ y la media inicial $\alpha_{0} / \beta_{0}$. El 
+factor $A_{j}$ es el encogimiento hacia la media inicial y depende del número de
+exposición de cada hospital y del parámetro de escala $\beta_{0}$.
+
+##### Efecto de ${\beta_{0}}$ y ${e_{j}}$ en la distribución posterior {-}
+
+Consideremos la media y varianza posteriores de $\lambda_{j}$ para un hospital
+particular. Tomando $\alpha_{0}$ fija, valores mayores de $\beta_{0}$ 
+corresponden a una menor varianza en la distribución inicial pues 
+$Var(\lambda_{j} | \alpha_{0},\beta_{0}) = \alpha_{0}/\beta_{0}^2$. La varianza 
+de la distribución inicial se refleja en la media de la distribución posterior 
+de $\lambda_{j}$ a través de $\beta_{0}$, menor varianza (mayor $\beta_{0}$) 
+corresponde a mayor encogimineto hacia la media inicial. Este efecto de 
+$\beta_{0}$ concuerda con la incertidumbre de nuestro conocimiento, pues menor 
+varianza en la distribución inicial indica menor incertidumbre y la aportación 
+de la media inicial a la media posterior es más importante. La elección de 
+$\beta_{0}$ también afecta la varianza, pues un menor valor de $\beta_{0}$ 
+implica una mayor varianza tanto en la distribución inicial como en la final.
+
+Por su parte, tomando $\alpha_{0}$ y $\beta_{0}$ fijas, el efecto del número de
+expuestos $e_{j}$ sobre la media posterior de $\lambda_{j}$ actúa de manera 
+contraria a $\beta_{0}$. Un mayor número de expuestos tiene como consecuencia un 
+menor encogimiento hacia la media inicial, dando mayor importancia a la tasa 
+observada $y_{j}/e_{j}$. Esto refleja que más expuestos implican más información
+proveniente de la muestra, restando importancia a nuestro conocimiento inicial. 
+En cuanto a la varianza posterior, es inversamente proporcional al número de
+expuestos indicando nuevamente que más expuestos implica más conocimiento y por
+tanto menor incertidumbre.
+
+En la siguiente fugura mostraremos el encogimiento hacia la media inicial bajo 
+distintos escenarios de $\beta_{0}$, cada punto representa un hospital y el 
+color indica a que valor de $\beta_{0}$ corresponde. En esta gráfica podemos 
+apreciar el mayor encogimiento para valores mayores de $\beta_{0}$ y el 
+decaimiento en el encogimiento conforme aumenta el número de expuestos.
+
+
+```{r, fig.width=4.5,fig.height=4,fig.align='center', out.width="350px"}
+heart_indep <- heart %>% 
+    crossing(beta_0 = c(1000, 100, 10, 0.01)) %>% 
+    mutate(encogimiento = beta_0 / (beta_0 + e))
+
+glimpse(heart_indep)
+
+ggplot(heart_indep, aes(x = log(e), y = encogimiento, 
+    color = factor(beta_0))) +
+    geom_point(alpha = 0.9) +
+    scale_x_continuous("Número de expuestos (e)", labels = exp, 
+        breaks = map_dbl(0:4, ~ log(700 ^ .))) +
+    scale_color_hue(expression(beta[0])) +
+    ylab("encogimiento (A)")
+```
+
+##### Distribución inicial {-}
+
+Establecimos que por facilidad se utilizará una inicial 
+$Gamma(\alpha_{0},\beta_{0})$, sin embargo hace falta asignar valores a los 
+parámetros iniciales. Analizaremos $3$ distintas combinaciones de parámetros 
+iniciales y su efecto en las estimaciones posteriores.
+
+Para cada combinación de parámetros la siguiente tabla muestra los deciles de 
+$2000$ simulaciones de una distribución $Gamma(\alpha_0,\beta_{0})$ y los deciles 
+de las muertes observadas por cada $1000$ expuestos considerando todos los 
+hospitales; multiplicamos las simulaciones por $1000$ para que indiquen tasas de
+mortalidad medidas en número de muertes por $1000$ expuestos. El propósito de la 
+tabla es describir la forma de la distribución $Gamma$ al cambiar los 
+parámetros, por ejemplo, una $Gamma(0.01,0.01)$ es muy plana y podríamos 
+describirla como poco informativa, mientras que una $Gamma(1,1000)$ tiene una 
+forma más cercana a las tasas de mortalidad observadas. 
+
+decil | $(0.01,0.01)$ | $(0.5,0.01)$ | $(1,1000)$ | Observados  
+------|---------------|--------------|------------|-----------
+min | 0 | 0 | 0 | 0  
+  10 | 0 | 890.3 | 0.1 | 0  
+  20 | 0 | 3134.7 | 0.2 | 0.3  
+  30 | 0 | 7769.0 | 0.3 | 0.5  
+  40 | 0 | 15036.0 | 0.5 | 0.7  
+  50 | 0 | 24293.9 | 0.7 | 0.8  
+  60 | 0 | 37306.0 | 0.9 | 1.1  
+  70 | 0 | 57640.2 | 1.2 | 1.4  
+  80 | 0 | 84255.5 | 1.6 | 1.7  
+  90 | 4.2 | 140721.9 | 2.3 | 2.0  
+  max | 287307.6 | 592073.2 | 7.0 | 3.9  
+
+Ahora realizamos una gráfica para cada pareja de parámetros  
+$(\alpha_0,\beta_{0})$ donde mostramos en negro las tasas observadas, y en color 
+las estimaciones posteriores de las tasas de mortalidad con intervalos del $95\%$ 
+de probabilidad, ambas medidas en número de muertes por cada $1000$ expuestos. 
+Cada punto representa un hospital y el color corresponde al número de muertes 
+observadas, $\{y_{j}\}$. Regresaremos a esta gráfica más adelante pero por lo 
+pronto observemos que tanto las estimaciones como los intervalos de probabilidad 
+son muy diferentes al cambiar los parámetros de la distribución inicial. 
+
+
+```{r, fig.width=5,fig.height=7,fig.align='center'}
+# Procedemos como antes, para cada combinación de alfa y beta simulamos 1000 
+# lambdas de la posterior
+lambdas <- rgamma(1000, shape = sum(heart$y), rate = sum(heart$e))
+# ahora para cada hospital simulamos muestras de una distribución Poisson
+# con media e_i*lambda
+priors <- data_frame(alpha = c(0.01, 0.5, 1), beta = c(0.01, 0.01, 1000))
+
+heart_indep_sims <- heart %>% 
+    crossing(priors) %>% 
+    mutate(
+        sims = pmap(list(e, y, alpha, beta), ~rgamma(1000, shape = ..3 + ..2, 
+            rate = ..4 + ..1))
+        ) 
+# Creamos intervalos con las simulaciones
+heart_indep_post <- heart_indep_sims %>% 
+    mutate(
+        media = 1000 * (alpha + y) / (beta + e), 
+        int_l = map_dbl(sims, ~quantile(1000 * ., 0.025)), 
+        int_u = map_dbl(sims, ~quantile(1000 * ., 0.975)), 
+        params = paste0("alpha = ", alpha, ", beta = ", beta)
+        )
+
+ggplot(heart_indep_post, aes(x = log(e), y = media, color = factor(y))) +
+    geom_pointrange(aes(ymin = int_l, ymax = int_u), size = 0.25) +
+    geom_point(data = heart, aes(x = log(e), y = 1000 * y / e), color = "black", 
+        alpha = 0.6, size = 1.5) +
+    facet_wrap(~params, ncol = 1) +
+    scale_x_continuous("Número de expuestos (e)", labels = exp, 
+        breaks = map_dbl(0:4, ~ log(700 ^ .))) + 
+    scale_colour_hue("muertes obs. (y)") + 
+    ylab("Muertes por 1000 expuestos")
+```
+
+Ahora justificaremos la elección de las parejas de parámetros iniciales. La 
+única información con la que contamos para definir una distribución inicial es 
+que la tasa de mortalidad por transplante de corazón debe ser positiva y no muy 
+grande. Debido a que no tenemos más información nuestro primer modelo utiliza 
+una inicial vaga.
+
+##### No informativas {-}
+
+* Asignamos a $\lambda_{j}$ una distribución inicial **$Gamma(0.01, 0.01)$**. La 
+tabla de deciles indica que es una distribución muy plana y si observamos la 
+gráfica de encogimiento notamos que para una inicial con este valor en el 
+parámetro de escala $\beta_{0}$, el encogimiento de la media posterior hacia la 
+media inicial es muy cercano a cero, dando poca importancia a la media inicial 
+$\alpha_{0}/\beta_{0}=1$.  Como consecuencia, las estimaciones posteriores de
+$\lambda_{j}$ son casi iguales a las tasas observadas $\{y_{j}/e_{j}\}$, y se
+presentan los problemas de tamaño de muestra notados al usar las tasas 
+observadas como estimaciones de las tasas de mortalidad. Además, los intervalos 
+de confianza para los hospitales que no experimentaron muertes son poco creíbles 
+pues son mucho más chicos que el resto.
+
+* Consideramos una inicial **$Gamma(0.5,0.01)$**. En
+este caso, la elección de los parámetros se basó en la distribución inicial no
+informativa de Jeffreys, consiste en una $Gamma(0.5,0)$. Es una distribución
+impropia por lo que cambiamos el parámetro de escala por $0.01$ para obtener 
+una inicial propia con varianza grande. Los resultados no son muy razonables,
+pues la media inicial es $50$, mucho mayor a las tasas observada para todos los
+hospitales, provocando que las estimaciones del modelo sean mayores a las tasas
+observadas en todos los hospitales. Este efecto es contrario al que buscábamos 
+al usar una inicial vaga pues la distribución inicial tiene un impacto muy 
+fuerte en las estimaciones posteriores.
+
+##### Informativa {-}
+
+* Consideramos una distribución inicial **$Gamma(1,1000)$**, ésta inicial
+es informativa. Para obtener sus parámetros igualamos los media y varianza
+teórica de la distribución $Gamma$ con la media y varianza observadas en el
+conjunto de tasas de mortalidad tomando en cuenta todos los hospitales.
+Las estimaciones de las tasas de mortalidad que obtenemos parecen razonables, 
+sin embargo, especificar la distribución inicial con la muestra tiene problemas
+lógicos y prácticos: 
+  + Los datos se están usando $2$ veces, primero la 
+información de todos los hospitales se usa para especificar la distribución
+inicial, y después la información de cada hospital se usa para estimar su tasa 
+de mortalidad $\lambda_{j}$, lo que ocasiona que sobreestimemos nuestra 
+precisión. 
+  + De acuerdo a la lógica bayesiana no tiene sentido estimar 
+$\alpha_{0}$ y $\beta_{0}$, pues son parte de la distribución inicial y no deben
+depender de los datos.
+
+A pesar de los problemas señalados parece ser conveniente intentar mejorar las 
+estimaciones individuales de $\lambda_{j}$ usando la información de todos los
+hospitales. La manera correcta de hacerlo es establecer un modelo de 
+probabilidad para todo el conjunto de parámetros  
+$\{\alpha,\beta,\lambda_{1},...,\lambda_{94}\}$ y después realizar un análisis 
+de la distribución conjunta.
+Se llevará a cabo un análisis completo en la siguiente sección en donde se usará
+un modelo jerárquico.
+
+Podemos concluir que el modelo de unidades independientes no es robusto para 
+nuestros datos pues las estimaciones posteriores de las tasas de mortalidad son 
+muy sensibles a la elección de los parámetros de la distribución inicial. 
+
+#### Modelo jerárquico {-}
+
+En este ejemplo se destaca el modelo jerárquico como una estrategia intermedia 
+entre el modelo de unidades iguales y el modelo de unidades independientes. Nos 
+permite reflejar un escenario en donde la información de cada estudio aporta 
+información acerca del parámetro de interés $\lambda_j$ de los demás estudios 
+sin considerarlos idénticos, de manera que se estima un parámetro $\lambda_j$ 
+diferente para cada hospital.
+
+Enumeramos algunas de las ventajas potenciales de usar un modelo jerárquico.
+
+1. Modelo unificado. El problema de elegir entre un modelo de unidades iguales o 
+uno de unidades independientes se resuelve al modelar explícitamente la 
+variabilidad entre las unidades.
+
+2. Unir fuerzas. Debido al supuesto de intercambiabilidad, al estimar el
+parámetro de cada unidad se usa información de las demás unidades, conllevando a
+un encogimiento de la estimación individual hacia la media poblacional, y 
+resulta en una mejor precisión de las estimaciones. La magnitud del encogimiento
+depende de la varianza entre las unidades, y su efecto resulta particularmente
+benéfico cuando hay pocas observaciones dentro de una unidad, en cuyo caso hay
+una gran reducción de la incertidumbre ya que las estimaciones posteriores
+incorporan la información de otras unidades con menor variabilidad. 
+
+3. Incertidumbre en los parámetros. Asignar una distribución a los 
+hiperparámetros, $\theta$, nos permite incorporar nuestra incertidumbre sobre la
+distribución inicial de $\lambda$.
+
+4. Cómputo. La estructura jerárquica facilita los cálculos posteriores, debido a
+que la distribución posterior se factoriza en distribuciones condicionales más
+sencillas que facilitan la implementación de un muestreador de Gibbs.
+
+Retomando el problema de estimación de tasas de mortalidad por transplante de
+corazón, modelaremos las $\lambda_{j}$ con un modelo jerárquico, suponemos
+intercambiabilidad para reflejar que no contamos con información que nos permita
+distinguir entre los hospitales.
+
+Primero definimos la distribución de los datos,
+
+$$
+\begin{eqnarray}
+	\nonumber
+y_{j} \sim Poisson(e_{j}\lambda_{j}),
+\end{eqnarray}
+$$
+
+donde $y_{j}$ es el número de muertes observadas, $e_{j}$ es el número de 
+expuestos y $\lambda_{j}$ es la tasa de mortalidad para el hospital $j$, con 
+$j=1,...,94$.
+
+Después asignamos una distribución al vector de parámetros 
+$\lambda=(\lambda_{1},...,\lambda_{94})$, para ello suponemos que las tasas de
+mortalidad $\{\lambda_{1},...,\lambda_{94}\}$ son una muestra aleatoria de una 
+distribución $Gamma(\alpha,\alpha/\mu)$ con la forma
+
+$$
+\begin{eqnarray}
+	\nonumber
+	g(\lambda_j|\alpha,\mu)=\frac{(\alpha/\mu)^\alpha\lambda_j^{\alpha-1}exp(-\alpha\lambda_j/\mu)}{\Gamma(\alpha)}, \lambda_j>0.
+\end{eqnarray}
+$$
+
+La media y varianza iniciales de $\lambda_{j}$ están dadas por $\mu$ y 
+$\mu^2/\alpha$, para toda $j$. Las llamaremos la media y varianza poblacionales 
+ya que son comunes para todos los hospitales.
+En la segunda etapa, los hiperparámetros $\mu$ y $\alpha$ se suponen 
+independientes y les asignaremos iniciales vagas. 
+Al parámetro de media,
+
+$$
+\begin{eqnarray}
+	\nonumber
+	h(\mu)\propto\frac{1}{\mu}, \mu>0.
+\end{eqnarray}
+$$
+Al parámetro de precisión $\alpha$ le asignamos una densidad inicial propia pero 
+plana, de la forma,
+$$
+\begin{eqnarray}
+	\nonumber
+	h(\alpha)=\frac{z_{0}}{(\alpha+z_0)^2}, \alpha>0.
+\end{eqnarray}
+$$
+
+El valor $z_0$ es la mediana de $\alpha$, no contamos con información inicial de
+forma que por ahora usaremos $z_0=0.5$.
+
+Debido a la estructura de independencia condicional del modelo jerárquico y a 
+que se eligió una inicial conjugada, el análisis posterior es relativamente 
+sencillo. Utilizamos el Teorema de Bayes para calcular la distribución posterior
+de $\lambda_{j}$ condicional a los valores de los hiperparámetros $\mu$ y
+$\alpha$, 
+
+$$
+\begin{eqnarray}
+	\nonumber
+	g(\lambda_{j}|y_{j},\alpha,\mu) &\propto& g(\lambda_{j}|\alpha,\mu)f(y_{j}|\lambda_{j})\\
+	\nonumber
+	&=& \frac{(\alpha/\mu)^{\alpha} \lambda_{j}^{\alpha-1}exp(-\lambda_{j} \alpha/\mu)}{\Gamma(\alpha)}\frac{exp(-e_{j}\lambda_{j})(e_{j}\lambda_{j})^{y_{j}}}{y_{j}!}\\
+	\nonumber
+	&\propto& \lambda_{j}^{y_{j}+\alpha-1}exp(-\lambda_{j}(e_{j}+\alpha/\mu))
+\end{eqnarray}
+$$
+
+obtenemos así que las tasas $\{\lambda_{1},..., \lambda_{94}\}$ tienen 
+distribuciones posteriores independientes 
+$Gamma(y_{j}+\alpha, e_{j}+\alpha/\mu)$, con media:
+
+$$
+\begin{eqnarray}
+	E(\lambda_{j}|y,\alpha,\mu) &=& \frac{y_{j}+\alpha}{e_{j}+\alpha/\mu}\\
+	\label{eqn:pond}
+	&=& (1-A_{j})\frac{y_{j}}{e_{j}}+A_{j}\mu,
+\end{eqnarray}
+$$
+donde
+$$
+\begin{eqnarray}
+	\label{eqn:factor}
+	A_{j}=\frac{\alpha}{\alpha+e_{j}\mu},
+\end{eqnarray}
+$$
+
+Denominamos al factor $A_{j}$ como el encogimiento hacia la media poblacional
+$\mu$, más adelante derivamos la distribución posterior de $\mu$, pero por ahora
+la enunciamos con el propósito de mostrar que su distribución incorpora 
+información de todos los hospitales, 
+
+$$
+\begin{eqnarray}
+	\nonumber
+	f(\mu|y)=K \int \prod_{i=1}^{94} \left[ \frac {(\alpha/\mu)^\alpha\Gamma(y_{i}+\alpha)} {(e_{i}+\alpha/\mu)^{y_{i}+\alpha}} \right ]\frac{z_{0}}{(\alpha+z_0)^2} \frac{1}{\mu} d\alpha
+\end{eqnarray}
+$$
+donde $K$ es una constante.
+
+Al escribir la media posterior de $\lambda_{j}$ como un promedio ponderado, 
+podemos ver el efecto de unir fuerzas mencionado en las observaciones del 
+modelo jerárquico: hay un encogimiento hacia $\mu$ que depende del número de
+expuestos, $e_{j}$, para los hospitales con menor número de expuestos el
+encogimiento hacia $\mu$ es mayor, mientras que para aquellos con mayor número 
+de expuestos, es más importante la tasa observada, $y_{j}/e_{j}$. De esta 
+manera, mayor encogimiento corresponde a las observaciones con mayor 
+incertidumbre.
+
+Notemos también que la factorización de la media posterior es similar a la que
+obteníamos en el modelo de medias independientes. La diferencia radica en que
+ahora es un sólo modelo (opuesto a $94$), y los parámetros de la distribución
+inicial de $\lambda_{j}$ forman parte del modelo de probabilidad pues les
+asignamos una distribución inicial.
+
+#### Distribuciones posteriores {-}
+
+Sea $\lambda=(\lambda_{1},...,\lambda_{94})$ y $y=(y_{1},...,y_{94})$, 
+calculamos la densidad posterior conjunta de los parámetros,
+
+$$
+\begin{align}
+	\nonumber
+	f(\lambda,\alpha,\mu|y) &\propto f(y|\lambda,\alpha,\mu)f(\lambda,\alpha,\mu)\\
+\nonumber
+	&= f(y|\lambda) f(\lambda|\alpha,\mu) p(\alpha,\mu)\\
+\nonumber
+	&= \prod_{i=1}^{94}f(y_{i}|\lambda_{i}) \prod_{i=1}^{94} f(\lambda_{i}|\alpha,\mu) f(\alpha)f(\mu)\\
+\nonumber
+	&\propto \prod_{i=1}^{94} \frac {exp(-e_{i}\lambda_{i})(e_{i}\lambda_{i})^{y_{i}}} {y_{i}!} \prod_{i=1}^{94} \frac {(\alpha/\mu)^{\alpha}\lambda_{i}^{\alpha-1}exp(-\lambda_{i}(\alpha/\mu))} {\Gamma(\alpha)} \frac{z_{0}}{(\alpha+z_0)^2} \frac{1}{\mu}\\
+	\nonumber
+	&\propto \prod_{i=1}^{94}\frac {(e_{i}+\alpha/\mu)^{y_{i}+\alpha}\lambda_{i}^{y_{i}+\alpha-1}exp(-\lambda_{i}(e_{i}+\alpha/\mu))} {\Gamma(y_{i}+\alpha)} \prod_{i=1}^{94}\frac {(\alpha/\mu)^\alpha\Gamma(y_{i}+\alpha)} {(e_{i}+\alpha/\mu)^{y_{i}+\alpha}}\frac{z_{0}}{(\alpha+z_0)^2} \frac{1}{\mu},
+\end{align}
+$$
+
+de aquí podemos integrar las tasas de mortalidad, $\lambda_{j}$, para obtener la
+distribución posterior de los hiperparámetros $f(\alpha,\mu|y)$,
+
+$$
+{\normalsize
+\begin{align}
+	\nonumber
+	f(\alpha,\mu|y) \propto \int_{\lambda_{1}} ...\lambda_{y_{94}}
+	\prod_{i=1}^{94}(\frac {(e_{i}+\alpha/\mu)^{y_{i}+\alpha}\lambda_{i}^{y_{i}+\alpha-1}exp(-\lambda_{i}(e_{i}+\alpha/\mu))} {\Gamma(y_{i}+\alpha)}) \prod_{i=1}^{94}k_i  d\lambda_{1}...d\lambda_{94},\\
+	\nonumber
+\end{align}
+}
+$$
+
+donde,
+
+$$
+\normalsize{
+\begin{align}
+	\nonumber
+	k_i = \frac {(\alpha/\mu)^\alpha\Gamma(y_{i}+\alpha)} {(e_{i}+\alpha/\mu)^{y_{i}+\alpha}}\frac{z_{0}}{(\alpha+z_0)^2} \frac{1}{\mu}
+\end{align}}
+$$
+
+observemos que las $\{k_j\}$ no dependen de $y$ por lo que son constantes en la
+integral, además para cada $i$ de la primera multiplicación tenemos una 
+distribución $Gamma(y_{i}+\alpha, e_{i}+\alpha/\mu)$ por lo que integran $1$.
+
+Resultando,
+
+$$
+{\normalsize
+\begin{align}
+	\nonumber
+	f(\alpha,\mu|y)=K\prod_{i=1}^{94} \frac {(\alpha/\mu)^\alpha\Gamma(y_{i}+\alpha)} {(e_{i}+\alpha/\mu)^{y_{i}+\alpha}}\frac{z_{0}}{(\alpha+z_0)^2} \frac{1}{\mu}
+\end{align}}
+$$
+
+donde $K$ es la constante de proporcionalidad.
+
+Simulemos de las distribuciones posteriores, para ello procederemos como sigue:
+
+1. Simulamos $(\mu, \alpha)$ de la distribución marginal posterior.
+
+2. Simulamos $\lambda_1,...,\lambda_{94}$ de la distribución posterior condicional
+a los valores simulados $(\mu, \alpha)$.
+
+Para el primer paso, notamos que ambos parámetros son positivos por lo que es
+conveniente transformarlos: $\theta_1 = log(\alpha$, $\theta_2 = log(\mu)$.
+
+Definimos ahora la distribución posterior en términos de los parámetros 
+transformados
+
+```{r}
+# código Albert paquete LearnBayes
+poissgamexch <- function(theta, datapar){ # theta = c(theta_1, theta_2)
+    y <- datapar$data[, 2]
+    e <- datapar$data[, 1]
+    z0 <- datapar$z0
+    alpha <- exp(theta[1])
+    mu <- exp(theta[2])
+    beta <- alpha/mu
+    logf <- function(y, e, alpha, beta){
+        lgamma(alpha + y) - (y + alpha) * log(e + beta) + alpha * log(beta) - 
+            lgamma(alpha)
+    }
+    val <- sum(logf(y, e, alpha, beta))
+    val <- val + log(alpha) - 2 * log(alpha + z0)
+    val
+}
+# Simulamos theta_1, theta_2 usando el algoritmo de Metropolis dentro de Gibbs
+# en la función gibbs, datapar contiene la base de datos y el valor del 
+# hiperparámetro z0 
+datapar <- list(data = hearttransplants, z0 = 0.53)
+# adicionalmente debemos dar valores para el algoritmo Metrópolis, la función 
+# implementa un algoritmo de caminata aleatoria
+# donde la distribución propuesta tiene la forma  theta* = theta^t-1 + scale*Z
+# y Z es N(0, I), en este caso c(1, 0.15) es el vector de escala
+fitgibbs <- gibbs(poissgamexch, start = c(4, -7), m = 1000, scale = c(1, 0.15),
+    datapar)
+fitgibbs$accept
+# simulaciones de alpha
+alpha <- exp(fitgibbs$par[, 1])
+# simulaciones de mu
+mu <- exp(fitgibbs$par[, 2])
+```
+
+Podemos usar las simulaciones de $\alpha$ y $\mu$ para ver el encogimiento de 
+las estimaciones de cada hosiptal hacia la media poblacional. Notamos un mayor
+encogimiento para los hospitales con menor número de expuestos.
+
+```{r, fig.align='center', out.width="400px"}
+heart_jer <- heart %>% 
+    rowwise() %>% 
+    mutate(A = mean(alpha / (alpha + e * mu)))
+ggplot(heart_jer, aes(x = log(e), y = A)) +
+    geom_point(alpha = 0.6, size = 1.6) +
+    scale_x_continuous("Número de expuestos (e)", label = exp, 
+        breaks = map_dbl(0:4, ~ log(700 ^ .))) +
+    ylab("encogimiento (A)") + 
+    ylim(0, 1)
+```
+
+Ahora simualmos observaciones de la distribución posterior de $\lambda$:
+
+```{r}
+heart_jer_sims <- heart_jer %>%
+    mutate(sims = map2(e, y, ~rgamma(1000, .y + alpha, .x + alpha / mu))) %>% 
+    ungroup()
+```
+
+Ya que tenemos las distribuciones posteriores podemos hacer inferencia acerca de
+la tasa de mortalidad $\lambda$. A continuación graficamos los intervalos
+posteriores del $95\%$ de probabilidad para las tasas $\lambda_{j}$, el color
+representa el número de muertes observadas $y_{j}$, en gris se graficaron las
+tasas observadas, la gráfica se dividió en $3$ páneles de acuerdo al número de
+muertes observadas en los hospitales.
+
+
+```{r, fig.align='center', fig.out="300px"}
+# Creamos intervalos con las simulaciones
+heart_jer_post <- heart_jer_sims %>% 
+    mutate(
+        media = map_dbl(sims, ~mean(1000 * .)), 
+        int_l = map_dbl(sims, ~quantile(1000 * ., 0.025)), 
+        int_u = map_dbl(sims, ~quantile(1000 * ., 0.975)),
+        sims_y = map2(sims, e, ~rpois(1000, .x * .y))
+        )
+
+ggplot(heart_jer_post, aes(x = log(e), y = media, color = factor(y))) +
+    geom_pointrange(aes(ymin = int_l, ymax = int_u), size = 0.3) +
+    geom_point(data = heart, aes(x = log(e), y = 1000 * y / e), color = "black", 
+        alpha = 0.6) +
+    scale_x_continuous("Número de expuestos (e)", labels = exp, 
+        breaks = map_dbl(0:4, ~ log(700 ^ .))) + 
+    scale_colour_hue("muertes obs. (y)") + 
+    ylab("Muertes por 1000 expuestos")
+```
+
+Analizamos la distribución predictiva posterior para la misma muestra de $10$ 
+hospitales que se utilizó en el modelo de unidades iguales.
+
+```{r, fig.width=6,fig.height=4.6,fig.align='center'}
+sims_muestra <- heart_jer_post %>% 
+    filter(hospital %in% heart_sims_sample$hospital)
+sims_unnest <- sims_muestra %>% 
+    dplyr::select(hospital, e, y, sims_y) %>% 
+    unnest(cols = sims_y)
+
+ggplot(sims_unnest, aes(x = sims_y)) + 
+    geom_histogram(aes(y = ..density..), binwidth = 1, color = "darkgray", 
+        fill = "darkgray") +
+    facet_wrap(~ hospital, nrow = 2) +
+    geom_segment(data = sims_muestra, aes(x = y, xend = y, y = 0, yend = 0.5), 
+        color = "red") + 
+    geom_text(data = sims_muestra, aes(x = 10, y = 0.4, label = paste("e =", e)), 
+        size = 2.7, color = "red")
+```
+
+Observemos que únicamente en uno de los histogramas el número de muertes 
+observadas se encuentra cerca de la cola de la distribución, lo que indica 
+concordancia de las observaciones con el modelo ajustado.
+
+Finalmente, revisamos la consistencia de los valores observados $y_{j}$ con la 
+distribución predictiva posterior para todos los hospitales, para ello 
+calculamos la probabilidad de que una observación futura $y_{j}^*$ sea al menos 
+tan extrema como $y_{j}$ para todas las observaciones:
+
+$$
+\begin{eqnarray}
+	\nonumber
+	P(extremos) = min\{P(y_{j}^*\leq y_{j}),P(y_{j}^*\geq y_{j})\}
+\end{eqnarray}
+$$
+
+A continuación graficamos las probabilidades de extremos (calculadas con
+simulación). Con el modelo jerárquico solamente el $6\%$ de las probabilidades son
+menores al $0.15$, una disminución considerable al $28\%$ obtenido con el modelo de
+unidades iguales. 
+
+```{r, fig.align='center', fig.width=4, fig.height=4}
+# Para calcular las p predictiva podemos usar las simulaciones
+p_pred <- heart_sims %>% 
+    unnest() %>% 
+    group_by(hospital) %>% 
+    summarise(
+        p = min(sum(sims <= y) / 1000, sum(sims >= y) / 1000), 
+        e = first(e)
+        )
+p_pred_indep_jer <- heart_jer_post %>% 
+    unnest(cols = c(sims, sims_y)) %>% 
+    group_by(hospital) %>% 
+    summarise(p_jer = min(sum(sims_y <= y) / 1000, sum(sims_y >= y) / 1000)) %>% 
+    left_join(p_pred, by = "hospital")
+
+ggplot(p_pred_indep_jer, aes(x = log(e), y = p_jer)) + 
+    geom_point() +
+    scale_x_continuous("Número de expuestos (e)", labels = exp, 
+        breaks = map_dbl(0:4, ~ log(700 ^ .))) + 
+    ylab("P(extremos)") +
+    geom_hline(yintercept = .15, colour = "red", size = 0.4) +
+    ylim(0, .7) 
+```
+
+Comparemos ahora las probabilidades de al menos tan extremo usando el modelo
+jerárquico contra las probabilidades de al menos tan extremo usando el modelo de
+unidades iguales, los puntos se colorearon de acuerdo al número de expuestos de
+cada hospital. Observemos que las probabilidades bajo el modelo jerárquico son
+mayores en la mayoría de los casos.
+
+```{r, fig.align='center', fig.width=5, fig.height=4, out.width="400px"}
+p_pred_indep_jer <- p_pred_indep_jer %>% 
+    mutate(e_cat =  Hmisc::cut2(e, c(500, 1500, 2500, 4000, 12500)))
+ggplot(p_pred_indep_jer, aes(x = p, y = p_jer, colour = e_cat)) +
+    geom_abline(colour = "red", size = 0.4, alpha = 0.8) +
+    geom_point(size = 2.5) +
+    xlab("P(extremos), unidades iguales") +
+    ylab("P(extremos), jerárquico") +
+    ylim(0, 0.7) +
+    xlim(0, 0.7) +
+    coord_equal() +
+    scale_colour_manual("No. expuestos (e)", values = c("#a6cee3", "#1f78b4",
+        "#b2df8a", "#33a02c")) + theme_minimal()
+```
+
+#### Stan {-}
+
+Ahora veremos como hacer la estimación usando Stan. Primero hacemos un par de 
+cambios en la definición del modelo, esto es porque la distribución inicial de 
+$\mu$ no es propia (i.e. no integra uno) y preferimos un ejemplo con iniciales
+propia, usaremos una $Gamma$ para $\alpha$ y $\mu$ eligiendo parámetros 
+de manera que sean iniciales vagas.
+
+$$\mu, \alpha \sim Gamma(0.01, 0.01).$$
+
+```{r, echo=TRUE}
+modelo_heart.stan <-
+'
+data {
+    int N;
+    vector<lower=0>[N] e;
+    int y[N];
+}
+parameters {
+    vector<lower=0, upper=1>[N] lambda;
+    real<lower=0> mu;
+    real<lower=0> alpha;
+}
+transformed parameters {
+    vector<lower=0>[N] lambda2;
+    real<lower=0> beta;
+    beta = alpha ./ mu;
+    lambda2 = lambda .* e;
+}
+model {
+    lambda ~ gamma(alpha, beta);
+    y ~ poisson(lambda2);
+    mu ~ normal(0, 1);
+    alpha ~ normal(0, 10);
+}
+
+'
+cat(file = "src/stan_files/modelo_heart.stan", modelo_heart.stan)
+stan_heart_cpp <- stan_model("src/stan_files/modelo_heart.stan")
+
+# creamos una lista con los datos: esta incluye índices, y variables
+heart_data <- list(e = heart$e, y = heart$y, N = nrow(heart))
+stan_heart_fit <- sampling(stan_heart_cpp, 
+    data = heart_data, chains = 3, cores = 3, iter = 4000)
+
+# shinystan::launch_shinystan(stan_heart_fit)
+```
+
+En el modelo definimos una distribución de probabilidad para cada hospital, las 
+tasas de mortalidad se modelan como observaciones de una distribución 
+$Gamma(\alpha, \alpha/\mu)$, y especificamos la distribución de los 
+hiperparámetros.
+
+Repetimos la gráfica de intervalos posteriores para $\lambda_j$ (expresada por 
+1000 expuestos) y tasas observadas.
+
+```{r, fig.align='center', fig.out="300px"}
+sims_lambda <- as.data.frame(stan_heart_fit, pars = "lambda") %>% 
+    mutate(n_sim = 1:n()) %>% 
+    pivot_longer(cols = -n_sim, names_to = "hospital", values_to = "lambda",
+        names_prefix = "lambda") %>% 
+    mutate(hospital = parse_number(hospital)) %>% 
+    group_by(hospital) %>% 
+    summarise(
+        media = mean(lambda), 
+        int_l = quantile(lambda, 0.025),
+        int_u = quantile(lambda, 0.975)
+        ) %>% 
+    left_join(heart, by = "hospital")
+
+ggplot(sims_lambda, aes(x = log(e), y = media * 1000, color = factor(y))) +
+    geom_pointrange(aes(ymin = int_l * 1000, ymax = int_u * 1000), size = 0.3) +
+    geom_point(aes(x = log(e), y = y/e*1000), color = "black", alpha = 0.6) +
+    scale_x_continuous("Número de expuestos (e)", labels = exp, 
+        breaks = map_dbl(0:4, ~ log(700 ^ .))) +
+    scale_colour_hue("muertes obs. (y)") + 
+    ylab("Muertes por 1000 expuestos")
+  
+```
+
+### Iniciales en Stan 
+
+Las siguientes recomendaciones de iniciales son de los desarrolladores de Stan, 
+puedes leer más en https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations.
+
+Podemos clasificar las iniciales en 5 niveles de acuerdo a que tan informativas 
+son:
+
+1. Iniciales planas: usualmente impropias.
+2. Muy vagas pero propias: $N(0, (1e6) ^ 2)$.
+3. Iniciales genéricas muy debilmente informativas: $Normal(0, 10^2)$.
+4. Iniciales genéricas debilmente informativas: $Normal(0, 1)$.
+5. Iniciales específicas e informativas: $Normal(0.4, 0.2^2)$
+
+Cuando se usa Stan tenemos los siguientes principios generales:
+
+* En Stan no importa usar conjugadas (cuando se usan muestreadores de Gibbs 
+puede ser conveniente usar conjugadas, aquí no).
+
+* No interesan: invarianza, Jeffreys o entropía.
+
+* Las iniciales debilmente informativas deben contener suficiente información 
+para regularizar: las iniciales deben dejar fuera valores de los parámetros que 
+no sean razonables, pero no dejar fuera valores que podrían tener sentido.
+
+* Se prefieren las iniciales debilmente informativas sobre las informativas, 
+esto es porque las consecuencias de *perder precisión* por elegir una inicial 
+muy débil (comparado con la verdadera distribución poblacional de los parámetros
+o comparado con conocimiento experto) es menos importante que la ganancia en 
+robustez que se deriva de incluir parte del espacio paramétrico que pueda ser
+relevante.
+
+* Cuando se usen distribuciones iniciales informativas se debe ser explícito en 
+porque se tomaron las decisiones.
+
+* No utilices iniciales uniformes, o en general no restrinjas el espacio 
+paramétrico, a menos que las fronteras representen restricciones verdaderas (por
+ejemplo parámetros de escala restringidos a los positivos, o correlaciones entre 
+el -1 y el 1). Algunos ejemplos:
+    + Si crees que un parámetro se ubica entre el cero y el un, en lugar de usar
+    Uniforme(0,1), intenta Normal(0.5, 0.5).
+    + Un parámetro de escala esta restringido a ser positivo y quieres una 
+    inicial vaga, propones Uniforme(0,100) (o Uniforme(0,1000), es mejor no 
+    especificar inicial, que en Stan equivale a una inicial uniforme no 
+    informativa, o usar una Esxponencial con valor esperado 10, o una 
+    media-normal(0,10).
+
+
+### Reparametrización 
+
+El muestreador de Stan puede ser muy lento cuando la geometría de la 
+distribución posterior es complicada, una manera de acelerar la convergencia
+es reparametrizando. 
+
+#### Ejemplo: El embudo de Neal
+
+Veamos como ejemplo el [embudo de Neal](https://mc-stan.org/docs/2_18/stan-users-guide/reparameterization-section.html), 
+tomado de la guía de usuarios de Stan, Neal (2003) define una distribución 
+en la que ejemplifica las dificultades de muestrear de modelos jerárquicos, es 
+un ejemplo extremo pero es fácil ver como la reparametrización hace que el 
+muestreo de la posterior se simplifique. 
+
+En este ejemplo la densidad es, 
+
+$$p(y,x)=normal(y|0,3)*\prod_{n=1}^9normal(x_n|0,exp(y/2))$$
+
+Y las curvas de nivel de probabilidad tienen la forma de embudos de 10 
+dimensiones. El cuello de los embudos es muy estrecho por la transformación de 
+la variable $y$.
+
+
+```{r}
+p_yx <- function(y, x) { 
+  dnorm(y, 0, 3, log = T) + dnorm(x, 0, exp(y / 2), log = T)
+}
+coords <- expand.grid(x = seq(-20, 20, by = 0.05), 
+  y = seq(-9, 9, by = 0.05))
+coords$value <- p_yx(coords$y, coords$x)
+coords <- coords %>% filter(value > -20)
+
+ggplot(coords, aes(x, y, fill = (value))) + 
+    geom_raster() +
+    scale_fill_distiller(palette = "Spectral", direction = -1, na.value = NA, 
+        name = "log(y, x[1])") +
+    ylim(-9, 9) +
+    xlim(-20, 20)
+```
+
+Y podemos implementar en Stan:
+
+```{r}
+funnel.stan <-
+'
+parameters {
+  real y;
+  vector[9] x;
+}
+model {
+  y ~ normal(0, 3);
+  x ~ normal(0, exp(y/2));
+}
+'
+cat(funnel.stan, file = "src/stan_files/funnel.stan")
+```
+
+Cuando el modelo está expresado de esta manera, Stan tiene problemas para
+muestrear del cuello del embudo, pues cuando $y$ es chica $x$ está restringida 
+a valores cercanos a cero, esto se debe a que la escala de la densidad cambia 
+con $y$ de tal manera que el tamaño de paso que funciona bien en el cuerpo de 
+la densidad será muy grande en eñ cuello y viceversa, un tamaño de paso que 
+funciona bien en el cuello será ineficiente en el cuerpo.
+
+
+```{r, warning=FALSE, message=FALSE, cache=TRUE}
+funnel_cpp <- stan_model("src/stan_files/funnel.stan")
+funnel_sims <- sampling(object = funnel_cpp, chains = 3 , iter = 1000)
+funnel_sims
+```
+
+```{r}
+y <- extract(funnel_sims, "y")$y
+x_1 <- extract(funnel_sims, "x[1]")$`x[1]`
+sims_funnel <- tibble(y = y, x_1 = x_1)
+ggplot(sims_funnel, aes(x_1, y)) +
+    geom_point(alpha = 0.5) +
+    ylim(-9, 9) +
+    xlim(-20, 20)
+```
+
+
+En este ejemplo particular podemos reparametrizar y escribir el modelo de la 
+siguiente forma que hace el muestreador más eficiente:
+
+```{r}
+no_funnel.stan <-
+'
+parameters {
+  real y_raw;
+  vector[9] x_raw;
+}
+transformed parameters {
+  real y;
+  vector[9] x;
+
+  y = 3.0 * y_raw;
+  x = exp(y/2) * x_raw;
+}
+model {
+  y_raw ~ std_normal(); // implies y ~ normal(0, 3)
+  x_raw ~ std_normal(); // implies x ~ normal(0, exp(y/2))
+}
+'
+cat(no_funnel.stan, file = "src/stan_files/no_funnel.stan")
+```
+
+En este segundo modelo, `x_raw` y `y_raw` se muestrean de manera independiente
+de normales estándar, lo cuál es fácil para Stan. En un segundo paso se
+transforman a muestras del embudo.
+
+```{r, warning=FALSE, message=FALSE, cache=TRUE}
+no_funnel_cpp <- stan_model("src/stan_files/no_funnel.stan")
+no_funnel_sims <- sampling(object = no_funnel_cpp, chains = 3 , iter = 1000)
+no_funnel_sims
+```
+
+
+
+```{r}
+y <- extract(no_funnel_sims, "y")$y
+x_1 <- extract(no_funnel_sims, "x[1]")$`x[1]`
+sims_no_funnel <- tibble(y = y, x_1 = x_1)
+ggplot(sims_no_funnel, aes(x_1, y)) +
+    geom_point(alpha = 0.5) +
+    ylim(-9, 9) +
+    xlim(-20, 20)
+```
+
+### Modelos jerárquicos y parametrización no centrada
+
+En modelos jerárquicos es común encontrarse con geometrías complejas, una
+parametrización que suele ayudar para acelerar convergencia es la
+parametrización no centrada.
+
+#### Parametrización centrada
+
+Un modelo jerárquico usual seleccionaría muestras de un vector de coeficientes
+$\beta$ como sigue:
+
+```
+parameters {
+  real mu_beta;
+  real<lower=0> sigma_beta;
+  vector[K] beta;
+  ...
+model {
+  beta ~ normal(mu_beta, sigma_beta);
+  ...
+```
+
+Y sufuriría de ineficiencias como el embudo de Neal, debido a que el valor de
+$\beta$, $\mu_\{\beta}$ y $\sigma_\{\beta}$ tienen alta correlación en la 
+posterior. El nivel de correlación dependerá de la cantidad de datos disponibles
+siendo mayor cuanto menos información se tenga. En estos casos, de datos 
+limitados, es más eficiente usar una parametrización no centrada.
+
+#### Parametrización no centrada {-}
+
+```
+parameters {
+  vector[K] beta_raw;
+  ...
+transformed parameters {
+  vector[K] beta;
+  // implies: beta ~ normal(mu_beta, sigma_beta)
+  beta = mu_beta + sigma_beta * beta_raw;
+model {
+  beta_raw ~ std_normal();
+  ...
+```
+
+Las iniciales de `mu_beta` y `sigma_beta` permanecen sin cambios respecto al 
+modelo original.
+
+
+### Ejemplo: conteo rápido {-}
+
+En este ejercicio describimos un modelo jerárquico desarrollado por Michelle 
+Anzarut, Felipe González y Teresa Ortiz para estimar los resultados
+electorales en el conteo rápido.
+
+**Objetivo**: Estimar resultados de la elección a partir de una muestra 
+aleatoria de casillas.
+
+**Inferencia basada en modelos**: Modelo de regresión multinivel, en función de 
+covariables asociadas a las casillas, que estima el número de votos a favor del 
+candidato en cada casilla.
+
+<!--3. Juntamos los valores observados y los simulados por el modelo de 
+    cada candidato para calcular proporciones de voto y los intervalos 
+    correspondientes.-->
+
+**Calibración:** Evaluamos modelos con remuestreo y datos de elecciones pasadas, 
+revisando cobertura de intervalos de confianza/credibilidad.
+
+**Experiencia:** Mostramos resultados de elección 2018.
+
+#### Contexto: Conteo rápido {-}
+
+* En México, las elecciones tienen lugar un domingo, los resultados oficiales 
+del proceso se presentan a la población una semana después. A fin de evitar 
+proclamaciones de victoria injustificadas durante ese período el INE organiza un 
+conteo rápido.
+
+* **Conteo rápido**: Procedimiento para estimar el porcentaje de votos a favor 
+de los candidatos en el día de la elección, consiste en seleccionar una muestra 
+aleatoria de las casillas de votación y analizar sus resultados para presentar 
+intervalos con una probabilidad de al menos 0.95.
+
+* La rapidez y precisión del conteo favorece un ambiente de confianza y sirve 
+como una herramienta contra el fraude.
+
+#### Elecciones 2018 {-}
+
+* La elección del 2018 fue la más grande que se ha vivido en México, con 3,400 
+puestos en disputa. Se realizaron conteos rápidos para **9 elecciones estatales** 
+simultáneas a un conteo rápido para la **elección de presidente**.
+
+* El día de la elección, el sistema de información comienza a las 6 p.m. y, 
+cada 5 minutos, produce una secuencia de archivos acumulativos. Estas muestras 
+parciales se analizan con los métodos de estimación para rastrear la tendencia 
+de los resultados.
+
+* Las muestras parciales tienen un sesgo potencial asociado al patrón de llegada 
+de la información.
+
+#### Diseño de la muestra {-}
+
+El diseño de la muestra es probabilístico.
+
+* **Diseño:** es unietápico y estratificado, donde la unidad de observación es 
+la casilla. 
+    - En Guanajuato son 22 estratos definidos por distrito local.
+
+* **Tamaño de muestra:** Se eligió el tamaño de muestra para lograr intervalos 
+de 95% confianza con **longitud máxima de 2 puntos porcentuales.**
+    - En Guanajuato el tamaño de muestra se fijó en 500 casillas.
+
+* **Selección de la muestra:** La distribución de la muestra en las casillas
+se realizó proporcional al número de casillas en cada estrato, y se utilizó 
+muestreo aleatorio simple dentro de cada estrato.
+
+* **Consideraciones adicionales:** Se buscó que todos los estratos tuvieran 
+al menos 50 casillas, y que porcentaje de CAEs (Capacitadores-Asistentes 
+Electorales) encargados de más de una casilla fuera menor a 20%.
+
+#### Datos faltantes {-}
+
+En la práctica la muestra seleccionada no llega completa. Entre las posibles 
+razones de faltantes están:
+
+* El clima en ciertas regiones dificulta la transmisión de los resultados.
+
+* El responsable de reportar los resultados está saturado de trabajo: 
+contando votos a falta de funcionarios de casilla, retrasado por la dificultad
+de llegar a la casilla por malas condiciones de terreno,...
+
+Usualmente los faltantes **no son completamente aleatorios**, esto es, la 
+probabilidad de que una casilla no se reporte está asociada a la respuesta de
+la casilla.
+
+Buscamos un modelo con **tratamiento consistente de datos faltantes:** en 
+ausencia de respuesta.
+
+
+#### Antecedentes {-}
+
+El modelo que proponemos se desarrolló con base a tres referencias:
+
+* @mendoza2016 _Quick counts in the Mexican presidential elections: A Bayesian 
+approach_. En este trabajo se propone el uso de modelos bayesianos para el 
+conteo rápido.
+    + Se ajusta un modelo de manera independiente **para cada candidato** en 
+    **cada estrato**.
+    + Modelo normal para el total de votos $X_k$ que recibe cada candidato en 
+    la $k$-ésima casilla.
+$$X_k\sim N \bigg( n_{k} \theta, \tau / n_k \bigg)$$
+    + $\theta$: proporción de gente de la lista nominal a favor del candidato.
+    + $n_k$: número de personas en la lista nominal de la $k$-ésima casilla.
+ 
+* @little2012 _Calibrated Bayes, an Alternative Inferential Paradigm 
+for Official Statistics_. Se describe un acercamiento bayesiano para los 
+problemas clásicos de muestreo, usando modelos jerárquicos, el paradigma que se 
+propone en este artículo consiste en ajustar modelos bayesianos y evaluarlos 
+(calibrarlos) usando propiedades frecuentistas.
+
+* @parkgelmanbafumi _Bayesian Multilevel Estimation with Poststratification: 
+State-Level Estimates from National Polls_. Se describe un modelo jerárquico
+para estimar preferencias electorales a partir de encuestas de opinión pública, 
+además de la estructura jerárquica se incluyen covaribales.
+
+Es así que tomamos como base el modelo propuesto en @mendoza2016 y siguiendo 
+los otros dos artículos comenzamos extendiendolo en 2 sentidos: 
+
+1. Usamos un enfoque unificado por candidato, en lugar de estimar un modelo
+independiente dentro de cada estrato, ajustamos un un único modelo por 
+candidato incluyendo un efecto aleatorio (estructura multinivel) que 
+corresponda al estrato.
+
+2. Agregamos covariables que describen la casilla para mejorar la eficiencia en 
+la estimación y corregir sesgos ante faltantes.
+
+
+#### Inferencia en muestreo {-}
+Antes de pasar al modelo describimos como encaja la metodología que proponemos
+en el mundo del muestreo. Cuando se hace inferencia de muestreo hay dos grandes
+acercamientos:
+
+1. **Inferencia basada en diseño de muestras.** Los valores poblacionales son una
+cantidad fija, la inferencia se basa en la distribución de probabilidad asociada
+a la selección de la muestra. 
+
+2. **Inferencia basada en modelos.** Las variables provienen de un modelo 
+estadístico:
+    + **Modelos de superpoblaciones:** los valores poblacionales se consideran
+    una muestra aleatoria de una **superpoblación**, y se les asigna una 
+    distribución de probabilidad.
+    
+    + **Modelos bayesianos:** agregamos distribuciones iniciales a los 
+    parámetros y se hace inferencia de las **cantidades poblacionales** y de los 
+    **parámetros** usando la distribución posterior.
+
+#### Modelos bayesianos {-}
+
+En modelos bayesianos la inferencia se realiza prediciendo la variable de 
+interés para las unidades de la población que **no se incluyeron en la muestra** 
+y para las unidades **que no respondieron**, condicional a la muestra observada 
+y al modelo.
+
+Usamos modelos paramétricos:
+
+$$p(y|x)=\int p(y|x, \theta)p(\theta|x)p(\theta)d\theta$$
+
+* $p(y|x,\theta)$: modelo paramétrico de $y$.
+
+* $p(\theta|x)$: distribución inicial para $\theta$.
+
+Se incluyen en el modelo las variables involucradas en el diseño de la 
+muestra (estratos, conglomerados).
+
+#### Modelo con distribución normal {-}
+
+En el caso del modelo del conteo rápido incluímos las siguientes covariables:
+
+1. Tipo de sección (rural o urbana/mixta).
+
+2. Tipo de casilla (básica/contigua/especial o extraordinaria).
+
+3. Tamaño de sección (chica < 1000 votantes, mediana [1000, 5000], 
+grande > 5000).
+
+4. Región (oriente u occidente).
+
+5. Distrito local.
+
+6. Interacción de tipo de sección con tamaño de sección.
+
+Y el primer modelo que planteamos es como sigue:
+
+Sea $X_k$ el número de votos en favor del candidato en la k-ésima casilla:
+
+- Nivel 1
+
+$$
+\begin{align}
+	X_k \sim  \mathsf{N}(n_k\theta_k, \tau_k^{\text{distrito}}/n_k) \ \mathcal{I}_{[0,750]},
+\end{align}
+$$
+
+donde $n_k$ es la lista nominal y $\theta_k$ la proporción de personas en la 
+lista nominal de la casilla $k$ que votaron por el candidato,
+
+
+
+$$\begin{align}
+\theta_k=\text{logit}^{-1}&(\beta^0+\beta^{\text{rural}}\cdot\text{rural}_k+\beta^{\text{rural-tamañoM}}\cdot\text{rural}_k\cdot\text{tamañoM}_k\\+&\beta^{\text{tamañoM}}\cdot\text{tamañoM}_k
++\beta^{\text{tamañoL}} \cdot \text{tamañoL}_k+\beta^{\text{tipoSP}}\cdot \text{tipoSP}_k\\+&\beta^{\text{distrito}}_{\text{distrito}(k)}),
+\end{align}$$
+
+
+
+- Nivel 2
+
+$$\begin{align}
+	\beta^{\text{distrito}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito}}, \sigma_{\text{distrito}}^2\right).
+\end{align}$$
+
+El código del modelo en JAGS:
+
+```{r, eval = FALSE}
+library(quickcountmx)
+eval(parse(text = deparse(quickcountmx:::model_norm)[3]))
+```
+
+```{r, echo = FALSE}
+# write_rds(model_string, "cache_manual/model_string_norm.rds")
+model_string <- read_rds("data/quickcount/model_string_norm.rds")
+```
+
+
+```{r}
+model_string %>% cat
+```
+
+
+Se utilizó una parametrización redundante para acelerar la convergencia:
+
+```
+beta_estrato[j] <-  beta_estrato_raw[j] - mean(beta_estrato_raw[])
+beta_estrato_raw[j] ~ dnorm(mu_estrato, tau_estrato)
+```
+
+ver el capítulo 19 de @gelman-hill.
+
+La función `mrp_party_estimation()` recibe la tabla de datos, el partido que
+se desea ajustar, la variable de estratificación, la fracción de la muestra a
+utilizar en el ajuste, el número de iteraciones, calentamiento, número de 
+cadenas, semilla y el modelo que vamos a ajustar.
+
+```{r, eval = FALSE}
+gto_pan_norm <- mrp_party_estimation(gto_2012, pan_na,
+    stratum = distrito_loc_17, frac = 0.06, n_iter = 2000, n_burnin = 1000,
+    n_chains = 2, seed = 19291, model_string = "model_norm")
+```
+
+```{r, echo = FALSE}
+# write_rds(gto_pan_norm, "cache_manual/gto_pan_norm.rds")
+gto_pan_norm <- read_rds("data/quickcount/gto_pan_norm.rds")
+```
+En `fit` se guarda la salida de JAGS y `n_votes` es el vector de simulaciones
+del total de votos.
+
+```{r, message=FALSE}
+library(R2jags)
+plot(gto_pan_norm$fit)
+```
+
+De la imagen anterior podemos ver que faltan iteraciones para alcanzar 
+convergencia. Las parámetros `beta_estrato_raw` se crearon para acelerar la
+convergencia pero no es necesario que converjan, pero otras variables como 
+`beta_region` se beneficiarían de incrementar las simulaciones.
+
+El siguiente código corre el modelo para todos los partidos, incrementando las
+simulaciones.
+
+```{r, eval = FALSE}
+gto_norm <- mrp_estimation(gto_2012, ... = pri_pvem:otros, 
+    stratum = distrito_loc_17, frac = 0.06, n_iter = 3000, n_burnin = 2000, 
+    n_chains = 2, seed = 19291, parallel = TRUE, n_cores = 4, 
+    model_string = "model_norm")
+gto_norm_summary <- gto_norm$post_summary
+```
+
+La salida incluye los objetos que regresa ña función `jags()` para cada partido
+y una tabla con un resumen de los resultados.
+
+```{r, echo = FALSE}
+# para no tener que instalar quickcountmx en Travis copiamos los datos a data
+# write_rds(gto_norm, "cache_manual/gto_norm.rds")
+# write_rds(gto_norm_summary, "cache_manual/gto_norm_post_summary.rds")
+# gto_norm <- read_rds("cache_manual/gto_norm.rds")
+gto_2012 <- read.csv("data/gto_2012.csv", stringsAsFactors = FALSE)
+```
+
+```{r}
+gto_norm_summary
+```
+
+
+
+#### Inferencia del modelo {-}
+
+1. La inferencia de $\theta$ se obtiene de la distribución posterior:
+$$p(\theta|y_{obs},x)\propto p(\theta|x)L(\theta|y_{obs},x)$$
+2. La posterior de $\theta$ lleva a inferencia de las cantidades poblacionales 
+no observadas usando la distribución predictiva posterior:
+$$p(y_{falta}|y_{obs},x) =  \int p(y_{falta}|\theta,x)p(\theta|y_{obs},x)d\theta$$
+3. Utilizamos los datos observados y simulaciones de los *datos faltantes*
+para estimar la proporción de votos en favor de cada candidato.
+
+#### Evaluación de ajuste {-}
+
+La siguientes gráficas muestra la distribución predictiva posterior del total de
+votos para el PAN (partido ganador) y para Movimiento Ciudadano (partido chico), 
+la línea roja indica el total de votos observado.
+
+```{r, fig.width=6.5, fig.height=3.5,out.width="600px", echo=FALSE}
+norm_votes <- map_df(gto_norm$jags_fits, 
+    ~apply(.$BUGSoutput$sims.list$x, 1, sum)) %>% 
+    mutate(n_sim = 1:n()) %>% 
+    gather(party, votes, -n_sim) %>% 
+    mutate(party = reorder(party, votes)) 
+
+true_votes <- gto_2012 %>% 
+    dplyr::select(casilla_id, pri_pvem:otros) %>% 
+    gather(party, votes, -casilla_id) %>% 
+    group_by(party) %>% 
+    summarise(total_votes = sum(votes)) %>% 
+    mutate(party = factor(party, levels = levels(norm_votes$party)))
+
+plot_norm <- ggplot(norm_votes, aes(x = votes)) +
+    geom_histogram(binwidth = 1000, alpha = 0.7) +
+    facet_wrap(~party, scales = "free_x") +
+    geom_vline(data = true_votes, aes(xintercept = total_votes), 
+        color = "red") +
+    labs(title = "PP Modelo normal: total de votos", 
+        x = expression(y[rep]), y = "") 
+```
+
+```{r, echo = FALSE}
+# write_rds(plot_norm, "cache_manual/plot_norm.rds")
+plot_norm <- read_rds("cache_manual/plot_norm.rds")
+```
+
+```{r, fig.width=6.5, fig.height=3.5,out.width="600px"}
+plot_norm
+```
+
+
+
+Examinamos otro nivel de desagregación: las distribuciones predictivas 
+posteriores para el total de votos por estrato, mostramos las gráficas para 3
+estratos.
+
+<img src="imagenes/pp_pan_estratos_norm.png" alt="drawing" width="750"/>
+
+<img src="imagenes/pp_mc_estratos_norm.png" alt="drawing" width="750"/>
+
+#### Modelo con distribución mezcla {-}
+
+Tras analizar las simulaciones de la distribución predictiva posterior notamos 
+que el modelo Normal no ajustaba a los partidos chicos, observamos que para
+estos había muchas casillas con cero votos y unas cuantas con *muchos* votos.
+Adicionalmente notamos que la distribución t ajustaba mejor que la normal 
+gracias a que tiene colas más pesadas. Ante esto propusimos un modelo mezcla
+donde para la $k$ es casilla el número de votos observados es cero con 
+probabilidad $p_k$ y sigue una distribución $t$ con probabilidad $(1-p_k)$:
+
+- Nivel 1
+
+$$X_k\sim p_k\mathsf{\delta}_0(x)+(1-p_k)\mathsf{t}(n_k\theta_k,n_k^{-1}\tau_k^{\text{distrito}},\nu_k^{\text{distrito}}) \mathcal{I}_{[0,750]},$$
+
+$$\begin{align}
+\theta_k=  \text{logit}^{-1} & ( 
+\beta^0 
++\beta^{\text{rural}} \cdot \text{rural}_k 
++\beta^{\text{rural-tamañoM}} \cdot \text{rural}_k \cdot \text{tamañoM}_k  \\  
++& \beta^{\text{tamañoM}} \cdot \text{tamañoM}_k 
++\beta^{\text{tamañoL}} \cdot \text{tamañoL}_k 
++\beta^{\text{distrito}}_{\text{distrito}(k)}  \\ 
++& \beta^{\text{tipoSP}}\cdot \text{tipoSP}_k 
+),
+\end{align}$$
+
+$$\begin{align}
+p_k =  \text{logit}^{-1} & ( 
+\beta^0_p
++\beta_p^{\text{rural}} \cdot \text{rural}_k 
++\beta_p^{\text{rural-tamañoM}} \cdot \text{rural}_k \cdot \text{tamañoM}_k  \\  
++& \beta_p^{\text{tamañoM}} \cdot \text{tamañoM}_k 
++\beta_p^{\text{tamañoL}} \cdot \text{tamañoL}_k 
++\beta^{\text{distrito-p}}_{\text{distrito}(k)}  \\ 
++& \beta_p^{\text{tipoSP}}\cdot \text{tipoSP}_k 
+).
+\end{align}$$
+
+- Nivel 2
+
+$$\begin{align}
+	\beta^{\text{distrito}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito}}, \sigma_{\text{distrito}}^2\right).
+\end{align}$$
+
+$$\begin{align}
+	\beta^{\text{distrito-p}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito-p}}, \sigma_{\text{distrito-p}}^2\right).
+\end{align}$$
+
+El código en JAGS:
+
+```{r, eval=FALSE}
+eval(parse(text = deparse(quickcountmx:::model_norm)[3]))
+```
+
+```{r, echo = FALSE}
+# este chunk sobra si se instala quickcountmx
+# write_rds(model_string, "cache_manual/model_string_bern_t.rds")
+model_string <- read_rds("cache_manual/model_string_bern_t.rds")
+```
+
+```{r}
+model_string %>% cat()
+```
+
+Lo ajustamos llamando nuevamente a la función `mrp_party_estimation()`, si no 
+especificamos el parámetro `model_string` ajusta por defecto el modelo mezcla.
+
+```{r, eval = FALSE}
+gto_mixture <- mrp_estimation(gto_2012, ... = pri_pvem:otros, 
+    stratum = distrito_loc_17, frac = 0.06, n_iter = 3000, n_burnin = 2000, 
+    n_chains = 2, seed = 19291, parallel = TRUE, n_cores = 6)
+```
+
+```{r, echo = FALSE}
+# write_rds(gto_mixture, "cache_manual/gto_mixture.rds")
+# gto_mixture <- read_rds("cache_manual/gto_mixture.rds")
+```
+
+#### Evaluación de ajuste {-}
+
+Repetimos las gráficas de la distribución predictiva posterior del total de
+votos para el PAN (partido ganador) y para Movimiento Ciudadano (partido chico).
+
+```{r, fig.width=6.5, fig.height=3.5,out.width="600px", eval=FALSE}
+mixture_votes <- map_df(gto_mixture$jags_fits, 
+    ~apply(.$BUGSoutput$sims.list$x, 1, sum)) %>% 
+    mutate(n_sim = 1:n()) %>% 
+    gather(party, votes, -n_sim)
+
+plot_mixture <- ggplot(mixture_votes, aes(x = votes)) +
+    geom_histogram(binwidth = 1000, alpha = 0.7) +
+    facet_wrap(~party, scales = "free_x") +
+    geom_vline(data = true_votes, aes(xintercept = total_votes), 
+        color = "red") +
+    labs(title = "PP Modelo normal: total de votos", 
+        x = expression(y[rep]), y = "") 
+```
+
+```{r, echo=FALSE}
+# write_rds(plot_mixture, "cache_manual/plot_mixture.rds")
+plot_mixture <- read_rds("cache_manual/plot_mixture.rds")
+```
+
+
+Mostramos también las gráficas para los mismos 3 estratos que en el caso normal.
+
+<img src="imagenes/pp_pan_estratos_mezcla.png" alt="drawing" width="750"/>
+
+<img src="imagenes/pp_mc_estratos_mezcla.png" alt="drawing" width="750"/>
+
+
+#### Calibración {-}
+
+Para evaluar el modelo complementamos con pruebas de calibración, siguiendo
+los siguientes pasos:
+
+1. Simulamos $n$ muestras.
+
+2. Para cada muestra creamos intervalos de 95%.
+
+3. Revisamos el porcentaje de intervalos que contienen el valor observado.
+
+Simulamos bajo los siguientes escenarios:
+
+* Muestras completas.
+
+* Censuramos las muestras completas usando patrones observados de la llegada de 
+datos de cada distrito y ámbito (rural/urbano).
+
+* Censuramos las muestras completas eliminando estratos.
+
+##### Estimador de razón {-}
+
+Comparamos el desempeño del modelo a lo largo de las muestras simuladas con 
+el estimador de razón combinado:
+
+$$\hat{p_k}=\frac{\hat{X_k}}{\hat{Y}}=\frac{\sum_h \hat{X_{kh}}}{\sum_h \hat{Y_{h}}}=\frac{\sum_h \frac{N_h}{n_h} \sum_i X_{khi}}{\sum_h \frac{N_h}{n_h} \sum_i Y_{hi}}$$
+
+Utilizamos bootstrap para estimar los errores estándar. Notar que en el caso 
+de estratos faltantes se debe seleccionar una estrategia para utilizar este 
+estimador, pues como tal no esta definido si faltan estratos. 
+
+##### Gráficas de calibración
+
+En las siguientes gráficas el alto de las barras representa la longitud media 
+de la presición (2 veces el error estándar), y el número indica el porcentaje
+de intervalos (de 95% de confianza/probabilidad) que cubrieron el verdadero 
+valor.
+
+<img src="imagenes/calibracion_gto.png" alt="drawing" width="500" class="center-image-2"/>
+
+#### Elección Guanajuato 2018 {-}
+
+Se reportaron los intervalos de probabilidad de las 9:45 pm, con 357 casillas.
+
+<img src="imagenes/eleccion_2018_razon_modelo.png" alt="drawing" width="800"/>
+
+#### Implementación {-}
+
+Implementamos en *JAGS*, la estimación se puede consultar y **reproducir 
+completamente** con el paquete de R [quickcountmx](https://github.com/tereom/quickcountmx) 
+(Ortiz 2018). 
+
+* La reproducibilidad es crucial para examinar la **veracidad de las 
+conclusiones** de un trabajo científico.  
+
+* La reproducibilidad ayuda a lograr la **transparencia en el procedimiento 
+electoral**, fomenta la **confianza en las instituciones** y da **legitimidad al 
+resultado del conteo rápido**.
+
+
+#### Modelo nacional {-}
+
+El modelo multinivel con distribución de probabilidad mezcla resulta *muy 
+lento* para la elección nacional, por lo que se tomaron las siguientes medidas:
+
+* **División de datos:** Se estima un modelo de forma independiente para cada
+una de 7 regiones geográficas lo que nos permite paralelizar por región y por 
+candidato, la desventaja es que no podemos usar información entre las regiones.
+
+* Se modela utilizando una distribucióin **binomial negativa**
+(un parámetro menos).
+
+* Se implementó con **Stan** en lugar de **JAGS** (el código está en el 
+paquete de R [quickcountmx](https://github.com/tereom/quickcountmx)).
+
+Más detalles del modelo [aquí](https://jovial-jepsen-cf1904.netlify.com).
+
+
+```
+data {
+  int N; // number of stations
+  int n_strata; 
+  int n_covariates;
+  int<lower=0> y[N]; // observed vote counts
+  vector<lower=0>[N] n; // nominal counts
+  int stratum[N];
+  matrix[N, n_covariates] x;
+  
+  int N_f; // total number of stations
+  int n_strata_f; 
+  int n_covariates_f;
+  int<lower=0> y_f[N_f] ; // observed vote counts
+  vector[N_f] in_sample;
+  vector[N_f] n_f; // nominal counts
+  int stratum_f[N_f];
+  matrix[N_f, n_covariates_f] x_f;
+  
+}
+
+parameters {
+  real beta_0;
+  vector[n_covariates] beta;
+  vector<lower=0>[n_strata] beta_bn;
+  vector<lower=0>[n_strata] sigma_st;
+  vector[n_strata] beta_st_raw;
+}
+
+transformed parameters {
+   vector<lower=0, upper=1>[N] theta; 
+   vector<lower=0>[N] alpha_bn;
+   vector[n_strata] beta_st;
+   vector[N] pred;
+
+   beta_st = beta_0 + beta_st_raw .* sigma_st;
+   pred = x * beta;
+   theta = inv_logit(beta_st[stratum] + pred);
+   alpha_bn = n .* theta;
+
+}
+
+model {
+
+
+  beta_0 ~ normal(0, 1);
+  beta ~ normal(0 , 1);
+  beta_st_raw ~ normal(0, 1);
+  sigma_st ~ normal(0, 1);
+  beta_bn ~ normal(1, 1);
+
+  y ~ neg_binomial_2(alpha_bn , beta_bn[stratum] .* alpha_bn);
+
+}
+
+generated quantities {
+  int y_out;
+  real<lower=0,upper=1> theta_f;
+  real alpha_bn_f;
+  real pred_f;
+  y_out = 0;
+  for(i in 1:N_f){
+    if(in_sample[i]==1){
+      y_out += y_f[i];
+    } else {
+    pred_f = dot_product(x_f[i,], beta);
+    theta_f = inv_logit(beta_st[stratum_f[i]] + pred_f);
+    alpha_bn_f =  n_f[i] * theta_f;
+    y_out += neg_binomial_2_rng(alpha_bn_f , beta_bn[stratum_f[i]]*alpha_bn_f);
+  }
+  }
+}
+```
+
+
+### Recursos de Stan y paquetes con R:
+
+* [Stan Manual](https://mc-stan.org/docs/2_21/reference-manual/index.html).
+
+* [Stan User's Guide](https://mc-stan.org/docs/2_21/stan-users-guide/index.html).
+
+* El paquete [rstanarm](https://cran.r-project.org/web/packages/rstanarm/vignettes/rstanarm.html), 
+@R-rstanarm, facilita el uso de Stan desde R, cuenta con funciones para llevar a 
+cabo estimación Bayesiana sin necesidad de escribir código en el *lenguaje de Stan*, 
+de acuerdo a los autores el objetivo del paquete es  que la estimación bayesiana 
+sea rutina para los modelos de regresión más comunes.
+
+* El paquete [bayesplot](https://mc-stan.org/bayesplot/), @R-bayesplot, cuenta con funciones para 
+graficar estimaciones de los parámetros, realizar diagnósticos visuales de las 
+cadenas (convergencia), y analizar el ajuste del modelo (graficando de la 
+predictiva posterior).
+
+* El paquete [shinystan](http://mc-stan.org/users/interfaces/shinystan), 
+@R-shinystan, contiene
+resumenes gráficos y numéricos de parámetros de un modelo y de diagnósticos de
+convergencia.
 
 
 
