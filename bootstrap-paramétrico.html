@@ -320,11 +320,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-estimación-de-tasas-de-mortalidad"><i class="fa fa-check"></i>Ejemplo: estimación de tasas de mortalidad</a></li>
 <li class="chapter" data-level="10.10.1" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.10.1</b> Iniciales en Stan</a></li>
-<li class="chapter" data-level="10.10.2" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#reparametrización"><i class="fa fa-check"></i><b>10.10.2</b> Reparametrización</a></li>
-<li class="chapter" data-level="10.10.3" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i><b>10.10.3</b> Modelos jerárquicos y parametrización no centrada</a></li>
-<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-conteo-rápido"><i class="fa fa-check"></i>Ejemplo: conteo rápido</a></li>
-<li class="chapter" data-level="10.10.4" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.10.4</b> Recursos de Stan y paquetes con R:</a></li>
 </ul></li>
+<li class="chapter" data-level="10.11" data-path="reparametrización.html"><a href="reparametrización.html"><i class="fa fa-check"></i><b>10.11</b> Reparametrización</a><ul>
+<li class="chapter" data-level="" data-path="reparametrización.html"><a href="reparametrización.html#ejemplo-el-embudo-de-neal"><i class="fa fa-check"></i>Ejemplo: El embudo de Neal</a></li>
+<li class="chapter" data-level="" data-path="reparametrización.html"><a href="reparametrización.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i>Modelos jerárquicos y parametrización no centrada</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="recursos-de-stan-y-paquetes-con-r.html"><a href="recursos-de-stan-y-paquetes-con-r.html"><i class="fa fa-check"></i>Recursos de Stan y paquetes con R</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -414,11 +415,11 @@ coeficiente de variación. Estima <span class="math inline">\(\theta\)</span> y 
 <a class="sourceLine" id="cb308-18" data-line-number="18"><span class="co"># Paso 4: Repetimos B = 2000 veces y estimamos el error estándar</span></a>
 <a class="sourceLine" id="cb308-19" data-line-number="19">sims_boot &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">3000</span>, <span class="kw">thetaBoot</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</a>
 <a class="sourceLine" id="cb308-20" data-line-number="20"><span class="kw">sqrt</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">2999</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((sims_boot <span class="op">-</span><span class="st"> </span>sigma_hat<span class="op">/</span>mu_hat) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb308-21" data-line-number="21"><span class="co">#&gt; [1] 0.02767323</span></a></code></pre></div>
+<a class="sourceLine" id="cb308-21" data-line-number="21"><span class="co">#&gt; [1] 0.02783906</span></a></code></pre></div>
 <p>Comparamos con el método delta:
 <span class="math display">\[\hat{se}=\frac{1}{\sqrt{n}}\bigg(\frac{1}{\hat{\mu}^4} + \frac{\hat{\sigma}^2}{2\hat{\mu}^2}\bigg)^{1/2}\]</span></p>
 <div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb309-1" data-line-number="1"><span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(n) <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span>mu_hat <span class="op">^</span><span class="st"> </span><span class="dv">4</span> <span class="op">+</span><span class="st"> </span>sigma_hat <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>mu_hat <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)) <span class="op">^</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb309-2" data-line-number="2"><span class="co">#&gt; [1] 0.0228319</span></a></code></pre></div>
+<a class="sourceLine" id="cb309-2" data-line-number="2"><span class="co">#&gt; [1] 0.02303438</span></a></code></pre></div>
 <p><img src="img/manicule2.jpg" /> Supongamos que observamos <span class="math inline">\(70\)</span> realizaciones de
 una Bernoulli, de tal manera que observamos <span class="math inline">\(20\)</span> éxitos, calcula un intervalo de
 confianza usando bootstrap y comparalo con el correspondiente usando la

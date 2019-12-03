@@ -320,11 +320,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-estimación-de-tasas-de-mortalidad"><i class="fa fa-check"></i>Ejemplo: estimación de tasas de mortalidad</a></li>
 <li class="chapter" data-level="10.10.1" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.10.1</b> Iniciales en Stan</a></li>
-<li class="chapter" data-level="10.10.2" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#reparametrización"><i class="fa fa-check"></i><b>10.10.2</b> Reparametrización</a></li>
-<li class="chapter" data-level="10.10.3" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i><b>10.10.3</b> Modelos jerárquicos y parametrización no centrada</a></li>
-<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-conteo-rápido"><i class="fa fa-check"></i>Ejemplo: conteo rápido</a></li>
-<li class="chapter" data-level="10.10.4" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.10.4</b> Recursos de Stan y paquetes con R:</a></li>
 </ul></li>
+<li class="chapter" data-level="10.11" data-path="reparametrización.html"><a href="reparametrización.html"><i class="fa fa-check"></i><b>10.11</b> Reparametrización</a><ul>
+<li class="chapter" data-level="" data-path="reparametrización.html"><a href="reparametrización.html#ejemplo-el-embudo-de-neal"><i class="fa fa-check"></i>Ejemplo: El embudo de Neal</a></li>
+<li class="chapter" data-level="" data-path="reparametrización.html"><a href="reparametrización.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i>Modelos jerárquicos y parametrización no centrada</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="recursos-de-stan-y-paquetes-con-r.html"><a href="recursos-de-stan-y-paquetes-con-r.html"><i class="fa fa-check"></i>Recursos de Stan y paquetes con R</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -376,8 +377,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Temas selectos de programación en R: iteración, programación funcional,
 rendimiento.</li>
 </ul>
-<p>Referencias: <span class="citation">Tufte (<a href="#ref-tufte06">2006</a>)</span>, <span class="citation">Cleveland (<a href="#ref-cleveland93">1993</a>)</span>, <span class="citation">Wickham and Grolemund (<a href="#ref-r4ds">2017</a>)</span>, <span class="citation">Wickham (<a href="#ref-advr">2019</a>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="R-ggplot2"><strong>???</strong></span>)</span> <span class="citation">(<span class="citeproc-not-found" data-reference-id="R-dplyr"><strong>???</strong></span>)</span>,
-<span class="citation">(<span class="citeproc-not-found" data-reference-id="R-tidyr"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="R-purrr"><strong>???</strong></span>)</span>.</p>
+<p>Referencias: <span class="citation">Tufte (<a href="#ref-tufte06">2006</a>)</span>, <span class="citation">Cleveland (<a href="#ref-cleveland93">1993</a>)</span>, <span class="citation">Wickham and Grolemund (<a href="#ref-r4ds">2017</a>)</span>, <span class="citation">H. Wickham (<a href="#ref-advr">2019</a>)</span>, <span class="citation">Hadley Wickham et al. (<a href="#ref-R-ggplot2">2019</a>)</span> <span class="citation">(<span class="citeproc-not-found" data-reference-id="R-dplyr"><strong>???</strong></span>)</span>,
+<span class="citation">Hadley Wickham and Henry (<a href="#ref-R-tidyr">2019</a>)</span>, <span class="citation">Henry and Wickham (<a href="#ref-R-purrr">2019</a>)</span>.</p>
 <ol start="2" style="list-style-type: decimal">
 <li><strong>Inferencia y remuestreo</strong></li>
 </ol>
@@ -484,6 +485,9 @@ Para encuestas y ejercicios en clase.</p></li>
 <div id="ref-hastie">
 <p>Hastie, Trevor, Robert Tibshirani, and Jerome Friedman. 2001. <em>The Elements of Statistical Learning</em>. Springer Series in Statistics. New York, NY, USA: Springer New York Inc.</p>
 </div>
+<div id="ref-R-purrr">
+<p>Henry, Lionel, and Hadley Wickham. 2019. <em>Purrr: Functional Programming Tools</em>. <a href="https://CRAN.R-project.org/package=purrr" class="uri">https://CRAN.R-project.org/package=purrr</a>.</p>
+</div>
 <div id="ref-kruschke">
 <p>Kruschke, John. 2015. <em>Doing Bayesian Data Analysis (Second Edition)</em>. Boston: Academic Press.</p>
 </div>
@@ -496,8 +500,14 @@ Para encuestas y ejercicios en clase.</p></li>
 <div id="ref-advr">
 <p>Wickham, H. 2019. <em>Advanced R</em>. 2nd ed. Chapman &amp; Hall/Crc the R Series. Chapman; Hall/CRC. <a href="https://adv-r.hadley.nz" class="uri">https://adv-r.hadley.nz</a>.</p>
 </div>
+<div id="ref-R-ggplot2">
+<p>Wickham, Hadley, Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, Claus Wilke, Kara Woo, and Hiroaki Yutani. 2019. <em>Ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics</em>. <a href="https://CRAN.R-project.org/package=ggplot2" class="uri">https://CRAN.R-project.org/package=ggplot2</a>.</p>
+</div>
 <div id="ref-r4ds">
 <p>Wickham, Hadley, and Garrett Grolemund. 2017. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. 1st ed. O’Reilly Media, Inc.</p>
+</div>
+<div id="ref-R-tidyr">
+<p>Wickham, Hadley, and Lionel Henry. 2019. <em>Tidyr: Tidy Messy Data</em>. <a href="https://CRAN.R-project.org/package=tidyr" class="uri">https://CRAN.R-project.org/package=tidyr</a>.</p>
 </div>
 </div>
             </section>

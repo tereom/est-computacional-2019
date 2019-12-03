@@ -320,11 +320,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-estimación-de-tasas-de-mortalidad"><i class="fa fa-check"></i>Ejemplo: estimación de tasas de mortalidad</a></li>
 <li class="chapter" data-level="10.10.1" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.10.1</b> Iniciales en Stan</a></li>
-<li class="chapter" data-level="10.10.2" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#reparametrización"><i class="fa fa-check"></i><b>10.10.2</b> Reparametrización</a></li>
-<li class="chapter" data-level="10.10.3" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i><b>10.10.3</b> Modelos jerárquicos y parametrización no centrada</a></li>
-<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-conteo-rápido"><i class="fa fa-check"></i>Ejemplo: conteo rápido</a></li>
-<li class="chapter" data-level="10.10.4" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.10.4</b> Recursos de Stan y paquetes con R:</a></li>
 </ul></li>
+<li class="chapter" data-level="10.11" data-path="reparametrización.html"><a href="reparametrización.html"><i class="fa fa-check"></i><b>10.11</b> Reparametrización</a><ul>
+<li class="chapter" data-level="" data-path="reparametrización.html"><a href="reparametrización.html#ejemplo-el-embudo-de-neal"><i class="fa fa-check"></i>Ejemplo: El embudo de Neal</a></li>
+<li class="chapter" data-level="" data-path="reparametrización.html"><a href="reparametrización.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i>Modelos jerárquicos y parametrización no centrada</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="recursos-de-stan-y-paquetes-con-r.html"><a href="recursos-de-stan-y-paquetes-con-r.html"><i class="fa fa-check"></i>Recursos de Stan y paquetes con R</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -394,22 +395,22 @@ casillas que estarán en la muestra.</p></li>
 casillas en el estrato y en <span class="math inline">\(n\)</span> el número de casillas que se seleccionaron en la
 muestra, para cada estrato:</p></li>
 </ul>
-<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb453-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
-<a class="sourceLine" id="cb453-2" data-line-number="2">strata_sample_<span class="dv">2006</span></a>
-<a class="sourceLine" id="cb453-3" data-line-number="3"><span class="co">#&gt; # A tibble: 300 x 3</span></a>
-<a class="sourceLine" id="cb453-4" data-line-number="4"><span class="co">#&gt;    stratum     n     N</span></a>
-<a class="sourceLine" id="cb453-5" data-line-number="5"><span class="co">#&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb453-6" data-line-number="6"><span class="co">#&gt;  1       1    20   369</span></a>
-<a class="sourceLine" id="cb453-7" data-line-number="7"><span class="co">#&gt;  2       2    23   420</span></a>
-<a class="sourceLine" id="cb453-8" data-line-number="8"><span class="co">#&gt;  3       3    24   440</span></a>
-<a class="sourceLine" id="cb453-9" data-line-number="9"><span class="co">#&gt;  4       4    31   570</span></a>
-<a class="sourceLine" id="cb453-10" data-line-number="10"><span class="co">#&gt;  5       5    29   528</span></a>
-<a class="sourceLine" id="cb453-11" data-line-number="11"><span class="co">#&gt;  6       6    37   664</span></a>
-<a class="sourceLine" id="cb453-12" data-line-number="12"><span class="co">#&gt;  7       7    26   474</span></a>
-<a class="sourceLine" id="cb453-13" data-line-number="13"><span class="co">#&gt;  8       8    21   373</span></a>
-<a class="sourceLine" id="cb453-14" data-line-number="14"><span class="co">#&gt;  9       9    25   457</span></a>
-<a class="sourceLine" id="cb453-15" data-line-number="15"><span class="co">#&gt; 10      10    24   430</span></a>
-<a class="sourceLine" id="cb453-16" data-line-number="16"><span class="co">#&gt; # … with 290 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb434-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
+<a class="sourceLine" id="cb434-2" data-line-number="2">strata_sample_<span class="dv">2006</span></a>
+<a class="sourceLine" id="cb434-3" data-line-number="3"><span class="co">#&gt; # A tibble: 300 x 3</span></a>
+<a class="sourceLine" id="cb434-4" data-line-number="4"><span class="co">#&gt;    stratum     n     N</span></a>
+<a class="sourceLine" id="cb434-5" data-line-number="5"><span class="co">#&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb434-6" data-line-number="6"><span class="co">#&gt;  1       1    20   369</span></a>
+<a class="sourceLine" id="cb434-7" data-line-number="7"><span class="co">#&gt;  2       2    23   420</span></a>
+<a class="sourceLine" id="cb434-8" data-line-number="8"><span class="co">#&gt;  3       3    24   440</span></a>
+<a class="sourceLine" id="cb434-9" data-line-number="9"><span class="co">#&gt;  4       4    31   570</span></a>
+<a class="sourceLine" id="cb434-10" data-line-number="10"><span class="co">#&gt;  5       5    29   528</span></a>
+<a class="sourceLine" id="cb434-11" data-line-number="11"><span class="co">#&gt;  6       6    37   664</span></a>
+<a class="sourceLine" id="cb434-12" data-line-number="12"><span class="co">#&gt;  7       7    26   474</span></a>
+<a class="sourceLine" id="cb434-13" data-line-number="13"><span class="co">#&gt;  8       8    21   373</span></a>
+<a class="sourceLine" id="cb434-14" data-line-number="14"><span class="co">#&gt;  9       9    25   457</span></a>
+<a class="sourceLine" id="cb434-15" data-line-number="15"><span class="co">#&gt; 10      10    24   430</span></a>
+<a class="sourceLine" id="cb434-16" data-line-number="16"><span class="co">#&gt; # … with 290 more rows</span></a></code></pre></div>
 <ul>
 <li>La tabla <code>sample_2006</code> en el paquete <code>estcomp</code> (vuelve a instalar de ser
 necesario) contiene para cada casilla:
@@ -421,21 +422,21 @@ número de votos nulos o por candidatos no registrados.</li>
 <li>el total de votos registrado en la casilla: <code>total</code>.</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb454-1" data-line-number="1">sample_<span class="dv">2006</span></a>
-<a class="sourceLine" id="cb454-2" data-line-number="2"><span class="co">#&gt; # A tibble: 7,200 x 11</span></a>
-<a class="sourceLine" id="cb454-3" data-line-number="3"><span class="co">#&gt;    polling_id stratum edo_id rural pri_pvem   pan panal prd_pt_conv   psd otros</span></a>
-<a class="sourceLine" id="cb454-4" data-line-number="4"><span class="co">#&gt;         &lt;int&gt;   &lt;dbl&gt;  &lt;int&gt; &lt;dbl&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt;       &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb454-5" data-line-number="5"><span class="co">#&gt;  1      74593     106     16     1       47    40     0          40     0     9</span></a>
-<a class="sourceLine" id="cb454-6" data-line-number="6"><span class="co">#&gt;  2     109927     194     27     0      131    10     0         147     1     8</span></a>
-<a class="sourceLine" id="cb454-7" data-line-number="7"><span class="co">#&gt;  3     112039     199     28     0       51    74     2          57     2     2</span></a>
-<a class="sourceLine" id="cb454-8" data-line-number="8"><span class="co">#&gt;  4      86392     141     20     1      145    64     2         139     1    14</span></a>
-<a class="sourceLine" id="cb454-9" data-line-number="9"><span class="co">#&gt;  5     101306     176     24     0       51   160     0          64    14     1</span></a>
-<a class="sourceLine" id="cb454-10" data-line-number="10"><span class="co">#&gt;  6      86044     140     20     1      150    20     0         166     1    11</span></a>
-<a class="sourceLine" id="cb454-11" data-line-number="11"><span class="co">#&gt;  7      56057      57     15     1      117   119     2          82     0    24</span></a>
-<a class="sourceLine" id="cb454-12" data-line-number="12"><span class="co">#&gt;  8      84186     128     19     0      118   205     8          73     9    13</span></a>
-<a class="sourceLine" id="cb454-13" data-line-number="13"><span class="co">#&gt;  9      27778     283      9     0       26    65     5         249     7     2</span></a>
-<a class="sourceLine" id="cb454-14" data-line-number="14"><span class="co">#&gt; 10      29892     289      9     0       27    32     0         338    14     7</span></a>
-<a class="sourceLine" id="cb454-15" data-line-number="15"><span class="co">#&gt; # … with 7,190 more rows, and 1 more variable: total &lt;int&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb435"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb435-1" data-line-number="1">sample_<span class="dv">2006</span></a>
+<a class="sourceLine" id="cb435-2" data-line-number="2"><span class="co">#&gt; # A tibble: 7,200 x 11</span></a>
+<a class="sourceLine" id="cb435-3" data-line-number="3"><span class="co">#&gt;    polling_id stratum edo_id rural pri_pvem   pan panal prd_pt_conv   psd otros</span></a>
+<a class="sourceLine" id="cb435-4" data-line-number="4"><span class="co">#&gt;         &lt;int&gt;   &lt;dbl&gt;  &lt;int&gt; &lt;dbl&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt;       &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb435-5" data-line-number="5"><span class="co">#&gt;  1      74593     106     16     1       47    40     0          40     0     9</span></a>
+<a class="sourceLine" id="cb435-6" data-line-number="6"><span class="co">#&gt;  2     109927     194     27     0      131    10     0         147     1     8</span></a>
+<a class="sourceLine" id="cb435-7" data-line-number="7"><span class="co">#&gt;  3     112039     199     28     0       51    74     2          57     2     2</span></a>
+<a class="sourceLine" id="cb435-8" data-line-number="8"><span class="co">#&gt;  4      86392     141     20     1      145    64     2         139     1    14</span></a>
+<a class="sourceLine" id="cb435-9" data-line-number="9"><span class="co">#&gt;  5     101306     176     24     0       51   160     0          64    14     1</span></a>
+<a class="sourceLine" id="cb435-10" data-line-number="10"><span class="co">#&gt;  6      86044     140     20     1      150    20     0         166     1    11</span></a>
+<a class="sourceLine" id="cb435-11" data-line-number="11"><span class="co">#&gt;  7      56057      57     15     1      117   119     2          82     0    24</span></a>
+<a class="sourceLine" id="cb435-12" data-line-number="12"><span class="co">#&gt;  8      84186     128     19     0      118   205     8          73     9    13</span></a>
+<a class="sourceLine" id="cb435-13" data-line-number="13"><span class="co">#&gt;  9      27778     283      9     0       26    65     5         249     7     2</span></a>
+<a class="sourceLine" id="cb435-14" data-line-number="14"><span class="co">#&gt; 10      29892     289      9     0       27    32     0         338    14     7</span></a>
+<a class="sourceLine" id="cb435-15" data-line-number="15"><span class="co">#&gt; # … with 7,190 more rows, and 1 more variable: total &lt;int&gt;</span></a></code></pre></div>
 <p>Una de las metodolgías de estimación, que se usa en el conteo rápido, es
 <em>estimador de razón</em> y se contruyen intervalos de 95% de confianza usando el
 método normal con error estándar bootstrap. En este ejercicio debes construir

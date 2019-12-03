@@ -320,11 +320,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-estimación-de-tasas-de-mortalidad"><i class="fa fa-check"></i>Ejemplo: estimación de tasas de mortalidad</a></li>
 <li class="chapter" data-level="10.10.1" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.10.1</b> Iniciales en Stan</a></li>
-<li class="chapter" data-level="10.10.2" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#reparametrización"><i class="fa fa-check"></i><b>10.10.2</b> Reparametrización</a></li>
-<li class="chapter" data-level="10.10.3" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i><b>10.10.3</b> Modelos jerárquicos y parametrización no centrada</a></li>
-<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-conteo-rápido"><i class="fa fa-check"></i>Ejemplo: conteo rápido</a></li>
-<li class="chapter" data-level="10.10.4" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.10.4</b> Recursos de Stan y paquetes con R:</a></li>
 </ul></li>
+<li class="chapter" data-level="10.11" data-path="reparametrización.html"><a href="reparametrización.html"><i class="fa fa-check"></i><b>10.11</b> Reparametrización</a><ul>
+<li class="chapter" data-level="" data-path="reparametrización.html"><a href="reparametrización.html#ejemplo-el-embudo-de-neal"><i class="fa fa-check"></i>Ejemplo: El embudo de Neal</a></li>
+<li class="chapter" data-level="" data-path="reparametrización.html"><a href="reparametrización.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i>Modelos jerárquicos y parametrización no centrada</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="recursos-de-stan-y-paquetes-con-r.html"><a href="recursos-de-stan-y-paquetes-con-r.html"><i class="fa fa-check"></i>Recursos de Stan y paquetes con R</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -374,24 +375,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>¿Están limpios los datos? en caso de que no
 ¿qué principio no cumplen?</li>
 </ol>
-<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb441-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
-<a class="sourceLine" id="cb441-2" data-line-number="2">df_marital</a>
-<a class="sourceLine" id="cb441-3" data-line-number="3"><span class="co">#&gt; # A tibble: 29,484 x 14</span></a>
-<a class="sourceLine" id="cb441-4" data-line-number="4"><span class="co">#&gt;    state_code municipio_code region state_name state_abbr municipio_name sex  </span></a>
-<a class="sourceLine" id="cb441-5" data-line-number="5"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb441-6" data-line-number="6"><span class="co">#&gt;  1 01         001            01001  Aguascali… AGS        Aguascalientes Total</span></a>
-<a class="sourceLine" id="cb441-7" data-line-number="7"><span class="co">#&gt;  2 01         001            01001  Aguascali… AGS        Aguascalientes Total</span></a>
-<a class="sourceLine" id="cb441-8" data-line-number="8"><span class="co">#&gt;  3 01         001            01001  Aguascali… AGS        Aguascalientes Total</span></a>
-<a class="sourceLine" id="cb441-9" data-line-number="9"><span class="co">#&gt;  4 01         001            01001  Aguascali… AGS        Aguascalientes Total</span></a>
-<a class="sourceLine" id="cb441-10" data-line-number="10"><span class="co">#&gt;  5 01         001            01001  Aguascali… AGS        Aguascalientes Homb…</span></a>
-<a class="sourceLine" id="cb441-11" data-line-number="11"><span class="co">#&gt;  6 01         001            01001  Aguascali… AGS        Aguascalientes Homb…</span></a>
-<a class="sourceLine" id="cb441-12" data-line-number="12"><span class="co">#&gt;  7 01         001            01001  Aguascali… AGS        Aguascalientes Homb…</span></a>
-<a class="sourceLine" id="cb441-13" data-line-number="13"><span class="co">#&gt;  8 01         001            01001  Aguascali… AGS        Aguascalientes Homb…</span></a>
-<a class="sourceLine" id="cb441-14" data-line-number="14"><span class="co">#&gt;  9 01         001            01001  Aguascali… AGS        Aguascalientes Muje…</span></a>
-<a class="sourceLine" id="cb441-15" data-line-number="15"><span class="co">#&gt; 10 01         001            01001  Aguascali… AGS        Aguascalientes Muje…</span></a>
-<a class="sourceLine" id="cb441-16" data-line-number="16"><span class="co">#&gt; # … with 29,474 more rows, and 7 more variables: age_group &lt;chr&gt;, pop &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb441-17" data-line-number="17"><span class="co">#&gt; #   single &lt;dbl&gt;, married &lt;dbl&gt;, living_w_partner &lt;dbl&gt;, separated &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb441-18" data-line-number="18"><span class="co">#&gt; #   other &lt;dbl&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb422-1" data-line-number="1"><span class="kw">library</span>(estcomp)</a>
+<a class="sourceLine" id="cb422-2" data-line-number="2">df_marital</a>
+<a class="sourceLine" id="cb422-3" data-line-number="3"><span class="co">#&gt; # A tibble: 29,484 x 14</span></a>
+<a class="sourceLine" id="cb422-4" data-line-number="4"><span class="co">#&gt;    state_code municipio_code region state_name state_abbr municipio_name sex  </span></a>
+<a class="sourceLine" id="cb422-5" data-line-number="5"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb422-6" data-line-number="6"><span class="co">#&gt;  1 01         001            01001  Aguascali… AGS        Aguascalientes Total</span></a>
+<a class="sourceLine" id="cb422-7" data-line-number="7"><span class="co">#&gt;  2 01         001            01001  Aguascali… AGS        Aguascalientes Total</span></a>
+<a class="sourceLine" id="cb422-8" data-line-number="8"><span class="co">#&gt;  3 01         001            01001  Aguascali… AGS        Aguascalientes Total</span></a>
+<a class="sourceLine" id="cb422-9" data-line-number="9"><span class="co">#&gt;  4 01         001            01001  Aguascali… AGS        Aguascalientes Total</span></a>
+<a class="sourceLine" id="cb422-10" data-line-number="10"><span class="co">#&gt;  5 01         001            01001  Aguascali… AGS        Aguascalientes Homb…</span></a>
+<a class="sourceLine" id="cb422-11" data-line-number="11"><span class="co">#&gt;  6 01         001            01001  Aguascali… AGS        Aguascalientes Homb…</span></a>
+<a class="sourceLine" id="cb422-12" data-line-number="12"><span class="co">#&gt;  7 01         001            01001  Aguascali… AGS        Aguascalientes Homb…</span></a>
+<a class="sourceLine" id="cb422-13" data-line-number="13"><span class="co">#&gt;  8 01         001            01001  Aguascali… AGS        Aguascalientes Homb…</span></a>
+<a class="sourceLine" id="cb422-14" data-line-number="14"><span class="co">#&gt;  9 01         001            01001  Aguascali… AGS        Aguascalientes Muje…</span></a>
+<a class="sourceLine" id="cb422-15" data-line-number="15"><span class="co">#&gt; 10 01         001            01001  Aguascali… AGS        Aguascalientes Muje…</span></a>
+<a class="sourceLine" id="cb422-16" data-line-number="16"><span class="co">#&gt; # … with 29,474 more rows, and 7 more variables: age_group &lt;chr&gt;, pop &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb422-17" data-line-number="17"><span class="co">#&gt; #   single &lt;dbl&gt;, married &lt;dbl&gt;, living_w_partner &lt;dbl&gt;, separated &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb422-18" data-line-number="18"><span class="co">#&gt; #   other &lt;dbl&gt;</span></a></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li><p>Limpia los datos y muestra las primeras y últimas líneas (usa <code>head()</code> y
 <code>tail()</code>).</p></li>

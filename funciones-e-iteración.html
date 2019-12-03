@@ -320,11 +320,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-estimación-de-tasas-de-mortalidad"><i class="fa fa-check"></i>Ejemplo: estimación de tasas de mortalidad</a></li>
 <li class="chapter" data-level="10.10.1" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.10.1</b> Iniciales en Stan</a></li>
-<li class="chapter" data-level="10.10.2" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#reparametrización"><i class="fa fa-check"></i><b>10.10.2</b> Reparametrización</a></li>
-<li class="chapter" data-level="10.10.3" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i><b>10.10.3</b> Modelos jerárquicos y parametrización no centrada</a></li>
-<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-conteo-rápido"><i class="fa fa-check"></i>Ejemplo: conteo rápido</a></li>
-<li class="chapter" data-level="10.10.4" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.10.4</b> Recursos de Stan y paquetes con R:</a></li>
 </ul></li>
+<li class="chapter" data-level="10.11" data-path="reparametrización.html"><a href="reparametrización.html"><i class="fa fa-check"></i><b>10.11</b> Reparametrización</a><ul>
+<li class="chapter" data-level="" data-path="reparametrización.html"><a href="reparametrización.html#ejemplo-el-embudo-de-neal"><i class="fa fa-check"></i>Ejemplo: El embudo de Neal</a></li>
+<li class="chapter" data-level="" data-path="reparametrización.html"><a href="reparametrización.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i>Modelos jerárquicos y parametrización no centrada</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="recursos-de-stan-y-paquetes-con-r.html"><a href="recursos-de-stan-y-paquetes-con-r.html"><i class="fa fa-check"></i>Recursos de Stan y paquetes con R</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -653,28 +654,11 @@ no produce ningún error.</p>
 de tiempo de una variable.</p>
 <div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">100</span></a>
 <a class="sourceLine" id="cb103-2" data-line-number="2"><span class="kw">filter</span>(x, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>))</a>
-<a class="sourceLine" id="cb103-3" data-line-number="3"><span class="co">#&gt; Time Series:</span></a>
-<a class="sourceLine" id="cb103-4" data-line-number="4"><span class="co">#&gt; Start = 1 </span></a>
-<a class="sourceLine" id="cb103-5" data-line-number="5"><span class="co">#&gt; End = 100 </span></a>
-<a class="sourceLine" id="cb103-6" data-line-number="6"><span class="co">#&gt; Frequency = 1 </span></a>
-<a class="sourceLine" id="cb103-7" data-line-number="7"><span class="co">#&gt;   [1]  NA   6   9  12  15  18  21  24  27  30  33  36  39  42  45  48  51  54</span></a>
-<a class="sourceLine" id="cb103-8" data-line-number="8"><span class="co">#&gt;  [19]  57  60  63  66  69  72  75  78  81  84  87  90  93  96  99 102 105 108</span></a>
-<a class="sourceLine" id="cb103-9" data-line-number="9"><span class="co">#&gt;  [37] 111 114 117 120 123 126 129 132 135 138 141 144 147 150 153 156 159 162</span></a>
-<a class="sourceLine" id="cb103-10" data-line-number="10"><span class="co">#&gt;  [55] 165 168 171 174 177 180 183 186 189 192 195 198 201 204 207 210 213 216</span></a>
-<a class="sourceLine" id="cb103-11" data-line-number="11"><span class="co">#&gt;  [73] 219 222 225 228 231 234 237 240 243 246 249 252 255 258 261 264 267 270</span></a>
-<a class="sourceLine" id="cb103-12" data-line-number="12"><span class="co">#&gt;  [91] 273 276 279 282 285 288 291 294 297  NA</span></a></code></pre></div>
+<a class="sourceLine" id="cb103-3" data-line-number="3"><span class="co">#&gt; Error in UseMethod(&quot;filter_&quot;): no applicable method for &#39;filter_&#39; applied to an object of class &quot;c(&#39;integer&#39;, &#39;numeric&#39;)&quot;</span></a></code></pre></div>
 <p>Ahora cargamos <code>dplyr</code>.</p>
 <div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb104-2" data-line-number="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb104-3" data-line-number="3"><span class="co">#&gt; Attaching package: &#39;dplyr&#39;</span></a>
-<a class="sourceLine" id="cb104-4" data-line-number="4"><span class="co">#&gt; The following objects are masked from &#39;package:stats&#39;:</span></a>
-<a class="sourceLine" id="cb104-5" data-line-number="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb104-6" data-line-number="6"><span class="co">#&gt;     filter, lag</span></a>
-<a class="sourceLine" id="cb104-7" data-line-number="7"><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></a>
-<a class="sourceLine" id="cb104-8" data-line-number="8"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb104-9" data-line-number="9"><span class="co">#&gt;     intersect, setdiff, setequal, union</span></a>
-<a class="sourceLine" id="cb104-10" data-line-number="10"><span class="kw">filter</span>(x, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>))</a>
-<a class="sourceLine" id="cb104-11" data-line-number="11"><span class="co">#&gt; Error in UseMethod(&quot;filter_&quot;): no applicable method for &#39;filter_&#39; applied to an object of class &quot;c(&#39;integer&#39;, &#39;numeric&#39;)&quot;</span></a></code></pre></div>
+<a class="sourceLine" id="cb104-2" data-line-number="2"><span class="kw">filter</span>(x, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb104-3" data-line-number="3"><span class="co">#&gt; Error in UseMethod(&quot;filter_&quot;): no applicable method for &#39;filter_&#39; applied to an object of class &quot;c(&#39;integer&#39;, &#39;numeric&#39;)&quot;</span></a></code></pre></div>
 <p>R tiene un conflicto en la función a llamar, nosotros requerimos usar
 <code>filter</code> de stats y no la función <code>filter</code> de <code>dplyr</code>. R utiliza por default
 la función que pertenece al último paquete que se cargó.</p>

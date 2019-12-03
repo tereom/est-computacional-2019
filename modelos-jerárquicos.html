@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="diagnósticos-generales.html"/>
-<link rel="next" href="tareas.html"/>
+<link rel="next" href="reparametrización.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -320,11 +320,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-estimación-de-tasas-de-mortalidad"><i class="fa fa-check"></i>Ejemplo: estimación de tasas de mortalidad</a></li>
 <li class="chapter" data-level="10.10.1" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.10.1</b> Iniciales en Stan</a></li>
-<li class="chapter" data-level="10.10.2" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#reparametrización"><i class="fa fa-check"></i><b>10.10.2</b> Reparametrización</a></li>
-<li class="chapter" data-level="10.10.3" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i><b>10.10.3</b> Modelos jerárquicos y parametrización no centrada</a></li>
-<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-conteo-rápido"><i class="fa fa-check"></i>Ejemplo: conteo rápido</a></li>
-<li class="chapter" data-level="10.10.4" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.10.4</b> Recursos de Stan y paquetes con R:</a></li>
 </ul></li>
+<li class="chapter" data-level="10.11" data-path="reparametrización.html"><a href="reparametrización.html"><i class="fa fa-check"></i><b>10.11</b> Reparametrización</a><ul>
+<li class="chapter" data-level="" data-path="reparametrización.html"><a href="reparametrización.html#ejemplo-el-embudo-de-neal"><i class="fa fa-check"></i>Ejemplo: El embudo de Neal</a></li>
+<li class="chapter" data-level="" data-path="reparametrización.html"><a href="reparametrización.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i>Modelos jerárquicos y parametrización no centrada</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="recursos-de-stan-y-paquetes-con-r.html"><a href="recursos-de-stan-y-paquetes-con-r.html"><i class="fa fa-check"></i>Recursos de Stan y paquetes con R</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -457,7 +458,7 @@ hiperparámetro <span class="math inline">\(\mu\)</span> genera monedas con sesg
 <p>Verosimilitud.</p>
 <p><img src="09-analisis_bayesiano_files/figure-html/verosimilitud_jer-1.png" width="259.2" style="display: block; margin: auto;" /></p>
 <p>Posterior.</p>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-69-1.png" width="528" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-65-1.png" width="528" style="display: block; margin: auto;" /></p>
 <p>Código para el análisis y gráficas de arriba.</p>
 <div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb387-1" data-line-number="1">A_mu &lt;-<span class="st"> </span><span class="dv">2</span>; B_mu &lt;-<span class="st"> </span><span class="dv">2</span>; K &lt;-<span class="st"> </span><span class="dv">100</span></a>
 <a class="sourceLine" id="cb387-2" data-line-number="2"><span class="co"># Distribución inicial conjunta p(theta, mu)</span></a>
@@ -871,7 +872,7 @@ muertes tienen bajo número de expuestos.</p></li>
 <a class="sourceLine" id="cb394-2" data-line-number="2"><span class="st">    </span><span class="kw">geom_text</span>(<span class="dt">show.legend =</span> <span class="ot">FALSE</span>)  <span class="op">+</span></a>
 <a class="sourceLine" id="cb394-3" data-line-number="3"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Número de expuestos (e)&quot;</span>, <span class="dt">labels =</span> exp, </a>
 <a class="sourceLine" id="cb394-4" data-line-number="4">        <span class="dt">breaks =</span> <span class="kw">map_dbl</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">4</span>, <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">700</span> <span class="op">^</span><span class="st"> </span>.))) </a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-77-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-73-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>La variabilidad de las tasas y los hospitales sin muertes sugieren un problema
 de tamaño de muestra:</p>
 <p>Consideremos un hospital con <span class="math inline">\(700\)</span> expuestos, la muerte
@@ -1034,7 +1035,7 @@ la observación es consistente con el modelo observado.</p>
 <a class="sourceLine" id="cb395-19" data-line-number="19">        <span class="dt">yend =</span> <span class="fl">0.5</span>), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb395-20" data-line-number="20"><span class="st">    </span><span class="kw">geom_text</span>(<span class="dt">data =</span> heart_sims_sample, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="dv">10</span>, <span class="dt">y =</span> <span class="fl">0.4</span>, </a>
 <a class="sourceLine" id="cb395-21" data-line-number="21">    <span class="dt">label =</span> <span class="kw">paste</span>(<span class="st">&quot;e =&quot;</span>, e)), <span class="dt">size =</span> <span class="fl">2.7</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-78-1.png" width="550px" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-74-1.png" width="550px" style="display: block; margin: auto;" /></p>
 <p>La figura muestra los histogramas, obtenidos con simulación, de la distribución
 predictiva posterior de <span class="math inline">\(10\)</span> hospitales (se tomó una muestra de los <span class="math inline">\(94\)</span>). Para cada
 hospital, se escribió el número de expuestos, <span class="math inline">\(e\)</span>, y se grafica una línea
@@ -1069,7 +1070,7 @@ predictivos:</p>
 <a class="sourceLine" id="cb396-14" data-line-number="14"><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;P(extremos)&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb396-15" data-line-number="15"><span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">.15</span>, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">size =</span> <span class="fl">0.4</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb396-16" data-line-number="16"><span class="st">    </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="fl">.7</span>) </a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-79-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-75-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>En la figura anterior graficamos las probabilidades de extremos (calculadas con
 simulación) en el eje vertical, contra el número de exposición en escala
 logarítmica de cada hospital en el eje horizontal. Notemos que muchas de estas
@@ -1185,7 +1186,7 @@ decaimiento en el encogimiento conforme aumenta el número de expuestos.</p>
 <a class="sourceLine" id="cb397-18" data-line-number="18">        <span class="dt">breaks =</span> <span class="kw">map_dbl</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">4</span>, <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">700</span> <span class="op">^</span><span class="st"> </span>.))) <span class="op">+</span></a>
 <a class="sourceLine" id="cb397-19" data-line-number="19"><span class="st">    </span><span class="kw">scale_color_hue</span>(<span class="kw">expression</span>(beta[<span class="dv">0</span>])) <span class="op">+</span></a>
 <a class="sourceLine" id="cb397-20" data-line-number="20"><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;encogimiento (A)&quot;</span>)</a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-80-1.png" width="350px" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-76-1.png" width="350px" style="display: block; margin: auto;" /></p>
 </div>
 <div id="distribución-inicial" class="section level5 unnumbered">
 <h5>Distribución inicial</h5>
@@ -1305,35 +1306,33 @@ son muy diferentes al cambiar los parámetros de la distribución inicial.</p>
 <a class="sourceLine" id="cb398-3" data-line-number="3">lambdas &lt;-<span class="st"> </span><span class="kw">rgamma</span>(<span class="dv">1000</span>, <span class="dt">shape =</span> <span class="kw">sum</span>(heart<span class="op">$</span>y), <span class="dt">rate =</span> <span class="kw">sum</span>(heart<span class="op">$</span>e))</a>
 <a class="sourceLine" id="cb398-4" data-line-number="4"><span class="co"># ahora para cada hospital simulamos muestras de una distribución Poisson</span></a>
 <a class="sourceLine" id="cb398-5" data-line-number="5"><span class="co"># con media e_i*lambda</span></a>
-<a class="sourceLine" id="cb398-6" data-line-number="6">priors &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">alpha =</span> <span class="kw">c</span>(<span class="fl">0.01</span>, <span class="fl">0.5</span>, <span class="dv">1</span>), <span class="dt">beta =</span> <span class="kw">c</span>(<span class="fl">0.01</span>, <span class="fl">0.01</span>, <span class="dv">1000</span>))</a>
-<a class="sourceLine" id="cb398-7" data-line-number="7"><span class="co">#&gt; Warning: `data_frame()` is deprecated, use `tibble()`.</span></a>
-<a class="sourceLine" id="cb398-8" data-line-number="8"><span class="co">#&gt; This warning is displayed once per session.</span></a>
-<a class="sourceLine" id="cb398-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb398-10" data-line-number="10">heart_indep_sims &lt;-<span class="st"> </span>heart <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb398-11" data-line-number="11"><span class="st">    </span><span class="kw">crossing</span>(priors) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb398-12" data-line-number="12"><span class="st">    </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb398-13" data-line-number="13">        <span class="dt">sims =</span> <span class="kw">pmap</span>(<span class="kw">list</span>(e, y, alpha, beta), <span class="op">~</span><span class="kw">rgamma</span>(<span class="dv">1000</span>, <span class="dt">shape =</span> ..<span class="dv">3</span> <span class="op">+</span><span class="st"> </span>..<span class="dv">2</span>, </a>
-<a class="sourceLine" id="cb398-14" data-line-number="14">            <span class="dt">rate =</span> ..<span class="dv">4</span> <span class="op">+</span><span class="st"> </span>..<span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb398-15" data-line-number="15">        ) </a>
-<a class="sourceLine" id="cb398-16" data-line-number="16"><span class="co"># Creamos intervalos con las simulaciones</span></a>
-<a class="sourceLine" id="cb398-17" data-line-number="17">heart_indep_post &lt;-<span class="st"> </span>heart_indep_sims <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb398-18" data-line-number="18"><span class="st">    </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb398-19" data-line-number="19">        <span class="dt">media =</span> <span class="dv">1000</span> <span class="op">*</span><span class="st"> </span>(alpha <span class="op">+</span><span class="st"> </span>y) <span class="op">/</span><span class="st"> </span>(beta <span class="op">+</span><span class="st"> </span>e), </a>
-<a class="sourceLine" id="cb398-20" data-line-number="20">        <span class="dt">int_l =</span> <span class="kw">map_dbl</span>(sims, <span class="op">~</span><span class="kw">quantile</span>(<span class="dv">1000</span> <span class="op">*</span><span class="st"> </span>., <span class="fl">0.025</span>)), </a>
-<a class="sourceLine" id="cb398-21" data-line-number="21">        <span class="dt">int_u =</span> <span class="kw">map_dbl</span>(sims, <span class="op">~</span><span class="kw">quantile</span>(<span class="dv">1000</span> <span class="op">*</span><span class="st"> </span>., <span class="fl">0.975</span>)), </a>
-<a class="sourceLine" id="cb398-22" data-line-number="22">        <span class="dt">params =</span> <span class="kw">paste0</span>(<span class="st">&quot;alpha = &quot;</span>, alpha, <span class="st">&quot;, beta = &quot;</span>, beta)</a>
-<a class="sourceLine" id="cb398-23" data-line-number="23">        )</a>
-<a class="sourceLine" id="cb398-24" data-line-number="24"></a>
-<a class="sourceLine" id="cb398-25" data-line-number="25"><span class="kw">ggplot</span>(heart_indep_post, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> media, <span class="dt">color =</span> <span class="kw">factor</span>(y))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb398-26" data-line-number="26"><span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> int_l, <span class="dt">ymax =</span> int_u), <span class="dt">size =</span> <span class="fl">0.25</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb398-27" data-line-number="27"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> heart, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> <span class="dv">1000</span> <span class="op">*</span><span class="st"> </span>y <span class="op">/</span><span class="st"> </span>e), <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>, </a>
-<a class="sourceLine" id="cb398-28" data-line-number="28">        <span class="dt">alpha =</span> <span class="fl">0.6</span>, <span class="dt">size =</span> <span class="fl">1.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb398-29" data-line-number="29"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span>params, <span class="dt">ncol =</span> <span class="dv">1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb398-30" data-line-number="30"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Número de expuestos (e)&quot;</span>, <span class="dt">labels =</span> exp, </a>
-<a class="sourceLine" id="cb398-31" data-line-number="31">        <span class="dt">breaks =</span> <span class="kw">map_dbl</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">4</span>, <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">700</span> <span class="op">^</span><span class="st"> </span>.))) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb398-32" data-line-number="32"><span class="st">    </span><span class="kw">scale_colour_hue</span>(<span class="st">&quot;muertes obs. (y)&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb398-33" data-line-number="33"><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Muertes por 1000 expuestos&quot;</span>)</a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-81-1.png" width="480" style="display: block; margin: auto;" /></p>
+<a class="sourceLine" id="cb398-6" data-line-number="6">priors &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">alpha =</span> <span class="kw">c</span>(<span class="fl">0.01</span>, <span class="fl">0.5</span>, <span class="dv">1</span>), <span class="dt">beta =</span> <span class="kw">c</span>(<span class="fl">0.01</span>, <span class="fl">0.01</span>, <span class="dv">1000</span>))</a>
+<a class="sourceLine" id="cb398-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb398-8" data-line-number="8">heart_indep_sims &lt;-<span class="st"> </span>heart <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb398-9" data-line-number="9"><span class="st">    </span><span class="kw">crossing</span>(priors) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb398-10" data-line-number="10"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb398-11" data-line-number="11">        <span class="dt">sims =</span> <span class="kw">pmap</span>(<span class="kw">list</span>(e, y, alpha, beta), <span class="op">~</span><span class="kw">rgamma</span>(<span class="dv">1000</span>, <span class="dt">shape =</span> ..<span class="dv">3</span> <span class="op">+</span><span class="st"> </span>..<span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb398-12" data-line-number="12">            <span class="dt">rate =</span> ..<span class="dv">4</span> <span class="op">+</span><span class="st"> </span>..<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb398-13" data-line-number="13">        ) </a>
+<a class="sourceLine" id="cb398-14" data-line-number="14"><span class="co"># Creamos intervalos con las simulaciones</span></a>
+<a class="sourceLine" id="cb398-15" data-line-number="15">heart_indep_post &lt;-<span class="st"> </span>heart_indep_sims <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb398-16" data-line-number="16"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb398-17" data-line-number="17">        <span class="dt">media =</span> <span class="dv">1000</span> <span class="op">*</span><span class="st"> </span>(alpha <span class="op">+</span><span class="st"> </span>y) <span class="op">/</span><span class="st"> </span>(beta <span class="op">+</span><span class="st"> </span>e), </a>
+<a class="sourceLine" id="cb398-18" data-line-number="18">        <span class="dt">int_l =</span> <span class="kw">map_dbl</span>(sims, <span class="op">~</span><span class="kw">quantile</span>(<span class="dv">1000</span> <span class="op">*</span><span class="st"> </span>., <span class="fl">0.025</span>)), </a>
+<a class="sourceLine" id="cb398-19" data-line-number="19">        <span class="dt">int_u =</span> <span class="kw">map_dbl</span>(sims, <span class="op">~</span><span class="kw">quantile</span>(<span class="dv">1000</span> <span class="op">*</span><span class="st"> </span>., <span class="fl">0.975</span>)), </a>
+<a class="sourceLine" id="cb398-20" data-line-number="20">        <span class="dt">params =</span> <span class="kw">paste0</span>(<span class="st">&quot;alpha = &quot;</span>, alpha, <span class="st">&quot;, beta = &quot;</span>, beta)</a>
+<a class="sourceLine" id="cb398-21" data-line-number="21">        )</a>
+<a class="sourceLine" id="cb398-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb398-23" data-line-number="23"><span class="kw">ggplot</span>(heart_indep_post, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> media, <span class="dt">color =</span> <span class="kw">factor</span>(y))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb398-24" data-line-number="24"><span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> int_l, <span class="dt">ymax =</span> int_u), <span class="dt">size =</span> <span class="fl">0.25</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb398-25" data-line-number="25"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> heart, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> <span class="dv">1000</span> <span class="op">*</span><span class="st"> </span>y <span class="op">/</span><span class="st"> </span>e), <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>, </a>
+<a class="sourceLine" id="cb398-26" data-line-number="26">        <span class="dt">alpha =</span> <span class="fl">0.6</span>, <span class="dt">size =</span> <span class="fl">1.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb398-27" data-line-number="27"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span>params, <span class="dt">ncol =</span> <span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb398-28" data-line-number="28"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Número de expuestos (e)&quot;</span>, <span class="dt">labels =</span> exp, </a>
+<a class="sourceLine" id="cb398-29" data-line-number="29">        <span class="dt">breaks =</span> <span class="kw">map_dbl</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">4</span>, <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">700</span> <span class="op">^</span><span class="st"> </span>.))) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb398-30" data-line-number="30"><span class="st">    </span><span class="kw">scale_colour_hue</span>(<span class="st">&quot;muertes obs. (y)&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb398-31" data-line-number="31"><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Muertes por 1000 expuestos&quot;</span>)</a></code></pre></div>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-77-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>Ahora justificaremos la elección de las parejas de parámetros iniciales. La
 única información con la que contamos para definir una distribución inicial es
 que la tasa de mortalidad por transplante de corazón debe ser positiva y no muy
@@ -1636,7 +1635,7 @@ encogimiento para los hospitales con menor número de expuestos.</p>
 <a class="sourceLine" id="cb400-7" data-line-number="7">        <span class="dt">breaks =</span> <span class="kw">map_dbl</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">4</span>, <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">700</span> <span class="op">^</span><span class="st"> </span>.))) <span class="op">+</span></a>
 <a class="sourceLine" id="cb400-8" data-line-number="8"><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;encogimiento (A)&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb400-9" data-line-number="9"><span class="st">    </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="dv">1</span>)</a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-83-1.png" width="400px" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-79-1.png" width="400px" style="display: block; margin: auto;" /></p>
 <p>Ahora simualmos observaciones de la distribución posterior de <span class="math inline">\(\lambda\)</span>:</p>
 <div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb401-1" data-line-number="1">heart_jer_sims &lt;-<span class="st"> </span>heart_jer <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb401-2" data-line-number="2"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">sims =</span> <span class="kw">map2</span>(e, y, <span class="op">~</span><span class="kw">rgamma</span>(<span class="dv">1000</span>, .y <span class="op">+</span><span class="st"> </span>alpha, .x <span class="op">+</span><span class="st"> </span>alpha <span class="op">/</span><span class="st"> </span>mu))) <span class="op">%&gt;%</span><span class="st"> </span></a>
@@ -1664,7 +1663,7 @@ muertes observadas en los hospitales.</p>
 <a class="sourceLine" id="cb402-15" data-line-number="15">        <span class="dt">breaks =</span> <span class="kw">map_dbl</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">4</span>, <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">700</span> <span class="op">^</span><span class="st"> </span>.))) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb402-16" data-line-number="16"><span class="st">    </span><span class="kw">scale_colour_hue</span>(<span class="st">&quot;muertes obs. (y)&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb402-17" data-line-number="17"><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Muertes por 1000 expuestos&quot;</span>)</a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-85-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-81-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Analizamos la distribución predictiva posterior para la misma muestra de <span class="math inline">\(10\)</span>
 hospitales que se utilizó en el modelo de unidades iguales.</p>
 <div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb403-1" data-line-number="1">sims_muestra &lt;-<span class="st"> </span>heart_jer_post <span class="op">%&gt;%</span><span class="st"> </span></a>
@@ -1681,7 +1680,7 @@ hospitales que se utilizó en el modelo de unidades iguales.</p>
 <a class="sourceLine" id="cb403-12" data-line-number="12">        <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb403-13" data-line-number="13"><span class="st">    </span><span class="kw">geom_text</span>(<span class="dt">data =</span> sims_muestra, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="dv">10</span>, <span class="dt">y =</span> <span class="fl">0.4</span>, <span class="dt">label =</span> <span class="kw">paste</span>(<span class="st">&quot;e =&quot;</span>, e)), </a>
 <a class="sourceLine" id="cb403-14" data-line-number="14">        <span class="dt">size =</span> <span class="fl">2.7</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-86-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-82-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Observemos que únicamente en uno de los histogramas el número de muertes
 observadas se encuentra cerca de la cola de la distribución, lo que indica
 concordancia de las observaciones con el modelo ajustado.</p>
@@ -1701,28 +1700,26 @@ menores al <span class="math inline">\(0.15\)</span>, una disminución considera
 unidades iguales.</p>
 <div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb404-1" data-line-number="1"><span class="co"># Para calcular las p predictiva podemos usar las simulaciones</span></a>
 <a class="sourceLine" id="cb404-2" data-line-number="2">p_pred &lt;-<span class="st"> </span>heart_sims <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb404-3" data-line-number="3"><span class="st">    </span><span class="kw">unnest</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb404-3" data-line-number="3"><span class="st">    </span><span class="kw">unnest</span>(<span class="dt">cols =</span> sims) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb404-4" data-line-number="4"><span class="st">    </span><span class="kw">group_by</span>(hospital) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb404-5" data-line-number="5"><span class="st">    </span><span class="kw">summarise</span>(</a>
 <a class="sourceLine" id="cb404-6" data-line-number="6">        <span class="dt">p =</span> <span class="kw">min</span>(<span class="kw">sum</span>(sims <span class="op">&lt;=</span><span class="st"> </span>y) <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>, <span class="kw">sum</span>(sims <span class="op">&gt;=</span><span class="st"> </span>y) <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>), </a>
 <a class="sourceLine" id="cb404-7" data-line-number="7">        <span class="dt">e =</span> <span class="kw">first</span>(e)</a>
 <a class="sourceLine" id="cb404-8" data-line-number="8">        )</a>
-<a class="sourceLine" id="cb404-9" data-line-number="9"><span class="co">#&gt; Warning: `cols` is now required when using unnest().</span></a>
-<a class="sourceLine" id="cb404-10" data-line-number="10"><span class="co">#&gt; Please use `cols = c(sims)`</span></a>
-<a class="sourceLine" id="cb404-11" data-line-number="11">p_pred_indep_jer &lt;-<span class="st"> </span>heart_jer_post <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb404-12" data-line-number="12"><span class="st">    </span><span class="kw">unnest</span>(<span class="dt">cols =</span> <span class="kw">c</span>(sims, sims_y)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb404-13" data-line-number="13"><span class="st">    </span><span class="kw">group_by</span>(hospital) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb404-14" data-line-number="14"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">p_jer =</span> <span class="kw">min</span>(<span class="kw">sum</span>(sims_y <span class="op">&lt;=</span><span class="st"> </span>y) <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>, <span class="kw">sum</span>(sims_y <span class="op">&gt;=</span><span class="st"> </span>y) <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb404-15" data-line-number="15"><span class="st">    </span><span class="kw">left_join</span>(p_pred, <span class="dt">by =</span> <span class="st">&quot;hospital&quot;</span>)</a>
-<a class="sourceLine" id="cb404-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb404-17" data-line-number="17"><span class="kw">ggplot</span>(p_pred_indep_jer, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> p_jer)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb404-18" data-line-number="18"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb404-19" data-line-number="19"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Número de expuestos (e)&quot;</span>, <span class="dt">labels =</span> exp, </a>
-<a class="sourceLine" id="cb404-20" data-line-number="20">        <span class="dt">breaks =</span> <span class="kw">map_dbl</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">4</span>, <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">700</span> <span class="op">^</span><span class="st"> </span>.))) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb404-21" data-line-number="21"><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;P(extremos)&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb404-22" data-line-number="22"><span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">.15</span>, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">size =</span> <span class="fl">0.4</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb404-23" data-line-number="23"><span class="st">    </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="fl">.7</span>) </a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-87-1.png" width="384" style="display: block; margin: auto;" /></p>
+<a class="sourceLine" id="cb404-9" data-line-number="9">p_pred_indep_jer &lt;-<span class="st"> </span>heart_jer_post <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb404-10" data-line-number="10"><span class="st">    </span><span class="kw">unnest</span>(<span class="dt">cols =</span> <span class="kw">c</span>(sims, sims_y)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb404-11" data-line-number="11"><span class="st">    </span><span class="kw">group_by</span>(hospital) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb404-12" data-line-number="12"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">p_jer =</span> <span class="kw">min</span>(<span class="kw">sum</span>(sims_y <span class="op">&lt;=</span><span class="st"> </span>y) <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>, <span class="kw">sum</span>(sims_y <span class="op">&gt;=</span><span class="st"> </span>y) <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb404-13" data-line-number="13"><span class="st">    </span><span class="kw">left_join</span>(p_pred, <span class="dt">by =</span> <span class="st">&quot;hospital&quot;</span>)</a>
+<a class="sourceLine" id="cb404-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb404-15" data-line-number="15"><span class="kw">ggplot</span>(p_pred_indep_jer, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> p_jer)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb404-16" data-line-number="16"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb404-17" data-line-number="17"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Número de expuestos (e)&quot;</span>, <span class="dt">labels =</span> exp, </a>
+<a class="sourceLine" id="cb404-18" data-line-number="18">        <span class="dt">breaks =</span> <span class="kw">map_dbl</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">4</span>, <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">700</span> <span class="op">^</span><span class="st"> </span>.))) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb404-19" data-line-number="19"><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;P(extremos)&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb404-20" data-line-number="20"><span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">.15</span>, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">size =</span> <span class="fl">0.4</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb404-21" data-line-number="21"><span class="st">    </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="fl">.7</span>) </a></code></pre></div>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-83-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>Comparemos ahora las probabilidades de al menos tan extremo usando el modelo
 jerárquico contra las probabilidades de al menos tan extremo usando el modelo de
 unidades iguales, los puntos se colorearon de acuerdo al número de expuestos de
@@ -1740,7 +1737,7 @@ mayores en la mayoría de los casos.</p>
 <a class="sourceLine" id="cb405-10" data-line-number="10"><span class="st">    </span><span class="kw">coord_equal</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb405-11" data-line-number="11"><span class="st">    </span><span class="kw">scale_colour_manual</span>(<span class="st">&quot;No. expuestos (e)&quot;</span>, <span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;#a6cee3&quot;</span>, <span class="st">&quot;#1f78b4&quot;</span>,</a>
 <a class="sourceLine" id="cb405-12" data-line-number="12">        <span class="st">&quot;#b2df8a&quot;</span>, <span class="st">&quot;#33a02c&quot;</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-88-1.png" width="400px" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-84-1.png" width="400px" style="display: block; margin: auto;" /></p>
 </div>
 <div id="stan-2" class="section level4 unnumbered">
 <h4>Stan</h4>
@@ -1762,29 +1759,23 @@ de manera que sean iniciales vagas.</p>
 <a class="sourceLine" id="cb406-10" data-line-number="10"><span class="st">    real&lt;lower=0&gt; mu;</span></a>
 <a class="sourceLine" id="cb406-11" data-line-number="11"><span class="st">    real&lt;lower=0&gt; alpha;</span></a>
 <a class="sourceLine" id="cb406-12" data-line-number="12"><span class="st">}</span></a>
-<a class="sourceLine" id="cb406-13" data-line-number="13"><span class="st">transformed parameters {</span></a>
-<a class="sourceLine" id="cb406-14" data-line-number="14"><span class="st">    vector&lt;lower=0&gt;[N] lambda2;</span></a>
-<a class="sourceLine" id="cb406-15" data-line-number="15"><span class="st">    real&lt;lower=0&gt; beta;</span></a>
-<a class="sourceLine" id="cb406-16" data-line-number="16"><span class="st">    beta = alpha ./ mu;</span></a>
-<a class="sourceLine" id="cb406-17" data-line-number="17"><span class="st">    lambda2 = lambda .* e;</span></a>
+<a class="sourceLine" id="cb406-13" data-line-number="13"><span class="st">model {</span></a>
+<a class="sourceLine" id="cb406-14" data-line-number="14"><span class="st">    lambda ~ gamma(alpha, alpha/ mu);</span></a>
+<a class="sourceLine" id="cb406-15" data-line-number="15"><span class="st">    y ~ poisson(lambda .* e);</span></a>
+<a class="sourceLine" id="cb406-16" data-line-number="16"><span class="st">    mu ~ normal(0, 1);</span></a>
+<a class="sourceLine" id="cb406-17" data-line-number="17"><span class="st">    alpha ~ normal(0, 10);</span></a>
 <a class="sourceLine" id="cb406-18" data-line-number="18"><span class="st">}</span></a>
-<a class="sourceLine" id="cb406-19" data-line-number="19"><span class="st">model {</span></a>
-<a class="sourceLine" id="cb406-20" data-line-number="20"><span class="st">    lambda ~ gamma(alpha, beta);</span></a>
-<a class="sourceLine" id="cb406-21" data-line-number="21"><span class="st">    y ~ poisson(lambda2);</span></a>
-<a class="sourceLine" id="cb406-22" data-line-number="22"><span class="st">    mu ~ normal(0, 1);</span></a>
-<a class="sourceLine" id="cb406-23" data-line-number="23"><span class="st">    alpha ~ normal(0, 10);</span></a>
-<a class="sourceLine" id="cb406-24" data-line-number="24"><span class="st">}</span></a>
-<a class="sourceLine" id="cb406-25" data-line-number="25"></a>
-<a class="sourceLine" id="cb406-26" data-line-number="26"><span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb406-27" data-line-number="27"><span class="kw">cat</span>(<span class="dt">file =</span> <span class="st">&quot;src/stan_files/modelo_heart.stan&quot;</span>, modelo_heart.stan)</a>
-<a class="sourceLine" id="cb406-28" data-line-number="28">stan_heart_cpp &lt;-<span class="st"> </span><span class="kw">stan_model</span>(<span class="st">&quot;src/stan_files/modelo_heart.stan&quot;</span>)</a>
-<a class="sourceLine" id="cb406-29" data-line-number="29"></a>
-<a class="sourceLine" id="cb406-30" data-line-number="30"><span class="co"># creamos una lista con los datos: esta incluye índices, y variables</span></a>
-<a class="sourceLine" id="cb406-31" data-line-number="31">heart_data &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">e =</span> heart<span class="op">$</span>e, <span class="dt">y =</span> heart<span class="op">$</span>y, <span class="dt">N =</span> <span class="kw">nrow</span>(heart))</a>
-<a class="sourceLine" id="cb406-32" data-line-number="32">stan_heart_fit &lt;-<span class="st"> </span><span class="kw">sampling</span>(stan_heart_cpp, </a>
-<a class="sourceLine" id="cb406-33" data-line-number="33">    <span class="dt">data =</span> heart_data, <span class="dt">chains =</span> <span class="dv">3</span>, <span class="dt">cores =</span> <span class="dv">3</span>, <span class="dt">iter =</span> <span class="dv">4000</span>)</a>
-<a class="sourceLine" id="cb406-34" data-line-number="34"></a>
-<a class="sourceLine" id="cb406-35" data-line-number="35"><span class="co"># shinystan::launch_shinystan(stan_heart_fit)</span></a></code></pre></div>
+<a class="sourceLine" id="cb406-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb406-20" data-line-number="20"><span class="st">&#39;</span></a>
+<a class="sourceLine" id="cb406-21" data-line-number="21"><span class="kw">cat</span>(<span class="dt">file =</span> <span class="st">&quot;src/stan_files/modelo_heart.stan&quot;</span>, modelo_heart.stan)</a>
+<a class="sourceLine" id="cb406-22" data-line-number="22">stan_heart_cpp &lt;-<span class="st"> </span><span class="kw">stan_model</span>(<span class="st">&quot;src/stan_files/modelo_heart.stan&quot;</span>)</a>
+<a class="sourceLine" id="cb406-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb406-24" data-line-number="24"><span class="co"># creamos una lista con los datos: esta incluye índices, y variables</span></a>
+<a class="sourceLine" id="cb406-25" data-line-number="25">heart_data &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">e =</span> heart<span class="op">$</span>e, <span class="dt">y =</span> heart<span class="op">$</span>y, <span class="dt">N =</span> <span class="kw">nrow</span>(heart))</a>
+<a class="sourceLine" id="cb406-26" data-line-number="26">stan_heart_fit &lt;-<span class="st"> </span><span class="kw">sampling</span>(stan_heart_cpp, </a>
+<a class="sourceLine" id="cb406-27" data-line-number="27">    <span class="dt">data =</span> heart_data, <span class="dt">chains =</span> <span class="dv">3</span>, <span class="dt">cores =</span> <span class="dv">3</span>, <span class="dt">iter =</span> <span class="dv">4000</span>)</a>
+<a class="sourceLine" id="cb406-28" data-line-number="28"></a>
+<a class="sourceLine" id="cb406-29" data-line-number="29"><span class="co"># shinystan::launch_shinystan(stan_heart_fit)</span></a></code></pre></div>
 <p>En el modelo definimos una distribución de probabilidad para cada hospital, las
 tasas de mortalidad se modelan como observaciones de una distribución
 <span class="math inline">\(Gamma(\alpha, \alpha/\mu)\)</span>, y especificamos la distribución de los
@@ -1811,7 +1802,7 @@ hiperparámetros.</p>
 <a class="sourceLine" id="cb407-18" data-line-number="18">        <span class="dt">breaks =</span> <span class="kw">map_dbl</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">4</span>, <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">700</span> <span class="op">^</span><span class="st"> </span>.))) <span class="op">+</span></a>
 <a class="sourceLine" id="cb407-19" data-line-number="19"><span class="st">    </span><span class="kw">scale_colour_hue</span>(<span class="st">&quot;muertes obs. (y)&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb407-20" data-line-number="20"><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Muertes por 1000 expuestos&quot;</span>)</a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-90-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-86-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="iniciales-en-stan" class="section level3">
@@ -1858,733 +1849,11 @@ media-normal(0,10).</li>
 </ul></li>
 </ul>
 </div>
-<div id="reparametrización" class="section level3">
-<h3><span class="header-section-number">10.10.2</span> Reparametrización</h3>
-<p>El muestreador de Stan puede ser muy lento cuando la geometría de la
-distribución posterior es complicada, una manera de acelerar la convergencia
-es reparametrizando.</p>
-<div id="ejemplo-el-embudo-de-neal" class="section level4">
-<h4><span class="header-section-number">10.10.2.1</span> Ejemplo: El embudo de Neal</h4>
-<p>Veamos como ejemplo el <a href="https://mc-stan.org/docs/2_18/stan-users-guide/reparameterization-section.html">embudo de Neal</a>,
-tomado de la guía de usuarios de Stan, Neal (2003) define una distribución
-en la que ejemplifica las dificultades de muestrear de modelos jerárquicos, es
-un ejemplo extremo pero es fácil ver como la reparametrización hace que el
-muestreo de la posterior se simplifique.</p>
-<p>En este ejemplo la densidad es,</p>
-<p><span class="math display">\[p(y,x)=normal(y|0,3)*\prod_{n=1}^9normal(x_n|0,exp(y/2))\]</span></p>
-<p>Y las curvas de nivel de probabilidad tienen la forma de embudos de 10
-dimensiones. El cuello de los embudos es muy estrecho por la transformación de
-la variable <span class="math inline">\(y\)</span>.</p>
-<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb408-1" data-line-number="1">p_yx &lt;-<span class="st"> </span><span class="cf">function</span>(y, x) { </a>
-<a class="sourceLine" id="cb408-2" data-line-number="2">  <span class="kw">dnorm</span>(y, <span class="dv">0</span>, <span class="dv">3</span>, <span class="dt">log =</span> T) <span class="op">+</span><span class="st"> </span><span class="kw">dnorm</span>(x, <span class="dv">0</span>, <span class="kw">exp</span>(y <span class="op">/</span><span class="st"> </span><span class="dv">2</span>), <span class="dt">log =</span> T)</a>
-<a class="sourceLine" id="cb408-3" data-line-number="3">}</a>
-<a class="sourceLine" id="cb408-4" data-line-number="4">coords &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">x =</span> <span class="kw">seq</span>(<span class="op">-</span><span class="dv">20</span>, <span class="dv">20</span>, <span class="dt">by =</span> <span class="fl">0.05</span>), </a>
-<a class="sourceLine" id="cb408-5" data-line-number="5">  <span class="dt">y =</span> <span class="kw">seq</span>(<span class="op">-</span><span class="dv">9</span>, <span class="dv">9</span>, <span class="dt">by =</span> <span class="fl">0.05</span>))</a>
-<a class="sourceLine" id="cb408-6" data-line-number="6">coords<span class="op">$</span>value &lt;-<span class="st"> </span><span class="kw">p_yx</span>(coords<span class="op">$</span>y, coords<span class="op">$</span>x)</a>
-<a class="sourceLine" id="cb408-7" data-line-number="7">coords &lt;-<span class="st"> </span>coords <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(value <span class="op">&gt;</span><span class="st"> </span><span class="dv">-20</span>)</a>
-<a class="sourceLine" id="cb408-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb408-9" data-line-number="9"><span class="kw">ggplot</span>(coords, <span class="kw">aes</span>(x, y, <span class="dt">fill =</span> (value))) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb408-10" data-line-number="10"><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb408-11" data-line-number="11"><span class="st">    </span><span class="kw">scale_fill_distiller</span>(<span class="dt">palette =</span> <span class="st">&quot;Spectral&quot;</span>, <span class="dt">direction =</span> <span class="dv">-1</span>, <span class="dt">na.value =</span> <span class="ot">NA</span>, </a>
-<a class="sourceLine" id="cb408-12" data-line-number="12">        <span class="dt">name =</span> <span class="st">&quot;log(y, x[1])&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb408-13" data-line-number="13"><span class="st">    </span><span class="kw">ylim</span>(<span class="op">-</span><span class="dv">9</span>, <span class="dv">9</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb408-14" data-line-number="14"><span class="st">    </span><span class="kw">xlim</span>(<span class="op">-</span><span class="dv">20</span>, <span class="dv">20</span>)</a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-91-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>Y podemos implementar en Stan:</p>
-<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb409-1" data-line-number="1">funnel.stan &lt;-</a>
-<a class="sourceLine" id="cb409-2" data-line-number="2"><span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb409-3" data-line-number="3"><span class="st">parameters {</span></a>
-<a class="sourceLine" id="cb409-4" data-line-number="4"><span class="st">  real y;</span></a>
-<a class="sourceLine" id="cb409-5" data-line-number="5"><span class="st">  vector[9] x;</span></a>
-<a class="sourceLine" id="cb409-6" data-line-number="6"><span class="st">}</span></a>
-<a class="sourceLine" id="cb409-7" data-line-number="7"><span class="st">model {</span></a>
-<a class="sourceLine" id="cb409-8" data-line-number="8"><span class="st">  y ~ normal(0, 3);</span></a>
-<a class="sourceLine" id="cb409-9" data-line-number="9"><span class="st">  x ~ normal(0, exp(y/2));</span></a>
-<a class="sourceLine" id="cb409-10" data-line-number="10"><span class="st">}</span></a>
-<a class="sourceLine" id="cb409-11" data-line-number="11"><span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb409-12" data-line-number="12"><span class="kw">cat</span>(funnel.stan, <span class="dt">file =</span> <span class="st">&quot;src/stan_files/funnel.stan&quot;</span>)</a></code></pre></div>
-<p>Cuando el modelo está expresado de esta manera, Stan tiene problemas para
-muestrear del cuello del embudo, pues cuando <span class="math inline">\(y\)</span> es chica <span class="math inline">\(x\)</span> está restringida
-a valores cercanos a cero, esto se debe a que la escala de la densidad cambia
-con <span class="math inline">\(y\)</span> de tal manera que el tamaño de paso que funciona bien en el cuerpo de
-la densidad será muy grande en eñ cuello y viceversa, un tamaño de paso que
-funciona bien en el cuello será ineficiente en el cuerpo.</p>
-<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb410-1" data-line-number="1">funnel_cpp &lt;-<span class="st"> </span><span class="kw">stan_model</span>(<span class="st">&quot;src/stan_files/funnel.stan&quot;</span>)</a>
-<a class="sourceLine" id="cb410-2" data-line-number="2">funnel_sims &lt;-<span class="st"> </span><span class="kw">sampling</span>(<span class="dt">object =</span> funnel_cpp, <span class="dt">chains =</span> <span class="dv">3</span> , <span class="dt">iter =</span> <span class="dv">1000</span>)</a>
-<a class="sourceLine" id="cb410-3" data-line-number="3">funnel_sims</a>
-<a class="sourceLine" id="cb410-4" data-line-number="4"><span class="co">#&gt; Inference for Stan model: funnel.</span></a>
-<a class="sourceLine" id="cb410-5" data-line-number="5"><span class="co">#&gt; 3 chains, each with iter=1000; warmup=500; thin=1; </span></a>
-<a class="sourceLine" id="cb410-6" data-line-number="6"><span class="co">#&gt; post-warmup draws per chain=500, total post-warmup draws=1500.</span></a>
-<a class="sourceLine" id="cb410-7" data-line-number="7"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb410-8" data-line-number="8"><span class="co">#&gt;        mean se_mean   sd   2.5%    25%    50%   75% 97.5% n_eff Rhat</span></a>
-<a class="sourceLine" id="cb410-9" data-line-number="9"><span class="co">#&gt; y      1.64    0.25 1.84  -1.30   0.24   1.48  2.89  5.49    52 1.02</span></a>
-<a class="sourceLine" id="cb410-10" data-line-number="10"><span class="co">#&gt; x[1]   0.03    0.10 4.74  -9.02  -1.20   0.13  1.33  9.19  2043 1.00</span></a>
-<a class="sourceLine" id="cb410-11" data-line-number="11"><span class="co">#&gt; x[2]   0.18    0.17 6.47  -9.72  -1.37   0.05  1.46 11.10  1437 1.00</span></a>
-<a class="sourceLine" id="cb410-12" data-line-number="12"><span class="co">#&gt; x[3]   0.06    0.14 5.80 -10.75  -1.43   0.01  1.26 10.61  1809 1.00</span></a>
-<a class="sourceLine" id="cb410-13" data-line-number="13"><span class="co">#&gt; x[4]   0.21    0.15 5.62 -10.09  -1.36   0.09  1.46 11.01  1323 1.00</span></a>
-<a class="sourceLine" id="cb410-14" data-line-number="14"><span class="co">#&gt; x[5]   0.10    0.12 6.17  -9.23  -1.23   0.07  1.31 11.14  2519 1.00</span></a>
-<a class="sourceLine" id="cb410-15" data-line-number="15"><span class="co">#&gt; x[6]   0.02    0.11 5.07  -9.56  -1.32   0.03  1.48 10.52  2220 1.00</span></a>
-<a class="sourceLine" id="cb410-16" data-line-number="16"><span class="co">#&gt; x[7]   0.07    0.12 6.33 -10.69  -1.19  -0.06  1.29  9.75  2689 1.00</span></a>
-<a class="sourceLine" id="cb410-17" data-line-number="17"><span class="co">#&gt; x[8]   0.04    0.12 5.50  -9.58  -1.31  -0.07  1.31 10.05  1986 1.00</span></a>
-<a class="sourceLine" id="cb410-18" data-line-number="18"><span class="co">#&gt; x[9]   0.18    0.16 5.34  -9.96  -1.28   0.00  1.41 11.10  1179 1.00</span></a>
-<a class="sourceLine" id="cb410-19" data-line-number="19"><span class="co">#&gt; lp__ -12.43    1.19 8.60 -31.12 -18.48 -11.37 -5.81  1.15    52 1.02</span></a>
-<a class="sourceLine" id="cb410-20" data-line-number="20"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb410-21" data-line-number="21"><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Mon Dec  2 22:52:00 2019.</span></a>
-<a class="sourceLine" id="cb410-22" data-line-number="22"><span class="co">#&gt; For each parameter, n_eff is a crude measure of effective sample size,</span></a>
-<a class="sourceLine" id="cb410-23" data-line-number="23"><span class="co">#&gt; and Rhat is the potential scale reduction factor on split chains (at </span></a>
-<a class="sourceLine" id="cb410-24" data-line-number="24"><span class="co">#&gt; convergence, Rhat=1).</span></a></code></pre></div>
-<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb411-1" data-line-number="1">y &lt;-<span class="st"> </span><span class="kw">extract</span>(funnel_sims, <span class="st">&quot;y&quot;</span>)<span class="op">$</span>y</a>
-<a class="sourceLine" id="cb411-2" data-line-number="2">x_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">extract</span>(funnel_sims, <span class="st">&quot;x[1]&quot;</span>)<span class="op">$</span><span class="st">`</span><span class="dt">x[1]</span><span class="st">`</span></a>
-<a class="sourceLine" id="cb411-3" data-line-number="3">sims_funnel &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">y =</span> y, <span class="dt">x_1 =</span> x_<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb411-4" data-line-number="4"><span class="kw">ggplot</span>(sims_funnel, <span class="kw">aes</span>(x_<span class="dv">1</span>, y)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb411-5" data-line-number="5"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb411-6" data-line-number="6"><span class="st">    </span><span class="kw">ylim</span>(<span class="op">-</span><span class="dv">9</span>, <span class="dv">9</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb411-7" data-line-number="7"><span class="st">    </span><span class="kw">xlim</span>(<span class="op">-</span><span class="dv">20</span>, <span class="dv">20</span>)</a>
-<a class="sourceLine" id="cb411-8" data-line-number="8"><span class="co">#&gt; Warning: Removed 15 rows containing missing values (geom_point).</span></a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-94-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>En este ejemplo particular podemos reparametrizar y escribir el modelo de la
-siguiente forma que hace el muestreador más eficiente:</p>
-<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb412-1" data-line-number="1">no_funnel.stan &lt;-</a>
-<a class="sourceLine" id="cb412-2" data-line-number="2"><span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb412-3" data-line-number="3"><span class="st">parameters {</span></a>
-<a class="sourceLine" id="cb412-4" data-line-number="4"><span class="st">  real y_raw;</span></a>
-<a class="sourceLine" id="cb412-5" data-line-number="5"><span class="st">  vector[9] x_raw;</span></a>
-<a class="sourceLine" id="cb412-6" data-line-number="6"><span class="st">}</span></a>
-<a class="sourceLine" id="cb412-7" data-line-number="7"><span class="st">transformed parameters {</span></a>
-<a class="sourceLine" id="cb412-8" data-line-number="8"><span class="st">  real y;</span></a>
-<a class="sourceLine" id="cb412-9" data-line-number="9"><span class="st">  vector[9] x;</span></a>
-<a class="sourceLine" id="cb412-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb412-11" data-line-number="11"><span class="st">  y = 3.0 * y_raw;</span></a>
-<a class="sourceLine" id="cb412-12" data-line-number="12"><span class="st">  x = exp(y/2) * x_raw;</span></a>
-<a class="sourceLine" id="cb412-13" data-line-number="13"><span class="st">}</span></a>
-<a class="sourceLine" id="cb412-14" data-line-number="14"><span class="st">model {</span></a>
-<a class="sourceLine" id="cb412-15" data-line-number="15"><span class="st">  y_raw ~ std_normal(); // implies y ~ normal(0, 3)</span></a>
-<a class="sourceLine" id="cb412-16" data-line-number="16"><span class="st">  x_raw ~ std_normal(); // implies x ~ normal(0, exp(y/2))</span></a>
-<a class="sourceLine" id="cb412-17" data-line-number="17"><span class="st">}</span></a>
-<a class="sourceLine" id="cb412-18" data-line-number="18"><span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb412-19" data-line-number="19"><span class="kw">cat</span>(no_funnel.stan, <span class="dt">file =</span> <span class="st">&quot;src/stan_files/no_funnel.stan&quot;</span>)</a></code></pre></div>
-<p>En este segundo modelo, <code>x_raw</code> y <code>y_raw</code> se muestrean de manera independiente
-de normales estándar, lo cuál es fácil para Stan. En un segundo paso se
-transforman a muestras del embudo.</p>
-<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb413-1" data-line-number="1">no_funnel_cpp &lt;-<span class="st"> </span><span class="kw">stan_model</span>(<span class="st">&quot;src/stan_files/no_funnel.stan&quot;</span>)</a>
-<a class="sourceLine" id="cb413-2" data-line-number="2">no_funnel_sims &lt;-<span class="st"> </span><span class="kw">sampling</span>(<span class="dt">object =</span> no_funnel_cpp, <span class="dt">chains =</span> <span class="dv">3</span> , <span class="dt">iter =</span> <span class="dv">1000</span>)</a>
-<a class="sourceLine" id="cb413-3" data-line-number="3">no_funnel_sims</a>
-<a class="sourceLine" id="cb413-4" data-line-number="4"><span class="co">#&gt; Inference for Stan model: no_funnel.</span></a>
-<a class="sourceLine" id="cb413-5" data-line-number="5"><span class="co">#&gt; 3 chains, each with iter=1000; warmup=500; thin=1; </span></a>
-<a class="sourceLine" id="cb413-6" data-line-number="6"><span class="co">#&gt; post-warmup draws per chain=500, total post-warmup draws=1500.</span></a>
-<a class="sourceLine" id="cb413-7" data-line-number="7"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb413-8" data-line-number="8"><span class="co">#&gt;           mean se_mean    sd   2.5%   25%   50%   75% 97.5% n_eff Rhat</span></a>
-<a class="sourceLine" id="cb413-9" data-line-number="9"><span class="co">#&gt; y_raw     0.01    0.02  0.98  -1.96 -0.63  0.01  0.68  1.87  2626 1.00</span></a>
-<a class="sourceLine" id="cb413-10" data-line-number="10"><span class="co">#&gt; x_raw[1] -0.01    0.02  1.04  -2.10 -0.77 -0.01  0.69  1.99  2440 1.00</span></a>
-<a class="sourceLine" id="cb413-11" data-line-number="11"><span class="co">#&gt; x_raw[2]  0.00    0.02  0.98  -1.91 -0.67  0.01  0.66  1.85  2237 1.00</span></a>
-<a class="sourceLine" id="cb413-12" data-line-number="12"><span class="co">#&gt; x_raw[3] -0.02    0.02  0.97  -1.86 -0.68 -0.05  0.65  1.96  2489 1.00</span></a>
-<a class="sourceLine" id="cb413-13" data-line-number="13"><span class="co">#&gt; x_raw[4] -0.01    0.02  1.01  -1.91 -0.72 -0.01  0.70  1.99  3252 1.00</span></a>
-<a class="sourceLine" id="cb413-14" data-line-number="14"><span class="co">#&gt; x_raw[5]  0.02    0.02  1.02  -1.93 -0.65  0.00  0.70  1.99  2682 1.00</span></a>
-<a class="sourceLine" id="cb413-15" data-line-number="15"><span class="co">#&gt; x_raw[6]  0.00    0.02  1.01  -1.97 -0.68  0.00  0.70  1.91  3389 1.00</span></a>
-<a class="sourceLine" id="cb413-16" data-line-number="16"><span class="co">#&gt; x_raw[7] -0.01    0.02  1.01  -1.97 -0.70  0.00  0.63  2.03  3093 1.00</span></a>
-<a class="sourceLine" id="cb413-17" data-line-number="17"><span class="co">#&gt; x_raw[8]  0.01    0.02  0.99  -1.89 -0.66  0.02  0.69  1.95  2651 1.00</span></a>
-<a class="sourceLine" id="cb413-18" data-line-number="18"><span class="co">#&gt; x_raw[9] -0.02    0.02  1.00  -2.01 -0.71  0.00  0.67  1.88  2605 1.00</span></a>
-<a class="sourceLine" id="cb413-19" data-line-number="19"><span class="co">#&gt; y         0.02    0.06  2.94  -5.89 -1.90  0.03  2.03  5.60  2626 1.00</span></a>
-<a class="sourceLine" id="cb413-20" data-line-number="20"><span class="co">#&gt; x[1]      0.09    0.33 11.08  -9.60 -0.67  0.00  0.66  8.63  1110 1.00</span></a>
-<a class="sourceLine" id="cb413-21" data-line-number="21"><span class="co">#&gt; x[2]      0.16    0.18  6.58  -8.21 -0.55  0.00  0.62  9.59  1300 1.00</span></a>
-<a class="sourceLine" id="cb413-22" data-line-number="22"><span class="co">#&gt; x[3]     -0.51    0.22  7.36 -10.37 -0.58 -0.01  0.51  7.33  1166 1.00</span></a>
-<a class="sourceLine" id="cb413-23" data-line-number="23"><span class="co">#&gt; x[4]      0.01    0.17  6.03  -8.65 -0.65  0.00  0.57  9.26  1302 1.00</span></a>
-<a class="sourceLine" id="cb413-24" data-line-number="24"><span class="co">#&gt; x[5]     -0.39    0.34 10.42 -10.30 -0.58  0.00  0.59  9.04   916 1.00</span></a>
-<a class="sourceLine" id="cb413-25" data-line-number="25"><span class="co">#&gt; x[6]      0.00    0.19  6.42  -9.02 -0.58  0.00  0.64  8.82  1171 1.00</span></a>
-<a class="sourceLine" id="cb413-26" data-line-number="26"><span class="co">#&gt; x[7]     -0.24    0.23  8.14 -11.23 -0.63  0.00  0.54  8.85  1283 1.00</span></a>
-<a class="sourceLine" id="cb413-27" data-line-number="27"><span class="co">#&gt; x[8]     -0.09    0.22  8.17  -8.58 -0.57  0.00  0.58  9.51  1359 1.00</span></a>
-<a class="sourceLine" id="cb413-28" data-line-number="28"><span class="co">#&gt; x[9]     -0.10    0.29 10.12  -9.66 -0.58  0.00  0.57 10.03  1190 1.00</span></a>
-<a class="sourceLine" id="cb413-29" data-line-number="29"><span class="co">#&gt; lp__     -5.00    0.09  2.25 -10.44 -6.25 -4.66 -3.31 -1.75   617 1.01</span></a>
-<a class="sourceLine" id="cb413-30" data-line-number="30"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb413-31" data-line-number="31"><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Mon Dec  2 22:52:46 2019.</span></a>
-<a class="sourceLine" id="cb413-32" data-line-number="32"><span class="co">#&gt; For each parameter, n_eff is a crude measure of effective sample size,</span></a>
-<a class="sourceLine" id="cb413-33" data-line-number="33"><span class="co">#&gt; and Rhat is the potential scale reduction factor on split chains (at </span></a>
-<a class="sourceLine" id="cb413-34" data-line-number="34"><span class="co">#&gt; convergence, Rhat=1).</span></a></code></pre></div>
-<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb414-1" data-line-number="1">y &lt;-<span class="st"> </span><span class="kw">extract</span>(no_funnel_sims, <span class="st">&quot;y&quot;</span>)<span class="op">$</span>y</a>
-<a class="sourceLine" id="cb414-2" data-line-number="2">x_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">extract</span>(no_funnel_sims, <span class="st">&quot;x[1]&quot;</span>)<span class="op">$</span><span class="st">`</span><span class="dt">x[1]</span><span class="st">`</span></a>
-<a class="sourceLine" id="cb414-3" data-line-number="3">sims_no_funnel &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">y =</span> y, <span class="dt">x_1 =</span> x_<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb414-4" data-line-number="4"><span class="kw">ggplot</span>(sims_no_funnel, <span class="kw">aes</span>(x_<span class="dv">1</span>, y)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb414-5" data-line-number="5"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb414-6" data-line-number="6"><span class="st">    </span><span class="kw">ylim</span>(<span class="op">-</span><span class="dv">9</span>, <span class="dv">9</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb414-7" data-line-number="7"><span class="st">    </span><span class="kw">xlim</span>(<span class="op">-</span><span class="dv">20</span>, <span class="dv">20</span>)</a>
-<a class="sourceLine" id="cb414-8" data-line-number="8"><span class="co">#&gt; Warning: Removed 26 rows containing missing values (geom_point).</span></a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-97-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-</div>
-<div id="modelos-jerárquicos-y-parametrización-no-centrada" class="section level3">
-<h3><span class="header-section-number">10.10.3</span> Modelos jerárquicos y parametrización no centrada</h3>
-<p>En modelos jerárquicos es común encontrarse con geometrías complejas, una
-parametrización que suele ayudar para acelerar convergencia es la
-parametrización no centrada.</p>
-<div id="parametrización-centrada" class="section level4">
-<h4><span class="header-section-number">10.10.3.1</span> Parametrización centrada</h4>
-<p>Un modelo jerárquico usual seleccionaría muestras de un vector de coeficientes
-<span class="math inline">\(\beta\)</span> como sigue:</p>
-<pre><code>parameters {
-  real mu_beta;
-  real&lt;lower=0&gt; sigma_beta;
-  vector[K] beta;
-  ...
-model {
-  beta ~ normal(mu_beta, sigma_beta);
-  ...</code></pre>
-<p>Y sufuriría de ineficiencias como el embudo de Neal, debido a que el valor de
-<span class="math inline">\(\beta\)</span>, <span class="math inline">\(\mu_\{\beta}\)</span> y <span class="math inline">\(\sigma_\{\beta}\)</span> tienen alta correlación en la
-posterior. El nivel de correlación dependerá de la cantidad de datos disponibles
-siendo mayor cuanto menos información se tenga. En estos casos, de datos
-limitados, es más eficiente usar una parametrización no centrada.</p>
-</div>
-<div id="parametrización-no-centrada" class="section level4 unnumbered">
-<h4>Parametrización no centrada</h4>
-<pre><code>parameters {
-  vector[K] beta_raw;
-  ...
-transformed parameters {
-  vector[K] beta;
-  // implies: beta ~ normal(mu_beta, sigma_beta)
-  beta = mu_beta + sigma_beta * beta_raw;
-model {
-  beta_raw ~ std_normal();
-  ...</code></pre>
-<p>Las iniciales de <code>mu_beta</code> y <code>sigma_beta</code> permanecen sin cambios respecto al
-modelo original.</p>
-</div>
-</div>
-<div id="ejemplo-conteo-rápido" class="section level3 unnumbered">
-<h3>Ejemplo: conteo rápido</h3>
-<p>En este ejercicio describimos un modelo jerárquico desarrollado por Michelle
-Anzarut, Felipe González y Teresa Ortiz para estimar los resultados
-electorales en el conteo rápido.</p>
-<p><strong>Objetivo</strong>: Estimar resultados de la elección a partir de una muestra
-aleatoria de casillas.</p>
-<p><strong>Inferencia basada en modelos</strong>: Modelo de regresión multinivel, en función de
-covariables asociadas a las casillas, que estima el número de votos a favor del
-candidato en cada casilla.</p>
-<!--3. Juntamos los valores observados y los simulados por el modelo de 
-    cada candidato para calcular proporciones de voto y los intervalos 
-    correspondientes.-->
-<p><strong>Calibración:</strong> Evaluamos modelos con remuestreo y datos de elecciones pasadas,
-revisando cobertura de intervalos de confianza/credibilidad.</p>
-<p><strong>Experiencia:</strong> Mostramos resultados de elección 2018.</p>
-<div id="contexto-conteo-rápido" class="section level4 unnumbered">
-<h4>Contexto: Conteo rápido</h4>
-<ul>
-<li><p>En México, las elecciones tienen lugar un domingo, los resultados oficiales
-del proceso se presentan a la población una semana después. A fin de evitar
-proclamaciones de victoria injustificadas durante ese período el INE organiza un
-conteo rápido.</p></li>
-<li><p><strong>Conteo rápido</strong>: Procedimiento para estimar el porcentaje de votos a favor
-de los candidatos en el día de la elección, consiste en seleccionar una muestra
-aleatoria de las casillas de votación y analizar sus resultados para presentar
-intervalos con una probabilidad de al menos 0.95.</p></li>
-<li><p>La rapidez y precisión del conteo favorece un ambiente de confianza y sirve
-como una herramienta contra el fraude.</p></li>
-</ul>
-</div>
-<div id="elecciones-2018" class="section level4 unnumbered">
-<h4>Elecciones 2018</h4>
-<ul>
-<li><p>La elección del 2018 fue la más grande que se ha vivido en México, con 3,400
-puestos en disputa. Se realizaron conteos rápidos para <strong>9 elecciones estatales</strong>
-simultáneas a un conteo rápido para la <strong>elección de presidente</strong>.</p></li>
-<li><p>El día de la elección, el sistema de información comienza a las 6 p.m. y,
-cada 5 minutos, produce una secuencia de archivos acumulativos. Estas muestras
-parciales se analizan con los métodos de estimación para rastrear la tendencia
-de los resultados.</p></li>
-<li><p>Las muestras parciales tienen un sesgo potencial asociado al patrón de llegada
-de la información.</p></li>
-</ul>
-</div>
-<div id="diseño-de-la-muestra" class="section level4 unnumbered">
-<h4>Diseño de la muestra</h4>
-<p>El diseño de la muestra es probabilístico.</p>
-<ul>
-<li><strong>Diseño:</strong> es unietápico y estratificado, donde la unidad de observación es
-la casilla.
-<ul>
-<li>En Guanajuato son 22 estratos definidos por distrito local.</li>
-</ul></li>
-<li><strong>Tamaño de muestra:</strong> Se eligió el tamaño de muestra para lograr intervalos
-de 95% confianza con <strong>longitud máxima de 2 puntos porcentuales.</strong>
-<ul>
-<li>En Guanajuato el tamaño de muestra se fijó en 500 casillas.</li>
-</ul></li>
-<li><p><strong>Selección de la muestra:</strong> La distribución de la muestra en las casillas
-se realizó proporcional al número de casillas en cada estrato, y se utilizó
-muestreo aleatorio simple dentro de cada estrato.</p></li>
-<li><p><strong>Consideraciones adicionales:</strong> Se buscó que todos los estratos tuvieran
-al menos 50 casillas, y que porcentaje de CAEs (Capacitadores-Asistentes
-Electorales) encargados de más de una casilla fuera menor a 20%.</p></li>
-</ul>
-</div>
-<div id="datos-faltantes" class="section level4 unnumbered">
-<h4>Datos faltantes</h4>
-<p>En la práctica la muestra seleccionada no llega completa. Entre las posibles
-razones de faltantes están:</p>
-<ul>
-<li><p>El clima en ciertas regiones dificulta la transmisión de los resultados.</p></li>
-<li><p>El responsable de reportar los resultados está saturado de trabajo:
-contando votos a falta de funcionarios de casilla, retrasado por la dificultad
-de llegar a la casilla por malas condiciones de terreno,…</p></li>
-</ul>
-<p>Usualmente los faltantes <strong>no son completamente aleatorios</strong>, esto es, la
-probabilidad de que una casilla no se reporte está asociada a la respuesta de
-la casilla.</p>
-<p>Buscamos un modelo con <strong>tratamiento consistente de datos faltantes:</strong> en
-ausencia de respuesta.</p>
-</div>
-<div id="antecedentes" class="section level4 unnumbered">
-<h4>Antecedentes</h4>
-<p>El modelo que proponemos se desarrolló con base a tres referencias:</p>
-<ul>
-<li><span class="citation">Mendoza and Nieto-Barajas (<a href="#ref-mendoza2016">2016</a>)</span> <em>Quick counts in the Mexican presidential elections: A Bayesian
-approach</em>. En este trabajo se propone el uso de modelos bayesianos para el
-conteo rápido.
-<ul>
-<li>Se ajusta un modelo de manera independiente <strong>para cada candidato</strong> en
-<strong>cada estrato</strong>.</li>
-<li>Modelo normal para el total de votos <span class="math inline">\(X_k\)</span> que recibe cada candidato en
-la <span class="math inline">\(k\)</span>-ésima casilla.
-<span class="math display">\[X_k\sim N \bigg( n_{k} \theta, \tau / n_k \bigg)\]</span></li>
-<li><span class="math inline">\(\theta\)</span>: proporción de gente de la lista nominal a favor del candidato.</li>
-<li><span class="math inline">\(n_k\)</span>: número de personas en la lista nominal de la <span class="math inline">\(k\)</span>-ésima casilla.</li>
-</ul></li>
-<li><p><span class="citation">Lehtonen (<a href="#ref-little2012">2012</a>)</span> <em>Calibrated Bayes, an Alternative Inferential Paradigm
-for Official Statistics</em>. Se describe un acercamiento bayesiano para los
-problemas clásicos de muestreo, usando modelos jerárquicos, el paradigma que se
-propone en este artículo consiste en ajustar modelos bayesianos y evaluarlos
-(calibrarlos) usando propiedades frecuentistas.</p></li>
-<li><p><span class="citation">Park, Gelman, and Bafumi (<a href="#ref-parkgelmanbafumi">2004</a>)</span> <em>Bayesian Multilevel Estimation with Poststratification:
-State-Level Estimates from National Polls</em>. Se describe un modelo jerárquico
-para estimar preferencias electorales a partir de encuestas de opinión pública,
-además de la estructura jerárquica se incluyen covaribales.</p></li>
-</ul>
-<p>Es así que tomamos como base el modelo propuesto en <span class="citation">Mendoza and Nieto-Barajas (<a href="#ref-mendoza2016">2016</a>)</span> y siguiendo
-los otros dos artículos comenzamos extendiendolo en 2 sentidos:</p>
-<ol style="list-style-type: decimal">
-<li><p>Usamos un enfoque unificado por candidato, en lugar de estimar un modelo
-independiente dentro de cada estrato, ajustamos un un único modelo por
-candidato incluyendo un efecto aleatorio (estructura multinivel) que
-corresponda al estrato.</p></li>
-<li><p>Agregamos covariables que describen la casilla para mejorar la eficiencia en
-la estimación y corregir sesgos ante faltantes.</p></li>
-</ol>
-</div>
-<div id="inferencia-en-muestreo" class="section level4 unnumbered">
-<h4>Inferencia en muestreo</h4>
-<p>Antes de pasar al modelo describimos como encaja la metodología que proponemos
-en el mundo del muestreo. Cuando se hace inferencia de muestreo hay dos grandes
-acercamientos:</p>
-<ol style="list-style-type: decimal">
-<li><p><strong>Inferencia basada en diseño de muestras.</strong> Los valores poblacionales son una
-cantidad fija, la inferencia se basa en la distribución de probabilidad asociada
-a la selección de la muestra.</p></li>
-<li><strong>Inferencia basada en modelos.</strong> Las variables provienen de un modelo
-estadístico:
-<ul>
-<li><p><strong>Modelos de superpoblaciones:</strong> los valores poblacionales se consideran
-una muestra aleatoria de una <strong>superpoblación</strong>, y se les asigna una
-distribución de probabilidad.</p></li>
-<li><p><strong>Modelos bayesianos:</strong> agregamos distribuciones iniciales a los
-parámetros y se hace inferencia de las <strong>cantidades poblacionales</strong> y de los
-<strong>parámetros</strong> usando la distribución posterior.</p></li>
-</ul></li>
-</ol>
-</div>
-<div id="modelos-bayesianos" class="section level4 unnumbered">
-<h4>Modelos bayesianos</h4>
-<p>En modelos bayesianos la inferencia se realiza prediciendo la variable de
-interés para las unidades de la población que <strong>no se incluyeron en la muestra</strong>
-y para las unidades <strong>que no respondieron</strong>, condicional a la muestra observada
-y al modelo.</p>
-<p>Usamos modelos paramétricos:</p>
-<p><span class="math display">\[p(y|x)=\int p(y|x, \theta)p(\theta|x)p(\theta)d\theta\]</span></p>
-<ul>
-<li><p><span class="math inline">\(p(y|x,\theta)\)</span>: modelo paramétrico de <span class="math inline">\(y\)</span>.</p></li>
-<li><p><span class="math inline">\(p(\theta|x)\)</span>: distribución inicial para <span class="math inline">\(\theta\)</span>.</p></li>
-</ul>
-<p>Se incluyen en el modelo las variables involucradas en el diseño de la
-muestra (estratos, conglomerados).</p>
-</div>
-<div id="modelo-con-distribución-normal" class="section level4 unnumbered">
-<h4>Modelo con distribución normal</h4>
-<p>En el caso del modelo del conteo rápido incluímos las siguientes covariables:</p>
-<ol style="list-style-type: decimal">
-<li><p>Tipo de sección (rural o urbana/mixta).</p></li>
-<li><p>Tipo de casilla (básica/contigua/especial o extraordinaria).</p></li>
-<li><p>Tamaño de sección (chica &lt; 1000 votantes, mediana [1000, 5000],
-grande &gt; 5000).</p></li>
-<li><p>Región (oriente u occidente).</p></li>
-<li><p>Distrito local.</p></li>
-<li><p>Interacción de tipo de sección con tamaño de sección.</p></li>
-</ol>
-<p>Y el primer modelo que planteamos es como sigue:</p>
-<p>Sea <span class="math inline">\(X_k\)</span> el número de votos en favor del candidato en la k-ésima casilla:</p>
-<ul>
-<li>Nivel 1</li>
-</ul>
-<p><span class="math display">\[
-\begin{align}
-    X_k \sim  \mathsf{N}(n_k\theta_k, \tau_k^{\text{distrito}}/n_k) \ \mathcal{I}_{[0,750]},
-\end{align}
-\]</span></p>
-<p>donde <span class="math inline">\(n_k\)</span> es la lista nominal y <span class="math inline">\(\theta_k\)</span> la proporción de personas en la
-lista nominal de la casilla <span class="math inline">\(k\)</span> que votaron por el candidato,</p>
-<p><span class="math display">\[\begin{align}
-\theta_k=\text{logit}^{-1}&amp;(\beta^0+\beta^{\text{rural}}\cdot\text{rural}_k+\beta^{\text{rural-tamañoM}}\cdot\text{rural}_k\cdot\text{tamañoM}_k\\+&amp;\beta^{\text{tamañoM}}\cdot\text{tamañoM}_k
-+\beta^{\text{tamañoL}} \cdot \text{tamañoL}_k+\beta^{\text{tipoSP}}\cdot \text{tipoSP}_k\\+&amp;\beta^{\text{distrito}}_{\text{distrito}(k)}),
-\end{align}\]</span></p>
-<ul>
-<li>Nivel 2</li>
-</ul>
-<p><span class="math display">\[\begin{align}
-    \beta^{\text{distrito}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito}}, \sigma_{\text{distrito}}^2\right).
-\end{align}\]</span></p>
-<p>El código del modelo en JAGS:</p>
-<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb417-1" data-line-number="1"><span class="kw">library</span>(quickcountmx)</a>
-<a class="sourceLine" id="cb417-2" data-line-number="2"><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">deparse</span>(quickcountmx<span class="op">:::</span>model_norm)[<span class="dv">3</span>]))</a></code></pre></div>
-<pre><code>#&gt; Warning in gzfile(file, &quot;rb&quot;): cannot open compressed file &#39;data/quickcount/
-#&gt; model_string_norm.rds&#39;, probable reason &#39;No such file or directory&#39;
-#&gt; Error in gzfile(file, &quot;rb&quot;): cannot open the connection</code></pre>
-<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb419-1" data-line-number="1">model_string <span class="op">%&gt;%</span><span class="st"> </span>cat</a>
-<a class="sourceLine" id="cb419-2" data-line-number="2"><span class="co">#&gt; Error in eval(lhs, parent, parent): object &#39;model_string&#39; not found</span></a></code></pre></div>
-<p>Se utilizó una parametrización redundante para acelerar la convergencia:</p>
-<pre><code>beta_estrato[j] &lt;-  beta_estrato_raw[j] - mean(beta_estrato_raw[])
-beta_estrato_raw[j] ~ dnorm(mu_estrato, tau_estrato)</code></pre>
-<p>ver el capítulo 19 de <span class="citation">Gelman and Hill (<a href="#ref-gelman-hill">2007</a>)</span>.</p>
-<p>La función <code>mrp_party_estimation()</code> recibe la tabla de datos, el partido que
-se desea ajustar, la variable de estratificación, la fracción de la muestra a
-utilizar en el ajuste, el número de iteraciones, calentamiento, número de
-cadenas, semilla y el modelo que vamos a ajustar.</p>
-<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb421-1" data-line-number="1">gto_pan_norm &lt;-<span class="st"> </span><span class="kw">mrp_party_estimation</span>(gto_<span class="dv">2012</span>, pan_na,</a>
-<a class="sourceLine" id="cb421-2" data-line-number="2">    <span class="dt">stratum =</span> distrito_loc_<span class="dv">17</span>, <span class="dt">frac =</span> <span class="fl">0.06</span>, <span class="dt">n_iter =</span> <span class="dv">2000</span>, <span class="dt">n_burnin =</span> <span class="dv">1000</span>,</a>
-<a class="sourceLine" id="cb421-3" data-line-number="3">    <span class="dt">n_chains =</span> <span class="dv">2</span>, <span class="dt">seed =</span> <span class="dv">19291</span>, <span class="dt">model_string =</span> <span class="st">&quot;model_norm&quot;</span>)</a></code></pre></div>
-<pre><code>#&gt; Warning in gzfile(file, &quot;rb&quot;): cannot open compressed file &#39;data/quickcount/
-#&gt; gto_pan_norm.rds&#39;, probable reason &#39;No such file or directory&#39;
-#&gt; Error in gzfile(file, &quot;rb&quot;): cannot open the connection</code></pre>
-<p>En <code>fit</code> se guarda la salida de JAGS y <code>n_votes</code> es el vector de simulaciones
-del total de votos.</p>
-<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb423-1" data-line-number="1"><span class="kw">library</span>(R2jags)</a>
-<a class="sourceLine" id="cb423-2" data-line-number="2"><span class="co">#&gt; Error in library(R2jags): there is no package called &#39;R2jags&#39;</span></a>
-<a class="sourceLine" id="cb423-3" data-line-number="3"><span class="kw">plot</span>(gto_pan_norm<span class="op">$</span>fit)</a>
-<a class="sourceLine" id="cb423-4" data-line-number="4"><span class="co">#&gt; Error in plot(gto_pan_norm$fit): object &#39;gto_pan_norm&#39; not found</span></a></code></pre></div>
-<p>De la imagen anterior podemos ver que faltan iteraciones para alcanzar
-convergencia. Las parámetros <code>beta_estrato_raw</code> se crearon para acelerar la
-convergencia pero no es necesario que converjan, pero otras variables como
-<code>beta_region</code> se beneficiarían de incrementar las simulaciones.</p>
-<p>El siguiente código corre el modelo para todos los partidos, incrementando las
-simulaciones.</p>
-<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb424-1" data-line-number="1">gto_norm &lt;-<span class="st"> </span><span class="kw">mrp_estimation</span>(gto_<span class="dv">2012</span>, <span class="dt">... =</span> pri_pvem<span class="op">:</span>otros, </a>
-<a class="sourceLine" id="cb424-2" data-line-number="2">    <span class="dt">stratum =</span> distrito_loc_<span class="dv">17</span>, <span class="dt">frac =</span> <span class="fl">0.06</span>, <span class="dt">n_iter =</span> <span class="dv">3000</span>, <span class="dt">n_burnin =</span> <span class="dv">2000</span>, </a>
-<a class="sourceLine" id="cb424-3" data-line-number="3">    <span class="dt">n_chains =</span> <span class="dv">2</span>, <span class="dt">seed =</span> <span class="dv">19291</span>, <span class="dt">parallel =</span> <span class="ot">TRUE</span>, <span class="dt">n_cores =</span> <span class="dv">4</span>, </a>
-<a class="sourceLine" id="cb424-4" data-line-number="4">    <span class="dt">model_string =</span> <span class="st">&quot;model_norm&quot;</span>)</a>
-<a class="sourceLine" id="cb424-5" data-line-number="5">gto_norm_summary &lt;-<span class="st"> </span>gto_norm<span class="op">$</span>post_summary</a></code></pre></div>
-<p>La salida incluye los objetos que regresa ña función <code>jags()</code> para cada partido
-y una tabla con un resumen de los resultados.</p>
-<pre><code>#&gt; Warning in file(file, &quot;rt&quot;): cannot open file &#39;data/gto_2012.csv&#39;: No such file
-#&gt; or directory
-#&gt; Error in file(file, &quot;rt&quot;): cannot open the connection</code></pre>
-<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb426-1" data-line-number="1">gto_norm_summary</a>
-<a class="sourceLine" id="cb426-2" data-line-number="2"><span class="co">#&gt; Error in eval(expr, envir, enclos): object &#39;gto_norm_summary&#39; not found</span></a></code></pre></div>
-</div>
-<div id="inferencia-del-modelo" class="section level4 unnumbered">
-<h4>Inferencia del modelo</h4>
-<ol style="list-style-type: decimal">
-<li>La inferencia de <span class="math inline">\(\theta\)</span> se obtiene de la distribución posterior:
-<span class="math display">\[p(\theta|y_{obs},x)\propto p(\theta|x)L(\theta|y_{obs},x)\]</span></li>
-<li>La posterior de <span class="math inline">\(\theta\)</span> lleva a inferencia de las cantidades poblacionales
-no observadas usando la distribución predictiva posterior:
-<span class="math display">\[p(y_{falta}|y_{obs},x) =  \int p(y_{falta}|\theta,x)p(\theta|y_{obs},x)d\theta\]</span></li>
-<li>Utilizamos los datos observados y simulaciones de los <em>datos faltantes</em>
-para estimar la proporción de votos en favor de cada candidato.</li>
-</ol>
-</div>
-<div id="evaluación-de-ajuste" class="section level4 unnumbered">
-<h4>Evaluación de ajuste</h4>
-<p>La siguientes gráficas muestra la distribución predictiva posterior del total de
-votos para el PAN (partido ganador) y para Movimiento Ciudadano (partido chico),
-la línea roja indica el total de votos observado.</p>
-<pre><code>#&gt; Error in map(.x, .f, ...): object &#39;gto_norm&#39; not found
-#&gt; Error in eval(lhs, parent, parent): object &#39;gto_2012&#39; not found
-#&gt; Error in ggplot(norm_votes, aes(x = votes)): object &#39;norm_votes&#39; not found</code></pre>
-<pre><code>#&gt; Warning in gzfile(file, &quot;rb&quot;): cannot open compressed file &#39;cache_manual/
-#&gt; plot_norm.rds&#39;, probable reason &#39;No such file or directory&#39;
-#&gt; Error in gzfile(file, &quot;rb&quot;): cannot open the connection</code></pre>
-<div class="sourceCode" id="cb429"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb429-1" data-line-number="1">plot_norm</a>
-<a class="sourceLine" id="cb429-2" data-line-number="2"><span class="co">#&gt; Error in eval(expr, envir, enclos): object &#39;plot_norm&#39; not found</span></a></code></pre></div>
-<p>Examinamos otro nivel de desagregación: las distribuciones predictivas
-posteriores para el total de votos por estrato, mostramos las gráficas para 3
-estratos.</p>
-<p><img src="imagenes/pp_pan_estratos_norm.png" alt="drawing" width="750"/></p>
-<p><img src="imagenes/pp_mc_estratos_norm.png" alt="drawing" width="750"/></p>
-</div>
-<div id="modelo-con-distribución-mezcla" class="section level4 unnumbered">
-<h4>Modelo con distribución mezcla</h4>
-<p>Tras analizar las simulaciones de la distribución predictiva posterior notamos
-que el modelo Normal no ajustaba a los partidos chicos, observamos que para
-estos había muchas casillas con cero votos y unas cuantas con <em>muchos</em> votos.
-Adicionalmente notamos que la distribución t ajustaba mejor que la normal
-gracias a que tiene colas más pesadas. Ante esto propusimos un modelo mezcla
-donde para la <span class="math inline">\(k\)</span> es casilla el número de votos observados es cero con
-probabilidad <span class="math inline">\(p_k\)</span> y sigue una distribución <span class="math inline">\(t\)</span> con probabilidad <span class="math inline">\((1-p_k)\)</span>:</p>
-<ul>
-<li>Nivel 1</li>
-</ul>
-<p><span class="math display">\[X_k\sim p_k\mathsf{\delta}_0(x)+(1-p_k)\mathsf{t}(n_k\theta_k,n_k^{-1}\tau_k^{\text{distrito}},\nu_k^{\text{distrito}}) \mathcal{I}_{[0,750]},\]</span></p>
-<p><span class="math display">\[\begin{align}
-\theta_k=  \text{logit}^{-1} &amp; ( 
-\beta^0 
-+\beta^{\text{rural}} \cdot \text{rural}_k 
-+\beta^{\text{rural-tamañoM}} \cdot \text{rural}_k \cdot \text{tamañoM}_k  \\  
-+&amp; \beta^{\text{tamañoM}} \cdot \text{tamañoM}_k 
-+\beta^{\text{tamañoL}} \cdot \text{tamañoL}_k 
-+\beta^{\text{distrito}}_{\text{distrito}(k)}  \\ 
-+&amp; \beta^{\text{tipoSP}}\cdot \text{tipoSP}_k 
-),
-\end{align}\]</span></p>
-<p><span class="math display">\[\begin{align}
-p_k =  \text{logit}^{-1} &amp; ( 
-\beta^0_p
-+\beta_p^{\text{rural}} \cdot \text{rural}_k 
-+\beta_p^{\text{rural-tamañoM}} \cdot \text{rural}_k \cdot \text{tamañoM}_k  \\  
-+&amp; \beta_p^{\text{tamañoM}} \cdot \text{tamañoM}_k 
-+\beta_p^{\text{tamañoL}} \cdot \text{tamañoL}_k 
-+\beta^{\text{distrito-p}}_{\text{distrito}(k)}  \\ 
-+&amp; \beta_p^{\text{tipoSP}}\cdot \text{tipoSP}_k 
-).
-\end{align}\]</span></p>
-<ul>
-<li>Nivel 2</li>
-</ul>
-<p><span class="math display">\[\begin{align}
-    \beta^{\text{distrito}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito}}, \sigma_{\text{distrito}}^2\right).
-\end{align}\]</span></p>
-<p><span class="math display">\[\begin{align}
-    \beta^{\text{distrito-p}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito-p}}, \sigma_{\text{distrito-p}}^2\right).
-\end{align}\]</span></p>
-<p>El código en JAGS:</p>
-<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb430-1" data-line-number="1"><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">deparse</span>(quickcountmx<span class="op">:::</span>model_norm)[<span class="dv">3</span>]))</a></code></pre></div>
-<pre><code>#&gt; Warning in gzfile(file, &quot;rb&quot;): cannot open compressed file &#39;cache_manual/
-#&gt; model_string_bern_t.rds&#39;, probable reason &#39;No such file or directory&#39;
-#&gt; Error in gzfile(file, &quot;rb&quot;): cannot open the connection</code></pre>
-<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb432-1" data-line-number="1">model_string <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">cat</span>()</a>
-<a class="sourceLine" id="cb432-2" data-line-number="2"><span class="co">#&gt; Error in eval(lhs, parent, parent): object &#39;model_string&#39; not found</span></a></code></pre></div>
-<p>Lo ajustamos llamando nuevamente a la función <code>mrp_party_estimation()</code>, si no
-especificamos el parámetro <code>model_string</code> ajusta por defecto el modelo mezcla.</p>
-<div class="sourceCode" id="cb433"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb433-1" data-line-number="1">gto_mixture &lt;-<span class="st"> </span><span class="kw">mrp_estimation</span>(gto_<span class="dv">2012</span>, <span class="dt">... =</span> pri_pvem<span class="op">:</span>otros, </a>
-<a class="sourceLine" id="cb433-2" data-line-number="2">    <span class="dt">stratum =</span> distrito_loc_<span class="dv">17</span>, <span class="dt">frac =</span> <span class="fl">0.06</span>, <span class="dt">n_iter =</span> <span class="dv">3000</span>, <span class="dt">n_burnin =</span> <span class="dv">2000</span>, </a>
-<a class="sourceLine" id="cb433-3" data-line-number="3">    <span class="dt">n_chains =</span> <span class="dv">2</span>, <span class="dt">seed =</span> <span class="dv">19291</span>, <span class="dt">parallel =</span> <span class="ot">TRUE</span>, <span class="dt">n_cores =</span> <span class="dv">6</span>)</a></code></pre></div>
-</div>
-<div id="evaluación-de-ajuste-1" class="section level4 unnumbered">
-<h4>Evaluación de ajuste</h4>
-<p>Repetimos las gráficas de la distribución predictiva posterior del total de
-votos para el PAN (partido ganador) y para Movimiento Ciudadano (partido chico).</p>
-<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb434-1" data-line-number="1">mixture_votes &lt;-<span class="st"> </span><span class="kw">map_df</span>(gto_mixture<span class="op">$</span>jags_fits, </a>
-<a class="sourceLine" id="cb434-2" data-line-number="2">    <span class="op">~</span><span class="kw">apply</span>(.<span class="op">$</span>BUGSoutput<span class="op">$</span>sims.list<span class="op">$</span>x, <span class="dv">1</span>, sum)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb434-3" data-line-number="3"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">n_sim =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb434-4" data-line-number="4"><span class="st">    </span><span class="kw">gather</span>(party, votes, <span class="op">-</span>n_sim)</a>
-<a class="sourceLine" id="cb434-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb434-6" data-line-number="6">plot_mixture &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mixture_votes, <span class="kw">aes</span>(<span class="dt">x =</span> votes)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb434-7" data-line-number="7"><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1000</span>, <span class="dt">alpha =</span> <span class="fl">0.7</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb434-8" data-line-number="8"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span>party, <span class="dt">scales =</span> <span class="st">&quot;free_x&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb434-9" data-line-number="9"><span class="st">    </span><span class="kw">geom_vline</span>(<span class="dt">data =</span> true_votes, <span class="kw">aes</span>(<span class="dt">xintercept =</span> total_votes), </a>
-<a class="sourceLine" id="cb434-10" data-line-number="10">        <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb434-11" data-line-number="11"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;PP Modelo normal: total de votos&quot;</span>, </a>
-<a class="sourceLine" id="cb434-12" data-line-number="12">        <span class="dt">x =</span> <span class="kw">expression</span>(y[rep]), <span class="dt">y =</span> <span class="st">&quot;&quot;</span>) </a></code></pre></div>
-<pre><code>#&gt; Warning in gzfile(file, &quot;rb&quot;): cannot open compressed file &#39;cache_manual/
-#&gt; plot_mixture.rds&#39;, probable reason &#39;No such file or directory&#39;
-#&gt; Error in gzfile(file, &quot;rb&quot;): cannot open the connection</code></pre>
-<p>Mostramos también las gráficas para los mismos 3 estratos que en el caso normal.</p>
-<p><img src="imagenes/pp_pan_estratos_mezcla.png" alt="drawing" width="750"/></p>
-<p><img src="imagenes/pp_mc_estratos_mezcla.png" alt="drawing" width="750"/></p>
-</div>
-<div id="calibración-1" class="section level4 unnumbered">
-<h4>Calibración</h4>
-<p>Para evaluar el modelo complementamos con pruebas de calibración, siguiendo
-los siguientes pasos:</p>
-<ol style="list-style-type: decimal">
-<li><p>Simulamos <span class="math inline">\(n\)</span> muestras.</p></li>
-<li><p>Para cada muestra creamos intervalos de 95%.</p></li>
-<li><p>Revisamos el porcentaje de intervalos que contienen el valor observado.</p></li>
-</ol>
-<p>Simulamos bajo los siguientes escenarios:</p>
-<ul>
-<li><p>Muestras completas.</p></li>
-<li><p>Censuramos las muestras completas usando patrones observados de la llegada de
-datos de cada distrito y ámbito (rural/urbano).</p></li>
-<li><p>Censuramos las muestras completas eliminando estratos.</p></li>
-</ul>
-<div id="estimador-de-razón" class="section level5 unnumbered">
-<h5>Estimador de razón</h5>
-<p>Comparamos el desempeño del modelo a lo largo de las muestras simuladas con
-el estimador de razón combinado:</p>
-<p><span class="math display">\[\hat{p_k}=\frac{\hat{X_k}}{\hat{Y}}=\frac{\sum_h \hat{X_{kh}}}{\sum_h \hat{Y_{h}}}=\frac{\sum_h \frac{N_h}{n_h} \sum_i X_{khi}}{\sum_h \frac{N_h}{n_h} \sum_i Y_{hi}}\]</span></p>
-<p>Utilizamos bootstrap para estimar los errores estándar. Notar que en el caso
-de estratos faltantes se debe seleccionar una estrategia para utilizar este
-estimador, pues como tal no esta definido si faltan estratos.</p>
-</div>
-<div id="gráficas-de-calibración" class="section level5">
-<h5><span class="header-section-number">10.10.3.1.1</span> Gráficas de calibración</h5>
-<p>En las siguientes gráficas el alto de las barras representa la longitud media
-de la presición (2 veces el error estándar), y el número indica el porcentaje
-de intervalos (de 95% de confianza/probabilidad) que cubrieron el verdadero
-valor.</p>
-<p><img src="imagenes/calibracion_gto.png" alt="drawing" width="500" class="center-image-2"/></p>
-</div>
-</div>
-<div id="elección-guanajuato-2018" class="section level4 unnumbered">
-<h4>Elección Guanajuato 2018</h4>
-<p>Se reportaron los intervalos de probabilidad de las 9:45 pm, con 357 casillas.</p>
-<p><img src="imagenes/eleccion_2018_razon_modelo.png" alt="drawing" width="800"/></p>
-</div>
-<div id="implementación" class="section level4 unnumbered">
-<h4>Implementación</h4>
-<p>Implementamos en <em>JAGS</em>, la estimación se puede consultar y <strong>reproducir
-completamente</strong> con el paquete de R <a href="https://github.com/tereom/quickcountmx">quickcountmx</a>
-(Ortiz 2018).</p>
-<ul>
-<li><p>La reproducibilidad es crucial para examinar la <strong>veracidad de las
-conclusiones</strong> de un trabajo científico.</p></li>
-<li><p>La reproducibilidad ayuda a lograr la <strong>transparencia en el procedimiento
-electoral</strong>, fomenta la <strong>confianza en las instituciones</strong> y da <strong>legitimidad al
-resultado del conteo rápido</strong>.</p></li>
-</ul>
-</div>
-<div id="modelo-nacional" class="section level4 unnumbered">
-<h4>Modelo nacional</h4>
-<p>El modelo multinivel con distribución de probabilidad mezcla resulta <em>muy
-lento</em> para la elección nacional, por lo que se tomaron las siguientes medidas:</p>
-<ul>
-<li><p><strong>División de datos:</strong> Se estima un modelo de forma independiente para cada
-una de 7 regiones geográficas lo que nos permite paralelizar por región y por
-candidato, la desventaja es que no podemos usar información entre las regiones.</p></li>
-<li><p>Se modela utilizando una distribucióin <strong>binomial negativa</strong>
-(un parámetro menos).</p></li>
-<li><p>Se implementó con <strong>Stan</strong> en lugar de <strong>JAGS</strong> (el código está en el
-paquete de R <a href="https://github.com/tereom/quickcountmx">quickcountmx</a>).</p></li>
-</ul>
-<p>Más detalles del modelo <a href="https://jovial-jepsen-cf1904.netlify.com">aquí</a>.</p>
-<pre><code>data {
-  int N; // number of stations
-  int n_strata; 
-  int n_covariates;
-  int&lt;lower=0&gt; y[N]; // observed vote counts
-  vector&lt;lower=0&gt;[N] n; // nominal counts
-  int stratum[N];
-  matrix[N, n_covariates] x;
-  
-  int N_f; // total number of stations
-  int n_strata_f; 
-  int n_covariates_f;
-  int&lt;lower=0&gt; y_f[N_f] ; // observed vote counts
-  vector[N_f] in_sample;
-  vector[N_f] n_f; // nominal counts
-  int stratum_f[N_f];
-  matrix[N_f, n_covariates_f] x_f;
-  
-}
-
-parameters {
-  real beta_0;
-  vector[n_covariates] beta;
-  vector&lt;lower=0&gt;[n_strata] beta_bn;
-  vector&lt;lower=0&gt;[n_strata] sigma_st;
-  vector[n_strata] beta_st_raw;
-}
-
-transformed parameters {
-   vector&lt;lower=0, upper=1&gt;[N] theta; 
-   vector&lt;lower=0&gt;[N] alpha_bn;
-   vector[n_strata] beta_st;
-   vector[N] pred;
-
-   beta_st = beta_0 + beta_st_raw .* sigma_st;
-   pred = x * beta;
-   theta = inv_logit(beta_st[stratum] + pred);
-   alpha_bn = n .* theta;
-
-}
-
-model {
-
-
-  beta_0 ~ normal(0, 1);
-  beta ~ normal(0 , 1);
-  beta_st_raw ~ normal(0, 1);
-  sigma_st ~ normal(0, 1);
-  beta_bn ~ normal(1, 1);
-
-  y ~ neg_binomial_2(alpha_bn , beta_bn[stratum] .* alpha_bn);
-
-}
-
-generated quantities {
-  int y_out;
-  real&lt;lower=0,upper=1&gt; theta_f;
-  real alpha_bn_f;
-  real pred_f;
-  y_out = 0;
-  for(i in 1:N_f){
-    if(in_sample[i]==1){
-      y_out += y_f[i];
-    } else {
-    pred_f = dot_product(x_f[i,], beta);
-    theta_f = inv_logit(beta_st[stratum_f[i]] + pred_f);
-    alpha_bn_f =  n_f[i] * theta_f;
-    y_out += neg_binomial_2_rng(alpha_bn_f , beta_bn[stratum_f[i]]*alpha_bn_f);
-  }
-  }
-}</code></pre>
-</div>
-</div>
-<div id="recursos-de-stan-y-paquetes-con-r" class="section level3">
-<h3><span class="header-section-number">10.10.4</span> Recursos de Stan y paquetes con R:</h3>
-<ul>
-<li><p><a href="https://mc-stan.org/docs/2_21/reference-manual/index.html">Stan Manual</a>.</p></li>
-<li><p><a href="https://mc-stan.org/docs/2_21/stan-users-guide/index.html">Stan User’s Guide</a>.</p></li>
-<li><p>El paquete <a href="https://cran.r-project.org/web/packages/rstanarm/vignettes/rstanarm.html">rstanarm</a>,
-<span class="citation">Gabry and Goodrich (<a href="#ref-R-rstanarm">2019</a>)</span>, facilita el uso de Stan desde R, cuenta con funciones para llevar a
-cabo estimación Bayesiana sin necesidad de escribir código en el <em>lenguaje de Stan</em>,
-de acuerdo a los autores el objetivo del paquete es que la estimación bayesiana
-sea rutina para los modelos de regresión más comunes.</p></li>
-<li><p>El paquete <a href="https://mc-stan.org/bayesplot/">bayesplot</a>, <span class="citation">Gabry and Mahr (<a href="#ref-R-bayesplot">2019</a>)</span>, cuenta con funciones para
-graficar estimaciones de los parámetros, realizar diagnósticos visuales de las
-cadenas (convergencia), y analizar el ajuste del modelo (graficando de la
-predictiva posterior).</p></li>
-<li><p>El paquete <a href="http://mc-stan.org/users/interfaces/shinystan">shinystan</a>,
-<span class="citation">Gabry (<a href="#ref-R-shinystan">2018</a>)</span>, contiene
-resumenes gráficos y numéricos de parámetros de un modelo y de diagnósticos de
-convergencia.</p></li>
-</ul>
-
-</div>
-</div>
-<!-- </div> -->
 <h3>Referencias</h3>
 <div id="refs" class="references">
 <div id="ref-albert">
 <p>Albert, J. 2009. <em>Bayesian Computation with R</em>. Use R! Springer New York. <a href="https://books.google.com.mx/books?id=AALhk\_mt7SYC" class="uri">https://books.google.com.mx/books?id=AALhk\_mt7SYC</a>.</p>
-</div>
-<div id="ref-R-shinystan">
-<p>Gabry, Jonah. 2018. <em>Shinystan: Interactive Visual and Numerical Diagnostics and Posterior Analysis for Bayesian Models</em>. <a href="https://CRAN.R-project.org/package=shinystan" class="uri">https://CRAN.R-project.org/package=shinystan</a>.</p>
-</div>
-<div id="ref-R-rstanarm">
-<p>Gabry, Jonah, and Ben Goodrich. 2019. <em>Rstanarm: Bayesian Applied Regression Modeling via Stan</em>. <a href="https://CRAN.R-project.org/package=rstanarm" class="uri">https://CRAN.R-project.org/package=rstanarm</a>.</p>
-</div>
-<div id="ref-R-bayesplot">
-<p>Gabry, Jonah, and Tristan Mahr. 2019. <em>Bayesplot: Plotting for Bayesian Models</em>. <a href="https://CRAN.R-project.org/package=bayesplot" class="uri">https://CRAN.R-project.org/package=bayesplot</a>.</p>
-</div>
-<div id="ref-gelman-hill">
-<p>Gelman, Andrew, and Jennifer Hill. 2007. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. Vol. Analytical methods for social research. New York: Cambridge University Press.</p>
-</div>
-<div id="ref-little2012">
-<p>Lehtonen, Risto. 2012. “Calibrated Bayes, an Alternative Inferential Paradigm for Official Statistics: Discussion.” <em>Journal of Official Statistics</em> 28 (3). SCB:353–57.</p>
-</div>
-<div id="ref-mendoza2016">
-<p>Mendoza, Manuel, and Luis E. Nieto-Barajas. 2016. “Quick Counts in the Mexican Presidential Elections: A Bayesian Approach.” <em>Electoral Studies</em> 43 (C):124–32. <a href="https://doi.org/10.1016/j.electstud.2016.06.007" class="uri">https://doi.org/10.1016/j.electstud.2016.06.007</a>.</p>
-</div>
-<div id="ref-parkgelmanbafumi">
-<p>Park, David K., Andrew Gelman, and Joseph Bafumi. 2004. “Bayesian Multilevel Estimation with Poststratification: State-Level Estimates from National Polls.” <em>Political Analysis</em> 12 (04):375–85. <a href="https://EconPapers.repec.org/RePEc:cup:polals:v:12:y:2004:i:04:p:375-385_00" class="uri">https://EconPapers.repec.org/RePEc:cup:polals:v:12:y:2004:i:04:p:375-385_00</a>.</p>
 </div>
 </div>
             </section>
@@ -2593,7 +1862,7 @@ convergencia.</p></li>
         </div>
       </div>
 <a href="diagnósticos-generales.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="tareas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="reparametrización.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

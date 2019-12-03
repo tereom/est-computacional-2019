@@ -320,11 +320,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-estimación-de-tasas-de-mortalidad"><i class="fa fa-check"></i>Ejemplo: estimación de tasas de mortalidad</a></li>
 <li class="chapter" data-level="10.10.1" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.10.1</b> Iniciales en Stan</a></li>
-<li class="chapter" data-level="10.10.2" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#reparametrización"><i class="fa fa-check"></i><b>10.10.2</b> Reparametrización</a></li>
-<li class="chapter" data-level="10.10.3" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i><b>10.10.3</b> Modelos jerárquicos y parametrización no centrada</a></li>
-<li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-conteo-rápido"><i class="fa fa-check"></i>Ejemplo: conteo rápido</a></li>
-<li class="chapter" data-level="10.10.4" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#recursos-de-stan-y-paquetes-con-r"><i class="fa fa-check"></i><b>10.10.4</b> Recursos de Stan y paquetes con R:</a></li>
 </ul></li>
+<li class="chapter" data-level="10.11" data-path="reparametrización.html"><a href="reparametrización.html"><i class="fa fa-check"></i><b>10.11</b> Reparametrización</a><ul>
+<li class="chapter" data-level="" data-path="reparametrización.html"><a href="reparametrización.html#ejemplo-el-embudo-de-neal"><i class="fa fa-check"></i>Ejemplo: El embudo de Neal</a></li>
+<li class="chapter" data-level="" data-path="reparametrización.html"><a href="reparametrización.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i>Modelos jerárquicos y parametrización no centrada</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="recursos-de-stan-y-paquetes-con-r.html"><a href="recursos-de-stan-y-paquetes-con-r.html"><i class="fa fa-check"></i>Recursos de Stan y paquetes con R</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -453,7 +454,7 @@ la isla.</p>
 <a class="sourceLine" id="cb333-41" data-line-number="41"></a>
 <a class="sourceLine" id="cb333-42" data-line-number="42"><span class="kw">grid.arrange</span>(plot_caminata, plot_dist, <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">heights =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">2</span>))</a>
 <a class="sourceLine" id="cb333-43" data-line-number="43"><span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-22-1.png" width="336" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-18-1.png" width="336" style="display: block; margin: auto;" /></p>
 <p>Entonces:</p>
 <ul>
 <li><p>Para aproximar la distribución objetivo debemos permitir que el vendedor
@@ -479,7 +480,7 @@ dicha isla.</p></li>
 <a class="sourceLine" id="cb334-9" data-line-number="9"></a>
 <a class="sourceLine" id="cb334-10" data-line-number="10">args.list &lt;-<span class="st"> </span><span class="kw">c</span>(plots_list,<span class="kw">list</span>(<span class="dt">nrow =</span> <span class="dv">4</span>, <span class="dt">ncol =</span> <span class="dv">4</span>))</a>
 <a class="sourceLine" id="cb334-11" data-line-number="11"><span class="kw">invoke</span>(grid.arrange, args.list)</a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-23-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-19-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>Escribamos el algoritmo, para esto indexamos las islas por el valor
 <span class="math inline">\(\theta\)</span>, es así que la isla del extremo oeste corresponde a <span class="math inline">\(\theta=1\)</span> y la
 población relativa de cada isla es <span class="math inline">\(P(\theta)\)</span>:</p>
@@ -548,7 +549,7 @@ distribución objetivo, entonces el algoritmo preserva las probabilidades.</p>
 <a class="sourceLine" id="cb335-31" data-line-number="31"><span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb335-32" data-line-number="32"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>t) <span class="op">+</span></a>
 <a class="sourceLine" id="cb335-33" data-line-number="33"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta), <span class="dt">breaks =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">11</span>))</a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-24-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-20-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>El segundo punto es que el proceso converge a la distribución objetivo.
 Podemos ver, (en nuestro ejemplo sencillo) que sin importar el punto de inicio
 se alcanza la distribución objetivo.</p>
@@ -567,7 +568,7 @@ se alcanza la distribución objetivo.</p>
 <a class="sourceLine" id="cb336-13" data-line-number="13"><span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb336-14" data-line-number="14"><span class="st">    </span><span class="kw">facet_grid</span>(inicio <span class="op">~</span><span class="st"> </span>t) <span class="op">+</span></a>
 <a class="sourceLine" id="cb336-15" data-line-number="15"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta), <span class="dt">breaks =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">11</span>))</a></code></pre></div>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-25-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-21-1.png" width="768" style="display: block; margin: auto;" /></p>
 </div>
 </div>
             </section>
