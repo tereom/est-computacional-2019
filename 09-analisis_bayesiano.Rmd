@@ -5,43 +5,7 @@ knitr::opts_chunk$set(
     collapse = TRUE,
     fig.align = "center", 
     error = TRUE,
-    cache = FALSE
-)
-comma <- function(x) format(x, digits = 2, big.mark = ",")
-ggplot2::theme_set(ggplot2::theme_light())
-```
-```{r include=FALSE, cache=FALSE}
-library(tidyverse)
-knitr::opts_chunk$set(
-    comment = "#>",
-    collapse = TRUE,
-    fig.align = "center", 
-    error = TRUE,
-    cache = FALSE
-)
-comma <- function(x) format(x, digits = 2, big.mark = ",")
-ggplot2::theme_set(ggplot2::theme_light())
-```
-```{r include=FALSE, cache=FALSE}
-library(tidyverse)
-knitr::opts_chunk$set(
-    comment = "#>",
-    collapse = TRUE,
-    fig.align = "center", 
-    error = TRUE,
-    cache = FALSE
-)
-comma <- function(x) format(x, digits = 2, big.mark = ",")
-ggplot2::theme_set(ggplot2::theme_light())
-```
-```{r include=FALSE, cache=FALSE}
-library(tidyverse)
-knitr::opts_chunk$set(
-    comment = "#>",
-    collapse = TRUE,
-    fig.align = "center", 
-    error = TRUE,
-    cache = FALSE
+    cache = TRUE
 )
 comma <- function(x) format(x, digits = 2, big.mark = ",")
 ggplot2::theme_set(ggplot2::theme_light())
@@ -782,7 +746,7 @@ p1 <- base +
         aes(colour = "verosimilitud"), show.legend = FALSE) + 
     stat_function(fun = dbeta, args = list(shape1 = a + z, shape2 = N - z + b), 
         aes(colour = "posterior"), show.legend = FALSE) +
-      labs(y = "", colour = "", x = expression(theta))
+        labs(y = "", colour = "", x = expression(theta))
 
 N = 14; z = 11; a = 100; b = 100
 p2 <- base +
@@ -3609,7 +3573,7 @@ son muy diferentes al cambiar los parámetros de la distribución inicial.
 lambdas <- rgamma(1000, shape = sum(heart$y), rate = sum(heart$e))
 # ahora para cada hospital simulamos muestras de una distribución Poisson
 # con media e_i*lambda
-priors <- data_frame(alpha = c(0.01, 0.5, 1), beta = c(0.01, 0.01, 1000))
+priors <- tibble(alpha = c(0.01, 0.5, 1), beta = c(0.01, 0.01, 1000))
 
 heart_indep_sims <- heart %>% 
     crossing(priors) %>% 
@@ -4053,7 +4017,7 @@ unidades iguales.
 ```{r, fig.align='center', fig.width=4, fig.height=4}
 # Para calcular las p predictiva podemos usar las simulaciones
 p_pred <- heart_sims %>% 
-    unnest() %>% 
+    unnest(cols = sims) %>% 
     group_by(hospital) %>% 
     summarise(
         p = min(sum(sims <= y) / 1000, sum(sims >= y) / 1000), 
@@ -4118,15 +4082,9 @@ parameters {
     real<lower=0> mu;
     real<lower=0> alpha;
 }
-transformed parameters {
-    vector<lower=0>[N] lambda2;
-    real<lower=0> beta;
-    beta = alpha ./ mu;
-    lambda2 = lambda .* e;
-}
 model {
-    lambda ~ gamma(alpha, beta);
-    y ~ poisson(lambda2);
+    lambda ~ gamma(alpha, alpha/ mu);
+    y ~ poisson(lambda .* e);
     mu ~ normal(0, 1);
     alpha ~ normal(0, 10);
 }
@@ -4246,19 +4204,20 @@ dimensiones. El cuello de los embudos es muy estrecho por la transformación de
 la variable $y$.
 
 
-```{r}
-p_yx <- function(y, x) { 
-  dnorm(y, 0, 3, log = T) + dnorm(x, 0, exp(y / 2), log = T)
+```{r funnel_posterior, cache = FALSE}
+p_yx1 <- function(x1, y) { 
+  dnorm(y, 0, 3, log = T) + dnorm(x1, 0, exp(y / 2), log = T)
 }
-coords <- expand.grid(x = seq(-20, 20, by = 0.05), 
+grid  <- expand.grid(x1 = seq(-20, 20, by = 0.05), 
   y = seq(-9, 9, by = 0.05))
-coords$value <- p_yx(coords$y, coords$x)
-coords <- coords %>% filter(value > -20)
+grid$p_yx1 <- p_yx1(x1 = grid$x1, y = grid$y)
 
-ggplot(coords, aes(x, y, fill = (value))) + 
+grid <- grid %>% filter(p_yx1 > -20)
+
+ggplot(grid, aes(x1, y, fill = p_yx1)) + 
     geom_raster() +
     scale_fill_distiller(palette = "Spectral", direction = -1, na.value = NA, 
-        name = "log(y, x[1])") +
+        name = expression(log(p(y, x["1"])))) +
     ylim(-9, 9) +
     xlim(-20, 20)
 ```
@@ -4374,8 +4333,8 @@ model {
   ...
 ```
 
-Y sufuriría de ineficiencias como el embudo de Neal, debido a que el valor de
-$\beta$, $\mu_\{\beta}$ y $\sigma_\{\beta}$ tienen alta correlación en la 
+Y tendría ineficiencias como el embudo de Neal, debido a que el valor de
+$\beta$ (vector), $\mu_{\beta}$ y $\sigma_{\beta}$ tienen alta correlación en la 
 posterior. El nivel de correlación dependerá de la cantidad de datos disponibles
 siendo mayor cuanto menos información se tenga. En estos casos, de datos 
 limitados, es más eficiente usar una parametrización no centrada.
@@ -5021,6 +4980,9 @@ generated quantities {
 * [Stan Manual](https://mc-stan.org/docs/2_21/reference-manual/index.html).
 
 * [Stan User's Guide](https://mc-stan.org/docs/2_21/stan-users-guide/index.html).
+
+* [Flujo de trabajo Bayesiano](https://betanalpha.github.io/assets/case_studies/principled_bayesian_workflow.html) de Michael Betancourt. Introduce, con un ejemplo, el 
+flujo de trabajo para construir y evaluar modelos en inferencia bayesiana.
 
 * El paquete [rstanarm](https://cran.r-project.org/web/packages/rstanarm/vignettes/rstanarm.html), 
 @R-rstanarm, facilita el uso de Stan desde R, cuenta con funciones para llevar a 
