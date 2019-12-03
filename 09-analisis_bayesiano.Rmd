@@ -1,15 +1,3 @@
-```{r include=FALSE, cache=FALSE}
-library(tidyverse)
-knitr::opts_chunk$set(
-    comment = "#>",
-    collapse = TRUE,
-    fig.align = "center", 
-    error = TRUE,
-    cache = TRUE
-)
-comma <- function(x) format(x, digits = 2, big.mark = ",")
-ggplot2::theme_set(ggplot2::theme_light())
-```
 # Análisis bayesiano
 
 Para esta sección seguiremos principalmente @kruschke, sin embargo, para el 
@@ -429,7 +417,7 @@ que observamos un único volado y resulta en águila.
 
 ```{r}
 Like <- theta ^ 1 * (1 - theta) ^ (1 - 1)
-product <- Like * prior$p
+product <- Like * prior
 post <- product / sum(product)
 post
 ```
@@ -4181,13 +4169,13 @@ el -1 y el 1). Algunos ejemplos:
     media-normal(0,10).
 
 
-### Reparametrización 
+## Reparametrización 
 
 El muestreador de Stan puede ser muy lento cuando la geometría de la 
 distribución posterior es complicada, una manera de acelerar la convergencia
 es reparametrizando. 
 
-#### Ejemplo: El embudo de Neal
+### Ejemplo: El embudo de Neal {-}
 
 Veamos como ejemplo el [embudo de Neal](https://mc-stan.org/docs/2_18/stan-users-guide/reparameterization-section.html), 
 tomado de la guía de usuarios de Stan, Neal (2003) define una distribución 
@@ -4204,23 +4192,26 @@ dimensiones. El cuello de los embudos es muy estrecho por la transformación de
 la variable $y$.
 
 
-```{r funnel_posterior, cache = FALSE}
-p_yx1 <- function(x1, y) { 
-  dnorm(y, 0, 3, log = T) + dnorm(x1, 0, exp(y / 2), log = T)
+```{r funnel_posterior_a}
+log_p_fun <- function(x, y) { 
+  dnorm(y, 0, 3, log = TRUE) + dnorm(x, 0, exp(y / 2), log = TRUE)
 }
-grid  <- expand.grid(x1 = seq(-20, 20, by = 0.05), 
-  y = seq(-9, 9, by = 0.05))
-grid$p_yx1 <- p_yx1(x1 = grid$x1, y = grid$y)
+grid_eval  <- expand_grid(x = seq(-20, 20, by = 0.03), 
+  y = seq(-9, 9, by = 0.03)) %>% 
+  mutate(log_p = log_p_fun(x = x, y = y)) %>% 
+  filter(log_p > -20)
+head(grid_eval)
+```
 
-grid <- grid %>% filter(p_yx1 > -20)
-
-ggplot(grid, aes(x1, y, fill = p_yx1)) + 
+```{r funnel_posterior_plot_a}
+ggplot(grid_eval, aes(x, y, fill = log_p)) + 
     geom_raster() +
     scale_fill_distiller(palette = "Spectral", direction = -1, na.value = NA, 
         name = expression(log(p(y, x["1"])))) +
     ylim(-9, 9) +
     xlim(-20, 20)
 ```
+
 
 Y podemos implementar en Stan:
 
@@ -4311,13 +4302,13 @@ ggplot(sims_no_funnel, aes(x_1, y)) +
     xlim(-20, 20)
 ```
 
-### Modelos jerárquicos y parametrización no centrada
+### Modelos jerárquicos y parametrización no centrada {-}
 
 En modelos jerárquicos es común encontrarse con geometrías complejas, una
 parametrización que suele ayudar para acelerar convergencia es la
 parametrización no centrada.
 
-#### Parametrización centrada
+#### Parametrización centrada {-}
 
 Un modelo jerárquico usual seleccionaría muestras de un vector de coeficientes
 $\beta$ como sigue:
@@ -4357,629 +4348,18 @@ model {
 Las iniciales de `mu_beta` y `sigma_beta` permanecen sin cambios respecto al 
 modelo original.
 
-
-### Ejemplo: conteo rápido {-}
-
-En este ejercicio describimos un modelo jerárquico desarrollado por Michelle 
-Anzarut, Felipe González y Teresa Ortiz para estimar los resultados
-electorales en el conteo rápido.
-
-**Objetivo**: Estimar resultados de la elección a partir de una muestra 
-aleatoria de casillas.
-
-**Inferencia basada en modelos**: Modelo de regresión multinivel, en función de 
-covariables asociadas a las casillas, que estima el número de votos a favor del 
-candidato en cada casilla.
-
-<!--3. Juntamos los valores observados y los simulados por el modelo de 
-    cada candidato para calcular proporciones de voto y los intervalos 
-    correspondientes.-->
-
-**Calibración:** Evaluamos modelos con remuestreo y datos de elecciones pasadas, 
-revisando cobertura de intervalos de confianza/credibilidad.
-
-**Experiencia:** Mostramos resultados de elección 2018.
-
-#### Contexto: Conteo rápido {-}
-
-* En México, las elecciones tienen lugar un domingo, los resultados oficiales 
-del proceso se presentan a la población una semana después. A fin de evitar 
-proclamaciones de victoria injustificadas durante ese período el INE organiza un 
-conteo rápido.
-
-* **Conteo rápido**: Procedimiento para estimar el porcentaje de votos a favor 
-de los candidatos en el día de la elección, consiste en seleccionar una muestra 
-aleatoria de las casillas de votación y analizar sus resultados para presentar 
-intervalos con una probabilidad de al menos 0.95.
-
-* La rapidez y precisión del conteo favorece un ambiente de confianza y sirve 
-como una herramienta contra el fraude.
-
-#### Elecciones 2018 {-}
-
-* La elección del 2018 fue la más grande que se ha vivido en México, con 3,400 
-puestos en disputa. Se realizaron conteos rápidos para **9 elecciones estatales** 
-simultáneas a un conteo rápido para la **elección de presidente**.
-
-* El día de la elección, el sistema de información comienza a las 6 p.m. y, 
-cada 5 minutos, produce una secuencia de archivos acumulativos. Estas muestras 
-parciales se analizan con los métodos de estimación para rastrear la tendencia 
-de los resultados.
-
-* Las muestras parciales tienen un sesgo potencial asociado al patrón de llegada 
-de la información.
-
-#### Diseño de la muestra {-}
-
-El diseño de la muestra es probabilístico.
-
-* **Diseño:** es unietápico y estratificado, donde la unidad de observación es 
-la casilla. 
-    - En Guanajuato son 22 estratos definidos por distrito local.
-
-* **Tamaño de muestra:** Se eligió el tamaño de muestra para lograr intervalos 
-de 95% confianza con **longitud máxima de 2 puntos porcentuales.**
-    - En Guanajuato el tamaño de muestra se fijó en 500 casillas.
-
-* **Selección de la muestra:** La distribución de la muestra en las casillas
-se realizó proporcional al número de casillas en cada estrato, y se utilizó 
-muestreo aleatorio simple dentro de cada estrato.
-
-* **Consideraciones adicionales:** Se buscó que todos los estratos tuvieran 
-al menos 50 casillas, y que porcentaje de CAEs (Capacitadores-Asistentes 
-Electorales) encargados de más de una casilla fuera menor a 20%.
-
-#### Datos faltantes {-}
-
-En la práctica la muestra seleccionada no llega completa. Entre las posibles 
-razones de faltantes están:
-
-* El clima en ciertas regiones dificulta la transmisión de los resultados.
-
-* El responsable de reportar los resultados está saturado de trabajo: 
-contando votos a falta de funcionarios de casilla, retrasado por la dificultad
-de llegar a la casilla por malas condiciones de terreno,...
-
-Usualmente los faltantes **no son completamente aleatorios**, esto es, la 
-probabilidad de que una casilla no se reporte está asociada a la respuesta de
-la casilla.
-
-Buscamos un modelo con **tratamiento consistente de datos faltantes:** en 
-ausencia de respuesta.
-
-
-#### Antecedentes {-}
-
-El modelo que proponemos se desarrolló con base a tres referencias:
-
-* @mendoza2016 _Quick counts in the Mexican presidential elections: A Bayesian 
-approach_. En este trabajo se propone el uso de modelos bayesianos para el 
-conteo rápido.
-    + Se ajusta un modelo de manera independiente **para cada candidato** en 
-    **cada estrato**.
-    + Modelo normal para el total de votos $X_k$ que recibe cada candidato en 
-    la $k$-ésima casilla.
-$$X_k\sim N \bigg( n_{k} \theta, \tau / n_k \bigg)$$
-    + $\theta$: proporción de gente de la lista nominal a favor del candidato.
-    + $n_k$: número de personas en la lista nominal de la $k$-ésima casilla.
- 
-* @little2012 _Calibrated Bayes, an Alternative Inferential Paradigm 
-for Official Statistics_. Se describe un acercamiento bayesiano para los 
-problemas clásicos de muestreo, usando modelos jerárquicos, el paradigma que se 
-propone en este artículo consiste en ajustar modelos bayesianos y evaluarlos 
-(calibrarlos) usando propiedades frecuentistas.
-
-* @parkgelmanbafumi _Bayesian Multilevel Estimation with Poststratification: 
-State-Level Estimates from National Polls_. Se describe un modelo jerárquico
-para estimar preferencias electorales a partir de encuestas de opinión pública, 
-además de la estructura jerárquica se incluyen covaribales.
-
-Es así que tomamos como base el modelo propuesto en @mendoza2016 y siguiendo 
-los otros dos artículos comenzamos extendiendolo en 2 sentidos: 
-
-1. Usamos un enfoque unificado por candidato, en lugar de estimar un modelo
-independiente dentro de cada estrato, ajustamos un un único modelo por 
-candidato incluyendo un efecto aleatorio (estructura multinivel) que 
-corresponda al estrato.
-
-2. Agregamos covariables que describen la casilla para mejorar la eficiencia en 
-la estimación y corregir sesgos ante faltantes.
-
-
-#### Inferencia en muestreo {-}
-Antes de pasar al modelo describimos como encaja la metodología que proponemos
-en el mundo del muestreo. Cuando se hace inferencia de muestreo hay dos grandes
-acercamientos:
-
-1. **Inferencia basada en diseño de muestras.** Los valores poblacionales son una
-cantidad fija, la inferencia se basa en la distribución de probabilidad asociada
-a la selección de la muestra. 
-
-2. **Inferencia basada en modelos.** Las variables provienen de un modelo 
-estadístico:
-    + **Modelos de superpoblaciones:** los valores poblacionales se consideran
-    una muestra aleatoria de una **superpoblación**, y se les asigna una 
-    distribución de probabilidad.
-    
-    + **Modelos bayesianos:** agregamos distribuciones iniciales a los 
-    parámetros y se hace inferencia de las **cantidades poblacionales** y de los 
-    **parámetros** usando la distribución posterior.
-
-#### Modelos bayesianos {-}
-
-En modelos bayesianos la inferencia se realiza prediciendo la variable de 
-interés para las unidades de la población que **no se incluyeron en la muestra** 
-y para las unidades **que no respondieron**, condicional a la muestra observada 
-y al modelo.
-
-Usamos modelos paramétricos:
-
-$$p(y|x)=\int p(y|x, \theta)p(\theta|x)p(\theta)d\theta$$
-
-* $p(y|x,\theta)$: modelo paramétrico de $y$.
-
-* $p(\theta|x)$: distribución inicial para $\theta$.
-
-Se incluyen en el modelo las variables involucradas en el diseño de la 
-muestra (estratos, conglomerados).
-
-#### Modelo con distribución normal {-}
-
-En el caso del modelo del conteo rápido incluímos las siguientes covariables:
-
-1. Tipo de sección (rural o urbana/mixta).
-
-2. Tipo de casilla (básica/contigua/especial o extraordinaria).
-
-3. Tamaño de sección (chica < 1000 votantes, mediana [1000, 5000], 
-grande > 5000).
-
-4. Región (oriente u occidente).
-
-5. Distrito local.
-
-6. Interacción de tipo de sección con tamaño de sección.
-
-Y el primer modelo que planteamos es como sigue:
-
-Sea $X_k$ el número de votos en favor del candidato en la k-ésima casilla:
-
-- Nivel 1
-
-$$
-\begin{align}
-	X_k \sim  \mathsf{N}(n_k\theta_k, \tau_k^{\text{distrito}}/n_k) \ \mathcal{I}_{[0,750]},
-\end{align}
-$$
-
-donde $n_k$ es la lista nominal y $\theta_k$ la proporción de personas en la 
-lista nominal de la casilla $k$ que votaron por el candidato,
-
-
-
-$$\begin{align}
-\theta_k=\text{logit}^{-1}&(\beta^0+\beta^{\text{rural}}\cdot\text{rural}_k+\beta^{\text{rural-tamañoM}}\cdot\text{rural}_k\cdot\text{tamañoM}_k\\+&\beta^{\text{tamañoM}}\cdot\text{tamañoM}_k
-+\beta^{\text{tamañoL}} \cdot \text{tamañoL}_k+\beta^{\text{tipoSP}}\cdot \text{tipoSP}_k\\+&\beta^{\text{distrito}}_{\text{distrito}(k)}),
-\end{align}$$
-
-
-
-- Nivel 2
-
-$$\begin{align}
-	\beta^{\text{distrito}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito}}, \sigma_{\text{distrito}}^2\right).
-\end{align}$$
-
-El código del modelo en JAGS:
-
-```{r, eval = FALSE}
-library(quickcountmx)
-eval(parse(text = deparse(quickcountmx:::model_norm)[3]))
-```
-
-```{r, echo = FALSE}
-# write_rds(model_string, "cache_manual/model_string_norm.rds")
-model_string <- read_rds("data/quickcount/model_string_norm.rds")
-```
-
-
-```{r}
-model_string %>% cat
-```
-
-
-Se utilizó una parametrización redundante para acelerar la convergencia:
-
-```
-beta_estrato[j] <-  beta_estrato_raw[j] - mean(beta_estrato_raw[])
-beta_estrato_raw[j] ~ dnorm(mu_estrato, tau_estrato)
-```
-
-ver el capítulo 19 de @gelman-hill.
-
-La función `mrp_party_estimation()` recibe la tabla de datos, el partido que
-se desea ajustar, la variable de estratificación, la fracción de la muestra a
-utilizar en el ajuste, el número de iteraciones, calentamiento, número de 
-cadenas, semilla y el modelo que vamos a ajustar.
-
-```{r, eval = FALSE}
-gto_pan_norm <- mrp_party_estimation(gto_2012, pan_na,
-    stratum = distrito_loc_17, frac = 0.06, n_iter = 2000, n_burnin = 1000,
-    n_chains = 2, seed = 19291, model_string = "model_norm")
-```
-
-```{r, echo = FALSE}
-# write_rds(gto_pan_norm, "cache_manual/gto_pan_norm.rds")
-gto_pan_norm <- read_rds("data/quickcount/gto_pan_norm.rds")
-```
-En `fit` se guarda la salida de JAGS y `n_votes` es el vector de simulaciones
-del total de votos.
-
-```{r, message=FALSE}
-library(R2jags)
-plot(gto_pan_norm$fit)
-```
-
-De la imagen anterior podemos ver que faltan iteraciones para alcanzar 
-convergencia. Las parámetros `beta_estrato_raw` se crearon para acelerar la
-convergencia pero no es necesario que converjan, pero otras variables como 
-`beta_region` se beneficiarían de incrementar las simulaciones.
-
-El siguiente código corre el modelo para todos los partidos, incrementando las
-simulaciones.
-
-```{r, eval = FALSE}
-gto_norm <- mrp_estimation(gto_2012, ... = pri_pvem:otros, 
-    stratum = distrito_loc_17, frac = 0.06, n_iter = 3000, n_burnin = 2000, 
-    n_chains = 2, seed = 19291, parallel = TRUE, n_cores = 4, 
-    model_string = "model_norm")
-gto_norm_summary <- gto_norm$post_summary
-```
-
-La salida incluye los objetos que regresa ña función `jags()` para cada partido
-y una tabla con un resumen de los resultados.
-
-```{r, echo = FALSE}
-# para no tener que instalar quickcountmx en Travis copiamos los datos a data
-# write_rds(gto_norm, "cache_manual/gto_norm.rds")
-# write_rds(gto_norm_summary, "cache_manual/gto_norm_post_summary.rds")
-# gto_norm <- read_rds("cache_manual/gto_norm.rds")
-gto_2012 <- read.csv("data/gto_2012.csv", stringsAsFactors = FALSE)
-```
-
-```{r}
-gto_norm_summary
-```
-
-
-
-#### Inferencia del modelo {-}
-
-1. La inferencia de $\theta$ se obtiene de la distribución posterior:
-$$p(\theta|y_{obs},x)\propto p(\theta|x)L(\theta|y_{obs},x)$$
-2. La posterior de $\theta$ lleva a inferencia de las cantidades poblacionales 
-no observadas usando la distribución predictiva posterior:
-$$p(y_{falta}|y_{obs},x) =  \int p(y_{falta}|\theta,x)p(\theta|y_{obs},x)d\theta$$
-3. Utilizamos los datos observados y simulaciones de los *datos faltantes*
-para estimar la proporción de votos en favor de cada candidato.
-
-#### Evaluación de ajuste {-}
-
-La siguientes gráficas muestra la distribución predictiva posterior del total de
-votos para el PAN (partido ganador) y para Movimiento Ciudadano (partido chico), 
-la línea roja indica el total de votos observado.
-
-```{r, fig.width=6.5, fig.height=3.5,out.width="600px", echo=FALSE}
-norm_votes <- map_df(gto_norm$jags_fits, 
-    ~apply(.$BUGSoutput$sims.list$x, 1, sum)) %>% 
-    mutate(n_sim = 1:n()) %>% 
-    gather(party, votes, -n_sim) %>% 
-    mutate(party = reorder(party, votes)) 
-
-true_votes <- gto_2012 %>% 
-    dplyr::select(casilla_id, pri_pvem:otros) %>% 
-    gather(party, votes, -casilla_id) %>% 
-    group_by(party) %>% 
-    summarise(total_votes = sum(votes)) %>% 
-    mutate(party = factor(party, levels = levels(norm_votes$party)))
-
-plot_norm <- ggplot(norm_votes, aes(x = votes)) +
-    geom_histogram(binwidth = 1000, alpha = 0.7) +
-    facet_wrap(~party, scales = "free_x") +
-    geom_vline(data = true_votes, aes(xintercept = total_votes), 
-        color = "red") +
-    labs(title = "PP Modelo normal: total de votos", 
-        x = expression(y[rep]), y = "") 
-```
-
-```{r, echo = FALSE}
-# write_rds(plot_norm, "cache_manual/plot_norm.rds")
-plot_norm <- read_rds("cache_manual/plot_norm.rds")
-```
-
-```{r, fig.width=6.5, fig.height=3.5,out.width="600px"}
-plot_norm
-```
-
-
-
-Examinamos otro nivel de desagregación: las distribuciones predictivas 
-posteriores para el total de votos por estrato, mostramos las gráficas para 3
-estratos.
-
-<img src="imagenes/pp_pan_estratos_norm.png" alt="drawing" width="750"/>
-
-<img src="imagenes/pp_mc_estratos_norm.png" alt="drawing" width="750"/>
-
-#### Modelo con distribución mezcla {-}
-
-Tras analizar las simulaciones de la distribución predictiva posterior notamos 
-que el modelo Normal no ajustaba a los partidos chicos, observamos que para
-estos había muchas casillas con cero votos y unas cuantas con *muchos* votos.
-Adicionalmente notamos que la distribución t ajustaba mejor que la normal 
-gracias a que tiene colas más pesadas. Ante esto propusimos un modelo mezcla
-donde para la $k$ es casilla el número de votos observados es cero con 
-probabilidad $p_k$ y sigue una distribución $t$ con probabilidad $(1-p_k)$:
-
-- Nivel 1
-
-$$X_k\sim p_k\mathsf{\delta}_0(x)+(1-p_k)\mathsf{t}(n_k\theta_k,n_k^{-1}\tau_k^{\text{distrito}},\nu_k^{\text{distrito}}) \mathcal{I}_{[0,750]},$$
-
-$$\begin{align}
-\theta_k=  \text{logit}^{-1} & ( 
-\beta^0 
-+\beta^{\text{rural}} \cdot \text{rural}_k 
-+\beta^{\text{rural-tamañoM}} \cdot \text{rural}_k \cdot \text{tamañoM}_k  \\  
-+& \beta^{\text{tamañoM}} \cdot \text{tamañoM}_k 
-+\beta^{\text{tamañoL}} \cdot \text{tamañoL}_k 
-+\beta^{\text{distrito}}_{\text{distrito}(k)}  \\ 
-+& \beta^{\text{tipoSP}}\cdot \text{tipoSP}_k 
-),
-\end{align}$$
-
-$$\begin{align}
-p_k =  \text{logit}^{-1} & ( 
-\beta^0_p
-+\beta_p^{\text{rural}} \cdot \text{rural}_k 
-+\beta_p^{\text{rural-tamañoM}} \cdot \text{rural}_k \cdot \text{tamañoM}_k  \\  
-+& \beta_p^{\text{tamañoM}} \cdot \text{tamañoM}_k 
-+\beta_p^{\text{tamañoL}} \cdot \text{tamañoL}_k 
-+\beta^{\text{distrito-p}}_{\text{distrito}(k)}  \\ 
-+& \beta_p^{\text{tipoSP}}\cdot \text{tipoSP}_k 
-).
-\end{align}$$
-
-- Nivel 2
-
-$$\begin{align}
-	\beta^{\text{distrito}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito}}, \sigma_{\text{distrito}}^2\right).
-\end{align}$$
-
-$$\begin{align}
-	\beta^{\text{distrito-p}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito-p}}, \sigma_{\text{distrito-p}}^2\right).
-\end{align}$$
-
-El código en JAGS:
-
-```{r, eval=FALSE}
-eval(parse(text = deparse(quickcountmx:::model_norm)[3]))
-```
-
-```{r, echo = FALSE}
-# este chunk sobra si se instala quickcountmx
-# write_rds(model_string, "cache_manual/model_string_bern_t.rds")
-model_string <- read_rds("cache_manual/model_string_bern_t.rds")
-```
-
-```{r}
-model_string %>% cat()
-```
-
-Lo ajustamos llamando nuevamente a la función `mrp_party_estimation()`, si no 
-especificamos el parámetro `model_string` ajusta por defecto el modelo mezcla.
-
-```{r, eval = FALSE}
-gto_mixture <- mrp_estimation(gto_2012, ... = pri_pvem:otros, 
-    stratum = distrito_loc_17, frac = 0.06, n_iter = 3000, n_burnin = 2000, 
-    n_chains = 2, seed = 19291, parallel = TRUE, n_cores = 6)
-```
-
-```{r, echo = FALSE}
-# write_rds(gto_mixture, "cache_manual/gto_mixture.rds")
-# gto_mixture <- read_rds("cache_manual/gto_mixture.rds")
-```
-
-#### Evaluación de ajuste {-}
-
-Repetimos las gráficas de la distribución predictiva posterior del total de
-votos para el PAN (partido ganador) y para Movimiento Ciudadano (partido chico).
-
-```{r, fig.width=6.5, fig.height=3.5,out.width="600px", eval=FALSE}
-mixture_votes <- map_df(gto_mixture$jags_fits, 
-    ~apply(.$BUGSoutput$sims.list$x, 1, sum)) %>% 
-    mutate(n_sim = 1:n()) %>% 
-    gather(party, votes, -n_sim)
-
-plot_mixture <- ggplot(mixture_votes, aes(x = votes)) +
-    geom_histogram(binwidth = 1000, alpha = 0.7) +
-    facet_wrap(~party, scales = "free_x") +
-    geom_vline(data = true_votes, aes(xintercept = total_votes), 
-        color = "red") +
-    labs(title = "PP Modelo normal: total de votos", 
-        x = expression(y[rep]), y = "") 
-```
-
-```{r, echo=FALSE}
-# write_rds(plot_mixture, "cache_manual/plot_mixture.rds")
-plot_mixture <- read_rds("cache_manual/plot_mixture.rds")
-```
-
-
-Mostramos también las gráficas para los mismos 3 estratos que en el caso normal.
-
-<img src="imagenes/pp_pan_estratos_mezcla.png" alt="drawing" width="750"/>
-
-<img src="imagenes/pp_mc_estratos_mezcla.png" alt="drawing" width="750"/>
-
-
-#### Calibración {-}
-
-Para evaluar el modelo complementamos con pruebas de calibración, siguiendo
-los siguientes pasos:
-
-1. Simulamos $n$ muestras.
-
-2. Para cada muestra creamos intervalos de 95%.
-
-3. Revisamos el porcentaje de intervalos que contienen el valor observado.
-
-Simulamos bajo los siguientes escenarios:
-
-* Muestras completas.
-
-* Censuramos las muestras completas usando patrones observados de la llegada de 
-datos de cada distrito y ámbito (rural/urbano).
-
-* Censuramos las muestras completas eliminando estratos.
-
-##### Estimador de razón {-}
-
-Comparamos el desempeño del modelo a lo largo de las muestras simuladas con 
-el estimador de razón combinado:
-
-$$\hat{p_k}=\frac{\hat{X_k}}{\hat{Y}}=\frac{\sum_h \hat{X_{kh}}}{\sum_h \hat{Y_{h}}}=\frac{\sum_h \frac{N_h}{n_h} \sum_i X_{khi}}{\sum_h \frac{N_h}{n_h} \sum_i Y_{hi}}$$
-
-Utilizamos bootstrap para estimar los errores estándar. Notar que en el caso 
-de estratos faltantes se debe seleccionar una estrategia para utilizar este 
-estimador, pues como tal no esta definido si faltan estratos. 
-
-##### Gráficas de calibración
-
-En las siguientes gráficas el alto de las barras representa la longitud media 
-de la presición (2 veces el error estándar), y el número indica el porcentaje
-de intervalos (de 95% de confianza/probabilidad) que cubrieron el verdadero 
-valor.
-
-<img src="imagenes/calibracion_gto.png" alt="drawing" width="500" class="center-image-2"/>
-
-#### Elección Guanajuato 2018 {-}
-
-Se reportaron los intervalos de probabilidad de las 9:45 pm, con 357 casillas.
-
-<img src="imagenes/eleccion_2018_razon_modelo.png" alt="drawing" width="800"/>
-
-#### Implementación {-}
-
-Implementamos en *JAGS*, la estimación se puede consultar y **reproducir 
-completamente** con el paquete de R [quickcountmx](https://github.com/tereom/quickcountmx) 
-(Ortiz 2018). 
-
-* La reproducibilidad es crucial para examinar la **veracidad de las 
-conclusiones** de un trabajo científico.  
-
-* La reproducibilidad ayuda a lograr la **transparencia en el procedimiento 
-electoral**, fomenta la **confianza en las instituciones** y da **legitimidad al 
-resultado del conteo rápido**.
-
-
-#### Modelo nacional {-}
-
-El modelo multinivel con distribución de probabilidad mezcla resulta *muy 
-lento* para la elección nacional, por lo que se tomaron las siguientes medidas:
-
-* **División de datos:** Se estima un modelo de forma independiente para cada
-una de 7 regiones geográficas lo que nos permite paralelizar por región y por 
-candidato, la desventaja es que no podemos usar información entre las regiones.
-
-* Se modela utilizando una distribucióin **binomial negativa**
-(un parámetro menos).
-
-* Se implementó con **Stan** en lugar de **JAGS** (el código está en el 
-paquete de R [quickcountmx](https://github.com/tereom/quickcountmx)).
-
-Más detalles del modelo [aquí](https://jovial-jepsen-cf1904.netlify.com).
-
-
-```
-data {
-  int N; // number of stations
-  int n_strata; 
-  int n_covariates;
-  int<lower=0> y[N]; // observed vote counts
-  vector<lower=0>[N] n; // nominal counts
-  int stratum[N];
-  matrix[N, n_covariates] x;
-  
-  int N_f; // total number of stations
-  int n_strata_f; 
-  int n_covariates_f;
-  int<lower=0> y_f[N_f] ; // observed vote counts
-  vector[N_f] in_sample;
-  vector[N_f] n_f; // nominal counts
-  int stratum_f[N_f];
-  matrix[N_f, n_covariates_f] x_f;
-  
-}
-
-parameters {
-  real beta_0;
-  vector[n_covariates] beta;
-  vector<lower=0>[n_strata] beta_bn;
-  vector<lower=0>[n_strata] sigma_st;
-  vector[n_strata] beta_st_raw;
-}
-
-transformed parameters {
-   vector<lower=0, upper=1>[N] theta; 
-   vector<lower=0>[N] alpha_bn;
-   vector[n_strata] beta_st;
-   vector[N] pred;
-
-   beta_st = beta_0 + beta_st_raw .* sigma_st;
-   pred = x * beta;
-   theta = inv_logit(beta_st[stratum] + pred);
-   alpha_bn = n .* theta;
-
-}
-
-model {
-
-
-  beta_0 ~ normal(0, 1);
-  beta ~ normal(0 , 1);
-  beta_st_raw ~ normal(0, 1);
-  sigma_st ~ normal(0, 1);
-  beta_bn ~ normal(1, 1);
-
-  y ~ neg_binomial_2(alpha_bn , beta_bn[stratum] .* alpha_bn);
-
-}
-
-generated quantities {
-  int y_out;
-  real<lower=0,upper=1> theta_f;
-  real alpha_bn_f;
-  real pred_f;
-  y_out = 0;
-  for(i in 1:N_f){
-    if(in_sample[i]==1){
-      y_out += y_f[i];
-    } else {
-    pred_f = dot_product(x_f[i,], beta);
-    theta_f = inv_logit(beta_st[stratum_f[i]] + pred_f);
-    alpha_bn_f =  n_f[i] * theta_f;
-    y_out += neg_binomial_2_rng(alpha_bn_f , beta_bn[stratum_f[i]]*alpha_bn_f);
-  }
-  }
-}
-```
-
-
-### Recursos de Stan y paquetes con R:
-
-* [Stan Manual](https://mc-stan.org/docs/2_21/reference-manual/index.html).
+Ahora veremos un ejemplo práctivo de parametrización no centrada en un modelo de 
+predicción de resultados del conteo rápido, que además ejemplifica un flujo de 
+trabajo bayesiano, con pasos de ajuste, inferencia, calibración y evaluación de 
+robustez. El ejemplo está en [esta liga](https://jovial-jepsen-cf1904.netlify.com).
+
+## Recursos de Stan y paquetes con R {-}
+
+* [Stan Manual](https://mc-stan.org/docs/2_21/reference-manual/index.html). Manual 
+de referencia oficial del lenguaje Stan. 
 
 * [Stan User's Guide](https://mc-stan.org/docs/2_21/stan-users-guide/index.html).
+Ejemplos de modelos y técnicas de programación con Stan.
 
 * [Flujo de trabajo Bayesiano](https://betanalpha.github.io/assets/case_studies/principled_bayesian_workflow.html) de Michael Betancourt. Introduce, con un ejemplo, el 
 flujo de trabajo para construir y evaluar modelos en inferencia bayesiana.
