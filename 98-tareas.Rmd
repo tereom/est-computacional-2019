@@ -1478,18 +1478,18 @@ transformed parameters {
 }
 model {  
   y ~ bernoulli_logit(reg_pred);
-  beta_0 ~ normal(10, 2);
-  beta ~ normal(0, 1);
-  sigma ~ normal(0,1);
-  beta_age_raw ~ normal(0, 1);
-  beta_edu_raw ~ normal(0, 1);
-  beta_age_edu_raw ~ normal(0, 1);
-  beta_state_raw ~ normal(0, 1);
-  sigma_state ~ normal(0, 1);
-  sigma_age ~ normal(0, 1);
-  sigma_edu ~ normal(0, 1);
-  sigma_age_edu ~ normal(0, 1);
-  alpha ~ normal(0, 1);
+  beta_0 ~ normal(0, 2);
+  beta ~ normal(0, 5);
+  sigma ~ normal(0, 5);
+  beta_age_raw ~ normal(0, 10);
+  beta_edu_raw ~ normal(0, 10);
+  beta_age_edu_raw ~ normal(0, 10);
+  beta_state_raw ~ normal(0, 10);
+  sigma_state ~ normal(0, 10);
+  sigma_age ~ normal(0, 10);
+  sigma_edu ~ normal(0, 10);
+  sigma_age_edu ~ normal(0, 10);
+  alpha ~ normal(0, 5);
 }
 
 "
