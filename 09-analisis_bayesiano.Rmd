@@ -4121,7 +4121,9 @@ ggplot(sims_lambda, aes(x = log(e), y = media * 1000, color = factor(y))) +
   
 ```
 
-### Iniciales en Stan 
+## Inicialesy Reparametrización 
+
+### Iniciales en Stan {-}
 
 Las siguientes recomendaciones de iniciales son de los desarrolladores de Stan, 
 puedes leer más en https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations.
@@ -4353,7 +4355,7 @@ predicción de resultados del conteo rápido, que además ejemplifica un flujo d
 trabajo bayesiano, con pasos de ajuste, inferencia, calibración y evaluación de 
 robustez. El ejemplo está en [esta liga](https://jovial-jepsen-cf1904.netlify.com).
 
-## Recursos de Stan y paquetes con R {-}
+## Recursos de Stan y paquetes con R 
 
 * [Stan Manual](https://mc-stan.org/docs/2_21/reference-manual/index.html). Manual 
 de referencia oficial del lenguaje Stan. 
