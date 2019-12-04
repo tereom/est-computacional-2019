@@ -1184,7 +1184,7 @@ Reporta si las personas cuestionadas pudieron distinguir los datos.
 * ¿A cuántas personas preguntaste y cuál es el valor p de la prueba?
 
 
-### 2. Simulación para el cálculo de tamaños de muestra
+### 2. Simulación para el cálculo de tamaños de muestra {-}
 
 En el conteo rápido del estado de Guanajuato, se calculó el tamaño de muestra
 fijando como objetivo que los intervalos del $95$% de confianza tuvieran una 
@@ -1385,7 +1385,7 @@ donde $N_j$ indica el número de individuos en cada estado que
 pertenecen a la $j$-ésima celda, la información para determinar las $N_j$ se 
 obtendrá del censo de población.
 
-### Implementación
+#### Implementación {-}
 
 Datos en [election88](http://www.stat.columbia.edu/~gelman/arm/examples/election88/), 
 o en la carpeta data.
@@ -1433,89 +1433,63 @@ Y el código en Stan:
 ```{r, eval =FALSE}
 model_mrp <- "
 data {
-  int<lower=0> N; 
-  int<lower=0> n_age; 
-  int<lower=0> n_age_edu; 
-  int<lower=0> n_edu; 
-  int<lower=0> n_region; 
-  int<lower=0> n_state; 
-  int<lower=1,upper=n_age> age[N];
-  // int<lower=1,upper=n_age_edu> age_edu[N];
-  vector<lower=0,upper=1>[N] black;
-  int<lower=1,upper=n_edu> edu[N];
-  vector<lower=0,upper=1>[N] female;
-  int<lower=1,upper=n_region> region[n_state];
-  int<lower=1,upper=n_state> state[N];
-  vector[n_state] v_prev;
-  int<lower=0,upper=1> y[N];
+  int n; // número de observaciones
+  int n_state; // número de estados
+  int n_age;
+  int n_edu;
+  int n_age_edu;
+  int age[n];
+  int edu[n];
+  int age_edu[n];
+  int mh; //número de covariables nivel persona
+  int mm; //número de covariables nivel estado
+  int<lower=0,upper=1> y[n];
+  matrix[n, mh] x_person; // covariables a nivel persona
+  int state[n];
+  matrix[n_state, mm] x_state; // covariables a nivel estado
 } 
 parameters {
-  vector[n_age] b_age;
-  vector[n_age_edu] b_age_edu;
-  vector[n_edu] b_edu;
-  vector[n_region] b_region;
-  vector[n_state] b_state;
-  real b_v_prev;
-  vector[4] beta;
-  real mu;
-  real mu_age;
-  real mu_age_edu;
-  real mu_edu;
-  real mu_region;
-  real<lower=0,upper=100> sigma_age;
-  real<lower=0,upper=100> sigma_edu;
-  real<lower=0,upper=100> sigma_age_edu;
-  real<lower=0,upper=100> sigma_region;
-  real<lower=0,upper=100> sigma_state;
-} 
+  real beta_0;
+  vector[mh] beta;
+  real<lower=0> sigma;
+  vector[n_state] beta_state_raw;
+  vector[n_age] beta_age_raw;
+  vector[n_edu] beta_edu_raw;
+  vector[n_age_edu] beta_age_edu_raw;
+  real<lower=0> sigma_age;
+  real<lower=0> sigma_edu;
+  real<lower=0> sigma_age_edu;
+  real<lower=0> sigma_state;
+  vector[mm] alpha;
+}
 transformed parameters {
-  vector[n_age] b_age_adj;
-  vector[n_age_edu] b_age_edu_adj;
-  vector[n_edu] b_edu_adj;
-  vector[n_region] b_region_adj;
-  vector[n_state] b_state_hat;
-  real mu_adj;
-  vector[N] Xbeta;
-  vector[N] p;
-  vector[N] p_bound;
-
-    for (i in 1:N)
-        Xbeta[i] = beta[1] + beta[2]*female[i] + beta[3]*black[i] +
-            beta[4]*female[i]*black[i] + b_age[age[i]] + b_edu[edu[i]] +
-            b_age_edu[age_edu[i]] + b_state[state[i]];
-
-    mu_adj = beta[1] + mean(b_age) + mean(b_edu) + mean(b_age_edu) +
-        mean(b_state);
-    b_age_adj = b_age - mean(b_age);
-    b_edu_adj = b_edu - mean(b_edu);
-    b_age_edu_adj = b_age_edu - mean(b_age_edu);
-    b_region_adj = b_region - mean(b_region);
-
-    for (j in 1:n_state)
-        b_state_hat[j] = b_region[region[j]] + 100 * b_v_prev * v_prev[j];
+  vector[n] reg_pred;
+  vector[n_state] beta_state;
+  vector[n_age] beta_age;
+  vector[n_edu] beta_edu;
+  vector[n_age_edu] beta_age_edu;
+  // parametrización no centrada
+  beta_age = beta_age_raw * sigma_age; 
+  beta_edu = beta_edu_raw * sigma_edu; 
+  beta_age_edu = beta_age_edu_raw * sigma_age_edu; 
+  beta_state = beta_state_raw * sigma_state + x_state * alpha; 
+  reg_pred = beta_0 + x_person * beta + beta_state[state] + beta_age[age] + 
+    beta_edu[edu] + beta_age_edu[age_edu];
 }
 model {  
-    mu_age ~ normal(0, 1);
-    mu_edu ~ normal(0, 1);
-    mu_age_edu ~ normal(0, 1);
-    mu_region ~ normal(0, 1);
-    mu ~ normal(0, 100);
-    sigma_age ~ uniform(0, 100);
-    sigma_edu ~ uniform(0, 100);
-    sigma_age_edu ~ uniform(0, 100);
-    sigma_region ~ uniform(0, 100);
-    sigma_state ~ uniform(0, 100);
-
-    beta ~ normal(0, 100);
-    b_age ~ normal(100 * mu_age, sigma_age);
-    b_edu ~ normal(100 * mu_edu, sigma_edu);
-    b_age_edu ~ normal(100 * mu_age_edu,sigma_age_edu);
-    b_state ~ normal(b_state_hat, sigma_state);
-
-    b_v_prev ~ normal(0, 1);
-    b_region ~ normal(100 * mu_region, sigma_region);
-
-    y ~ bernoulli_logit(Xbeta);
+  y ~ bernoulli_logit(reg_pred);
+  beta_0 ~ normal(10, 2);
+  beta ~ normal(0, 1);
+  sigma ~ normal(0,1);
+  beta_age_raw ~ normal(0, 1);
+  beta_edu_raw ~ normal(0, 1);
+  beta_age_edu_raw ~ normal(0, 1);
+  beta_state_raw ~ normal(0, 1);
+  sigma_state ~ normal(0, 1);
+  sigma_age ~ normal(0, 1);
+  sigma_edu ~ normal(0, 1);
+  sigma_age_edu ~ normal(0, 1);
+  alpha ~ normal(0, 1);
 }
 
 "
@@ -1531,7 +1505,7 @@ simular del modelo y comparar con los datos observados. En particular veremos
 como se comparan las simulaciones del modelo por estado, la gráfica con los 
 datos será la que sigue:
 
-```{r}
+```{r, eval = FALSE}
 bush_state <- last_poll %>% 
     group_by(state) %>% 
     summarise(prop = mean(bush, na.rm = TRUE)) %>% 
@@ -1580,7 +1554,7 @@ casos en cada celda:
 
 $$\theta_s=\frac{\sum_{j \in s}N_{j}\pi_j}{\sum_{j \in s}N_{j}}$$
 
-4. Genera las simulaciones de $\theta_s$, recuerda que debarás calcular una
-simulación de cada $\theta_s$ por cada simulación de $\pi__j$ obtenida con el 
-código de arriba. Realiza una gráfica con intervalos de credibilidad del 95% 
+4. Genera las simulaciones de $\theta_s$, recuerda que debarás calcular 
+una simulación de cada $\theta_s$ por cada simulación de $\pi_j$ obtenida con 
+el código de arriba. Realiza una gráfica con intervalos de credibilidad del 95% 
 para cada $theta_s$.
