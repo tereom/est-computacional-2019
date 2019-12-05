@@ -319,13 +319,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelo-jerárquico-una-moneda"><i class="fa fa-check"></i>Modelo jerárquico una moneda</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-estimación-de-tasas-de-mortalidad"><i class="fa fa-check"></i>Ejemplo: estimación de tasas de mortalidad</a></li>
-<li class="chapter" data-level="10.10.1" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.10.1</b> Iniciales en Stan</a></li>
 </ul></li>
-<li class="chapter" data-level="10.11" data-path="reparametrización.html"><a href="reparametrización.html"><i class="fa fa-check"></i><b>10.11</b> Reparametrización</a><ul>
+<li class="chapter" data-level="10.11" data-path="inicialesy-reparametrización.html"><a href="inicialesy-reparametrización.html"><i class="fa fa-check"></i><b>10.11</b> Inicialesy Reparametrización</a><ul>
+<li class="chapter" data-level="" data-path="inicialesy-reparametrización.html"><a href="inicialesy-reparametrización.html#iniciales-en-stan"><i class="fa fa-check"></i>Iniciales en Stan</a></li>
+</ul></li>
+<li class="chapter" data-level="10.12" data-path="reparametrización.html"><a href="reparametrización.html"><i class="fa fa-check"></i><b>10.12</b> Reparametrización</a><ul>
 <li class="chapter" data-level="" data-path="reparametrización.html"><a href="reparametrización.html#ejemplo-el-embudo-de-neal"><i class="fa fa-check"></i>Ejemplo: El embudo de Neal</a></li>
 <li class="chapter" data-level="" data-path="reparametrización.html"><a href="reparametrización.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i>Modelos jerárquicos y parametrización no centrada</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="recursos-de-stan-y-paquetes-con-r.html"><a href="recursos-de-stan-y-paquetes-con-r.html"><i class="fa fa-check"></i>Recursos de Stan y paquetes con R</a></li>
+<li class="chapter" data-level="10.13" data-path="recursos-de-stan-y-paquetes-con-r.html"><a href="recursos-de-stan-y-paquetes-con-r.html"><i class="fa fa-check"></i><b>10.13</b> Recursos de Stan y paquetes con R</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -344,6 +346,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>11-Familias conjugadas</a></li>
 <li class="chapter" data-level="" data-path="metropolis-1.html"><a href="metropolis-1.html"><i class="fa fa-check"></i>12-Metropolis</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos-1.html"><a href="modelos-jerárquicos-1.html"><i class="fa fa-check"></i>13-Modelos jerárquicos</a></li>
+<li class="chapter" data-level="" data-path="final.html"><a href="final.html"><i class="fa fa-check"></i>Final</a><ul>
+<li class="chapter" data-level="" data-path="final.html"><a href="final.html#inferencia-gráfica"><i class="fa fa-check"></i>1. Inferencia gráfica</a></li>
+<li class="chapter" data-level="" data-path="final.html"><a href="final.html#simulación-para-el-cálculo-de-tamaños-de-muestra"><i class="fa fa-check"></i>2. Simulación para el cálculo de tamaños de muestra</a></li>
+<li class="chapter" data-level="" data-path="final.html"><a href="final.html#mcmc-1"><i class="fa fa-check"></i>3. MCMC</a></li>
+<li class="chapter" data-level="" data-path="final.html"><a href="final.html#modelos-jerárquicos-stan-y-evaluación-de-ajuste"><i class="fa fa-check"></i>4. Modelos jerárquicos, Stan y evaluación de ajuste</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -386,34 +394,34 @@ columnas numéricas.</p>
 <div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">a =</span> <span class="kw">rnorm</span>(<span class="dv">10</span>), <span class="dt">b =</span> <span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">2</span>), <span class="dt">c =</span> <span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">3</span>), </a>
 <a class="sourceLine" id="cb121-2" data-line-number="2">    <span class="dt">d =</span> <span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">4</span>))</a>
 <a class="sourceLine" id="cb121-3" data-line-number="3">df</a>
-<a class="sourceLine" id="cb121-4" data-line-number="4"><span class="co">#&gt;    id           a          b        c        d</span></a>
-<a class="sourceLine" id="cb121-5" data-line-number="5"><span class="co">#&gt; 1   1 -0.46468797  2.2058577 2.655196 2.717005</span></a>
-<a class="sourceLine" id="cb121-6" data-line-number="6"><span class="co">#&gt; 2   2 -0.18249261  2.4258185 2.501939 5.629877</span></a>
-<a class="sourceLine" id="cb121-7" data-line-number="7"><span class="co">#&gt; 3   3  0.50909779 -0.4555573 2.807107 3.543626</span></a>
-<a class="sourceLine" id="cb121-8" data-line-number="8"><span class="co">#&gt; 4   4 -0.58732131  1.4928804 2.939287 1.980969</span></a>
-<a class="sourceLine" id="cb121-9" data-line-number="9"><span class="co">#&gt; 5   5 -0.01885346  1.2043612 2.901484 3.519461</span></a>
-<a class="sourceLine" id="cb121-10" data-line-number="10"><span class="co">#&gt; 6   6 -0.07423291  3.3509661 3.830217 1.878204</span></a>
-<a class="sourceLine" id="cb121-11" data-line-number="11"><span class="co">#&gt; 7   7  0.73205256  0.6916399 5.001354 2.820549</span></a>
-<a class="sourceLine" id="cb121-12" data-line-number="12"><span class="co">#&gt; 8   8 -0.17367899  1.4598564 2.806523 3.946435</span></a>
-<a class="sourceLine" id="cb121-13" data-line-number="13"><span class="co">#&gt; 9   9  1.02929297  2.9430003 2.747379 3.236016</span></a>
-<a class="sourceLine" id="cb121-14" data-line-number="14"><span class="co">#&gt; 10 10  0.44357677  3.1922137 4.543135 3.584511</span></a></code></pre></div>
+<a class="sourceLine" id="cb121-4" data-line-number="4"><span class="co">#&gt;    id          a          b        c        d</span></a>
+<a class="sourceLine" id="cb121-5" data-line-number="5"><span class="co">#&gt; 1   1  0.7385650  3.1642353 2.837203 3.328741</span></a>
+<a class="sourceLine" id="cb121-6" data-line-number="6"><span class="co">#&gt; 2   2 -2.2048386 -0.1478677 2.441193 4.417299</span></a>
+<a class="sourceLine" id="cb121-7" data-line-number="7"><span class="co">#&gt; 3   3  1.9652791  3.2248575 3.914682 4.077762</span></a>
+<a class="sourceLine" id="cb121-8" data-line-number="8"><span class="co">#&gt; 4   4  0.9927834  2.2226438 4.281867 5.716896</span></a>
+<a class="sourceLine" id="cb121-9" data-line-number="9"><span class="co">#&gt; 5   5  0.4256914  1.3684208 2.744457 4.615259</span></a>
+<a class="sourceLine" id="cb121-10" data-line-number="10"><span class="co">#&gt; 6   6  0.9360412  2.1222628 2.954192 4.108557</span></a>
+<a class="sourceLine" id="cb121-11" data-line-number="11"><span class="co">#&gt; 7   7 -1.4599303  2.2044462 3.443113 3.101983</span></a>
+<a class="sourceLine" id="cb121-12" data-line-number="12"><span class="co">#&gt; 8   8  1.8247411  2.5117755 3.529052 3.034256</span></a>
+<a class="sourceLine" id="cb121-13" data-line-number="13"><span class="co">#&gt; 9   9  0.7401788  3.1439644 3.073274 4.203511</span></a>
+<a class="sourceLine" id="cb121-14" data-line-number="14"><span class="co">#&gt; 10 10 -0.3002762  2.0843238 2.248721 4.768411</span></a></code></pre></div>
 <p>Podemos crear el código para cada columna pero esto involucra <em>copy-paste</em> y
 no será muy práctico si aumenta el número de columnas:</p>
 <div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb122-1" data-line-number="1"><span class="kw">mean</span>(df<span class="op">$</span>a)</a>
-<a class="sourceLine" id="cb122-2" data-line-number="2"><span class="co">#&gt; [1] 0.1212753</span></a>
+<a class="sourceLine" id="cb122-2" data-line-number="2"><span class="co">#&gt; [1] 0.3658235</span></a>
 <a class="sourceLine" id="cb122-3" data-line-number="3"><span class="kw">mean</span>(df<span class="op">$</span>b)</a>
-<a class="sourceLine" id="cb122-4" data-line-number="4"><span class="co">#&gt; [1] 1.851104</span></a>
+<a class="sourceLine" id="cb122-4" data-line-number="4"><span class="co">#&gt; [1] 2.189906</span></a>
 <a class="sourceLine" id="cb122-5" data-line-number="5"><span class="kw">mean</span>(df<span class="op">$</span>c)</a>
-<a class="sourceLine" id="cb122-6" data-line-number="6"><span class="co">#&gt; [1] 3.273362</span></a>
+<a class="sourceLine" id="cb122-6" data-line-number="6"><span class="co">#&gt; [1] 3.146775</span></a>
 <a class="sourceLine" id="cb122-7" data-line-number="7"><span class="kw">mean</span>(df<span class="op">$</span>d)</a>
-<a class="sourceLine" id="cb122-8" data-line-number="8"><span class="co">#&gt; [1] 3.285665</span></a></code></pre></div>
+<a class="sourceLine" id="cb122-8" data-line-number="8"><span class="co">#&gt; [1] 4.137267</span></a></code></pre></div>
 <p>Con un ciclo <code>for</code> sería:</p>
 <div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1">salida &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="dv">4</span>)  </a>
 <a class="sourceLine" id="cb123-2" data-line-number="2"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>) {            </a>
 <a class="sourceLine" id="cb123-3" data-line-number="3">  salida[[i]] &lt;-<span class="st"> </span><span class="kw">mean</span>(df[[i <span class="op">+</span><span class="st"> </span><span class="dv">1</span>]])      </a>
 <a class="sourceLine" id="cb123-4" data-line-number="4">}</a>
 <a class="sourceLine" id="cb123-5" data-line-number="5">salida</a>
-<a class="sourceLine" id="cb123-6" data-line-number="6"><span class="co">#&gt; [1] 0.1212753 1.8511037 3.2733622 3.2856655</span></a></code></pre></div>
+<a class="sourceLine" id="cb123-6" data-line-number="6"><span class="co">#&gt; [1] 0.3658235 2.1899062 3.1467754 4.1372674</span></a></code></pre></div>
 <p>Los ciclos <code>for</code> tienen 3 componentes:</p>
 <ol style="list-style-type: decimal">
 <li><p>La salida: <code>salida &lt;- vector(&quot;double&quot;, 4)</code>. Es importante especificar el
@@ -475,7 +483,7 @@ tabla de datos:</p>
 <a class="sourceLine" id="cb128-4" data-line-number="4">  salida[[i]] &lt;-<span class="st"> </span><span class="kw">mean</span>(df[[i <span class="op">+</span><span class="st"> </span><span class="dv">1</span>]])      </a>
 <a class="sourceLine" id="cb128-5" data-line-number="5">}</a>
 <a class="sourceLine" id="cb128-6" data-line-number="6">salida</a>
-<a class="sourceLine" id="cb128-7" data-line-number="7"><span class="co">#&gt; [1] 0.1212753 1.8511037 3.2733622 3.2856655</span></a></code></pre></div>
+<a class="sourceLine" id="cb128-7" data-line-number="7"><span class="co">#&gt; [1] 0.3658235 2.1899062 3.1467754 4.1372674</span></a></code></pre></div>
 <p>Podemos crear una función que calcula la media de las columnas de un
 <code>data.frame</code>:</p>
 <div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb129-1" data-line-number="1">col_media &lt;-<span class="st"> </span><span class="cf">function</span>(df) {</a>
@@ -486,7 +494,7 @@ tabla de datos:</p>
 <a class="sourceLine" id="cb129-6" data-line-number="6">  salida</a>
 <a class="sourceLine" id="cb129-7" data-line-number="7">}</a>
 <a class="sourceLine" id="cb129-8" data-line-number="8"><span class="kw">col_media</span>(df)</a>
-<a class="sourceLine" id="cb129-9" data-line-number="9"><span class="co">#&gt; [1] 5.5000000 0.1212753 1.8511037 3.2733622 3.2856655</span></a>
+<a class="sourceLine" id="cb129-9" data-line-number="9"><span class="co">#&gt; [1] 5.5000000 0.3658235 2.1899062 3.1467754 4.1372674</span></a>
 <a class="sourceLine" id="cb129-10" data-line-number="10"><span class="kw">col_media</span>(<span class="kw">select</span>(iris, <span class="op">-</span>Species))</a>
 <a class="sourceLine" id="cb129-11" data-line-number="11"><span class="co">#&gt; [1] 5.843333 3.057333 3.758000 1.199333</span></a></code></pre></div>
 <p>Y podemos extender a crear más funciones que describan los datos:</p>
@@ -515,9 +523,9 @@ aplicar:</p>
 <a class="sourceLine" id="cb131-6" data-line-number="6">  salida</a>
 <a class="sourceLine" id="cb131-7" data-line-number="7">}</a>
 <a class="sourceLine" id="cb131-8" data-line-number="8"><span class="kw">col_describe</span>(df, median)</a>
-<a class="sourceLine" id="cb131-9" data-line-number="9"><span class="co">#&gt; [1]  5.50000000 -0.04654319  1.84936905  2.85429522  3.37773849</span></a>
+<a class="sourceLine" id="cb131-9" data-line-number="9"><span class="co">#&gt; [1] 5.5000000 0.7393719 2.2135450 3.0137326 4.1560343</span></a>
 <a class="sourceLine" id="cb131-10" data-line-number="10"><span class="kw">col_describe</span>(df, mean)</a>
-<a class="sourceLine" id="cb131-11" data-line-number="11"><span class="co">#&gt; [1] 5.5000000 0.1212753 1.8511037 3.2733622 3.2856655</span></a></code></pre></div>
+<a class="sourceLine" id="cb131-11" data-line-number="11"><span class="co">#&gt; [1] 5.5000000 0.3658235 2.1899062 3.1467754 4.1372674</span></a></code></pre></div>
 <p>Ahora utilizaremos esta idea de pasar funciones a funciones para eliminar los
 ciclos <code>for</code>.</p>
 <p>La iteración a través de funciones es muy común en R, hay funciones para hacer
@@ -540,7 +548,7 @@ vectores) y aplicará las funciones a las columnas del mismo.</p>
 <div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" data-line-number="1"><span class="kw">library</span>(purrr)</a>
 <a class="sourceLine" id="cb132-2" data-line-number="2"><span class="kw">map_dbl</span>(df, mean)</a>
 <a class="sourceLine" id="cb132-3" data-line-number="3"><span class="co">#&gt;        id         a         b         c         d </span></a>
-<a class="sourceLine" id="cb132-4" data-line-number="4"><span class="co">#&gt; 5.5000000 0.1212753 1.8511037 3.2733622 3.2856655</span></a>
+<a class="sourceLine" id="cb132-4" data-line-number="4"><span class="co">#&gt; 5.5000000 0.3658235 2.1899062 3.1467754 4.1372674</span></a>
 <a class="sourceLine" id="cb132-5" data-line-number="5"><span class="kw">map_dbl</span>(<span class="kw">select</span>(iris, <span class="op">-</span>Species), median)</a>
 <a class="sourceLine" id="cb132-6" data-line-number="6"><span class="co">#&gt; Sepal.Length  Sepal.Width Petal.Length  Petal.Width </span></a>
 <a class="sourceLine" id="cb132-7" data-line-number="7"><span class="co">#&gt;         5.80         3.00         4.35         1.30</span></a></code></pre></div>

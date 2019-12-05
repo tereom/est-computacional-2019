@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="diagnósticos-generales.html"/>
-<link rel="next" href="reparametrización.html"/>
+<link rel="next" href="inicialesy-reparametrización.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -319,13 +319,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelo-jerárquico-una-moneda"><i class="fa fa-check"></i>Modelo jerárquico una moneda</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-estimación-de-tasas-de-mortalidad"><i class="fa fa-check"></i>Ejemplo: estimación de tasas de mortalidad</a></li>
-<li class="chapter" data-level="10.10.1" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.10.1</b> Iniciales en Stan</a></li>
 </ul></li>
-<li class="chapter" data-level="10.11" data-path="reparametrización.html"><a href="reparametrización.html"><i class="fa fa-check"></i><b>10.11</b> Reparametrización</a><ul>
+<li class="chapter" data-level="10.11" data-path="inicialesy-reparametrización.html"><a href="inicialesy-reparametrización.html"><i class="fa fa-check"></i><b>10.11</b> Inicialesy Reparametrización</a><ul>
+<li class="chapter" data-level="" data-path="inicialesy-reparametrización.html"><a href="inicialesy-reparametrización.html#iniciales-en-stan"><i class="fa fa-check"></i>Iniciales en Stan</a></li>
+</ul></li>
+<li class="chapter" data-level="10.12" data-path="reparametrización.html"><a href="reparametrización.html"><i class="fa fa-check"></i><b>10.12</b> Reparametrización</a><ul>
 <li class="chapter" data-level="" data-path="reparametrización.html"><a href="reparametrización.html#ejemplo-el-embudo-de-neal"><i class="fa fa-check"></i>Ejemplo: El embudo de Neal</a></li>
 <li class="chapter" data-level="" data-path="reparametrización.html"><a href="reparametrización.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i>Modelos jerárquicos y parametrización no centrada</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="recursos-de-stan-y-paquetes-con-r.html"><a href="recursos-de-stan-y-paquetes-con-r.html"><i class="fa fa-check"></i>Recursos de Stan y paquetes con R</a></li>
+<li class="chapter" data-level="10.13" data-path="recursos-de-stan-y-paquetes-con-r.html"><a href="recursos-de-stan-y-paquetes-con-r.html"><i class="fa fa-check"></i><b>10.13</b> Recursos de Stan y paquetes con R</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -344,6 +346,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>11-Familias conjugadas</a></li>
 <li class="chapter" data-level="" data-path="metropolis-1.html"><a href="metropolis-1.html"><i class="fa fa-check"></i>12-Metropolis</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos-1.html"><a href="modelos-jerárquicos-1.html"><i class="fa fa-check"></i>13-Modelos jerárquicos</a></li>
+<li class="chapter" data-level="" data-path="final.html"><a href="final.html"><i class="fa fa-check"></i>Final</a><ul>
+<li class="chapter" data-level="" data-path="final.html"><a href="final.html#inferencia-gráfica"><i class="fa fa-check"></i>1. Inferencia gráfica</a></li>
+<li class="chapter" data-level="" data-path="final.html"><a href="final.html#simulación-para-el-cálculo-de-tamaños-de-muestra"><i class="fa fa-check"></i>2. Simulación para el cálculo de tamaños de muestra</a></li>
+<li class="chapter" data-level="" data-path="final.html"><a href="final.html#mcmc-1"><i class="fa fa-check"></i>3. MCMC</a></li>
+<li class="chapter" data-level="" data-path="final.html"><a href="final.html#modelos-jerárquicos-stan-y-evaluación-de-ajuste"><i class="fa fa-check"></i>4. Modelos jerárquicos, Stan y evaluación de ajuste</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -1805,50 +1813,6 @@ hiperparámetros.</p>
 <p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-86-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
-<div id="iniciales-en-stan" class="section level3">
-<h3><span class="header-section-number">10.10.1</span> Iniciales en Stan</h3>
-<p>Las siguientes recomendaciones de iniciales son de los desarrolladores de Stan,
-puedes leer más en <a href="https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations" class="uri">https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations</a>.</p>
-<p>Podemos clasificar las iniciales en 5 niveles de acuerdo a que tan informativas
-son:</p>
-<ol style="list-style-type: decimal">
-<li>Iniciales planas: usualmente impropias.</li>
-<li>Muy vagas pero propias: <span class="math inline">\(N(0, (1e6) ^ 2)\)</span>.</li>
-<li>Iniciales genéricas muy debilmente informativas: <span class="math inline">\(Normal(0, 10^2)\)</span>.</li>
-<li>Iniciales genéricas debilmente informativas: <span class="math inline">\(Normal(0, 1)\)</span>.</li>
-<li>Iniciales específicas e informativas: <span class="math inline">\(Normal(0.4, 0.2^2)\)</span></li>
-</ol>
-<p>Cuando se usa Stan tenemos los siguientes principios generales:</p>
-<ul>
-<li><p>En Stan no importa usar conjugadas (cuando se usan muestreadores de Gibbs
-puede ser conveniente usar conjugadas, aquí no).</p></li>
-<li><p>No interesan: invarianza, Jeffreys o entropía.</p></li>
-<li><p>Las iniciales debilmente informativas deben contener suficiente información
-para regularizar: las iniciales deben dejar fuera valores de los parámetros que
-no sean razonables, pero no dejar fuera valores que podrían tener sentido.</p></li>
-<li><p>Se prefieren las iniciales debilmente informativas sobre las informativas,
-esto es porque las consecuencias de <em>perder precisión</em> por elegir una inicial
-muy débil (comparado con la verdadera distribución poblacional de los parámetros
-o comparado con conocimiento experto) es menos importante que la ganancia en
-robustez que se deriva de incluir parte del espacio paramétrico que pueda ser
-relevante.</p></li>
-<li><p>Cuando se usen distribuciones iniciales informativas se debe ser explícito en
-porque se tomaron las decisiones.</p></li>
-<li>No utilices iniciales uniformes, o en general no restrinjas el espacio
-paramétrico, a menos que las fronteras representen restricciones verdaderas (por
-ejemplo parámetros de escala restringidos a los positivos, o correlaciones entre
-el -1 y el 1). Algunos ejemplos:
-<ul>
-<li>Si crees que un parámetro se ubica entre el cero y el un, en lugar de usar
-Uniforme(0,1), intenta Normal(0.5, 0.5).</li>
-<li>Un parámetro de escala esta restringido a ser positivo y quieres una
-inicial vaga, propones Uniforme(0,100) (o Uniforme(0,1000), es mejor no
-especificar inicial, que en Stan equivale a una inicial uniforme no
-informativa, o usar una Esxponencial con valor esperado 10, o una
-media-normal(0,10).</li>
-</ul></li>
-</ul>
-</div>
 </div>
 <h3>Referencias</h3>
 <div id="refs" class="references">
@@ -1862,7 +1826,7 @@ media-normal(0,10).</li>
         </div>
       </div>
 <a href="diagnósticos-generales.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="reparametrización.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="inicialesy-reparametrización.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

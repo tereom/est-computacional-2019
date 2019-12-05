@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="metropolis-1.html"/>
-<link rel="next" href="referencias.html"/>
+<link rel="next" href="final.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -319,13 +319,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#modelo-jerárquico-una-moneda"><i class="fa fa-check"></i>Modelo jerárquico una moneda</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#multiples-monedas-de-una-misma-fábrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#ejemplo-estimación-de-tasas-de-mortalidad"><i class="fa fa-check"></i>Ejemplo: estimación de tasas de mortalidad</a></li>
-<li class="chapter" data-level="10.10.1" data-path="modelos-jerárquicos.html"><a href="modelos-jerárquicos.html#iniciales-en-stan"><i class="fa fa-check"></i><b>10.10.1</b> Iniciales en Stan</a></li>
 </ul></li>
-<li class="chapter" data-level="10.11" data-path="reparametrización.html"><a href="reparametrización.html"><i class="fa fa-check"></i><b>10.11</b> Reparametrización</a><ul>
+<li class="chapter" data-level="10.11" data-path="inicialesy-reparametrización.html"><a href="inicialesy-reparametrización.html"><i class="fa fa-check"></i><b>10.11</b> Inicialesy Reparametrización</a><ul>
+<li class="chapter" data-level="" data-path="inicialesy-reparametrización.html"><a href="inicialesy-reparametrización.html#iniciales-en-stan"><i class="fa fa-check"></i>Iniciales en Stan</a></li>
+</ul></li>
+<li class="chapter" data-level="10.12" data-path="reparametrización.html"><a href="reparametrización.html"><i class="fa fa-check"></i><b>10.12</b> Reparametrización</a><ul>
 <li class="chapter" data-level="" data-path="reparametrización.html"><a href="reparametrización.html#ejemplo-el-embudo-de-neal"><i class="fa fa-check"></i>Ejemplo: El embudo de Neal</a></li>
 <li class="chapter" data-level="" data-path="reparametrización.html"><a href="reparametrización.html#modelos-jerárquicos-y-parametrización-no-centrada"><i class="fa fa-check"></i>Modelos jerárquicos y parametrización no centrada</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="recursos-de-stan-y-paquetes-con-r.html"><a href="recursos-de-stan-y-paquetes-con-r.html"><i class="fa fa-check"></i>Recursos de Stan y paquetes con R</a></li>
+<li class="chapter" data-level="10.13" data-path="recursos-de-stan-y-paquetes-con-r.html"><a href="recursos-de-stan-y-paquetes-con-r.html"><i class="fa fa-check"></i><b>10.13</b> Recursos de Stan y paquetes con R</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="instalación-y-visualización.html"><a href="instalación-y-visualización.html"><i class="fa fa-check"></i>1. Instalación y visualización</a></li>
@@ -344,6 +346,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>11-Familias conjugadas</a></li>
 <li class="chapter" data-level="" data-path="metropolis-1.html"><a href="metropolis-1.html"><i class="fa fa-check"></i>12-Metropolis</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerárquicos-1.html"><a href="modelos-jerárquicos-1.html"><i class="fa fa-check"></i>13-Modelos jerárquicos</a></li>
+<li class="chapter" data-level="" data-path="final.html"><a href="final.html"><i class="fa fa-check"></i>Final</a><ul>
+<li class="chapter" data-level="" data-path="final.html"><a href="final.html#inferencia-gráfica"><i class="fa fa-check"></i>1. Inferencia gráfica</a></li>
+<li class="chapter" data-level="" data-path="final.html"><a href="final.html#simulación-para-el-cálculo-de-tamaños-de-muestra"><i class="fa fa-check"></i>2. Simulación para el cálculo de tamaños de muestra</a></li>
+<li class="chapter" data-level="" data-path="final.html"><a href="final.html#mcmc-1"><i class="fa fa-check"></i>3. MCMC</a></li>
+<li class="chapter" data-level="" data-path="final.html"><a href="final.html#modelos-jerárquicos-stan-y-evaluación-de-ajuste"><i class="fa fa-check"></i>4. Modelos jerárquicos, Stan y evaluación de ajuste</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -413,16 +421,14 @@ anterior y en el eje vertical las medias posteriores del segundo modelo .
 ¿Cómo se comparan? ¿A qué se deben las diferencias?</li>
 </ul></li>
 </ol>
-
 </div>
-<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
 <a href="metropolis-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="final.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

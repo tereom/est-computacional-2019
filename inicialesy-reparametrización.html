@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>1.3 Factor de engaño y Chartjunk | Estadística Computacional</title>
+  <title>10.11 Inicialesy Reparametrización | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   <meta name="generator" content="bookdown 0.15.1 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="1.3 Factor de engaño y Chartjunk | Estadística Computacional" />
+  <meta property="og:title" content="10.11 Inicialesy Reparametrización | Estadística Computacional" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="tereom/est-computacional-2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="1.3 Factor de engaño y Chartjunk | Estadística Computacional" />
+  <meta name="twitter:title" content="10.11 Inicialesy Reparametrización | Estadística Computacional" />
   
   <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="teoría-de-visualización-de-datos.html"/>
-<link rel="next" href="pequeños-múltiplos-y-densidad-gráfica.html"/>
+<link rel="prev" href="modelos-jerárquicos.html"/>
+<link rel="next" href="reparametrización.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -374,52 +374,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="factor-de-engaño-y-chartjunk" class="section level2">
-<h2><span class="header-section-number">1.3</span> Factor de engaño y Chartjunk</h2>
-<div style="float:right;position: relative; top: -10px;width:140px">
-<p><img src="img/pies.jpg" /></p>
-</div>
-<p>El <strong>factor de engaño</strong> es el cociente entre el efecto mostrado en una gráfica y
-el efecto correspondiente en los datos. Idealmente, el factor de engaño debe ser
-1 (ninguna distorsión).</p>
-<p>El <strong>chartjunk</strong> son aquellos elementos gráficos que no corresponden a variación
-de datos, o que entorpecen la interpretación de una gráfica.<br />
-Estos son los indicadores de calidad más fáciles de entender y aplicar, y
-afortunadamente cada vez son menos comunes.</p>
-<p>Un diseño popular que califica como chartjunk y además introduce factores de
-engaño es el pie de 3D. En la gráfica de la derecha, podemos ver como la
-rebanada C se ve más grande que la rebanada A, aunque claramente ese no es el
-caso (factor de engaño). La razón es la variación en la perspectiva que no
-corresponde a variación en los datos (chartjunk).</p>
-<div id="crítica-gráfica-gráfica-de-pie" class="section level4 unnumbered">
-<h4>Crítica gráfica: Gráfica de Pie</h4>
-<p>Todavía elementos que pueden mejorar la comprensión de nuestra
-gráfica de pie: se trata de la
-decodificiación que hay que hacer categoría - color - cuantificación. Podemos
-agregar las etiquetas como se muestra en la serie de la derecha, pero entonces:
-¿por qué no mostrar simplemente la tabla de datos? ¿qué agrega el pie a la
-interpretación?</p>
-<p>La deficiencias en el pie se pueden ver claramente al intentar graficar más
-categorías (13). En el primer pie no podemos distinguir realmente cuáles son
-las categorías grandes y cuáles las chicas, y es muy difícil tener una imagen
-mental clara de estos datos. Agregar los porcentajes ayuda, pero entonces, otra
-vez, preguntamos cuál es el propósito del pie. La tabla de la izquierda hace
-todo el trabajo (una vez que ordenamos las categrías de la más grande a la más
-chica). Es posible hacer una gráfica de barras como la de abajo a la izquierda.</p>
-<div style="clear:both">
-
-</div>
-<div style="float:left;top: -0px;width:350px">
-<p><img src="img/barras_pie.jpg" /></p>
-</div>
-<hr />
-<p>Hay otros tipos de <strong>chartjunk</strong> comunes: uno es la textura de barras, por
-ejemplo. El efecto es la producción de un efecto moiré que es desagradable y
-quita la atención de los datos, como en la gráfica de barras de abajo. Otro
-común son las rejillas, como mostramos en las gráficas de la izquierda. Nótese
-como en estos casos hay efectos ópticos no planeados que degradan la percepción
-de los patrones en los datos.</p>
-<p><img src="img/barras_moire.jpg" /></p>
+<div id="inicialesy-reparametrización" class="section level2">
+<h2><span class="header-section-number">10.11</span> Inicialesy Reparametrización</h2>
+<div id="iniciales-en-stan" class="section level3 unnumbered">
+<h3>Iniciales en Stan</h3>
+<p>Las siguientes recomendaciones de iniciales son de los desarrolladores de Stan,
+puedes leer más en <a href="https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations" class="uri">https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations</a>.</p>
+<p>Podemos clasificar las iniciales en 5 niveles de acuerdo a que tan informativas
+son:</p>
+<ol style="list-style-type: decimal">
+<li>Iniciales planas: usualmente impropias.</li>
+<li>Muy vagas pero propias: <span class="math inline">\(N(0, (1e6) ^ 2)\)</span>.</li>
+<li>Iniciales genéricas muy debilmente informativas: <span class="math inline">\(Normal(0, 10^2)\)</span>.</li>
+<li>Iniciales genéricas debilmente informativas: <span class="math inline">\(Normal(0, 1)\)</span>.</li>
+<li>Iniciales específicas e informativas: <span class="math inline">\(Normal(0.4, 0.2^2)\)</span></li>
+</ol>
+<p>Cuando se usa Stan tenemos los siguientes principios generales:</p>
+<ul>
+<li><p>En Stan no importa usar conjugadas (cuando se usan muestreadores de Gibbs
+puede ser conveniente usar conjugadas, aquí no).</p></li>
+<li><p>No interesan: invarianza, Jeffreys o entropía.</p></li>
+<li><p>Las iniciales debilmente informativas deben contener suficiente información
+para regularizar: las iniciales deben dejar fuera valores de los parámetros que
+no sean razonables, pero no dejar fuera valores que podrían tener sentido.</p></li>
+<li><p>Se prefieren las iniciales debilmente informativas sobre las informativas,
+esto es porque las consecuencias de <em>perder precisión</em> por elegir una inicial
+muy débil (comparado con la verdadera distribución poblacional de los parámetros
+o comparado con conocimiento experto) es menos importante que la ganancia en
+robustez que se deriva de incluir parte del espacio paramétrico que pueda ser
+relevante.</p></li>
+<li><p>Cuando se usen distribuciones iniciales informativas se debe ser explícito en
+porque se tomaron las decisiones.</p></li>
+<li>No utilices iniciales uniformes, o en general no restrinjas el espacio
+paramétrico, a menos que las fronteras representen restricciones verdaderas (por
+ejemplo parámetros de escala restringidos a los positivos, o correlaciones entre
+el -1 y el 1). Algunos ejemplos:
+<ul>
+<li>Si crees que un parámetro se ubica entre el cero y el un, en lugar de usar
+Uniforme(0,1), intenta Normal(0.5, 0.5).</li>
+<li>Un parámetro de escala esta restringido a ser positivo y quieres una
+inicial vaga, propones Uniforme(0,100) (o Uniforme(0,1000), es mejor no
+especificar inicial, que en Stan equivale a una inicial uniforme no
+informativa, o usar una Esxponencial con valor esperado 10, o una
+media-normal(0,10).</li>
+</ul></li>
+</ul>
 </div>
 </div>
             </section>
@@ -427,8 +426,8 @@ de los patrones en los datos.</p>
           </div>
         </div>
       </div>
-<a href="teoría-de-visualización-de-datos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="pequeños-múltiplos-y-densidad-gráfica.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="modelos-jerárquicos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="reparametrización.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -459,7 +458,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2019/edit/master/01-visualizacion_intro_r.Rmd",
+"link": "https://github.com/tereom/est-computacional-2019/edit/master/09-analisis_bayesiano.Rmd",
 "text": "Edit"
 },
 "history": {

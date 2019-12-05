@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>1.3 Factor de engaño y Chartjunk | Estadística Computacional</title>
+  <title>Final | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   <meta name="generator" content="bookdown 0.15.1 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="1.3 Factor de engaño y Chartjunk | Estadística Computacional" />
+  <meta property="og:title" content="Final | Estadística Computacional" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="tereom/est-computacional-2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="1.3 Factor de engaño y Chartjunk | Estadística Computacional" />
+  <meta name="twitter:title" content="Final | Estadística Computacional" />
   
   <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2019." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="teoría-de-visualización-de-datos.html"/>
-<link rel="next" href="pequeños-múltiplos-y-densidad-gráfica.html"/>
+<link rel="prev" href="modelos-jerárquicos-1.html"/>
+<link rel="next" href="referencias.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -374,52 +374,404 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="factor-de-engaño-y-chartjunk" class="section level2">
-<h2><span class="header-section-number">1.3</span> Factor de engaño y Chartjunk</h2>
-<div style="float:right;position: relative; top: -10px;width:140px">
-<p><img src="img/pies.jpg" /></p>
+<div id="final" class="section level2 unnumbered">
+<h2>Final</h2>
+<ul>
+<li><p>Puede realizarse individual o en parejas.</p></li>
+<li><p>Enviar por correo electónico documento final (html ó pdf).</p></li>
+<li><p>Entregar <strong>jueves 12 de diciembre antes de las 18:00 hr</strong>, después de eso se
+califica sobre 7 (máximo entregar sábado 14 a las 13:00 hrs).</p></li>
+<li><p>Incluir código y respuestas que describan lo que se hizo.</p></li>
+<li><p>Dudas y artículo para pregunta 3 <a href="https://drive.google.com/open?id=1IadZgMhrTAsll8YLLwcnBhk17UcwOdtK">aquí</a>.</p></li>
+</ul>
+<div id="inferencia-gráfica" class="section level3 unnumbered">
+<h3>1. Inferencia gráfica</h3>
+<p>Para este ejercicio utilizaremos los datos de un estudio
+longitudinal de <em>Singer y Willet 2003</em> (wages). En este estudio se visitó a
+hombres en edad laboral que habitan en EUA, se visitó a cada sujeto entre 1 y 13
+veces, en cada visita se registraró, entre otras variables:</p>
+<pre><code>id: identificador de sujeto  
+hgc: grado de educación más alto completado  
+lnw : logaritmo natural del salario  
+exper: años de experiencia laboral  
+raza: hispanic, black, white (si las dos primeras son cero)</code></pre>
+<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb451-1" data-line-number="1">wages &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/wages.csv&quot;</span>)</a></code></pre></div>
+<p>El objetivo del ejercicio es estudiar la relación entre salario y experiencia
+laboral por raza para aquellos sujetos cuyo año máximo de estudios completados
+es igual a 9, 10 u 11, estos son sujetos que abandonaron sus estudios durante
+preparatoria. Seguiremos un enfoque no paramétrico que consiste en ajustar un
+suavizador para cada grupo de raza (blanco, hispano o negro) como se muestra
+en la siguiente gráfica.</p>
+<p>Utilizaremos una prueba de hipótesis gráfica para determinar si existe una
+diferencia significativa entre las curvas.</p>
+<ol style="list-style-type: decimal">
+<li><strong>Preparación de los datos</strong>.</li>
+</ol>
+<ul>
+<li><p>Selecciona los sujetos con grado de estudios completado igual a 9, 10 u 11.</p></li>
+<li><p>Elimina las observaciones donde el logaritmo del salario (lnw) es mayor a 3.5.</p></li>
+<li><p>Crea una variable correspondiente a raza, un sujeto es de raza hispana si
+la variable hispanic toma el valor 1, de raza negra si la variable black
+toma el valor 1 y de raza blanca si las dos anteriores son cero.</p></li>
+<li><p>Crea un subconjunto de la base de datos de tal manera que tengas el mismo
+número de sujetos distintos en cada grupo de raza. Nota: habrá el mismo número
+de sujetos en cada grupo pero el número de observaciones puede diferir pues los
+sujetos fueron visitados un número distinto de veces.</p></li>
+</ul>
+<p>2 <strong>Prueba de hipótesis visual</strong></p>
+<ul>
+<li><p>El escenario nulo consiste en que no hay diferencia entre las razas. Para
+generar los datos nulos, la etiqueta de raza de cada sujeto se permuta,
+es decir, se reasigna la raza de cada sujeto de manera aleatoria (para todas las
+mediciones de un sujeto dado se reasigna una misma raza). Genera 9 conjuntos de
+datos nulos y para cada uno ajusta una curva <em>loess</em> siguiendo la instrucción de
+la gráfica de arriba. Crea una gráfica de paneles donde incluyas los 9
+conjuntos nulos y los datos reales, estos últimos estarán escondidos de manera
+aleatoria.</p></li>
+<li><p>Realiza la siguiente pregunta a una o más personas <strong>que no tomen la clase</strong>:</p></li>
+</ul>
+<p><em>Las siguientes 10 gráficas muestran suavizamientos de log(salarios) por años
+de experiencia laboral. Una de ellas usa datos reales y las otras 9 son datos
+nulos, generados bajo el supuesto de que no existe diferencia entre los
+subgrupos. ¿Cuál es la gráfica más distinta?</em></p>
+<p>Reporta si las personas cuestionadas pudieron distinguir los datos.</p>
+<ul>
+<li><p>¿Cuál es tu conclusión de la prueba de hipótesis visual?</p></li>
+<li><p>¿A cuántas personas preguntaste y cuál es el valor p de la prueba?</p></li>
+</ul>
 </div>
-<p>El <strong>factor de engaño</strong> es el cociente entre el efecto mostrado en una gráfica y
-el efecto correspondiente en los datos. Idealmente, el factor de engaño debe ser
-1 (ninguna distorsión).</p>
-<p>El <strong>chartjunk</strong> son aquellos elementos gráficos que no corresponden a variación
-de datos, o que entorpecen la interpretación de una gráfica.<br />
-Estos son los indicadores de calidad más fáciles de entender y aplicar, y
-afortunadamente cada vez son menos comunes.</p>
-<p>Un diseño popular que califica como chartjunk y además introduce factores de
-engaño es el pie de 3D. En la gráfica de la derecha, podemos ver como la
-rebanada C se ve más grande que la rebanada A, aunque claramente ese no es el
-caso (factor de engaño). La razón es la variación en la perspectiva que no
-corresponde a variación en los datos (chartjunk).</p>
-<div id="crítica-gráfica-gráfica-de-pie" class="section level4 unnumbered">
-<h4>Crítica gráfica: Gráfica de Pie</h4>
-<p>Todavía elementos que pueden mejorar la comprensión de nuestra
-gráfica de pie: se trata de la
-decodificiación que hay que hacer categoría - color - cuantificación. Podemos
-agregar las etiquetas como se muestra en la serie de la derecha, pero entonces:
-¿por qué no mostrar simplemente la tabla de datos? ¿qué agrega el pie a la
-interpretación?</p>
-<p>La deficiencias en el pie se pueden ver claramente al intentar graficar más
-categorías (13). En el primer pie no podemos distinguir realmente cuáles son
-las categorías grandes y cuáles las chicas, y es muy difícil tener una imagen
-mental clara de estos datos. Agregar los porcentajes ayuda, pero entonces, otra
-vez, preguntamos cuál es el propósito del pie. La tabla de la izquierda hace
-todo el trabajo (una vez que ordenamos las categrías de la más grande a la más
-chica). Es posible hacer una gráfica de barras como la de abajo a la izquierda.</p>
-<div style="clear:both">
+<div id="simulación-para-el-cálculo-de-tamaños-de-muestra" class="section level3 unnumbered">
+<h3>2. Simulación para el cálculo de tamaños de muestra</h3>
+<p>En el conteo rápido del estado de Guanajuato, se calculó el tamaño de muestra
+fijando como objetivo que los intervalos del <span class="math inline">\(95\)</span>% de confianza tuvieran una
+longitud máxima de 2 puntos porcentuales para todos los candidatos. En este
+ejercicio calcularás el tamaño de muestra mínimo que cumpla con el objetivo
+usando 3 diseños de muestreo distintos: 1) muestreo aleatorio simple (MAS),
+2) estratificando con distrito local y 3) estratificando con distrito federal.</p>
+<p>Utilizarás simulación y los resultados de las elecciones de gobernador en
+Guanajuato correspondientes al 2012.</p>
+<p>En el caso de <strong>MAS</strong>, para cada tamaño de muestra
+<span class="math inline">\(n=50,100,200,300,400,500,600,700\)</span>:</p>
+<ol style="list-style-type: lower-roman">
+<li><p>Simula una muestra aleatoria de tamaño <span class="math inline">\(n\)</span>.</p></li>
+<li><p>Calcula el estimador de razón (correspondiente a muestreo aleatorio simple)
+para cada candidato:</p></li>
+</ol>
+<p><span class="math display">\[\hat{p}=\frac{\sum_{i} Y_{i}}{\sum_i X_{i}}\]</span>
+<span class="math display">\[\hat{p}=\frac{\sum_h \frac{N_h}{n_h} \sum_i Y_{hi}}{\sum_h \frac{N_h}{n_h} \sum_i X_{hi}}\]</span>
+donde:</p>
+<ul>
+<li><p><span class="math inline">\(\hat{p}\)</span> es la estimación de la proporción de votos que recibió el candidato
+en la elección.</p></li>
+<li><p><span class="math inline">\(Y_{i}\)</span> es el número total de votos que recibió el candidato
+en la <span class="math inline">\(i\)</span>-ésima casilla.</p></li>
+<li><p><span class="math inline">\(X_{i}\)</span> es el número total de votos en la <span class="math inline">\(i\)</span>-ésima casilla.</p></li>
+</ul>
+<ol start="3" style="list-style-type: lower-roman">
+<li>Repite los pasos i y ii <span class="math inline">\(1000\)</span> veces para estimar el error estándar para
+una muestra de tamaño <span class="math inline">\(n\)</span>.</li>
+</ol>
+<p>Para cada <strong>estratificación</strong> (<code>distrito_fed_17</code> y <code>distrito_loc_17</code>) y
+tamaño de muestra <span class="math inline">\(n=50,100,200,300,400,500,600,700\)</span>:</p>
+<ol style="list-style-type: lower-roman">
+<li>Simula una muestra estratificada de tamaño <span class="math inline">\(n\)</span>, donde el tamaño de muestra en
+cada estrato se asigna proporcional al tamaño del estrato, esto es, sea <span class="math inline">\(N_h\)</span> el
+número de casillas en el <span class="math inline">\(h\)</span>-ésimo estrato, entonces para el estrato <span class="math inline">\(h\)</span> el
+número de casillas en la muestra será:
+<span class="math display">\[n_h = N_h \cdot \frac{n}{\sum_j N_j}\]</span></li>
+<li>Calcula el estimador de razón combinado (correspondiente a muestreo
+estratificado) para cada candidato:</li>
+</ol>
+<p><span class="math display">\[\hat{p}=\frac{\sum_h \frac{N_h}{n_h} \sum_i Y_{hi}}{\sum_h \frac{N_h}{n_h} \sum_i X_{hi}}\]</span></p>
+<p>donde:</p>
+<ul>
+<li><p><span class="math inline">\(\hat{p}\)</span> es la estimación de la proporción de votos que recibió el candidato
+en la elección.</p></li>
+<li><p><span class="math inline">\(Y_{hi}\)</span> es el número total de votos que recibió el candidato
+en la <span class="math inline">\(i\)</span>-ésima casillas, que pertence al <span class="math inline">\(h\)</span>-ésimo estrato.</p></li>
+<li><p><span class="math inline">\(X_{hi}\)</span> es el número total de votos en la <span class="math inline">\(i\)</span>-ésima casilla, que pertence al
+<span class="math inline">\(h\)</span>-ésimo estrato.</p></li>
+<li><p><span class="math inline">\(N_h\)</span> es el número total de casillas en el <span class="math inline">\(h\)</span>-ésimo estrato.</p></li>
+<li><p><span class="math inline">\(n_h\)</span> es el número de casillas del <span class="math inline">\(h\)</span>-ésimo estrato que se seleccionaron en
+la muestra.</p></li>
+</ul>
+<ol start="3" style="list-style-type: lower-roman">
+<li>Repite los pasos i y ii <span class="math inline">\(1000\)</span> veces para estimar el error estándar para
+una muestra de tamaño <span class="math inline">\(n\)</span>.</li>
+</ol>
+<p>Ahora:</p>
+<ol style="list-style-type: decimal">
+<li><p>Reporta en una tabla el error estándar para cada candidato, tamaño de muestra
+y diseño (MAS y las dos estratificaciones propuestas).</p></li>
+<li><p>Grafica los datos de la tabla: realiza una gráfica de paneles (con
+<code>facet_wrap()</code>), cada partido en un panel, en el eje horizontal grafica el
+tamaño de muestra y en el eje vertical el error estándar, tendrás en una misma
+gráfica tres curvas, una para muestreo aleatorio simple y una para
+cada estratificación.</p></li>
+<li><p>¿Qué diseño y tamaño de muestra elegirías? Explica tu respuesta y de
+ser necesario repite los pasos i-iii para otros valores de <span class="math inline">\(n\)</span>.</p></li>
+</ol>
+</div>
+<div id="mcmc-1" class="section level3 unnumbered">
+<h3>3. MCMC</h3>
+<p>Siguiendo con el conteo rápido de Guanajuato, calcularás intervalos de confianza
+usando el modelo propuesto en <span class="citation">Mendoza and Nieto-Barajas (<a href="#ref-mendoza2016">2016</a>)</span>.</p>
+<p>Los autores proponen ajustar un modelo de manera independiente para cada
+candidato en cada estrato:</p>
+<ul>
+<li>Verosimilitud</li>
+</ul>
+<p><span class="math display">\[X_{ij}^k\big|\theta_{ij},\tau_{ij}\sim N\bigg(n_i^k\theta_{ij}, \frac{\tau_{ij}}{n_i^k}\bigg)\]</span></p>
+<p>para <span class="math inline">\(k=1,...,c_i\)</span>, <span class="math inline">\(i = 1,...,N\)</span>, <span class="math inline">\(j=1,...,J\)</span></p>
+<ul>
+<li>Iniciales</li>
+</ul>
+<p><span class="math display">\[p(\theta_{i,j},\tau_{ij})\propto \tau_{ij}^{-1}I(\tau_{ij}&gt;0)I(0&lt;\theta_{i,j}&lt;1)\]</span></p>
+<ul>
+<li>Posterior</li>
+</ul>
+<p><span class="math display">\[p(\theta_{ij}, \tau_{ij}|X_{ij}) \sim N\bigg(\theta_{ij} \bigg| \frac{\sum_{k=1}^{c_i}x_{ij}^k}{\sum_{k=1}^{c_i}n_{i}^k}, \tau_{ij}\sum_{k=1}^{c_i}n_i^k\bigg)I(0&lt;\theta_{ij}&lt;1)\times Ga\bigg(\tau_{ij}\bigg|\frac{c_i-1}{2}, \frac{1}{2}\bigg[\sum_{k=1}^{c_i}\frac{(x_{ij}^k)^2}{n_i^k}-\frac{\big(\sum_{k=1}^{c_i}x_{ij}^k\big)^2}{\sum_{k=1}^{c_i}n_i^k}\bigg]\bigg)\]</span>
+donde:</p>
+<ul>
+<li><p><span class="math inline">\(X_{ij}\)</span> número de personas que favorecen al candidato <span class="math inline">\(j\)</span> en el estrato <span class="math inline">\(i\)</span>.</p></li>
+<li><p><span class="math inline">\(X_{ij}^k\)</span> número de personas que favorecen al candidato <span class="math inline">\(j\)</span> en la casilla <span class="math inline">\(k\)</span>
+del estrato <span class="math inline">\(i\)</span>.</p></li>
+<li><p><span class="math inline">\(n_i^k\)</span> tamaño de la lista nominal en la <span class="math inline">\(k\)</span>-ésima casilla del <span class="math inline">\(i\)</span>-ésimo
+estrato.</p></li>
+<li><p><span class="math inline">\(\tau_{ij}/n_i^{k}\)</span> es la precisión para cada candidato.</p></li>
+<li><p><span class="math inline">\(\theta_{ij}\)</span> es la proporción de las personas en la lista nominal del estrato
+<span class="math inline">\(i\)</span> que favorecen al <span class="math inline">\(j\)</span>-ésimo partido.</p></li>
+<li><p><span class="math inline">\(c_i\)</span> número de casillas del <span class="math inline">\(i\)</span>-ésimo estrato en la muestra.</p></li>
+</ul>
+<p>Los detalles del modelo los puedes encontrar en el <a href="https://drive.google.com/open?id=1lI5lUSqNcIYvlvxRyrbBD_IrzlWIzILY">artículo</a>.</p>
+<p>Implementa el modelo y estima los resultados electorales de Guanajuato con la
+muestra:</p>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb452-1" data-line-number="1">gto_muestra &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/muestra_gto_2012.csv&quot;</span>)</a></code></pre></div>
+<p>Reporta estimaciones puntuales (media posterior) e intervalos del 95% de
+credibilidad para cada candidato.</p>
+</div>
+<div id="modelos-jerárquicos-stan-y-evaluación-de-ajuste" class="section level3 unnumbered">
+<h3>4. Modelos jerárquicos, Stan y evaluación de ajuste</h3>
+<p><strong>Postestratificación</strong> es un método estándar que se utiliza para corregir las
+estimaciones obtenidas de muestreo probabilístico cuando hay distintas
+probabilidades de selección y para corregir no respuesta. A grandes rasgos, se
+divide la población en categorías y se estima la distribución de las respuestas
+en cada categoría, después se pondera cada categoría de acuerdo a su tamaño en
+la población. Típicamente las categorías se crean con variables demográficas
+(sexo, edad, …).</p>
+<p>La dificultad que suele surgir en el proceso de postestratificación es que
+por una parte se desea crear las celdas lo más finas posible, considerando
+el cruce de muchas variables, con el objetivo de corregir en mayor medida
+posibles sesgos en las estimaciones; sin embargo, conforme aumenta el número de
+celdas el número de respondentes en cada una disminuye (muchas incluso quedan
+vacías) y esto conlleva a que las estimaciones dentro de cada celda sean poco
+precisas. Ante esta dificultad, la propuesta de MRP es modelar las respuestas
+condicional a las variables de postestratificación, cuando las categorías de la
+postestratificación siguen de manera natural estructuras jerárquicas (como
+hogares en estados) se puede mejorar la eficiencia de la estimación ajustando
+modelos multinivel.</p>
+<p>Es así que MRP es una extensión a los ajustes de postestratificación clásicos
+que permite usar más categorías y por tanto información más detallada de la
+población. Una ventaja adicional es que además hace posible estimar la respuesta
+en subcategorias demográficas o geográficas. En este ejercicio reproduciremos
+el modelo que se ajusta en <span class="citation">Park, Gelman, and Bafumi (<a href="#ref-parkgelmanbafumi">2004</a>)</span> lo puedes descargar de <a href="http://www.stat.columbia.edu/~gelman/research/published/parkgelmanbafumi.pdf">esta liga</a>.</p>
+<p>En esta aplicación se utilizan encuestas de opinión pública en EUA, en
+particular modelamos la probabilidad de que un respondente prefiera al
+candidato Republicano como presidente y usando los datos de encuestas de
+<em>CBS News</em> levantadas previo a la elección presidencial de 1988.</p>
+<p>Las variables demográficas que determinan las celdas de postestratificación son:
+sexo, raza negra, edad (categórica), grado educativo y estado, si construyéramos
+las celdas de postestratificación quedarían,</p>
+<p>sexo(2) x raza negra(2) x edad(4) x educación(4) x estado(52) = 3264</p>
+<p>celdas y tenemos únicamente 2193 entrevistas, por lo que un enfoque clásico
+utilizando todas las variables demográficas disponibles queda descartado.</p>
+<p>Ahora, definimos el modelo multinivel a usar, usaremos regresión logística
+multinivel, en este planteamiento la variable <span class="math inline">\(y_i\)</span> indica si la
+<span class="math inline">\(i\)</span>-ésima persona apoyaba al candidato republicano o no, y se agregan todas las
+variables demográficas como covariables.</p>
+<p><span class="math display">\[
+\begin{aligned}
+  P(y_i = 1) &amp;= logit^{-1}(\beta^0 + \beta^{mujer}\cdot mujer_i + \beta^{neg}\cdot neg_i+\beta^{mujer, neg}\cdot mujer_i \cdot neg_i+ \\
+  &amp; \beta_{edad(i)}^{edad} +  \beta_{edad(i), edu(i)}^{edad,edu} + 
+ \beta_{estado(i)}^{estado})
+\end{aligned}
+\]</span></p>
+<p>En este ejemplo la estructura multinivel se reduce al coeficiente de
+estado que se modela con indicadoras de región y una medida del apoyo
+Republicano en el estado reportado en la elección previa.</p>
+<p><span class="math display">\[ \beta_{j}\sim N(\beta_{region(j)}^{region}+\beta^{vprev}\cdot vprev_j, \sigma^2_{estado})\]</span></p>
+<p>Ajustaremos este modelo usando el programa JAGS (Just Another Gibbs Sampler), y
+utilizamos las estimaciones para hacer predicciones a nivel estado (<span class="math inline">\(\theta_s\)</span>):</p>
+<p><span class="math display">\[\theta_s=\frac{\sum_{j \in s}N_{j}\pi_j}{\sum_{j \in s}N_{j}}\]</span></p>
+<p>donde <span class="math inline">\(N_j\)</span> indica el número de individuos en cada estado que
+pertenecen a la <span class="math inline">\(j\)</span>-ésima celda, la información para determinar las <span class="math inline">\(N_j\)</span> se
+obtendrá del censo de población.</p>
+<div id="implementación" class="section level4 unnumbered">
+<h4>Implementación</h4>
+<p>Datos en <a href="http://www.stat.columbia.edu/~gelman/arm/examples/election88/">election88</a>,
+o en la carpeta data.</p>
+<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb453-1" data-line-number="1"><span class="co"># preparación de los datos</span></a>
+<a class="sourceLine" id="cb453-2" data-line-number="2"><span class="kw">library</span>(haven)</a>
+<a class="sourceLine" id="cb453-3" data-line-number="3"><span class="co"># datos de encuestas</span></a>
+<a class="sourceLine" id="cb453-4" data-line-number="4">polls &lt;-<span class="st"> </span><span class="kw">read_dta</span>(<span class="st">&quot;data/polls.dta&quot;</span>)</a>
+<a class="sourceLine" id="cb453-5" data-line-number="5"><span class="co"># nos quedamos con la última encuesta y eliminamos faltantes</span></a>
+<a class="sourceLine" id="cb453-6" data-line-number="6">last_poll &lt;-<span class="st"> </span>polls <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb453-7" data-line-number="7"><span class="st">    </span><span class="kw">filter</span>(survey <span class="op">==</span><span class="st"> </span><span class="dv">8</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb453-8" data-line-number="8"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">age_edu =</span> <span class="kw">paste0</span>(age, edu), </a>
+<a class="sourceLine" id="cb453-9" data-line-number="9">      <span class="dt">age_edu_int =</span> <span class="kw">as.integer</span>(<span class="kw">as.factor</span>(age_edu))) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb453-10" data-line-number="10"><span class="st">    </span><span class="kw">na.omit</span>()</a>
+<a class="sourceLine" id="cb453-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb453-12" data-line-number="12"><span class="co"># datos de elecciones pasadas para utilizar como covariable y variable región</span></a>
+<a class="sourceLine" id="cb453-13" data-line-number="13">presvote &lt;-<span class="st"> </span><span class="kw">read_dta</span>(<span class="st">&quot;data/presvote.dta&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb453-14" data-line-number="14"><span class="st">    </span><span class="kw">cbind</span>(<span class="dt">region =</span> <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">4</span>,</a>
+<a class="sourceLine" id="cb453-15" data-line-number="15">        <span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>))</a></code></pre></div>
+<p>Los datos para el modelo serán:</p>
+<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb454-1" data-line-number="1">data_list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">N =</span> <span class="kw">nrow</span>(last_poll), </a>
+<a class="sourceLine" id="cb454-2" data-line-number="2">    <span class="dt">n_age =</span> <span class="kw">n_distinct</span>(last_poll<span class="op">$</span>age),</a>
+<a class="sourceLine" id="cb454-3" data-line-number="3">    <span class="dt">n_age_edu =</span> <span class="kw">n_distinct</span>(last_poll<span class="op">$</span>age, last_poll<span class="op">$</span>edu),</a>
+<a class="sourceLine" id="cb454-4" data-line-number="4">    <span class="dt">n_edu =</span> <span class="kw">n_distinct</span>(last_poll<span class="op">$</span>edu), </a>
+<a class="sourceLine" id="cb454-5" data-line-number="5">    <span class="dt">n_region =</span> <span class="dv">5</span>, </a>
+<a class="sourceLine" id="cb454-6" data-line-number="6">    <span class="dt">n_state =</span> <span class="kw">max</span>(last_poll<span class="op">$</span>state), </a>
+<a class="sourceLine" id="cb454-7" data-line-number="7">    <span class="dt">age =</span> last_poll<span class="op">$</span>age,</a>
+<a class="sourceLine" id="cb454-8" data-line-number="8">    <span class="dt">black =</span> last_poll<span class="op">$</span>black,</a>
+<a class="sourceLine" id="cb454-9" data-line-number="9">    <span class="dt">edu =</span> last_poll<span class="op">$</span>edu,</a>
+<a class="sourceLine" id="cb454-10" data-line-number="10">    <span class="dt">female =</span> last_poll<span class="op">$</span>female,</a>
+<a class="sourceLine" id="cb454-11" data-line-number="11">    <span class="dt">region =</span> presvote<span class="op">$</span>region,</a>
+<a class="sourceLine" id="cb454-12" data-line-number="12">    <span class="dt">state =</span> last_poll<span class="op">$</span>state, </a>
+<a class="sourceLine" id="cb454-13" data-line-number="13">    <span class="dt">v_prev =</span> presvote<span class="op">$</span>g76_84pr,</a>
+<a class="sourceLine" id="cb454-14" data-line-number="14">    <span class="dt">y =</span> last_poll<span class="op">$</span>bush</a>
+<a class="sourceLine" id="cb454-15" data-line-number="15">)</a></code></pre></div>
+<p>Y el código en Stan:</p>
+<div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb455-1" data-line-number="1">model_mrp &lt;-<span class="st"> &quot;</span></a>
+<a class="sourceLine" id="cb455-2" data-line-number="2"><span class="st">data {</span></a>
+<a class="sourceLine" id="cb455-3" data-line-number="3"><span class="st">  int n; // número de observaciones</span></a>
+<a class="sourceLine" id="cb455-4" data-line-number="4"><span class="st">  int n_state; // número de estados</span></a>
+<a class="sourceLine" id="cb455-5" data-line-number="5"><span class="st">  int n_age;</span></a>
+<a class="sourceLine" id="cb455-6" data-line-number="6"><span class="st">  int n_edu;</span></a>
+<a class="sourceLine" id="cb455-7" data-line-number="7"><span class="st">  int n_age_edu;</span></a>
+<a class="sourceLine" id="cb455-8" data-line-number="8"><span class="st">  int age[n];</span></a>
+<a class="sourceLine" id="cb455-9" data-line-number="9"><span class="st">  int edu[n];</span></a>
+<a class="sourceLine" id="cb455-10" data-line-number="10"><span class="st">  int age_edu[n];</span></a>
+<a class="sourceLine" id="cb455-11" data-line-number="11"><span class="st">  int mh; //número de covariables nivel persona</span></a>
+<a class="sourceLine" id="cb455-12" data-line-number="12"><span class="st">  int mm; //número de covariables nivel estado</span></a>
+<a class="sourceLine" id="cb455-13" data-line-number="13"><span class="st">  int&lt;lower=0,upper=1&gt; y[n];</span></a>
+<a class="sourceLine" id="cb455-14" data-line-number="14"><span class="st">  matrix[n, mh] x_person; // covariables a nivel persona</span></a>
+<a class="sourceLine" id="cb455-15" data-line-number="15"><span class="st">  int state[n];</span></a>
+<a class="sourceLine" id="cb455-16" data-line-number="16"><span class="st">  matrix[n_state, mm] x_state; // covariables a nivel estado</span></a>
+<a class="sourceLine" id="cb455-17" data-line-number="17"><span class="st">} </span></a>
+<a class="sourceLine" id="cb455-18" data-line-number="18"><span class="st">parameters {</span></a>
+<a class="sourceLine" id="cb455-19" data-line-number="19"><span class="st">  real beta_0;</span></a>
+<a class="sourceLine" id="cb455-20" data-line-number="20"><span class="st">  vector[mh] beta;</span></a>
+<a class="sourceLine" id="cb455-21" data-line-number="21"><span class="st">  real&lt;lower=0&gt; sigma;</span></a>
+<a class="sourceLine" id="cb455-22" data-line-number="22"><span class="st">  vector[n_state] beta_state_raw;</span></a>
+<a class="sourceLine" id="cb455-23" data-line-number="23"><span class="st">  vector[n_age] beta_age_raw;</span></a>
+<a class="sourceLine" id="cb455-24" data-line-number="24"><span class="st">  vector[n_edu] beta_edu_raw;</span></a>
+<a class="sourceLine" id="cb455-25" data-line-number="25"><span class="st">  vector[n_age_edu] beta_age_edu_raw;</span></a>
+<a class="sourceLine" id="cb455-26" data-line-number="26"><span class="st">  real&lt;lower=0&gt; sigma_age;</span></a>
+<a class="sourceLine" id="cb455-27" data-line-number="27"><span class="st">  real&lt;lower=0&gt; sigma_edu;</span></a>
+<a class="sourceLine" id="cb455-28" data-line-number="28"><span class="st">  real&lt;lower=0&gt; sigma_age_edu;</span></a>
+<a class="sourceLine" id="cb455-29" data-line-number="29"><span class="st">  real&lt;lower=0&gt; sigma_state;</span></a>
+<a class="sourceLine" id="cb455-30" data-line-number="30"><span class="st">  vector[mm] alpha;</span></a>
+<a class="sourceLine" id="cb455-31" data-line-number="31"><span class="st">}</span></a>
+<a class="sourceLine" id="cb455-32" data-line-number="32"><span class="st">transformed parameters {</span></a>
+<a class="sourceLine" id="cb455-33" data-line-number="33"><span class="st">  vector[n] reg_pred;</span></a>
+<a class="sourceLine" id="cb455-34" data-line-number="34"><span class="st">  vector[n_state] beta_state;</span></a>
+<a class="sourceLine" id="cb455-35" data-line-number="35"><span class="st">  vector[n_age] beta_age;</span></a>
+<a class="sourceLine" id="cb455-36" data-line-number="36"><span class="st">  vector[n_edu] beta_edu;</span></a>
+<a class="sourceLine" id="cb455-37" data-line-number="37"><span class="st">  vector[n_age_edu] beta_age_edu;</span></a>
+<a class="sourceLine" id="cb455-38" data-line-number="38"><span class="st">  // parametrización no centrada</span></a>
+<a class="sourceLine" id="cb455-39" data-line-number="39"><span class="st">  beta_age = beta_age_raw * sigma_age; </span></a>
+<a class="sourceLine" id="cb455-40" data-line-number="40"><span class="st">  beta_edu = beta_edu_raw * sigma_edu; </span></a>
+<a class="sourceLine" id="cb455-41" data-line-number="41"><span class="st">  beta_age_edu = beta_age_edu_raw * sigma_age_edu; </span></a>
+<a class="sourceLine" id="cb455-42" data-line-number="42"><span class="st">  beta_state = beta_state_raw * sigma_state + x_state * alpha; </span></a>
+<a class="sourceLine" id="cb455-43" data-line-number="43"><span class="st">  reg_pred = beta_0 + x_person * beta + beta_state[state] + beta_age[age] + </span></a>
+<a class="sourceLine" id="cb455-44" data-line-number="44"><span class="st">    beta_edu[edu] + beta_age_edu[age_edu];</span></a>
+<a class="sourceLine" id="cb455-45" data-line-number="45"><span class="st">}</span></a>
+<a class="sourceLine" id="cb455-46" data-line-number="46"><span class="st">model {  </span></a>
+<a class="sourceLine" id="cb455-47" data-line-number="47"><span class="st">  y ~ bernoulli_logit(reg_pred);</span></a>
+<a class="sourceLine" id="cb455-48" data-line-number="48"><span class="st">  beta_0 ~ normal(0, 2);</span></a>
+<a class="sourceLine" id="cb455-49" data-line-number="49"><span class="st">  beta ~ normal(0, 5);</span></a>
+<a class="sourceLine" id="cb455-50" data-line-number="50"><span class="st">  sigma ~ normal(0, 5);</span></a>
+<a class="sourceLine" id="cb455-51" data-line-number="51"><span class="st">  beta_age_raw ~ normal(0, 10);</span></a>
+<a class="sourceLine" id="cb455-52" data-line-number="52"><span class="st">  beta_edu_raw ~ normal(0, 10);</span></a>
+<a class="sourceLine" id="cb455-53" data-line-number="53"><span class="st">  beta_age_edu_raw ~ normal(0, 10);</span></a>
+<a class="sourceLine" id="cb455-54" data-line-number="54"><span class="st">  beta_state_raw ~ normal(0, 10);</span></a>
+<a class="sourceLine" id="cb455-55" data-line-number="55"><span class="st">  sigma_state ~ normal(0, 10);</span></a>
+<a class="sourceLine" id="cb455-56" data-line-number="56"><span class="st">  sigma_age ~ normal(0, 10);</span></a>
+<a class="sourceLine" id="cb455-57" data-line-number="57"><span class="st">  sigma_edu ~ normal(0, 10);</span></a>
+<a class="sourceLine" id="cb455-58" data-line-number="58"><span class="st">  sigma_age_edu ~ normal(0, 10);</span></a>
+<a class="sourceLine" id="cb455-59" data-line-number="59"><span class="st">  alpha ~ normal(0, 5);</span></a>
+<a class="sourceLine" id="cb455-60" data-line-number="60"><span class="st">}</span></a>
+<a class="sourceLine" id="cb455-61" data-line-number="61"></a>
+<a class="sourceLine" id="cb455-62" data-line-number="62"><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb455-63" data-line-number="63"><span class="kw">cat</span>(model_mrp, <span class="dt">file =</span> <span class="st">&#39;src/stan_files/model_mrp.stan&#39;</span>)</a></code></pre></div>
+<ol style="list-style-type: decimal">
+<li><p><strong>Modelo</strong>. Ajusta el modelo y revisa convergencia, describe
+cuantas cadenas, iteraciones y etapa de calentamiento elegiste, además
+escribe como determinaste convergencia.</p></li>
+<li><p><strong>Evaluación de ajuste</strong>. Usaremos la distribución predictiva posterior para
+simular del modelo y comparar con los datos observados. En particular veremos
+como se comparan las simulaciones del modelo por estado, la gráfica con los
+datos será la que sigue:</p></li>
+</ol>
+<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb456-1" data-line-number="1">bush_state &lt;-<span class="st"> </span>last_poll <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb456-2" data-line-number="2"><span class="st">    </span><span class="kw">group_by</span>(state) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb456-3" data-line-number="3"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">mean</span>(bush, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb456-4" data-line-number="4"><span class="st">    </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb456-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">state_ord =</span> <span class="kw">as.numeric</span>(<span class="kw">reorder</span>(state, prop)))</a>
+<a class="sourceLine" id="cb456-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb456-7" data-line-number="7"><span class="kw">ggplot</span>(bush_state, <span class="kw">aes</span>(<span class="dt">x =</span> state_ord, <span class="dt">y =</span> prop)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb456-8" data-line-number="8"><span class="st">    </span><span class="kw">geom_line</span>()</a></code></pre></div>
+<p>Debes simular del modelo 10 conjutos de datos del tamaño de los originales
+(replicaciones de los datos) y hacer una gráfica de páneles donde muestres los
+datos originales y las replicaciones, ¿que concluyes al ver la gráfica?</p>
+<ol start="3" style="list-style-type: decimal">
+<li>El siguiente código predice para cada celda de la tabla del censo, vale la
+pena notar, que para cada celda tenemos una lista en el vector <code>pred</code> con las
+simuaciones que le corresponden.</li>
+</ol>
+<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb457-1" data-line-number="1"> <span class="co"># construct the n.sims x 3264 matrix</span></a>
+<a class="sourceLine" id="cb457-2" data-line-number="2">census88 &lt;-<span class="st"> </span><span class="kw">read_dta</span>(<span class="st">&quot;data/census88.dta&quot;</span>)</a>
+<a class="sourceLine" id="cb457-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb457-4" data-line-number="4">params_sims &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(stan_fit, <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta_0&quot;</span>, <span class="st">&quot;beta&quot;</span>, <span class="st">&quot;beta_age&quot;</span>, </a>
+<a class="sourceLine" id="cb457-5" data-line-number="5">    <span class="st">&quot;beta_edu&quot;</span>, <span class="st">&quot;beta_age_edu&quot;</span>, <span class="st">&quot;beta_state&quot;</span>))</a>
+<a class="sourceLine" id="cb457-6" data-line-number="6">    <span class="er">))</span></a>
+<a class="sourceLine" id="cb457-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb457-8" data-line-number="8">pred_cell &lt;-<span class="st"> </span>census88 <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb457-9" data-line-number="9"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">age_edu =</span> <span class="kw">paste0</span>(age, edu), </a>
+<a class="sourceLine" id="cb457-10" data-line-number="10">        <span class="dt">age_edu_int =</span> <span class="kw">as.integer</span>(<span class="kw">as.factor</span>(age_edu))) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb457-11" data-line-number="11"><span class="st">    </span><span class="kw">rowwise</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb457-12" data-line-number="12"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb457-13" data-line-number="13">        <span class="dt">pred =</span> <span class="kw">list</span>(arm<span class="op">::</span><span class="kw">invlogit</span>(params_sims<span class="op">$</span>beta_<span class="dv">0</span> <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb457-14" data-line-number="14"><span class="st">                </span>params_sims<span class="op">$</span><span class="st">`</span><span class="dt">beta[1]</span><span class="st">`</span> <span class="op">*</span><span class="st"> </span>female <span class="op">+</span></a>
+<a class="sourceLine" id="cb457-15" data-line-number="15"><span class="st">                </span>params_sims<span class="op">$</span><span class="st">`</span><span class="dt">beta[2]</span><span class="st">`</span> <span class="op">*</span><span class="st"> </span>black <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb457-16" data-line-number="16"><span class="st">                </span>params_sims<span class="op">$</span><span class="st">`</span><span class="dt">beta[3]</span><span class="st">`</span> <span class="op">*</span><span class="st"> </span>female <span class="op">*</span><span class="st"> </span>black <span class="op">+</span></a>
+<a class="sourceLine" id="cb457-17" data-line-number="17"><span class="st">                </span>params_sims[, <span class="kw">str_c</span>(<span class="st">&quot;beta_age[&quot;</span>, <span class="kw">round</span>(age), <span class="st">&quot;]&quot;</span>)] <span class="op">+</span></a>
+<a class="sourceLine" id="cb457-18" data-line-number="18"><span class="st">                </span>params_sims[, <span class="kw">str_c</span>(<span class="st">&quot;beta_edu[&quot;</span>, <span class="kw">round</span>(edu), <span class="st">&quot;]&quot;</span>)] <span class="op">+</span><span class="st">  </span></a>
+<a class="sourceLine" id="cb457-19" data-line-number="19"><span class="st">                </span>params_sims[, <span class="kw">str_c</span>(<span class="st">&quot;beta_age_edu[&quot;</span>, age_edu_int, <span class="st">&quot;]&quot;</span>)] <span class="op">+</span><span class="st">  </span></a>
+<a class="sourceLine" id="cb457-20" data-line-number="20"><span class="st">                </span>params_sims[, <span class="kw">str_c</span>(<span class="st">&quot;beta_state[&quot;</span>, <span class="kw">round</span>(state), <span class="st">&quot;]&quot;</span>)]))</a>
+<a class="sourceLine" id="cb457-21" data-line-number="21">    ) </a></code></pre></div>
+<p>Para hacer las estimaciones por estado hace falta ponderar por el número de
+casos en cada celda:</p>
+<p><span class="math display">\[\theta_s=\frac{\sum_{j \in s}N_{j}\pi_j}{\sum_{j \in s}N_{j}}\]</span></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Genera las simulaciones de <span class="math inline">\(\theta_s\)</span>, recuerda que debarás calcular
+una simulación de cada <span class="math inline">\(\theta_s\)</span> por cada simulación de <span class="math inline">\(\pi_j\)</span> obtenida con
+el código de arriba. Realiza una gráfica con intervalos de credibilidad del 95%
+para cada <span class="math inline">\(theta_s\)</span>.</li>
+</ol>
 
 </div>
-<div style="float:left;top: -0px;width:350px">
-<p><img src="img/barras_pie.jpg" /></p>
 </div>
-<hr />
-<p>Hay otros tipos de <strong>chartjunk</strong> comunes: uno es la textura de barras, por
-ejemplo. El efecto es la producción de un efecto moiré que es desagradable y
-quita la atención de los datos, como en la gráfica de barras de abajo. Otro
-común son las rejillas, como mostramos en las gráficas de la izquierda. Nótese
-como en estos casos hay efectos ópticos no planeados que degradan la percepción
-de los patrones en los datos.</p>
-<p><img src="img/barras_moire.jpg" /></p>
+</div>
+<!-- </div> -->
+<h3>Referencias</h3>
+<div id="refs" class="references">
+<div id="ref-mendoza2016">
+<p>Mendoza, Manuel, and Luis E. Nieto-Barajas. 2016. “Quick Counts in the Mexican Presidential Elections: A Bayesian Approach.” <em>Electoral Studies</em> 43 (C):124–32. <a href="https://doi.org/10.1016/j.electstud.2016.06.007" class="uri">https://doi.org/10.1016/j.electstud.2016.06.007</a>.</p>
+</div>
+<div id="ref-parkgelmanbafumi">
+<p>Park, David K., Andrew Gelman, and Joseph Bafumi. 2004. “Bayesian Multilevel Estimation with Poststratification: State-Level Estimates from National Polls.” <em>Political Analysis</em> 12 (04):375–85. <a href="https://EconPapers.repec.org/RePEc:cup:polals:v:12:y:2004:i:04:p:375-385_00" class="uri">https://EconPapers.repec.org/RePEc:cup:polals:v:12:y:2004:i:04:p:375-385_00</a>.</p>
 </div>
 </div>
             </section>
@@ -427,8 +779,8 @@ de los patrones en los datos.</p>
           </div>
         </div>
       </div>
-<a href="teoría-de-visualización-de-datos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="pequeños-múltiplos-y-densidad-gráfica.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="modelos-jerárquicos-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -459,7 +811,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2019/edit/master/01-visualizacion_intro_r.Rmd",
+"link": "https://github.com/tereom/est-computacional-2019/edit/master/98-tareas.Rmd",
 "text": "Edit"
 },
 "history": {
