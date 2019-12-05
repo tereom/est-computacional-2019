@@ -1414,7 +1414,7 @@ gto_muestra <- read_csv("data/muestra_gto_2012.csv")
 Reporta estimaciones puntuales (media posterior) e intervalos del 95% de 
 credibilidad para cada candidato.
 
-### 4. Modelos jerárquicos, Stan y evaluación de ajuste {-}
+### 4. Modelos jerárquicos y Stan {-}
 
 **Postestratificación** es un método estándar que se utiliza para corregir las 
 estimaciones obtenidas de muestreo probabilístico cuando hay distintas 
@@ -1606,29 +1606,15 @@ cat(model_mrp, file = 'src/stan_files/model_mrp.stan')
 cuantas cadenas, iteraciones y etapa de calentamiento elegiste, además 
 escribe como determinaste convergencia.
 
-2. **Evaluación de ajuste**. Usaremos la distribución predictiva posterior para
-simular del modelo y comparar con los datos observados. En particular veremos 
-como se comparan las simulaciones del modelo por estado, la gráfica con los 
-datos será la que sigue:
-
 
 ```r
-bush_state <- last_poll %>% 
-    group_by(state) %>% 
-    summarise(prop = mean(bush, na.rm = TRUE)) %>% 
-    ungroup() %>% 
-    mutate(state_ord = as.numeric(reorder(state, prop)))
-
-ggplot(bush_state, aes(x = state_ord, y = prop)) +
-    geom_line()
+set.seed(83933)
+stan_fit <- sampling(object = stan_cpp, data = data_list, chains = 3, 
+    iter = 2000, control = list(adapt_delta = 0.95))
 ```
 
-Debes simular del modelo 10 conjutos de datos del tamaño de los originales 
-(replicaciones de los datos) y hacer una gráfica de páneles donde muestres los 
-datos originales y las replicaciones, ¿que concluyes al ver la gráfica?
 
-
-3. El siguiente código predice para cada celda de la tabla del censo, vale la 
+2. El siguiente código predice para cada celda de la tabla del censo, vale la 
 pena notar, que para cada celda tenemos una lista en el vector `pred` con las 
 simuaciones que le corresponden.
 

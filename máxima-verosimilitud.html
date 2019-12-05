@@ -350,7 +350,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="final.html"><a href="final.html#inferencia-gráfica"><i class="fa fa-check"></i>1. Inferencia gráfica</a></li>
 <li class="chapter" data-level="" data-path="final.html"><a href="final.html#simulación-para-el-cálculo-de-tamaños-de-muestra"><i class="fa fa-check"></i>2. Simulación para el cálculo de tamaños de muestra</a></li>
 <li class="chapter" data-level="" data-path="final.html"><a href="final.html#mcmc-1"><i class="fa fa-check"></i>3. MCMC</a></li>
-<li class="chapter" data-level="" data-path="final.html"><a href="final.html#modelos-jerárquicos-stan-y-evaluación-de-ajuste"><i class="fa fa-check"></i>4. Modelos jerárquicos, Stan y evaluación de ajuste</a></li>
+<li class="chapter" data-level="" data-path="final.html"><a href="final.html#modelos-jerárquicos-y-stan"><i class="fa fa-check"></i>4. Modelos jerárquicos y Stan</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
@@ -503,9 +503,9 @@ veremos a que nos referimos con <span class="math inline">\(I(\theta)^{-1}\)</sp
 <a class="sourceLine" id="cb306-8" data-line-number="8"></a>
 <a class="sourceLine" id="cb306-9" data-line-number="9"><span class="co"># aprox normal con media theta y error estándar </span></a>
 <a class="sourceLine" id="cb306-10" data-line-number="10"><span class="kw">mean</span>(sigma_hats)</a>
-<a class="sourceLine" id="cb306-11" data-line-number="11"><span class="co">#&gt; [1] 4.26156</span></a>
+<a class="sourceLine" id="cb306-11" data-line-number="11"><span class="co">#&gt; [1] 4.278301</span></a>
 <a class="sourceLine" id="cb306-12" data-line-number="12"><span class="kw">sd</span>(sigma_hats)</a>
-<a class="sourceLine" id="cb306-13" data-line-number="13"><span class="co">#&gt; [1] 1.514586</span></a>
+<a class="sourceLine" id="cb306-13" data-line-number="13"><span class="co">#&gt; [1] 1.565455</span></a>
 <a class="sourceLine" id="cb306-14" data-line-number="14"></a>
 <a class="sourceLine" id="cb306-15" data-line-number="15"><span class="kw">ggplot</span>(<span class="kw">data_frame</span>(sigma_hats), <span class="kw">aes</span>(<span class="dt">sample =</span> sigma_hats)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb306-16" data-line-number="16"><span class="st">    </span><span class="kw">stat_qq</span>() <span class="op">+</span></a>

@@ -350,7 +350,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="final.html"><a href="final.html#inferencia-gráfica"><i class="fa fa-check"></i>1. Inferencia gráfica</a></li>
 <li class="chapter" data-level="" data-path="final.html"><a href="final.html#simulación-para-el-cálculo-de-tamaños-de-muestra"><i class="fa fa-check"></i>2. Simulación para el cálculo de tamaños de muestra</a></li>
 <li class="chapter" data-level="" data-path="final.html"><a href="final.html#mcmc-1"><i class="fa fa-check"></i>3. MCMC</a></li>
-<li class="chapter" data-level="" data-path="final.html"><a href="final.html#modelos-jerárquicos-stan-y-evaluación-de-ajuste"><i class="fa fa-check"></i>4. Modelos jerárquicos, Stan y evaluación de ajuste</a></li>
+<li class="chapter" data-level="" data-path="final.html"><a href="final.html#modelos-jerárquicos-y-stan"><i class="fa fa-check"></i>4. Modelos jerárquicos y Stan</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
@@ -551,8 +551,8 @@ muestra:</p>
 <p>Reporta estimaciones puntuales (media posterior) e intervalos del 95% de
 credibilidad para cada candidato.</p>
 </div>
-<div id="modelos-jerárquicos-stan-y-evaluación-de-ajuste" class="section level3 unnumbered">
-<h3>4. Modelos jerárquicos, Stan y evaluación de ajuste</h3>
+<div id="modelos-jerárquicos-y-stan" class="section level3 unnumbered">
+<h3>4. Modelos jerárquicos y Stan</h3>
 <p><strong>Postestratificación</strong> es un método estándar que se utiliza para corregir las
 estimaciones obtenidas de muestreo probabilístico cuando hay distintas
 probabilidades de selección y para corregir no respuesta. A grandes rasgos, se
@@ -711,26 +711,14 @@ o en la carpeta data.</p>
 <a class="sourceLine" id="cb455-62" data-line-number="62"><span class="st">&quot;</span></a>
 <a class="sourceLine" id="cb455-63" data-line-number="63"><span class="kw">cat</span>(model_mrp, <span class="dt">file =</span> <span class="st">&#39;src/stan_files/model_mrp.stan&#39;</span>)</a></code></pre></div>
 <ol style="list-style-type: decimal">
-<li><p><strong>Modelo</strong>. Ajusta el modelo y revisa convergencia, describe
+<li><strong>Modelo</strong>. Ajusta el modelo y revisa convergencia, describe
 cuantas cadenas, iteraciones y etapa de calentamiento elegiste, además
-escribe como determinaste convergencia.</p></li>
-<li><p><strong>Evaluación de ajuste</strong>. Usaremos la distribución predictiva posterior para
-simular del modelo y comparar con los datos observados. En particular veremos
-como se comparan las simulaciones del modelo por estado, la gráfica con los
-datos será la que sigue:</p></li>
+escribe como determinaste convergencia.</li>
 </ol>
-<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb456-1" data-line-number="1">bush_state &lt;-<span class="st"> </span>last_poll <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb456-2" data-line-number="2"><span class="st">    </span><span class="kw">group_by</span>(state) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb456-3" data-line-number="3"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">prop =</span> <span class="kw">mean</span>(bush, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb456-4" data-line-number="4"><span class="st">    </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb456-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">state_ord =</span> <span class="kw">as.numeric</span>(<span class="kw">reorder</span>(state, prop)))</a>
-<a class="sourceLine" id="cb456-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb456-7" data-line-number="7"><span class="kw">ggplot</span>(bush_state, <span class="kw">aes</span>(<span class="dt">x =</span> state_ord, <span class="dt">y =</span> prop)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb456-8" data-line-number="8"><span class="st">    </span><span class="kw">geom_line</span>()</a></code></pre></div>
-<p>Debes simular del modelo 10 conjutos de datos del tamaño de los originales
-(replicaciones de los datos) y hacer una gráfica de páneles donde muestres los
-datos originales y las replicaciones, ¿que concluyes al ver la gráfica?</p>
-<ol start="3" style="list-style-type: decimal">
+<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb456-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">83933</span>)</a>
+<a class="sourceLine" id="cb456-2" data-line-number="2">stan_fit &lt;-<span class="st"> </span><span class="kw">sampling</span>(<span class="dt">object =</span> stan_cpp, <span class="dt">data =</span> data_list, <span class="dt">chains =</span> <span class="dv">3</span>, </a>
+<a class="sourceLine" id="cb456-3" data-line-number="3">    <span class="dt">iter =</span> <span class="dv">2000</span>, <span class="dt">control =</span> <span class="kw">list</span>(<span class="dt">adapt_delta =</span> <span class="fl">0.95</span>))</a></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
 <li>El siguiente código predice para cada celda de la tabla del censo, vale la
 pena notar, que para cada celda tenemos una lista en el vector <code>pred</code> con las
 simuaciones que le corresponden.</li>
