@@ -973,7 +973,7 @@ a) Crea una función $prior$ que reciba los parámetros $\mu$ y $\tau$ que defin
 tus creencias del parámetro desconocido $\theta$ y devuelva $p(\theta)$, donde 
 $p(\theta)$ tiene distriución $N(\mu, \sigma^2)$
 
-```{r, eval=FALSE}
+```
 prior <- function(mu, tau{
   function(theta){
     ... # llena esta parte
@@ -1140,6 +1140,19 @@ es igual a 9, 10 u 11, estos son sujetos que abandonaron sus estudios durante
 preparatoria. Seguiremos un enfoque no paramétrico que consiste en ajustar un 
 suavizador para cada grupo de raza (blanco, hispano o negro) como se muestra 
 en la siguiente gráfica.
+
+```{r, eval=FALSE, echo=FALSE}
+load("data/wages_t.RData")
+```
+
+```{r, eval=FALSE, echo=FALSE}
+ggplot(wages_t, aes(x = exper, y = lnw)) +
+  geom_point(alpha = 0.25, size = 2) + 
+  geom_smooth(aes(group = race, color = race), method = "loess", se = FALSE) 
+```
+
+![](img/wages.png)
+
 
 Utilizaremos una prueba de hipótesis gráfica para determinar si existe una 
 diferencia significativa entre las curvas.
