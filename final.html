@@ -402,6 +402,7 @@ es igual a 9, 10 u 11, estos son sujetos que abandonaron sus estudios durante
 preparatoria. Seguiremos un enfoque no paramétrico que consiste en ajustar un
 suavizador para cada grupo de raza (blanco, hispano o negro) como se muestra
 en la siguiente gráfica.</p>
+<p><img src="img/wages.png" /></p>
 <p>Utilizaremos una prueba de hipótesis gráfica para determinar si existe una
 diferencia significativa entre las curvas.</p>
 <ol style="list-style-type: decimal">
@@ -626,21 +627,25 @@ o en la carpeta data.</p>
 <a class="sourceLine" id="cb453-14" data-line-number="14"><span class="st">    </span><span class="kw">cbind</span>(<span class="dt">region =</span> <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">4</span>,</a>
 <a class="sourceLine" id="cb453-15" data-line-number="15">        <span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>))</a></code></pre></div>
 <p>Los datos para el modelo serán:</p>
-<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb454-1" data-line-number="1">data_list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">N =</span> <span class="kw">nrow</span>(last_poll), </a>
-<a class="sourceLine" id="cb454-2" data-line-number="2">    <span class="dt">n_age =</span> <span class="kw">n_distinct</span>(last_poll<span class="op">$</span>age),</a>
-<a class="sourceLine" id="cb454-3" data-line-number="3">    <span class="dt">n_age_edu =</span> <span class="kw">n_distinct</span>(last_poll<span class="op">$</span>age, last_poll<span class="op">$</span>edu),</a>
-<a class="sourceLine" id="cb454-4" data-line-number="4">    <span class="dt">n_edu =</span> <span class="kw">n_distinct</span>(last_poll<span class="op">$</span>edu), </a>
-<a class="sourceLine" id="cb454-5" data-line-number="5">    <span class="dt">n_region =</span> <span class="dv">5</span>, </a>
-<a class="sourceLine" id="cb454-6" data-line-number="6">    <span class="dt">n_state =</span> <span class="kw">max</span>(last_poll<span class="op">$</span>state), </a>
-<a class="sourceLine" id="cb454-7" data-line-number="7">    <span class="dt">age =</span> last_poll<span class="op">$</span>age,</a>
-<a class="sourceLine" id="cb454-8" data-line-number="8">    <span class="dt">black =</span> last_poll<span class="op">$</span>black,</a>
-<a class="sourceLine" id="cb454-9" data-line-number="9">    <span class="dt">edu =</span> last_poll<span class="op">$</span>edu,</a>
-<a class="sourceLine" id="cb454-10" data-line-number="10">    <span class="dt">female =</span> last_poll<span class="op">$</span>female,</a>
-<a class="sourceLine" id="cb454-11" data-line-number="11">    <span class="dt">region =</span> presvote<span class="op">$</span>region,</a>
-<a class="sourceLine" id="cb454-12" data-line-number="12">    <span class="dt">state =</span> last_poll<span class="op">$</span>state, </a>
-<a class="sourceLine" id="cb454-13" data-line-number="13">    <span class="dt">v_prev =</span> presvote<span class="op">$</span>g76_84pr,</a>
-<a class="sourceLine" id="cb454-14" data-line-number="14">    <span class="dt">y =</span> last_poll<span class="op">$</span>bush</a>
-<a class="sourceLine" id="cb454-15" data-line-number="15">)</a></code></pre></div>
+<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb454-1" data-line-number="1">x_person &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>female <span class="op">+</span><span class="st"> </span>black <span class="op">+</span><span class="st"> </span>female <span class="op">*</span><span class="st"> </span>black, <span class="dt">data =</span> last_poll)</a>
+<a class="sourceLine" id="cb454-2" data-line-number="2">x_state &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span><span class="dv">-1</span> <span class="op">+</span><span class="st"> </span><span class="kw">factor</span>(region) <span class="op">+</span><span class="st"> </span>g76_84pr, <span class="dt">data =</span> presvote) </a>
+<a class="sourceLine" id="cb454-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb454-4" data-line-number="4">data_list &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb454-5" data-line-number="5">    <span class="dt">n =</span> <span class="kw">nrow</span>(last_poll), </a>
+<a class="sourceLine" id="cb454-6" data-line-number="6">    <span class="dt">n_age =</span> <span class="kw">n_distinct</span>(last_poll<span class="op">$</span>age),</a>
+<a class="sourceLine" id="cb454-7" data-line-number="7">    <span class="dt">n_age_edu =</span> <span class="kw">n_distinct</span>(last_poll<span class="op">$</span>age_edu_int),</a>
+<a class="sourceLine" id="cb454-8" data-line-number="8">    <span class="dt">n_edu =</span> <span class="kw">n_distinct</span>(last_poll<span class="op">$</span>edu), </a>
+<a class="sourceLine" id="cb454-9" data-line-number="9">    <span class="dt">n_state =</span> <span class="kw">max</span>(last_poll<span class="op">$</span>state), </a>
+<a class="sourceLine" id="cb454-10" data-line-number="10">    <span class="dt">mh =</span> <span class="dv">3</span>, </a>
+<a class="sourceLine" id="cb454-11" data-line-number="11">    <span class="dt">mm =</span> <span class="dv">6</span>, </a>
+<a class="sourceLine" id="cb454-12" data-line-number="12">    <span class="dt">age =</span> last_poll<span class="op">$</span>age,</a>
+<a class="sourceLine" id="cb454-13" data-line-number="13">    <span class="dt">edu =</span> last_poll<span class="op">$</span>edu,</a>
+<a class="sourceLine" id="cb454-14" data-line-number="14">    <span class="dt">age_edu =</span> last_poll<span class="op">$</span>age_edu_int,</a>
+<a class="sourceLine" id="cb454-15" data-line-number="15">    <span class="dt">state =</span> last_poll<span class="op">$</span>state, </a>
+<a class="sourceLine" id="cb454-16" data-line-number="16">    <span class="dt">y =</span> last_poll<span class="op">$</span>bush, </a>
+<a class="sourceLine" id="cb454-17" data-line-number="17">    <span class="dt">x_person =</span> x_person[, <span class="dv">-1</span>],</a>
+<a class="sourceLine" id="cb454-18" data-line-number="18">    <span class="dt">x_state =</span> x_state</a>
+<a class="sourceLine" id="cb454-19" data-line-number="19">)</a></code></pre></div>
 <p>Y el código en Stan:</p>
 <div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb455-1" data-line-number="1">model_mrp &lt;-<span class="st"> &quot;</span></a>
 <a class="sourceLine" id="cb455-2" data-line-number="2"><span class="st">data {</span></a>
@@ -662,45 +667,45 @@ o en la carpeta data.</p>
 <a class="sourceLine" id="cb455-18" data-line-number="18"><span class="st">parameters {</span></a>
 <a class="sourceLine" id="cb455-19" data-line-number="19"><span class="st">  real beta_0;</span></a>
 <a class="sourceLine" id="cb455-20" data-line-number="20"><span class="st">  vector[mh] beta;</span></a>
-<a class="sourceLine" id="cb455-21" data-line-number="21"><span class="st">  real&lt;lower=0&gt; sigma;</span></a>
-<a class="sourceLine" id="cb455-22" data-line-number="22"><span class="st">  vector[n_state] beta_state_raw;</span></a>
-<a class="sourceLine" id="cb455-23" data-line-number="23"><span class="st">  vector[n_age] beta_age_raw;</span></a>
-<a class="sourceLine" id="cb455-24" data-line-number="24"><span class="st">  vector[n_edu] beta_edu_raw;</span></a>
-<a class="sourceLine" id="cb455-25" data-line-number="25"><span class="st">  vector[n_age_edu] beta_age_edu_raw;</span></a>
-<a class="sourceLine" id="cb455-26" data-line-number="26"><span class="st">  real&lt;lower=0&gt; sigma_age;</span></a>
-<a class="sourceLine" id="cb455-27" data-line-number="27"><span class="st">  real&lt;lower=0&gt; sigma_edu;</span></a>
-<a class="sourceLine" id="cb455-28" data-line-number="28"><span class="st">  real&lt;lower=0&gt; sigma_age_edu;</span></a>
-<a class="sourceLine" id="cb455-29" data-line-number="29"><span class="st">  real&lt;lower=0&gt; sigma_state;</span></a>
-<a class="sourceLine" id="cb455-30" data-line-number="30"><span class="st">  vector[mm] alpha;</span></a>
-<a class="sourceLine" id="cb455-31" data-line-number="31"><span class="st">}</span></a>
-<a class="sourceLine" id="cb455-32" data-line-number="32"><span class="st">transformed parameters {</span></a>
-<a class="sourceLine" id="cb455-33" data-line-number="33"><span class="st">  vector[n] reg_pred;</span></a>
-<a class="sourceLine" id="cb455-34" data-line-number="34"><span class="st">  vector[n_state] beta_state;</span></a>
-<a class="sourceLine" id="cb455-35" data-line-number="35"><span class="st">  vector[n_age] beta_age;</span></a>
-<a class="sourceLine" id="cb455-36" data-line-number="36"><span class="st">  vector[n_edu] beta_edu;</span></a>
-<a class="sourceLine" id="cb455-37" data-line-number="37"><span class="st">  vector[n_age_edu] beta_age_edu;</span></a>
-<a class="sourceLine" id="cb455-38" data-line-number="38"><span class="st">  // parametrización no centrada</span></a>
-<a class="sourceLine" id="cb455-39" data-line-number="39"><span class="st">  beta_age = beta_age_raw * sigma_age; </span></a>
-<a class="sourceLine" id="cb455-40" data-line-number="40"><span class="st">  beta_edu = beta_edu_raw * sigma_edu; </span></a>
-<a class="sourceLine" id="cb455-41" data-line-number="41"><span class="st">  beta_age_edu = beta_age_edu_raw * sigma_age_edu; </span></a>
-<a class="sourceLine" id="cb455-42" data-line-number="42"><span class="st">  beta_state = beta_state_raw * sigma_state + x_state * alpha; </span></a>
-<a class="sourceLine" id="cb455-43" data-line-number="43"><span class="st">  reg_pred = beta_0 + x_person * beta + beta_state[state] + beta_age[age] + </span></a>
-<a class="sourceLine" id="cb455-44" data-line-number="44"><span class="st">    beta_edu[edu] + beta_age_edu[age_edu];</span></a>
-<a class="sourceLine" id="cb455-45" data-line-number="45"><span class="st">}</span></a>
-<a class="sourceLine" id="cb455-46" data-line-number="46"><span class="st">model {  </span></a>
-<a class="sourceLine" id="cb455-47" data-line-number="47"><span class="st">  y ~ bernoulli_logit(reg_pred);</span></a>
-<a class="sourceLine" id="cb455-48" data-line-number="48"><span class="st">  beta_0 ~ normal(0, 2);</span></a>
-<a class="sourceLine" id="cb455-49" data-line-number="49"><span class="st">  beta ~ normal(0, 5);</span></a>
-<a class="sourceLine" id="cb455-50" data-line-number="50"><span class="st">  sigma ~ normal(0, 5);</span></a>
-<a class="sourceLine" id="cb455-51" data-line-number="51"><span class="st">  beta_age_raw ~ normal(0, 10);</span></a>
-<a class="sourceLine" id="cb455-52" data-line-number="52"><span class="st">  beta_edu_raw ~ normal(0, 10);</span></a>
-<a class="sourceLine" id="cb455-53" data-line-number="53"><span class="st">  beta_age_edu_raw ~ normal(0, 10);</span></a>
-<a class="sourceLine" id="cb455-54" data-line-number="54"><span class="st">  beta_state_raw ~ normal(0, 10);</span></a>
-<a class="sourceLine" id="cb455-55" data-line-number="55"><span class="st">  sigma_state ~ normal(0, 10);</span></a>
-<a class="sourceLine" id="cb455-56" data-line-number="56"><span class="st">  sigma_age ~ normal(0, 10);</span></a>
-<a class="sourceLine" id="cb455-57" data-line-number="57"><span class="st">  sigma_edu ~ normal(0, 10);</span></a>
-<a class="sourceLine" id="cb455-58" data-line-number="58"><span class="st">  sigma_age_edu ~ normal(0, 10);</span></a>
-<a class="sourceLine" id="cb455-59" data-line-number="59"><span class="st">  alpha ~ normal(0, 5);</span></a>
+<a class="sourceLine" id="cb455-21" data-line-number="21"><span class="st">  vector[n_state] beta_state_raw;</span></a>
+<a class="sourceLine" id="cb455-22" data-line-number="22"><span class="st">  vector[n_age] beta_age_raw;</span></a>
+<a class="sourceLine" id="cb455-23" data-line-number="23"><span class="st">  vector[n_edu] beta_edu_raw;</span></a>
+<a class="sourceLine" id="cb455-24" data-line-number="24"><span class="st">  vector[n_age_edu] beta_age_edu_raw;</span></a>
+<a class="sourceLine" id="cb455-25" data-line-number="25"><span class="st">  real&lt;lower=0&gt; sigma_age;</span></a>
+<a class="sourceLine" id="cb455-26" data-line-number="26"><span class="st">  real&lt;lower=0&gt; sigma_edu;</span></a>
+<a class="sourceLine" id="cb455-27" data-line-number="27"><span class="st">  real&lt;lower=0&gt; sigma_age_edu;</span></a>
+<a class="sourceLine" id="cb455-28" data-line-number="28"><span class="st">  real&lt;lower=0&gt; sigma_state;</span></a>
+<a class="sourceLine" id="cb455-29" data-line-number="29"><span class="st">  vector[mm] alpha;</span></a>
+<a class="sourceLine" id="cb455-30" data-line-number="30"><span class="st">}</span></a>
+<a class="sourceLine" id="cb455-31" data-line-number="31"><span class="st">transformed parameters {</span></a>
+<a class="sourceLine" id="cb455-32" data-line-number="32"><span class="st">  vector[n] reg_pred;</span></a>
+<a class="sourceLine" id="cb455-33" data-line-number="33"><span class="st">  vector[n_state] beta_state;</span></a>
+<a class="sourceLine" id="cb455-34" data-line-number="34"><span class="st">  vector[n_age] beta_age;</span></a>
+<a class="sourceLine" id="cb455-35" data-line-number="35"><span class="st">  vector[n_edu] beta_edu;</span></a>
+<a class="sourceLine" id="cb455-36" data-line-number="36"><span class="st">  vector[n_age_edu] beta_age_edu;</span></a>
+<a class="sourceLine" id="cb455-37" data-line-number="37"><span class="st">  // parametrización no centrada</span></a>
+<a class="sourceLine" id="cb455-38" data-line-number="38"><span class="st">  beta_age = beta_age_raw * sigma_age; </span></a>
+<a class="sourceLine" id="cb455-39" data-line-number="39"><span class="st">  beta_edu = beta_edu_raw * sigma_edu; </span></a>
+<a class="sourceLine" id="cb455-40" data-line-number="40"><span class="st">  beta_age_edu =beta_age_edu_raw * sigma_age_edu; </span></a>
+<a class="sourceLine" id="cb455-41" data-line-number="41"><span class="st">  beta_state = beta_state_raw * sigma_state + x_state * alpha; </span></a>
+<a class="sourceLine" id="cb455-42" data-line-number="42"><span class="st">  reg_pred = beta_0 + x_person * beta + beta_state[state] + beta_age[age] + </span></a>
+<a class="sourceLine" id="cb455-43" data-line-number="43"><span class="st">    beta_edu[edu] + beta_age_edu[age_edu];</span></a>
+<a class="sourceLine" id="cb455-44" data-line-number="44"><span class="st">}</span></a>
+<a class="sourceLine" id="cb455-45" data-line-number="45"><span class="st">model {  </span></a>
+<a class="sourceLine" id="cb455-46" data-line-number="46"><span class="st">  y ~ bernoulli_logit(reg_pred);</span></a>
+<a class="sourceLine" id="cb455-47" data-line-number="47"><span class="st">  beta_0 ~ normal(0, 1);</span></a>
+<a class="sourceLine" id="cb455-48" data-line-number="48"><span class="st">  beta ~ normal(0, 1);</span></a>
+<a class="sourceLine" id="cb455-49" data-line-number="49"><span class="st">  </span></a>
+<a class="sourceLine" id="cb455-50" data-line-number="50"><span class="st">  beta_age_raw ~ normal(0, 1);</span></a>
+<a class="sourceLine" id="cb455-51" data-line-number="51"><span class="st">  beta_edu_raw ~ normal(0, 1);</span></a>
+<a class="sourceLine" id="cb455-52" data-line-number="52"><span class="st">  beta_age_edu_raw ~ normal(0, 1);</span></a>
+<a class="sourceLine" id="cb455-53" data-line-number="53"><span class="st">  beta_state_raw ~ normal(0, 1);</span></a>
+<a class="sourceLine" id="cb455-54" data-line-number="54"><span class="st">  </span></a>
+<a class="sourceLine" id="cb455-55" data-line-number="55"><span class="st">  sigma_state ~ normal(0, 1);</span></a>
+<a class="sourceLine" id="cb455-56" data-line-number="56"><span class="st">  sigma_age ~ normal(0, 1);</span></a>
+<a class="sourceLine" id="cb455-57" data-line-number="57"><span class="st">  sigma_edu ~ normal(0, 1);</span></a>
+<a class="sourceLine" id="cb455-58" data-line-number="58"><span class="st">  sigma_age_edu ~ normal(0, 1);</span></a>
+<a class="sourceLine" id="cb455-59" data-line-number="59"><span class="st">  alpha ~ normal(0, 1);</span></a>
 <a class="sourceLine" id="cb455-60" data-line-number="60"><span class="st">}</span></a>
 <a class="sourceLine" id="cb455-61" data-line-number="61"></a>
 <a class="sourceLine" id="cb455-62" data-line-number="62"><span class="st">&quot;</span></a>

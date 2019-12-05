@@ -1061,8 +1061,7 @@ a) Crea una función $prior$ que reciba los parámetros $\mu$ y $\tau$ que defin
 tus creencias del parámetro desconocido $\theta$ y devuelva $p(\theta)$, donde 
 $p(\theta)$ tiene distriución $N(\mu, \sigma^2)$
 
-
-```r
+```
 prior <- function(mu, tau{
   function(theta){
     ... # llena esta parte
@@ -1232,6 +1231,13 @@ es igual a 9, 10 u 11, estos son sujetos que abandonaron sus estudios durante
 preparatoria. Seguiremos un enfoque no paramétrico que consiste en ajustar un 
 suavizador para cada grupo de raza (blanco, hispano o negro) como se muestra 
 en la siguiente gráfica.
+
+
+
+
+
+![](img/wages.png)
+
 
 Utilizaremos una prueba de hipótesis gráfica para determinar si existe una 
 diferencia significativa entre las curvas.
@@ -1506,20 +1512,24 @@ Los datos para el modelo serán:
 
 
 ```r
-data_list <- list(N = nrow(last_poll), 
+x_person <- model.matrix(~ female + black + female * black, data = last_poll)
+x_state <- model.matrix(~ -1 + factor(region) + g76_84pr, data = presvote) 
+
+data_list <- list(
+    n = nrow(last_poll), 
     n_age = n_distinct(last_poll$age),
-    n_age_edu = n_distinct(last_poll$age, last_poll$edu),
+    n_age_edu = n_distinct(last_poll$age_edu_int),
     n_edu = n_distinct(last_poll$edu), 
-    n_region = 5, 
     n_state = max(last_poll$state), 
+    mh = 3, 
+    mm = 6, 
     age = last_poll$age,
-    black = last_poll$black,
     edu = last_poll$edu,
-    female = last_poll$female,
-    region = presvote$region,
+    age_edu = last_poll$age_edu_int,
     state = last_poll$state, 
-    v_prev = presvote$g76_84pr,
-    y = last_poll$bush
+    y = last_poll$bush, 
+    x_person = x_person[, -1],
+    x_state = x_state
 )
 ```
 
@@ -1547,7 +1557,6 @@ data {
 parameters {
   real beta_0;
   vector[mh] beta;
-  real<lower=0> sigma;
   vector[n_state] beta_state_raw;
   vector[n_age] beta_age_raw;
   vector[n_edu] beta_edu_raw;
@@ -1567,25 +1576,26 @@ transformed parameters {
   // parametrización no centrada
   beta_age = beta_age_raw * sigma_age; 
   beta_edu = beta_edu_raw * sigma_edu; 
-  beta_age_edu = beta_age_edu_raw * sigma_age_edu; 
+  beta_age_edu =beta_age_edu_raw * sigma_age_edu; 
   beta_state = beta_state_raw * sigma_state + x_state * alpha; 
   reg_pred = beta_0 + x_person * beta + beta_state[state] + beta_age[age] + 
     beta_edu[edu] + beta_age_edu[age_edu];
 }
 model {  
   y ~ bernoulli_logit(reg_pred);
-  beta_0 ~ normal(0, 2);
-  beta ~ normal(0, 5);
-  sigma ~ normal(0, 5);
-  beta_age_raw ~ normal(0, 10);
-  beta_edu_raw ~ normal(0, 10);
-  beta_age_edu_raw ~ normal(0, 10);
-  beta_state_raw ~ normal(0, 10);
-  sigma_state ~ normal(0, 10);
-  sigma_age ~ normal(0, 10);
-  sigma_edu ~ normal(0, 10);
-  sigma_age_edu ~ normal(0, 10);
-  alpha ~ normal(0, 5);
+  beta_0 ~ normal(0, 1);
+  beta ~ normal(0, 1);
+  
+  beta_age_raw ~ normal(0, 1);
+  beta_edu_raw ~ normal(0, 1);
+  beta_age_edu_raw ~ normal(0, 1);
+  beta_state_raw ~ normal(0, 1);
+  
+  sigma_state ~ normal(0, 1);
+  sigma_age ~ normal(0, 1);
+  sigma_edu ~ normal(0, 1);
+  sigma_age_edu ~ normal(0, 1);
+  alpha ~ normal(0, 1);
 }
 
 "

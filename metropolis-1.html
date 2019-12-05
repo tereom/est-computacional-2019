@@ -389,11 +389,11 @@ para obtener una muestra de la distribución posterior.</p></li>
 tus creencias del parámetro desconocido <span class="math inline">\(\theta\)</span> y devuelva <span class="math inline">\(p(\theta)\)</span>, donde
 <span class="math inline">\(p(\theta)\)</span> tiene distriución <span class="math inline">\(N(\mu, \sigma^2)\)</span></li>
 </ol>
-<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb447-1" data-line-number="1">prior &lt;-<span class="st"> </span><span class="cf">function</span>(mu, tau{</a>
-<a class="sourceLine" id="cb447-2" data-line-number="2">  <span class="cf">function</span>(theta){</a>
-<a class="sourceLine" id="cb447-3" data-line-number="3">    ... <span class="co"># llena esta parte</span></a>
-<a class="sourceLine" id="cb447-4" data-line-number="4">  }</a>
-<a class="sourceLine" id="cb447-5" data-line-number="5">}</a></code></pre></div>
+<pre><code>prior &lt;- function(mu, tau{
+  function(theta){
+    ... # llena esta parte
+  }
+}</code></pre>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Utiliza la función que acabas de escribir para definir una distribución
 inicial con parámetros <span class="math inline">\(\mu = 150\)</span> y <span class="math inline">\(\tau = 15\)</span>, llámala <em>mi_prior</em>.</li>
