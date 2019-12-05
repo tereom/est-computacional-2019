@@ -1494,7 +1494,6 @@ transformed parameters {
 }
 model {  
   y ~ bernoulli_logit(reg_pred);
-  
   beta_0 ~ normal(0, 1);
   beta ~ normal(0, 1);
   
@@ -1508,7 +1507,6 @@ model {
   sigma_edu ~ normal(0, 1);
   sigma_age_edu ~ normal(0, 1);
   alpha ~ normal(0, 1);
-  
 }
 
 "
@@ -1518,6 +1516,12 @@ cat(model_mrp, file = 'src/stan_files/model_mrp.stan')
 1. **Modelo**. Ajusta el modelo y revisa convergencia, describe 
 cuantas cadenas, iteraciones y etapa de calentamiento elegiste, además 
 escribe como determinaste convergencia.
+
+```{r, eval = FALSE}
+stan_fit <- sampling(object = stan_cpp, data = data_list, chains = 3, 
+    iter = 1500, control = list(adapt_delta = 0.95))
+```
+
 
 2. **Evaluación de ajuste**. Usaremos la distribución predictiva posterior para
 simular del modelo y comparar con los datos observados. En particular veremos 
