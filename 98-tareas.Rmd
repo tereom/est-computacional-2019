@@ -1494,7 +1494,6 @@ transformed parameters {
 }
 model {  
   y ~ bernoulli_logit(reg_pred);
-  
   beta_0 ~ normal(0, 1);
   beta ~ normal(0, 1);
   
@@ -1508,7 +1507,6 @@ model {
   sigma_edu ~ normal(0, 1);
   sigma_age_edu ~ normal(0, 1);
   alpha ~ normal(0, 1);
-  
 }
 
 "
