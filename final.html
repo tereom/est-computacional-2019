@@ -600,7 +600,7 @@ variables demográficas como covariables.</p>
 estado que se modela con indicadoras de región y una medida del apoyo
 Republicano en el estado reportado en la elección previa.</p>
 <p><span class="math display">\[ \beta_{j}\sim N(\beta_{region(j)}^{region}+\beta^{vprev}\cdot vprev_j, \sigma^2_{estado})\]</span></p>
-<p>Ajustaremos este modelo usando el programa JAGS (Just Another Gibbs Sampler), y
+<p>Ajustaremos este modelo usando el programa Stan, y
 utilizamos las estimaciones para hacer predicciones a nivel estado (<span class="math inline">\(\theta_s\)</span>):</p>
 <p><span class="math display">\[\theta_s=\frac{\sum_{j \in s}N_{j}\pi_j}{\sum_{j \in s}N_{j}}\]</span></p>
 <p>donde <span class="math inline">\(N_j\)</span> indica el número de individuos en cada estado que
@@ -718,10 +718,13 @@ escribe como determinaste convergencia.</li>
 <a class="sourceLine" id="cb456-2" data-line-number="2">stan_fit &lt;-<span class="st"> </span><span class="kw">sampling</span>(<span class="dt">object =</span> stan_cpp, <span class="dt">data =</span> data_list, <span class="dt">chains =</span> <span class="dv">3</span>, </a>
 <a class="sourceLine" id="cb456-3" data-line-number="3">    <span class="dt">iter =</span> <span class="dv">2000</span>, <span class="dt">control =</span> <span class="kw">list</span>(<span class="dt">adapt_delta =</span> <span class="fl">0.95</span>))</a></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
-<li>El siguiente código predice para cada celda de la tabla del censo, vale la
-pena notar, que para cada celda tenemos una lista en el vector <code>pred</code> con las
-simuaciones que le corresponden.</li>
+<li>Genera las simulaciones de <span class="math inline">\(\theta_s\)</span> para analizar las predicciones a nivel estado.
+Realiza una gráfica con intervalos de credibilidad del 95%
+para cada <span class="math inline">\(theta_s\)</span>.</li>
 </ol>
+<p>El siguiente código predice para cada celda de la tabla del censo, vale la
+pena notar, que para cada celda tenemos una lista en el vector <code>pred</code> con las
+simuaciones que le corresponden.</p>
 <div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb457-1" data-line-number="1"> <span class="co"># construct the n.sims x 3264 matrix</span></a>
 <a class="sourceLine" id="cb457-2" data-line-number="2">census88 &lt;-<span class="st"> </span><span class="kw">read_dta</span>(<span class="st">&quot;data/census88.dta&quot;</span>)</a>
 <a class="sourceLine" id="cb457-3" data-line-number="3"></a>
@@ -746,12 +749,9 @@ simuaciones que le corresponden.</li>
 <p>Para hacer las estimaciones por estado hace falta ponderar por el número de
 casos en cada celda:</p>
 <p><span class="math display">\[\theta_s=\frac{\sum_{j \in s}N_{j}\pi_j}{\sum_{j \in s}N_{j}}\]</span></p>
-<ol start="4" style="list-style-type: decimal">
-<li>Genera las simulaciones de <span class="math inline">\(\theta_s\)</span>, recuerda que debarás calcular
+<p>Debarás calcular
 una simulación de cada <span class="math inline">\(\theta_s\)</span> por cada simulación de <span class="math inline">\(\pi_j\)</span> obtenida con
-el código de arriba. Realiza una gráfica con intervalos de credibilidad del 95%
-para cada <span class="math inline">\(theta_s\)</span>.</li>
-</ol>
+el código de arriba.</p>
 
 </div>
 </div>
