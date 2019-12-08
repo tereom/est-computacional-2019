@@ -1389,7 +1389,7 @@ Republicano en el estado reportado en la elección previa.
 
 $$ \beta_{j}\sim N(\beta_{region(j)}^{region}+\beta^{vprev}\cdot vprev_j, \sigma^2_{estado})$$
 
-Ajustaremos este modelo usando el programa JAGS (Just Another Gibbs Sampler), y 
+Ajustaremos este modelo usando el programa Stan, y 
 utilizamos las estimaciones para hacer predicciones a nivel estado ($\theta_s$):
 
 $$\theta_s=\frac{\sum_{j \in s}N_{j}\pi_j}{\sum_{j \in s}N_{j}}$$
@@ -1523,8 +1523,11 @@ stan_fit <- sampling(object = stan_cpp, data = data_list, chains = 3,
     iter = 2000, control = list(adapt_delta = 0.95))
 ```
 
+2. Genera las simulaciones de $\theta_s$ para analizar las predicciones a nivel estado. 
+Realiza una gráfica con intervalos de credibilidad del 95% 
+para cada $theta_s$.
 
-2. El siguiente código predice para cada celda de la tabla del censo, vale la 
+El siguiente código predice para cada celda de la tabla del censo, vale la 
 pena notar, que para cada celda tenemos una lista en el vector `pred` con las 
 simuaciones que le corresponden.
 
@@ -1557,7 +1560,6 @@ casos en cada celda:
 
 $$\theta_s=\frac{\sum_{j \in s}N_{j}\pi_j}{\sum_{j \in s}N_{j}}$$
 
-4. Genera las simulaciones de $\theta_s$, recuerda que debarás calcular 
+Debarás calcular 
 una simulación de cada $\theta_s$ por cada simulación de $\pi_j$ obtenida con 
-el código de arriba. Realiza una gráfica con intervalos de credibilidad del 95% 
-para cada $theta_s$.
+el código de arriba.
