@@ -1328,6 +1328,8 @@ gto_muestra <- read_csv("data/muestra_gto_2012.csv")
 Reporta estimaciones puntuales (media posterior) e intervalos del 95% de 
 credibilidad para cada candidato.
 
+Observación: usa la columna de los datos ln_total como la lista nominal.
+
 ### 4. Modelos jerárquicos y Stan {-}
 
 **Postestratificación** es un método estándar que se utiliza para corregir las 
