@@ -4121,7 +4121,7 @@ ggplot(sims_lambda, aes(x = log(e), y = media * 1000, color = factor(y))) +
   
 ```
 
-## Inicialesy Reparametrización 
+## Iniciales y Reparametrización 
 
 ### Iniciales en Stan {-}
 
