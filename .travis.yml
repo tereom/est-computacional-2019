@@ -26,6 +26,7 @@ r_github_packages:
     - tereom/estcomp
     - diegovalle/mxmaps
     - stan-dev/bayesplot
+    - rstudio/bookdown
 
 # repos: 
 #   CRAN: https://cran.rstudio.com
