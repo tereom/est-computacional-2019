@@ -1,5 +1,5 @@
 library(tidyverse)
-library(bookdown)
+
 knitr::opts_chunk$set(
     comment = "#>",
     collapse = TRUE,
